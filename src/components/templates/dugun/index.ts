@@ -7,3 +7,7 @@ export { Dugun2 } from './Dugun2';
 export { Dugun3 } from './Dugun3';
 export { Dugun4 } from './Dugun4';
 export { Dugun5 } from './Dugun5';
+export { DugunGokyuzu } from './DugunGokyuzu';
+export { DugunMumIsigi } from './DugunMumIsigi';
+export { DugunGulYapraklari } from './DugunGulYapraklari';
+export { DugunDenizIsiltisi } from './DugunDenizIsiltisi';

@@ -1,5 +1,9 @@
 import React from 'react';
-import { DugunSade, DugunManzara, DugunSekilli, DugunModern, Dugun1, Dugun2, Dugun3, Dugun4, Dugun5 } from './dugun';
+import {
+  DugunSade, DugunManzara, DugunSekilli, DugunModern,
+  Dugun1, Dugun2, Dugun3, Dugun4, Dugun5,
+  DugunGokyuzu, DugunMumIsigi, DugunGulYapraklari, DugunDenizIsiltisi
+} from './dugun';
 import { KinaSade, KinaManzara, KinaSekilli, KinaModern } from './kina';
 import { NisanSade, NisanManzara, NisanSekilli, NisanModern } from './nisan';
 import { SunnetKlasik, SunnetModern } from './sunnet';
@@ -32,6 +36,11 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'dugun-3': Dugun3,
   'dugun-4': Dugun4,
   'dugun-5': Dugun5,
+  // Düğün — videolu şablon ailesi
+  'dugun-gokyuzu': DugunGokyuzu,
+  'dugun-mum-isigi': DugunMumIsigi,
+  'dugun-gul-yapraklari': DugunGulYapraklari,
+  'dugun-deniz-isiltisi': DugunDenizIsiltisi,
   // Kına
   'kina-sade': KinaSade,
   'kina-manzara': KinaManzara,

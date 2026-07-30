@@ -4,6 +4,10 @@ import dugun2Preview from './components/templates/dugun/Dugun2/assets/dugun2-top
 import dugun3Preview from './components/templates/dugun/Dugun3/assets/dugun3-bottom.png';
 import dugun4Preview from './components/templates/dugun/Dugun4/assets/dugun4.png';
 import dugun5Preview from './components/templates/dugun/Dugun5/assets/dugun5-bottom.png';
+import dugunGokyuzuPreview from './components/templates/dugun/DugunGokyuzu/assets/dugun-gokyuzu-kapak.jpg';
+import dugunMumIsigiPreview from './components/templates/dugun/DugunMumIsigi/assets/mum-isigi-kapak.jpg';
+import dugunGulYapraklariPreview from './components/templates/dugun/DugunGulYapraklari/assets/gul-yapraklari-kapak.jpg';
+import dugunDenizIsiltisiPreview from './components/templates/dugun/DugunDenizIsiltisi/assets/deniz-isiltisi-kapak.jpg';
 
 export const EVENT_CATEGORIES: EventCategory[] = [
   {
@@ -157,6 +161,47 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     titleColor: 'text-[#39503f]',
     btnColor: 'bg-[#3d5245] hover:bg-[#4c6555] text-[#f2f5ee]',
     imageUrl: dugun5Preview,
+    categories: ['dugun']
+  },
+  {
+    // Videolu şablon ailesinin ilki: hero arka planı döngüsel gökyüzü videosu.
+    id: 'dugun-gokyuzu',
+    name: 'Gökyüzü Rüyası (Videolu)',
+    primaryColor: '#eef3f9',
+    backgroundStyle: 'bg-[#eef3f9]',
+    titleColor: 'text-[#2b3a4f]',
+    btnColor: 'bg-[#3f5673] hover:bg-[#4e6a8c] text-[#f4f8fc]',
+    imageUrl: dugunGokyuzuPreview,
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-mum-isigi',
+    name: 'Mum Işığı (Videolu)',
+    primaryColor: '#0a0d14',
+    backgroundStyle: 'bg-[#0a0d14]',
+    titleColor: 'text-[#f7edd8]',
+    btnColor: 'bg-[#e3b878] hover:bg-[#efc98d] text-[#17110a]',
+    imageUrl: dugunMumIsigiPreview,
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-gul-yapraklari',
+    name: 'Gül Yaprakları (Videolu)',
+    primaryColor: '#fdf4f2',
+    backgroundStyle: 'bg-[#fdf4f2]',
+    titleColor: 'text-[#48302f]',
+    btnColor: 'bg-[#a8616c] hover:bg-[#b9737f] text-[#fdf4f2]',
+    imageUrl: dugunGulYapraklariPreview,
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-deniz-isiltisi',
+    name: 'Deniz Işıltısı (Videolu)',
+    primaryColor: '#eef7f6',
+    backgroundStyle: 'bg-[#eef7f6]',
+    titleColor: 'text-[#22403f]',
+    btnColor: 'bg-[#2f5d5b] hover:bg-[#3c716e] text-[#f1faf9]',
+    imageUrl: dugunDenizIsiltisiPreview,
     categories: ['dugun']
   },
   // ——— Kategoriye özel yeni tema koleksiyonu ———

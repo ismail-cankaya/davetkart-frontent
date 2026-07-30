@@ -158,6 +158,48 @@ html.lenis body {
   }
 }
 
+/* ————— Hero arkaplan videosu + koruyucu peçe —————
+   Poster, video etiketinin kendisinde değil kapsayıcının background'ında
+   duruyor. Böylece tek bir kaynak hem ilk boyama (FCP) hem ağ hatası hem de
+   reduced-motion durumunu karşılıyor — video görünmese bile kadraj aynı.
+   Detay: docs/rehber/01-HERO-ARKAPLAN-VIDEOSU.md */
+.hero-media {
+  background-image: url('/videos/hero-bg-poster.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* Peçe iki katmandan oluşur:
+   1) merkezde yoğun radyal krem — başlık, alt başlık ve butonların oturduğu
+      çekirdeği korur, kenarlara doğru tamamen şeffaflaşır ki videonun altın
+      bokeh'i görünür kalsın;
+   2) üst/alt dikey solum — navbar ile istatistik/scroll şeridini kapatır.
+   Düz bir peçe bu işi göremiyordu: alt başlığı AA eşiğine taşımak için %65
+   opaklık gerekiyordu ve o yoğunlukta video tamamen boğuluyordu. Kontrast
+   ölçümü — ham video 3.7:1 (AA altı), bu peçeyle 5.0:1, mevcut düz krem
+   tasarım 5.2:1. */
+.hero-veil {
+  background:
+    radial-gradient(ellipse 78% 80% at 50% 44%,
+      rgba(248, 246, 241, 0.88) 0%,
+      rgba(248, 246, 241, 0.80) 42%,
+      rgba(248, 246, 241, 0.34) 74%,
+      rgba(248, 246, 241, 0) 100%),
+    linear-gradient(to bottom,
+      rgba(248, 246, 241, 0.88) 0%,
+      rgba(248, 246, 241, 0) 14%,
+      rgba(248, 246, 241, 0) 68%,
+      rgba(248, 246, 241, 0.86) 100%);
+}
+
+/* Vestibüler rahatsızlığı olan kullanıcılar için video tamamen kaldırılır;
+   .hero-media'nın poster background'ı devraldığı için sayfa boşalmaz. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-video {
+    display: none;
+  }
+}
+
 /* ————— Gentle float for decorative elements ————— */
 @keyframes float-gentle {
 

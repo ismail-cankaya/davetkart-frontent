@@ -54,7 +54,31 @@ export const Hero = React.memo(function Hero() {
   }, [t]);
 
   return (
-    <section className="relative min-h-[100dvh] -mt-[72px] pt-32 pb-20 overflow-hidden bg-gradient-to-b from-cream via-white to-cream flex flex-col justify-center bg-grain">
+    <section className="relative min-h-[100dvh] -mt-[72px] pt-32 pb-20 overflow-hidden bg-cream flex flex-col justify-center bg-grain">
+
+      {/* Arkaplan videosu. z-0 bilinçli: negatif z-index kullanılsaydı katman
+          section'ın kendi arkaplanının ARKASINA düşer ve hiç görünmezdi.
+          Poster kapsayıcının background'ında (index.css), video ise videonun
+          ilk karesiyle aynı görsel — bu yüzden poster→video geçişinde
+          "pop" olmuyor ve fade-in hilesine gerek kalmıyor. */}
+      <div className="hero-media absolute inset-0 z-0" aria-hidden="true">
+        <video
+          className="hero-video w-full h-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster="/videos/hero-bg-poster.jpg"
+        >
+          {/* WebM önce: destekleyen tarayıcı 206 KB indirir, MP4'e (2.3 MB)
+              yalnızca Safari düşer. Tarayıcı ilk eşleşen kaynağı seçer. */}
+          <source src="/videos/hero-bg.webm" type="video/webm" />
+          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+        </video>
+        <div className="hero-veil absolute inset-0" />
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 md:px-12 relative z-10 flex flex-col items-center text-center w-full">
 
         {/* Badge */}
@@ -140,12 +164,11 @@ export const Hero = React.memo(function Hero() {
         </motion.div>
       </div>
 
-      {/* Ambient aurora blobs — pure CSS keyframes on their own GPU layer
-          (see index.css); animating blur-3xl surfaces from JS janked mobile.
-          Blob 3's centering translate lives in the keyframes. */}
-      <div className="animate-aurora-1 absolute top-10 right-0 w-80 h-80 bg-emerald-100/50 rounded-full blur-2xl md:blur-3xl pointer-events-none -z-10" />
-      <div className="animate-aurora-2 hidden md:block absolute bottom-20 left-10 w-96 h-96 bg-champagne/40 rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="animate-aurora-3 hidden md:block absolute top-1/2 left-1/2 w-[600px] h-[600px] bg-gradient-to-br from-emerald-100/30 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+      {/* Aurora blob'lar kaldırıldı: video zaten aynı işi (yavaş sürüklenen
+          yumuşak renk kütleleri) kendi içinde yapıyor. İkisi üst üste
+          binince görüntü çamurlaşıyor, ayrıca üç adet blur-3xl yüzeyin
+          sürekli kompozisyonu video kod çözme ile aynı anda çalışıyordu.
+          Geri istenirse: bu bloğun eski hâli git geçmişinde duruyor. */}
 
       {/* Scroll indicator */}
       <motion.a
