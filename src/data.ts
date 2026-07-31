@@ -8,6 +8,13 @@ import dugunGokyuzuPreview from './components/templates/dugun/DugunGokyuzu/asset
 import dugunMumIsigiPreview from './components/templates/dugun/DugunMumIsigi/assets/mum-isigi-kapak.jpg';
 import dugunGulYapraklariPreview from './components/templates/dugun/DugunGulYapraklari/assets/gul-yapraklari-kapak.jpg';
 import dugunDenizIsiltisiPreview from './components/templates/dugun/DugunDenizIsiltisi/assets/deniz-isiltisi-kapak.jpg';
+import kinaBordoPreview from './components/templates/kina/KinaBordo/assets/kina-bordo-kapak.jpg';
+import nisanSampanyaPreview from './components/templates/nisan/NisanSampanya/assets/nisan-sampanya-kapak.jpg';
+import sunnetYildizPreview from './components/templates/sunnet/SunnetYildiz/assets/sunnet-yildiz-kapak.jpg';
+import dogumGunuKonfetiPreview from './components/templates/dogum-gunu/DogumGunuKonfeti/assets/dogum-gunu-konfeti-kapak.jpg';
+import mezuniyetLacivertPreview from './components/templates/mezuniyet/MezuniyetLacivert/assets/mezuniyet-lacivert-kapak.jpg';
+import babyShowerKabarcikPreview from './components/templates/baby-shower/BabyShowerKabarcik/assets/baby-shower-kabarcik-kapak.jpg';
+import partiAuroraPreview from './components/templates/parti/PartiAurora/assets/parti-aurora-kapak.jpg';
 
 export const EVENT_CATEGORIES: EventCategory[] = [
   {
@@ -203,6 +210,77 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     btnColor: 'bg-[#2f5d5b] hover:bg-[#3c716e] text-[#f1faf9]',
     imageUrl: dugunDenizIsiltisiPreview,
     categories: ['dugun']
+  },
+  // ——— Kategoriye özel videolu temalar ———
+  {
+    id: 'kina-bordo',
+    name: 'Bordo İpek (Videolu)',
+    primaryColor: '#1d0710',
+    backgroundStyle: 'bg-[#1d0710]',
+    titleColor: 'text-[#f2ded3]',
+    btnColor: 'bg-[#e8c07a] hover:bg-[#f0cf95] text-[#2b0a15]',
+    imageUrl: kinaBordoPreview,
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-sampanya',
+    name: 'Şampanya İpek (Videolu)',
+    primaryColor: '#faf6ee',
+    backgroundStyle: 'bg-[#faf6ee]',
+    titleColor: 'text-[#3b342a]',
+    btnColor: 'bg-[#3b342a] hover:bg-[#4e4536] text-[#faf6ee]',
+    imageUrl: nisanSampanyaPreview,
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-yildiz',
+    name: 'Yıldız Tozu (Videolu)',
+    primaryColor: '#060f26',
+    backgroundStyle: 'bg-[#060f26]',
+    titleColor: 'text-[#f2d79b]',
+    btnColor: 'bg-[#f2d79b] hover:bg-[#f8e4b4] text-[#0a1633]',
+    imageUrl: sunnetYildizPreview,
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-konfeti',
+    name: 'Konfeti (Videolu)',
+    primaryColor: '#fffaf6',
+    backgroundStyle: 'bg-[#fffaf6]',
+    titleColor: 'text-[#37271f]',
+    btnColor: 'bg-[#e8705f] hover:bg-[#f0836f] text-white',
+    imageUrl: dogumGunuKonfetiPreview,
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-lacivert',
+    name: 'Tören Işığı (Videolu)',
+    primaryColor: '#071328',
+    backgroundStyle: 'bg-[#071328]',
+    titleColor: 'text-[#f0c761]',
+    btnColor: 'bg-[#f0c761] hover:bg-[#f6d780] text-[#071328]',
+    imageUrl: mezuniyetLacivertPreview,
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-shower-kabarcik',
+    name: 'Kabarcıklar (Videolu)',
+    primaryColor: '#f4faf7',
+    backgroundStyle: 'bg-[#f4faf7]',
+    titleColor: 'text-[#38504b]',
+    btnColor: 'bg-[#5f9c8f] hover:bg-[#6fada0] text-[#f2fbf8]',
+    imageUrl: babyShowerKabarcikPreview,
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-aurora',
+    name: 'Neon Aurora (Videolu)',
+    primaryColor: '#06060c',
+    backgroundStyle: 'bg-[#06060c]',
+    titleColor: 'text-[#ece8fa]',
+    btnColor: 'bg-gradient-to-r from-[#ff3fa4] to-[#8b5cff] text-white',
+    imageUrl: partiAuroraPreview,
+    categories: ['parti']
   },
   // ——— Kategoriye özel yeni tema koleksiyonu ———
   // Sünnet
