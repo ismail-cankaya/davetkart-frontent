@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, FogDrift } from '../../shared/effects';
+import { HeroStage, Halo, FogDrift, CloudBank } from '../../shared/effects';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Bulut kütlesi alt yarıda; dikeyde karakterler kadrajda kalsın diye aşağıda. */
-const VIDEO = videoSet('dogum-gunu-bulut', { landscape: '50% 50%', portrait: '50% 55%' });
 
 /**
  * DogumGunuBulut — Konsept 2, "Sihirli Bulutlar" (çocuklar için): pamuk
@@ -47,13 +43,16 @@ export function DogumGunuBulut({ invitation, mode = 'preview' }: TemplateProps) 
       themeOverride={BULUT_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="linear-gradient(to bottom, #c8e0fb 0%, #f6dcee 50%, #fdf2f8 100%)"
           scrim={{ from: 'both', strength: 0.42, tint: '255,255,255' }}
           vignette={{ strength: 0.2, tint: '140,100,150' }}
           atmosphere={
             <>
-              <Halo color="255,214,236" size={78} x={50} y={38} opacity={0.55} duration={8} />
+              <Halo color="255,214,236" size={78} x={50} y={36} opacity={0.55} duration={8} />
+              {/* Pamuk şekeri bulutları: pembe ve mavi iki bank üst üste —
+                  karakterlerin üzerinde zıpladığı zemin. */}
+              <CloudBank color="200,224,251" opacity={0.5} height={0.32} puffs={16} seed={61} />
+              <CloudBank color="255,232,246" opacity={0.9} height={0.44} puffs={12} seed={67} />
               <FogDrift color="255,255,255" opacity={0.6} duration={38} />
             </>
           }

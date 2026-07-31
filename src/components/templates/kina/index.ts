@@ -9,3 +9,4 @@ export { KinaAurora } from './KinaAurora';
 export { KinaBento } from './KinaBento';
 export { KinaNoir } from './KinaNoir';
 export { KinaKrom } from './KinaKrom';
+export { KinaKagit } from './KinaKagit';

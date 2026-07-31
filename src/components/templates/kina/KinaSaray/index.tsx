@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, LightLeak, GoldSheen, Halo } from '../../shared/effects';
+import { HeroStage, LightLeak, GoldSheen, Halo, Arches } from '../../shared/effects';
 import { KINA_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Avize kadrajın üst bandından sarkar; dikeyde üst kısım korunur. */
-const VIDEO = videoSet('kina-saray', { landscape: '50% 42%', portrait: '50% 32%' });
 
 /**
  * KinaSaray — Konsept 2, "Saray Esintisi": Osmanlı kemerleri altında yüzlerce
@@ -46,13 +42,16 @@ export function KinaSaray({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={SARAY_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 85% 70% at 50% 25%, #5c1a2a 0%, #2a0c15 55%, #14060c 100%)"
           scrim={{ from: 'both', strength: 0.46 }}
           vignette={{ strength: 0.56 }}
           atmosphere={
             <>
               <Halo color="227,189,114" size={60} x={50} y={28} opacity={0.34} duration={9} />
+              {/* Sivri Osmanlı kemerleri: kadrajı "içeriden dışarı bakış"a
+                  çevirir. Kemer boşlukları saydam kaldığı için avizenin
+                  ışığı ve tüller onların arasından görünür. */}
+              <Arches color="26,7,16" opacity={0.92} count={5} pointed seed={13} />
               {/* Kırılan kristal ışığı: iki farklı periyot, üst üste binmez. */}
               <LightLeak color="255,240,205" opacity={0.4} duration={10} />
               <LightLeak color="255,215,225" opacity={0.25} duration={15} />

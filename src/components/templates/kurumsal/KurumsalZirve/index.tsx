@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, GodRays, FogDrift, Halo } from '../../shared/effects';
+import { HeroStage, GodRays, FogDrift, Halo, Ridges, SunDisc } from '../../shared/effects';
 import { KURUMSAL_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Zirve hattı üst-orta bantta; dikeyde bulut denizi kadrajda kalsın diye yukarıda. */
-const VIDEO = videoSet('kurumsal-zirve', { landscape: '50% 45%', portrait: '50% 40%' });
 
 /**
  * KurumsalZirve — Konsept 3, "Zirve ve Liderlik": bulutların üzerine yükselen,
@@ -47,7 +43,6 @@ export function KurumsalZirve({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={ZIRVE_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="linear-gradient(to bottom, #2a3b58 0%, #6b5a52 42%, #16202f 78%, #0a0f1a 100%)"
           scrim={{ from: 'both', strength: 0.45 }}
           vignette={{ strength: 0.5 }}
@@ -56,8 +51,15 @@ export function KurumsalZirve({ invitation, mode = 'preview' }: TemplateProps) {
               {/* Gün doğumu: yatık açı, tek yönden gelen güçlü ışık. */}
               <GodRays angle={20} origin={56} count={7} color="255,214,160" opacity={0.5} duration={20} />
               <Halo color="232,176,106" size={64} x={54} y={40} opacity={0.3} duration={11} />
-              {/* Zirvelerin altındaki bulut denizi. */}
-              <FogDrift color="220,230,245" opacity={0.5} duration={50} />
+              {/* Güneş sırtların ARKASINA konumlanır: hem "dağın ardından
+                  doğuş" doğru okunur, hem de metnin arkasındaki parlak leke
+                  kalkar — alt satırlar okunabilir kalır. */}
+              <SunDisc color="255,196,120" size={6} x={58} y={60} opacity={0.85} />
+              {/* Zirveler: 4 katman, yüksek roughness — sivri ve heybetli.
+                  Bulut denizi zirvelerin ÜSTÜNE binerek onları yarı yarıya
+                  örter; "bulutların üzerine yükselme" teması budur. */}
+              <Ridges color="26,38,58" opacity={0.95} height={0.5} layers={4} roughness={1.35} seed={41} />
+              <FogDrift color="220,230,245" opacity={0.6} duration={50} />
             </>
           }
           particles={[

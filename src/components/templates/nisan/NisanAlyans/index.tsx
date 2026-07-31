@@ -1,21 +1,17 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, LightLeak } from '../../shared/effects';
+import { HeroStage, Halo, LightLeak, WaterPlane } from '../../shared/effects';
 import { NISAN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Alyanslar kadrajın merkezinde yükselir; her iki oranda da merkez korunur. */
-const VIDEO = videoSet('nisan-alyans', { landscape: '50% 50%', portrait: '50% 50%' });
 
 /**
  * NisanAlyans — Konsept 2, "Zarif Alyanslar": kadifemsi su yüzeyindeki
  * dairesel dalgalanmadan yükselen iki pırlantalı alyans.
  *
- * Efekt seçimi bilinçli olarak cimri: konseptin öznesi videodaki tek
- * hareket. Üstüne yoğun parçacık binerse pırlantanın parlaması kaybolur.
- * Bu yüzden yalnızca seyrek, soğuk beyaz kıvılcım ve merkezde tek hale var.
+ * Efekt seçimi bilinçli olarak cimri: sahnenin öznesi su yüzeyi ile
+ * merkezdeki tek ışık. Üstüne yoğun parçacık binerse pırlantanın parlaması
+ * kaybolur; bu yüzden yalnızca seyrek, soğuk beyaz kıvılcım var.
  */
 const ALYANS_THEME: SectionTheme = {
   id: 'midnight',
@@ -47,13 +43,15 @@ export function NisanAlyans({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={ALYANS_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 80% 65% at 50% 55%, #16202e 0%, #0a0f17 60%, #05070b 100%)"
           scrim={{ from: 'both', strength: 0.42 }}
           vignette={{ strength: 0.62 }}
           atmosphere={
             <>
-              <Halo color="188,212,234" size={58} x={50} y={50} opacity={0.28} duration={8} />
+              <Halo color="188,212,234" size={58} x={50} y={46} opacity={0.3} duration={8} />
+              {/* Kadifemsi su yüzeyi: bantlar aşağı indikçe genişler, bu
+                  perspektif hissi alyansların "yükseldiği" düzlemi kurar. */}
+              <WaterPlane color="200,224,246" opacity={0.5} height={0.46} bands={11} seed={31} />
               {/* Pırlanta yansıması gibi tek, uzun aralıklı ışık geçişi. */}
               <LightLeak color="235,245,255" opacity={0.3} duration={17} />
             </>

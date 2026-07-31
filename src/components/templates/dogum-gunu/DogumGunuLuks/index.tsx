@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, LightLeak, GoldSheen } from '../../shared/effects';
+import { HeroStage, Halo, LightLeak, GoldSheen, Iridescent } from '../../shared/effects';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Patlama merkezi kadrajın ortasında; iki oranda da merkez korunur. */
-const VIDEO = videoSet('dogum-gunu-luks', { landscape: '50% 45%', portrait: '50% 42%' });
 
 /**
  * DogumGunuLuks — Konsept 1, "Lüks Parti Patlaması": koyu zeminde patlayan,
@@ -48,14 +44,21 @@ export function DogumGunuLuks({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={LUKS_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 85% 70% at 50% 42%, #2e2415 0%, #14100b 55%, #070506 100%)"
           scrim={{ from: 'both', strength: 0.42 }}
           vignette={{ strength: 0.55 }}
           atmosphere={
             <>
-              {/* Neon yaş rakamının arkasındaki parlama. */}
-              <Halo color="224,184,120" size={68} x={50} y={42} opacity={0.34} duration={6} />
+              {/* Neon yaş rakamının arkasındaki parlama — hızlı nabız (6s),
+                  konseptin tek "parti" ritmi burada. */}
+              <Halo color="224,184,120" size={68} x={50} y={40} opacity={0.36} duration={6} />
+              {/* Metalik konfetinin havadaki yansıması: sıcak uca çekilmiş
+                  iridesan katman, soft-light ile zemini boyamadan parlar. */}
+              <Iridescent
+                opacity={0.2}
+                duration={13}
+                className="mix-blend-soft-light [filter:hue-rotate(330deg)_saturate(0.9)]"
+              />
               <LightLeak color="255,228,180" opacity={0.28} duration={12} />
               <GoldSheen color="240,213,164" opacity={0.16} duration={8} />
             </>

@@ -1,22 +1,18 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo } from '../../shared/effects';
+import { HeroStage, Halo, AuroraMesh, Iridescent } from '../../shared/effects';
 import { KURUMSAL_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Kendi videosu: Parti'nin aurora çekimiyle aynı kapağı paylaşmaz. */
-const VIDEO = videoSet('kurumsal-cam', { landscape: '50% 50%', portrait: '50% 50%' });
 
 /**
  * KurumsalCam — Konsept 2, "Sıvı Cam Şıklığı": buzlu cam ardından süzülen,
  * ağır hareket eden kurumsal renklerde sıvı degrade.
  *
- * Buradaki buzlu cam efekti bir katman değil, `haze` parçacıklarının
- * yavaşlığından doğuyor: dev, çok sönük ve çok yavaş lekeler videoyu
- * yumuşatır. CSS backdrop-blur ile yapılsaydı tüm hero tek seferde
- * bulanıklaşır, sıvının hareketi kaybolurdu.
+ * Buzlu cam etkisi tek bir blur katmanı değil, üç kaynaktan doğuyor:
+ * AuroraMesh'in ağır renk kütleleri, üstüne binen ince iridesan tabaka ve
+ * `haze` parçacıklarının dev, sönük lekeleri. Düz bir backdrop-blur tüm
+ * hero'yu tek seferde bulanıklaştırır, sıvının hareketi kaybolurdu.
  *
  * Tipografi bilinçli olarak sans-serif (theme-cormorant yok): kurumsal
  * davette okunaklılık zarafetin önüne geçer.
@@ -51,11 +47,19 @@ export function KurumsalCam({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={CAM_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="linear-gradient(135deg, #0e2a2e 0%, #101430 45%, #07080f 100%)"
           scrim={{ from: 'both', strength: 0.44 }}
           vignette={{ strength: 0.5 }}
-          atmosphere={<Halo color="126,224,208" size={70} x={50} y={46} opacity={0.24} duration={12} />}
+          atmosphere={
+            <>
+              {/* Sıvı degrade mesh: konseptin "ağır hareket eden renk
+                  dalgaları". Süre uzun (34s) — kurumsal ton sakin olmalı. */}
+              <AuroraMesh colors={['126,224,208', '108,140,240', '192,126,224']} opacity={0.5} duration={34} />
+              {/* Buzlu cam: mesh'in üstüne binen ince iridesan tabaka. */}
+              <Iridescent opacity={0.18} duration={20} className="mix-blend-soft-light" />
+              <Halo color="126,224,208" size={70} x={50} y={46} opacity={0.24} duration={12} />
+            </>
+          }
           particles={[
             // Buzlu cam: dev, sönük, çok yavaş lekeler.
             {

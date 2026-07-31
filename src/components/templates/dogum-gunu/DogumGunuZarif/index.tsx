@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, GoldSheen } from '../../shared/effects';
+import { HeroStage, Halo, GoldSheen, SilkVeil } from '../../shared/effects';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Kendi videosu: Nişan'ın şampanya çekimiyle karışmasın, kategori ayrışsın. */
-const VIDEO = videoSet('dogum-gunu-zarif', { landscape: '50% 50%', portrait: '50% 45%' });
 
 /**
  * DogumGunuZarif — Konsept 3, "Zarif Kutlama": kristal kadehten yükselen
@@ -47,13 +43,15 @@ export function DogumGunuZarif({ invitation, mode = 'preview' }: TemplateProps) 
       themeOverride={ZARIF_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 80% 70% at 50% 50%, #322612 0%, #16110a 55%, #0a0805 100%)"
           scrim={{ from: 'both', strength: 0.4 }}
           vignette={{ strength: 0.55 }}
           atmosphere={
             <>
-              <Halo color="217,189,124" size={64} x={50} y={46} opacity={0.3} duration={9} />
+              <Halo color="217,189,124" size={64} x={50} y={46} opacity={0.32} duration={9} />
+              {/* Konseptin "lüks ipek kumaş dokusu" katmanı — altın tonda,
+                  yavaş dalgalanan. */}
+              <SilkVeil color="176,142,84" opacity={0.38} duration={21} />
               <GoldSheen color="239,218,168" opacity={0.2} duration={8} />
             </>
           }

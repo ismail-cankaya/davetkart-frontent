@@ -4,3 +4,4 @@ export { BabyShowerKabarcik } from './BabyShowerKabarcik';
 export { BabyMelek } from './BabyMelek';
 export { BabyMuzikKutusu } from './BabyMuzikKutusu';
 export { BabyGokyuzu } from './BabyGokyuzu';
+export { BabyRiso } from './BabyRiso';

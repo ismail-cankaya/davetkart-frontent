@@ -17,3 +17,5 @@ export { DugunAurora } from './DugunAurora';
 export { DugunBento } from './DugunBento';
 export { DugunNoir } from './DugunNoir';
 export { DugunKrom } from './DugunKrom';
+export { DugunKagit } from './DugunKagit';
+export { DugunDeco } from './DugunDeco';

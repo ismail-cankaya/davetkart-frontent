@@ -10,3 +10,4 @@ export { NisanAurora } from './NisanAurora';
 export { NisanBento } from './NisanBento';
 export { NisanNoir } from './NisanNoir';
 export { NisanKrom } from './NisanKrom';
+export { NisanKagit } from './NisanKagit';

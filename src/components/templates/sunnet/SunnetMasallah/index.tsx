@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, GoldSheen, Halo } from '../../shared/effects';
+import { HeroStage, GoldSheen, Halo, SilkVeil } from '../../shared/effects';
 import { SUNNET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Kuşak kadrajın merkezinde asılı; iki oranda da ortalanır. */
-const VIDEO = videoSet('sunnet-masallah', { landscape: '50% 50%', portrait: '50% 46%' });
 
 /**
  * SunnetMasallah — Konsept 1, "Geleneksel Şölen": altın sırmalı kırmızı
@@ -47,13 +43,16 @@ export function SunnetMasallah({ invitation, mode = 'preview' }: TemplateProps) 
       themeOverride={MASALLAH_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 85% 70% at 50% 40%, #4a1319 0%, #240d11 55%, #140709 100%)"
           scrim={{ from: 'both', strength: 0.44 }}
           vignette={{ strength: 0.55 }}
           atmosphere={
             <>
-              <Halo color="224,182,98" size={66} x={50} y={40} opacity={0.32} duration={9} />
+              <Halo color="224,182,98" size={66} x={50} y={38} opacity={0.34} duration={9} />
+              {/* Kuşağın kumaşı: kırmızı ipek dalgalanması. Kadrajın tamamını
+                  kaplar ama düşük opaklıkta — kuşak metnin arkasında asılı
+                  duruyor gibi okunsun, önüne geçmesin. */}
+              <SilkVeil color="164,28,44" opacity={0.42} duration={15} />
               {/* Sırma işlemenin üzerinde gezen parlama. */}
               <GoldSheen color="255,224,150" opacity={0.22} duration={8} />
             </>

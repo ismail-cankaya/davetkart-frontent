@@ -1,21 +1,17 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, GodRays, FogDrift } from '../../shared/effects';
+import { HeroStage, GodRays, FogDrift, Ridges, SunDisc } from '../../shared/effects';
 import { NISAN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Çadır açıklığı kadrajın alt-orta bandında; dikeyde aşağı kaydırıldı. */
-const VIDEO = videoSet('nisan-bohem', { landscape: '50% 50%', portrait: '50% 56%' });
 
 /**
  * NisanBohem — Konsept 3, "Bohem Gün Batımı": pampa otları, tüller ve hasır
  * fenerlerin dalgalandığı çadırdan dışarı sinematik bakış.
  *
- * Tek açık temalı nişan konsepti. Sıcak toprak tonları videonun altın
- * saatinden geliyor; parçacıklar toz-altını, çünkü bohem dekorda uçuşan şey
- * parıltı değil, gün batımında görünür hale gelen toz.
+ * Tek açık temalı nişan konsepti. Sıcak toprak tonları altın saatten
+ * geliyor; parçacıklar toz-altını, çünkü bohem dekorda uçuşan şey parıltı
+ * değil, gün batımında görünür hale gelen toz.
  */
 const BOHEM_THEME: SectionTheme = {
   id: 'stone',
@@ -47,12 +43,16 @@ export function NisanBohem({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={BOHEM_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="linear-gradient(to bottom, #e8c79c 0%, #f6efe4 40%, #e4cdb2 100%)"
           scrim={{ from: 'both', strength: 0.38, tint: '255,250,242' }}
           vignette={{ strength: 0.26, tint: '120,85,55' }}
           atmosphere={
             <>
+              {/* Alçalan güneş ufka yakın; çadır ağzından görünen kaynak. */}
+              <SunDisc color="255,186,110" size={7} x={66} y={64} opacity={0.85} />
+              {/* Uzak tepeler: yumuşak ve alçak — manzara derinliği verir,
+                  dikkat çekmez. roughness düşük çünkü bohem sahne sakin. */}
+              <Ridges color="122,86,62" opacity={0.5} height={0.3} layers={3} roughness={0.5} seed={19} />
               {/* Çadır ağzından giren yatık akşam ışığı: geniş açı, az sayı. */}
               <GodRays angle={26} origin={62} count={5} color="255,214,158" opacity={0.5} duration={20} />
               <FogDrift color="255,232,200" opacity={0.45} duration={46} />

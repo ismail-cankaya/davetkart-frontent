@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, GodRays, Halo } from '../../shared/effects';
+import { HeroStage, GodRays, Halo, Arches } from '../../shared/effects';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Sütunlu koridor perspektifi merkezde kaçar; iki oranda da merkez korunur. */
-const VIDEO = videoSet('mezuniyet-kampus', { landscape: '50% 50%', portrait: '50% 45%' });
 
 /**
  * MezuniyetKampus — Konsept 1, "Tarihi Okul & Kep Atma": sütunlu tarihi
@@ -46,15 +42,20 @@ export function MezuniyetKampus({ invitation, mode = 'preview' }: TemplateProps)
       themeOverride={KAMPUS_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="linear-gradient(to bottom, #3a3225 0%, #201b14 50%, #100e0a 100%)"
           scrim={{ from: 'both', strength: 0.48 }}
           vignette={{ strength: 0.58 }}
           atmosphere={
             <>
-              {/* Koridor kemerlerinden düşen ışık: dik açı, güçlü kontrast. */}
+              <Halo color="201,169,97" size={62} x={50} y={42} opacity={0.26} duration={11} />
+              {/* Klasik (yuvarlak) revak — tarihi okul mimarisi. Kına
+                  sarayının sivri kemerinden bilinçli olarak ayrı: aynı
+                  bileşen, farklı üslup. */}
+              <Arches color="18,15,10" opacity={0.9} count={6} pointed={false} seed={29} />
+              {/* Koridor kemerlerinden düşen ışık: dik açı, güçlü kontrast.
+                  Kemerlerin ÜSTÜNDE durur ki huzmeler açıklıklardan
+                  geçiyormuş gibi okunsun. */}
               <GodRays angle={8} origin={50} count={7} color="255,235,190" opacity={0.5} duration={19} />
-              <Halo color="201,169,97" size={62} x={50} y={44} opacity={0.24} duration={11} />
             </>
           }
           particles={[

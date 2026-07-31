@@ -1,17 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, FogDrift } from '../../shared/effects';
+import { HeroStage, Halo, FogDrift, WaterPlane } from '../../shared/effects';
 import { KINA_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/**
- * Kendi videosunu kullanır. Düğün'ün "mum-isigi" çekimini paylaşmak varlık
- * maliyetini düşürürdü ama aynı görsel iki kategoride birden listelenir ve
- * temalar kategoriye göre ayrışmaz — kategori kimliği maliyetten önce gelir.
- */
-const VIDEO = videoSet('kina-mum', { landscape: '50% 55%', portrait: '50% 58%' });
 
 /**
  * KinaMum — Konsept 3, "Mistik Mumlar": su üzerinde yüzen yüzlerce kırmızı
@@ -51,13 +43,15 @@ export function KinaMum({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={KINA_MUM_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 80% 65% at 50% 62%, #4a1a12 0%, #22090b 55%, #0e0405 100%)"
           scrim={{ from: 'both', strength: 0.44 }}
           vignette={{ strength: 0.62 }}
           atmosphere={
             <>
-              <Halo color="224,154,94" size={70} x={50} y={58} opacity={0.35} duration={7} />
+              <Halo color="224,154,94" size={70} x={50} y={56} opacity={0.35} duration={7} />
+              {/* Mum ışığının su yüzeyindeki yansıması — konseptin merkezi.
+                  Bant sayısı yüksek: yüzlerce mumun titreşen yansıması. */}
+              <WaterPlane color="255,178,100" opacity={0.62} height={0.5} bands={14} seed={37} />
               {/* Su yüzeyinde biriken hafif buhar. */}
               <FogDrift color="255,190,150" opacity={0.28} duration={44} />
             </>

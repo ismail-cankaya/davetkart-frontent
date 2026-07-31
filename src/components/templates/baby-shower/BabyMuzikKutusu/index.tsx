@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, LightLeak } from '../../shared/effects';
+import { HeroStage, Halo, LightLeak, Arches, SilkVeil } from '../../shared/effects';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Atlıkarınca kadrajın merkezinde döner. */
-const VIDEO = videoSet('baby-muzik-kutusu', { landscape: '50% 50%', portrait: '50% 48%' });
 
 /**
  * BabyMuzikKutusu — Konsept 2, "Nostaljik Müzik Kutusu": el yapımı ahşap
@@ -47,13 +43,17 @@ export function BabyMuzikKutusu({ invitation, mode = 'preview' }: TemplateProps)
       themeOverride={MUZIK_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 78% 65% at 50% 48%, #fbf3ea 0%, #f0e0cd 60%, #e3cdb4 100%)"
           scrim={{ from: 'both', strength: 0.38, tint: '255,252,246' }}
           vignette={{ strength: 0.24, tint: '130,95,70' }}
           atmosphere={
             <>
-              <Halo color="255,232,200" size={70} x={50} y={46} opacity={0.5} duration={9} />
+              <Halo color="255,232,200" size={70} x={50} y={44} opacity={0.52} duration={9} />
+              {/* Atlıkarıncanın kubbeli tentesi: soğan kemer sırası, çok
+                  düşük opaklıkta — ahşap oyuncağın silueti, mimarisi değil. */}
+              <Arches color="150,106,74" opacity={0.22} count={7} pointed={false} seed={43} />
+              {/* Tentenin kumaş dalgası. */}
+              <SilkVeil color="214,164,120" opacity={0.3} duration={19} />
               <LightLeak color="255,240,220" opacity={0.32} duration={14} />
             </>
           }

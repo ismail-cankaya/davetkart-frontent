@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, LightLeak } from '../../shared/effects';
+import { HeroStage, Halo, LightLeak, Spires } from '../../shared/effects';
 import { SUNNET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Dönme dolap kadrajın üst yarısını doldurur; dikeyde yukarı sabitlenir. */
-const VIDEO = videoSet('sunnet-lunapark', { landscape: '50% 48%', portrait: '50% 38%' });
 
 /**
  * SunnetLunapark — Konsept 3, "Eğlenceli Lunapark": rengarenk dönen dönme
@@ -47,13 +43,18 @@ export function SunnetLunapark({ invitation, mode = 'preview' }: TemplateProps) 
       themeOverride={LUNAPARK_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
-          base="radial-gradient(ellipse 90% 75% at 50% 35%, #2a1d5c 0%, #150f33 55%, #0a0718 100%)"
+          // İki katman: altta lunaparkın ışık kubbesi (sıcak turuncu),
+          // üstte gece moru. Silueti okunur kılan şey arkasındaki bu parlak
+          // bant — koyu siluet koyu zeminde kaybolurdu.
+          base="radial-gradient(ellipse 70% 34% at 50% 96%, rgba(255,150,60,0.55) 0%, rgba(255,120,40,0) 72%), radial-gradient(ellipse 90% 75% at 50% 32%, #33236e 0%, #180f3a 55%, #0b0820 100%)"
           scrim={{ from: 'both', strength: 0.46 }}
           vignette={{ strength: 0.5 }}
           atmosphere={
             <>
-              <Halo color="255,181,71" size={72} x={50} y={38} opacity={0.3} duration={6} />
+              <Halo color="255,181,71" size={72} x={50} y={36} opacity={0.32} duration={6} />
+              {/* Lunapark silueti: konik çadır ve kule çatıları. Ortadakiler
+                  daha yüksek (dönme dolap), kenarlar alçalıyor. */}
+              <Spires color="9,6,22" opacity={0.95} height={0.5} count={9} roofs="cone" seed={53} />
               <LightLeak color="255,190,120" opacity={0.35} duration={9} />
             </>
           }

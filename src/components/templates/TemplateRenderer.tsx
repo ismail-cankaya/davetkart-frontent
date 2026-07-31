@@ -4,32 +4,38 @@ import {
   Dugun1, Dugun2, Dugun3, Dugun4, Dugun5,
   DugunGokyuzu, DugunMumIsigi, DugunGulYapraklari, DugunDenizIsiltisi,
   DugunSahil, DugunOnyx,
-  DugunAurora, DugunBento, DugunNoir, DugunKrom
+  DugunAurora, DugunBento, DugunNoir, DugunKrom,
+  DugunKagit, DugunDeco
 } from './dugun';
 import {
   KinaSade, KinaManzara, KinaSekilli, KinaModern, KinaBordo, KinaSaray, KinaMum,
-  KinaAurora, KinaBento, KinaNoir, KinaKrom
+  KinaAurora, KinaBento, KinaNoir, KinaKrom, KinaKagit
 } from './kina';
 import {
   NisanSade, NisanManzara, NisanSekilli, NisanModern, NisanSampanya,
   NisanOrman, NisanAlyans, NisanBohem,
-  NisanAurora, NisanBento, NisanNoir, NisanKrom
+  NisanAurora, NisanBento, NisanNoir, NisanKrom, NisanKagit
 } from './nisan';
-import { SunnetKlasik, SunnetModern, SunnetYildiz, SunnetMasallah, SunnetLunapark } from './sunnet';
+import {
+  SunnetKlasik, SunnetModern, SunnetYildiz, SunnetMasallah, SunnetLunapark,
+  SunnetKagit, SunnetRiso
+} from './sunnet';
 import {
   DogumGunuNeseli, DogumGunuSik, DogumGunuKonfeti,
-  DogumGunuLuks, DogumGunuBulut, DogumGunuZarif
+  DogumGunuLuks, DogumGunuBulut, DogumGunuZarif, DogumGunuRiso
 } from './dogum-gunu';
 import {
   MezuniyetAkademik, MezuniyetDinamik, MezuniyetLacivert,
-  MezuniyetKampus, MezuniyetPusula
+  MezuniyetKampus, MezuniyetPusula, MezuniyetBilet
 } from './mezuniyet';
 import {
   BabyShowerPastel, BabyShowerBoho, BabyShowerKabarcik,
-  BabyMelek, BabyMuzikKutusu, BabyGokyuzu
+  BabyMelek, BabyMuzikKutusu, BabyGokyuzu, BabyRiso
 } from './baby-shower';
-import { PartiNeon, PartiGala, PartiAurora } from './parti';
-import { KurumsalNetwork, KurumsalCam, KurumsalZirve } from './kurumsal';
+import { PartiNeon, PartiGala, PartiAurora, PartiDeco, PartiBilet } from './parti';
+import {
+  KurumsalNetwork, KurumsalCam, KurumsalZirve, KurumsalDeco, KurumsalBilet
+} from './kurumsal';
 import { Invitation } from '../../types';
 import { TemplateProps } from './types';
 
@@ -67,6 +73,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'dugun-bento': DugunBento,
   'dugun-noir': DugunNoir,
   'dugun-krom': DugunKrom,
+  'dugun-kagit': DugunKagit,
+  'dugun-deco': DugunDeco,
   // Kına
   'kina-sade': KinaSade,
   'kina-manzara': KinaManzara,
@@ -79,6 +87,7 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'kina-bento': KinaBento,
   'kina-noir': KinaNoir,
   'kina-krom': KinaKrom,
+  'kina-kagit': KinaKagit,
   // Nişan
   'nisan-sade': NisanSade,
   'nisan-manzara': NisanManzara,
@@ -92,12 +101,15 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'nisan-bento': NisanBento,
   'nisan-noir': NisanNoir,
   'nisan-krom': NisanKrom,
+  'nisan-kagit': NisanKagit,
   // Sünnet
   'sunnet-klasik': SunnetKlasik,
   'sunnet-modern': SunnetModern,
   'sunnet-yildiz': SunnetYildiz,
   'sunnet-masallah': SunnetMasallah,
   'sunnet-lunapark': SunnetLunapark,
+  'sunnet-kagit': SunnetKagit,
+  'sunnet-riso': SunnetRiso,
   // Doğum Günü
   'dogum-gunu-neseli': DogumGunuNeseli,
   'dogum-gunu-sik': DogumGunuSik,
@@ -105,12 +117,14 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'dogum-gunu-luks': DogumGunuLuks,
   'dogum-gunu-bulut': DogumGunuBulut,
   'dogum-gunu-zarif': DogumGunuZarif,
+  'dogum-gunu-riso': DogumGunuRiso,
   // Mezuniyet
   'mezuniyet-akademik': MezuniyetAkademik,
   'mezuniyet-dinamik': MezuniyetDinamik,
   'mezuniyet-lacivert': MezuniyetLacivert,
   'mezuniyet-kampus': MezuniyetKampus,
   'mezuniyet-pusula': MezuniyetPusula,
+  'mezuniyet-bilet': MezuniyetBilet,
   // Baby Shower
   'baby-shower-pastel': BabyShowerPastel,
   'baby-shower-boho': BabyShowerBoho,
@@ -118,14 +132,19 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'baby-melek': BabyMelek,
   'baby-muzik-kutusu': BabyMuzikKutusu,
   'baby-gokyuzu': BabyGokyuzu,
+  'baby-riso': BabyRiso,
   // Parti
   'parti-neon': PartiNeon,
   'parti-gala': PartiGala,
   'parti-aurora': PartiAurora,
+  'parti-deco': PartiDeco,
+  'parti-bilet': PartiBilet,
   // Kurumsal
   'kurumsal-network': KurumsalNetwork,
   'kurumsal-cam': KurumsalCam,
   'kurumsal-zirve': KurumsalZirve,
+  'kurumsal-deco': KurumsalDeco,
+  'kurumsal-bilet': KurumsalBilet,
 };
 
 export function TemplateRenderer({ templateId, invitation, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {

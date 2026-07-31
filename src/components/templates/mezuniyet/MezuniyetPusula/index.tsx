@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, LightLeak } from '../../shared/effects';
+import { HeroStage, Halo, LightLeak, Ridges } from '../../shared/effects';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Pusula ve ışık kapısı kadrajın merkezinde toplanır. */
-const VIDEO = videoSet('mezuniyet-pusula', { landscape: '50% 50%', portrait: '50% 50%' });
 
 /**
  * MezuniyetPusula — Konsept 3, "Yolculuk ve Keşif": antika dünya haritası,
@@ -47,14 +43,16 @@ export function MezuniyetPusula({ invitation, mode = 'preview' }: TemplateProps)
       themeOverride={PUSULA_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 75% 60% at 50% 48%, #4a3a18 0%, #221a0c 55%, #100c05 100%)"
           scrim={{ from: 'both', strength: 0.42 }}
           vignette={{ strength: 0.6 }}
           atmosphere={
             <>
-              {/* Işık kapısı: yavaş ve geniş nefes. */}
-              <Halo color="245,220,150" size={54} x={50} y={48} opacity={0.42} duration={13} />
+              {/* Keşfedilecek uzak diyarlar: çok soluk, çok alçak ufuk. */}
+              <Ridges color="92,70,34" opacity={0.34} height={0.24} layers={3} roughness={0.7} seed={47} />
+              {/* Işık kapısı: yavaş ve geniş nefes. Ufkun ÜSTÜNDE durur —
+                  yolculuğun varış noktası ufkun ötesinde açılıyor. */}
+              <Halo color="245,220,150" size={54} x={50} y={46} opacity={0.44} duration={13} />
               <LightLeak color="255,236,180" opacity={0.32} duration={16} />
             </>
           }

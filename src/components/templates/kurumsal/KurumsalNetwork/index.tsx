@@ -1,13 +1,10 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
 import { HeroStage, Halo } from '../../shared/effects';
+import { GridPattern } from '../../shared/backdrops';
 import { KURUMSAL_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Ağ merkezde yoğunlaşır; iki oranda da merkez korunur. */
-const VIDEO = videoSet('kurumsal-network', { landscape: '50% 50%', portrait: '50% 50%' });
 
 /**
  * KurumsalNetwork — Konsept 1, "Dinamik Ağ ve Veri": mat siyah zeminde
@@ -48,11 +45,26 @@ export function KurumsalNetwork({ invitation, mode = 'preview' }: TemplateProps)
       themeOverride={NETWORK_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="radial-gradient(ellipse 85% 70% at 50% 45%, #131c3a 0%, #0a0d1c 55%, #05060c 100%)"
           scrim={{ from: 'both', strength: 0.4 }}
           vignette={{ strength: 0.58 }}
-          atmosphere={<Halo color="110,168,255" size={66} x={50} y={45} opacity={0.26} duration={8} />}
+          atmosphere={
+            <>
+              {/* Teknik ızgara: ağın üzerinde durduğu koordinat düzlemi.
+                  Merkeze doğru açılan maske ile kenarlarda erir, yoksa
+                  kadraj milimetrik kağıt gibi görünürdü. */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  maskImage: 'radial-gradient(ellipse 65% 55% at 50% 45%, black 20%, transparent 100%)',
+                  WebkitMaskImage: 'radial-gradient(ellipse 65% 55% at 50% 45%, black 20%, transparent 100%)'
+                }}
+              >
+                <GridPattern color="rgba(110,168,255,0.09)" size={52} />
+              </div>
+              <Halo color="110,168,255" size={66} x={50} y={45} opacity={0.26} duration={8} />
+            </>
+          }
           particles={[
             {
               preset: 'network',

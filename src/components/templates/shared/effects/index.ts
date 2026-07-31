@@ -27,5 +27,26 @@ export {
   BottomFade
 } from './atmosphere';
 
+export {
+  Ridges,
+  TreeLine,
+  Arches,
+  Spires,
+  CloudBank,
+  WaterPlane,
+  SunDisc
+} from './scenery';
+
+export {
+  PaperGrain,
+  DeckleEdge,
+  WaxSeal,
+  Halftone,
+  Sunburst,
+  DecoFrame,
+  Perforation,
+  Barcode
+} from './textures';
+
 export { PRESETS } from './particleEngine';
 export type { PresetName, FieldOptions } from './particleEngine';

@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, GodRays, FogDrift, Halo } from '../../shared/effects';
+import { HeroStage, GodRays, FogDrift, Halo, CloudBank } from '../../shared/effects';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Kanatlar üst-orta bantta; dikeyde biraz yukarı sabitlenir. */
-const VIDEO = videoSet('baby-melek', { landscape: '50% 48%', portrait: '50% 40%' });
 
 /**
  * BabyMelek — Konsept 1, "Melek Kanatları": bembeyaz bulutlar arasından
@@ -47,15 +43,24 @@ export function BabyMelek({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={MELEK_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
-          base="linear-gradient(to bottom, #eef4fb 0%, #fbf8f2 50%, #f6ecdc 100%)"
-          scrim={{ from: 'both', strength: 0.4, tint: '255,255,255' }}
+          // Üstte doygun gökyüzü mavisi: bulutlar beyaz olduğu için zeminin
+          // onlardan belirgin şekilde KOYU olması gerekiyor, yoksa kompozisyon
+          // beyaz üstüne beyaz olur ve tamamen düzleşir.
+          base="linear-gradient(to bottom, #b9d2ee 0%, #dce8f7 34%, #fbf5ea 72%, #f6ecdc 100%)"
+          // Zayıf scrim: zemin zaten açık, metin koyu. Güçlü beyaz yıkama
+          // bulutları da silip kompozisyonu boşaltıyordu.
+          scrim={{ from: 'top', strength: 0.22, tint: '255,255,255' }}
           // Melek/bulut hafifliği için kenar karartması kapalı.
           vignette={false}
           atmosphere={
             <>
               <GodRays angle={10} origin={50} count={8} color="255,246,225" opacity={0.55} duration={18} />
-              <Halo color="255,240,214" size={80} x={50} y={36} opacity={0.6} duration={10} />
+              <Halo color="255,240,214" size={80} x={50} y={34} opacity={0.6} duration={10} />
+              {/* İki bulut bankı: arkadaki gölgeli ve alçak, öndeki bembeyaz
+                  ve yüksek. Arka bankın hafif mavi-gri tonu olmasa iki katman
+                  tek kütleye yapışır ve hacim kaybolur. */}
+              <CloudBank color="176,201,232" opacity={0.85} height={0.4} puffs={18} seed={19} />
+              <CloudBank color="255,255,255" opacity={1} height={0.56} puffs={12} seed={23} />
               <FogDrift color="255,255,255" opacity={0.7} duration={42} />
             </>
           }

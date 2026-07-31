@@ -1,13 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
-import { HeroStage, GodRays, FogDrift } from '../../shared/effects';
+import { HeroStage, GodRays, FogDrift, TreeLine } from '../../shared/effects';
 import { NISAN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
-
-/** Huzmeler üstten girer; dikeyde üst bant korunacak şekilde kadraj yukarıda. */
-const VIDEO = videoSet('nisan-orman', { landscape: '50% 45%', portrait: '50% 38%' });
 
 /**
  * NisanOrman — Konsept 1, "Rustik Orman Rüyası": ulu ağaçlar arasından
@@ -47,14 +43,18 @@ export function NisanOrman({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={ORMAN_THEME}
       renderHeroBackground={() => (
         <HeroStage
-          video={VIDEO}
           base="linear-gradient(165deg, #24361f 0%, #16241a 45%, #0d1510 100%)"
           scrim={{ from: 'both', strength: 0.5 }}
           vignette={{ strength: 0.6 }}
           atmosphere={
             <>
-              {/* Dar açı + yüksek sayı: ağaç gövdeleri arasından sızan ışık. */}
+              {/* Uzak ağaç hattı: alçak, soluk, sık — atmosferik perspektif. */}
+              <TreeLine color="46,66,50" opacity={0.55} height={0.4} density={34} seed={5} />
+              {/* Dar açı + yüksek sayı: ağaç gövdeleri arasından sızan ışık.
+                  Işık İKİ ağaç hattının ARASINDA durur; öndeki gövdeler
+                  huzmeleri keserek ormanın derinliğini kurar. */}
               <GodRays angle={14} origin={46} count={11} color="255,232,170" opacity={0.55} duration={17} />
+              <TreeLine color="9,16,11" opacity={1} height={0.62} density={18} seed={11} />
               <FogDrift color="200,220,190" opacity={0.4} duration={40} />
             </>
           }
