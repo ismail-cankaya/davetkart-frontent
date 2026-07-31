@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import {
-  Baby, Cake, Check, Gem, GraduationCap, Heart, LucideIcon, MoonStar, PartyPopper, Sparkles
+  Baby, Building2, Cake, Check, Gem, GraduationCap, Heart, LucideIcon, MoonStar, PartyPopper, Sparkles
 } from 'lucide-react';
 import { EVENT_CATEGORIES, getTemplatesForCategory } from '../../data';
 import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
@@ -19,7 +19,8 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   'dogum-gunu': Cake,
   mezuniyet: GraduationCap,
   'baby-shower': Baby,
-  parti: PartyPopper
+  parti: PartyPopper,
+  kurumsal: Building2
 };
 
 /**

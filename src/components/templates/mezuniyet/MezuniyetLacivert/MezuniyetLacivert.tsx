@@ -1,8 +1,8 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { VideoBackdrop } from '../../shared/VideoBackdrop';
 import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
+import { HeroStage, Halo } from '../../shared/effects';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 
@@ -41,11 +41,38 @@ export function MezuniyetLacivert({ invitation, mode = 'preview' }: TemplateProp
       mode={mode}
       themeOverride={MEZUNIYET_LACIVERT_THEME}
       renderHeroBackground={() => (
-        <VideoBackdrop {...VIDEO.landscape} portrait={VIDEO.portrait}>
-          {/* Açık metnin kontrastı için koyu scrim; ortada şeffaf kalır. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-black/55" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#071328]" />
-        </VideoBackdrop>
+        <HeroStage
+          video={VIDEO}
+          base="linear-gradient(to top, #071328 0%, #0d2444 45%, #041022 100%)"
+          scrim={{ from: 'both', strength: 0.45 }}
+          vignette={{ strength: 0.52 }}
+          atmosphere={<Halo color="120,190,255" size={68} x={50} y={52} opacity={0.28} duration={8} />}
+          particles={[
+            // Aşağıdan yukarı fırlayan başarı hüzmeleri — konseptin ekseni.
+            {
+              preset: 'streaks',
+              colors: ['#7cc4ff', '#f2d79b', '#bfe4ff'],
+              blend: 'screen',
+              density: 1.2,
+              speed: 1.1,
+              opacity: 0.55,
+              depth: 1,
+              seed: 19
+            },
+            {
+              preset: 'stardust',
+              colors: ['#ffffff', '#9fd4ff'],
+              blend: 'screen',
+              density: 0.6,
+              speed: 0.5,
+              opacity: 0.6,
+              pointerStrength: 1.2,
+              depth: 0.7,
+              seed: 52
+            }
+          ]}
+          fadeTo="#071328"
+        />
       )}
     />
   );

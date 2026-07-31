@@ -1,8 +1,8 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { VideoBackdrop } from '../../shared/VideoBackdrop';
 import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
+import { HeroStage, SilkVeil, GoldSheen, Halo } from '../../shared/effects';
 import { KINA_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 
@@ -41,11 +41,43 @@ export function KinaBordo({ invitation, mode = 'preview' }: TemplateProps) {
       mode={mode}
       themeOverride={KINA_BORDO_THEME}
       renderHeroBackground={() => (
-        <VideoBackdrop {...VIDEO.landscape} portrait={VIDEO.portrait}>
-          {/* Açık metnin kontrastı için koyu scrim; ortada şeffaf kalır. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/15 to-black/55" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#1d0710]" />
-        </VideoBackdrop>
+        <HeroStage
+          video={VIDEO}
+          base="radial-gradient(ellipse 85% 70% at 50% 45%, #61121f 0%, #2c0810 55%, #150409 100%)"
+          scrim={{ from: 'both', strength: 0.44 }}
+          vignette={{ strength: 0.55 }}
+          atmosphere={
+            <>
+              {/* Uçuşan yakut/bordo ipek tüller — konseptin ön katmanı. */}
+              <SilkVeil color="150,25,52" opacity={0.5} duration={17} />
+              <Halo color="226,186,110" size={62} x={50} y={44} opacity={0.3} duration={10} />
+              {/* Altın varaklı mandala motifinin üzerinde gezen parlama. */}
+              <GoldSheen color="240,208,140" opacity={0.2} duration={9} />
+            </>
+          }
+          particles={[
+            {
+              preset: 'petals',
+              colors: ['#8e1b2e', '#b8283f', '#e2ba6e'],
+              density: 0.85,
+              speed: 0.8,
+              opacity: 0.8,
+              depth: 1,
+              seed: 12
+            },
+            {
+              preset: 'fairyDust',
+              colors: ['#e2ba6e', '#f5dda6'],
+              blend: 'screen',
+              density: 0.75,
+              speed: 0.55,
+              opacity: 0.6,
+              depth: 0.5,
+              seed: 58
+            }
+          ]}
+          fadeTo="#1d0710"
+        />
       )}
     />
   );

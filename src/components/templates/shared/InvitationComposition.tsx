@@ -14,12 +14,28 @@ const Gallery = React.lazy(() => import('./Gallery').then((m) => ({ default: m.G
 const GiftRegistry = React.lazy(() => import('./GiftRegistry').then((m) => ({ default: m.GiftRegistry })));
 const RSVPForm = React.lazy(() => import('./RSVPForm').then((m) => ({ default: m.RSVPForm })));
 
+/** Özel hero düzenlerine geçirilen bağlam — Summary'nin aldığının aynısı. */
+export interface HeroRenderProps {
+  invitation: Invitation;
+  theme: ReturnType<typeof getSectionTheme>;
+  flavor: TemplateFlavor;
+}
+
 interface InvitationCompositionProps {
   invitation: Invitation;
   flavor: TemplateFlavor;
   mode: 'preview' | 'live';
   themeOverride?: ReturnType<typeof getSectionTheme>;
   renderHeroBackground?: () => React.ReactNode;
+  /**
+   * Hero'nun ÖN PLANINI tamamen değiştirir (varsayılan: Summary).
+   *
+   * renderHeroBackground yalnızca arkadaki katmanı değiştirir; tipografi ve
+   * yerleşim aynı kalır. Gerçek bir tasarım dili farkı (bento ızgara, dev
+   * serif minimal) düzenin kendisini değiştirmeyi gerektirdiği için ayrı bir
+   * kanca var. Verilmezse hiçbir şablon etkilenmez.
+   */
+  renderHero?: (props: HeroRenderProps) => React.ReactNode;
   /**
    * Hero metin konteynerinin yerleşimini şablona göre özelleştirir; süslerin
    * kapladığı alanı padding'le güvenli bölgeye çevirmek (Dugun1) veya metni
@@ -42,6 +58,7 @@ export function InvitationComposition({
   mode,
   themeOverride,
   renderHeroBackground,
+  renderHero,
   heroContentClassName,
   summaryDensity = 'default'
 }: InvitationCompositionProps) {
@@ -100,7 +117,9 @@ export function InvitationComposition({
             </div>
           )}
           <div className={cn('relative z-10 w-full h-full flex flex-col grow', heroContentClassName)}>
-            <Summary invitation={invitation} theme={theme} flavor={flavor} density={summaryDensity} />
+            {renderHero
+              ? renderHero({ invitation, theme, flavor })
+              : <Summary invitation={invitation} theme={theme} flavor={flavor} density={summaryDensity} />}
           </div>
         </div>
 

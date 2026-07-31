@@ -1,8 +1,8 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { VideoBackdrop } from '../../shared/VideoBackdrop';
 import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
+import { HeroStage, GodRays, Halo } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 
@@ -10,8 +10,12 @@ import { TemplateProps } from '../../types';
 const VIDEO = videoSet('gul-yapraklari', { landscape: '50% 50%', portrait: '50% 45%' });
 
 /**
- * DugunGulYapraklari — "Gül Yaprakları": pudra zemine süzülen yapraklar.
- * Klasik romantik düğün; palet yaprakların gül kurusu tonlarından türedi.
+ * DugunGulYapraklari — Konsept 3, "Büyülü Botanik Bahçe": pudra zemine
+ * süzülen şakayık ve gül yaprakları.
+ *
+ * Videonun kendi yaprakları arka planda kalır; canvas katmanı onların
+ * ÖNÜNDE, alan derinliği (depth) farkıyla ikinci bir düzlem açar. İki
+ * düzlemin farklı hızda akması kamerayı çiçeklerin arasına sokar.
  */
 const GUL_THEME: SectionTheme = {
   id: 'stone',
@@ -42,12 +46,45 @@ export function DugunGulYapraklari({ invitation, mode = 'preview' }: TemplatePro
       mode={mode}
       themeOverride={GUL_THEME}
       renderHeroBackground={() => (
-        <VideoBackdrop {...VIDEO.landscape} portrait={VIDEO.portrait}>
-          {/* Zemin zaten açık; scrim yalnızca yaprakların metnin üzerinden
-              geçtiği anlarda kontrastı korumak için hafif bir yıkama. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/35 via-white/15 to-white/45" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#fdf4f2]" />
-        </VideoBackdrop>
+        <HeroStage
+          video={VIDEO}
+          base="linear-gradient(to bottom, #f7e3e0 0%, #fdf4f2 45%, #f3dfe4 100%)"
+          // Açık zemin: scrim beyaz tonda, koyu değil — yıkama yapıyor,
+          // karartma değil.
+          scrim={{ from: 'both', strength: 0.4, tint: '255,255,255' }}
+          vignette={{ strength: 0.22, tint: '120,80,90' }}
+          atmosphere={
+            <>
+              <GodRays angle={12} origin={42} count={6} color="255,240,238" opacity={0.45} duration={18} />
+              <Halo color="255,225,228" size={75} x={50} y={40} opacity={0.5} duration={10} />
+            </>
+          }
+          particles={[
+            // Ön düzlem: büyük, hızlı, işaretçiden kaçan yapraklar.
+            {
+              preset: 'petals',
+              colors: ['#f2c4cb', '#e7a9b4', '#f7dde0', '#d9a7c7'],
+              density: 1,
+              speed: 1,
+              opacity: 0.9,
+              depth: 1,
+              seed: 3
+            },
+            // Arka düzlem: küçük, yavaş, neredeyse sabit — mesafe hissi.
+            {
+              preset: 'petals',
+              colors: ['#f7dde0', '#ecc8d6'],
+              density: 0.55,
+              speed: 0.5,
+              opacity: 0.45,
+              pointerStrength: 0.3,
+              depth: 0.3,
+              seed: 64
+            }
+          ]}
+          grain={0.02}
+          fadeTo="#fdf4f2"
+        />
       )}
     />
   );

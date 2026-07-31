@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
@@ -6,6 +6,7 @@ import { formatDateStr } from '../utils';
 import { SectionTheme, EASE_LUXE } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ChevronDownIcon } from './icons';
+import { useCountdown } from './useCountdown';
 
 /**
  * Yoğunluk modu: 'compact', süslemelerin metin alanını daralttığı şablonlarda
@@ -21,26 +22,6 @@ interface SummaryProps {
   theme: SectionTheme;
   flavor: TemplateFlavor;
   density?: SummaryDensity;
-}
-
-/** Remaining time to the event, recomputed every second. */
-function useCountdown(targetDate: string) {
-  const target = useMemo(() => new Date(targetDate).getTime(), [targetDate]);
-  const [now, setNow] = useState(() => Date.now());
-
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(Date.now()), 1000);
-    return () => window.clearInterval(timer);
-  }, []);
-
-  const diff = Math.max(0, target - now);
-  return {
-    valid: !Number.isNaN(target),
-    days: Math.floor(diff / 86_400_000),
-    hours: Math.floor(diff / 3_600_000) % 24,
-    minutes: Math.floor(diff / 60_000) % 60,
-    seconds: Math.floor(diff / 1000) % 60
-  };
 }
 
 function CountdownTile({

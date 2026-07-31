@@ -5,6 +5,7 @@ import { ArrowRight, Check, LayoutGrid, PenLine, WandSparkles } from 'lucide-rea
 import { FEATURED_TEMPLATES, TEMPLATE_PRESETS, getCategoryLabel } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useUIStore } from '../../stores/useUIStore';
+import { TemplateCover } from './TemplateCover';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -95,11 +96,10 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
                   : 'shadow-sm hover:shadow-2xl hover:shadow-ink/15'
                 }`}
             >
-              <img
-                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1200ms] ease-out filter brightness-90 md:brightness-[0.82] group-hover:brightness-95"
-                src={preset.imageUrl}
+              <TemplateCover
+                preset={preset}
                 alt={`${getCategoryLabel(slotCategoryId)} — ${preset.name}`}
-                loading="lazy"
+                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1200ms] ease-out filter brightness-90 md:brightness-[0.82] group-hover:brightness-95"
               />
 
               <AnimatePresence>

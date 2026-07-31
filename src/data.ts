@@ -16,6 +16,8 @@ import mezuniyetLacivertPreview from './components/templates/mezuniyet/Mezuniyet
 import babyShowerKabarcikPreview from './components/templates/baby-shower/BabyShowerKabarcik/assets/baby-shower-kabarcik-kapak.jpg';
 import partiAuroraPreview from './components/templates/parti/PartiAurora/assets/parti-aurora-kapak.jpg';
 
+const BASE = import.meta.env.BASE_URL;
+
 export const EVENT_CATEGORIES: EventCategory[] = [
   {
     id: 'dugun',
@@ -72,8 +74,23 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     description: 'Unutulmaz bir gece için şık bir başlangıç',
     nameLabels: ['Ev Sahibi 1', 'Ev Sahibi 2 (opsiyonel)'],
     suggestedTitle: 'PARTİMİZE DAVETLİSİNİZ'
+  },
+  {
+    id: 'kurumsal',
+    label: 'Kurumsal Etkinlik',
+    description: 'Lansman, zirve ve gala için profesyonel davet',
+    nameLabels: ['Kurum / Marka', 'Etkinlik Adı'],
+    suggestedTitle: 'ETKİNLİĞİMİZE DAVETLİSİNİZ'
   }
 ];
+
+/**
+ * Videolu şablonların kapak görseli, videonun kendi poster karesidir —
+ * ayrıca bir kapak.jpg kopyası tutulmaz. Yol sözleşmesi videoAssets.ts ile
+ * birebir aynıdır; slug doğruysa kapak da doğrudur.
+ */
+const videoCover = (slug: string) =>
+  BASE + 'videos/templates/' + slug + '/' + slug + '-desktop-poster.jpg';
 
 /** Categories served by the composable style presets (sade/manzara/sekilli/modern). */
 const COMPOSABLE_CATEGORIES = ['dugun', 'kina', 'nisan'];
@@ -281,6 +298,328 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     btnColor: 'bg-gradient-to-r from-[#ff3fa4] to-[#8b5cff] text-white',
     imageUrl: partiAuroraPreview,
     categories: ['parti']
+  },
+  // ——— Videosuz modern tasarım dilleri (Aurora / Bento / Noir / Krom) ———
+  {
+    id: 'dugun-aurora',
+    name: 'Aurora Cam (Modern)',
+    primaryColor: '#0b0a14',
+    backgroundStyle: 'bg-gradient-to-br from-[#1c1430] via-[#a78bfa] to-[#f0abd0]',
+    titleColor: 'text-[#faf7ff]',
+    btnColor: 'bg-gradient-to-r from-[#f0abd0] to-[#a78bfa] text-[#140f1e]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'nisan-aurora',
+    name: 'Aurora Cam (Modern)',
+    primaryColor: '#080d16',
+    backgroundStyle: 'bg-gradient-to-br from-[#0f2036] via-[#8ba7f0] to-[#7fd8e8]',
+    titleColor: 'text-[#f5f9ff]',
+    btnColor: 'bg-gradient-to-r from-[#7fd8e8] to-[#8ba7f0] text-[#08131c]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'kina-aurora',
+    name: 'Aurora Cam (Modern)',
+    primaryColor: '#140610',
+    backgroundStyle: 'bg-gradient-to-br from-[#3a0c22] via-[#e0568c] to-[#f0b775]',
+    titleColor: 'text-[#fdf2f6]',
+    btnColor: 'bg-gradient-to-r from-[#f0b775] to-[#e0568c] text-[#1a0710]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'dugun-bento',
+    name: 'Bento Editorial (Modern)',
+    primaryColor: '#f7f5f1',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfaf7] via-[#e8e4da] to-[#c3ccb6]',
+    titleColor: 'text-[#1f1d1a]',
+    btnColor: 'bg-[#1f1d1a] hover:bg-[#35322d] text-[#f7f5f1]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'nisan-bento',
+    name: 'Bento Editorial (Modern)',
+    primaryColor: '#f4f6f9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfe] via-[#dde5ef] to-[#a8c2dd]',
+    titleColor: 'text-[#141d2b]',
+    btnColor: 'bg-[#141d2b] hover:bg-[#26344a] text-[#f4f6f9]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'kina-bento',
+    name: 'Bento Editorial (Modern)',
+    primaryColor: '#faf3f4',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdf8f8] via-[#f0dcdd] to-[#dcb9a0]',
+    titleColor: 'text-[#3d1620]',
+    btnColor: 'bg-[#8e1b2e] hover:bg-[#a52b40] text-[#faf3f4]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'dugun-noir',
+    name: 'Noir Minimal (Modern)',
+    primaryColor: '#070707',
+    backgroundStyle: 'bg-gradient-to-br from-[#1a1814] via-[#0a0a09] to-[#c9a961]',
+    titleColor: 'text-[#f4f1ea]',
+    btnColor: 'bg-[#c9a961] hover:bg-[#d8ba76] text-[#0b0a07]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'nisan-noir',
+    name: 'Noir Minimal (Modern)',
+    primaryColor: '#060708',
+    backgroundStyle: 'bg-gradient-to-br from-[#151a1f] via-[#08090b] to-[#c4d0dd]',
+    titleColor: 'text-[#f2f5f8]',
+    btnColor: 'bg-[#c4d0dd] hover:bg-[#d6e0ea] text-[#08090b]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'kina-noir',
+    name: 'Noir Minimal (Modern)',
+    primaryColor: '#080405',
+    backgroundStyle: 'bg-gradient-to-br from-[#241012] via-[#0b0506] to-[#d9564f]',
+    titleColor: 'text-[#f5eff0]',
+    btnColor: 'bg-[#b3323f] hover:bg-[#c64450] text-[#fdf2f3]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'dugun-krom',
+    name: 'Likit Krom (Modern)',
+    primaryColor: '#0a0b10',
+    backgroundStyle: 'bg-gradient-to-br from-[#f2f6ff] via-[#c9b8f0] to-[#9fd6f5]',
+    titleColor: 'text-[#0d1018]',
+    btnColor: 'bg-gradient-to-r from-[#dfe6ff] via-[#c9b8f0] to-[#9fd6f5] text-[#0d1018]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'nisan-krom',
+    name: 'Likit Krom (Modern)',
+    primaryColor: '#080c12',
+    backgroundStyle: 'bg-gradient-to-br from-[#f0f8ff] via-[#a9d8ec] to-[#8fb4e0]',
+    titleColor: 'text-[#0a1119]',
+    btnColor: 'bg-gradient-to-r from-[#dff0fa] via-[#a9d8ec] to-[#8fb4e0] text-[#0a1119]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'kina-krom',
+    name: 'Likit Krom (Modern)',
+    primaryColor: '#100809',
+    backgroundStyle: 'bg-gradient-to-br from-[#fff2e8] via-[#f0b9a0] to-[#d98fa8]',
+    titleColor: 'text-[#190c0d]',
+    btnColor: 'bg-gradient-to-r from-[#ffeadd] via-[#f0b9a0] to-[#d98fa8] text-[#190c0d]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  // ——— Sinematik video konsept koleksiyonu (8 kategori x 3 konsept) ———
+  {
+    id: 'dugun-sahil',
+    name: 'Sinematik Sahil (Videolu)',
+    primaryColor: '#171526',
+    backgroundStyle: 'bg-[#171526]',
+    titleColor: 'text-[#fbf2e4]',
+    btnColor: 'bg-[#f0b46a] hover:bg-[#f6c384] text-[#2a1d13]',
+    imageUrl: videoCover('dugun-sahil'),
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-onyx',
+    name: 'Onyx & Altın (Videolu)',
+    primaryColor: '#080807',
+    backgroundStyle: 'bg-[#080807]',
+    titleColor: 'text-[#f7edd6]',
+    btnColor: 'bg-gradient-to-r from-[#d4af5f] to-[#e8c987] text-[#14100a]',
+    imageUrl: videoCover('dugun-onyx'),
+    categories: ['dugun']
+  },
+  {
+    id: 'nisan-orman',
+    name: 'Orman Rüyası (Videolu)',
+    primaryColor: '#101a13',
+    backgroundStyle: 'bg-[#101a13]',
+    titleColor: 'text-[#f2f0e2]',
+    btnColor: 'bg-[#d8b26a] hover:bg-[#e4c384] text-[#1a1409]',
+    imageUrl: videoCover('nisan-orman'),
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-alyans',
+    name: 'Zarif Alyanslar (Videolu)',
+    primaryColor: '#070a10',
+    backgroundStyle: 'bg-[#070a10]',
+    titleColor: 'text-[#f4f8ff]',
+    btnColor: 'bg-gradient-to-r from-[#bcd4ea] to-[#e6eef8] text-[#0b1018]',
+    imageUrl: videoCover('nisan-alyans'),
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-bohem',
+    name: 'Bohem Gün Batımı (Videolu)',
+    primaryColor: '#f6efe4',
+    backgroundStyle: 'bg-[#f6efe4]',
+    titleColor: 'text-[#453528]',
+    btnColor: 'bg-[#a8703f] hover:bg-[#bb8250] text-[#f9f3ea]',
+    imageUrl: videoCover('nisan-bohem'),
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-masallah',
+    name: 'Maşallah Kuşağı (Videolu)',
+    primaryColor: '#180a0d',
+    backgroundStyle: 'bg-[#180a0d]',
+    titleColor: 'text-[#fdf0dd]',
+    btnColor: 'bg-gradient-to-r from-[#e0b662] to-[#f0d18d] text-[#1d0f06]',
+    imageUrl: videoCover('sunnet-masallah'),
+    categories: ['sunnet']
+  },
+  {
+    id: 'sunnet-lunapark',
+    name: 'Lunapark (Videolu)',
+    primaryColor: '#0d0a1c',
+    backgroundStyle: 'bg-[#0d0a1c]',
+    titleColor: 'text-[#fbf7ff]',
+    btnColor: 'bg-[#ffb547] hover:bg-[#ffc468] text-[#241505]',
+    imageUrl: videoCover('sunnet-lunapark'),
+    categories: ['sunnet']
+  },
+  {
+    id: 'mezuniyet-kampus',
+    name: 'Tarihi Kampüs (Videolu)',
+    primaryColor: '#12100c',
+    backgroundStyle: 'bg-[#12100c]',
+    titleColor: 'text-[#f8f1e0]',
+    btnColor: 'bg-[#c9a961] hover:bg-[#d8ba76] text-[#1a1409]',
+    imageUrl: videoCover('mezuniyet-kampus'),
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'mezuniyet-pusula',
+    name: 'Pusula & Keşif (Videolu)',
+    primaryColor: '#161208',
+    backgroundStyle: 'bg-[#161208]',
+    titleColor: 'text-[#fbf3dd]',
+    btnColor: 'bg-gradient-to-r from-[#d9b45c] to-[#efd493] text-[#1c1509]',
+    imageUrl: videoCover('mezuniyet-pusula'),
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'kina-saray',
+    name: 'Saray Esintisi (Videolu)',
+    primaryColor: '#1a0710',
+    backgroundStyle: 'bg-[#1a0710]',
+    titleColor: 'text-[#fdeee2]',
+    btnColor: 'bg-gradient-to-r from-[#e3bd72] to-[#f3d99e] text-[#1f0c07]',
+    imageUrl: videoCover('kina-saray'),
+    categories: ['kina']
+  },
+  {
+    id: 'kina-mum',
+    name: 'Mistik Mumlar (Videolu)',
+    primaryColor: '#120608',
+    backgroundStyle: 'bg-[#120608]',
+    titleColor: 'text-[#fbeadb]',
+    btnColor: 'bg-[#b3323f] hover:bg-[#c64450] text-[#fdeee6]',
+    imageUrl: videoCover('kina-mum'),
+    categories: ['kina']
+  },
+  {
+    id: 'dogum-gunu-luks',
+    name: 'Lüks Patlama (Videolu)',
+    primaryColor: '#0a0809',
+    backgroundStyle: 'bg-[#0a0809]',
+    titleColor: 'text-[#fdf4e8]',
+    btnColor: 'bg-gradient-to-r from-[#e0b878] to-[#f0d5a4] text-[#171009]',
+    imageUrl: videoCover('dogum-gunu-luks'),
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'dogum-gunu-bulut',
+    name: 'Sihirli Bulutlar (Videolu)',
+    primaryColor: '#fdf2f8',
+    backgroundStyle: 'bg-[#fdf2f8]',
+    titleColor: 'text-[#43304a]',
+    btnColor: 'bg-[#e277b0] hover:bg-[#ea8dbe] text-[#fff5fa]',
+    imageUrl: videoCover('dogum-gunu-bulut'),
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'dogum-gunu-zarif',
+    name: 'Zarif Kutlama (Videolu)',
+    primaryColor: '#0c0a07',
+    backgroundStyle: 'bg-[#0c0a07]',
+    titleColor: 'text-[#faf1dd]',
+    btnColor: 'bg-gradient-to-r from-[#d9bd7c] to-[#efdaa8] text-[#171208]',
+    imageUrl: videoCover('dogum-gunu-zarif'),
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'baby-melek',
+    name: 'Melek Kanatları (Videolu)',
+    primaryColor: '#fbf8f2',
+    backgroundStyle: 'bg-[#fbf8f2]',
+    titleColor: 'text-[#4a4238]',
+    btnColor: 'bg-[#c9a961] hover:bg-[#d6ba79] text-[#fffdf8]',
+    imageUrl: videoCover('baby-melek'),
+    categories: ['baby-shower']
+  },
+  {
+    id: 'baby-muzik-kutusu',
+    name: 'Müzik Kutusu (Videolu)',
+    primaryColor: '#f8f1ea',
+    backgroundStyle: 'bg-[#f8f1ea]',
+    titleColor: 'text-[#4c3d33]',
+    btnColor: 'bg-[#a9704f] hover:bg-[#ba8161] text-[#fdf6ef]',
+    imageUrl: videoCover('baby-muzik-kutusu'),
+    categories: ['baby-shower']
+  },
+  {
+    id: 'baby-gokyuzu',
+    name: 'Gökyüzü Macerası (Videolu)',
+    primaryColor: '#f2f6fb',
+    backgroundStyle: 'bg-[#f2f6fb]',
+    titleColor: 'text-[#33455e]',
+    btnColor: 'bg-[#5b7ba6] hover:bg-[#6c8cb7] text-[#f4f8fc]',
+    imageUrl: videoCover('baby-gokyuzu'),
+    categories: ['baby-shower']
+  },
+  {
+    id: 'kurumsal-network',
+    name: 'Dinamik Ağ (Videolu)',
+    primaryColor: '#06070d',
+    backgroundStyle: 'bg-[#06070d]',
+    titleColor: 'text-[#f2f6ff]',
+    btnColor: 'bg-gradient-to-r from-[#4a7ef0] to-[#8b6cf0] text-[#f4f7ff]',
+    imageUrl: videoCover('kurumsal-network'),
+    categories: ['kurumsal']
+  },
+  {
+    id: 'kurumsal-cam',
+    name: 'Sıvı Cam (Videolu)',
+    primaryColor: '#080a12',
+    backgroundStyle: 'bg-[#080a12]',
+    titleColor: 'text-[#f4f7ff]',
+    btnColor: 'bg-[#7ee0d0] hover:bg-[#95e8da] text-[#07231f]',
+    imageUrl: videoCover('kurumsal-cam'),
+    categories: ['kurumsal']
+  },
+  {
+    id: 'kurumsal-zirve',
+    name: 'Zirve & Liderlik (Videolu)',
+    primaryColor: '#0a0f1a',
+    backgroundStyle: 'bg-[#0a0f1a]',
+    titleColor: 'text-[#f6f9ff]',
+    btnColor: 'bg-[#e8b06a] hover:bg-[#f0c184] text-[#1a1206]',
+    imageUrl: videoCover('kurumsal-zirve'),
+    categories: ['kurumsal']
   },
   // ——— Kategoriye özel yeni tema koleksiyonu ———
   // Sünnet

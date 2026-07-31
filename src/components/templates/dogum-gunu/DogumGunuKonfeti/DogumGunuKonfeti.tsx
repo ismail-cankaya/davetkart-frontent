@@ -1,8 +1,8 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { VideoBackdrop } from '../../shared/VideoBackdrop';
 import { videoSet } from '../../shared/videoAssets';
 import { SectionTheme } from '../../shared/palette';
+import { HeroStage, Halo, LightLeak } from '../../shared/effects';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 
@@ -41,11 +41,33 @@ export function DogumGunuKonfeti({ invitation, mode = 'preview' }: TemplateProps
       mode={mode}
       themeOverride={DOGUM_KONFETI_THEME}
       renderHeroBackground={() => (
-        <VideoBackdrop {...VIDEO.landscape} portrait={VIDEO.portrait}>
-          {/* Koyu metnin kontrastı için açık scrim; ortada şeffaf kalır. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-white/15 to-white/50" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#fffaf6]" />
-        </VideoBackdrop>
+        <HeroStage
+          video={VIDEO}
+          base="linear-gradient(to bottom, #fffdfb 0%, #fdf3ec 55%, #fbe8dd 100%)"
+          // Zemin fildişi: scrim beyaz tonda yıkama yapar, karartmaz.
+          scrim={{ from: 'both', strength: 0.4, tint: '255,255,255' }}
+          vignette={{ strength: 0.18, tint: '150,110,90' }}
+          atmosphere={
+            <>
+              <Halo color="255,225,205" size={76} x={50} y={38} opacity={0.5} duration={8} />
+              <LightLeak color="255,240,228" opacity={0.3} duration={13} />
+            </>
+          }
+          particles={[
+            // Videonun kendi pastel konfetisini ön düzlemde sürdürür.
+            {
+              preset: 'confetti',
+              colors: ['#f2a3b8', '#f5c86a', '#9b8ce0', '#5fc4b8', '#ef8b7c'],
+              density: 1,
+              speed: 0.8,
+              opacity: 0.9,
+              depth: 1,
+              seed: 6
+            }
+          ]}
+          grain={0.018}
+          fadeTo="#fffaf6"
+        />
       )}
     />
   );

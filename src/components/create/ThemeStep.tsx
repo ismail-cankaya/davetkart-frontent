@@ -5,6 +5,7 @@ import { getTemplatesForCategory } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useCreateWizardStore, useActiveCategory } from '../../stores/useCreateWizardStore';
 import { scrollToTarget } from '../../hooks/useLenis';
+import { TemplateCover } from '../preview/TemplateCover';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -72,11 +73,10 @@ export function ThemeStep() {
                     : 'shadow-sm hover:shadow-2xl hover:shadow-ink/15'
                 }`}
               >
-                <img
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1200ms] ease-out filter brightness-90 group-hover:brightness-95"
-                  src={preset.imageUrl}
+                <TemplateCover
+                  preset={preset}
                   alt={preset.name}
-                  loading="lazy"
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1200ms] ease-out filter brightness-90 group-hover:brightness-95"
                 />
 
                 <AnimatePresence>
