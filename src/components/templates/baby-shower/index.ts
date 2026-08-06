@@ -5,3 +5,5 @@ export { BabyMelek } from './BabyMelek';
 export { BabyMuzikKutusu } from './BabyMuzikKutusu';
 export { BabyGokyuzu } from './BabyGokyuzu';
 export { BabyRiso } from './BabyRiso';
+export { BabyBento } from './BabyBento';
+export { BabyKagit } from './BabyKagit';

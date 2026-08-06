@@ -37,7 +37,7 @@ export function SunnetKagit({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={SUNNET_FLAVOR}
       mode={mode}
       themeOverride={SUNNET_KAGIT_THEME}
-      renderHero={(props) => <PaperHero {...props} />}
+      renderHero={(props) => <PaperHero {...props} sealColor="#1f4e8c" />}
       renderHeroBackground={() => (
         <HeroStage
           base="radial-gradient(ellipse 90% 80% at 50% 40%, #eaf0f7 0%, #dde6f0 55%, #cfdbe8 100%)"

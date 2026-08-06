@@ -5,3 +5,5 @@ export { DogumGunuLuks } from './DogumGunuLuks';
 export { DogumGunuBulut } from './DogumGunuBulut';
 export { DogumGunuZarif } from './DogumGunuZarif';
 export { DogumGunuRiso } from './DogumGunuRiso';
+export { DogumGunuAurora } from './DogumGunuAurora';
+export { DogumGunuDeco } from './DogumGunuDeco';

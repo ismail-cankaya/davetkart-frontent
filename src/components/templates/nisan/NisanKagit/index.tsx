@@ -37,7 +37,7 @@ export function NisanKagit({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={NISAN_FLAVOR}
       mode={mode}
       themeOverride={NISAN_KAGIT_THEME}
-      renderHero={(props) => <PaperHero {...props} />}
+      renderHero={(props) => <PaperHero {...props} sealColor="#2f5d8a" />}
       renderHeroBackground={() => (
         <HeroStage
           base="radial-gradient(ellipse 90% 80% at 50% 40%, #eceff2 0%, #e0e5ea 55%, #d3dae0 100%)"

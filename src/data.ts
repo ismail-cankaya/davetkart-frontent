@@ -299,6 +299,147 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: partiAuroraPreview,
     categories: ['parti']
   },
+  // ——— Denge turu: güçlü dillerin zayıf kategorilere taşınması ———
+  {
+    id: 'parti-krom',
+    name: 'Likit Krom',
+    primaryColor: '#0a0714',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdf4ff] via-[#c084fc] to-[#8ab6f5]',
+    titleColor: 'text-[#12081c]',
+    btnColor: 'bg-gradient-to-r from-[#f0d4ff] via-[#c084fc] to-[#8ab6f5] text-[#12081c]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'parti-noir',
+    name: 'Noir Minimal',
+    primaryColor: '#070708',
+    backgroundStyle: 'bg-gradient-to-br from-[#1a1814] via-[#0a0a09] to-[#c9a961]',
+    titleColor: 'text-[#f6f3ec]',
+    btnColor: 'bg-[#c9a961] hover:bg-[#d8ba76] text-[#0b0a07]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'parti-riso',
+    name: 'Risograph Poster',
+    primaryColor: '#f7f3e9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbf7ed] via-[#1f6feb] to-[#e0453f]',
+    titleColor: 'text-[#1a1712]',
+    btnColor: 'bg-[#1a1712] hover:bg-[#39332c] text-[#f7f3e9]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-bento',
+    name: 'Bento Editorial',
+    primaryColor: '#f5f6f8',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfd] via-[#e4e9ef] to-[#1f7a8c]',
+    titleColor: 'text-[#12161c]',
+    btnColor: 'bg-[#12161c] hover:bg-[#242b34] text-[#f5f6f8]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  {
+    id: 'kurumsal-noir',
+    name: 'Noir Minimal',
+    primaryColor: '#060607',
+    backgroundStyle: 'bg-gradient-to-br from-[#171a1c] via-[#08090a] to-[#a8b4bd]',
+    titleColor: 'text-[#f4f6f7]',
+    btnColor: 'bg-[#a8b4bd] hover:bg-[#bdc7ce] text-[#08090a]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  {
+    id: 'mezuniyet-bento',
+    name: 'Bento Editorial',
+    primaryColor: '#f6f5f1',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfaf7] via-[#e8e5da] to-[#8a6d2f]',
+    titleColor: 'text-[#1c1a14]',
+    btnColor: 'bg-[#1c1a14] hover:bg-[#332f26] text-[#f6f5f1]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'mezuniyet-noir',
+    name: 'Noir Minimal',
+    primaryColor: '#060606',
+    backgroundStyle: 'bg-gradient-to-br from-[#191614] via-[#090908] to-[#b08d4f]',
+    titleColor: 'text-[#f5f2ea]',
+    btnColor: 'bg-[#b08d4f] hover:bg-[#c29f63] text-[#0a0806]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'mezuniyet-riso',
+    name: 'Risograph Poster',
+    primaryColor: '#f4f4ee',
+    backgroundStyle: 'bg-gradient-to-br from-[#f8f8f2] via-[#1b5e9c] to-[#d94f2b]',
+    titleColor: 'text-[#191814]',
+    btnColor: 'bg-[#191814] hover:bg-[#37362f] text-[#f4f4ee]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'sunnet-aurora',
+    name: 'Aurora Cam',
+    primaryColor: '#070d1c',
+    backgroundStyle: 'bg-gradient-to-br from-[#0f2140] via-[#5fb8e8] to-[#7d8ff0]',
+    titleColor: 'text-[#f4f8ff]',
+    btnColor: 'bg-gradient-to-r from-[#5fb8e8] to-[#7d8ff0] text-[#07131f]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'sunnet-deco',
+    name: 'Art Deco Gala',
+    primaryColor: '#0a0a08',
+    backgroundStyle: 'bg-gradient-to-br from-[#1c1810] via-[#0e0c08] to-[#d9b45c]',
+    titleColor: 'text-[#f9f3e2]',
+    btnColor: 'bg-gradient-to-r from-[#d9b45c] to-[#f0d79a] text-[#15110a]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-aurora',
+    name: 'Aurora Cam',
+    primaryColor: '#100716',
+    backgroundStyle: 'bg-gradient-to-br from-[#2c1140] via-[#ff7ac6] to-[#a78bfa]',
+    titleColor: 'text-[#fdf5fd]',
+    btnColor: 'bg-gradient-to-r from-[#ff7ac6] to-[#a78bfa] text-[#1a0714]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'dogum-gunu-deco',
+    name: 'Art Deco Gala',
+    primaryColor: '#0c0a08',
+    backgroundStyle: 'bg-gradient-to-br from-[#221a12] via-[#100d09] to-[#e8b878]',
+    titleColor: 'text-[#fdf5e8]',
+    btnColor: 'bg-gradient-to-r from-[#e8b878] to-[#f6dcae] text-[#17110a]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'baby-bento',
+    name: 'Bento Editorial',
+    primaryColor: '#f7f6f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcfbf9] via-[#e8ebe6] to-[#7fa88c]',
+    titleColor: 'text-[#1f1e1a]',
+    btnColor: 'bg-[#1f1e1a] hover:bg-[#37352f] text-[#f7f6f2]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'baby-kagit',
+    name: 'Kağıt & Mühür',
+    primaryColor: '#f4f1ea',
+    backgroundStyle: 'bg-gradient-to-br from-[#f8f5ef] via-[#e8e2d3] to-[#3f6b57]',
+    titleColor: 'text-[#2b2618]',
+    btnColor: 'bg-[#2b2618] hover:bg-[#443d29] text-[#f8f5ef]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
   // ——— Malzeme tabanlı diller (Kağıt & Mühür / Art Deco / Bilet / Risograph) ———
   {
     id: 'dugun-kagit',

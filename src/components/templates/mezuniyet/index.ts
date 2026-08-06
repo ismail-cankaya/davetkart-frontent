@@ -4,3 +4,6 @@ export { MezuniyetLacivert } from './MezuniyetLacivert';
 export { MezuniyetKampus } from './MezuniyetKampus';
 export { MezuniyetPusula } from './MezuniyetPusula';
 export { MezuniyetBilet } from './MezuniyetBilet';
+export { MezuniyetBento } from './MezuniyetBento';
+export { MezuniyetNoir } from './MezuniyetNoir';
+export { MezuniyetRiso } from './MezuniyetRiso';

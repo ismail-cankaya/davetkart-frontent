@@ -18,7 +18,16 @@ import { PaperGrain, DeckleEdge, WaxSeal } from '../effects';
  * koyu. Tek gölge kullanılsaydı yazı kağıdın üstüne düşmüş gibi görünürdü;
  * iki gölge onu kağıdın İÇİNE bastırır.
  */
-export function PaperHero({ invitation, theme, flavor }: HeroRenderProps) {
+interface PaperHeroProps extends HeroRenderProps {
+  /**
+   * Mum mührünün rengi. Geleneksel mühür bordodur ve varsayılan odur; ama
+   * vurgu rengi lacivert ya da adaçayı olan bir temada bordo mühür yamalı
+   * durur — o yüzden şablon kendi rengini geçebilir.
+   */
+  sealColor?: string;
+}
+
+export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroProps) {
   const { Ornament } = flavor;
   const names = invitation.names || 'Davetlisiniz';
 
@@ -122,7 +131,11 @@ export function PaperHero({ invitation, theme, flavor }: HeroRenderProps) {
             className="absolute -bottom-6 left-1/2 -translate-x-1/2"
             style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.28))' }}
           >
-            <WaxSeal color={theme.id === 'midnight' ? '#8c6a2f' : '#8e1b2e'} size={58} initials={initials} />
+            <WaxSeal
+              color={sealColor ?? (theme.id === 'midnight' ? '#8c6a2f' : '#8e1b2e')}
+              size={58}
+              initials={initials}
+            />
           </motion.div>
         </div>
       </motion.article>

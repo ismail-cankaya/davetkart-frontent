@@ -5,3 +5,5 @@ export { SunnetMasallah } from './SunnetMasallah';
 export { SunnetLunapark } from './SunnetLunapark';
 export { SunnetKagit } from './SunnetKagit';
 export { SunnetRiso } from './SunnetRiso';
+export { SunnetAurora } from './SunnetAurora';
+export { SunnetDeco } from './SunnetDeco';
