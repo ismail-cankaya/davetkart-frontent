@@ -6,6 +6,7 @@ import { Menu, X, LayoutDashboard, LogOut } from 'lucide-react';
 import { BrandMark } from '../ui/BrandMark';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { useAuthStore } from '../../stores/useAuthStore';
+import { fullName } from '../../utils/user';
 
 const NAV_LINKS = [
   { to: '/', labelKey: 'nav.home' },
@@ -121,7 +122,7 @@ export const Header = React.memo(function Header() {
               >
                 <span className="absolute inset-0 animate-shimmer pointer-events-none" />
                 <LayoutDashboard size={14} />
-                <span className="max-w-28 truncate">{user?.fullName ?? t('auth.myPanel')}</span>
+                <span className="max-w-28 truncate">{(user && fullName(user)) || t('auth.myPanel')}</span>
               </Link>
             </>
           ) : (

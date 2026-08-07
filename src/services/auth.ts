@@ -1,4 +1,4 @@
-import { AuthSession, LoginCredentials, RegisterPayload } from '../types';
+import { AuthSession, AuthUser, LoginCredentials, RegisterPayload } from '../types';
 import { api } from './api';
 
 /**
@@ -27,6 +27,30 @@ export interface AuthService {
 
 const SESSION_KEY = 'davetkart_auth_session';
 
+/**
+ * Önbellekteki oturumun GÜNCEL sözleşmeye uyup uymadığını doğrular.
+ *
+ * Sözleşme değiştiğinde (ör. `fullName` → `firstName` + `lastName`) eski
+ * localStorage kaydı hâlâ okunabilir JSON'dur; şekli kontrol edilmezse
+ * başlıkta ve panelde "undefined" basılırdı. Uymayan oturum sessizce
+ * atılır, kullanıcı yeniden giriş yapar.
+ */
+function isAuthSession(value: unknown): value is AuthSession {
+  if (typeof value !== 'object' || value === null) return false;
+
+  const { user, token } = value as { user?: unknown; token?: unknown };
+  if (typeof token !== 'string' || typeof user !== 'object' || user === null) return false;
+
+  const candidate = user as Record<keyof AuthUser, unknown>;
+
+  return (
+    typeof candidate.id === 'string' &&
+    typeof candidate.firstName === 'string' &&
+    typeof candidate.lastName === 'string' &&
+    typeof candidate.email === 'string'
+  );
+}
+
 const httpAuthAdapter: AuthService = {
   async login(credentials) {
     const { data } = await api.post<AuthSession>('/auth/login', credentials);
@@ -52,7 +76,10 @@ const httpAuthAdapter: AuthService = {
   restoreSession() {
     try {
       const raw = localStorage.getItem(SESSION_KEY);
-      return raw ? (JSON.parse(raw) as AuthSession) : null;
+      if (!raw) return null;
+
+      const parsed: unknown = JSON.parse(raw);
+      return isAuthSession(parsed) ? parsed : null;
     } catch {
       return null;
     }

@@ -20,6 +20,7 @@ import { useAuthStore } from '../stores/useAuthStore';
 import { useInvitationStore } from '../stores/useInvitationStore';
 import { useCreateWizardStore } from '../stores/useCreateWizardStore';
 import { useDashboardData } from '../hooks/useDashboardData';
+import { fullName } from '../utils/user';
 import { EVENT_CATEGORIES, TEMPLATE_PRESETS } from '../data';
 import { Invitation } from '../types';
 
@@ -219,7 +220,7 @@ export default function DashboardPage() {
               Üye Paneli
             </span>
             <h1 className="font-serif text-3xl md:text-4xl font-bold text-ink">
-              Hoş Geldiniz{user ? <>, <span className="italic text-brand font-medium">{user.fullName}</span></> : null}
+              Hoş Geldiniz{user ? <>, <span className="italic text-brand font-medium">{fullName(user)}</span></> : null}
             </h1>
             <p className="text-muted text-sm mt-2 max-w-md leading-relaxed">
               Davetiyelerinizi yönetin, taslaklarınıza devam edin ve misafir yanıtlarını gerçek zamanlı takip edin.

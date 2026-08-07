@@ -12,3 +12,5 @@ export { KinaKrom } from './KinaKrom';
 export { KinaKagit } from './KinaKagit';
 export { KinaDeco } from './KinaDeco';
 export { KinaRiso } from './KinaRiso';
+export { KinaVitray } from './KinaVitray';
+export { KinaKinetik } from './KinaKinetik';

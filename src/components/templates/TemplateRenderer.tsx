@@ -5,43 +5,49 @@ import {
   DugunGokyuzu, DugunMumIsigi, DugunGulYapraklari, DugunDenizIsiltisi,
   DugunSahil, DugunOnyx,
   DugunAurora, DugunBento, DugunNoir, DugunKrom,
-  DugunKagit, DugunDeco, DugunRiso, DugunBilet
+  DugunKagit, DugunDeco, DugunRiso, DugunBilet, DugunVitray, DugunKinetik
 } from './dugun';
 import {
   KinaSade, KinaManzara, KinaSekilli, KinaModern, KinaBordo, KinaSaray, KinaMum,
-  KinaAurora, KinaBento, KinaNoir, KinaKrom, KinaKagit, KinaDeco, KinaRiso
+  KinaAurora, KinaBento, KinaNoir, KinaKrom, KinaKagit, KinaDeco, KinaRiso,
+  KinaVitray, KinaKinetik
 } from './kina';
 import {
   NisanSade, NisanManzara, NisanSekilli, NisanModern, NisanSampanya,
   NisanOrman, NisanAlyans, NisanBohem,
-  NisanAurora, NisanBento, NisanNoir, NisanKrom, NisanKagit, NisanDeco, NisanRiso
+  NisanAurora, NisanBento, NisanNoir, NisanKrom, NisanKagit, NisanDeco, NisanRiso,
+  NisanVitray, NisanKinetik
 } from './nisan';
 import {
   SunnetKlasik, SunnetModern, SunnetYildiz, SunnetMasallah, SunnetLunapark,
-  SunnetKagit, SunnetRiso, SunnetAurora, SunnetDeco, SunnetBento, SunnetKrom
+  SunnetKagit, SunnetRiso, SunnetAurora, SunnetDeco, SunnetBento, SunnetKrom,
+  SunnetVitray, SunnetKinetik
 } from './sunnet';
 import {
   DogumGunuNeseli, DogumGunuSik, DogumGunuKonfeti,
   DogumGunuLuks, DogumGunuBulut, DogumGunuZarif, DogumGunuRiso,
-  DogumGunuAurora, DogumGunuDeco, DogumGunuBento, DogumGunuKrom
+  DogumGunuAurora, DogumGunuDeco, DogumGunuBento, DogumGunuKrom,
+  DogumGunuVitray, DogumGunuKinetik
 } from './dogum-gunu';
 import {
   MezuniyetAkademik, MezuniyetDinamik, MezuniyetLacivert,
   MezuniyetKampus, MezuniyetPusula, MezuniyetBilet,
-  MezuniyetBento, MezuniyetNoir, MezuniyetRiso, MezuniyetAurora, MezuniyetKagit
+  MezuniyetBento, MezuniyetNoir, MezuniyetRiso, MezuniyetAurora, MezuniyetKagit,
+  MezuniyetVitray, MezuniyetKinetik
 } from './mezuniyet';
 import {
   BabyShowerPastel, BabyShowerBoho, BabyShowerKabarcik,
   BabyMelek, BabyMuzikKutusu, BabyGokyuzu, BabyRiso,
-  BabyBento, BabyKagit, BabyAurora, BabyKrom
+  BabyBento, BabyKagit, BabyAurora, BabyKrom, BabyVitray, BabyKinetik
 } from './baby-shower';
 import {
   PartiNeon, PartiGala, PartiAurora, PartiDeco, PartiBilet,
-  PartiKrom, PartiNoir, PartiRiso, PartiBento, PartiKagit
+  PartiKrom, PartiNoir, PartiRiso, PartiBento, PartiKagit, PartiVitray, PartiKinetik
 } from './parti';
 import {
   KurumsalNetwork, KurumsalCam, KurumsalZirve, KurumsalDeco, KurumsalBilet,
-  KurumsalBento, KurumsalNoir, KurumsalAurora, KurumsalKagit
+  KurumsalBento, KurumsalNoir, KurumsalAurora, KurumsalKagit,
+  KurumsalVitray, KurumsalKinetik
 } from './kurumsal';
 import { Invitation } from '../../types';
 import { TemplateProps } from './types';
@@ -84,6 +90,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'dugun-deco': DugunDeco,
   'dugun-riso': DugunRiso,
   'dugun-bilet': DugunBilet,
+  'dugun-vitray': DugunVitray,
+  'dugun-kinetik': DugunKinetik,
   // Kına
   'kina-sade': KinaSade,
   'kina-manzara': KinaManzara,
@@ -99,6 +107,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'kina-kagit': KinaKagit,
   'kina-deco': KinaDeco,
   'kina-riso': KinaRiso,
+  'kina-vitray': KinaVitray,
+  'kina-kinetik': KinaKinetik,
   // Nişan
   'nisan-sade': NisanSade,
   'nisan-manzara': NisanManzara,
@@ -115,6 +125,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'nisan-kagit': NisanKagit,
   'nisan-deco': NisanDeco,
   'nisan-riso': NisanRiso,
+  'nisan-vitray': NisanVitray,
+  'nisan-kinetik': NisanKinetik,
   // Sünnet
   'sunnet-klasik': SunnetKlasik,
   'sunnet-modern': SunnetModern,
@@ -127,6 +139,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'sunnet-deco': SunnetDeco,
   'sunnet-bento': SunnetBento,
   'sunnet-krom': SunnetKrom,
+  'sunnet-vitray': SunnetVitray,
+  'sunnet-kinetik': SunnetKinetik,
   // Doğum Günü
   'dogum-gunu-neseli': DogumGunuNeseli,
   'dogum-gunu-sik': DogumGunuSik,
@@ -139,6 +153,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'dogum-gunu-deco': DogumGunuDeco,
   'dogum-gunu-bento': DogumGunuBento,
   'dogum-gunu-krom': DogumGunuKrom,
+  'dogum-gunu-vitray': DogumGunuVitray,
+  'dogum-gunu-kinetik': DogumGunuKinetik,
   // Mezuniyet
   'mezuniyet-akademik': MezuniyetAkademik,
   'mezuniyet-dinamik': MezuniyetDinamik,
@@ -151,6 +167,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'mezuniyet-riso': MezuniyetRiso,
   'mezuniyet-aurora': MezuniyetAurora,
   'mezuniyet-kagit': MezuniyetKagit,
+  'mezuniyet-vitray': MezuniyetVitray,
+  'mezuniyet-kinetik': MezuniyetKinetik,
   // Baby Shower
   'baby-shower-pastel': BabyShowerPastel,
   'baby-shower-boho': BabyShowerBoho,
@@ -163,6 +181,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'baby-kagit': BabyKagit,
   'baby-aurora': BabyAurora,
   'baby-krom': BabyKrom,
+  'baby-vitray': BabyVitray,
+  'baby-kinetik': BabyKinetik,
   // Parti
   'parti-neon': PartiNeon,
   'parti-gala': PartiGala,
@@ -174,6 +194,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'parti-riso': PartiRiso,
   'parti-bento': PartiBento,
   'parti-kagit': PartiKagit,
+  'parti-vitray': PartiVitray,
+  'parti-kinetik': PartiKinetik,
   // Kurumsal
   'kurumsal-network': KurumsalNetwork,
   'kurumsal-cam': KurumsalCam,
@@ -184,6 +206,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'kurumsal-noir': KurumsalNoir,
   'kurumsal-aurora': KurumsalAurora,
   'kurumsal-kagit': KurumsalKagit,
+  'kurumsal-vitray': KurumsalVitray,
+  'kurumsal-kinetik': KurumsalKinetik,
 };
 
 export function TemplateRenderer({ templateId, invitation, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {

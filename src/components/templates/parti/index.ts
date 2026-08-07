@@ -8,3 +8,5 @@ export { PartiNoir } from './PartiNoir';
 export { PartiRiso } from './PartiRiso';
 export { PartiBento } from './PartiBento';
 export { PartiKagit } from './PartiKagit';
+export { PartiVitray } from './PartiVitray';
+export { PartiKinetik } from './PartiKinetik';

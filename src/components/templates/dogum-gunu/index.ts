@@ -9,3 +9,5 @@ export { DogumGunuAurora } from './DogumGunuAurora';
 export { DogumGunuDeco } from './DogumGunuDeco';
 export { DogumGunuBento } from './DogumGunuBento';
 export { DogumGunuKrom } from './DogumGunuKrom';
+export { DogumGunuVitray } from './DogumGunuVitray';
+export { DogumGunuKinetik } from './DogumGunuKinetik';

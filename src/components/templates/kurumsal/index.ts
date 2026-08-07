@@ -7,3 +7,5 @@ export { KurumsalBento } from './KurumsalBento';
 export { KurumsalNoir } from './KurumsalNoir';
 export { KurumsalAurora } from './KurumsalAurora';
 export { KurumsalKagit } from './KurumsalKagit';
+export { KurumsalVitray } from './KurumsalVitray';
+export { KurumsalKinetik } from './KurumsalKinetik';

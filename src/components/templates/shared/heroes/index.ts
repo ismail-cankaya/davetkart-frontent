@@ -8,3 +8,5 @@ export { PaperHero } from './PaperHero';
 export { DecoHero } from './DecoHero';
 export { TicketHero } from './TicketHero';
 export { RisoHero } from './RisoHero';
+export { VitrayHero } from './VitrayHero';
+export { KinetikHero } from './KinetikHero';

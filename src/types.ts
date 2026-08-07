@@ -2,7 +2,14 @@ export type RsvpStatus = 'Katılıyor' | 'Bekleniyor' | 'Katılamıyor';
 
 export interface AuthUser {
   id: string;
-  fullName: string;
+  /**
+   * Ad ve soyad backend'de ayrı kolonlarda durur (users.first_name /
+   * users.last_name) ve UserResource bunları camelCase olarak AYRI AYRI
+   * döner. Tek satırlık gösterim gerektiğinde birleştirme frontend'in işi:
+   * `utils/user.ts` → `fullName()`.
+   */
+  firstName: string;
+  lastName: string;
   email: string;
 }
 
@@ -17,8 +24,10 @@ export interface LoginCredentials {
   password: string;
 }
 
+/** POST /api/auth/register gövdesi — alan adları backend RegisterRequest ile birebir. */
 export interface RegisterPayload {
-  fullName: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }

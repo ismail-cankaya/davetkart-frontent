@@ -4,6 +4,7 @@ import { LogIn } from 'lucide-react';
 import { AuthShell, authInputClass } from '../components/auth/AuthShell';
 import { useAuthStore } from '../stores/useAuthStore';
 import { toast } from '../components/ui/Toast';
+import { fullName } from '../utils/user';
 import { AuthRedirectState } from '../types';
 
 /** Sign-in page; on success the visitor returns to where they left off. */
@@ -26,7 +27,7 @@ export default function LoginPage() {
     setIsSubmitting(true);
     try {
       const user = await login({ email, password });
-      toast(`Tekrar hoş geldiniz, ${user.fullName}!`);
+      toast(`Tekrar hoş geldiniz, ${fullName(user)}!`);
       navigate(redirectTo, { replace: true });
     } catch {
       toast('Giriş yapılamadı. Bilgilerinizi kontrol edip tekrar deneyin.', 'info');

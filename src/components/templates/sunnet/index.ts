@@ -9,3 +9,5 @@ export { SunnetAurora } from './SunnetAurora';
 export { SunnetDeco } from './SunnetDeco';
 export { SunnetBento } from './SunnetBento';
 export { SunnetKrom } from './SunnetKrom';
+export { SunnetVitray } from './SunnetVitray';
+export { SunnetKinetik } from './SunnetKinetik';

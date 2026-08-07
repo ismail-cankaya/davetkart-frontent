@@ -440,6 +440,188 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['baby-shower']
   },
+  // ——— Yeni konseptler: Vitray Işık (kurşun camlı kemer) ———
+  {
+    id: 'dugun-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#0e0a12',
+    backgroundStyle: 'bg-gradient-to-br from-[#d98fa8] via-[#e8c88a] to-[#8f7fc4]',
+    titleColor: 'text-[#1a0f16]',
+    btnColor: 'bg-gradient-to-r from-[#dda3b6] to-[#e8c88a] text-[#1a0f16]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#120609',
+    backgroundStyle: 'bg-gradient-to-br from-[#c2354f] via-[#e0a75c] to-[#8a2352]',
+    titleColor: 'text-[#1c0a10]',
+    btnColor: 'bg-gradient-to-r from-[#d1587f] to-[#e0a75c] text-[#1c0a10]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#0a0d1a',
+    backgroundStyle: 'bg-gradient-to-br from-[#7c6cf0] via-[#c9b6f2] to-[#6fb6e8]',
+    titleColor: 'text-[#0d1020]',
+    btnColor: 'bg-gradient-to-r from-[#c9b6f2] to-[#6fb6e8] text-[#0d1020]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#050e1a',
+    backgroundStyle: 'bg-gradient-to-br from-[#1f7a6a] via-[#e2b558] to-[#2b5fa8]',
+    titleColor: 'text-[#04140f]',
+    btnColor: 'bg-gradient-to-r from-[#3fa88f] to-[#e2b558] text-[#04140f]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#120a1c',
+    backgroundStyle: 'bg-gradient-to-br from-[#ff6fae] via-[#48c9d8] to-[#ffd166]',
+    titleColor: 'text-[#12061a]',
+    btnColor: 'bg-gradient-to-r from-[#48c9d8] to-[#ff6fae] text-[#12061a]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#080c18',
+    backgroundStyle: 'bg-gradient-to-br from-[#1e3a6e] via-[#d4af5f] to-[#8c2b3a]',
+    titleColor: 'text-[#0a0f1c]',
+    btnColor: 'bg-gradient-to-r from-[#9fb8e8] to-[#d4af5f] text-[#0a0f1c]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#f8f5f0',
+    backgroundStyle: 'bg-gradient-to-br from-[#a8d5e2] via-[#f7c8c8] to-[#cfe3b5]',
+    titleColor: 'text-[#2b2822]',
+    btnColor: 'bg-gradient-to-r from-[#e695a8] to-[#a8d5e2] text-[#2b2822]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#07040f',
+    backgroundStyle: 'bg-gradient-to-br from-[#ff3d81] via-[#22d3ee] to-[#a855f7]',
+    titleColor: 'text-[#07040f]',
+    btnColor: 'bg-gradient-to-r from-[#22d3ee] to-[#ff3d81] text-[#07040f]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-vitray',
+    name: 'Vitray Işık',
+    primaryColor: '#060a0e',
+    backgroundStyle: 'bg-gradient-to-br from-[#1f7a8c] via-[#3d7ea6] to-[#9fb8c9]',
+    titleColor: 'text-[#04100e]',
+    btnColor: 'bg-gradient-to-r from-[#3f9e88] to-[#3d7ea6] text-[#04100e]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Kinetik Tipografi (akan dev yazı şeritleri) ———
+  {
+    id: 'dugun-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#f5f1ea',
+    backgroundStyle: 'bg-gradient-to-br from-[#faf7f1] via-[#e2dacc] to-[#a8804f]',
+    titleColor: 'text-[#1a1712]',
+    btnColor: 'bg-[#1a1712] hover:bg-[#332e26] text-[#f5f1ea]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#1a0710',
+    backgroundStyle: 'bg-gradient-to-br from-[#2c0d18] via-[#1a0710] to-[#dd6b7a]',
+    titleColor: 'text-[#f9ece6]',
+    btnColor: 'bg-[#dd6b7a] hover:bg-[#e8838f] text-[#1a0710]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#f7f0f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbf6f7] via-[#e8dce0] to-[#b0798f]',
+    titleColor: 'text-[#2a1f26]',
+    btnColor: 'bg-[#2a1f26] hover:bg-[#41333b] text-[#f7f0f2]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#0b1b3a',
+    backgroundStyle: 'bg-gradient-to-br from-[#122c5c] via-[#0b1b3a] to-[#ff7a5c]',
+    titleColor: 'text-[#eef4ff]',
+    btnColor: 'bg-[#ff7a5c] hover:bg-[#ff9077] text-[#0b1b3a]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#111014',
+    backgroundStyle: 'bg-gradient-to-br from-[#1c1a20] via-[#111014] to-[#f5e050]',
+    titleColor: 'text-[#f7f5ea]',
+    btnColor: 'bg-[#f5e050] hover:bg-[#f9ea7c] text-[#171509]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#f4f2ec',
+    backgroundStyle: 'bg-gradient-to-br from-[#f9f8f3] via-[#e0ded6] to-[#2f6b4f]',
+    titleColor: 'text-[#14171f]',
+    btnColor: 'bg-[#14171f] hover:bg-[#2a2e38] text-[#f4f2ec]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#f6f8f4',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfa] via-[#e0e6de] to-[#3fb894]',
+    titleColor: 'text-[#26302a]',
+    btnColor: 'bg-[#26302a] hover:bg-[#3c483f] text-[#f6f8f4]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#0a0a0b',
+    backgroundStyle: 'bg-gradient-to-br from-[#17150f] via-[#0a0a0b] to-[#ff8a1f]',
+    titleColor: 'text-[#f2f2ef]',
+    btnColor: 'bg-[#ff8a1f] hover:bg-[#ffa24a] text-[#150a02]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-kinetik',
+    name: 'Kinetik Tipografi',
+    primaryColor: '#0e1116',
+    backgroundStyle: 'bg-gradient-to-br from-[#182029] via-[#0e1116] to-[#f2653a]',
+    titleColor: 'text-[#f2f5f7]',
+    btnColor: 'bg-[#f2653a] hover:bg-[#ff7d55] text-[#120704]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
   // ——— Denge turu II: her kategoriye eksik kalan iki tasarım dili ———
   {
     id: 'dugun-riso',

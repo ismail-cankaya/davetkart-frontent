@@ -9,3 +9,5 @@ export { BabyBento } from './BabyBento';
 export { BabyKagit } from './BabyKagit';
 export { BabyAurora } from './BabyAurora';
 export { BabyKrom } from './BabyKrom';
+export { BabyVitray } from './BabyVitray';
+export { BabyKinetik } from './BabyKinetik';

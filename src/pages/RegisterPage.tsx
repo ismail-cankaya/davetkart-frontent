@@ -4,6 +4,7 @@ import { UserPlus } from 'lucide-react';
 import { AuthShell, authInputClass } from '../components/auth/AuthShell';
 import { useAuthStore } from '../stores/useAuthStore';
 import { toast } from '../components/ui/Toast';
+import { fullName } from '../utils/user';
 import { AuthRedirectState } from '../types';
 
 /** Sign-up page; new members also return to the flow they came from. */
@@ -12,7 +13,8 @@ export default function RegisterPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,8 +26,8 @@ export default function RegisterPage() {
     if (isSubmitting) return;
     setIsSubmitting(true);
     try {
-      const user = await register({ fullName, email, password });
-      toast(`Aramıza hoş geldiniz, ${user.fullName}! 🎉`);
+      const user = await register({ firstName, lastName, email, password });
+      toast(`Aramıza hoş geldiniz, ${fullName(user)}! 🎉`);
       navigate(redirectTo, { replace: true });
     } catch {
       toast('Kayıt tamamlanamadı. Lütfen tekrar deneyin.', 'info');
@@ -52,20 +54,42 @@ export default function RegisterPage() {
       }
     >
       <form onSubmit={handleSubmit} className="space-y-5">
-        <div className="space-y-2">
-          <label htmlFor="register-name" className="block text-xs font-bold tracking-wider uppercase text-champagne">
-            Ad Soyad
-          </label>
-          <input
-            id="register-name"
-            type="text"
-            required
-            autoComplete="name"
-            value={fullName}
-            onChange={e => setFullName(e.target.value)}
-            placeholder="Örn. Sophia Yılmaz"
-            className={authInputClass}
-          />
+        {/* Ad ve soyad ayrı gönderilir (backend: firstName / lastName, her biri
+            en fazla 60 karakter). Dar ekranda alt alta, sm'den itibaren yan yana. */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label htmlFor="register-first-name" className="block text-xs font-bold tracking-wider uppercase text-champagne">
+              Ad
+            </label>
+            <input
+              id="register-first-name"
+              type="text"
+              required
+              maxLength={60}
+              autoComplete="given-name"
+              value={firstName}
+              onChange={e => setFirstName(e.target.value)}
+              placeholder="Örn. Sophia"
+              className={authInputClass}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="register-last-name" className="block text-xs font-bold tracking-wider uppercase text-champagne">
+              Soyad
+            </label>
+            <input
+              id="register-last-name"
+              type="text"
+              required
+              maxLength={60}
+              autoComplete="family-name"
+              value={lastName}
+              onChange={e => setLastName(e.target.value)}
+              placeholder="Örn. Yılmaz"
+              className={authInputClass}
+            />
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -92,11 +116,13 @@ export default function RegisterPage() {
             id="register-password"
             type="password"
             required
-            minLength={6}
+            // Backend kuralı Password::min(8); 6 bırakılsaydı istek 422 döner
+            // ve kullanıcı sebebini göremezdi.
+            minLength={8}
             autoComplete="new-password"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="En az 6 karakter"
+            placeholder="En az 8 karakter"
             className={authInputClass}
           />
         </div>

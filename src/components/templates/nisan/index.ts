@@ -13,3 +13,5 @@ export { NisanKrom } from './NisanKrom';
 export { NisanKagit } from './NisanKagit';
 export { NisanDeco } from './NisanDeco';
 export { NisanRiso } from './NisanRiso';
+export { NisanVitray } from './NisanVitray';
+export { NisanKinetik } from './NisanKinetik';

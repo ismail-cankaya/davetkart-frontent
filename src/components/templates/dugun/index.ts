@@ -21,3 +21,5 @@ export { DugunKagit } from './DugunKagit';
 export { DugunDeco } from './DugunDeco';
 export { DugunRiso } from './DugunRiso';
 export { DugunBilet } from './DugunBilet';
+export { DugunVitray } from './DugunVitray';
+export { DugunKinetik } from './DugunKinetik';
