@@ -16,3 +16,7 @@ export { KinaVitray } from './KinaVitray';
 export { KinaKinetik } from './KinaKinetik';
 export { KinaCizgi } from './KinaCizgi';
 export { KinaPlak } from './KinaPlak';
+export { KinaSuluboya } from './KinaSuluboya';
+export { KinaPano } from './KinaPano';
+export { KinaYildizHaritasi } from './KinaYildizHaritasi';
+export { KinaDokuma } from './KinaDokuma';

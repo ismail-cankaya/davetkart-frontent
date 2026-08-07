@@ -440,6 +440,370 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['baby-shower']
   },
+  // ——— Yeni konseptler: Suluboya (taşan pigment, ıslak kenar) ———
+  {
+    id: 'dugun-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#fbf8f4',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefcf9] via-[#e8cea0] to-[#d9a3b8]',
+    titleColor: 'text-[#2e2620]',
+    btnColor: 'bg-[#2e2620] hover:bg-[#463c32] text-[#fbf8f4]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#fbf6ee',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefaf3] via-[#e0a05c] to-[#c4404f]',
+    titleColor: 'text-[#2b1e18]',
+    btnColor: 'bg-[#2b1e18] hover:bg-[#453227] text-[#fbf6ee]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#f8f9fb',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfdfe] via-[#d8b8c8] to-[#a8b8d8]',
+    titleColor: 'text-[#232830]',
+    btnColor: 'bg-[#232830] hover:bg-[#3a404a] text-[#f8f9fb]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#f6f9fb',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcfeff] via-[#8fc4b8] to-[#7fa8d8]',
+    titleColor: 'text-[#1c2630]',
+    btnColor: 'bg-[#1c2630] hover:bg-[#323e4a] text-[#f6f9fb]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#fdf9f4',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdfa] via-[#f5d07a] to-[#f0a0c0]',
+    titleColor: 'text-[#2b2320]',
+    btnColor: 'bg-[#2b2320] hover:bg-[#443832] text-[#fdf9f4]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#f9f8f4',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfdfa] via-[#d8c08f] to-[#8fa8c8]',
+    titleColor: 'text-[#22252b]',
+    btnColor: 'bg-[#22252b] hover:bg-[#383c44] text-[#f9f8f4]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#fbfaf7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefefc] via-[#f5d0d0] to-[#c8dce8]',
+    titleColor: 'text-[#2b2b26]',
+    btnColor: 'bg-[#2b2b26] hover:bg-[#43433b] text-[#fbfaf7]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#0e0b14',
+    backgroundStyle: 'bg-gradient-to-br from-[#1c1230] via-[#5fd0f0] to-[#ff5fa8]',
+    titleColor: 'text-[#f6f0fa]',
+    btnColor: 'bg-[#ff7fbf] hover:bg-[#ff9bcd] text-[#160a14]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-suluboya',
+    name: 'Suluboya',
+    primaryColor: '#f7f8f9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfdfe] via-[#a8c0b8] to-[#8fb0c8]',
+    titleColor: 'text-[#1a1f24]',
+    btnColor: 'bg-[#1a1f24] hover:bg-[#30363d] text-[#f7f8f9]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Mekanik Pano (kanat çeviren split-flap) ———
+  {
+    id: 'dugun-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#12100e',
+    backgroundStyle: 'bg-gradient-to-br from-[#1e1a16] via-[#13100d] to-[#d8b98a]',
+    titleColor: 'text-[#f7f2e8]',
+    btnColor: 'bg-[#d8b98a] hover:bg-[#e6cda6] text-[#17130e]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#160a0c',
+    backgroundStyle: 'bg-gradient-to-br from-[#2a1013] via-[#17090b] to-[#e0785f]',
+    titleColor: 'text-[#f9ece6]',
+    btnColor: 'bg-[#e0785f] hover:bg-[#ec9179] text-[#190a0b]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#0c0f14',
+    backgroundStyle: 'bg-gradient-to-br from-[#171d27] via-[#0d1117] to-[#9fb8d8]',
+    titleColor: 'text-[#eef2f8]',
+    btnColor: 'bg-[#9fb8d8] hover:bg-[#b6cae6] text-[#0c0f14]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#08111c',
+    backgroundStyle: 'bg-gradient-to-br from-[#10233a] via-[#091624] to-[#4fa88f]',
+    titleColor: 'text-[#eaf2fa]',
+    btnColor: 'bg-[#4fa88f] hover:bg-[#68bda5] text-[#04140f]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#100e12',
+    backgroundStyle: 'bg-gradient-to-br from-[#1d1a20] via-[#121016] to-[#f5b04f]',
+    titleColor: 'text-[#f7f2f5]',
+    btnColor: 'bg-[#f5b04f] hover:bg-[#f9c274] text-[#171104]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#0c0e13',
+    backgroundStyle: 'bg-gradient-to-br from-[#171b24] via-[#0d1015] to-[#d8843f]',
+    titleColor: 'text-[#f0f3f7]',
+    btnColor: 'bg-[#d8843f] hover:bg-[#e59c5e] text-[#140b04]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#f7f5f0',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfcf9] via-[#e6dfd0] to-[#a88f5f]',
+    titleColor: 'text-[#2e2b24]',
+    btnColor: 'bg-[#2e2b24] hover:bg-[#464236] text-[#f7f5f0]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#08080a',
+    backgroundStyle: 'bg-gradient-to-br from-[#121815] via-[#0a0c0b] to-[#4fe0a0]',
+    titleColor: 'text-[#f2f2ef]',
+    btnColor: 'bg-[#4fe0a0] hover:bg-[#71e9b5] text-[#04140c]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-pano',
+    name: 'Mekanik Pano',
+    primaryColor: '#0b0e12',
+    backgroundStyle: 'bg-gradient-to-br from-[#151d26] via-[#0c1014] to-[#4fb0e0]',
+    titleColor: 'text-[#eef2f5]',
+    btnColor: 'bg-[#4fb0e0] hover:bg-[#6ec2ea] text-[#04121c]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Yıldız Haritası (davetin kendi gökyüzü) ———
+  {
+    id: 'dugun-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#0a0c16',
+    backgroundStyle: 'bg-gradient-to-br from-[#14182c] via-[#0b0e1a] to-[#f0d6a8]',
+    titleColor: 'text-[#f6f2ea]',
+    btnColor: 'bg-[#f0d6a8] hover:bg-[#f7e4c4] text-[#0f1018]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#12060e',
+    backgroundStyle: 'bg-gradient-to-br from-[#2a0f1c] via-[#170811] to-[#e0a878]',
+    titleColor: 'text-[#fbeee8]',
+    btnColor: 'bg-[#e0a878] hover:bg-[#ebbd95] text-[#180a10]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#080c18',
+    backgroundStyle: 'bg-gradient-to-br from-[#131c34] via-[#0a0f1e] to-[#a8c0f0]',
+    titleColor: 'text-[#f0f4fc]',
+    btnColor: 'bg-[#a8c0f0] hover:bg-[#bed1f6] text-[#080c18]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#050e18',
+    backgroundStyle: 'bg-gradient-to-br from-[#0d2438] via-[#06131f] to-[#7fd0c0]',
+    titleColor: 'text-[#eef4f8]',
+    btnColor: 'bg-[#7fd0c0] hover:bg-[#9adcd0] text-[#04141a]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#0e0a18',
+    backgroundStyle: 'bg-gradient-to-br from-[#221338] via-[#120c20] to-[#f0a0d0]',
+    titleColor: 'text-[#f8f0fa]',
+    btnColor: 'bg-[#f0a0d0] hover:bg-[#f6b8dd] text-[#16081a]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#060a14',
+    backgroundStyle: 'bg-gradient-to-br from-[#10182c] via-[#080d18] to-[#d8c890]',
+    titleColor: 'text-[#f2f4f8]',
+    btnColor: 'bg-[#d8c890] hover:bg-[#e5d8ae] text-[#0b0e16]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#0c1020',
+    backgroundStyle: 'bg-gradient-to-br from-[#172140] via-[#0d1226] to-[#c8d8f0]',
+    titleColor: 'text-[#f2f5fc]',
+    btnColor: 'bg-[#c8d8f0] hover:bg-[#dae5f6] text-[#0c1020]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#06060c',
+    backgroundStyle: 'bg-gradient-to-br from-[#0e1a24] via-[#070b12] to-[#7ff0d8]',
+    titleColor: 'text-[#f2f4f6]',
+    btnColor: 'bg-[#7ff0d8] hover:bg-[#9df5e4] text-[#04140f]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-yildiz-haritasi',
+    name: 'Yıldız Haritası',
+    primaryColor: '#06090e',
+    backgroundStyle: 'bg-gradient-to-br from-[#101c28] via-[#080f16] to-[#8fb8d8]',
+    titleColor: 'text-[#eff3f6]',
+    btnColor: 'bg-[#8fb8d8] hover:bg-[#a8cae4] text-[#06090e]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Dokuma (çözgü-atkı örgüsü, kilim şeridi) ———
+  {
+    id: 'dugun-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#f7f1e6',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbf6ec] via-[#2f6f6a] to-[#b8433f]',
+    titleColor: 'text-[#2b2118]',
+    btnColor: 'bg-[#2b2118] hover:bg-[#453626] text-[#f7f1e6]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#f9efe2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdf5e9] via-[#1f6f6a] to-[#c2354f]',
+    titleColor: 'text-[#2c1d16]',
+    btnColor: 'bg-[#2c1d16] hover:bg-[#463125] text-[#f9efe2]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#f6f4ee',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfaf6] via-[#c08f7f] to-[#5f7f9f]',
+    titleColor: 'text-[#242830]',
+    btnColor: 'bg-[#242830] hover:bg-[#3a3f49] text-[#f6f4ee]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#f4f2e8',
+    backgroundStyle: 'bg-gradient-to-br from-[#faf9f0] via-[#c47a2f] to-[#1f5f8c]',
+    titleColor: 'text-[#232a24]',
+    btnColor: 'bg-[#232a24] hover:bg-[#39423a] text-[#f4f2e8]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#faf4e8',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefaf1] via-[#3f9fa8] to-[#e0603f]',
+    titleColor: 'text-[#2c2318]',
+    btnColor: 'bg-[#2c2318] hover:bg-[#463928] text-[#faf4e8]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#f5f3ea',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfaf4] via-[#2f5f4f] to-[#7a2f39]',
+    titleColor: 'text-[#26241c]',
+    btnColor: 'bg-[#26241c] hover:bg-[#3e3b2e] text-[#f5f3ea]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#faf7f0',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefdf9] via-[#e8b8b0] to-[#8fb8a8]',
+    titleColor: 'text-[#2b2a24]',
+    btnColor: 'bg-[#2b2a24] hover:bg-[#44423a] text-[#faf7f0]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#150f14',
+    backgroundStyle: 'bg-gradient-to-br from-[#221720] via-[#f0b83f] to-[#e0455f]',
+    titleColor: 'text-[#f6f0ee]',
+    btnColor: 'bg-[#3fc0b8] hover:bg-[#5fd0c9] text-[#04140f]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-dokuma',
+    name: 'Dokuma',
+    primaryColor: '#f4f3ef',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafaf7] via-[#8f7f5f] to-[#2f4f5f]',
+    titleColor: 'text-[#22262a]',
+    btnColor: 'bg-[#22262a] hover:bg-[#383d42] text-[#f4f3ef]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
   // ——— Yeni konseptler: Tek Çizgi (kendini çizen monoline kartuş) ———
   {
     id: 'dugun-cizgi',

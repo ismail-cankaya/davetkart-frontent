@@ -13,3 +13,7 @@ export { SunnetVitray } from './SunnetVitray';
 export { SunnetKinetik } from './SunnetKinetik';
 export { SunnetCizgi } from './SunnetCizgi';
 export { SunnetPlak } from './SunnetPlak';
+export { SunnetSuluboya } from './SunnetSuluboya';
+export { SunnetPano } from './SunnetPano';
+export { SunnetYildizHaritasi } from './SunnetYildizHaritasi';
+export { SunnetDokuma } from './SunnetDokuma';

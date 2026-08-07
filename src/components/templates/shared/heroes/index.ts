@@ -12,3 +12,7 @@ export { VitrayHero } from './VitrayHero';
 export { KinetikHero } from './KinetikHero';
 export { HatHero } from './HatHero';
 export { PlakHero } from './PlakHero';
+export { SuluboyaHero } from './SuluboyaHero';
+export { PanoHero } from './PanoHero';
+export { YildizHero } from './YildizHero';
+export { DokumaHero } from './DokumaHero';

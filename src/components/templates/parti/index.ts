@@ -12,3 +12,7 @@ export { PartiVitray } from './PartiVitray';
 export { PartiKinetik } from './PartiKinetik';
 export { PartiCizgi } from './PartiCizgi';
 export { PartiPlak } from './PartiPlak';
+export { PartiSuluboya } from './PartiSuluboya';
+export { PartiPano } from './PartiPano';
+export { PartiYildizHaritasi } from './PartiYildizHaritasi';
+export { PartiDokuma } from './PartiDokuma';

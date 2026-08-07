@@ -11,3 +11,7 @@ export { KurumsalVitray } from './KurumsalVitray';
 export { KurumsalKinetik } from './KurumsalKinetik';
 export { KurumsalCizgi } from './KurumsalCizgi';
 export { KurumsalPlak } from './KurumsalPlak';
+export { KurumsalSuluboya } from './KurumsalSuluboya';
+export { KurumsalPano } from './KurumsalPano';
+export { KurumsalYildizHaritasi } from './KurumsalYildizHaritasi';
+export { KurumsalDokuma } from './KurumsalDokuma';

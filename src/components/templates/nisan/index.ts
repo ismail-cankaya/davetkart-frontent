@@ -17,3 +17,7 @@ export { NisanVitray } from './NisanVitray';
 export { NisanKinetik } from './NisanKinetik';
 export { NisanCizgi } from './NisanCizgi';
 export { NisanPlak } from './NisanPlak';
+export { NisanSuluboya } from './NisanSuluboya';
+export { NisanPano } from './NisanPano';
+export { NisanYildizHaritasi } from './NisanYildizHaritasi';
+export { NisanDokuma } from './NisanDokuma';

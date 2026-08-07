@@ -13,3 +13,7 @@ export { MezuniyetVitray } from './MezuniyetVitray';
 export { MezuniyetKinetik } from './MezuniyetKinetik';
 export { MezuniyetCizgi } from './MezuniyetCizgi';
 export { MezuniyetPlak } from './MezuniyetPlak';
+export { MezuniyetSuluboya } from './MezuniyetSuluboya';
+export { MezuniyetPano } from './MezuniyetPano';
+export { MezuniyetYildizHaritasi } from './MezuniyetYildizHaritasi';
+export { MezuniyetDokuma } from './MezuniyetDokuma';

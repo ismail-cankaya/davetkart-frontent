@@ -25,3 +25,7 @@ export { DugunVitray } from './DugunVitray';
 export { DugunKinetik } from './DugunKinetik';
 export { DugunCizgi } from './DugunCizgi';
 export { DugunPlak } from './DugunPlak';
+export { DugunSuluboya } from './DugunSuluboya';
+export { DugunPano } from './DugunPano';
+export { DugunYildizHaritasi } from './DugunYildizHaritasi';
+export { DugunDokuma } from './DugunDokuma';

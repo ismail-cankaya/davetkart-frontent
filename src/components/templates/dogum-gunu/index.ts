@@ -13,3 +13,7 @@ export { DogumGunuVitray } from './DogumGunuVitray';
 export { DogumGunuKinetik } from './DogumGunuKinetik';
 export { DogumGunuCizgi } from './DogumGunuCizgi';
 export { DogumGunuPlak } from './DogumGunuPlak';
+export { DogumGunuSuluboya } from './DogumGunuSuluboya';
+export { DogumGunuPano } from './DogumGunuPano';
+export { DogumGunuYildizHaritasi } from './DogumGunuYildizHaritasi';
+export { DogumGunuDokuma } from './DogumGunuDokuma';

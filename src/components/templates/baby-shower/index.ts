@@ -13,3 +13,7 @@ export { BabyVitray } from './BabyVitray';
 export { BabyKinetik } from './BabyKinetik';
 export { BabyCizgi } from './BabyCizgi';
 export { BabyPlak } from './BabyPlak';
+export { BabySuluboya } from './BabySuluboya';
+export { BabyPano } from './BabyPano';
+export { BabyYildizHaritasi } from './BabyYildizHaritasi';
+export { BabyDokuma } from './BabyDokuma';
