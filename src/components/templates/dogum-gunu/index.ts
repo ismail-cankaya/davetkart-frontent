@@ -11,3 +11,5 @@ export { DogumGunuBento } from './DogumGunuBento';
 export { DogumGunuKrom } from './DogumGunuKrom';
 export { DogumGunuVitray } from './DogumGunuVitray';
 export { DogumGunuKinetik } from './DogumGunuKinetik';
+export { DogumGunuCizgi } from './DogumGunuCizgi';
+export { DogumGunuPlak } from './DogumGunuPlak';

@@ -11,3 +11,5 @@ export { BabyAurora } from './BabyAurora';
 export { BabyKrom } from './BabyKrom';
 export { BabyVitray } from './BabyVitray';
 export { BabyKinetik } from './BabyKinetik';
+export { BabyCizgi } from './BabyCizgi';
+export { BabyPlak } from './BabyPlak';

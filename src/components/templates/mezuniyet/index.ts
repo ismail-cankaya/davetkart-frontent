@@ -11,3 +11,5 @@ export { MezuniyetAurora } from './MezuniyetAurora';
 export { MezuniyetKagit } from './MezuniyetKagit';
 export { MezuniyetVitray } from './MezuniyetVitray';
 export { MezuniyetKinetik } from './MezuniyetKinetik';
+export { MezuniyetCizgi } from './MezuniyetCizgi';
+export { MezuniyetPlak } from './MezuniyetPlak';

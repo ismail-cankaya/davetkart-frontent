@@ -10,3 +10,5 @@ export { TicketHero } from './TicketHero';
 export { RisoHero } from './RisoHero';
 export { VitrayHero } from './VitrayHero';
 export { KinetikHero } from './KinetikHero';
+export { HatHero } from './HatHero';
+export { PlakHero } from './PlakHero';

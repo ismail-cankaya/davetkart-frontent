@@ -11,3 +11,5 @@ export { SunnetBento } from './SunnetBento';
 export { SunnetKrom } from './SunnetKrom';
 export { SunnetVitray } from './SunnetVitray';
 export { SunnetKinetik } from './SunnetKinetik';
+export { SunnetCizgi } from './SunnetCizgi';
+export { SunnetPlak } from './SunnetPlak';

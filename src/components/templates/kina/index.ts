@@ -14,3 +14,5 @@ export { KinaDeco } from './KinaDeco';
 export { KinaRiso } from './KinaRiso';
 export { KinaVitray } from './KinaVitray';
 export { KinaKinetik } from './KinaKinetik';
+export { KinaCizgi } from './KinaCizgi';
+export { KinaPlak } from './KinaPlak';

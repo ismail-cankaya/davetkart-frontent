@@ -9,3 +9,5 @@ export { KurumsalAurora } from './KurumsalAurora';
 export { KurumsalKagit } from './KurumsalKagit';
 export { KurumsalVitray } from './KurumsalVitray';
 export { KurumsalKinetik } from './KurumsalKinetik';
+export { KurumsalCizgi } from './KurumsalCizgi';
+export { KurumsalPlak } from './KurumsalPlak';

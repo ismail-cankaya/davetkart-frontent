@@ -440,6 +440,188 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['baby-shower']
   },
+  // ——— Yeni konseptler: Tek Çizgi (kendini çizen monoline kartuş) ———
+  {
+    id: 'dugun-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#faf7f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfbf7] via-[#ece5da] to-[#4a5b7a]',
+    titleColor: 'text-[#23201b]',
+    btnColor: 'bg-[#23201b] hover:bg-[#3b362e] text-[#faf7f2]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#f9f3e8',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdf8ee] via-[#eee2cc] to-[#1f6f6a]',
+    titleColor: 'text-[#241a14]',
+    btnColor: 'bg-[#241a14] hover:bg-[#3d2d22] text-[#f9f3e8]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#f6f7f9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfd] via-[#e6e9ee] to-[#6b7a4f]',
+    titleColor: 'text-[#1e2228]',
+    btnColor: 'bg-[#1e2228] hover:bg-[#343a43] text-[#f6f7f9]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#f2f6f9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafcfe] via-[#e2eaf1] to-[#8c3b4a]',
+    titleColor: 'text-[#17202b]',
+    btnColor: 'bg-[#17202b] hover:bg-[#2c3743] text-[#f2f6f9]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#fbf8f3',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefcf8] via-[#efe8dc] to-[#7a4fa8]',
+    titleColor: 'text-[#201d1a]',
+    btnColor: 'bg-[#201d1a] hover:bg-[#38332d] text-[#fbf8f3]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#f5f4f0',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafaf7] via-[#e8e6de] to-[#7a2f39]',
+    titleColor: 'text-[#16181d]',
+    btnColor: 'bg-[#16181d] hover:bg-[#2c2f36] text-[#f5f4f0]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#f9f8f5',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfdfb] via-[#eae8e0] to-[#6f86a8]',
+    titleColor: 'text-[#2a2a26]',
+    btnColor: 'bg-[#2a2a26] hover:bg-[#42423b] text-[#f9f8f5]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#f4f4f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafafa] via-[#e6e6e8] to-[#5b4ff0]',
+    titleColor: 'text-[#121214]',
+    btnColor: 'bg-[#121214] hover:bg-[#2b2b30] text-[#f4f4f2]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-cizgi',
+    name: 'Tek Çizgi',
+    primaryColor: '#f4f6f7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfc] via-[#e5eaed] to-[#20386b]',
+    titleColor: 'text-[#101418]',
+    btnColor: 'bg-[#101418] hover:bg-[#262c33] text-[#f4f6f7]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Vinil Plak (dairesel kompozisyon, dönen tırnaklar) ———
+  {
+    id: 'dugun-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#131110',
+    backgroundStyle: 'bg-gradient-to-br from-[#241d18] via-[#131110] to-[#c98a5e]',
+    titleColor: 'text-[#f7f2ea]',
+    btnColor: 'bg-[#c98a5e] hover:bg-[#d99e75] text-[#171310]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#170a0c',
+    backgroundStyle: 'bg-gradient-to-br from-[#2e1216] via-[#170a0c] to-[#b8323f]',
+    titleColor: 'text-[#faeee9]',
+    btnColor: 'bg-[#e08a72] hover:bg-[#eda189] text-[#1a0b0c]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#0d1016',
+    backgroundStyle: 'bg-gradient-to-br from-[#1a2130] via-[#0d1016] to-[#3a5a8c]',
+    titleColor: 'text-[#f2f5fa]',
+    btnColor: 'bg-[#8aa8d8] hover:bg-[#a2bce6] text-[#0d1016]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#0a1420',
+    backgroundStyle: 'bg-gradient-to-br from-[#14273a] via-[#0a1420] to-[#c47a2f]',
+    titleColor: 'text-[#f0f5fa]',
+    btnColor: 'bg-[#e0a05c] hover:bg-[#ebb478] text-[#12080a]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#121014',
+    backgroundStyle: 'bg-gradient-to-br from-[#241a22] via-[#121014] to-[#e8455f]',
+    titleColor: 'text-[#f8f2f4]',
+    btnColor: 'bg-[#f2758a] hover:bg-[#f78ea0] text-[#18090d]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#0e1016',
+    backgroundStyle: 'bg-gradient-to-br from-[#182024] via-[#0e1016] to-[#2f5f4f]',
+    titleColor: 'text-[#f2f5f6]',
+    btnColor: 'bg-[#7cbfa4] hover:bg-[#95d0b8] text-[#0b1512]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#f6f4ef',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfbf6] via-[#2b2822] to-[#dcb43c]',
+    titleColor: 'text-[#2a271f]',
+    btnColor: 'bg-[#2a271f] hover:bg-[#433e31] text-[#f6f4ef]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#08080a',
+    backgroundStyle: 'bg-gradient-to-br from-[#1a1030] via-[#08080a] to-[#6d28d9]',
+    titleColor: 'text-[#f4f1fb]',
+    btnColor: 'bg-[#a78bfa] hover:bg-[#bda4fc] text-[#0b0616]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-plak',
+    name: 'Vinil Plak',
+    primaryColor: '#0b0e12',
+    backgroundStyle: 'bg-gradient-to-br from-[#141c26] via-[#0b0e12] to-[#1f5f8c]',
+    titleColor: 'text-[#f0f4f7]',
+    btnColor: 'bg-[#5f9fd8] hover:bg-[#7cb3e4] text-[#08111a]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
   // ——— Yeni konseptler: Vitray Işık (kurşun camlı kemer) ———
   {
     id: 'dugun-vitray',
