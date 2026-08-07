@@ -6,3 +6,5 @@ export { PartiBilet } from './PartiBilet';
 export { PartiKrom } from './PartiKrom';
 export { PartiNoir } from './PartiNoir';
 export { PartiRiso } from './PartiRiso';
+export { PartiBento } from './PartiBento';
+export { PartiKagit } from './PartiKagit';

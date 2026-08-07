@@ -5,3 +5,5 @@ export { KurumsalDeco } from './KurumsalDeco';
 export { KurumsalBilet } from './KurumsalBilet';
 export { KurumsalBento } from './KurumsalBento';
 export { KurumsalNoir } from './KurumsalNoir';
+export { KurumsalAurora } from './KurumsalAurora';
+export { KurumsalKagit } from './KurumsalKagit';

@@ -7,3 +7,5 @@ export { SunnetKagit } from './SunnetKagit';
 export { SunnetRiso } from './SunnetRiso';
 export { SunnetAurora } from './SunnetAurora';
 export { SunnetDeco } from './SunnetDeco';
+export { SunnetBento } from './SunnetBento';
+export { SunnetKrom } from './SunnetKrom';

@@ -10,3 +10,5 @@ export { KinaBento } from './KinaBento';
 export { KinaNoir } from './KinaNoir';
 export { KinaKrom } from './KinaKrom';
 export { KinaKagit } from './KinaKagit';
+export { KinaDeco } from './KinaDeco';
+export { KinaRiso } from './KinaRiso';

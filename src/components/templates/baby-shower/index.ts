@@ -7,3 +7,5 @@ export { BabyGokyuzu } from './BabyGokyuzu';
 export { BabyRiso } from './BabyRiso';
 export { BabyBento } from './BabyBento';
 export { BabyKagit } from './BabyKagit';
+export { BabyAurora } from './BabyAurora';
+export { BabyKrom } from './BabyKrom';

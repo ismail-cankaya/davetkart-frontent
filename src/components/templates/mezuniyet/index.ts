@@ -7,3 +7,5 @@ export { MezuniyetBilet } from './MezuniyetBilet';
 export { MezuniyetBento } from './MezuniyetBento';
 export { MezuniyetNoir } from './MezuniyetNoir';
 export { MezuniyetRiso } from './MezuniyetRiso';
+export { MezuniyetAurora } from './MezuniyetAurora';
+export { MezuniyetKagit } from './MezuniyetKagit';
