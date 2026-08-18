@@ -17,3 +17,7 @@ export { BabySuluboya } from './BabySuluboya';
 export { BabyPano } from './BabyPano';
 export { BabyYildizHaritasi } from './BabyYildizHaritasi';
 export { BabyDokuma } from './BabyDokuma';
+export { BabyFilm } from './BabyFilm';
+export { BabyMermer } from './BabyMermer';
+export { BabyGazete } from './BabyGazete';
+export { BabyPosta } from './BabyPosta';

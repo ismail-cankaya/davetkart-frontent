@@ -17,3 +17,7 @@ export { DogumGunuSuluboya } from './DogumGunuSuluboya';
 export { DogumGunuPano } from './DogumGunuPano';
 export { DogumGunuYildizHaritasi } from './DogumGunuYildizHaritasi';
 export { DogumGunuDokuma } from './DogumGunuDokuma';
+export { DogumGunuFilm } from './DogumGunuFilm';
+export { DogumGunuMermer } from './DogumGunuMermer';
+export { DogumGunuGazete } from './DogumGunuGazete';
+export { DogumGunuPosta } from './DogumGunuPosta';

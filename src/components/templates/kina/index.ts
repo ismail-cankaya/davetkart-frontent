@@ -20,3 +20,7 @@ export { KinaSuluboya } from './KinaSuluboya';
 export { KinaPano } from './KinaPano';
 export { KinaYildizHaritasi } from './KinaYildizHaritasi';
 export { KinaDokuma } from './KinaDokuma';
+export { KinaFilm } from './KinaFilm';
+export { KinaMermer } from './KinaMermer';
+export { KinaGazete } from './KinaGazete';
+export { KinaPosta } from './KinaPosta';

@@ -16,3 +16,7 @@ export { PartiSuluboya } from './PartiSuluboya';
 export { PartiPano } from './PartiPano';
 export { PartiYildizHaritasi } from './PartiYildizHaritasi';
 export { PartiDokuma } from './PartiDokuma';
+export { PartiFilm } from './PartiFilm';
+export { PartiMermer } from './PartiMermer';
+export { PartiGazete } from './PartiGazete';
+export { PartiPosta } from './PartiPosta';

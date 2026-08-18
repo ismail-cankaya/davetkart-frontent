@@ -17,3 +17,7 @@ export { SunnetSuluboya } from './SunnetSuluboya';
 export { SunnetPano } from './SunnetPano';
 export { SunnetYildizHaritasi } from './SunnetYildizHaritasi';
 export { SunnetDokuma } from './SunnetDokuma';
+export { SunnetFilm } from './SunnetFilm';
+export { SunnetMermer } from './SunnetMermer';
+export { SunnetGazete } from './SunnetGazete';
+export { SunnetPosta } from './SunnetPosta';

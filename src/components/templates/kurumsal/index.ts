@@ -15,3 +15,7 @@ export { KurumsalSuluboya } from './KurumsalSuluboya';
 export { KurumsalPano } from './KurumsalPano';
 export { KurumsalYildizHaritasi } from './KurumsalYildizHaritasi';
 export { KurumsalDokuma } from './KurumsalDokuma';
+export { KurumsalFilm } from './KurumsalFilm';
+export { KurumsalMermer } from './KurumsalMermer';
+export { KurumsalGazete } from './KurumsalGazete';
+export { KurumsalPosta } from './KurumsalPosta';

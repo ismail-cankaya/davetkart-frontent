@@ -16,3 +16,7 @@ export { SuluboyaHero } from './SuluboyaHero';
 export { PanoHero } from './PanoHero';
 export { YildizHero } from './YildizHero';
 export { DokumaHero } from './DokumaHero';
+export { FilmHero } from './FilmHero';
+export { MermerHero } from './MermerHero';
+export { GazeteHero } from './GazeteHero';
+export { PostaHero } from './PostaHero';

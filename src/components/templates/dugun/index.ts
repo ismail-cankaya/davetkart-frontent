@@ -29,3 +29,7 @@ export { DugunSuluboya } from './DugunSuluboya';
 export { DugunPano } from './DugunPano';
 export { DugunYildizHaritasi } from './DugunYildizHaritasi';
 export { DugunDokuma } from './DugunDokuma';
+export { DugunFilm } from './DugunFilm';
+export { DugunMermer } from './DugunMermer';
+export { DugunGazete } from './DugunGazete';
+export { DugunPosta } from './DugunPosta';

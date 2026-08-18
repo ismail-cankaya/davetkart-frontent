@@ -17,3 +17,7 @@ export { MezuniyetSuluboya } from './MezuniyetSuluboya';
 export { MezuniyetPano } from './MezuniyetPano';
 export { MezuniyetYildizHaritasi } from './MezuniyetYildizHaritasi';
 export { MezuniyetDokuma } from './MezuniyetDokuma';
+export { MezuniyetFilm } from './MezuniyetFilm';
+export { MezuniyetMermer } from './MezuniyetMermer';
+export { MezuniyetGazete } from './MezuniyetGazete';
+export { MezuniyetPosta } from './MezuniyetPosta';

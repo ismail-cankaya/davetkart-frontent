@@ -21,3 +21,7 @@ export { NisanSuluboya } from './NisanSuluboya';
 export { NisanPano } from './NisanPano';
 export { NisanYildizHaritasi } from './NisanYildizHaritasi';
 export { NisanDokuma } from './NisanDokuma';
+export { NisanFilm } from './NisanFilm';
+export { NisanMermer } from './NisanMermer';
+export { NisanGazete } from './NisanGazete';
+export { NisanPosta } from './NisanPosta';

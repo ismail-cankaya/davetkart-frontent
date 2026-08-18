@@ -81,50 +81,68 @@ function FlapRow({ text, size, flap, ink, delay = 0, max, className }: FlapRowPr
 
   const settled = useSettleIndex(chars.length, armed && !reduced, size === 'lg' ? 70 : 45);
 
+  /**
+   * Kanatlar kelime kelime gruplanır. Tek bir sarmalayıcıda bırakılsalardı
+   * satır sonu kelimenin ORTASINDAN geçerdi ("SARAYI K / EMPİNSKİ") —
+   * gerçek panoda da kelime bölünmez, sığmayan kelime alt satıra iner.
+   */
+  const words = React.useMemo(() => {
+    const groups: { char: string; index: number }[][] = [[]];
+    chars.forEach((char, index) => {
+      if (char === ' ') {
+        groups.push([]);
+        return;
+      }
+      groups[groups.length - 1].push({ char, index });
+    });
+    return groups.filter((group) => group.length > 0);
+  }, [chars]);
+
   return (
-    <div className={cn('flex flex-wrap justify-center gap-[3px] @sm:gap-1', className)}>
-      {chars.map((char, i) => {
-        const isSettled = i < settled;
-        // Yerleşmemiş kanat: sayaç + konumdan türeyen harf. State yok,
-        // her tikte satır yeniden render edildiği için harf değişir.
-        const shown = isSettled ? char : GLYPHS[(settled * 7 + i * 3) % GLYPHS.length];
-        const isSpace = char === ' ';
+    <div className={cn('flex flex-wrap justify-center gap-x-1.5 gap-y-[3px] @sm:gap-x-2 @sm:gap-y-1', className)}>
+      {words.map((word, wordIndex) => (
+        <span key={wordIndex} className="flex shrink-0 gap-[3px] @sm:gap-1">
+          {word.map(({ char, index: i }) => {
+            const isSettled = i < settled;
+            // Yerleşmemiş kanat: sayaç + konumdan türeyen harf. State yok,
+            // her tikte satır yeniden render edildiği için harf değişir.
+            const shown = isSettled ? char : GLYPHS[(settled * 7 + i * 3) % GLYPHS.length];
 
-        if (isSpace) return <span key={i} className={size === 'lg' ? 'w-1.5' : 'w-1'} aria-hidden="true" />;
+            return (
+              <span
+                key={i}
+                className={cn(
+                  'relative rounded-[3px] overflow-hidden flex items-center justify-center font-mono font-bold tabular-nums',
+                  size === 'lg'
+                    ? 'w-[1.15rem] h-[1.7rem] @sm:w-[1.45rem] @sm:h-[2.1rem] text-[0.95rem] @sm:text-[1.2rem]'
+                    : 'w-[0.78rem] h-[1.1rem] @sm:w-[0.92rem] @sm:h-[1.3rem] text-[0.6rem] @sm:text-[0.72rem]'
+                )}
+                style={{ background: flap, color: ink, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)' }}
+              >
+                {/* key harfe bağlı: harf değişince bileşen yeniden kurulur ve
+                    çevrilme animasyonu baştan oynar. */}
+                <motion.span
+                  key={shown}
+                  initial={reduced ? false : { rotateX: -88, opacity: 0.35 }}
+                  animate={{ rotateX: 0, opacity: 1 }}
+                  transition={{ duration: 0.16, ease: 'easeOut' }}
+                  style={{ transformPerspective: 260, transformOrigin: 'center top' }}
+                >
+                  {shown}
+                </motion.span>
 
-        return (
-          <span
-            key={i}
-            className={cn(
-              'relative rounded-[3px] overflow-hidden flex items-center justify-center font-mono font-bold tabular-nums',
-              size === 'lg'
-                ? 'w-[1.15rem] h-[1.7rem] @sm:w-[1.45rem] @sm:h-[2.1rem] text-[0.95rem] @sm:text-[1.2rem]'
-                : 'w-[0.78rem] h-[1.1rem] @sm:w-[0.92rem] @sm:h-[1.3rem] text-[0.6rem] @sm:text-[0.72rem]'
-            )}
-            style={{ background: flap, color: ink, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.12)' }}
-          >
-            {/* key harfe bağlı: harf değişince bileşen yeniden kurulur ve
-                çevrilme animasyonu baştan oynar. */}
-            <motion.span
-              key={shown}
-              initial={reduced ? false : { rotateX: -88, opacity: 0.35 }}
-              animate={{ rotateX: 0, opacity: 1 }}
-              transition={{ duration: 0.16, ease: 'easeOut' }}
-              style={{ transformPerspective: 260, transformOrigin: 'center top' }}
-            >
-              {shown}
-            </motion.span>
-
-            {/* Menteşe: kanadı ikiye bölen çizgi. Panoyu "yazı" değil
-                "mekanizma" yapan tek detay. */}
-            <span
-              aria-hidden="true"
-              className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2"
-              style={{ background: 'rgba(0,0,0,0.45)' }}
-            />
-          </span>
-        );
-      })}
+                {/* Menteşe: kanadı ikiye bölen çizgi. Panoyu "yazı" değil
+                    "mekanizma" yapan tek detay. */}
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2"
+                  style={{ background: 'rgba(0,0,0,0.45)' }}
+                />
+              </span>
+            );
+          })}
+        </span>
+      ))}
     </div>
   );
 }

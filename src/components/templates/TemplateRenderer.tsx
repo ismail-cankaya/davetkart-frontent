@@ -6,57 +6,66 @@ import {
   DugunSahil, DugunOnyx,
   DugunAurora, DugunBento, DugunNoir, DugunKrom,
   DugunKagit, DugunDeco, DugunRiso, DugunBilet, DugunVitray, DugunKinetik,
-  DugunCizgi, DugunPlak, DugunSuluboya, DugunPano, DugunYildizHaritasi, DugunDokuma
+  DugunCizgi, DugunPlak, DugunSuluboya, DugunPano, DugunYildizHaritasi, DugunDokuma,
+  DugunFilm, DugunMermer, DugunGazete, DugunPosta
 } from './dugun';
 import {
   KinaSade, KinaManzara, KinaSekilli, KinaModern, KinaBordo, KinaSaray, KinaMum,
   KinaAurora, KinaBento, KinaNoir, KinaKrom, KinaKagit, KinaDeco, KinaRiso,
   KinaVitray, KinaKinetik, KinaCizgi, KinaPlak,
-  KinaSuluboya, KinaPano, KinaYildizHaritasi, KinaDokuma
+  KinaSuluboya, KinaPano, KinaYildizHaritasi, KinaDokuma,
+  KinaFilm, KinaMermer, KinaGazete, KinaPosta
 } from './kina';
 import {
   NisanSade, NisanManzara, NisanSekilli, NisanModern, NisanSampanya,
   NisanOrman, NisanAlyans, NisanBohem,
   NisanAurora, NisanBento, NisanNoir, NisanKrom, NisanKagit, NisanDeco, NisanRiso,
   NisanVitray, NisanKinetik, NisanCizgi, NisanPlak,
-  NisanSuluboya, NisanPano, NisanYildizHaritasi, NisanDokuma
+  NisanSuluboya, NisanPano, NisanYildizHaritasi, NisanDokuma,
+  NisanFilm, NisanMermer, NisanGazete, NisanPosta
 } from './nisan';
 import {
   SunnetKlasik, SunnetModern, SunnetYildiz, SunnetMasallah, SunnetLunapark,
   SunnetKagit, SunnetRiso, SunnetAurora, SunnetDeco, SunnetBento, SunnetKrom,
   SunnetVitray, SunnetKinetik, SunnetCizgi, SunnetPlak,
-  SunnetSuluboya, SunnetPano, SunnetYildizHaritasi, SunnetDokuma
+  SunnetSuluboya, SunnetPano, SunnetYildizHaritasi, SunnetDokuma,
+  SunnetFilm, SunnetMermer, SunnetGazete, SunnetPosta
 } from './sunnet';
 import {
   DogumGunuNeseli, DogumGunuSik, DogumGunuKonfeti,
   DogumGunuLuks, DogumGunuBulut, DogumGunuZarif, DogumGunuRiso,
   DogumGunuAurora, DogumGunuDeco, DogumGunuBento, DogumGunuKrom,
   DogumGunuVitray, DogumGunuKinetik, DogumGunuCizgi, DogumGunuPlak,
-  DogumGunuSuluboya, DogumGunuPano, DogumGunuYildizHaritasi, DogumGunuDokuma
+  DogumGunuSuluboya, DogumGunuPano, DogumGunuYildizHaritasi, DogumGunuDokuma,
+  DogumGunuFilm, DogumGunuMermer, DogumGunuGazete, DogumGunuPosta
 } from './dogum-gunu';
 import {
   MezuniyetAkademik, MezuniyetDinamik, MezuniyetLacivert,
   MezuniyetKampus, MezuniyetPusula, MezuniyetBilet,
   MezuniyetBento, MezuniyetNoir, MezuniyetRiso, MezuniyetAurora, MezuniyetKagit,
   MezuniyetVitray, MezuniyetKinetik, MezuniyetCizgi, MezuniyetPlak,
-  MezuniyetSuluboya, MezuniyetPano, MezuniyetYildizHaritasi, MezuniyetDokuma
+  MezuniyetSuluboya, MezuniyetPano, MezuniyetYildizHaritasi, MezuniyetDokuma,
+  MezuniyetFilm, MezuniyetMermer, MezuniyetGazete, MezuniyetPosta
 } from './mezuniyet';
 import {
   BabyShowerPastel, BabyShowerBoho, BabyShowerKabarcik,
   BabyMelek, BabyMuzikKutusu, BabyGokyuzu, BabyRiso,
   BabyBento, BabyKagit, BabyAurora, BabyKrom, BabyVitray, BabyKinetik,
-  BabyCizgi, BabyPlak, BabySuluboya, BabyPano, BabyYildizHaritasi, BabyDokuma
+  BabyCizgi, BabyPlak, BabySuluboya, BabyPano, BabyYildizHaritasi, BabyDokuma,
+  BabyFilm, BabyMermer, BabyGazete, BabyPosta
 } from './baby-shower';
 import {
   PartiNeon, PartiGala, PartiAurora, PartiDeco, PartiBilet,
   PartiKrom, PartiNoir, PartiRiso, PartiBento, PartiKagit, PartiVitray, PartiKinetik,
-  PartiCizgi, PartiPlak, PartiSuluboya, PartiPano, PartiYildizHaritasi, PartiDokuma
+  PartiCizgi, PartiPlak, PartiSuluboya, PartiPano, PartiYildizHaritasi, PartiDokuma,
+  PartiFilm, PartiMermer, PartiGazete, PartiPosta
 } from './parti';
 import {
   KurumsalNetwork, KurumsalCam, KurumsalZirve, KurumsalDeco, KurumsalBilet,
   KurumsalBento, KurumsalNoir, KurumsalAurora, KurumsalKagit,
   KurumsalVitray, KurumsalKinetik, KurumsalCizgi, KurumsalPlak,
-  KurumsalSuluboya, KurumsalPano, KurumsalYildizHaritasi, KurumsalDokuma
+  KurumsalSuluboya, KurumsalPano, KurumsalYildizHaritasi, KurumsalDokuma,
+  KurumsalFilm, KurumsalMermer, KurumsalGazete, KurumsalPosta
 } from './kurumsal';
 import { Invitation } from '../../types';
 import { TemplateProps } from './types';
@@ -107,6 +116,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'dugun-pano': DugunPano,
   'dugun-yildiz-haritasi': DugunYildizHaritasi,
   'dugun-dokuma': DugunDokuma,
+  'dugun-film': DugunFilm,
+  'dugun-mermer': DugunMermer,
+  'dugun-gazete': DugunGazete,
+  'dugun-posta': DugunPosta,
   // Kına
   'kina-sade': KinaSade,
   'kina-manzara': KinaManzara,
@@ -130,6 +143,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'kina-pano': KinaPano,
   'kina-yildiz-haritasi': KinaYildizHaritasi,
   'kina-dokuma': KinaDokuma,
+  'kina-film': KinaFilm,
+  'kina-mermer': KinaMermer,
+  'kina-gazete': KinaGazete,
+  'kina-posta': KinaPosta,
   // Nişan
   'nisan-sade': NisanSade,
   'nisan-manzara': NisanManzara,
@@ -154,6 +171,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'nisan-pano': NisanPano,
   'nisan-yildiz-haritasi': NisanYildizHaritasi,
   'nisan-dokuma': NisanDokuma,
+  'nisan-film': NisanFilm,
+  'nisan-mermer': NisanMermer,
+  'nisan-gazete': NisanGazete,
+  'nisan-posta': NisanPosta,
   // Sünnet
   'sunnet-klasik': SunnetKlasik,
   'sunnet-modern': SunnetModern,
@@ -174,6 +195,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'sunnet-pano': SunnetPano,
   'sunnet-yildiz-haritasi': SunnetYildizHaritasi,
   'sunnet-dokuma': SunnetDokuma,
+  'sunnet-film': SunnetFilm,
+  'sunnet-mermer': SunnetMermer,
+  'sunnet-gazete': SunnetGazete,
+  'sunnet-posta': SunnetPosta,
   // Doğum Günü
   'dogum-gunu-neseli': DogumGunuNeseli,
   'dogum-gunu-sik': DogumGunuSik,
@@ -194,6 +219,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'dogum-gunu-pano': DogumGunuPano,
   'dogum-gunu-yildiz-haritasi': DogumGunuYildizHaritasi,
   'dogum-gunu-dokuma': DogumGunuDokuma,
+  'dogum-gunu-film': DogumGunuFilm,
+  'dogum-gunu-mermer': DogumGunuMermer,
+  'dogum-gunu-gazete': DogumGunuGazete,
+  'dogum-gunu-posta': DogumGunuPosta,
   // Mezuniyet
   'mezuniyet-akademik': MezuniyetAkademik,
   'mezuniyet-dinamik': MezuniyetDinamik,
@@ -214,6 +243,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'mezuniyet-pano': MezuniyetPano,
   'mezuniyet-yildiz-haritasi': MezuniyetYildizHaritasi,
   'mezuniyet-dokuma': MezuniyetDokuma,
+  'mezuniyet-film': MezuniyetFilm,
+  'mezuniyet-mermer': MezuniyetMermer,
+  'mezuniyet-gazete': MezuniyetGazete,
+  'mezuniyet-posta': MezuniyetPosta,
   // Baby Shower
   'baby-shower-pastel': BabyShowerPastel,
   'baby-shower-boho': BabyShowerBoho,
@@ -234,6 +267,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'baby-pano': BabyPano,
   'baby-yildiz-haritasi': BabyYildizHaritasi,
   'baby-dokuma': BabyDokuma,
+  'baby-film': BabyFilm,
+  'baby-mermer': BabyMermer,
+  'baby-gazete': BabyGazete,
+  'baby-posta': BabyPosta,
   // Parti
   'parti-neon': PartiNeon,
   'parti-gala': PartiGala,
@@ -253,6 +290,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'parti-pano': PartiPano,
   'parti-yildiz-haritasi': PartiYildizHaritasi,
   'parti-dokuma': PartiDokuma,
+  'parti-film': PartiFilm,
+  'parti-mermer': PartiMermer,
+  'parti-gazete': PartiGazete,
+  'parti-posta': PartiPosta,
   // Kurumsal
   'kurumsal-network': KurumsalNetwork,
   'kurumsal-cam': KurumsalCam,
@@ -271,6 +312,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'kurumsal-pano': KurumsalPano,
   'kurumsal-yildiz-haritasi': KurumsalYildizHaritasi,
   'kurumsal-dokuma': KurumsalDokuma,
+  'kurumsal-film': KurumsalFilm,
+  'kurumsal-mermer': KurumsalMermer,
+  'kurumsal-gazete': KurumsalGazete,
+  'kurumsal-posta': KurumsalPosta,
 };
 
 export function TemplateRenderer({ templateId, invitation, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {

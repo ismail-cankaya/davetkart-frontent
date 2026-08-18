@@ -440,6 +440,367 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['baby-shower']
   },
+  // ——— Yeni konseptler: Film Şeridi / Mermer & Rölyef / Gazete Manşeti / Posta Damgası ———
+  {
+    id: 'dugun-film',
+    name: 'Film Şeridi',
+    primaryColor: '#100e0f',
+    backgroundStyle: 'bg-gradient-to-br from-[#1d1a18] via-[#110f0e] to-[#d8b98a]',
+    titleColor: 'text-[#f6f1e9]',
+    btnColor: 'bg-[#d8b98a] hover:brightness-110 text-[#100e0f]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-film',
+    name: 'Film Şeridi',
+    primaryColor: '#150a0b',
+    backgroundStyle: 'bg-gradient-to-br from-[#281314] via-[#160b0c] to-[#e0785f]',
+    titleColor: 'text-[#f9ece6]',
+    btnColor: 'bg-[#e0785f] hover:brightness-110 text-[#150a0b]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-film',
+    name: 'Film Şeridi',
+    primaryColor: '#0b0e13',
+    backgroundStyle: 'bg-gradient-to-br from-[#171d26] via-[#0c1015] to-[#9fb8d8]',
+    titleColor: 'text-[#eef2f8]',
+    btnColor: 'bg-[#9fb8d8] hover:brightness-110 text-[#0b0e13]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-film',
+    name: 'Film Şeridi',
+    primaryColor: '#071019',
+    backgroundStyle: 'bg-gradient-to-br from-[#10222f] via-[#08121b] to-[#5fb8a8]',
+    titleColor: 'text-[#eaf2f8]',
+    btnColor: 'bg-[#5fb8a8] hover:brightness-110 text-[#071019]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-film',
+    name: 'Film Şeridi',
+    primaryColor: '#110e14',
+    backgroundStyle: 'bg-gradient-to-br from-[#1f1a26] via-[#120f16] to-[#f5a0c8]',
+    titleColor: 'text-[#f8f2f6]',
+    btnColor: 'bg-[#f5a0c8] hover:brightness-110 text-[#110e14]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-film',
+    name: 'Film Şeridi',
+    primaryColor: '#0b0d12',
+    backgroundStyle: 'bg-gradient-to-br from-[#161a22] via-[#0c0f14] to-[#c9a961]',
+    titleColor: 'text-[#f0f2f6]',
+    btnColor: 'bg-[#c9a961] hover:brightness-110 text-[#0b0d12]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-film',
+    name: 'Film Şeridi',
+    primaryColor: '#0e1118',
+    backgroundStyle: 'bg-gradient-to-br from-[#1a2130] via-[#0f131a] to-[#a8c8d8]',
+    titleColor: 'text-[#f0f4f8]',
+    btnColor: 'bg-[#a8c8d8] hover:brightness-110 text-[#0e1118]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-film',
+    name: 'Film Şeridi',
+    primaryColor: '#08080a',
+    backgroundStyle: 'bg-gradient-to-br from-[#17151a] via-[#09090b] to-[#ff5f7a]',
+    titleColor: 'text-[#f2f2ef]',
+    btnColor: 'bg-[#ff5f7a] hover:brightness-110 text-[#08080a]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-film',
+    name: 'Film Şeridi',
+    primaryColor: '#0a0d10',
+    backgroundStyle: 'bg-gradient-to-br from-[#151c21] via-[#0b0e11] to-[#5fb0c8]',
+    titleColor: 'text-[#eef2f4]',
+    btnColor: 'bg-[#5fb0c8] hover:brightness-110 text-[#0a0d10]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  {
+    id: 'dugun-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#f4f2ed',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbf9f5] via-[#f0ede6] to-[#9c7f5f]',
+    titleColor: 'text-[#2b2620]',
+    btnColor: 'bg-[#2b2620] hover:brightness-125 text-[#f4f2ed]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#f6f0e8',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcf8f1] via-[#f2ebdf] to-[#a04f4f]',
+    titleColor: 'text-[#2c211a]',
+    btnColor: 'bg-[#2c211a] hover:brightness-125 text-[#f6f0e8]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#f5f6f7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcfcfd] via-[#f0f1f3] to-[#5f7f9f]',
+    titleColor: 'text-[#23272c]',
+    btnColor: 'bg-[#23272c] hover:brightness-125 text-[#f5f6f7]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#f2f5f7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafcfd] via-[#edf1f4] to-[#2f6f8c]',
+    titleColor: 'text-[#1e2830]',
+    btnColor: 'bg-[#1e2830] hover:brightness-125 text-[#f2f5f7]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#f8f2f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefafa] via-[#f4eded] to-[#c05f7f]',
+    titleColor: 'text-[#2c2224]',
+    btnColor: 'bg-[#2c2224] hover:brightness-125 text-[#f8f2f2]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#f3f5f1',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafcf8] via-[#eef1ea] to-[#3f6b4f]',
+    titleColor: 'text-[#212722]',
+    btnColor: 'bg-[#212722] hover:brightness-125 text-[#f3f5f1]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#faf7f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdfa] via-[#f6f2ea] to-[#8fa8b8]',
+    titleColor: 'text-[#2b2823]',
+    btnColor: 'bg-[#2b2823] hover:brightness-125 text-[#faf7f2]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#0d0d0f',
+    backgroundStyle: 'bg-gradient-to-br from-[#1a1a1e] via-[#0d0d10] to-[#d8c08f]',
+    titleColor: 'text-[#f2f2f4]',
+    btnColor: 'bg-[#d8c08f] hover:brightness-110 text-[#0d0d0f]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-mermer',
+    name: 'Mermer & Rölyef',
+    primaryColor: '#0c0e10',
+    backgroundStyle: 'bg-gradient-to-br from-[#181c1f] via-[#0c0e10] to-[#6fb0c8]',
+    titleColor: 'text-[#eef1f3]',
+    btnColor: 'bg-[#6fb0c8] hover:brightness-110 text-[#0c0e10]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  {
+    id: 'dugun-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#f5f2e9',
+    backgroundStyle: 'bg-gradient-to-br from-[#faf8f0] via-[#f0ece0] to-[#8c3f2f]',
+    titleColor: 'text-[#1a180f]',
+    btnColor: 'bg-[#1a180f] hover:brightness-125 text-[#f5f2e9]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#f8f1e5',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdf7ec] via-[#f3ebdb] to-[#b8323f]',
+    titleColor: 'text-[#20180f]',
+    btnColor: 'bg-[#20180f] hover:brightness-125 text-[#f8f1e5]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#f4f5f6',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfd] via-[#eff1f3] to-[#2f5f8c]',
+    titleColor: 'text-[#15181d]',
+    btnColor: 'bg-[#15181d] hover:brightness-125 text-[#f4f5f6]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#f2f5f6',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafcfd] via-[#edf1f3] to-[#1f6f8c]',
+    titleColor: 'text-[#141c22]',
+    btnColor: 'bg-[#141c22] hover:brightness-125 text-[#f2f5f6]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#faf6ec',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefbf3] via-[#f4efe2] to-[#d9432f]',
+    titleColor: 'text-[#1d1a12]',
+    btnColor: 'bg-[#1d1a12] hover:brightness-125 text-[#faf6ec]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#f4f3ed',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfaf5] via-[#efeee6] to-[#2f5f4f]',
+    titleColor: 'text-[#161814]',
+    btnColor: 'bg-[#161814] hover:brightness-125 text-[#f4f3ed]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#f9f7f0',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefdf9] via-[#f4f2e9] to-[#5f8f7f]',
+    titleColor: 'text-[#1c1c17]',
+    btnColor: 'bg-[#1c1c17] hover:brightness-125 text-[#f9f7f0]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#0c0c0d',
+    backgroundStyle: 'bg-gradient-to-br from-[#17171a] via-[#0b0b0c] to-[#ff4f3f]',
+    titleColor: 'text-[#f4f4f2]',
+    btnColor: 'bg-[#ff4f3f] hover:brightness-110 text-[#0c0c0d]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-gazete',
+    name: 'Gazete Manşeti',
+    primaryColor: '#f3f5f6',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafcfd] via-[#eef1f3] to-[#1f5f7f]',
+    titleColor: 'text-[#12171a]',
+    btnColor: 'bg-[#12171a] hover:brightness-125 text-[#f3f5f6]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  {
+    id: 'dugun-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#f8f5ee',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfbf5] via-[#f3efe4] to-[#9c3b46]',
+    titleColor: 'text-[#2a231b]',
+    btnColor: 'bg-[#2a231b] hover:brightness-125 text-[#f8f5ee]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#faf3e8',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefaf1] via-[#f4ecdd] to-[#b8434f]',
+    titleColor: 'text-[#2b1f16]',
+    btnColor: 'bg-[#2b1f16] hover:brightness-125 text-[#faf3e8]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#f6f7f9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcfdfe] via-[#f1f3f6] to-[#4f6f9f]',
+    titleColor: 'text-[#22262e]',
+    btnColor: 'bg-[#22262e] hover:brightness-125 text-[#f6f7f9]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#f4f7f9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfdfe] via-[#eff4f7] to-[#2f7f8c]',
+    titleColor: 'text-[#1d2730]',
+    btnColor: 'bg-[#1d2730] hover:brightness-125 text-[#f4f7f9]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#fdf8f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdf9] via-[#f8f2e8] to-[#d9603f]',
+    titleColor: 'text-[#2b2219]',
+    btnColor: 'bg-[#2b2219] hover:brightness-125 text-[#fdf8f2]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#f6f4ee',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcfbf7] via-[#f1efe7] to-[#7a2f39]',
+    titleColor: 'text-[#22221b]',
+    btnColor: 'bg-[#22221b] hover:brightness-125 text-[#f6f4ee]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#fbf9f4',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffefb] via-[#f6f3ec] to-[#8fa8b8]',
+    titleColor: 'text-[#2a2822]',
+    btnColor: 'bg-[#2a2822] hover:brightness-125 text-[#fbf9f4]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#0b0a0c',
+    backgroundStyle: 'bg-gradient-to-br from-[#191520] via-[#0a090c] to-[#ff5f8f]',
+    titleColor: 'text-[#f4f2f6]',
+    btnColor: 'bg-[#ff5f8f] hover:brightness-110 text-[#0b0a0c]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-posta',
+    name: 'Posta Damgası',
+    primaryColor: '#f5f6f7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcfdfd] via-[#f0f2f3] to-[#2f6f8c]',
+    titleColor: 'text-[#1c2124]',
+    btnColor: 'bg-[#1c2124] hover:brightness-125 text-[#f5f6f7]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
   // ——— Yeni konseptler: Suluboya (taşan pigment, ıslak kenar) ———
   {
     id: 'dugun-suluboya',
