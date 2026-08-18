@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useAuthStore } from '../stores/useAuthStore';
 
 /**
@@ -36,12 +36,52 @@ export function unwrapEnvelope(payload: unknown): unknown {
   return payload;
 }
 
-// A 401 means the token was rejected/expired: drop the local session so the
-// UI falls back to the anonymous experience instead of looping on failures.
+/** Backend hata zarfı: `{ error: { code, fields?, params? } }` — K20. */
+interface ApiErrorEnvelope {
+  error?: {
+    code?: string;
+    params?: Record<string, unknown>;
+  };
+}
+
+function envelopeOf(error: unknown): ApiErrorEnvelope['error'] {
+  if (!axios.isAxiosError(error)) return undefined;
+  return (error.response?.data as ApiErrorEnvelope | undefined)?.error;
+}
+
+/**
+ * Backend'in döndürdüğü hata kodu (`INVALID_CREDENTIALS`, `RATE_LIMITED`…).
+ * Ağ hatası, timeout veya beklenmeyen gövdede `null` döner.
+ *
+ * Geçici çözüm: kalıcı olan `toDisplayError()` çeviri katmanı henüz yok
+ * (bkz. claude/Notlar/03 §3.3). O geldiğinde bu yardımcı onun içine taşınacak.
+ */
+export function apiErrorCode(error: unknown): string | null {
+  return envelopeOf(error)?.code ?? null;
+}
+
+/** Hata koduna eşlik eden beyaz listelenmiş parametreler (ör. `retryAfter`). */
+export function apiErrorParams(error: unknown): Record<string, unknown> {
+  return envelopeOf(error)?.params ?? {};
+}
+
+/**
+ * 🔴 Bir 401 İKİ farklı olayı anlatır ve ikisine aynı tepki verilemez:
+ *
+ *   UNAUTHENTICATED      → token yok / geçersiz / iptal edilmiş  → oturumu düşür
+ *   INVALID_CREDENTIALS  → girilen e-posta veya parola yanlış    → FORMDA KAL
+ *
+ * Ayrım yapılmazsa kullanıcı yanlış parola girdiğinde `logout()` tetiklenir;
+ * giriş sayfası yeniden kurulur ve kullanıcının yazdıkları kaybolur.
+ */
 api.interceptors.response.use(
   (response) => response,
   (error: unknown) => {
-    if (axios.isAxiosError(error) && error.response?.status === 401) {
+    if (
+      axios.isAxiosError(error) &&
+      (error as AxiosError).response?.status === 401 &&
+      apiErrorCode(error) !== 'INVALID_CREDENTIALS'
+    ) {
       useAuthStore.getState().logout();
     }
     return Promise.reject(error);

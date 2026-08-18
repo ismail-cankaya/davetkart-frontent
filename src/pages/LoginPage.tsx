@@ -4,6 +4,7 @@ import { LogIn } from 'lucide-react';
 import { AuthShell, authInputClass } from '../components/auth/AuthShell';
 import { useAuthStore } from '../stores/useAuthStore';
 import { toast } from '../components/ui/Toast';
+import { apiErrorCode, apiErrorParams } from '../services/api';
 import { fullName } from '../utils/user';
 import { AuthRedirectState } from '../types';
 
@@ -29,8 +30,15 @@ export default function LoginPage() {
       const user = await login({ email, password });
       toast(`Tekrar hoş geldiniz, ${fullName(user)}!`);
       navigate(redirectTo, { replace: true });
-    } catch {
-      toast('Giriş yapılamadı. Bilgilerinizi kontrol edip tekrar deneyin.', 'info');
+    } catch (e) {
+      // Backend hız sınırlı (5/dk): "bilgilerinizi kontrol edin" demek
+      // yanıltıcı olurdu — bilgiler doğru olsa da istek reddedilir.
+      if (apiErrorCode(e) === 'RATE_LIMITED') {
+        const seconds = Number(apiErrorParams(e).retryAfter ?? 60);
+        toast(`Çok fazla deneme yaptınız. ${seconds} saniye sonra tekrar deneyin.`, 'info');
+      } else {
+        toast('Giriş yapılamadı. Bilgilerinizi kontrol edip tekrar deneyin.', 'info');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -58,11 +66,16 @@ export default function LoginPage() {
           <label htmlFor="login-email" className="block text-xs font-bold tracking-wider uppercase text-champagne">
             E-posta Adresi
           </label>
+          {/* Backend e-postayı küçük harfe indirger; mobil klavyenin ilk harfi
+              büyütmesi görsel bir tutarsızlık yaratır, kapatıyoruz. */}
           <input
             id="login-email"
             type="email"
             required
             autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="ornek@eposta.com"
@@ -74,11 +87,14 @@ export default function LoginPage() {
           <label htmlFor="login-password" className="block text-xs font-bold tracking-wider uppercase text-champagne">
             Şifre
           </label>
+          {/* 🔴 minLength YOK — bilerek. Giriş formu parola POLİTİKASI
+              uygulamaz: kural bir gün 12'ye çıkarsa, 9 karakterli parolayla
+              kaydolmuş kullanıcı doğru parolasıyla giriş yapamaz hale gelir.
+              Kural veri ÜRETİLİRKEN (kayıt) uygulanır, OKUNURKEN değil. */}
           <input
             id="login-password"
             type="password"
             required
-            minLength={6}
             autoComplete="current-password"
             value={password}
             onChange={e => setPassword(e.target.value)}

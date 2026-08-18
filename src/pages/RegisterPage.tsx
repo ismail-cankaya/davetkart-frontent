@@ -4,6 +4,7 @@ import { UserPlus } from 'lucide-react';
 import { AuthShell, authInputClass } from '../components/auth/AuthShell';
 import { useAuthStore } from '../stores/useAuthStore';
 import { toast } from '../components/ui/Toast';
+import { apiErrorCode, apiErrorParams } from '../services/api';
 import { fullName } from '../utils/user';
 import { AuthRedirectState } from '../types';
 
@@ -29,8 +30,15 @@ export default function RegisterPage() {
       const user = await register({ firstName, lastName, email, password });
       toast(`Aramıza hoş geldiniz, ${fullName(user)}! 🎉`);
       navigate(redirectTo, { replace: true });
-    } catch {
-      toast('Kayıt tamamlanamadı. Lütfen tekrar deneyin.', 'info');
+    } catch (e) {
+      // 🔴 REGISTRATION_FAILED sebebini SÖYLEMEZ (enumeration savunması) —
+      // "bu e-posta kayıtlı" demek yasak. Genel mesaj bilinçli olarak muğlak.
+      if (apiErrorCode(e) === 'RATE_LIMITED') {
+        const seconds = Number(apiErrorParams(e).retryAfter ?? 60);
+        toast(`Çok fazla deneme yaptınız. ${seconds} saniye sonra tekrar deneyin.`, 'info');
+      } else {
+        toast('Kayıt tamamlanamadı. Lütfen tekrar deneyin.', 'info');
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -101,6 +109,9 @@ export default function RegisterPage() {
             type="email"
             required
             autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="ornek@eposta.com"
