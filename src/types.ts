@@ -42,7 +42,17 @@ export type PaletteId = 'midnight' | 'stone';
 
 /** A single entry of the event's program flow (nikah, yemek, eğlence…). */
 export interface TimelineEvent {
-  id: string;
+  /**
+   * Sunucunun verdiği kimlik. `null` = bu adım henüz kaydedilmedi; backend
+   * kaydederken kendi id'sini üretir (K44). Tarayıcı kimlik uydurmaz.
+   */
+  id: string | null;
+  /**
+   * Yalnızca React listesinin `key` ihtiyacı için yerel anahtar. Sunucuya
+   * GÖNDERİLMEZ — `invitationService` istek gövdesini kurarken düşürür.
+   * `id` null olan yeni adımların da kararlı bir anahtarı olsun diye var.
+   */
+  localKey: string;
   /** Display time, e.g. "16:30". */
   time: string;
   title: string;
