@@ -21,3 +21,7 @@ export { MezuniyetFilm } from './MezuniyetFilm';
 export { MezuniyetMermer } from './MezuniyetMermer';
 export { MezuniyetGazete } from './MezuniyetGazete';
 export { MezuniyetPosta } from './MezuniyetPosta';
+export { MezuniyetBrutal } from './MezuniyetBrutal';
+export { MezuniyetTerrazzo } from './MezuniyetTerrazzo';
+export { MezuniyetBlueprint } from './MezuniyetBlueprint';
+export { MezuniyetHerbaryum } from './MezuniyetHerbaryum';

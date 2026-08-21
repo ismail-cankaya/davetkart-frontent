@@ -21,3 +21,7 @@ export { DogumGunuFilm } from './DogumGunuFilm';
 export { DogumGunuMermer } from './DogumGunuMermer';
 export { DogumGunuGazete } from './DogumGunuGazete';
 export { DogumGunuPosta } from './DogumGunuPosta';
+export { DogumGunuBrutal } from './DogumGunuBrutal';
+export { DogumGunuTerrazzo } from './DogumGunuTerrazzo';
+export { DogumGunuBlueprint } from './DogumGunuBlueprint';
+export { DogumGunuHerbaryum } from './DogumGunuHerbaryum';

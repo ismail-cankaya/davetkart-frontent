@@ -33,3 +33,7 @@ export { DugunFilm } from './DugunFilm';
 export { DugunMermer } from './DugunMermer';
 export { DugunGazete } from './DugunGazete';
 export { DugunPosta } from './DugunPosta';
+export { DugunBrutal } from './DugunBrutal';
+export { DugunTerrazzo } from './DugunTerrazzo';
+export { DugunBlueprint } from './DugunBlueprint';
+export { DugunHerbaryum } from './DugunHerbaryum';

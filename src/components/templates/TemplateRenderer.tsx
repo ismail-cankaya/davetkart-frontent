@@ -7,14 +7,16 @@ import {
   DugunAurora, DugunBento, DugunNoir, DugunKrom,
   DugunKagit, DugunDeco, DugunRiso, DugunBilet, DugunVitray, DugunKinetik,
   DugunCizgi, DugunPlak, DugunSuluboya, DugunPano, DugunYildizHaritasi, DugunDokuma,
-  DugunFilm, DugunMermer, DugunGazete, DugunPosta
+  DugunFilm, DugunMermer, DugunGazete, DugunPosta,
+  DugunBrutal, DugunTerrazzo, DugunBlueprint, DugunHerbaryum
 } from './dugun';
 import {
   KinaSade, KinaManzara, KinaSekilli, KinaModern, KinaBordo, KinaSaray, KinaMum,
   KinaAurora, KinaBento, KinaNoir, KinaKrom, KinaKagit, KinaDeco, KinaRiso,
   KinaVitray, KinaKinetik, KinaCizgi, KinaPlak,
   KinaSuluboya, KinaPano, KinaYildizHaritasi, KinaDokuma,
-  KinaFilm, KinaMermer, KinaGazete, KinaPosta
+  KinaFilm, KinaMermer, KinaGazete, KinaPosta,
+  KinaBrutal, KinaTerrazzo, KinaBlueprint, KinaHerbaryum
 } from './kina';
 import {
   NisanSade, NisanManzara, NisanSekilli, NisanModern, NisanSampanya,
@@ -22,14 +24,16 @@ import {
   NisanAurora, NisanBento, NisanNoir, NisanKrom, NisanKagit, NisanDeco, NisanRiso,
   NisanVitray, NisanKinetik, NisanCizgi, NisanPlak,
   NisanSuluboya, NisanPano, NisanYildizHaritasi, NisanDokuma,
-  NisanFilm, NisanMermer, NisanGazete, NisanPosta
+  NisanFilm, NisanMermer, NisanGazete, NisanPosta,
+  NisanBrutal, NisanTerrazzo, NisanBlueprint, NisanHerbaryum
 } from './nisan';
 import {
   SunnetKlasik, SunnetModern, SunnetYildiz, SunnetMasallah, SunnetLunapark,
   SunnetKagit, SunnetRiso, SunnetAurora, SunnetDeco, SunnetBento, SunnetKrom,
   SunnetVitray, SunnetKinetik, SunnetCizgi, SunnetPlak,
   SunnetSuluboya, SunnetPano, SunnetYildizHaritasi, SunnetDokuma,
-  SunnetFilm, SunnetMermer, SunnetGazete, SunnetPosta
+  SunnetFilm, SunnetMermer, SunnetGazete, SunnetPosta,
+  SunnetBrutal, SunnetTerrazzo, SunnetBlueprint, SunnetHerbaryum
 } from './sunnet';
 import {
   DogumGunuNeseli, DogumGunuSik, DogumGunuKonfeti,
@@ -37,7 +41,8 @@ import {
   DogumGunuAurora, DogumGunuDeco, DogumGunuBento, DogumGunuKrom,
   DogumGunuVitray, DogumGunuKinetik, DogumGunuCizgi, DogumGunuPlak,
   DogumGunuSuluboya, DogumGunuPano, DogumGunuYildizHaritasi, DogumGunuDokuma,
-  DogumGunuFilm, DogumGunuMermer, DogumGunuGazete, DogumGunuPosta
+  DogumGunuFilm, DogumGunuMermer, DogumGunuGazete, DogumGunuPosta,
+  DogumGunuBrutal, DogumGunuTerrazzo, DogumGunuBlueprint, DogumGunuHerbaryum
 } from './dogum-gunu';
 import {
   MezuniyetAkademik, MezuniyetDinamik, MezuniyetLacivert,
@@ -45,27 +50,31 @@ import {
   MezuniyetBento, MezuniyetNoir, MezuniyetRiso, MezuniyetAurora, MezuniyetKagit,
   MezuniyetVitray, MezuniyetKinetik, MezuniyetCizgi, MezuniyetPlak,
   MezuniyetSuluboya, MezuniyetPano, MezuniyetYildizHaritasi, MezuniyetDokuma,
-  MezuniyetFilm, MezuniyetMermer, MezuniyetGazete, MezuniyetPosta
+  MezuniyetFilm, MezuniyetMermer, MezuniyetGazete, MezuniyetPosta,
+  MezuniyetBrutal, MezuniyetTerrazzo, MezuniyetBlueprint, MezuniyetHerbaryum
 } from './mezuniyet';
 import {
   BabyShowerPastel, BabyShowerBoho, BabyShowerKabarcik,
   BabyMelek, BabyMuzikKutusu, BabyGokyuzu, BabyRiso,
   BabyBento, BabyKagit, BabyAurora, BabyKrom, BabyVitray, BabyKinetik,
   BabyCizgi, BabyPlak, BabySuluboya, BabyPano, BabyYildizHaritasi, BabyDokuma,
-  BabyFilm, BabyMermer, BabyGazete, BabyPosta
+  BabyFilm, BabyMermer, BabyGazete, BabyPosta,
+  BabyBrutal, BabyTerrazzo, BabyBlueprint, BabyHerbaryum
 } from './baby-shower';
 import {
   PartiNeon, PartiGala, PartiAurora, PartiDeco, PartiBilet,
   PartiKrom, PartiNoir, PartiRiso, PartiBento, PartiKagit, PartiVitray, PartiKinetik,
   PartiCizgi, PartiPlak, PartiSuluboya, PartiPano, PartiYildizHaritasi, PartiDokuma,
-  PartiFilm, PartiMermer, PartiGazete, PartiPosta
+  PartiFilm, PartiMermer, PartiGazete, PartiPosta,
+  PartiBrutal, PartiTerrazzo, PartiBlueprint, PartiHerbaryum
 } from './parti';
 import {
   KurumsalNetwork, KurumsalCam, KurumsalZirve, KurumsalDeco, KurumsalBilet,
   KurumsalBento, KurumsalNoir, KurumsalAurora, KurumsalKagit,
   KurumsalVitray, KurumsalKinetik, KurumsalCizgi, KurumsalPlak,
   KurumsalSuluboya, KurumsalPano, KurumsalYildizHaritasi, KurumsalDokuma,
-  KurumsalFilm, KurumsalMermer, KurumsalGazete, KurumsalPosta
+  KurumsalFilm, KurumsalMermer, KurumsalGazete, KurumsalPosta,
+  KurumsalBrutal, KurumsalTerrazzo, KurumsalBlueprint, KurumsalHerbaryum
 } from './kurumsal';
 import { Invitation } from '../../types';
 import { TemplateProps } from './types';
@@ -316,6 +325,48 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'kurumsal-mermer': KurumsalMermer,
   'kurumsal-gazete': KurumsalGazete,
   'kurumsal-posta': KurumsalPosta,
+
+  // ——— Yeni tasarım dilleri ———
+  // Brutal
+  'dugun-brutal': DugunBrutal,
+  'kina-brutal': KinaBrutal,
+  'nisan-brutal': NisanBrutal,
+  'sunnet-brutal': SunnetBrutal,
+  'dogum-gunu-brutal': DogumGunuBrutal,
+  'mezuniyet-brutal': MezuniyetBrutal,
+  'baby-brutal': BabyBrutal,
+  'parti-brutal': PartiBrutal,
+  'kurumsal-brutal': KurumsalBrutal,
+  // Terrazzo
+  'dugun-terrazzo': DugunTerrazzo,
+  'kina-terrazzo': KinaTerrazzo,
+  'nisan-terrazzo': NisanTerrazzo,
+  'sunnet-terrazzo': SunnetTerrazzo,
+  'dogum-gunu-terrazzo': DogumGunuTerrazzo,
+  'mezuniyet-terrazzo': MezuniyetTerrazzo,
+  'baby-terrazzo': BabyTerrazzo,
+  'parti-terrazzo': PartiTerrazzo,
+  'kurumsal-terrazzo': KurumsalTerrazzo,
+  // Teknik Çizim
+  'dugun-blueprint': DugunBlueprint,
+  'kina-blueprint': KinaBlueprint,
+  'nisan-blueprint': NisanBlueprint,
+  'sunnet-blueprint': SunnetBlueprint,
+  'dogum-gunu-blueprint': DogumGunuBlueprint,
+  'mezuniyet-blueprint': MezuniyetBlueprint,
+  'baby-blueprint': BabyBlueprint,
+  'parti-blueprint': PartiBlueprint,
+  'kurumsal-blueprint': KurumsalBlueprint,
+  // Herbaryum
+  'dugun-herbaryum': DugunHerbaryum,
+  'kina-herbaryum': KinaHerbaryum,
+  'nisan-herbaryum': NisanHerbaryum,
+  'sunnet-herbaryum': SunnetHerbaryum,
+  'dogum-gunu-herbaryum': DogumGunuHerbaryum,
+  'mezuniyet-herbaryum': MezuniyetHerbaryum,
+  'baby-herbaryum': BabyHerbaryum,
+  'parti-herbaryum': PartiHerbaryum,
+  'kurumsal-herbaryum': KurumsalHerbaryum,
 };
 
 export function TemplateRenderer({ templateId, invitation, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {

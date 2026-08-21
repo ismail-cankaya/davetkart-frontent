@@ -25,3 +25,7 @@ export { NisanFilm } from './NisanFilm';
 export { NisanMermer } from './NisanMermer';
 export { NisanGazete } from './NisanGazete';
 export { NisanPosta } from './NisanPosta';
+export { NisanBrutal } from './NisanBrutal';
+export { NisanTerrazzo } from './NisanTerrazzo';
+export { NisanBlueprint } from './NisanBlueprint';
+export { NisanHerbaryum } from './NisanHerbaryum';

@@ -20,3 +20,7 @@ export { FilmHero } from './FilmHero';
 export { MermerHero } from './MermerHero';
 export { GazeteHero } from './GazeteHero';
 export { PostaHero } from './PostaHero';
+export { BrutalHero } from './BrutalHero';
+export { TerrazzoHero } from './TerrazzoHero';
+export { BlueprintHero } from './BlueprintHero';
+export { HerbaryumHero } from './HerbaryumHero';

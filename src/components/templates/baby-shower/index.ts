@@ -21,3 +21,7 @@ export { BabyFilm } from './BabyFilm';
 export { BabyMermer } from './BabyMermer';
 export { BabyGazete } from './BabyGazete';
 export { BabyPosta } from './BabyPosta';
+export { BabyBrutal } from './BabyBrutal';
+export { BabyTerrazzo } from './BabyTerrazzo';
+export { BabyBlueprint } from './BabyBlueprint';
+export { BabyHerbaryum } from './BabyHerbaryum';

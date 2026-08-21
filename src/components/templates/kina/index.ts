@@ -24,3 +24,7 @@ export { KinaFilm } from './KinaFilm';
 export { KinaMermer } from './KinaMermer';
 export { KinaGazete } from './KinaGazete';
 export { KinaPosta } from './KinaPosta';
+export { KinaBrutal } from './KinaBrutal';
+export { KinaTerrazzo } from './KinaTerrazzo';
+export { KinaBlueprint } from './KinaBlueprint';
+export { KinaHerbaryum } from './KinaHerbaryum';

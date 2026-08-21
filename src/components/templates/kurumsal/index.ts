@@ -19,3 +19,7 @@ export { KurumsalFilm } from './KurumsalFilm';
 export { KurumsalMermer } from './KurumsalMermer';
 export { KurumsalGazete } from './KurumsalGazete';
 export { KurumsalPosta } from './KurumsalPosta';
+export { KurumsalBrutal } from './KurumsalBrutal';
+export { KurumsalTerrazzo } from './KurumsalTerrazzo';
+export { KurumsalBlueprint } from './KurumsalBlueprint';
+export { KurumsalHerbaryum } from './KurumsalHerbaryum';

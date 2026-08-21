@@ -21,3 +21,7 @@ export { SunnetFilm } from './SunnetFilm';
 export { SunnetMermer } from './SunnetMermer';
 export { SunnetGazete } from './SunnetGazete';
 export { SunnetPosta } from './SunnetPosta';
+export { SunnetBrutal } from './SunnetBrutal';
+export { SunnetTerrazzo } from './SunnetTerrazzo';
+export { SunnetBlueprint } from './SunnetBlueprint';
+export { SunnetHerbaryum } from './SunnetHerbaryum';

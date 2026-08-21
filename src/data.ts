@@ -2268,7 +2268,371 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     btnColor: 'bg-[#d4af37] hover:bg-[#e3c35a] text-black',
     imageUrl: '/images/parti-gala.svg',
     categories: ['parti']
-  }
+  },
+  // ——— Yeni konseptler: Brutal (düz renk blok, sert çerçeve, dev tipografi) ———
+  {
+    id: 'dugun-brutal',
+    name: 'Brutal',
+    primaryColor: '#f2efe6',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdf7] via-[#f2efe6] to-[#d92b3a]',
+    titleColor: 'text-[#121110]',
+    btnColor: 'bg-[#d92b3a] hover:brightness-110 text-[#fff4ee]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-brutal',
+    name: 'Brutal',
+    primaryColor: '#f8efdf',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffaef] via-[#f8efdf] to-[#c81e4a]',
+    titleColor: 'text-[#17110a]',
+    btnColor: 'bg-[#c81e4a] hover:brightness-110 text-[#fff0f3]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-brutal',
+    name: 'Brutal',
+    primaryColor: '#eef1f7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfdff] via-[#eef1f7] to-[#3b5bdb]',
+    titleColor: 'text-[#0e1117]',
+    btnColor: 'bg-[#3b5bdb] hover:brightness-110 text-[#eef2ff]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-brutal',
+    name: 'Brutal',
+    primaryColor: '#e9f3f5',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfeff] via-[#e9f3f5] to-[#0d8f7a]',
+    titleColor: 'text-[#0a1418]',
+    btnColor: 'bg-[#0d8f7a] hover:brightness-110 text-[#eafff9]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-brutal',
+    name: 'Brutal',
+    primaryColor: '#fdf0d9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffbf0] via-[#fdf0d9] to-[#ff5722]',
+    titleColor: 'text-[#17120a]',
+    btnColor: 'bg-[#ff5722] hover:brightness-110 text-[#fff3ec]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-brutal',
+    name: 'Brutal',
+    primaryColor: '#f0ede2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdf4] via-[#f0ede2] to-[#8b1e3f]',
+    titleColor: 'text-[#12110d]',
+    btnColor: 'bg-[#8b1e3f] hover:brightness-110 text-[#ffeef2]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-brutal',
+    name: 'Brutal',
+    primaryColor: '#edf5f3',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcfffe] via-[#edf5f3] to-[#2f9ad9]',
+    titleColor: 'text-[#0d1513]',
+    btnColor: 'bg-[#2f9ad9] hover:brightness-110 text-[#eef9ff]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-brutal',
+    name: 'Brutal',
+    primaryColor: '#0d0d10',
+    backgroundStyle: 'bg-gradient-to-br from-[#16161b] via-[#0d0d10] to-[#d6ff3d]',
+    titleColor: 'text-[#f2f2f0]',
+    btnColor: 'bg-[#d6ff3d] hover:brightness-110 text-[#0d0d10]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-brutal',
+    name: 'Brutal',
+    primaryColor: '#eef1f3',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfefe] via-[#eef1f3] to-[#1668c4]',
+    titleColor: 'text-[#0a0f13]',
+    btnColor: 'bg-[#1668c4] hover:brightness-110 text-[#eef5ff]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Terrazzo (kırık taş saçılımı) ———
+  {
+    id: 'dugun-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#f6f2ec',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdf9] via-[#f6f2ec] to-[#c9a227]',
+    titleColor: 'text-[#2b2620]',
+    btnColor: 'bg-[#2b2620] hover:brightness-125 text-[#f6f2ec]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#fbf3e6',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffcf5] via-[#fbf3e6] to-[#c1272d]',
+    titleColor: 'text-[#2c1d16]',
+    btnColor: 'bg-[#2c1d16] hover:brightness-125 text-[#fbf3e6]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#f3f5f8',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfeff] via-[#f3f5f8] to-[#5b7db1]',
+    titleColor: 'text-[#232833]',
+    btnColor: 'bg-[#232833] hover:brightness-125 text-[#f3f5f8]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#eff6f7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfeff] via-[#eff6f7] to-[#2f7f8c]',
+    titleColor: 'text-[#17262b]',
+    btnColor: 'bg-[#17262b] hover:brightness-125 text-[#eff6f7]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#fff7ef',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdf8] via-[#fff7ef] to-[#ff6b35]',
+    titleColor: 'text-[#2a2018]',
+    btnColor: 'bg-[#2a2018] hover:brightness-125 text-[#fff7ef]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#f5f2ea',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdf7] via-[#f5f2ea] to-[#7a2f39]',
+    titleColor: 'text-[#24211a]',
+    btnColor: 'bg-[#24211a] hover:brightness-125 text-[#f5f2ea]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#fbf7f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffefb] via-[#fbf7f2] to-[#a8c8d8]',
+    titleColor: 'text-[#2a2722]',
+    btnColor: 'bg-[#2a2722] hover:brightness-125 text-[#fbf7f2]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#131018',
+    backgroundStyle: 'bg-gradient-to-br from-[#131018] via-[#131018] to-[#ff5f8f]',
+    titleColor: 'text-[#f6f2f8]',
+    btnColor: 'bg-[#f6f2f8] hover:brightness-125 text-[#131018]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-terrazzo',
+    name: 'Terrazzo',
+    primaryColor: '#f1f4f5',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfeff] via-[#f1f4f5] to-[#2f6f8c]',
+    titleColor: 'text-[#1a2024]',
+    btnColor: 'bg-[#1a2024] hover:brightness-125 text-[#f1f4f5]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Teknik Çizim (ozalit ızgara, kot çizgileri, antet) ———
+  {
+    id: 'dugun-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#10233f',
+    backgroundStyle: 'bg-gradient-to-br from-[#183258] via-[#10233f] to-[#ffcf8a]',
+    titleColor: 'text-[#cfe3ff]',
+    btnColor: 'bg-[#ffcf8a] hover:brightness-110 text-[#10233f]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#2a1020',
+    backgroundStyle: 'bg-gradient-to-br from-[#3d1a2f] via-[#2a1020] to-[#ff9f68]',
+    titleColor: 'text-[#ffd9e6]',
+    btnColor: 'bg-[#ff9f68] hover:brightness-110 text-[#2a1020]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#0f1c33',
+    backgroundStyle: 'bg-gradient-to-br from-[#182a49] via-[#0f1c33] to-[#ffc9de]',
+    titleColor: 'text-[#dae7ff]',
+    btnColor: 'bg-[#ffc9de] hover:brightness-110 text-[#0f1c33]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#06232a',
+    backgroundStyle: 'bg-gradient-to-br from-[#0c353f] via-[#06232a] to-[#ffd166]',
+    titleColor: 'text-[#cdf0f5]',
+    btnColor: 'bg-[#ffd166] hover:brightness-110 text-[#06232a]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#221033',
+    backgroundStyle: 'bg-gradient-to-br from-[#34194d] via-[#221033] to-[#ffd166]',
+    titleColor: 'text-[#f0dcff]',
+    btnColor: 'bg-[#ffd166] hover:brightness-110 text-[#221033]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#101a2e',
+    backgroundStyle: 'bg-gradient-to-br from-[#1b2a45] via-[#101a2e] to-[#d9b44a]',
+    titleColor: 'text-[#dfe7f5]',
+    btnColor: 'bg-[#d9b44a] hover:brightness-110 text-[#101a2e]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#0d2430',
+    backgroundStyle: 'bg-gradient-to-br from-[#143646] via-[#0d2430] to-[#ffd3d3]',
+    titleColor: 'text-[#d8f0f7]',
+    btnColor: 'bg-[#ffd3d3] hover:brightness-110 text-[#0d2430]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#0a0a12',
+    backgroundStyle: 'bg-gradient-to-br from-[#14142a] via-[#0a0a12] to-[#d6ff3d]',
+    titleColor: 'text-[#d9ffe8]',
+    btnColor: 'bg-[#d6ff3d] hover:brightness-110 text-[#0a0a12]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-blueprint',
+    name: 'Teknik Çizim',
+    primaryColor: '#0b1b26',
+    backgroundStyle: 'bg-gradient-to-br from-[#122c3c] via-[#0b1b26] to-[#3fbfd8]',
+    titleColor: 'text-[#d6ecf7]',
+    btnColor: 'bg-[#3fbfd8] hover:brightness-110 text-[#0b1b26]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Herbaryum (preslenmiş örnek föyü) ———
+  {
+    id: 'dugun-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#f7f3e8',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfbf3] via-[#f7f3e8] to-[#9c3b46]',
+    titleColor: 'text-[#2e2a1f]',
+    btnColor: 'bg-[#2e2a1f] hover:brightness-125 text-[#f7f3e8]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#faf1e0',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffbf0] via-[#faf1e0] to-[#b8434f]',
+    titleColor: 'text-[#2d2116]',
+    btnColor: 'bg-[#2d2116] hover:brightness-125 text-[#faf1e0]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#f6f4ee',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfcf7] via-[#f6f4ee] to-[#6f7fa3]',
+    titleColor: 'text-[#2a2b26]',
+    btnColor: 'bg-[#2a2b26] hover:brightness-125 text-[#f6f4ee]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#f1f5f1',
+    backgroundStyle: 'bg-gradient-to-br from-[#fafdfa] via-[#f1f5f1] to-[#2f7f8c]',
+    titleColor: 'text-[#202b26]',
+    btnColor: 'bg-[#202b26] hover:brightness-125 text-[#f1f5f1]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#fdf6ea',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffdf6] via-[#fdf6ea] to-[#d9603f]',
+    titleColor: 'text-[#2c2418]',
+    btnColor: 'bg-[#2c2418] hover:brightness-125 text-[#fdf6ea]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#f5f1e6',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdfbf3] via-[#f5f1e6] to-[#7a2f39]',
+    titleColor: 'text-[#262319]',
+    btnColor: 'bg-[#262319] hover:brightness-125 text-[#f5f1e6]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#fbf8f1',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffefa] via-[#fbf8f1] to-[#8fa8b8]',
+    titleColor: 'text-[#2b2a23]',
+    btnColor: 'bg-[#2b2a23] hover:brightness-125 text-[#fbf8f1]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#17150f',
+    backgroundStyle: 'bg-gradient-to-br from-[#211e15] via-[#17150f] to-[#ff7fa8]',
+    titleColor: 'text-[#ece7d8]',
+    btnColor: 'bg-[#ece7d8] hover:brightness-125 text-[#17150f]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-herbaryum',
+    name: 'Herbaryum',
+    primaryColor: '#f3f5f2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfa] via-[#f3f5f2] to-[#2f6f8c]',
+    titleColor: 'text-[#222824]',
+    btnColor: 'bg-[#222824] hover:brightness-125 text-[#f3f5f2]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
 ];
 
 /**
