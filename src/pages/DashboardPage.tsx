@@ -12,7 +12,8 @@ import {
   PenLine,
   Plus,
   RefreshCw,
-  Sparkles
+  Sparkles,
+  Trash2
 } from 'lucide-react';
 import { LiveRsvpPanel } from '../components/rsvp/LiveRsvpPanel';
 import { toast } from '../components/ui/Toast';
@@ -22,7 +23,7 @@ import { useCreateWizardStore } from '../stores/useCreateWizardStore';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { fullName } from '../utils/user';
 import { EVENT_CATEGORIES, TEMPLATE_PRESETS } from '../data';
-import { Invitation } from '../types';
+import { Invitation, InvitationRecord } from '../types';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -36,6 +37,11 @@ interface DashboardCard {
   /** Backend id — drives the view/copy links and editor resume. */
   remoteId: string;
   invitation: Invitation;
+  /**
+   * 🔴 Kaydin TAMAMI. Editore yalnizca `invitation` gecirmek kimligi dusururdu
+   * ve duzenlemeye devam eden kullanici IKINCI bir davetiye olustururdu (K37).
+   */
+  record: InvitationRecord;
 }
 
 const TABS: { id: TabId; label: string }[] = [
@@ -71,13 +77,14 @@ interface InvitationCardProps {
   card: DashboardCard;
   onResume: (card: DashboardCard) => void;
   onCopyLink: (remoteId: string) => void;
+  onDelete: (card: DashboardCard) => void;
 }
 
 /**
  * Single invitation card. The banner borrows the template preset's own
  * background/title classes so every card previews its theme's mood.
  */
-function InvitationCard({ card, onResume, onCopyLink }: InvitationCardProps) {
+function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCardProps) {
   const inv = card.invitation;
   const preset = TEMPLATE_PRESETS.find((p) => p.id === inv.imageTheme);
   const meta = KIND_META[card.kind];
@@ -123,7 +130,7 @@ function InvitationCard({ card, onResume, onCopyLink }: InvitationCardProps) {
         </div>
 
         {/* Actions */}
-        <div className="mt-auto pt-4 border-t border-stone-100">
+        <div className="mt-auto pt-4 border-t border-stone-100 space-y-2">
           {card.kind === 'published' ? (
             <div className="grid grid-cols-3 gap-2">
               <Link
@@ -157,6 +164,15 @@ function InvitationCard({ card, onResume, onCopyLink }: InvitationCardProps) {
               <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform duration-300" />
             </motion.button>
           )}
+
+          <button
+            type="button"
+            onClick={() => onDelete(card)}
+            aria-label="Bu davetiyeyi sil"
+            className="w-full inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2 rounded-xl text-muted/70 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-all duration-300 cursor-pointer"
+          >
+            <Trash2 size={12} /> Sil
+          </button>
         </div>
       </div>
     </div>
@@ -169,18 +185,18 @@ function InvitationCard({ card, onResume, onCopyLink }: InvitationCardProps) {
  */
 export default function DashboardPage() {
   const user = useAuthStore((s) => s.user);
-  const loadInvitation = useInvitationStore((s) => s.loadInvitation);
+  const loadRecord = useInvitationStore((s) => s.loadRecord);
   const resumeEditor = useCreateWizardStore((s) => s.resumeEditor);
   const startNew = useCreateWizardStore((s) => s.startNew);
   const navigate = useNavigate();
 
-  const { published, saved, isLoading, remoteError, refresh } = useDashboardData();
+  const { published, saved, isLoading, remoteError, refresh, remove } = useDashboardData();
   const [activeTab, setActiveTab] = useState<TabId>('published');
 
   const cardsByTab = useMemo<Record<TabId, DashboardCard[]>>(
     () => ({
-      published: published.map((r) => ({ key: `remote-${r.id}`, kind: 'published', remoteId: r.id, invitation: r.invitation })),
-      saved: saved.map((r) => ({ key: `remote-${r.id}`, kind: 'saved', remoteId: r.id, invitation: r.invitation }))
+      published: published.map((r) => ({ key: `remote-${r.id}`, kind: 'published', remoteId: r.id, invitation: r.invitation, record: r })),
+      saved: saved.map((r) => ({ key: `remote-${r.id}`, kind: 'saved', remoteId: r.id, invitation: r.invitation, record: r }))
     }),
     [published, saved]
   );
@@ -190,9 +206,22 @@ export default function DashboardPage() {
 
   /** Load the record into the editor stores and drop into /create's workspace. */
   const handleResume = (card: DashboardCard) => {
-    loadInvitation(card.invitation);
+    loadRecord(card.record);
     resumeEditor(card.invitation.categoryId || 'dugun');
     navigate('/create');
+  };
+
+  /** Silme geri alinamaz gorunur; kullaniciya bir kez sorulur. */
+  const handleDelete = async (card: DashboardCard) => {
+    const ad = card.invitation.names || 'Bu davetiye';
+    if (!window.confirm(`${ad} silinecek. Emin misiniz?`)) return;
+
+    try {
+      await remove(card.remoteId);
+      toast('Davetiye silindi.');
+    } catch {
+      toast('Davetiye silinemedi — bağlantınızı kontrol edin.', 'info');
+    }
   };
 
   const handleCopyLink = async (remoteId: string) => {
@@ -387,7 +416,7 @@ export default function DashboardPage() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.55, ease: EASE_LUXE, delay: i * 0.07 }}
                       >
-                        <InvitationCard card={card} onResume={handleResume} onCopyLink={handleCopyLink} />
+                        <InvitationCard card={card} onResume={handleResume} onCopyLink={handleCopyLink} onDelete={handleDelete} />
                       </motion.div>
                     ))
                   )}

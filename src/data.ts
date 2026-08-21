@@ -2307,27 +2307,37 @@ export const DEFAULT_INVITE_MESSAGES: string[] = [
 ];
 
 /** Starter program flow shown when the timeline module is enabled. */
+/**
+ * Yeni davetiyenin başlangıç programı.
+ *
+ * 🔴 `id: null` — bunlar henüz kaydedilmemiş adımlardır; kimliği backend
+ * kaydederken üretir (K44). `localKey` yalnızca React'in liste anahtarıdır.
+ */
 export const DEFAULT_TIMELINE_EVENTS: TimelineEvent[] = [
   {
-    id: 'tl-1',
+    id: null,
+    localKey: 'tl-default-1',
     time: '17:00',
     title: 'Karşılama & Kokteyl',
     description: 'Misafirlerimizi hoş geldin kokteyli ile karşılıyoruz.'
   },
   {
-    id: 'tl-2',
+    id: null,
+    localKey: 'tl-default-2',
     time: '19:00',
     title: 'Nikah Töreni',
     description: 'Evet dediğimiz o büyülü ana hep birlikte tanıklık edin.'
   },
   {
-    id: 'tl-3',
+    id: null,
+    localKey: 'tl-default-3',
     time: '20:00',
     title: 'Akşam Yemeği',
     description: 'Özenle hazırlanan menümüz eşliğinde keyifli bir akşam.'
   },
   {
-    id: 'tl-4',
+    id: null,
+    localKey: 'tl-default-4',
     time: '22:00',
     title: 'İlk Dans & Eğlence',
     description: 'Gece boyu sürecek müzik ve dans ile kutlamaya devam.'

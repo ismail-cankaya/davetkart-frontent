@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
-import { invitationService } from '../services/invitations';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { persistenceService } from '../services/persistence';
 import { InvitationRecord } from '../types';
 
 export interface DashboardData {
@@ -11,27 +11,29 @@ export interface DashboardData {
   /** Backend unreachable — the library can't be listed right now. */
   remoteError: boolean;
   refresh: () => void;
+  /** Davetiyeyi siler; hata olursa liste sunucudan geri yüklenir. */
+  remove: (id: string) => Promise<void>;
 }
 
 /**
- * Loads the member dashboard's invitation library from the Invitation
- * service. The backend keeps one invitation per account (GET /api/invitations
- * returns a single record or null), so at most one of the two lists holds a
- * record — the array shape keeps the card grid's rendering contract stable
- * and leaves room for a multi-invitation plan later.
+ * Loads the member dashboard's invitation library from the Invitation service.
+ *
+ * Faz 3 (K37): backend artık hesap başına BİRDEN ÇOK davetiye tutuyor, bu yüzden
+ * tek kayıt varsayımı kaldırıldı. Ayrıntılı açıklama:
+ * docs/rehber/src/hooks/useDashboardData.md
  */
 export function useDashboardData(): DashboardData {
-  const [record, setRecord] = useState<InvitationRecord | null>(null);
+  const [records, setRecords] = useState<InvitationRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [remoteError, setRemoteError] = useState(false);
 
   const load = useCallback(async () => {
     setIsLoading(true);
     try {
-      setRecord(await invitationService.get());
+      setRecords(await persistenceService.listInvitations());
       setRemoteError(false);
     } catch {
-      setRecord(null);
+      setRecords([]);
       setRemoteError(true);
     }
     setIsLoading(false);
@@ -41,11 +43,33 @@ export function useDashboardData(): DashboardData {
     void load();
   }, [load]);
 
+  /**
+   * İyimser güncelleme: kart anında kaybolur, ağı beklemez. Silme başarısız
+   * olursa liste sunucudan tazelenir ve kart geri gelir — ekranda gerçek
+   * durumdan farklı bir şey kalmaz.
+   */
+  const remove = useCallback(
+    async (id: string) => {
+      setRecords((prev) => prev.filter((record) => record.id !== id));
+      try {
+        await persistenceService.deleteInvitation(id);
+      } catch (error) {
+        await load();
+        throw error;
+      }
+    },
+    [load]
+  );
+
+  const published = useMemo(() => records.filter((r) => r.status === 'published'), [records]);
+  const saved = useMemo(() => records.filter((r) => r.status === 'saved'), [records]);
+
   return {
-    published: record?.status === 'published' ? [record] : [],
-    saved: record?.status === 'saved' ? [record] : [],
+    published,
+    saved,
     isLoading,
     remoteError,
-    refresh: () => void load()
+    refresh: () => void load(),
+    remove
   };
 }

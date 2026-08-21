@@ -1,31 +1,32 @@
-import { Invitation, RSVPResponse, RsvpCreatePayload } from '../types';
+import { Invitation, InvitationRecord, RSVPResponse, RsvpCreatePayload } from '../types';
 import { invitationService } from './invitations';
 import { rsvpService } from './rsvps';
 
 /**
  * Data-access boundary for core application data (Invitation, RSVPs).
  *
- * Stores talk only to this interface, never to a transport directly. The
- * shipped adapter forwards to the Laravel backend through the shared `api`
- * client (via the invitation/RSVP feature services), so swapping in a
- * caching or offline adapter later only touches this file.
+ * Stores ve hook'lar YALNIZCA bu arayüzle konuşur, taşıma katmanıyla asla.
+ * Böylece ileride önbellekli veya çevrimdışı bir uyarlayıcı eklemek tek dosyayı
+ * değiştirir.
+ *
+ * Faz 3 (K37): davetiye metotları kimlik taşır — hesap başına tek davetiye
+ * varsayımı kaldırıldı. Ayrıntılı açıklama: docs/rehber/src/services/persistence.md
  */
 export interface PersistenceService {
-  getInvitation(): Promise<Invitation | null>;
-  saveInvitation(invitation: Invitation): Promise<void>;
+  listInvitations(): Promise<InvitationRecord[]>;
+  createInvitation(invitation: Invitation): Promise<InvitationRecord>;
+  updateInvitation(id: string, invitation: Invitation): Promise<InvitationRecord>;
+  deleteInvitation(id: string): Promise<void>;
   listRsvps(): Promise<RSVPResponse[]>;
   createRsvp(payload: RsvpCreatePayload): Promise<RSVPResponse>;
   deleteRsvp(id: string): Promise<void>;
 }
 
 const httpAdapter: PersistenceService = {
-  // The editor only cares about the design payload; record metadata
-  // (id/status/updatedAt) stays a dashboard concern (see useDashboardData).
-  getInvitation: async () => (await invitationService.get())?.invitation ?? null,
-
-  saveInvitation: async (invitation) => {
-    await invitationService.save(invitation);
-  },
+  listInvitations: () => invitationService.list(),
+  createInvitation: (invitation) => invitationService.create(invitation),
+  updateInvitation: (id, invitation) => invitationService.update(id, invitation),
+  deleteInvitation: (id) => invitationService.remove(id),
 
   listRsvps: () => rsvpService.list(),
   createRsvp: (payload) => rsvpService.create(payload),
