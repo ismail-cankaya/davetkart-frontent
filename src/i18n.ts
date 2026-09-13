@@ -13,6 +13,14 @@ import ar from './locales/ar/translation.json';
 import ru from './locales/ru/translation.json';
 import pt from './locales/pt/translation.json';
 
+// Hata metinleri ayrı bir namespace'te durur: arayüz sözlüğü ürünle birlikte
+// büyür, hata sözlüğü ise backend'in `error-codes.json` sözleşmesine bağlıdır
+// (K20/K31). İkisini ayırmak, sözleşme yenilendiğinde neyin denetleneceğini
+// tek dosyada tutar. Yalnızca tr/en yazılıdır; kalan diller fallbackLng ile
+// 'en' metinlerini görür — eksik anahtar uyarısı üretmez.
+import trErrors from './locales/tr/errors.json';
+import enErrors from './locales/en/errors.json';
+
 export interface AppLanguage {
   /** ISO 639-1 code — matches the resource key and the localStorage value. */
   code: string;
@@ -47,8 +55,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources: {
-      en: { translation: en },
-      tr: { translation: tr },
+      en: { translation: en, errors: enErrors },
+      tr: { translation: tr, errors: trErrors },
       es: { translation: es },
       fr: { translation: fr },
       de: { translation: de },
@@ -59,6 +67,8 @@ i18n
       pt: { translation: pt }
     },
     fallbackLng: 'en',
+    ns: ['translation', 'errors'],
+    defaultNS: 'translation',
     supportedLngs: SUPPORTED_LANGUAGES.map(l => l.code),
     nonExplicitSupportedLngs: true,
     interpolation: {

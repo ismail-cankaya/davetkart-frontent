@@ -88,9 +88,15 @@ okunabilir kılıyor.**
 
 ## F1 — Hata çeviri katmanı (K20'nin frontend yarısı)
 
-**Durum:** `services/api.ts` içinde geçici `apiErrorCode()` ve
-`apiErrorParams()` var. Kalıcı `toDisplayError()` **yok**. `locales/*/errors.json`
-**yok**.
+**Durum:** ✅ **Tamamlandı.** `src/contracts/error-codes.json` (tek yönlü kopya),
+`src/contracts/errorCodes.ts` (tipli katman), `src/locales/{tr,en}/errors.json`
+ve `src/utils/toDisplayError.ts` yazıldı. `apiErrorFields()` eklendi;
+`LoginPage`, `RegisterPage` ve `InvitePage` katmana bağlandı.
+`npm run verify:errors` sözleşme kapsamını denetler.
+
+Kalan diller (`de, fr, es, pt, ru, ar, hi, zh`) `fallbackLng: 'en'` ile
+İngilizce metinleri gösterir — arayüzün geri kalanı da bugün çevrilmiş
+değil; hata sözlüğünü tek başına on dile çıkarmak karışık dilli ekran üretirdi.
 
 Backend tasarım gereği **metin döndürmez** (K20/K21) — yalnızca kod:
 
@@ -584,14 +590,14 @@ Backend'in `FAZ-9-ELLE-DOGRULAMA.md` betiğiyle **birlikte** koşulur.
 | 6 | **Program adımı kimliği uydurmak** | `id: null` = yeni satır, `id: "7"` = güncelle (K44). React anahtarı için ayrı `localKey` var |
 | 7 | **`getRequiredTier()`'a yetki kararı vermek** | O bir **sunum** kopyası; yetki kararı sunucuda (`TierResolver`) |
 | 8 | **Honeypot'u `display:none` yapmak** | Bot görmeli ki doldursun (F2.4) |
-| 9 | **`api.ts` docblock'una güvenmek** | *"microservices gateway"* ve *"JWT"* diyor; ikisi de yanlış — **modüler monolit** ve **Sanctum token**. Düzeltilmeli (**B4**) |
+| 9 | ~~**`api.ts` docblock'una güvenmek**~~ | *"microservices gateway"* ve *"JWT"* diyordu; ikisi de yanlıştı — **modüler monolit** ve **Sanctum token**. ✅ F1'de düzeltildi (**B4**) |
 | 10 | **Timeout'u uzatmak** | 15 sn backend'in ayarlandığı sınır (K78); uzatmak sorunu gizler |
 
 ---
 
 ## 4. Kapanış listesi
 
-- [ ] **F1** `errors.json` (21 kod) + `toDisplayError()` + `VALIDATION_FAILED` haritası
+- [x] **F1** `errors.json` (21 kod) + `toDisplayError()` + `VALIDATION_FAILED` haritası
 - [ ] **F2** `media.ts` · `rsvps.ts` · `contact.ts` uçları düzeltildi
 - [ ] **F2.4** 🔴 Honeypot (`website`) iki formda da render ediliyor
 - [ ] **F3** `publish` ucu eklendi, iki 402 kodu ayrı ele alınıyor

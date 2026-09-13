@@ -6,6 +6,7 @@ import { RsvpModal } from '../components/preview/RsvpModal';
 import { useUIStore } from '../stores/useUIStore';
 import { publicInvitationService } from '../services/publicInvitation';
 import { apiErrorCode } from '../services/api';
+import { toDisplayError } from '../utils/toDisplayError';
 import { TEMPLATE_PRESETS } from '../data';
 import { Invitation } from '../types';
 
@@ -22,7 +23,8 @@ type LoadState =
   | { status: 'loading' }
   | { status: 'ready'; invitation: Invitation }
   | { status: 'missing' }
-  | { status: 'error' };
+  // Sebep taşınır: kopuk bağlantı ile sunucu hatası aynı cümleyi hak etmez.
+  | { status: 'error'; detail: string };
 
 /** Şablon anahtarı katalogda yoksa ilk hazır şablona düşülür. */
 function resolvePresetId(imageTheme: string): string {
@@ -70,7 +72,11 @@ export default function InvitePage() {
 
         // 🔴 Yayınlanmamış, silinmiş ve hiç var olmayan davetiye AYNI kodu
         // döner. Ayrım yapmıyoruz — yapamayız da, backend bilerek vermiyor.
-        setState({ status: apiErrorCode(error) === 'RESOURCE_NOT_FOUND' ? 'missing' : 'error' });
+        setState(
+          apiErrorCode(error) === 'RESOURCE_NOT_FOUND'
+            ? { status: 'missing' }
+            : { status: 'error', detail: toDisplayError(error) },
+        );
       });
 
     return () => {
@@ -95,7 +101,7 @@ export default function InvitePage() {
     return (
       <FullScreen
         title="Davetiye şu an açılamıyor."
-        detail="Bağlantınızı kontrol edip sayfayı yenileyebilirsiniz."
+        detail={state.detail}
       />
     );
   }

@@ -4,7 +4,7 @@ import { UserPlus } from 'lucide-react';
 import { AuthShell, authInputClass } from '../components/auth/AuthShell';
 import { useAuthStore } from '../stores/useAuthStore';
 import { toast } from '../components/ui/Toast';
-import { apiErrorCode, apiErrorParams } from '../services/api';
+import { toDisplayError } from '../utils/toDisplayError';
 import { fullName } from '../utils/user';
 import { AuthRedirectState } from '../types';
 
@@ -32,13 +32,13 @@ export default function RegisterPage() {
       navigate(redirectTo, { replace: true });
     } catch (e) {
       // 🔴 REGISTRATION_FAILED sebebini SÖYLEMEZ (enumeration savunması) —
-      // "bu e-posta kayıtlı" demek yasak. Genel mesaj bilinçli olarak muğlak.
-      if (apiErrorCode(e) === 'RATE_LIMITED') {
-        const seconds = Number(apiErrorParams(e).retryAfter ?? 60);
-        toast(`Çok fazla deneme yaptınız. ${seconds} saniye sonra tekrar deneyin.`, 'info');
-      } else {
-        toast('Kayıt tamamlanamadı. Lütfen tekrar deneyin.', 'info');
-      }
+      // "bu e-posta kayıtlı" demek yasak. `errors.json` içindeki metin de
+      // bilinçli olarak muğlaktır; backend'in gizlediğini çeviri katmanı
+      // geri açmamalıdır.
+      //
+      // VALIDATION_FAILED ise tam tersidir: orada alan ve kural açıkça
+      // bildirilir, kullanıcı neyi düzelteceğini görmelidir.
+      toast(toDisplayError(e), 'error');
     } finally {
       setIsSubmitting(false);
     }

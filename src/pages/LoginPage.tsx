@@ -4,7 +4,7 @@ import { LogIn } from 'lucide-react';
 import { AuthShell, authInputClass } from '../components/auth/AuthShell';
 import { useAuthStore } from '../stores/useAuthStore';
 import { toast } from '../components/ui/Toast';
-import { apiErrorCode, apiErrorParams } from '../services/api';
+import { toDisplayError } from '../utils/toDisplayError';
 import { fullName } from '../utils/user';
 import { AuthRedirectState } from '../types';
 
@@ -31,14 +31,13 @@ export default function LoginPage() {
       toast(`Tekrar hoş geldiniz, ${fullName(user)}!`);
       navigate(redirectTo, { replace: true });
     } catch (e) {
-      // Backend hız sınırlı (5/dk): "bilgilerinizi kontrol edin" demek
-      // yanıltıcı olurdu — bilgiler doğru olsa da istek reddedilir.
-      if (apiErrorCode(e) === 'RATE_LIMITED') {
-        const seconds = Number(apiErrorParams(e).retryAfter ?? 60);
-        toast(`Çok fazla deneme yaptınız. ${seconds} saniye sonra tekrar deneyin.`, 'info');
-      } else {
-        toast('Giriş yapılamadı. Bilgilerinizi kontrol edip tekrar deneyin.', 'info');
-      }
+      // Her kod kendi cümlesini taşır: hız sınırına takılmak ("5/dk") ile
+      // parolayı yanlış girmek aynı şey değildir — bilgiler doğruyken de
+      // 429 alınabilir ve "bilgilerinizi kontrol edin" demek yanıltıcı olur.
+      //
+      // 🔴 Kullanıcı formda kalır. `INVALID_CREDENTIALS` oturumu düşürmez;
+      // ayrımı `api.ts` yanıt interceptor'ı yapar.
+      toast(toDisplayError(e), 'error');
     } finally {
       setIsSubmitting(false);
     }

@@ -2,12 +2,20 @@ import axios, { AxiosError } from 'axios';
 import { useAuthStore } from '../stores/useAuthStore';
 
 /**
- * Shared HTTP client for the DavetKart microservices gateway.
+ * Backend'e çıkan tek HTTP istemcisi.
  *
- * Every feature service (invitations, RSVPs, AI generation proxy…) must go
- * through this instance so JWT injection and session handling stay in one
- * place. AI prompts are also sent through here — the backend proxies Google
- * GenAI; secret keys never live in the frontend.
+ * Her özellik servisi (davetiyeler, LCV'ler, asistan proxy'si…) bu instance
+ * üzerinden geçer; böylece token enjeksiyonu ve oturum düşürme tek yerde
+ * durur. Asistan istekleri de buradan gider — Google GenAI çağrısını backend
+ * yapar, gizli anahtarlar frontend'e hiç inmez.
+ *
+ * 🔴 Backend bir **modüler monolittir**, mikroservis ağ geçidi değil; ve
+ * kimlik **Laravel Sanctum kişisel erişim token'ı** taşır, JWT değil. Bu
+ * docblock ikisini de yanlış söylüyordu (B4: kodda karşılığı olmayan
+ * açıklama, açıklama değildir).
+ *
+ * Zaman aşımı 15 sn'de sabittir: backend'in en kötü durumu ~12.6 sn'ye göre
+ * ayarlandı (K78). Uzatmak sorunu gizler, çözmez.
  */
 export const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL ?? '/api',
@@ -15,7 +23,7 @@ export const api = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
-// Attach the JWT of the active session to every outgoing request.
+// Aktif oturumun Sanctum token'ını her giden isteğe iliştir.
 api.interceptors.request.use((config) => {
   const { token } = useAuthStore.getState();
   if (token) {
@@ -36,11 +44,27 @@ export function unwrapEnvelope(payload: unknown): unknown {
   return payload;
 }
 
+/**
+ * Doğrulama ihlali: alan başına **kural adı**, hazır metin değil (K20/K21).
+ * Metni frontend üretir — bkz. `utils/toDisplayError.ts`.
+ *
+ * ```json
+ * { "guestCount": [{ "rule": "max", "params": { "max": 10 } }] }
+ * ```
+ */
+export interface ApiFieldViolation {
+  /** Laravel kural adı, snake_case: `required`, `max`, `date_format`… */
+  rule: string;
+  /** Adlandırılmış kural parametreleri; kural parametresizse anahtar gelmez. */
+  params?: Record<string, unknown>;
+}
+
 /** Backend hata zarfı: `{ error: { code, fields?, params? } }` — K20. */
 interface ApiErrorEnvelope {
   error?: {
     code?: string;
     params?: Record<string, unknown>;
+    fields?: Record<string, ApiFieldViolation[]>;
   };
 }
 
@@ -53,8 +77,8 @@ function envelopeOf(error: unknown): ApiErrorEnvelope['error'] {
  * Backend'in döndürdüğü hata kodu (`INVALID_CREDENTIALS`, `RATE_LIMITED`…).
  * Ağ hatası, timeout veya beklenmeyen gövdede `null` döner.
  *
- * Geçici çözüm: kalıcı olan `toDisplayError()` çeviri katmanı henüz yok
- * (bkz. claude/Notlar/03 §3.3). O geldiğinde bu yardımcı onun içine taşınacak.
+ * Akış denetimi için bu üç yardımcıyı kullanın (*"hangi ekranı açmalıyım?"*);
+ * kullanıcıya metin göstermek için `toDisplayError()` kullanın.
  */
 export function apiErrorCode(error: unknown): string | null {
   return envelopeOf(error)?.code ?? null;
@@ -63,6 +87,25 @@ export function apiErrorCode(error: unknown): string | null {
 /** Hata koduna eşlik eden beyaz listelenmiş parametreler (ör. `retryAfter`). */
 export function apiErrorParams(error: unknown): Record<string, unknown> {
   return envelopeOf(error)?.params ?? {};
+}
+
+/**
+ * `VALIDATION_FAILED` zarfındaki alan ihlalleri. Backend bunu **yalnızca**
+ * doğrulama hatalarında gönderir (H6); diğer kodlarda boş nesne döner.
+ */
+export function apiErrorFields(error: unknown): Record<string, ApiFieldViolation[]> {
+  return envelopeOf(error)?.fields ?? {};
+}
+
+/**
+ * İstek backend'e hiç ulaşamadı mı (bağlantı kopuk, DNS, timeout, CORS)?
+ *
+ * 🔴 Bir HTTP yanıtının yokluğu ile hatalı bir HTTP yanıtı aynı şey değildir:
+ * ilkinde gösterilecek bir kod yoktur, ikincisinde vardır. `toDisplayError()`
+ * ayrımı buradan yapar.
+ */
+export function isNetworkError(error: unknown): boolean {
+  return axios.isAxiosError(error) && error.response === undefined;
 }
 
 /**

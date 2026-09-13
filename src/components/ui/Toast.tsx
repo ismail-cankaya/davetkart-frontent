@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, Info } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 
-type ToastType = 'success' | 'info';
+/**
+ * `error` ayrı bir tondur: bir işlemin *başarısız olduğunu* söyler. Bunu
+ * `info` ile aynı kılıkta göstermek, kullanıcının bir şeyin yolunda gitmediğini
+ * fark etmesini geciktirir.
+ */
+type ToastType = 'success' | 'info' | 'error';
+
+const TONE: Record<ToastType, { accent: string; ring: string; Icon: typeof Info }> = {
+  success: { accent: 'text-emerald-300', ring: 'border-white/10', Icon: CheckCircle2 },
+  info: { accent: 'text-champagne', ring: 'border-white/10', Icon: Info },
+  error: { accent: 'text-rose-300', ring: 'border-rose-400/25', Icon: AlertTriangle }
+};
 
 interface ToastItem {
   id: number;
@@ -38,22 +49,25 @@ export function Toaster() {
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-2 pointer-events-none px-4 w-full sm:w-auto">
       <AnimatePresence>
-        {toasts.map(t => (
-          <motion.div
-            key={t.id}
-            layout
-            initial={{ opacity: 0, y: 24, scale: 0.92, filter: 'blur(4px)' }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, y: 12, scale: 0.95, filter: 'blur(4px)' }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="pointer-events-auto flex items-center gap-3 bg-brand-deep/95 backdrop-blur-xl text-white pl-4 pr-6 py-3.5 rounded-2xl shadow-2xl shadow-brand-deep/30 border border-white/10 max-w-md"
-          >
-            <span className={t.type === 'success' ? 'text-emerald-300' : 'text-champagne'}>
-              {t.type === 'success' ? <CheckCircle2 size={18} /> : <Info size={18} />}
-            </span>
-            <p className="text-xs font-medium leading-relaxed">{t.message}</p>
-          </motion.div>
-        ))}
+        {toasts.map(t => {
+          const { accent, ring, Icon } = TONE[t.type];
+          return (
+            <motion.div
+              key={t.id}
+              layout
+              initial={{ opacity: 0, y: 24, scale: 0.92, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: 12, scale: 0.95, filter: 'blur(4px)' }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className={`pointer-events-auto flex items-start gap-3 bg-brand-deep/95 backdrop-blur-xl text-white pl-4 pr-6 py-3.5 rounded-2xl shadow-2xl shadow-brand-deep/30 border max-w-md ${ring}`}
+            >
+              <span className={`mt-px shrink-0 ${accent}`}>
+                <Icon size={18} />
+              </span>
+              <p className="text-xs font-medium leading-relaxed">{t.message}</p>
+            </motion.div>
+          );
+        })}
       </AnimatePresence>
     </div>
   );
