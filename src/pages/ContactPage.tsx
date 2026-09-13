@@ -5,6 +5,8 @@ import { Clock3, Loader2, Mail, MailCheck, MapPin, MessageCircle, Phone, Send, S
 import { PageHeader } from '../components/ui/PageHeader';
 import { toast } from '../components/ui/Toast';
 import { sendContactMessage, ContactSubject } from '../services/contact';
+import { HoneypotField } from '../components/ui/HoneypotField';
+import { toDisplayError } from '../utils/toDisplayError';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -51,9 +53,17 @@ interface FormState {
   email: string;
   subject: ContactSubject;
   message: string;
+  /** Bot tuzağı — görünmez alan; bkz. `HoneypotField`. */
+  website: string;
 }
 
-const INITIAL_FORM: FormState = { name: '', email: '', subject: 'general', message: '' };
+const INITIAL_FORM: FormState = {
+  name: '',
+  email: '',
+  subject: 'general',
+  message: '',
+  website: ''
+};
 
 export default function ContactPage() {
   const [form, setForm] = useState<FormState>(INITIAL_FORM);
@@ -84,12 +94,15 @@ export default function ContactPage() {
         name: form.name.trim(),
         email: form.email.trim(),
         subject: form.subject,
-        message: form.message.trim()
+        message: form.message.trim(),
+        // Tuzağın değeri olduğu gibi taşınır; boş dizgiyi backend null'a
+        // çevirip görmezden gelir, dolu gelirse 204 döner ve kaydetmez.
+        website: form.website
       });
       setSent(true);
       toast('Mesajınız bize ulaştı. Teşekkür ederiz!');
-    } catch {
-      toast('Mesajınız şu an gönderilemedi. Lütfen daha sonra tekrar deneyin veya destek@davetkart.com adresine yazın.', 'info');
+    } catch (error) {
+      toast(toDisplayError(error), 'error');
     } finally {
       setSending(false);
     }
@@ -192,9 +205,15 @@ export default function ContactPage() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.5, ease: EASE_LUXE }}
                   onSubmit={handleSubmit}
-                  className="space-y-5"
+                  className="relative space-y-5"
                   noValidate
                 >
+                  <HoneypotField
+                    id="contact-website"
+                    value={form.website}
+                    onChange={(value) => updateField('website', value)}
+                  />
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div className="space-y-1.5">
                       <label htmlFor="contact-name" className="text-xs font-bold text-ink uppercase tracking-wide">

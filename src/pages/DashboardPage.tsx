@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -20,8 +20,10 @@ import { toast } from '../components/ui/Toast';
 import { useAuthStore } from '../stores/useAuthStore';
 import { useInvitationStore } from '../stores/useInvitationStore';
 import { useCreateWizardStore } from '../stores/useCreateWizardStore';
+import { useRsvpStore } from '../stores/useRsvpStore';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { fullName } from '../utils/user';
+import { toDisplayError } from '../utils/toDisplayError';
 import { EVENT_CATEGORIES, TEMPLATE_PRESETS } from '../data';
 import { Invitation, InvitationRecord } from '../types';
 
@@ -193,6 +195,19 @@ export default function DashboardPage() {
   const { published, saved, isLoading, remoteError, refresh, remove } = useDashboardData();
   const [activeTab, setActiveTab] = useState<TabId>('published');
 
+  // 🔴 LCV listesi davetiyeye özgüdür (`GET /invitations/{id}/rsvps`), hesaba
+  // değil. Panel hangi davetiyeyi gösterdiğini bilmek zorunda; kullanıcının
+  // birden fazla yayınlanmış davetiyesi varsa hangisi olduğunu da SÖYLEMELİ.
+  // Yanıtlar yalnızca yayınlanmış davetiyelere gelebilir — taslaklar listede yok.
+  const [rsvpScopeId, setRsvpScopeId] = useState<string | null>(null);
+  const setInvitationScope = useRsvpStore((s) => s.setInvitationScope);
+
+  const scopedInvitationId = rsvpScopeId ?? published[0]?.id ?? null;
+
+  useEffect(() => {
+    setInvitationScope(scopedInvitationId);
+  }, [scopedInvitationId, setInvitationScope]);
+
   const cardsByTab = useMemo<Record<TabId, DashboardCard[]>>(
     () => ({
       published: published.map((r) => ({ key: `remote-${r.id}`, kind: 'published', remoteId: r.id, invitation: r.invitation, record: r })),
@@ -219,8 +234,8 @@ export default function DashboardPage() {
     try {
       await remove(card.remoteId);
       toast('Davetiye silindi.');
-    } catch {
-      toast('Davetiye silinemedi — bağlantınızı kontrol edin.', 'info');
+    } catch (error) {
+      toast(toDisplayError(error), 'error');
     }
   };
 
@@ -427,7 +442,38 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <LiveRsvpPanel />
+      <LiveRsvpPanel
+        scopeSlot={
+          published.length > 1 ? (
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {published.map((record) => {
+                const isActive = record.id === scopedInvitationId;
+                return (
+                  <button
+                    key={record.id}
+                    type="button"
+                    onClick={() => setRsvpScopeId(record.id)}
+                    className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all duration-300 cursor-pointer ${
+                      isActive
+                        ? 'bg-brand text-white border-brand shadow-lg shadow-brand/20'
+                        : 'bg-white/60 text-muted border-ink/10 hover:border-brand/40 hover:text-brand'
+                    }`}
+                  >
+                    {record.invitation.names || 'İsimsiz davetiye'}
+                  </button>
+                );
+              })}
+            </div>
+          ) : published.length === 1 ? (
+            <p className="text-xs text-muted">
+              <span className="font-semibold text-ink">
+                {published[0].invitation.names || 'İsimsiz davetiye'}
+              </span>{' '}
+              davetiyesine gelen yanıtlar
+            </p>
+          ) : null
+        }
+      />
     </>
   );
 }

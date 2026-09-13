@@ -4,18 +4,27 @@ import { ImagePlus, Loader2, X } from 'lucide-react';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { mediaService } from '../../services/media';
 import { toast } from '../ui/Toast';
+import { toDisplayError } from '../../utils/toDisplayError';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 const MAX_PHOTOS = 8;
 
 /**
- * Wizard uploader for the invitation gallery. Files go through the media
- * boundary (object URLs today, cloud storage once the backend lands) and the
- * resulting URLs are stored on the invitation.
+ * Davetiye galerisinin yükleyicisi.
+ *
+ * 🔴 Yükleme ucu davetiye kimliği ister (`POST /invitations/{id}/media`) ve
+ * kimlik ancak ilk otomatik kaydetme tamamlandığında doğar. Kullanıcı
+ * tasarıma başlar başlamaz fotoğraf seçebildiği için burada bir **sıra
+ * sorunu** var: `recordId` henüz `null` olabilir.
+ *
+ * Sessizce başarısız olmak yerine kaydetmeyi bekletiyoruz — kullanıcının
+ * seçtiği dosyanın nereye gittiğini bilmemesi, hata görmesinden kötüdür.
  */
 export function GalleryUploader() {
   const images = useInvitationStore((s) => s.invitation.galleryImages);
   const updateField = useInvitationStore((s) => s.updateField);
+  const recordId = useInvitationStore((s) => s.recordId);
+  const saveInvitation = useInvitationStore((s) => s.saveInvitation);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [uploading, setUploading] = useState(false);
 
@@ -26,10 +35,26 @@ export function GalleryUploader() {
 
     setUploading(true);
     try {
-      const urls = await Promise.all(files.map((file) => mediaService.upload(file)));
-      updateField('galleryImages', [...images, ...urls]);
-    } catch {
-      toast('Fotoğraflar yüklenemedi — lütfen bağlantınızı kontrol edip tekrar deneyin.', 'info');
+      // Kimlik yoksa önce kaydet: sunucudaki kayıt doğmadan ona dosya
+      // iliştirilemez. Kaydetmeler sıraya alındığı için bu çağrı, uçmakta
+      // olan bir otomatik kaydetmeyle çakışmaz.
+      let invitationId = recordId;
+      if (!invitationId) {
+        await saveInvitation();
+        invitationId = useInvitationStore.getState().recordId;
+      }
+
+      if (!invitationId) {
+        toast('Fotoğraf eklemeden önce davetiyenin kaydedilmesi gerekiyor. Lütfen tekrar deneyin.', 'error');
+        return;
+      }
+
+      const uploaded = await Promise.all(
+        files.map((file) => mediaService.uploadForOwner(invitationId, file)),
+      );
+      updateField('galleryImages', [...images, ...uploaded.map((media) => media.url)]);
+    } catch (error) {
+      toast(toDisplayError(error), 'error');
     } finally {
       setUploading(false);
       if (inputRef.current) inputRef.current.value = '';

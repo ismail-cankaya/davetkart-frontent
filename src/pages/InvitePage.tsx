@@ -4,6 +4,7 @@ import { AnimatePresence } from 'motion/react';
 import { TemplateRenderer } from '../components/templates/TemplateRenderer';
 import { RsvpModal } from '../components/preview/RsvpModal';
 import { useUIStore } from '../stores/useUIStore';
+import { useRsvpStore } from '../stores/useRsvpStore';
 import { publicInvitationService } from '../services/publicInvitation';
 import { apiErrorCode } from '../services/api';
 import { toDisplayError } from '../utils/toDisplayError';
@@ -48,6 +49,14 @@ export default function InvitePage() {
 
   const isRsvpModalOpen = useUIStore((s) => s.isRsvpModalOpen);
   const setRsvpModalOpen = useUIStore((s) => s.setRsvpModalOpen);
+  const setInvitationScope = useRsvpStore((s) => s.setInvitationScope);
+
+  // Misafirin yanıtı BU davetiyeye yazılır. Kapsam, davetiyenin yüklenmesini
+  // beklemeden kurulur: kimlik rotadan gelir ve yükleme başarısız olsa bile
+  // yanlış bir davetiyeye yazma riski doğmamalıdır.
+  useEffect(() => {
+    setInvitationScope(id ?? null);
+  }, [id, setInvitationScope]);
 
   useEffect(() => {
     if (!id) {

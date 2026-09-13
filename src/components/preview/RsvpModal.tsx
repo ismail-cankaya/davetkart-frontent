@@ -4,6 +4,9 @@ import { Heart, X, ImageIcon, Play, Send } from 'lucide-react';
 import { useRsvpStore } from '../../stores/useRsvpStore';
 import { useUIStore } from '../../stores/useUIStore';
 import { toast } from '../ui/Toast';
+import { HoneypotField } from '../ui/HoneypotField';
+import { toDisplayError } from '../../utils/toDisplayError';
+import { RSVP_STATUSES, RSVP_STATUS_CHOICES } from '../../utils/rsvpStatus';
 
 export function RsvpModal() {
   const draft = useRsvpStore(s => s.draft);
@@ -22,19 +25,21 @@ export function RsvpModal() {
       if (!entry) return;
       setRsvpModalOpen(false);
       toast(`Teşekkürler, ${entry.guestName}! Katılım bildiriminiz kaydedildi ve canlı panele eklendi.`);
-    } catch {
-      toast('Yanıtınız gönderilemedi — lütfen bağlantınızı kontrol edip tekrar deneyin.', 'info');
+    } catch (error) {
+      // Kota dolması, son tarihin geçmesi ve kopuk bağlantı farklı şeylerdir;
+      // hangisi olduğunu backend'in kodu söyler.
+      toast(toDisplayError(error), 'error');
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleMediaChange = (field: 'photoUrl' | 'videoUrl') =>
+  const handleMediaChange = (field: 'photo' | 'video') =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
       if (file) {
-        attachDraftMedia(field, file).catch(() => {
-          toast('Dosya yüklenemedi — lütfen tekrar deneyin.', 'info');
+        attachDraftMedia(field, file).catch((error: unknown) => {
+          toast(toDisplayError(error), 'error');
         });
       }
     };
@@ -62,7 +67,13 @@ export function RsvpModal() {
         </motion.button>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="relative space-y-4">
+        <HoneypotField
+          id="rsvp-website"
+          value={draft.website}
+          onChange={(value) => updateDraft({ website: value })}
+        />
+
         <div>
           <label className="block text-[11px] font-semibold text-stone-300 uppercase tracking-wider mb-1.5">
             Misafir Adı &amp; Soyadı
@@ -116,7 +127,7 @@ export function RsvpModal() {
             Katılım Durumu
           </label>
           <div className="grid grid-cols-3 gap-2">
-            {(['Katılıyor', 'Bekleniyor', 'Katılamıyor'] as const).map(st => (
+            {RSVP_STATUSES.map(st => (
               <motion.button
                 key={st}
                 type="button"
@@ -129,7 +140,7 @@ export function RsvpModal() {
                     : 'bg-white/5 border-white/10 text-stone-300 hover:bg-white/10'
                 }`}
               >
-                {st === 'Katılıyor' ? 'Katılıyorum' : st === 'Bekleniyor' ? 'Belirsiz' : 'Katılamıyorum'}
+                {RSVP_STATUS_CHOICES[st]}
               </motion.button>
             ))}
           </div>
@@ -154,7 +165,7 @@ export function RsvpModal() {
               Fotoğraf Ekle
             </label>
             <label className="flex items-center justify-center w-full bg-white/5 border border-white/15 border-dashed hover:border-amber-400 hover:bg-white/10 rounded-xl px-3 py-2 text-xs text-white transition-colors cursor-pointer group">
-              <input type="file" accept="image/*" onChange={handleMediaChange('photoUrl')} className="hidden" />
+              <input type="file" accept="image/*" onChange={handleMediaChange('photo')} className="hidden" />
               <span className="flex items-center gap-1.5 group-hover:text-amber-400 text-stone-300">
                 <ImageIcon size={14} /> {draft.photoUrl ? 'Değiştir' : 'Seç'}
               </span>
@@ -165,7 +176,7 @@ export function RsvpModal() {
               Kısa Video Ekle
             </label>
             <label className="flex items-center justify-center w-full bg-white/5 border border-white/15 border-dashed hover:border-amber-400 hover:bg-white/10 rounded-xl px-3 py-2 text-xs text-white transition-colors cursor-pointer group">
-              <input type="file" accept="video/*" onChange={handleMediaChange('videoUrl')} className="hidden" />
+              <input type="file" accept="video/*" onChange={handleMediaChange('video')} className="hidden" />
               <span className="flex items-center gap-1.5 group-hover:text-amber-400 text-stone-300">
                 <Play size={14} /> {draft.videoUrl ? 'Değiştir' : 'Seç'}
               </span>

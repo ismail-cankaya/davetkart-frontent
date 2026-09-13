@@ -1,21 +1,30 @@
 /**
- * `verify-error-contract.ts`'i Node altında çalıştırır.
+ * Bir doğrulama betiğini Node altında çalıştırır.
  *
- * Denetim gerçek uygulama modüllerini (`src/utils/toDisplayError.ts`,
- * `src/i18n.ts`) içeri alır — mantığı kopyalayan bir taklit değil, kullanıcıya
- * giden kodun ta kendisi sınanır. Bunun tek bedeli `import.meta.env`'dir:
- * onu Vite sağlar, Node sağlamaz. esbuild derleme sırasında yerine koyar.
+ *   node scripts/run-check.mjs scripts/verify-error-contract.ts
+ *
+ * Betikler gerçek uygulama modüllerini içeri alır — mantığı kopyalayan bir
+ * taklit değil, kullanıcıya giden kodun ta kendisi sınanır. Bunun tek bedeli
+ * `import.meta.env`'dir: onu Vite sağlar, Node sağlamaz. esbuild derleme
+ * sırasında yerine koyar.
  */
 import { build } from 'esbuild';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
+const entry = process.argv[2];
+
+if (!entry) {
+  console.error('Kullanım: node scripts/run-check.mjs <betik.ts>');
+  process.exit(2);
+}
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const outfile = path.join(root, 'node_modules/.cache/verify-errors.cjs');
+const outfile = path.join(root, 'node_modules/.cache', `${path.basename(entry, '.ts')}.cjs`);
 
 await build({
-  entryPoints: [path.join(root, 'scripts/verify-error-contract.ts')],
+  entryPoints: [path.resolve(root, entry)],
   bundle: true,
   platform: 'node',
   format: 'cjs',

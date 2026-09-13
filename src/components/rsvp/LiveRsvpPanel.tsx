@@ -4,32 +4,45 @@ import { Users, RefreshCw, UserCheck, Clock, X, Utensils, Trash2, ImageIcon, Pla
 import { useRsvpStore } from '../../stores/useRsvpStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { toast } from '../ui/Toast';
+import { toDisplayError } from '../../utils/toDisplayError';
+import { RSVP_STATUS_BADGE, RSVP_STATUS_LABELS } from '../../utils/rsvpStatus';
 
-export const LiveRsvpPanel = React.memo(function LiveRsvpPanel() {
+interface LiveRsvpPanelProps {
+  /**
+   * Panelin hangi davetiyeyi gösterdiğini anlatan başlık altı not. Yalnızca
+   * kapsam belirlenmiş yüzeylerde (panel sayfası) verilir; ana sayfadaki
+   * tanıtım kopyası kimliksizdir ve bu yüzden nota da ihtiyaç duymaz.
+   */
+  scopeSlot?: React.ReactNode;
+}
+
+export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: LiveRsvpPanelProps) {
   const rsvpList = useRsvpStore(s => s.rsvpList);
   const isLoading = useRsvpStore(s => s.isLoading);
   const remoteError = useRsvpStore(s => s.remoteError);
   const fetchRsvps = useRsvpStore(s => s.fetchRsvps);
   const deleteRsvp = useRsvpStore(s => s.deleteRsvp);
+  const invitationId = useRsvpStore(s => s.invitationId);
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
 
-  // GET /rsvps is owner-scoped; anonymous visitors (homepage demo) only see
-  // the entries they add in this session, so no fetch is issued for them.
+  // Liste ucu hem **auth'lu** hem **davetiyeye özgü**: `GET /invitations/{id}/rsvps`.
+  // Kimliği olmayan yüzeyler (ana sayfadaki tanıtım paneli) yalnızca bu
+  // oturumda eklenen kayıtları gösterir; onlar için istek atılmaz.
   useEffect(() => {
-    if (isAuthenticated) void fetchRsvps();
-  }, [isAuthenticated, fetchRsvps]);
+    if (isAuthenticated && invitationId) void fetchRsvps();
+  }, [isAuthenticated, invitationId, fetchRsvps]);
 
   // Confirmation dialogs are a UI concern; the stores expose the raw actions.
   const handleDeleteRsvp = (id: string) => {
     if (!window.confirm('Bu katılım kaydını silmek istediğinize emin misiniz?')) return;
-    deleteRsvp(id).catch(() => {
-      toast('Kayıt silinemedi — lütfen tekrar deneyin.', 'info');
+    deleteRsvp(id).catch((error: unknown) => {
+      toast(toDisplayError(error), 'error');
     });
   };
 
-  const countAttending = rsvpList.filter(r => r.status === 'Katılıyor').reduce((sum, r) => sum + r.guestCount, 0);
-  const countPending = rsvpList.filter(r => r.status === 'Bekleniyor').reduce((sum, r) => sum + r.guestCount, 0);
-  const countDeclines = rsvpList.filter(r => r.status === 'Katılamıyor').reduce((sum, r) => sum + r.guestCount, 0);
+  const countAttending = rsvpList.filter(r => r.status === 'attending').reduce((sum, r) => sum + r.guestCount, 0);
+  const countPending = rsvpList.filter(r => r.status === 'pending').reduce((sum, r) => sum + r.guestCount, 0);
+  const countDeclines = rsvpList.filter(r => r.status === 'declined').reduce((sum, r) => sum + r.guestCount, 0);
 
   return (
     <section id="lcv-paneli" className="py-20 md:py-28 bg-gradient-to-b from-cream to-[#f1ede4] relative overflow-hidden scroll-mt-20">
@@ -57,6 +70,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel() {
           <p className="text-muted text-sm md:text-base max-w-lg mx-auto leading-relaxed">
             Misafirlerinizin katılım durumlarını anlık olarak izleyin. Menü tercihlerini, kişi sayılarını ve yanıt durumlarını tek panelden yönetin.
           </p>
+          {scopeSlot && <div className="mt-6">{scopeSlot}</div>}
         </motion.div>
 
         {/* LCV Dashboard Card */}
@@ -139,9 +153,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel() {
             <div className="space-y-3 max-h-72 overflow-y-auto pr-1" data-lenis-prevent>
               <AnimatePresence initial={false}>
                 {rsvpList.map((rsvp) => {
-                  let badgeBg = 'bg-stone-100 text-[#404944]';
-                  if (rsvp.status === 'Katılıyor') badgeBg = 'bg-emerald-100 text-emerald-800';
-                  if (rsvp.status === 'Katılamıyor') badgeBg = 'bg-red-100 text-red-800';
+                  const badgeBg = RSVP_STATUS_BADGE[rsvp.status];
 
                   return (
                     <motion.div
@@ -170,7 +182,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel() {
                         
                         <div className="flex items-center gap-2 shrink-0">
                           <span className={`${badgeBg} px-3 py-1 rounded-full text-[10px] font-bold shadow-sm`}>
-                            {rsvp.status}
+                            {RSVP_STATUS_LABELS[rsvp.status]}
                           </span>
                           <button
                             onClick={() => handleDeleteRsvp(rsvp.id)}

@@ -1,10 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Laptop, LucideIcon, Maximize2, Smartphone, Tablet } from 'lucide-react';
 import { RsvpModal } from './RsvpModal';
 import { TemplateRenderer } from '../templates/TemplateRenderer';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useUIStore } from '../../stores/useUIStore';
+import { useRsvpStore } from '../../stores/useRsvpStore';
 import { PreviewDevice } from '../../types';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
@@ -73,8 +74,18 @@ export function DeviceSimulator({ simulatorRef }: DeviceSimulatorProps) {
   const setRsvpModalOpen = useUIStore(s => s.setRsvpModalOpen);
   const device = useUIStore(s => s.previewDevice);
   const setPreviewDevice = useUIStore(s => s.setPreviewDevice);
+  const setInvitationScope = useRsvpStore(s => s.setInvitationScope);
 
   const screenRef = useRef<HTMLDivElement>(null);
+
+  // 🔴 Simülatör tanımı gereği bir ÖNIZLEMEDIR: içindeki davetiyenin sunucuda
+  // bir karşılığı olmayabilir (tasarım editörü) ya da hiç olmaz (ana sayfa
+  // tanıtımı). Kapsamı açıkça boşaltmak, kullanıcının az önce ziyaret ettiği
+  // gerçek bir davetiyeden kalan kimliğin burada yanlışlıkla kullanılmasını
+  // engeller — önizlemede doldurulan form gerçek bir davetiyeye LCV yazardı.
+  useEffect(() => {
+    setInvitationScope(null);
+  }, [setInvitationScope]);
 
   const spec = DEVICE_SPECS[device];
   const frameWidth = isMobile ? spec.width.mobile : spec.width.desktop;

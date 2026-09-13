@@ -154,6 +154,22 @@ TOKEN_EXPIRED              UNAUTHENTICATED           VALIDATION_FAILED
 
 ## F2 — Yanlış uçlar ve eksik honeypot
 
+**Durum:** ✅ **Tamamlandı.** Üç servis de doğru uçlara bağlandı; `website`
+tuzağı `components/ui/HoneypotField.tsx` üzerinden **üç** formda render
+ediliyor (LCV modalı, satır içi şablon LCV formu, iletişim).
+`npm run verify:endpoints` yolları ve gövdeleri denetler.
+
+Plan'da öngörülmeyen üç ek iş bu dilimde zorunlu çıktı:
+
+1. **`RsvpStatus` İngilizce'ye çevrildi.** `RsvpResource` ilk günden
+   `status->value` gönderiyordu; tip Türkçe olduğu için sözleşme hep uyuşmazdı.
+   Sunum `utils/rsvpStatus.ts`'e indi.
+2. **LCV kapsamı (`invitationId`) store'a eklendi.** Üç ucun üçü de kimliği
+   URL'de istiyor; frontend bunu hiçbir akışta taşımıyordu. `null` = önizleme
+   yüzeyi (editör simülatörü, ana sayfa tanıtımı) → ağa çıkılmaz.
+3. **Panel sayfasına davetiye seçici eklendi.** Birden fazla yayınlanmış
+   davetiyede sessizce yalnızca birinin yanıtlarını göstermek yanıltıcıydı.
+
 ### F2.1 `services/media.ts`
 
 ```diff
@@ -598,8 +614,8 @@ Backend'in `FAZ-9-ELLE-DOGRULAMA.md` betiğiyle **birlikte** koşulur.
 ## 4. Kapanış listesi
 
 - [x] **F1** `errors.json` (21 kod) + `toDisplayError()` + `VALIDATION_FAILED` haritası
-- [ ] **F2** `media.ts` · `rsvps.ts` · `contact.ts` uçları düzeltildi
-- [ ] **F2.4** 🔴 Honeypot (`website`) iki formda da render ediliyor
+- [x] **F2** `media.ts` · `rsvps.ts` · `contact.ts` uçları düzeltildi
+- [x] **F2.4** 🔴 Honeypot (`website`) iki formda da render ediliyor
 - [ ] **F3** `publish` ucu eklendi, iki 402 kodu ayrı ele alınıyor
 - [ ] **F3** Checkout gerçek, `status: 'pending'` doğru yorumlanıyor
 - [ ] **F3** 🔴 `activeTier` mock'u kaldırıldı

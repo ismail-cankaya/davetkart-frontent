@@ -17,8 +17,13 @@ export interface PersistenceService {
   createInvitation(invitation: Invitation): Promise<InvitationRecord>;
   updateInvitation(id: string, invitation: Invitation): Promise<InvitationRecord>;
   deleteInvitation(id: string): Promise<void>;
-  listRsvps(): Promise<RSVPResponse[]>;
-  createRsvp(payload: RsvpCreatePayload): Promise<RSVPResponse>;
+  /**
+   * Faz 5 (N1): LCV metotları davetiye kimliği taşır. Hesap başına tek
+   * davetiye varsayımı burada da kalkıyor — alt kaydın aidiyeti yolun
+   * yapısındadır, gövdede değil.
+   */
+  listRsvps(invitationId: string): Promise<RSVPResponse[]>;
+  createRsvp(invitationId: string, payload: RsvpCreatePayload): Promise<RSVPResponse>;
   deleteRsvp(id: string): Promise<void>;
 }
 
@@ -28,8 +33,8 @@ const httpAdapter: PersistenceService = {
   updateInvitation: (id, invitation) => invitationService.update(id, invitation),
   deleteInvitation: (id) => invitationService.remove(id),
 
-  listRsvps: () => rsvpService.list(),
-  createRsvp: (payload) => rsvpService.create(payload),
+  listRsvps: (invitationId) => rsvpService.list(invitationId),
+  createRsvp: (invitationId, payload) => rsvpService.create(invitationId, payload),
   deleteRsvp: (id) => rsvpService.remove(id)
 };
 

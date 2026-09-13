@@ -4,6 +4,9 @@ import { Invitation, RsvpStatus } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { useRsvpStore } from '../../../stores/useRsvpStore';
 import { toast } from '../../ui/Toast';
+import { HoneypotField } from '../../ui/HoneypotField';
+import { toDisplayError } from '../../../utils/toDisplayError';
+import { RSVP_STATUS_CHOICES } from '../../../utils/rsvpStatus';
 import { SectionTheme, EASE_LUXE } from './palette';
 import { TemplateFlavor } from './flavor';
 import { googleCalendarUrl, downloadIcsFile } from './calendar';
@@ -28,7 +31,8 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
 
   const [guestName, setGuestName] = useState('');
   const [guestCount, setGuestCount] = useState(2);
-  const [status, setStatus] = useState<RsvpStatus>('Katılıyor');
+  const [status, setStatus] = useState<RsvpStatus>('attending');
+  const [website, setWebsite] = useState('');
   const [menuPreference, setMenuPreference] = useState<string>(MENU_OPTIONS[0]);
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -53,13 +57,14 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
       guestCount,
       status,
       menuPreference: invitation.askMenuPreference ? menuPreference : 'Belirtilmedi',
-      message: ''
+      message: '',
+      website
     });
     setSubmitting(true);
     try {
       if (await submitDraft()) setSubmitted(true);
-    } catch {
-      toast('Yanıtınız gönderilemedi — lütfen bağlantınızı kontrol edip tekrar deneyin.', 'info');
+    } catch (error) {
+      toast(toDisplayError(error), 'error');
     } finally {
       setSubmitting(false);
     }
@@ -159,8 +164,10 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
               onSubmit={handleSubmit}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.4, ease: EASE_LUXE }}
-              className="space-y-5"
+              className="relative space-y-5"
             >
+              <HoneypotField id="rsvp-inline-website" value={website} onChange={setWebsite} />
+
               <div>
                 <label htmlFor="rsvp-name" className={labelClass}>
                   Ad Soyad
@@ -230,7 +237,9 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
               <div>
                 <label className={labelClass}>Katılım Durumu</label>
                 <div className={cn('grid grid-cols-2 rounded-lg border p-1 gap-1', theme.border)}>
-                  {(['Katılıyor', 'Katılamıyor'] as const).map((option) => (
+                  {/* Bu şablon iki uçlu bir seçim sunar; "Belirsiz" bilinçli
+                      olarak yok — satır içi form kısa tutuluyor. */}
+                  {(['attending', 'declined'] as const).map((option) => (
                     <button
                       key={option}
                       type="button"
@@ -242,7 +251,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                           : cn(theme.body, 'hover:opacity-75')
                       )}
                     >
-                      {option === 'Katılıyor' ? 'Katılıyorum' : 'Katılamıyorum'}
+                      {RSVP_STATUS_CHOICES[option]}
                     </button>
                   ))}
                 </div>

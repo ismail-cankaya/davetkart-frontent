@@ -2805,9 +2805,13 @@ export const INITIAL_RSVP_DRAFT: RsvpDraft = {
   guestName: '',
   guestCount: 2,
   menuPreference: 'Et Menü',
-  status: 'Katılıyor',
+  status: 'attending',
   message: '',
+  photoMediaId: '',
   photoUrl: '',
-  videoUrl: ''
+  videoMediaId: '',
+  videoUrl: '',
+  // Tuzak boş başlar; insan onu göremediği için boş kalır (L2).
+  website: ''
 };
 

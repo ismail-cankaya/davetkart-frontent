@@ -1,4 +1,13 @@
-export type RsvpStatus = 'Katılıyor' | 'Bekleniyor' | 'Katılamıyor';
+/**
+ * 🔴 Ağda **İngilizce** gider ve gelir — backend `RsvpStatus` enum'ının ham
+ * değerleri (K21/K49: sözleşme metin değil KOD taşır).
+ *
+ * *"Katılıyor"* / *"Belirsiz"* / *"Katılamıyorum"* birer **sunum** kararıdır
+ * ve çeviri frontend'de yapılır: `utils/rsvpStatus.ts`. Bu tipin Türkçe
+ * olduğu dönemde liste ucu 404 verdiği için uyuşmazlık hiç görünmemişti —
+ * `RsvpResource` ilk günden `status->value` gönderiyordu.
+ */
+export type RsvpStatus = 'attending' | 'pending' | 'declined';
 
 export interface AuthUser {
   id: string;
@@ -154,8 +163,34 @@ export interface RSVPResponse {
   createdAt: string;
 }
 
-/** Payload for `POST /api/rsvps` — the server assigns `id` and `createdAt`. */
-export type RsvpCreatePayload = Omit<RSVPResponse, 'id' | 'createdAt'>;
+/**
+ * `POST /api/public/invitations/{id}/rsvps` gövdesi — `id` ve `createdAt`
+ * sunucuda üretilir.
+ *
+ * 🔴 `RSVPResponse`'tan türetilemez. Yanıt medyayı **URL** olarak taşır
+ * (`photoUrl`), istek ise **kimlik** olarak gönderir (`photoMediaId`): şema
+ * kimlik tutar, sözleşme URL taşır (E1). İki şekli tek tipe bağlamak, yükleme
+ * yanıtındaki kimliğin sessizce düşmesi demekti.
+ */
+export interface RsvpCreatePayload {
+  guestName: string;
+  guestCount: number;
+  status: RsvpStatus;
+  menuPreference?: string | null;
+  message?: string | null;
+  /** `mediaService` yükleme yanıtından gelen ULID. */
+  photoMediaId?: string | null;
+  videoMediaId?: string | null;
+  /**
+   * 🔴 Bot tuzağı (`HasHoneypot::HONEYPOT_FIELD`). İnsanlar alanı göremediği
+   * için boş gönderir; backend boş dizgiyi `null`'a çevirip görmezden gelir.
+   * Dolu gelirse **204 döner ve kaydetmez** — sessiz tuzak (L2).
+   *
+   * Değer formdan gelir, burada sabitlenmez: sabitleseydik botun yazdığı
+   * değer atılır ve tuzak kurulmamış olurdu.
+   */
+  website: string;
+}
 
 /** Lifecycle of the editor's debounced cloud auto-save. */
 export type InvitationSaveState = 'idle' | 'saving' | 'saved' | 'error';
@@ -167,8 +202,17 @@ export interface RsvpDraft {
   menuPreference: string;
   status: RsvpStatus;
   message: string;
+  /**
+   * 🔴 Yükleme yanıtı hem kimlik hem URL verir ve taslak **ikisini de** tutar:
+   * kimlik gönderilir, URL yalnızca kullanıcıya "yüklendi" göstermek için
+   * durur. Yalnızca URL saklansaydı LCV'ye fotoğraf hiçbir zaman bağlanamazdı.
+   */
+  photoMediaId: string;
   photoUrl: string;
+  videoMediaId: string;
   videoUrl: string;
+  /** Bot tuzağı; bkz. `RsvpCreatePayload.website`. */
+  website: string;
 }
 
 /** Event category presented in the /create wizard's first step. */
