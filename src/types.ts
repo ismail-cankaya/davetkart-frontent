@@ -111,6 +111,17 @@ export interface Invitation {
 /** Paid plan tiers — there is no free tier; publishing always requires a purchase. */
 export type SubscriptionTier = 'standart' | 'gold' | 'elit';
 
+/**
+ * Hata zarfından gelen `requiredTier` bir plan değeri mi?
+ *
+ * Sunucudan gelen bir dizgi, tipinin `SubscriptionTier` olduğunu söylemez —
+ * doğrulamadan kullanmak, backend bir gün yeni bir plan eklediğinde paywall'ı
+ * tanımsız bir plana kilitlerdi.
+ */
+export function isSubscriptionTier(value: unknown): value is SubscriptionTier {
+  return value === 'standart' || value === 'gold' || value === 'elit';
+}
+
 /** A single row of a plan card's feature list. */
 export interface PlanFeature {
   label: string;
@@ -127,15 +138,40 @@ export interface SubscriptionPlan {
   features: PlanFeature[];
 }
 
-/** Payload the checkout endpoint will receive once the Payments service exists. */
+/**
+ * Checkout gövdesi.
+ *
+ * 🔴 **Fiyat gövdeye KONULMAZ.** Backend onu `config`'ten okur (M6): fiyatı
+ * istemciden almak, istemcinin kendi fiyatını yazmasına izin vermek olurdu.
+ * `data.ts`'teki fiyat katalogu yalnızca **gösterim** içindir.
+ */
 export interface CheckoutPayload {
   tier: SubscriptionTier;
 }
 
+/** Sipariş yaşam döngüsü — backend `OrderStatus` enum'ı. */
+export type OrderStatus = 'pending' | 'paid' | 'failed' | 'refunded';
+
+/**
+ * `POST /invitations/{id}/checkout` ve `POST /payments/checkout` yanıtı (201).
+ *
+ * 🔴 **`status` her zaman `pending` doğar.** `paid`'e geçişi sağlayıcının
+ * **webhook**'u yapar; yani checkout bir ödeme değil, bir ödeme *niyetidir*.
+ * Bunu `paid` sanmak, kullanıcıya "ödendi" deyip hemen ardından yayınlamada
+ * 402 göstermek demektir — planın en pahalı maddesi buydu.
+ */
 export interface CheckoutResult {
   orderId: string;
   tier: SubscriptionTier;
-  status: 'paid';
+  status: OrderStatus;
+  /**
+   * Sağlayıcının ödeme sayfası. Kullanıcı buraya **gitmeli**; ödeme
+   * uygulamanın dışında tamamlanır.
+   *
+   * 🔴 Opsiyonel alan yoksa **anahtar hiç gelmez**, `null` gelmez (C7).
+   * `redirectUrl === undefined` kontrolü doğru olandır.
+   */
+  redirectUrl?: string;
 }
 
 /** Lifecycle of an invitation stored on the Invitation microservice. */

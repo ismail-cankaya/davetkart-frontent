@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { CloudOff, CloudUpload, CheckCircle2, PenLine, Rocket, ShieldCheck } from 'lucide-react';
+import { CloudOff, CloudUpload, CheckCircle2, Loader2, PenLine, Rocket, ShieldCheck } from 'lucide-react';
 import { DesignerPanel } from '../editor/DesignerPanel';
 import { DeviceSimulator } from '../preview/DeviceSimulator';
 import { PaywallModal } from '../payment/PaywallModal';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
 import { useInvitationStore } from '../../stores/useInvitationStore';
-import { getRequiredTier, TIER_RANK, useSubscriptionStore } from '../../stores/useSubscriptionStore';
+import { getRequiredTier, useSubscriptionStore } from '../../stores/useSubscriptionStore';
 import { toast } from '../ui/Toast';
-import { AuthRedirectState } from '../../types';
+import { AuthRedirectState, isSubscriptionTier } from '../../types';
+import { apiErrorCode, apiErrorParams } from '../../services/api';
+import { toDisplayError } from '../../utils/toDisplayError';
 import { scrollToTarget } from '../../hooks/useLenis';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
@@ -28,6 +30,8 @@ export function EditorWorkspace() {
   const backToBuild = useCreateWizardStore(s => s.backToBuild);
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const saveState = useInvitationStore(s => s.saveState);
+  const publishInvitation = useInvitationStore(s => s.publishInvitation);
+  const [isPublishing, setIsPublishing] = React.useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,12 +42,58 @@ export function EditorWorkspace() {
     scrollToTarget(0, { immediate: true });
   }, []);
 
-  /** Final step after payment (or with an already-owned plan): go live. */
-  const finishPublish = () => {
-    // TODO(backend): POST the invitation through `api` (services/api.ts)
-    // and navigate to the hosted /invite/:id link it returns.
-    toast('Davetiyeniz yayınlandı! Katılım yanıtlarını panelinizden takip edebilirsiniz. 🎉');
-    navigate('/dashboard');
+  /**
+   * Yayınlamayı dener ve sunucunun kararına göre ilerler.
+   *
+   * 🔴 Ön kontrol YOK. Eskiden frontend, oturum içinde tutulan bir
+   * `activeTier` mock'una bakıp paywall'ı atlıyordu; yani yetki kararını
+   * kendisi veriyordu. Tek doğruluk kaynağı sunucudur (`orders` tablosu) —
+   * deneriz, 402 gelirse paywall'ı sunucunun bildirdiği planla açarız.
+   */
+  const attemptPublish = async () => {
+    if (isPublishing) return;
+    setIsPublishing(true);
+
+    try {
+      await publishInvitation();
+      toast('Davetiyeniz yayınlandı! Katılım yanıtlarını panelinizden takip edebilirsiniz. 🎉');
+      navigate('/dashboard');
+      return;
+    } catch (error) {
+      const code = apiErrorCode(error);
+
+      // 🔴 İki 402, iki ayrı ekran. "Önce bir plan al" ile "planını yükselt"
+      // aynı şey değildir; ayrım `code`'dadır, durum kodunda değil.
+      if (code === 'PAYMENT_REQUIRED' || code === 'PAYWALL_TIER_INSUFFICIENT') {
+        const { invitation, recordId } = useInvitationStore.getState();
+
+        // Gereken planı SUNUCU bildirir. `getRequiredTier()` yalnızca yanıtın
+        // taşımadığı bir durumda yedek olarak kullanılır.
+        const serverTier = apiErrorParams(error).requiredTier;
+        const requiredTier = isSubscriptionTier(serverTier)
+          ? serverTier
+          : getRequiredTier(invitation);
+
+        useSubscriptionStore.getState().openPaywall({
+          requiredTier,
+          reason: code === 'PAYMENT_REQUIRED' ? 'purchase' : 'upgrade',
+          invitationId: recordId
+        });
+        return;
+      }
+
+      // Zaten yayındaysa kullanıcı hedefine ulaşmış demektir; hata gibi
+      // göstermek onu bir kez daha denemeye iterdi.
+      if (code === 'INVITATION_ALREADY_PUBLISHED') {
+        toast('Bu davetiye zaten yayında.', 'info');
+        navigate('/dashboard');
+        return;
+      }
+
+      toast(toDisplayError(error), 'error');
+    } finally {
+      setIsPublishing(false);
+    }
   };
 
   const handlePublish = () => {
@@ -54,17 +104,7 @@ export function EditorWorkspace() {
       return;
     }
 
-    // Paywall: there is no free tier — publishing needs a plan that covers
-    // every module enabled on the design (gallery/gift ⇒ Elit, envelope/
-    // timeline ⇒ Gold). A sufficient plan from this session skips the wall.
-    const { invitation } = useInvitationStore.getState();
-    const requiredTier = getRequiredTier(invitation);
-    const { activeTier, openPaywall } = useSubscriptionStore.getState();
-    if (activeTier && TIER_RANK[activeTier] >= TIER_RANK[requiredTier]) {
-      finishPublish();
-      return;
-    }
-    openPaywall(requiredTier);
+    void attemptPublish();
   };
 
   const handleBackToEdit = () => {
@@ -122,15 +162,27 @@ export function EditorWorkspace() {
           className="max-w-3xl mx-auto px-4 text-center space-y-5"
         >
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5">
+            {/* Yayınlama artık gerçek bir ağ turudur (kaydet → yayınla):
+                düğme hem geri bildirim vermeli hem de ikinci kez basılmamalı. */}
             <motion.button
               onClick={handlePublish}
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.98 }}
-              className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 bg-brand text-white px-10 py-4.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition-colors duration-500 shadow-lg shadow-brand/20 hover:shadow-xl hover:shadow-brand/30 cursor-pointer"
+              disabled={isPublishing}
+              whileHover={isPublishing ? undefined : { y: -4 }}
+              whileTap={isPublishing ? undefined : { scale: 0.98 }}
+              className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 bg-brand text-white px-10 py-4.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition-colors duration-500 shadow-lg shadow-brand/20 hover:shadow-xl hover:shadow-brand/30 cursor-pointer disabled:opacity-70 disabled:cursor-wait"
             >
-              <span className="absolute inset-0 animate-shimmer pointer-events-none" />
-              <Rocket size={16} className="group-hover:-translate-y-0.5 transition-transform duration-300" />
-              Tasarımını Yayınla
+              {!isPublishing && <span className="absolute inset-0 animate-shimmer pointer-events-none" />}
+              {isPublishing ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" />
+                  Yayınlanıyor…
+                </>
+              ) : (
+                <>
+                  <Rocket size={16} className="group-hover:-translate-y-0.5 transition-transform duration-300" />
+                  Tasarımını Yayınla
+                </>
+              )}
             </motion.button>
 
             <motion.button
@@ -177,7 +229,7 @@ export function EditorWorkspace() {
         </motion.div>
       </section>
 
-      <PaywallModal onPurchased={finishPublish} />
+      <PaywallModal />
     </motion.div>
   );
 }

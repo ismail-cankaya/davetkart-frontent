@@ -111,6 +111,27 @@ export const invitationService = {
     return toRecord(data);
   },
 
+  /**
+   * Davetiyeyi yayına alır.
+   *
+   * 🔴 Yetki kararı **sunucuya aittir.** Frontend'deki `getRequiredTier()`
+   * bir sunum kopyasıdır; gereken planı `TierResolver` hesaplar ve ödenmiş
+   * hakkı `orders` tablosundan okur. Bu yüzden burada hiçbir ön kontrol
+   * yapılmaz — deneriz, sunucu karar verir.
+   *
+   * | Durum | Yanıt |
+   * |---|---|
+   * | Başarılı | **200** + `InvitationRecord` (`status: 'published'`) |
+   * | Hiç ödeme yok | **402** `PAYMENT_REQUIRED` + `params.requiredTier` |
+   * | Plan yetmiyor | **402** `PAYWALL_TIER_INSUFFICIENT` + `params.requiredTier` |
+   * | Zaten yayında | **409** `INVITATION_ALREADY_PUBLISHED` |
+   * | Başkasının davetiyesi | **404** (403 değil — H7) |
+   */
+  async publish(id: string): Promise<InvitationRecord> {
+    const { data } = await api.post<unknown>(`/invitations/${id}/publish`);
+    return toRecord(data);
+  },
+
   /** Soft delete: backend satırı silmez, `deleted_at` damgalar. */
   async remove(id: string): Promise<void> {
     await api.delete(`/invitations/${id}`);

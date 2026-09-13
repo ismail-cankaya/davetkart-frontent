@@ -51,6 +51,17 @@ interface InvitationState {
   resetInvitation: () => void;
   /** Persist the current design to the backend (called by the debounced auto-save). */
   saveInvitation: () => Promise<void>;
+  /**
+   * Davetiyeyi yayına alır ve yayınlanan kaydı döndürür.
+   *
+   * 🔴 Hiçbir ön yetki kontrolü yapmaz — **denemek kontrolün kendisidir.**
+   * Gereken planı ve ödenmiş hakkı sunucu bilir (`TierResolver` + `orders`);
+   * frontend'in `getRequiredTier()` kopyası yalnızca sunum içindir. 402/409
+   * hataları çağırana fırlatılır ki doğru ekran açılabilsin.
+   *
+   * Kaydedilmemiş bir tasarım önce kaydedilir: yayınlama ucu kimlik ister.
+   */
+  publishInvitation: () => Promise<InvitationRecord>;
 }
 
 /**
@@ -159,6 +170,28 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
     saveInvitation: () => {
       saveQueue = saveQueue.then(runSave);
       return saveQueue;
+    },
+
+    publishInvitation: async () => {
+      // Yayınlamadan önce son hâli sunucuya yazılır. İki sebep: kimliği
+      // olmayan bir tasarım yayınlanamaz, ve kullanıcının son düzenlemesi
+      // debounce penceresinde takılı kalmış olabilir — yayınlanan davetiye
+      // ekranda gördüğünden eski olmamalı.
+      await get().saveInvitation();
+
+      const recordId = get().recordId;
+      if (!recordId) {
+        // Kaydetme başarısız oldu; `saveState` zaten 'error'. Yayınlamayı
+        // sessizce atlamak, kullanıcıya yayınlandı sanısı verirdi.
+        throw new Error('Davetiye kaydedilemediği için yayınlanamadı.');
+      }
+
+      const record = await persistenceService.publishInvitation(recordId);
+
+      // Sunucunun döndürdüğü durum ('published') editöre yazılır ki aynı
+      // oturumda ikinci kez yayınlamaya çalışılmasın.
+      set({ recordId: record.id });
+      return record;
     }
   };
 });

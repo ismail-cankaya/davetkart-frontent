@@ -1,8 +1,8 @@
 import { create } from 'zustand';
-import { Invitation, SubscriptionTier } from '../types';
+import { CheckoutResult, Invitation, SubscriptionTier } from '../types';
 import { paymentService } from '../services/payments';
 
-/** Orders the tiers so "plan X covers requirement Y" is a simple comparison. */
+/** Planları sıralar ki "X planı Y gereksinimini karşılıyor mu" tek kıyas olsun. */
 export const TIER_RANK: Record<SubscriptionTier, number> = {
   standart: 0,
   gold: 1,
@@ -10,9 +10,17 @@ export const TIER_RANK: Record<SubscriptionTier, number> = {
 };
 
 /**
- * The minimum plan that unlocks every module enabled on the invitation.
- * Business rule (paywall): Gallery/Gift are Elit-only; Envelope/Timeline
- * need at least Gold; everything else fits Standart.
+ * Davetiyede açık olan modülleri karşılayan en ucuz plan.
+ *
+ * 🔴 Bu bir **SUNUM** kopyasıdır, yetki kararı değil. İkizi backend'de
+ * `TierResolver` olarak duruyor ve **asıl otorite odur**: yayınlamaya izin
+ * verip vermeme kararını sunucu verir, `orders` tablosuna bakarak.
+ *
+ * Burada kalmasının tek sebebi paywall'daki *"Tavsiye Edilen"* rozetidir —
+ * kullanıcı 402 almadan önce hangi planın işini göreceğini görebilsin diye.
+ * İki kopya bir gün ayrışırsa, ayrışma **görünür** olur: sunucu 402 döner ve
+ * kullanıcı doğru ekranı görür. Bu yüzden buradaki değere göre yayınlamayı
+ * atlamak (eski `activeTier` kestirmesi) kaldırıldı.
  */
 export function getRequiredTier(invitation: Invitation): SubscriptionTier {
   if (invitation.showGallery || invitation.showGift) return 'elit';
@@ -20,56 +28,100 @@ export function getRequiredTier(invitation: Invitation): SubscriptionTier {
   return 'standart';
 }
 
+/**
+ * 🔴 Paywall'ın neden açıldığı. İki ayrı 402 kodu **iki ayrı ekran** ister:
+ *
+ * | Kod | Kullanıcının önündeki eylem |
+ * |---|---|
+ * | `PAYMENT_REQUIRED` | *"Önce bir plan al"* |
+ * | `PAYWALL_TIER_INSUFFICIENT` | *"Planını yükselt"* |
+ *
+ * Aynı ekranı göstermek, backend'in bu ayrımı yapmak için ödediği bedeli
+ * çöpe atar (K74'ün aynı ailesi).
+ */
+export type PaywallReason = 'purchase' | 'upgrade';
+
+interface OpenPaywallOptions {
+  /** Sunucunun bildirdiği gereken plan (`error.params.requiredTier`). */
+  requiredTier: SubscriptionTier;
+  reason: PaywallReason;
+  /** Checkout'un yazılacağı davetiye; `null` = hesap paketi (K42). */
+  invitationId: string | null;
+}
+
 interface SubscriptionState {
   isPaywallOpen: boolean;
-  /** Cheapest tier that covers the invitation being published (drives the "Tavsiye Edilen" highlight). */
   requiredTier: SubscriptionTier;
+  reason: PaywallReason;
   selectedTier: SubscriptionTier;
+  invitationId: string | null;
   isProcessing: boolean;
   /**
-   * Tier purchased in this session. Mock until the Payments service exists —
-   * the backend will become the source of truth for owned plans/orders.
+   * Başlatılmış ama **tamamlanmamış** sipariş. Kullanıcı ödeme sayfasına
+   * yönlendirilemediğinde ekranda ne olduğunu anlatabilmek için tutulur.
    */
-  activeTier: SubscriptionTier | null;
-  openPaywall: (required: SubscriptionTier) => void;
+  pendingOrder: CheckoutResult | null;
+  openPaywall: (options: OpenPaywallOptions) => void;
   closePaywall: () => void;
   selectTier: (tier: SubscriptionTier) => void;
-  /** Run the (mock) checkout for the selected tier; resolves true on success. */
-  purchase: () => Promise<boolean>;
+  /**
+   * Seçili plan için checkout **başlatır**.
+   *
+   * 🔴 Adı bilerek `purchase` değil: bu çağrı satın almayı bitirmez. 201 ile
+   * dönen sipariş `pending`'dir ve ödeme, kullanıcı `redirectUrl`'e gidip
+   * işlemi tamamladıktan sonra webhook ile `paid` olur.
+   */
+  startCheckout: (tier?: SubscriptionTier) => Promise<CheckoutResult | null>;
 }
 
 export const useSubscriptionStore = create<SubscriptionState>()((set, get) => ({
   isPaywallOpen: false,
   requiredTier: 'standart',
+  reason: 'purchase',
   selectedTier: 'standart',
+  invitationId: null,
   isProcessing: false,
-  activeTier: null,
+  pendingOrder: null,
 
-  // The recommended tier starts pre-selected so a single click can purchase.
-  openPaywall: (required) =>
-    set({ isPaywallOpen: true, requiredTier: required, selectedTier: required }),
+  // Tavsiye edilen plan önceden seçili gelir ki tek tıkla ilerlenebilsin.
+  openPaywall: ({ requiredTier, reason, invitationId }) =>
+    set({
+      isPaywallOpen: true,
+      requiredTier,
+      reason,
+      invitationId,
+      selectedTier: requiredTier,
+      pendingOrder: null
+    }),
 
   closePaywall: () => {
-    // Never close mid-payment; the spinner state must resolve first.
+    // Sipariş oluşturulurken kapatma: durum çözülmeden kapanmamalı.
     if (!get().isProcessing) set({ isPaywallOpen: false });
   },
 
   selectTier: (tier) => {
-    // Plans below the requirement can't host the invitation's modules.
+    // Gereksinimin altındaki planlar bu davetiyenin modüllerini taşıyamaz.
     if (TIER_RANK[tier] >= TIER_RANK[get().requiredTier]) set({ selectedTier: tier });
   },
 
-  purchase: async () => {
-    const { selectedTier, isProcessing } = get();
-    if (isProcessing) return false;
-    set({ isProcessing: true });
+  startCheckout: async (tier) => {
+    const { isProcessing, invitationId } = get();
+    if (isProcessing) return null;
+
+    const chosen = tier ?? get().selectedTier;
+    set({ isProcessing: true, selectedTier: chosen });
+
     try {
-      const result = await paymentService.checkout({ tier: selectedTier });
-      set({ activeTier: result.tier, isProcessing: false, isPaywallOpen: false });
-      return true;
-    } catch {
+      // Davetiye kimliği varsa o davetiyeye, yoksa hesaba yazılır.
+      const result = invitationId
+        ? await paymentService.checkoutForInvitation(invitationId, chosen)
+        : await paymentService.checkoutForAccount(chosen);
+
+      set({ isProcessing: false, pendingOrder: result });
+      return result;
+    } catch (error) {
       set({ isProcessing: false });
-      return false;
+      throw error;
     }
   }
 }));

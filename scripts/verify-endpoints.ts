@@ -15,6 +15,8 @@ import { api } from '../src/services/api';
 import { mediaService } from '../src/services/media';
 import { rsvpService } from '../src/services/rsvps';
 import { sendContactMessage } from '../src/services/contact';
+import { invitationService } from '../src/services/invitations';
+import { paymentService } from '../src/services/payments';
 import type { RsvpCreatePayload } from '../src/types';
 
 interface RecordedCall {
@@ -175,6 +177,60 @@ async function main(): Promise<void> {
     {},
     () => rsvpService.remove('01J2'),
   );
+
+  console.log('\nYayınlama ve ödeme uçları');
+
+  const publishedRecord = {
+    data: {
+      id: INVITATION_ID,
+      status: 'published',
+      updatedAt: '2026-09-13T10:00:00+00:00',
+      invitation: { timelineEvents: [] },
+    },
+  };
+
+  await check(
+    'yayınlama',
+    { method: 'POST', url: `/invitations/${INVITATION_ID}/publish` },
+    publishedRecord,
+    () => invitationService.publish(INVITATION_ID),
+  );
+
+  const invoiceBody = await check(
+    'checkout (davetiye)',
+    { method: 'POST', url: `/invitations/${INVITATION_ID}/checkout` },
+    { data: { orderId: '01J3', tier: 'gold', status: 'pending', redirectUrl: 'https://pay.example/x' } },
+    () => paymentService.checkoutForInvitation(INVITATION_ID, 'gold'),
+  );
+  expectField('checkout (davetiye)', invoiceBody, 'tier', 'gold');
+
+  // 🔴 Fiyat gövdeye KONULMAZ: backend onu config'ten okur (M6). Göndermek,
+  // istemcinin kendi fiyatını yazabildiği bir sözleşme anlamına gelirdi.
+  for (const forbidden of ['price', 'amount', 'amountMinor', 'currency']) {
+    if (forbidden in invoiceBody) {
+      fail(`checkout → gövdede '${forbidden}' var; fiyat istemciden GÖNDERİLMEZ`);
+    }
+  }
+
+  const accountBody = await check(
+    'checkout (hesap paketi)',
+    { method: 'POST', url: '/payments/checkout' },
+    { data: { orderId: '01J4', tier: 'elit', status: 'pending' } },
+    () => paymentService.checkoutForAccount('elit'),
+  );
+  expectField('checkout (hesap paketi)', accountBody, 'tier', 'elit');
+
+  // 🔴 `status` PENDING doğar. 'paid' varsayan bir istemci kullanıcıya
+  // "ödendi" deyip hemen ardından yayınlamada 402 gösterirdi.
+  const pending = await paymentService.checkoutForAccount('gold');
+  if (pending.status !== 'pending') {
+    fail(`checkout yanıtındaki status '${pending.status}' okundu; sözleşme 'pending' der`);
+  }
+
+  // 🔴 `redirectUrl` opsiyoneldir: yoksa anahtar HİÇ GELMEZ (C7).
+  if ('redirectUrl' in pending && pending.redirectUrl === null) {
+    fail('redirectUrl null olarak okundu; yokluğu `undefined` ile temsil edilmeli');
+  }
 
   console.log('\nİletişim ucu');
 

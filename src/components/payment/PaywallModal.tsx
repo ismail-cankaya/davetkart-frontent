@@ -4,6 +4,8 @@ import { BadgeCheck, Check, Crown, Feather, Gem, Loader2, Lock, Minus, ShieldChe
 import { SUBSCRIPTION_PLANS } from '../../data';
 import { TIER_RANK, useSubscriptionStore } from '../../stores/useSubscriptionStore';
 import { SubscriptionTier } from '../../types';
+import { toast } from '../ui/Toast';
+import { toDisplayError } from '../../utils/toDisplayError';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -13,26 +15,31 @@ const PLAN_ICONS: Record<SubscriptionTier, typeof Crown> = {
   elit: Gem
 };
 
-interface PaywallModalProps {
-  /** Called after a successful (mock) checkout — the caller finishes publishing. */
-  onPurchased: () => void;
-}
-
 /**
- * Pricing wall shown when the user hits "Yayınla". The tier that covers the
- * invitation's enabled modules comes pre-highlighted as "Tavsiye Edilen";
- * cheaper tiers that can't host those modules are locked out entirely.
+ * Yayınlama 402 ile reddedildiğinde açılan plan duvarı.
+ *
+ * 🔴 Bu ekran bir ödeme ekranı DEĞİLDİR. Buradaki eylem bir sipariş başlatır
+ * (`status: 'pending'`) ve kullanıcıyı sağlayıcının ödeme sayfasına
+ * gönderir; tahsilat uygulamanın dışında, webhook ile tamamlanır. Bu yüzden
+ * hiçbir metin "ödendi" ya da "yayınlandı" demez — eski "Satın Al ve Yayınla"
+ * düğmesi tutamayacağı bir söz veriyordu.
+ *
+ * Duvarın açılma sebebi iki türlüdür ve metinler ona göre değişir:
+ * *"önce bir plan al"* ile *"planını yükselt"* aynı cümle değildir.
  */
-export function PaywallModal({ onPurchased }: PaywallModalProps) {
+export function PaywallModal() {
   const isOpen = useSubscriptionStore((s) => s.isPaywallOpen);
   const requiredTier = useSubscriptionStore((s) => s.requiredTier);
   const selectedTier = useSubscriptionStore((s) => s.selectedTier);
   const isProcessing = useSubscriptionStore((s) => s.isProcessing);
+  const reason = useSubscriptionStore((s) => s.reason);
+  const pendingOrder = useSubscriptionStore((s) => s.pendingOrder);
   const closePaywall = useSubscriptionStore((s) => s.closePaywall);
   const selectTier = useSubscriptionStore((s) => s.selectTier);
-  const purchase = useSubscriptionStore((s) => s.purchase);
+  const startCheckout = useSubscriptionStore((s) => s.startCheckout);
 
   const recommendedPlan = SUBSCRIPTION_PLANS.find((p) => p.id === requiredTier);
+  const isUpgrade = reason === 'upgrade';
 
   // The page behind the wall must not scroll while the modal is up.
   useEffect(() => {
@@ -53,10 +60,27 @@ export function PaywallModal({ onPurchased }: PaywallModalProps) {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, closePaywall]);
 
-  const handleBuy = async (tier: SubscriptionTier) => {
+  const handleCheckout = async (tier: SubscriptionTier) => {
     selectTier(tier);
-    const ok = await purchase();
-    if (ok) onPurchased();
+
+    try {
+      const result = await startCheckout(tier);
+      if (!result) return;
+
+      // 🔴 `redirectUrl` opsiyoneldir: yoksa anahtar HİÇ GELMEZ, `null`
+      // gelmez (C7). Bu yüzden kontrol `undefined` üzerinedir.
+      if (result.redirectUrl !== undefined) {
+        // Uygulamadan ayrılıyoruz; ödeme sağlayıcının sayfasında tamamlanır.
+        window.location.href = result.redirectUrl;
+        return;
+      }
+
+      // Sipariş oluştu ama ödeme sayfası gelmedi. Kullanıcıya "tamamlandı"
+      // demek yanlış olurdu — sipariş `pending` ve hiçbir hak doğmadı.
+      toast('Siparişiniz oluşturuldu, ancak ödeme sayfası açılamadı. Lütfen birazdan tekrar deneyin.', 'info');
+    } catch (error) {
+      toast(toDisplayError(error), 'error');
+    }
   };
 
   return (
@@ -93,16 +117,58 @@ export function PaywallModal({ onPurchased }: PaywallModalProps) {
               {/* Header */}
               <div className="text-center mb-8 md:mb-10">
                 <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block mb-4">
-                  Yayınlamaya Bir Adım Kaldı
+                  {isUpgrade ? 'Planınızı Yükseltin' : 'Yayınlamaya Bir Adım Kaldı'}
                 </span>
                 <h2 className="font-serif text-2xl md:text-3xl font-bold text-ink">
-                  Davetiyenize uygun <span className="italic text-brand font-medium">paketi seçin</span>
+                  {isUpgrade ? (
+                    <>
+                      Mevcut planınız <span className="italic text-brand font-medium">bu davetiyeye yetmiyor</span>
+                    </>
+                  ) : (
+                    <>
+                      Davetiyenize uygun <span className="italic text-brand font-medium">paketi seçin</span>
+                    </>
+                  )}
                 </h2>
                 <p className="text-muted text-sm mt-3 max-w-lg mx-auto leading-relaxed">
-                  Davetiyenizde kullandığınız modüllere göre sizin için{' '}
-                  <span className="font-semibold text-ink">{recommendedPlan?.name} Paket</span>&apos;i öneriyoruz.
-                  Tüm paketler tek seferlik ödemedir.
+                  {isUpgrade ? (
+                    <>
+                      Davetiyenizde açık olan modüller{' '}
+                      <span className="font-semibold text-ink">{recommendedPlan?.name} Paket</span> gerektiriyor.
+                      Yükseltme tek seferlik ödemedir.
+                    </>
+                  ) : (
+                    <>
+                      Davetiyenizde kullandığınız modüllere göre sizin için{' '}
+                      <span className="font-semibold text-ink">{recommendedPlan?.name} Paket</span>&apos;i öneriyoruz.
+                      Tüm paketler tek seferlik ödemedir.
+                    </>
+                  )}
                 </p>
+
+                {/* 🔴 Ödemenin nerede tamamlandığı ÖNCEDEN söylenir. Kullanıcı
+                    sağlayıcının sayfasına gittiğinde şaşırmamalı. */}
+                <p className="text-[11px] text-muted/80 mt-4 max-w-md mx-auto leading-relaxed">
+                  Ödeme, güvenli ödeme sayfasında tamamlanır. Ödemeniz onaylandıktan sonra
+                  davetiyenizi yayınlayabilirsiniz.
+                </p>
+
+                {/* 🔴 Sipariş açıldı ama kullanıcı hâlâ burada: yönlendirme
+                    gerçekleşmedi. Geçici bir toast bu durumu taşıyamaz —
+                    ekranda duran bir uyarı gerekir, çünkü ortada ÖDENMEMİŞ bir
+                    sipariş var ve kullanıcının bunu bilmesi gerekiyor. */}
+                {pendingOrder && pendingOrder.status !== 'paid' && (
+                  <div className="mt-6 mx-auto max-w-md rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-left">
+                    <p className="text-xs font-semibold text-amber-900">
+                      Ödemeniz henüz tamamlanmadı
+                    </p>
+                    <p className="text-[11px] text-amber-800/80 mt-1 leading-relaxed">
+                      <span className="font-mono">{pendingOrder.orderId}</span> numaralı siparişiniz
+                      oluşturuldu. Ödeme sayfasına ulaşılamadığı için tahsilat yapılmadı; aşağıdan
+                      tekrar deneyebilirsiniz.
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Plan cards */}
@@ -190,7 +256,7 @@ export function PaywallModal({ onPurchased }: PaywallModalProps) {
                             whileTap={isProcessing ? undefined : { scale: 0.98 }}
                             onClick={(e) => {
                               e.stopPropagation();
-                              void handleBuy(plan.id);
+                              void handleCheckout(plan.id);
                             }}
                             disabled={isProcessing}
                             className={`w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-xs transition-colors duration-300 cursor-pointer disabled:cursor-wait ${
@@ -202,10 +268,12 @@ export function PaywallModal({ onPurchased }: PaywallModalProps) {
                             {isBuying ? (
                               <>
                                 <Loader2 size={14} className="animate-spin" />
-                                Ödeme işleniyor…
+                                Ödeme sayfası hazırlanıyor…
                               </>
                             ) : (
-                              'Satın Al ve Yayınla'
+                              /* "Satın Al ve Yayınla" DEĞİL: bu düğme ne satın
+                                 almayı bitirir ne de yayınlar. */
+                              isUpgrade ? 'Yükselt ve Ödemeye Geç' : 'Ödemeye Geç'
                             )}
                           </motion.button>
                         )}

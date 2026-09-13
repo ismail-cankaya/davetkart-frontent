@@ -282,6 +282,24 @@ frontend hiçbir fark görmez; bu kasıtlıdır.
 
 ## F3 — 🔴 Yayınlama, gerçek ödeme ve `activeTier`
 
+**Durum:** ✅ **Tamamlandı.**
+
+- `invitationService.publish()` yazıldı; `useInvitationStore.publishInvitation()`
+  önce kaydedip sonra yayınlıyor (uç kimlik ister).
+- `paymentService` mock'tan çıktı: `checkoutForInvitation()` ve
+  `checkoutForAccount()`. `status: 'pending'` doğru yorumlanıyor; kullanıcı
+  `redirectUrl`'e yönlendiriliyor ve **hiçbir metin "ödendi" demiyor**.
+- `activeTier` **silindi** (Seçenek A). Yayınlamada ön kontrol yok: deneriz,
+  402 gelirse paywall sunucunun bildirdiği `requiredTier` ile açılır.
+- İki 402 kodu iki ayrı ekran: `PaywallReason = 'purchase' | 'upgrade'`.
+- `getRequiredTier()` **korundu** ama yalnızca *"Tavsiye Edilen"* rozeti için.
+
+⚠️ **Açık:** `POST /payments/checkout` (hesap paketi) servis ve store
+düzeyinde destekleniyor, ancak bugün onu tetikleyen bir arayüz yok —
+`PricingPage` yalnızca bilgilendirme sayfası. Paket satışı bir ürün kararı
+olarak bekliyor.
+
+
 Bu dilim projenin **ticari çekirdeği** ve frontend'in en yanlış yeri.
 
 ### F3.1 Bugünkü hata zinciri
@@ -616,9 +634,9 @@ Backend'in `FAZ-9-ELLE-DOGRULAMA.md` betiğiyle **birlikte** koşulur.
 - [x] **F1** `errors.json` (21 kod) + `toDisplayError()` + `VALIDATION_FAILED` haritası
 - [x] **F2** `media.ts` · `rsvps.ts` · `contact.ts` uçları düzeltildi
 - [x] **F2.4** 🔴 Honeypot (`website`) iki formda da render ediliyor
-- [ ] **F3** `publish` ucu eklendi, iki 402 kodu ayrı ele alınıyor
-- [ ] **F3** Checkout gerçek, `status: 'pending'` doğru yorumlanıyor
-- [ ] **F3** 🔴 `activeTier` mock'u kaldırıldı
+- [x] **F3** `publish` ucu eklendi, iki 402 kodu ayrı ele alınıyor
+- [x] **F3** Checkout gerçek, `status: 'pending'` doğru yorumlanıyor
+- [x] **F3** 🔴 `activeTier` mock'u kaldırıldı
 - [ ] **F4** 🔴 Asistan giriş duvarının arkasında + gerçek uca bağlı
 - [ ] **F5** ETag + `If-None-Match` + LCV polling
 - [ ] **F6** `timezone` alanı + geri sayım düzeltmesi
