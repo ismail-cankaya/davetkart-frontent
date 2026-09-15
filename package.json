@@ -11,7 +11,8 @@
     "lint": "tsc --noEmit",
     "verify:errors": "node scripts/run-check.mjs scripts/verify-error-contract.ts",
     "verify:endpoints": "node scripts/run-check.mjs scripts/verify-endpoints.ts",
-    "verify": "npm run verify:errors && npm run verify:endpoints"
+    "verify": "npm run verify:errors && npm run verify:endpoints && npm run verify:etag",
+    "verify:etag": "node scripts/run-check.mjs scripts/verify-conditional-get.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

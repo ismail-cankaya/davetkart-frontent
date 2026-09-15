@@ -1,4 +1,5 @@
 import { api, unwrapEnvelope } from './api';
+import { conditionalGet, invalidateConditionalCache } from './conditionalGet';
 import { RSVPResponse, RsvpCreatePayload } from '../types';
 import { toRsvpStatus } from '../utils/rsvpStatus';
 
@@ -41,10 +42,17 @@ function toRsvpArray(payload: unknown): RSVPResponse[] {
  * ve sahiplik sunucuda doğrulanır.
  */
 export const rsvpService = {
-  /** Sahibin bir davetiyesine gelen tüm yanıtlar. */
+  /**
+   * Sahibin bir davetiyesine gelen tüm yanıtlar.
+   *
+   * 🔴 **Koşullu okuma.** Bu uç ETag üretiyor ve panel 15 saniyede bir
+   * yeniliyor; `If-None-Match` göndermeden her poll tüm listeyi yeniden
+   * indirirdi. Gövde değişmediyse sunucu 304 döner ve elimizdeki sürüm
+   * aynen kullanılır.
+   */
   async list(invitationId: string): Promise<RSVPResponse[]> {
-    const { data } = await api.get<unknown>(`/invitations/${invitationId}/rsvps`);
-    return toRsvpArray(data);
+    const url = `/invitations/${invitationId}/rsvps`;
+    return conditionalGet(url, url, toRsvpArray);
   },
 
   /**
@@ -66,5 +74,16 @@ export const rsvpService = {
   /** Sahibin tek bir kaydı kaldırması. */
   async remove(id: string): Promise<void> {
     await api.delete(`/rsvps/${id}`);
+  },
+
+  /**
+   * Bu davetiyenin saklanan LCV sürümünü düşürür.
+   *
+   * Sunucu tarafında gövde değiştiğinde ETag da değişir, yani normalde bu
+   * gerekmez. Kapsam değiştiğinde (başka bir davetiyeye geçiş) ya da oturum
+   * kapandığında çağrılır: bir sonraki okuma tam gövdeyi çeksin.
+   */
+  forgetCachedList(invitationId: string): void {
+    invalidateConditionalCache(`/invitations/${invitationId}/rsvps`);
   },
 };

@@ -21,6 +21,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
   const isLoading = useRsvpStore(s => s.isLoading);
   const remoteError = useRsvpStore(s => s.remoteError);
   const fetchRsvps = useRsvpStore(s => s.fetchRsvps);
+  const startPolling = useRsvpStore(s => s.startPolling);
   const deleteRsvp = useRsvpStore(s => s.deleteRsvp);
   const invitationId = useRsvpStore(s => s.invitationId);
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
@@ -28,9 +29,16 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
   // Liste ucu hem **auth'lu** hem **davetiyeye özgü**: `GET /invitations/{id}/rsvps`.
   // Kimliği olmayan yüzeyler (ana sayfadaki tanıtım paneli) yalnızca bu
   // oturumda eklenen kayıtları gösterir; onlar için istek atılmaz.
+  //
+  // İlk okumanın ardından panel 15 saniyede bir yenilenir. Koşullu okuma
+  // sayesinde değişiklik yoksa sunucu **304** döner ve gövde hiç inmez —
+  // yani canlı panel, boşta beklerken neredeyse hiçbir şeye mal olmaz.
   useEffect(() => {
-    if (isAuthenticated && invitationId) void fetchRsvps();
-  }, [isAuthenticated, invitationId, fetchRsvps]);
+    if (!isAuthenticated || !invitationId) return;
+
+    void fetchRsvps();
+    return startPolling();
+  }, [isAuthenticated, invitationId, fetchRsvps, startPolling]);
 
   // Confirmation dialogs are a UI concern; the stores expose the raw actions.
   const handleDeleteRsvp = (id: string) => {

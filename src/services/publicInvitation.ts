@@ -1,4 +1,5 @@
-import { api, unwrapEnvelope } from './api';
+import { unwrapEnvelope } from './api';
+import { conditionalGet } from './conditionalGet';
 import { Invitation, TimelineEvent } from '../types';
 
 /**
@@ -100,13 +101,18 @@ export const publicInvitationService = {
    * (backend H7) — çağıran taraf aralarında ayrım yapamaz, yapmamalıdır.
    */
   async get(id: string): Promise<PublicInvitationView> {
-    const { data } = await api.get<unknown>(`/public/invitations/${id}`);
-    const body = unwrapEnvelope(data);
+    const url = `/public/invitations/${id}`;
 
-    if (!isWirePublicRecord(body)) {
-      throw new Error('Unexpected /public/invitations response shape');
-    }
+    // 🔴 Koşullu okuma (K46): bu uç ETag üretiyor. Misafir bağlantıyı
+    // birden çok kez açabilir; davetiye değişmediyse gövde hiç inmez.
+    return conditionalGet(url, url, (payload) => {
+      const body = unwrapEnvelope(payload);
 
-    return { id: body.id, invitation: hydrate(body.invitation) };
+      if (!isWirePublicRecord(body)) {
+        throw new Error('Unexpected /public/invitations response shape');
+      }
+
+      return { id: body.id, invitation: hydrate(body.invitation) };
+    });
   }
 };

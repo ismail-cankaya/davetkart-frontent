@@ -480,6 +480,20 @@ kullanıcıya bir şey anlatmaz.
 
 ## F5 — ETag ve polling (Faz 4/5'in kullanılmayan optimizasyonu)
 
+**Durum:** ✅ **Tamamlandı.**
+
+- `services/conditionalGet.ts` — tek yerde `If-None-Match`, `validateStatus`
+  ve ETag önbelleği. İki uç da kullanıyor:
+  `GET /public/invitations/{id}` ve `GET /invitations/{id}/rsvps`.
+- Polling `useRsvpStore.startPolling()` içinde, 15 sn. Sekme arka plandayken
+  durur, sekmeye dönüldüğünde beklemeden bir kez tazeler; üst üste binen
+  istek yok; arka plan yenilemeleri spinner yakmaz ve tek bir başarısız
+  yenileme paneli hata ekranına düşürmez.
+- ETag okunamıyorsa **sürüm saklanmaz** ve geliştirme ortamında bir kez
+  uyarı basılır — `exposed_headers` eksikliği sessizce ölmesin diye.
+- `npm run verify:etag` beş davranışı sınar.
+
+
 Backend iki uçta `ETag` üretiyor (`SetEtag` middleware, K46):
 
 ```
@@ -654,7 +668,7 @@ Backend'in `FAZ-9-ELLE-DOGRULAMA.md` betiğiyle **birlikte** koşulur.
 - [x] **F3** Checkout gerçek, `status: 'pending'` doğru yorumlanıyor
 - [x] **F3** 🔴 `activeTier` mock'u kaldırıldı
 - [x] **F4** 🔴 Asistan giriş duvarının arkasında + gerçek uca bağlı
-- [ ] **F5** ETag + `If-None-Match` + LCV polling
+- [x] **F5** ETag + `If-None-Match` + LCV polling
 - [ ] **F6** `timezone` alanı + geri sayım düzeltmesi
 - [ ] **F7** `VITE_API_BASE_URL` + backend `CORS_ALLOWED_ORIGINS` eşleşiyor
 - [ ] **F7.2** Silme uyarısı (3 günlük pencere)
