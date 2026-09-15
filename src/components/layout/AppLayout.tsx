@@ -4,6 +4,7 @@ import { useLenis } from '../../hooks/useLenis';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { Toaster } from '../ui/Toast';
+import { ConfirmHost } from '../ui/ConfirmDialog';
 
 const AssistantWidget = React.lazy(() =>
   import('../assistant/AssistantWidget').then(m => ({ default: m.AssistantWidget }))
@@ -41,6 +42,7 @@ export function AppLayout() {
 
       <Footer />
       <Toaster />
+      <ConfirmHost />
 
       {/* Asistan: uygulamanın geri kalanından bağımsız, ayrı chunk olarak yüklenir */}
       <React.Suspense fallback={null}>

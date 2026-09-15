@@ -581,6 +581,39 @@ const diff = new Date(invitation.eventAt).getTime() - Date.now();
 
 ## F7 — Üretim (Faz 9'un frontend'e düşen payı)
 
+**Durum:** ✅ **Tamamlandı** (F7.2 kısmen — aşağıya bak).
+
+- `.env.example` yeniden yazıldı: origin eşleşmesi, sondaki `/` tuzağı ve
+  "gizli anahtar frontend'e yazılmaz" kuralı belgelendi.
+  `.env.production.example` şablonu eklendi (izlenir; dolu hâli izlenmez).
+- `api.ts` geliştirme ortamında iki sessiz üretim hatasını bildirir:
+  taban adresin sonundaki `/` ve çapraz kaynak yapılandırması
+  (`CORS_ALLOWED_ORIGINS` + `exposed_headers: ['ETag']` hatırlatması).
+- `components/ui/ConfirmDialog.tsx` — `window.confirm` iki çağrı yerinden de
+  kaldırıldı. Zengin içerik taşıyabiliyor; üç günlük uyarıyı düz metne
+  sığdırmak zaten mümkün değildi.
+- 🔴 **Plan dışı bulgu:** `@google/genai` bağımlılığı `src/` içinde hiç
+  import edilmiyordu ve `.env.example` frontend'e `GEMINI_API_KEY` koymayı
+  belgeliyordu. İkisi de kaldırıldı — asistan çağrısını F4'ten beri backend
+  vekilliyor.
+
+### ⚠️ F7.2 açık maddesi: `publishedAt` yok
+
+Uyarı **tarihsiz** gösteriliyor: modal her iki olasılığı da anlatıyor ("3 gün
+geçmediyse hak serbest kalır, geçtiyse yanar") ama hangisinin geçerli olduğunu
+söyleyemiyor.
+
+Sebep: `InvitationResource` yalnızca `id`, `status`, `updatedAt` ve
+`invitation` gönderiyor — `publishedAt` **hiçbir Resource'ta yok**.
+`updatedAt`'i vekil saymak reddedildi: yayından sonraki tek bir düzenleme onu
+tazeler ve kullanıcıya hakkını kaybetmeyeceği yönünde **yanlış güvence**
+verirdi.
+
+**Backend'den istenecek:** `InvitationResource`'a `publishedAt` eklenmesi
+(bkz. backend `FAZ-9.md §8`). Alan geldiğinde `DashboardPage.handleDelete`
+kesin tarihe geçer; değişiklik tek bir koşula bakar.
+
+
 ### F7.1 🔴 Origin ve CORS
 
 Bugün `vite.config.ts` `/api`'yi `localhost:8000`'e proxy'liyor — yani tarayıcı
@@ -686,8 +719,8 @@ Backend'in `FAZ-9-ELLE-DOGRULAMA.md` betiğiyle **birlikte** koşulur.
 - [x] **F4** 🔴 Asistan giriş duvarının arkasında + gerçek uca bağlı
 - [x] **F5** ETag + `If-None-Match` + LCV polling
 - [x] **F6** `timezone` alanı + geri sayım düzeltmesi
-- [ ] **F7** `VITE_API_BASE_URL` + backend `CORS_ALLOWED_ORIGINS` eşleşiyor
-- [ ] **F7.2** Silme uyarısı (3 günlük pencere)
+- [x] **F7** `VITE_API_BASE_URL` + backend `CORS_ALLOWED_ORIGINS` eşleşiyor
+- [x] **F7.2** Silme uyarısı (3 günlük pencere) — *tarihsiz*, aşağıya bak
 - [ ] **F8** 17 senaryonun tamamı elle koşuldu
 - [ ] `.gitattributes` eklendi (491 dosya sahte "değişmiş" görünüyor)
 - [ ] `docs/rehber/src/` kılavuzları güncellendi (K18 frontend tarafı)

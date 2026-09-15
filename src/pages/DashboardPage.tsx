@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { LiveRsvpPanel } from '../components/rsvp/LiveRsvpPanel';
 import { toast } from '../components/ui/Toast';
+import { confirmAction } from '../components/ui/ConfirmDialog';
 import { useAuthStore } from '../stores/useAuthStore';
 import { useInvitationStore } from '../stores/useInvitationStore';
 import { useCreateWizardStore } from '../stores/useCreateWizardStore';
@@ -226,10 +227,63 @@ export default function DashboardPage() {
     navigate('/create');
   };
 
-  /** Silme geri alinamaz gorunur; kullaniciya bir kez sorulur. */
+  /**
+   * Silme geri alınamaz görünür; kullanıcıya bir kez sorulur.
+   *
+   * 🔴 Yayınlanmış bir davetiyenin silinmesinin bir **ticari sonucu** vardır
+   * (K82): yayından bu yana üç gün geçmediyse o davetiye için ödenen tekil
+   * siparişin hakkı serbest kalır ve yeni bir davetiyede kullanılabilir; üç
+   * gün geçtiyse hak yanar.
+   *
+   * Backend bunu **söylemez**: `DELETE /invitations/{id}` 204 döner, gövde
+   * yoktur. Bu bir sunum boşluğudur ve burada kapanır — kullanıcı parasının
+   * ne olacağını öğrenmeden silmemeli.
+   *
+   * ⚠️ Kesin tarih verilemiyor: `InvitationResource` `publishedAt`
+   * göndermiyor, dolayısıyla pencerenin dolup dolmadığını hesaplayamıyoruz.
+   * Uydurma bir hesap yapmaktansa (ör. `updatedAt`'i vekil saymak — yayından
+   * sonraki tek bir düzenleme onu tazeler ve kullanıcıya yanlış güvence
+   * verirdi) iki olasılığı da açıkça anlatıyoruz. Backend alanı eklediğinde
+   * burası kesin tarihe geçer.
+   */
   const handleDelete = async (card: DashboardCard) => {
     const ad = card.invitation.names || 'Bu davetiye';
-    if (!window.confirm(`${ad} silinecek. Emin misiniz?`)) return;
+    const isPublished = card.kind === 'published';
+
+    const approved = await confirmAction({
+      title: `${ad} silinecek`,
+      confirmLabel: 'Davetiyeyi Sil',
+      tone: 'danger',
+      description: (
+        <>
+          <p>
+            Davetiye yayından kaldırılacak ve bağlantısı çalışmayacak. Gelen katılım
+            yanıtları da erişilemez olur.
+          </p>
+
+          {isPublished && (
+            <div className="rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-amber-900">
+              <p className="font-semibold">Ödediğiniz plan hakkı ne olacak?</p>
+              <p className="mt-1.5 text-amber-800/90">
+                Bu, davetiyenin <strong>yayın tarihine</strong> bağlıdır:
+              </p>
+              <ul className="mt-2 space-y-1.5 text-amber-800/90">
+                <li>
+                  • Yayından bu yana <strong>3 gün geçmediyse</strong>, hakkınız serbest
+                  kalır ve yeni bir davetiyede kullanılabilir.
+                </li>
+                <li>
+                  • <strong>3 gün geçtiyse</strong> hak yanar ve yeniden yayınlamak için
+                  yeni bir plan almanız gerekir.
+                </li>
+              </ul>
+            </div>
+          )}
+        </>
+      )
+    });
+
+    if (!approved) return;
 
     try {
       await remove(card.remoteId);

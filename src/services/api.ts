@@ -17,8 +17,52 @@ import { useAuthStore } from '../stores/useAuthStore';
  * Zaman aşımı 15 sn'de sabittir: backend'in en kötü durumu ~12.6 sn'ye göre
  * ayarlandı (K78). Uzatmak sorunu gizler, çözmez.
  */
+const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api';
+
+/**
+ * Üretim yapılandırmasının en sessiz iki hatası burada yakalanır.
+ *
+ * 🔴 Sondaki `/`: axios taban adresi yol parçalarıyla birleştirir ve
+ * `https://api.ornek.com/api//invitations` üretir. Bazı sunucular bunu
+ * normalleştirir, bazıları 404 döner — yani hata **ortama göre** ortaya
+ * çıkar, ki bu en kötü hata türüdür.
+ *
+ * 🔴 Çapraz kaynak: taban adres mutlaksa (`https://…`) istekler CORS'a
+ * tabidir ve backend'in `CORS_ALLOWED_ORIGINS` ayarının bu sayfanın
+ * origin'iyle eşleşmesi gerekir. Eşleşmezse tarayıcı isteği engeller ve
+ * uygulama bunu ağ hatası olarak görür — gerçek sebep yalnızca konsolda
+ * durur.
+ */
+function assertApiBaseUrl(baseUrl: string): void {
+  if (!import.meta.env.DEV) return;
+
+  if (baseUrl.length > 1 && baseUrl.endsWith('/')) {
+    console.warn(
+      `[api] VITE_API_BASE_URL sonunda '/' var: "${baseUrl}". ` +
+        'Bu, çift eğik çizgili adresler üretir; sondaki eğik çizgiyi kaldırın.',
+    );
+  }
+
+  if (/^https?:\/\//i.test(baseUrl)) {
+    try {
+      const apiOrigin = new URL(baseUrl).origin;
+      if (apiOrigin !== window.location.origin) {
+        console.info(
+          `[api] Çapraz kaynak yapılandırma: sayfa ${window.location.origin}, API ${apiOrigin}. ` +
+            `Backend'in CORS_ALLOWED_ORIGINS ayarı "${window.location.origin}" içermeli ` +
+            "(sonda '/' YOK) ve ETag okunabilmesi için exposed_headers: ['ETag'] tanımlı olmalı.",
+        );
+      }
+    } catch {
+      console.warn(`[api] VITE_API_BASE_URL çözümlenemedi: "${baseUrl}".`);
+    }
+  }
+}
+
+assertApiBaseUrl(BASE_URL);
+
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL ?? '/api',
+  baseURL: BASE_URL,
   timeout: 15_000,
   headers: { 'Content-Type': 'application/json' }
 });

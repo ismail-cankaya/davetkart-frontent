@@ -4,6 +4,7 @@ import { Users, RefreshCw, UserCheck, Clock, X, Utensils, Trash2, ImageIcon, Pla
 import { useRsvpStore } from '../../stores/useRsvpStore';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { toast } from '../ui/Toast';
+import { confirmAction } from '../ui/ConfirmDialog';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { RSVP_STATUS_BADGE, RSVP_STATUS_LABELS } from '../../utils/rsvpStatus';
 
@@ -40,12 +41,21 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
     return startPolling();
   }, [isAuthenticated, invitationId, fetchRsvps, startPolling]);
 
-  // Confirmation dialogs are a UI concern; the stores expose the raw actions.
-  const handleDeleteRsvp = (id: string) => {
-    if (!window.confirm('Bu katılım kaydını silmek istediğinize emin misiniz?')) return;
-    deleteRsvp(id).catch((error: unknown) => {
-      toast(toDisplayError(error), 'error');
+  // Onay penceresi bir arayüz meselesidir; store'lar ham eylemi sunar.
+  const handleDeleteRsvp = async (id: string) => {
+    const approved = await confirmAction({
+      title: 'Katılım kaydı silinsin mi?',
+      description: 'Bu misafirin yanıtı panelden kaldırılacak ve sayımlardan düşecek.',
+      confirmLabel: 'Kaydı Sil',
+      tone: 'danger'
     });
+    if (!approved) return;
+
+    try {
+      await deleteRsvp(id);
+    } catch (error) {
+      toast(toDisplayError(error), 'error');
+    }
   };
 
   const countAttending = rsvpList.filter(r => r.status === 'attending').reduce((sum, r) => sum + r.guestCount, 0);
@@ -193,7 +203,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
                             {RSVP_STATUS_LABELS[rsvp.status]}
                           </span>
                           <button
-                            onClick={() => handleDeleteRsvp(rsvp.id)}
+                            onClick={() => void handleDeleteRsvp(rsvp.id)}
                             className="p-1 h-7 w-7 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700 flex items-center justify-center border border-red-200 transition-all"
                             title="Kaydı Sil"
                           >
