@@ -1,12 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
-import { Maximize2, Minimize2, Minus, SendHorizonal, X } from 'lucide-react';
+import { AlertTriangle, Maximize2, Minimize2, Minus, SendHorizonal, X } from 'lucide-react';
 import { BrandMark } from '../ui/BrandMark';
-import { AssistantMessage } from './types';
+import { AssistantBlock, AssistantMessage } from './types';
+import { ASSISTANT_MAX_PROMPT_CHARS } from '../../services/assistant';
 
 interface AssistantChatProps {
   messages: AssistantMessage[];
   isTyping: boolean;
+  /** Doluysa yazma alanı kapalıdır ve sebebi altta açıklanır. */
+  block: AssistantBlock | null;
   isFullscreen: boolean;
   onSend: (text: string) => void;
   onMinimize: () => void;
@@ -41,6 +44,7 @@ function TypingIndicator() {
 export function AssistantChat({
   messages,
   isTyping,
+  block,
   isFullscreen,
   onSend,
   onMinimize,
@@ -57,8 +61,10 @@ export function AssistantChat({
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
   }, [messages, isTyping]);
 
+  const isBlocked = block !== null;
+
   const handleSend = () => {
-    if (!draft.trim()) return;
+    if (!draft.trim() || isBlocked) return;
     onSend(draft);
     setDraft('');
     inputRef.current?.focus();
@@ -117,7 +123,10 @@ export function AssistantChat({
                   className={`inline-block px-4 py-2.5 text-[13px] leading-relaxed text-left shadow-sm ${
                     isUser
                       ? 'bg-brand text-white rounded-2xl rounded-br-md'
-                      : 'bg-white text-ink border border-ink/[0.06] rounded-2xl rounded-bl-md'
+                      : msg.variant === 'error'
+                        /* Sistem bildirimi, asistanın cevabı DEĞİL. */
+                        ? 'bg-amber-50 text-amber-900 border border-amber-300/60 rounded-2xl rounded-bl-md'
+                        : 'bg-white text-ink border border-ink/[0.06] rounded-2xl rounded-bl-md'
                   }`}
                 >
                   {msg.text}
@@ -132,26 +141,41 @@ export function AssistantChat({
       </div>
 
       {/* Input */}
-      <div className="shrink-0 border-t border-ink/[0.06] bg-white/80 backdrop-blur-sm p-3 flex items-center gap-2">
-        <input
-          ref={inputRef}
-          type="text"
-          value={draft}
-          onChange={e => setDraft(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
-          placeholder="Mesajınızı yazın..."
-          className="flex-grow bg-cream border border-ink/10 rounded-full px-4 py-2.5 text-[13px] text-ink placeholder:text-muted/60 focus:outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10 transition-all duration-300"
-        />
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.92 }}
-          onClick={handleSend}
-          disabled={!draft.trim()}
-          aria-label="Gönder"
-          className="w-10 h-10 shrink-0 rounded-full bg-brand text-white flex items-center justify-center shadow-md shadow-brand/25 hover:bg-brand-soft disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors duration-300"
-        >
-          <SendHorizonal size={16} />
-        </motion.button>
+      <div className="shrink-0 border-t border-ink/[0.06] bg-white/80 backdrop-blur-sm p-3">
+        {/* 🔴 Engel sebebi yazma alanının YANINDA durur. Kullanıcı neden
+            yazamadığını, yazmayı denemeden önce görmeli. */}
+        {isBlocked && (
+          <p className="flex items-start gap-1.5 text-[11px] text-amber-800 bg-amber-50 border border-amber-300/50 rounded-xl px-3 py-2 mb-2.5 leading-relaxed">
+            <AlertTriangle size={13} className="shrink-0 mt-px" />
+            {block.message}
+          </p>
+        )}
+
+        <div className="flex items-center gap-2">
+          <input
+            ref={inputRef}
+            type="text"
+            value={draft}
+            onChange={e => setDraft(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
+            disabled={isBlocked}
+            // Üst sınır backend'in `assistant.max_prompt_chars` değeriyle
+            // aynı: kullanıcı 422 almak yerine sınırı yazarken görmeli.
+            maxLength={ASSISTANT_MAX_PROMPT_CHARS}
+            placeholder={isBlocked ? 'Şu anda mesaj gönderilemiyor' : 'Mesajınızı yazın...'}
+            className="flex-grow bg-cream border border-ink/10 rounded-full px-4 py-2.5 text-[13px] text-ink placeholder:text-muted/60 focus:outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+          />
+          <motion.button
+            whileHover={isBlocked ? undefined : { scale: 1.08 }}
+            whileTap={isBlocked ? undefined : { scale: 0.92 }}
+            onClick={handleSend}
+            disabled={!draft.trim() || isBlocked}
+            aria-label="Gönder"
+            className="w-10 h-10 shrink-0 rounded-full bg-brand text-white flex items-center justify-center shadow-md shadow-brand/25 hover:bg-brand-soft disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors duration-300"
+          >
+            <SendHorizonal size={16} />
+          </motion.button>
+        </div>
       </div>
     </div>
   );

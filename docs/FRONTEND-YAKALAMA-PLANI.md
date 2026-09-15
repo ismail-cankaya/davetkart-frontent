@@ -406,6 +406,22 @@ gelir, kullanıcı doğru ekranı görür.
 
 ## F4 — Asistan
 
+**Durum:** ✅ **Tamamlandı.**
+
+- `services/assistant.ts` yazıldı; `POST /assistant/chat`, zarflı yanıt
+  (`{ data: { reply } }`). Zaman aşımı **uzatılmadı** — 15 sn backend'in
+  ayarlandığı sınır (K78).
+- Giriş duvarı **Seçenek B**: widget gizlenmiyor, sohbetin yerini
+  `AssistantLoginCta` alıyor. Gizlenen bir özellik kullanıcıya hiçbir şey
+  anlatmaz.
+- Üç hata kodu üç farklı davranış üretiyor (`AssistantBlock`):
+  kota → yazma alanı bugünlük kapanır; hız sınırı ve sağlayıcı → `retryAfter`
+  kadar kapanır, sonra kendiliğinden açılır.
+- Hata sohbetin **içinde** gösteriliyor (ayrı kılıkta baloncuk), toast'a
+  düşürülmüyor: kullanıcı mesajını yazdı ve bir karşılık bekliyor.
+- Girdi `maxLength={2000}` — backend'in `assistant.max_prompt_chars` değeri.
+
+
 ### F4.1 🔴 Giriş duvarı (K72) — en kritik madde
 
 `components/layout/AppLayout.tsx` `AssistantWidget`'ı **her sayfada**, giriş
@@ -637,7 +653,7 @@ Backend'in `FAZ-9-ELLE-DOGRULAMA.md` betiğiyle **birlikte** koşulur.
 - [x] **F3** `publish` ucu eklendi, iki 402 kodu ayrı ele alınıyor
 - [x] **F3** Checkout gerçek, `status: 'pending'` doğru yorumlanıyor
 - [x] **F3** 🔴 `activeTier` mock'u kaldırıldı
-- [ ] **F4** 🔴 Asistan giriş duvarının arkasında + gerçek uca bağlı
+- [x] **F4** 🔴 Asistan giriş duvarının arkasında + gerçek uca bağlı
 - [ ] **F5** ETag + `If-None-Match` + LCV polling
 - [ ] **F6** `timezone` alanı + geri sayım düzeltmesi
 - [ ] **F7** `VITE_API_BASE_URL` + backend `CORS_ALLOWED_ORIGINS` eşleşiyor

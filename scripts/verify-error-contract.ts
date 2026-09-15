@@ -79,7 +79,7 @@ async function main(): Promise<void> {
       assertRendered(`${code} (parametresiz)`, toDisplayError(apiError(code)));
     }
 
-    // 2. Parametre taşıyan kodlar, parametreler eldeyken de doldurulmalı.
+    // 3. Parametre taşıyan kodlar, parametreler eldeyken de doldurulmalı.
     const withParams: Record<string, Record<string, unknown>> = {
       ASSISTANT_QUOTA_EXCEEDED: { retryAfter: 7_200, limit: 30 },
       PAYWALL_TIER_INSUFFICIENT: { requiredTier: 'elit' },
@@ -109,7 +109,7 @@ async function main(): Promise<void> {
       }
     }
 
-    // 3. VALIDATION_FAILED: alan etiketi + kural parametresi yerine oturmalı.
+    // 4. VALIDATION_FAILED: alan etiketi + kural parametresi yerine oturmalı.
     //    Noktalı ve dizinli yollar (`/` ayırıcıya çevrilir) burada sınanır.
     const validation = apiError('VALIDATION_FAILED', {
       fields: {
@@ -135,13 +135,34 @@ async function main(): Promise<void> {
       fail(`byField geçersiz kılması uygulanmadı: guestCount → "${guestCount}"`);
     }
 
-    // 4. Tek alan hatalıysa toast genel cümle değil somut olanı göstermeli.
+    // 5. Tek alan hatalıysa toast genel cümle değil somut olanı göstermeli.
     const single = toDisplayError(
       apiError('VALIDATION_FAILED', { fields: { email: [{ rule: 'email' }] } }),
     );
     assertRendered('VALIDATION_FAILED (tek alan)', single);
 
-    // 5. Sunucuya hiç ulaşılamadığında gösterilecek kod yoktur.
+    // 6. 🔴 Aynı HTTP durumunu paylaşan kodlar AYNI METNİ göstermemeli.
+    //
+    //    `ASSISTANT_QUOTA_EXCEEDED` ve `RATE_LIMITED` ikisi de 429'dur ama
+    //    biri *"günlük hakkın bitti"*, diğeri *"çok hızlısın"* der (K74).
+    //    Ayrım `error.code`'dadır; metinler eşitlenirse backend'in bu ayrımı
+    //    yapmak için ödediği bedel çöpe gider. Aynısı iki 402 için geçerli:
+    //    *"önce bir plan al"* ile *"planını yükselt"* farklı ekranlardır.
+    const mustDiffer: Array<[string, string]> = [
+      ['ASSISTANT_QUOTA_EXCEEDED', 'RATE_LIMITED'],
+      ['PAYMENT_REQUIRED', 'PAYWALL_TIER_INSUFFICIENT'],
+      ['UNAUTHENTICATED', 'INVALID_CREDENTIALS'],
+    ];
+
+    for (const [left, right] of mustDiffer) {
+      const a = toDisplayError(apiError(left));
+      const b = toDisplayError(apiError(right));
+      if (a === b) {
+        fail(`${left} ve ${right} aynı metni gösteriyor: "${a}"`);
+      }
+    }
+
+    // 7. Sunucuya hiç ulaşılamadığında gösterilecek kod yoktur.
     assertRendered('NETWORK', toDisplayError({ isAxiosError: true, response: undefined }));
     assertRendered('UNKNOWN', toDisplayError(new Error('beklenmeyen')));
 

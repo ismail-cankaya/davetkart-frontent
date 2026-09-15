@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, X, ChevronUp } from 'lucide-react';
 import { BrandMark } from '../ui/BrandMark';
 import { AssistantChat } from './AssistantChat';
+import { AssistantLoginCta } from './AssistantLoginCta';
 import { useAssistantChat } from './useAssistantChat';
 import { AssistantWindowState } from './types';
+import { useAuthStore } from '../../stores/useAuthStore';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -17,6 +19,7 @@ const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 export function AssistantWidget() {
   const [windowState, setWindowState] = useState<AssistantWindowState>('closed');
   const chat = useAssistantChat();
+  const isAuthenticated = useAuthStore(s => s.isAuthenticated);
 
   const isOpen = windowState === 'open' || windowState === 'fullscreen';
   const isFullscreen = windowState === 'fullscreen';
@@ -52,15 +55,29 @@ export function AssistantWidget() {
                 : 'bottom-24 right-4 md:right-6 w-[calc(100vw-2rem)] max-w-[380px] h-[min(560px,calc(100dvh-8rem))] rounded-3xl'
             }`}
           >
-            <AssistantChat
-              messages={chat.messages}
-              isTyping={chat.isTyping}
-              isFullscreen={isFullscreen}
-              onSend={chat.sendMessage}
-              onMinimize={() => setWindowState('minimized')}
-              onToggleFullscreen={() => setWindowState(isFullscreen ? 'open' : 'fullscreen')}
-              onClose={() => setWindowState('closed')}
-            />
+            {/* 🔴 Giriş duvarı (K72): asistan ucu auth'ludur çünkü her çağrı
+                paradır ve harcama bir kimliğe yazılabilmelidir. Widget'ı
+                tamamen gizlemek yerine sohbeti kapatıp sebebini söylüyoruz —
+                gizlenen bir özellik kullanıcıya hiçbir şey anlatmaz. */}
+            {isAuthenticated ? (
+              <AssistantChat
+                messages={chat.messages}
+                isTyping={chat.isTyping}
+                block={chat.block}
+                isFullscreen={isFullscreen}
+                onSend={chat.sendMessage}
+                onMinimize={() => setWindowState('minimized')}
+                onToggleFullscreen={() => setWindowState(isFullscreen ? 'open' : 'fullscreen')}
+                onClose={() => setWindowState('closed')}
+              />
+            ) : (
+              <AssistantLoginCta
+                isFullscreen={isFullscreen}
+                onMinimize={() => setWindowState('minimized')}
+                onToggleFullscreen={() => setWindowState(isFullscreen ? 'open' : 'fullscreen')}
+                onClose={() => setWindowState('closed')}
+              />
+            )}
           </motion.div>
         )}
       </AnimatePresence>

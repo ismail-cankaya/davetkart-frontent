@@ -17,6 +17,7 @@ import { rsvpService } from '../src/services/rsvps';
 import { sendContactMessage } from '../src/services/contact';
 import { invitationService } from '../src/services/invitations';
 import { paymentService } from '../src/services/payments';
+import { assistantService } from '../src/services/assistant';
 import type { RsvpCreatePayload } from '../src/types';
 
 interface RecordedCall {
@@ -230,6 +231,23 @@ async function main(): Promise<void> {
   // 🔴 `redirectUrl` opsiyoneldir: yoksa anahtar HİÇ GELMEZ (C7).
   if ('redirectUrl' in pending && pending.redirectUrl === null) {
     fail('redirectUrl null olarak okundu; yokluğu `undefined` ile temsil edilmeli');
+  }
+
+  console.log('\nAsistan ucu');
+
+  const assistantBody = await check(
+    'asistan sohbeti',
+    { method: 'POST', url: '/assistant/chat' },
+    { data: { reply: 'Merhaba!' } },
+    () => assistantService.chat('Şablon önerir misin?'),
+  );
+  expectField('asistan sohbeti', assistantBody, 'message', 'Şablon önerir misin?');
+
+  // 🔴 Zarf korunur: `{ data: { reply } }`. Zarfsız okumak yanıtı
+  // `undefined` yapardı ve sohbet sessizce boş baloncuk gösterirdi.
+  const reply = await assistantService.chat('test');
+  if (reply !== 'Merhaba!') {
+    fail(`asistan yanıtı zarftan çıkarılamadı: ${JSON.stringify(reply)}`);
   }
 
   console.log('\nİletişim ucu');
