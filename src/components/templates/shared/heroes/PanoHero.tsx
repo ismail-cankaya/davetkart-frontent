@@ -156,7 +156,7 @@ export interface PanoHeroProps extends HeroRenderProps {
 
 export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#f3f4f2' }: PanoHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');

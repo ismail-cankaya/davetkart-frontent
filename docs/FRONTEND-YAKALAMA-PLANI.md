@@ -534,6 +534,22 @@ Polling `useRsvpStore` içine kurulacak (`config`'teki
 
 ## F6 — `timezone` alanı ve geri sayım
 
+**Durum:** ✅ **Tamamlandı.**
+
+- `Invitation.timezone` eklendi; `INITIAL_INVITATION` varsayılanı
+  `Europe/Istanbul` (backend'in `default_timezone` değeriyle aynı).
+- `utils/eventTime.ts` — duvar saati ↔ an dönüşümü, `Intl` ile; sabit offset
+  varsaymaz, yaz saati geçişlerinde de doğrudur.
+- `useCountdown(date, timeZone)` — saat dilimi **zorunlu parametre**.
+  22 hero + `Summary` güncellendi.
+- Editöre saat dilimi seçici eklendi (`utils/timeZones.ts`); liste
+  `Intl.supportedValuesOf` ile çalışma zamanında okunuyor, paketlenmiş ölü
+  bir kopya tutulmuyor.
+- Takvim dışa aktarımı da mekânın dilimine bağlandı; `DTSTAMP` UTC'ye
+  düzeltildi (RFC 5545 §3.8.7.2 — etkinlik saatinin aksine yüzer olamaz).
+- `npm run verify:time` 16 iddiayı sınar.
+
+
 Backend **her iki** davetiye Resource'unda `timezone` gönderiyor (K63/K71) ve
 misafir ucunda **her zaman dolu**. `types.ts`'te bu alan **yok**.
 
@@ -669,7 +685,7 @@ Backend'in `FAZ-9-ELLE-DOGRULAMA.md` betiğiyle **birlikte** koşulur.
 - [x] **F3** 🔴 `activeTier` mock'u kaldırıldı
 - [x] **F4** 🔴 Asistan giriş duvarının arkasında + gerçek uca bağlı
 - [x] **F5** ETag + `If-None-Match` + LCV polling
-- [ ] **F6** `timezone` alanı + geri sayım düzeltmesi
+- [x] **F6** `timezone` alanı + geri sayım düzeltmesi
 - [ ] **F7** `VITE_API_BASE_URL` + backend `CORS_ALLOWED_ORIGINS` eşleşiyor
 - [ ] **F7.2** Silme uyarısı (3 günlük pencere)
 - [ ] **F8** 17 senaryonun tamamı elle koşuldu

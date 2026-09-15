@@ -64,7 +64,7 @@ export function MermerHero({
   seed = 11
 }: MermerHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
   // Oyma: üstte koyu (oyuğun gölgeli duvarı), altta açık (ışık alan taban).
   const carved =

@@ -204,7 +204,7 @@ export function VitrayHero({
   seed = 31
 }: VitrayHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const dark = theme.id === 'midnight';
   const leadColor = lead ?? (dark ? '#0a0810' : '#4a4038');
   const glowColor = glow ?? glass[1];

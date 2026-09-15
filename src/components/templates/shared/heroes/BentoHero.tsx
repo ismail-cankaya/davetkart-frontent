@@ -60,7 +60,7 @@ function Label({ children, className }: { children: React.ReactNode; className?:
 }
 
 export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
 
   return (

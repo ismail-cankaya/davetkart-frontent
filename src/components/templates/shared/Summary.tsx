@@ -62,8 +62,8 @@ function CountdownTile({
   );
 }
 
-function Countdown({ date, theme, compact = false }: { date: string; theme: SectionTheme; compact?: boolean }) {
-  const { valid, days, hours, minutes, seconds } = useCountdown(date);
+function Countdown({ date, timeZone, theme, compact = false }: { date: string; timeZone: string; theme: SectionTheme; compact?: boolean }) {
+  const { valid, days, hours, minutes, seconds } = useCountdown(date, timeZone);
   if (!valid) return null;
 
   return (
@@ -211,7 +211,9 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
           </span>
         </motion.div>
 
-        {invitation.showTimer && <Countdown date={invitation.date} theme={theme} compact={compact} />}
+        {invitation.showTimer && (
+          <Countdown date={invitation.date} timeZone={invitation.timezone} theme={theme} compact={compact} />
+        )}
       </div>
 
       {/* Scroll hint */}

@@ -119,7 +119,7 @@ export function DokumaHero({
 }: DokumaHeroProps) {
   const reduced = useReducedMotion();
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const stitchColor = stitch ?? threads[0];
 
   return (

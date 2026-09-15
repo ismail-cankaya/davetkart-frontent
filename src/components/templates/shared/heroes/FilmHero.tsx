@@ -66,7 +66,7 @@ export interface FilmHeroProps extends HeroRenderProps {
 
 export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame = '#0e0d10' }: FilmHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-5 @sm:px-8 py-12 @sm:py-16">

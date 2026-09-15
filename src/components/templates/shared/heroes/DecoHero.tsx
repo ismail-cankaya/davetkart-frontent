@@ -18,7 +18,7 @@ import { DecoFrame, Sunburst } from '../effects';
  * tipografisi bilgiyi kutulara değil, ayırıcılarla bölünmüş bantlara koyar.
  */
 export function DecoHero({ invitation, theme, flavor }: HeroRenderProps) {
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
 
   return (

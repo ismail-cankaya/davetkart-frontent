@@ -19,7 +19,7 @@ import { useCountdown } from '../useCountdown';
  * başlayıp normale oturur — metin "yazılıyor" değil, "yerleşiyor" hissi.
  */
 export function NoirHero({ invitation, theme }: HeroRenderProps) {
-  const { valid, days } = useCountdown(invitation.date);
+  const { valid, days } = useCountdown(invitation.date, invitation.timezone);
   const words = (invitation.names || 'Davetlisiniz').split(' ');
 
   return (

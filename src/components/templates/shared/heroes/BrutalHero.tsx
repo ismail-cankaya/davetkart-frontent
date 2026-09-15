@@ -76,7 +76,7 @@ export function BrutalHero({
   onAccent2 = '#101010'
 }: BrutalHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
   // İsim kelimelere bölünüp alt alta yığılır: brutalizmde satır sonu bir
   // tipografi kararıdır, metnin kabına sığmasının yan etkisi değil.

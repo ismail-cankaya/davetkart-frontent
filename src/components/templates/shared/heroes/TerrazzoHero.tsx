@@ -92,7 +92,7 @@ export function TerrazzoHero({
   density = 26
 }: TerrazzoHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
   const pebbles = React.useMemo(() => buildChips(chips, seed, density), [chips, seed, density]);
 

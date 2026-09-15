@@ -99,7 +99,7 @@ export interface KinetikHeroProps extends HeroRenderProps {
 }
 
 export function KinetikHero({ invitation, theme, flavor, topWord }: KinetikHeroProps) {
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
   const names = invitation.names || 'Davetlisiniz';
 

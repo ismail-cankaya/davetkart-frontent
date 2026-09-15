@@ -72,7 +72,21 @@ export interface Invitation {
   title: string;
   subtitle: string;
   names: string;
+  /**
+   * 🔴 **Duvar saati**, offset'siz: `2026-11-14T19:00`.
+   *
+   * Bu metin tek başına bir ANI göstermez — hangi saat diliminde okunacağı
+   * `timezone` alanında durur. `new Date()` ile doğrudan ayrıştırmak, onu
+   * tarayıcının yerel saati saymak demektir; bkz. `utils/eventTime.ts`.
+   */
   date: string;
+  /**
+   * Etkinliğin IANA saat dilimi (`Europe/Istanbul`).
+   *
+   * Misafir ucunda **her zaman dolu** gelir (backend boşsa varsayılanı
+   * koyar); sahibin ucunda kullanıcı seçmediyse boş olabilir.
+   */
+  timezone: string;
   venue: string;
   /** Google Maps share link guests use for directions. */
   mapUrl: string;

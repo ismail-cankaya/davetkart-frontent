@@ -41,7 +41,7 @@ function Field({
 }
 
 export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
-  const { valid, days } = useCountdown(invitation.date);
+  const { valid, days } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
 
   // Deterministik "sıra no": aynı davetiye hep aynı numarayı gösterir.

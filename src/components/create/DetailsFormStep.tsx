@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { WandSparkles } from 'lucide-react';
 import { Invitation } from '../../types';
@@ -12,6 +12,7 @@ import { GalleryUploader } from './GalleryUploader';
 import { Switch } from '../ui/Switch';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { cn } from '../../utils/cn';
+import { formatTimeZoneLabel, timeZoneOptions } from '../../utils/timeZones';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -48,6 +49,10 @@ function GroupHeading({ step, title, hint }: { step: string; title: string; hint
 export function DetailsFormStep() {
   const invitation = useInvitationStore(s => s.invitation);
   const updateField = useInvitationStore(s => s.updateField);
+
+  // Liste çalışma zamanında okunuyor ve ~400 kayıt; her render'da yeniden
+  // kurulmasın.
+  const timeZones = useMemo(() => timeZoneOptions(), []);
   const startGeneration = useCreateWizardStore(s => s.startGeneration);
   const category = useActiveCategory();
 
@@ -191,6 +196,28 @@ export function DetailsFormStep() {
                 onChange={handleChange}
                 className={cn(inputClass, '[color-scheme:dark]')}
               />
+            </div>
+
+            <div className="space-y-2">
+              <label className={labelClass}>Etkinliğin Saat Dilimi</label>
+              {/* 🔴 Yukarıdaki saat bir DUVAR SAATİDİR: "19:00" etkinliğin
+                  olduğu yerin saatidir. Saat dilimi olmadan, başka bir
+                  ülkedeki misafirin geri sayımı kayar. Bu yüzden alan
+                  taslakta değil, formda duruyor. */}
+              <select
+                value={invitation.timezone || ''}
+                onChange={(e) => updateField('timezone', e.target.value)}
+                className={cn(inputClass, 'cursor-pointer')}
+              >
+                {timeZones.map((zone) => (
+                  <option key={zone} value={zone}>
+                    {formatTimeZoneLabel(zone)}
+                  </option>
+                ))}
+              </select>
+              <p className="text-[11px] text-white/35">
+                Misafirlerinizin geri sayımı bu saat dilimine göre hesaplanır.
+              </p>
             </div>
           </div>
 

@@ -1,27 +1,38 @@
 import { Invitation } from '../../../types';
+import { instantToWallClock, wallClockToInstant } from '../../../utils/eventTime';
 
 /**
- * "Add to calendar" helpers for the RSVP confirmation step.
- * Both use floating local times — the event happens at the venue's wall-clock
- * time regardless of the guest's timezone.
+ * Takvime ekleme yardımcıları.
+ *
+ * 🔴 Damgalar **yüzer (floating) yerel saat** olarak yazılır: sonda `Z` yok
+ * ve `TZID` yok. RFC 5545'te bu, *"etkinlik nerede açılırsa o saatte"*
+ * demektir ve bir duvar saati için doğru olan budur — misafirin takvimi
+ * saati kaydırmaz.
+ *
+ * Damganın **hangi** duvar saati olduğu ise mekânın saat diliminden gelir,
+ * misafirin tarayıcısından değil. Bitiş saati de o dilimde hesaplanır:
+ * misafirin bölgesinde araya giren bir yaz saati geçişi, mekândaki bitiş
+ * saatini kaydırmamalı.
  */
 
 const EVENT_DURATION_HOURS = 4;
 
-/** yyyy-MM-ddTHH:mm → YYYYMMDDTHHMMSS (calendar-format local timestamp). */
-function toCalendarStamp(date: Date): string {
-  const pad = (n: number) => String(n).padStart(2, '0');
-  return (
-    `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}` +
-    `T${pad(date.getHours())}${pad(date.getMinutes())}00`
-  );
+/** `YYYY-MM-DDTHH:mm` → `YYYYMMDDTHHMMSS` (takvim damgası). */
+function toCalendarStamp(wallClock: string): string {
+  return `${wallClock.replace(/[-:]/g, '')}00`;
 }
 
 function eventRange(invitation: Invitation): { start: string; end: string } | null {
-  const start = new Date(invitation.date);
-  if (Number.isNaN(start.getTime())) return null;
-  const end = new Date(start.getTime() + EVENT_DURATION_HOURS * 60 * 60 * 1000);
-  return { start: toCalendarStamp(start), end: toCalendarStamp(end) };
+  const zone = invitation.timezone;
+  const startInstant = wallClockToInstant(invitation.date, zone);
+  if (startInstant === null) return null;
+
+  const endInstant = startInstant + EVENT_DURATION_HOURS * 60 * 60 * 1000;
+
+  return {
+    start: toCalendarStamp(instantToWallClock(startInstant, zone)),
+    end: toCalendarStamp(instantToWallClock(endInstant, zone)),
+  };
 }
 
 function eventTitle(invitation: Invitation): string {
@@ -60,7 +71,9 @@ export function downloadIcsFile(invitation: Invitation): void {
     'CALSCALE:GREGORIAN',
     'BEGIN:VEVENT',
     `UID:davetkart-${Date.now()}@davetkart.app`,
-    `DTSTAMP:${toCalendarStamp(new Date())}`,
+    // DTSTAMP dosyanın oluşturulma ANIdır ve UTC olmak zorundadır (RFC 5545
+    // §3.8.7.2) — etkinlik saatinin aksine yüzer olamaz.
+    `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')}`,
     `DTSTART:${range.start}`,
     `DTEND:${range.end}`,
     `SUMMARY:${escapeText(eventTitle(invitation))}`,

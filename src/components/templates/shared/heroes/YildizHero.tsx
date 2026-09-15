@@ -48,7 +48,7 @@ export interface YildizHeroProps extends HeroRenderProps {
 export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }: YildizHeroProps) {
   const reduced = useReducedMotion();
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const lineColor = line ?? star;
 
   const { stars, constellation, ticks } = React.useMemo(() => {

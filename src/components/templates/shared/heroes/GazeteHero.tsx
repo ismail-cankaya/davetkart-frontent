@@ -25,7 +25,7 @@ export interface GazeteHeroProps extends HeroRenderProps {
 
 export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');

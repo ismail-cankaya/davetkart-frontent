@@ -41,7 +41,7 @@ export function PlakHero({
   spinDuration = 46
 }: PlakHeroProps) {
   const reduced = useReducedMotion();
-  const { valid, days, hours } = useCountdown(invitation.date);
+  const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
 
   // Kavisli başlık için benzersiz path kimliği: aynı sayfada iki plak

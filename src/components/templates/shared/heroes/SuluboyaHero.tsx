@@ -90,7 +90,7 @@ export function SuluboyaHero({
   seed = 7
 }: SuluboyaHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const dark = theme.id === 'midnight';
   const blend = dark ? 'screen' : 'multiply';
 

@@ -53,7 +53,7 @@ export function PostaHero({
   postmark = '#2f4f6b'
 }: PostaHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours } = useCountdown(invitation.date);
+  const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
   const arcId = React.useId().replace(/:/g, '');
 
   const dateParts = formatDateStr(invitation.date).split(' ');

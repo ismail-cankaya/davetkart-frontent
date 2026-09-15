@@ -2775,6 +2775,8 @@ export const INITIAL_INVITATION: Invitation = {
   subtitle: 'Sizleri de bu mutlu günümüzde aramızda görmekten onur duyarız.',
   names: 'Sophia & Elias',
   date: '2026-09-12T19:00',
+  // Varsayılan davetiye İstanbul'da; backend'in `default_timezone` değeriyle aynı.
+  timezone: 'Europe/Istanbul',
   venue: 'Çırağan Sarayı Kempinski, İstanbul',
   mapUrl: '',
   phoneBackground: 'moda-gece',

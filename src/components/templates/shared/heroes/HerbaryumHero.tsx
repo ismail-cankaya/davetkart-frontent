@@ -132,7 +132,7 @@ export function HerbaryumHero({
   accession = 'No. 001'
 }: HerbaryumHeroProps) {
   const { Ornament } = flavor;
-  const { valid, days, hours } = useCountdown(invitation.date);
+  const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
 
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');

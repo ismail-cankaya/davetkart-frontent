@@ -20,7 +20,7 @@ import { Halftone } from '../effects';
  * Yerleşim afiş mantığında: sola yaslı, iri, hiyerarşi keskin.
  */
 export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
-  const { valid, days, hours } = useCountdown(invitation.date);
+  const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
   const names = invitation.names || 'Davetlisiniz';
 

@@ -30,7 +30,7 @@ export interface HatHeroProps extends HeroRenderProps {
 
 export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHeroProps) {
   const reduced = useReducedMotion();
-  const { valid, days, hours, minutes } = useCountdown(invitation.date);
+  const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
 
   // Hareketi azaltma tercihinde çizim atlanır ve kartuş TAM çizilmiş
