@@ -26,8 +26,10 @@ export function useInvitationAutoSave(): void {
   useEffect(() => {
     if (!isAuthenticated) return;
 
+    // Yalnızca kullanıcı düzenlemeleri: kaydetme yanıtı, kayıt yükleme ve
+    // sıfırlama da `invitation`'ı değiştirir ama kaydetme tetiklememelidir.
     const unsubscribe = useInvitationStore.subscribe((state, prev) => {
-      if (state.invitation !== prev.invitation) debouncedSave();
+      if (state.editRevision !== prev.editRevision) debouncedSave();
     });
 
     return () => {

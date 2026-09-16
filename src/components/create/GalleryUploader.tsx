@@ -52,7 +52,10 @@ export function GalleryUploader() {
       const uploaded = await Promise.all(
         files.map((file) => mediaService.uploadForOwner(invitationId, file)),
       );
-      updateField('galleryImages', [...images, ...uploaded.map((media) => media.url)]);
+      // Liste yüklemeden SONRA okunur: yükleme sürerken kullanıcı bir
+      // fotoğrafı kaldırmış olabilir; render anındaki `images` onu geri getirirdi.
+      const current = useInvitationStore.getState().invitation.galleryImages;
+      updateField('galleryImages', [...current, ...uploaded.map((media) => media.url)]);
     } catch (error) {
       toast(toDisplayError(error), 'error');
     } finally {

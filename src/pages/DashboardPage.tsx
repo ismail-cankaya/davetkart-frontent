@@ -21,6 +21,7 @@ import { confirmAction } from '../components/ui/ConfirmDialog';
 import { useAuthStore } from '../stores/useAuthStore';
 import { useInvitationStore } from '../stores/useInvitationStore';
 import { useCreateWizardStore } from '../stores/useCreateWizardStore';
+import { startNewInvitation } from '../stores/sessionActions';
 import { useRsvpStore } from '../stores/useRsvpStore';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { fullName } from '../utils/user';
@@ -190,7 +191,6 @@ export default function DashboardPage() {
   const user = useAuthStore((s) => s.user);
   const loadRecord = useInvitationStore((s) => s.loadRecord);
   const resumeEditor = useCreateWizardStore((s) => s.resumeEditor);
-  const startNew = useCreateWizardStore((s) => s.startNew);
   const navigate = useNavigate();
 
   const { published, saved, isLoading, remoteError, refresh, remove } = useDashboardData();
@@ -327,7 +327,7 @@ export default function DashboardPage() {
 
           <Link
             to="/create"
-            onClick={startNew}
+            onClick={startNewInvitation}
             className="shrink-0 inline-flex items-center gap-2 bg-brand text-white px-6 py-3.5 rounded-full font-semibold text-xs hover:bg-brand-soft transition-all duration-300 shadow-md shadow-brand/15 hover:-translate-y-0.5"
           >
             <Plus size={15} />
@@ -406,7 +406,7 @@ export default function DashboardPage() {
                 <motion.div whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }} className="inline-block mt-8">
                   <Link
                     to="/create"
-                    onClick={startNew}
+                    onClick={startNewInvitation}
                     className="relative overflow-hidden inline-flex items-center gap-2.5 bg-brand text-white px-9 py-4 rounded-full font-semibold text-sm hover:bg-brand-soft transition-colors duration-500 shadow-lg shadow-brand/20 hover:shadow-xl hover:shadow-brand/30"
                   >
                     <span className="absolute inset-0 animate-shimmer pointer-events-none" />

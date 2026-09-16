@@ -9,6 +9,7 @@ import {
 } from '../types';
 import { INITIAL_INVITATION, TEMPLATE_PRESETS } from '../data';
 import { persistenceService } from '../services/persistence';
+import { useAuthStore } from './useAuthStore';
 
 /** Palette carried by each modular preset; legacy presets keep the current palette. */
 const PRESET_PALETTES: Record<string, PaletteId> = {
@@ -41,6 +42,15 @@ interface InvitationState {
   recordId: string | null;
   /** Outcome of the most recent backend save (drives the editor's status hint). */
   saveState: InvitationSaveState;
+  /**
+   * Kullanıcı düzenlemesi sayacı — yalnızca `updateField` ve `selectTemplate`
+   * artırır. Otomatik kaydetme BUNU izler, `invitation` referansını değil.
+   *
+   * 🔴 Kaydetme yanıtı da `invitation`'ı yeniden yazar (sunucu kimlikleri).
+   * Referans izlenseydi her başarılı kayıt bir sonrakini tetikler ve editör
+   * açık kaldıkça sonsuz bir PUT döngüsü dönerdi.
+   */
+  editRevision: number;
   /** Update a single invitation field (form inputs). */
   updateField: <K extends keyof Invitation>(name: K, value: Invitation[K]) => void;
   /** Switch the visual template; keeps the invitation's theme fields in sync. */
@@ -74,6 +84,26 @@ interface InvitationState {
 let saveQueue: Promise<void> = Promise.resolve();
 
 /**
+ * 🔴 Editördeki belgenin kuşağı — `loadRecord` ve `resetInvitation` artırır.
+ *
+ * Kaydetme ağda uçarken başka bir belge açılabilir (ör. editörden çıkarken
+ * boşaltılan kaydetme sürerken panelden başka bir kart düzenlenir). Yanıt,
+ * kuşak değiştikten sonra gelirse YOK SAYILIR: yazılsaydı eski kaydın kimliği
+ * yeni belgeye geçer ve bir sonraki kaydetme yeni içeriği eski kaydın üzerine
+ * yazardı.
+ */
+let documentGeneration = 0;
+
+/**
+ * Editördeki belgenin ait olduğu hesap: kayıt yüklendiğinde ya da ilk kez
+ * sunucuya yazıldığında belirlenir. Anonim taslaklarda `null` — sahipleri
+ * yoktur ve girişte korunurlar. Bkz. dosya sonundaki sahiplik bekçisi.
+ */
+let documentOwnerId: string | null = null;
+
+const currentUserId = (): string | null => useAuthStore.getState().user?.id ?? null;
+
+/**
  * Sunucunun ürettiği program kimliklerini geri yazar (K44).
  *
  * İstek uçarken kullanıcı yazmaya devam etmiş olabilir; bu yüzden yanıtın
@@ -97,9 +127,25 @@ function adoptServerIds(
   });
 }
 
+/**
+ * Tek bir kaydetmenin sonucu. Otomatik kaydetme bunu yok sayar (durum ipucu
+ * `saveState`'ten okunur); yayınlama ise kaydın GERÇEKTEN yazıldığını bilmek
+ * zorundadır.
+ */
+type SaveOutcome = { ok: true } | { ok: false; error: unknown };
+
+const SUPERSEDED: SaveOutcome = {
+  ok: false,
+  error: new Error('Düzenlenen davetiye değişti; kaydetme uygulanmadı.')
+};
+
 export const useInvitationStore = create<InvitationState>()((set, get) => {
-  const runSave = async (): Promise<void> => {
+  const runSave = async (generation: number): Promise<SaveOutcome> => {
+    // Sırada beklerken belge değiştiyse bu kaydetme artık başka bir belgeye ait.
+    if (generation !== documentGeneration) return SUPERSEDED;
+
     const { invitation, recordId } = get();
+    const ownerId = currentUserId();
 
     // Backend sort_order'ı listedeki konumdan yazıyor, dolayısıyla yanıt
     // gönderdiğimiz sırayı korur; eşleştirmeyi bu varsayıma dayandırıyoruz.
@@ -112,6 +158,9 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
         ? await persistenceService.updateInvitation(recordId, invitation)
         : await persistenceService.createInvitation(invitation);
 
+      if (generation !== documentGeneration) return SUPERSEDED;
+
+      documentOwnerId = ownerId;
       set((state) => ({
         recordId: record.id,
         saveState: 'saved',
@@ -120,11 +169,22 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
           timelineEvents: adoptServerIds(state.invitation.timelineEvents, sentKeys, record)
         }
       }));
-    } catch {
+      return { ok: true };
+    } catch (error) {
       // A failed save must never crash the editor; the status hint surfaces
       // it and the next edit re-triggers the debounced save.
+      if (generation !== documentGeneration) return SUPERSEDED;
       set({ saveState: 'error' });
+      return { ok: false, error };
     }
+  };
+
+  const enqueueSave = (): Promise<SaveOutcome> => {
+    // Kuşak SIRAYA GİRERKEN yakalanır: kaydetme, istendiği andaki belgeye aittir.
+    const generation = documentGeneration;
+    const outcome = saveQueue.then(() => runSave(generation));
+    saveQueue = outcome.then(() => undefined);
+    return outcome;
   };
 
   return {
@@ -132,12 +192,17 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
     activePresetId: INITIAL_INVITATION.imageTheme,
     recordId: null,
     saveState: 'idle',
+    editRevision: 0,
 
     updateField: (name, value) =>
-      set((state) => ({ invitation: { ...state.invitation, [name]: value } })),
+      set((state) => ({
+        invitation: { ...state.invitation, [name]: value },
+        editRevision: state.editRevision + 1
+      })),
 
     selectTemplate: (presetId) =>
       set((state) => ({
+        editRevision: state.editRevision + 1,
         activePresetId: presetId,
         invitation: {
           ...state.invitation,
@@ -149,27 +214,32 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
 
     // Merge over the factory defaults so records created before newer modular
     // fields existed (showGift, timelineEvents…) load with sane values.
-    loadRecord: (record) =>
+    loadRecord: (record) => {
+      documentGeneration += 1;
+      documentOwnerId = currentUserId();
       set({
         recordId: record.id,
         invitation: { ...INITIAL_INVITATION, ...record.invitation },
         activePresetId: record.invitation.imageTheme || INITIAL_INVITATION.imageTheme,
         saveState: 'idle'
-      }),
+      });
+    },
 
     // 🔴 recordId de sıfırlanır: aksi halde "yeni davetiye" mevcut kaydın
     // üzerine yazardı.
-    resetInvitation: () =>
+    resetInvitation: () => {
+      documentGeneration += 1;
+      documentOwnerId = null;
       set({
         recordId: null,
         invitation: INITIAL_INVITATION,
         activePresetId: INITIAL_INVITATION.imageTheme,
         saveState: 'idle'
-      }),
+      });
+    },
 
-    saveInvitation: () => {
-      saveQueue = saveQueue.then(runSave);
-      return saveQueue;
+    saveInvitation: async () => {
+      await enqueueSave();
     },
 
     publishInvitation: async () => {
@@ -177,12 +247,16 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       // olmayan bir tasarım yayınlanamaz, ve kullanıcının son düzenlemesi
       // debounce penceresinde takılı kalmış olabilir — yayınlanan davetiye
       // ekranda gördüğünden eski olmamalı.
-      await get().saveInvitation();
+      const outcome = await enqueueSave();
+
+      // 🔴 Kimliğin var olması yetmez: güncelleme başarısızsa sunucudaki sürüm
+      // ekrandakinden eskidir ve yayınlamak onu yayına çıkarırdı. Kaydetmenin
+      // KENDİ hatası fırlatılır ki kullanıcı sebebini (bağlantı, doğrulama…)
+      // görsün.
+      if (outcome.ok === false) throw outcome.error;
 
       const recordId = get().recordId;
       if (!recordId) {
-        // Kaydetme başarısız oldu; `saveState` zaten 'error'. Yayınlamayı
-        // sessizce atlamak, kullanıcıya yayınlandı sanısı verirdi.
         throw new Error('Davetiye kaydedilemediği için yayınlanamadı.');
       }
 
@@ -194,6 +268,21 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       return record;
     }
   };
+});
+
+/**
+ * 🔴 Sahiplik bekçisi: editördeki belge başka bir hesaba aitse düşürülür.
+ *
+ * Oturum süresi dolduğunda (401) editör bilerek temizlenmez — aynı kullanıcı
+ * yeniden girip devam edebilmeli. Ama aynı sekmede FARKLI bir hesap girerse
+ * önceki hesabın tasarımı ekranda kalır ve bir sonraki kaydetme onun kaydına
+ * yazılmaya çalışılırdı.
+ */
+useAuthStore.subscribe((auth) => {
+  const userId = auth.user?.id ?? null;
+  if (userId !== null && documentOwnerId !== null && documentOwnerId !== userId) {
+    useInvitationStore.getState().resetInvitation();
+  }
 });
 
 /** The full preset object for the currently selected template. */

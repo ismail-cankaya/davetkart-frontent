@@ -10,6 +10,7 @@ import { RSVP_STATUS_CHOICES } from '../../../utils/rsvpStatus';
 import { SectionTheme, EASE_LUXE } from './palette';
 import { TemplateFlavor } from './flavor';
 import { googleCalendarUrl, downloadIcsFile } from './calendar';
+import { formatCalendarDay } from '../utils';
 import { CheckIcon, SendIcon, UsersIcon, GoogleIcon, AppleIcon } from './icons';
 
 interface RSVPFormProps {
@@ -41,9 +42,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
   const isDark = theme.id === 'midnight';
   const calendarUrl = googleCalendarUrl(invitation);
 
-  const deadlineLabel = invitation.rsvpDeadline
-    ? new Date(invitation.rsvpDeadline).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })
-    : null;
+  const deadlineLabel = formatCalendarDay(invitation.rsvpDeadline);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

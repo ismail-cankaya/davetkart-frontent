@@ -11,9 +11,10 @@
     "lint": "tsc --noEmit",
     "verify:errors": "node scripts/run-check.mjs scripts/verify-error-contract.ts",
     "verify:endpoints": "node scripts/run-check.mjs scripts/verify-endpoints.ts",
-    "verify": "npm run verify:errors && npm run verify:endpoints && npm run verify:etag && npm run verify:time",
+    "verify": "npm run verify:errors && npm run verify:endpoints && npm run verify:etag && npm run verify:time && npm run verify:state",
     "verify:etag": "node scripts/run-check.mjs scripts/verify-conditional-get.ts",
-    "verify:time": "node scripts/run-check.mjs scripts/verify-event-time.ts"
+    "verify:time": "node scripts/run-check.mjs scripts/verify-event-time.ts",
+    "verify:state": "node scripts/run-check.mjs scripts/verify-editor-state.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
@@ -39,6 +40,8 @@
   "devDependencies": {
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.25.0",
     "tailwindcss": "^4.1.14",

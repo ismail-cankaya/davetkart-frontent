@@ -51,6 +51,11 @@ Bu, tek satırlık bir unutmanın veri kaybına dönüştüğü türden bir hata
 sebeple `loadRecord` da `saveState`'i `idle`'a çeker — önceki kaydın "kaydedildi"
 rozeti yeni kayda taşınmamalı.
 
+> ⚠️ Sıfırlamanın doğru yazılması yetmez, **çağrılması** da gerekir. Paneldeki
+> "Yeni Davetiye Oluştur" uzun süre yalnızca sihirbazı sıfırladı ve tam olarak bu
+> hatayı üretti. Artık iki store'u birlikte sıfırlayan
+> `stores/sessionActions.ts` → `startNewInvitation()` çağrılıyor. Bkz. Ek.
+
 ---
 
 ## 3. 🔴 Kaydetme kuyruğu — yarış durumu
@@ -58,10 +63,12 @@ rozeti yeni kayda taşınmamalı.
 ```ts
 let saveQueue: Promise<void> = Promise.resolve();
 
-saveInvitation: () => {
-  saveQueue = saveQueue.then(runSave);
-  return saveQueue;
-}
+const enqueueSave = (): Promise<SaveOutcome> => {
+  const generation = documentGeneration;          // bkz. Ek — kuşak
+  const outcome = saveQueue.then(() => runSave(generation));
+  saveQueue = outcome.then(() => undefined);
+  return outcome;
+};
 ```
 
 ### Problem
@@ -82,12 +89,13 @@ Sonuc: kullanici tek davetiye yaptigini sanir, dashboard'da IKI tane gorur.
 
 ### Çözüm
 
-`saveQueue = saveQueue.then(runSave)` her kaydetmeyi bir öncekinin **sonuna**
-ekler. İkinci kaydetme, birincisi bitip `recordId` yazılana kadar başlamaz;
-başladığında `recordId` doludur ve `PUT` atar.
+`saveQueue.then(...)` her kaydetmeyi bir öncekinin **sonuna** ekler. İkinci
+kaydetme, birincisi bitip `recordId` yazılana kadar başlamaz; başladığında
+`recordId` doludur ve `PUT` atar.
 
-`runSave` hatayı kendi içinde yakalıyor (`catch` ile `saveState: 'error'`), yani
-zincir **asla reddedilmez**. Bir kaydetme başarısız olsa bile sonrakiler
+`runSave` hatayı kendi içinde yakalıyor (`catch` ile `saveState: 'error'`) ve
+reddetmek yerine bir **sonuç** döndürüyor (`{ ok: false, error }`), yani zincir
+**asla reddedilmez**. Bir kaydetme başarısız olsa bile sonrakiler
 çalışmaya devam eder — reddedilen bir promise zinciri kırar ve autosave sessizce
 ölürdü.
 
@@ -197,6 +205,10 @@ değiştirmek**, sessiz uyumsuzluğu derleme hatasına çevirir.
 | 4 | Yanıtın tamamını belleğe kopyalamak | Kullanıcının son yazdıkları geri alınır |
 | 5 | Kuyruğun `catch`'ini unutmak | Bir hata zinciri kırar, autosave sessizce ölür |
 | 6 | Modül seviyesinde ağ isteği bırakmak | Test edilemez yan etki |
+| 7 | Autosave'i `invitation` referansına bağlamak | Kaydetme yanıtı bir sonraki kaydetmeyi tetikler: sonsuz PUT |
+| 8 | Geç gelen yanıtı belge değişmiş mi diye bakmadan yazmak | Yeni belge eski kaydın üzerine yazılır |
+| 9 | Yayınlamadan önce yalnızca `recordId`'ye bakmak | Kaydetme başarısızken eski sürüm yayına çıkar |
+| 10 | Çıkışta yalnızca `useAuthStore`'u temizlemek | Sonraki hesap önceki hesabın tasarımını görür |
 
 ---
 
@@ -246,3 +258,24 @@ Son deneme §3'ün kanıtı.
 
 **F5 — `hooks/useDashboardData.ts`.** Tek kayıt varsayımının son kalesi ve silme
 işleminin iyimser güncellemesi.
+
+---
+
+## Ek — Sonradan yakalanan sıralama hataları
+
+Faz 3'ten sonra yapılan bir denetimde, derleme ve mevcut `verify` betiklerinin
+göremediği dört hata bu dosyada bulundu. Hepsi **sıralama** hatasıdır. Artık
+`npm run verify:state` (`scripts/verify-editor-state.ts`) her birini sınıyor.
+
+| Hata | Kök neden | Düzeltme |
+|---|---|---|
+| Editör açık kaldıkça ~1,5 sn'de bir PUT | Autosave `invitation` referansını izliyordu; kaydetme yanıtı da referansı değiştiriyor | Yalnızca `updateField`/`selectTemplate`'in artırdığı `editRevision` izleniyor |
+| Uçuştaki kaydetme bitince yeni açılan belge eski kaydın kimliğini alıyor | Yanıt, belge değişmiş mi bakılmadan yazılıyordu | `documentGeneration`: `loadRecord`/`resetInvitation` artırır; kuşağı değişen kaydetme atlanır, yanıtı yok sayılır |
+| Güncelleme başarısızken yayınlama yapılıyor | `publishInvitation` yalnızca `recordId`'ye bakıyordu | Kaydetme sonucu (`SaveOutcome`) döner; başarısızsa kaydetmenin kendi hatası fırlatılır |
+| Başka hesapla girince önceki hesabın tasarımı ve kaydı kalıyor | Çıkış yalnızca auth store'u temizliyordu | Açık çıkışta `signOut()` her şeyi temizler. Oturum düşüp **farklı** hesap girerse sahiplik bekçisi (`documentOwnerId`) belgeyi sıfırlar; aynı hesap veya anonim taslak korunur |
+
+> **Kuşak ile ilgili bilinçli ödünleşim:** Kuyrukta bekleyen bir kaydetme,
+> belge değiştiyse **atlanır**. Yani çok yavaş bir ağda editörden çıkıp
+> saniyenin altında başka bir kart açılırsa, önceki belgenin son birkaç
+> düzenlemesi kaydedilmeyebilir. Alternatif — o kaydetmeyi yeni belgenin
+> kimliğiyle çalıştırmak — bir belgenin içeriğini ötekinin üzerine yazmaktır.

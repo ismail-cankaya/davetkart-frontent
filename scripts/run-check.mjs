@@ -31,6 +31,9 @@ await build({
   // Bağımlılıklar Node'un kendi çözümlemesine bırakılır; axios gibi paketler
   // ESM çıktısına gömüldüğünde `require()` çağrıları kırılır.
   packages: 'external',
+  // Store'lar `data.ts` üzerinden şablon kapak görsellerini içeri alır; Node'da
+  // bir görselin içeriğine ihtiyaç yok, yalnızca modülün yüklenebilmesine.
+  loader: { '.png': 'empty', '.jpg': 'empty', '.svg': 'empty' },
   define: { 'import.meta.env': JSON.stringify({ VITE_API_BASE_URL: '/api' }) },
   outfile,
   logLevel: 'error',

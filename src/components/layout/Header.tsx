@@ -6,6 +6,7 @@ import { Menu, X, LayoutDashboard, LogOut } from 'lucide-react';
 import { BrandMark } from '../ui/BrandMark';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { useAuthStore } from '../../stores/useAuthStore';
+import { signOut } from '../../stores/sessionActions';
 import { fullName } from '../../utils/user';
 
 const NAV_LINKS = [
@@ -38,11 +39,10 @@ export const Header = React.memo(function Header() {
 
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const user = useAuthStore(s => s.user);
-  const logout = useAuthStore(s => s.logout);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout();
+    signOut();
     setMobileMenuOpen(false);
     navigate('/');
   };

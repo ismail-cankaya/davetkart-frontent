@@ -106,8 +106,13 @@ export const useRsvpStore = create<RsvpState>()((set, get) => ({
 
     try {
       const rsvps = await persistenceService.listRsvps(invitationId);
+      // 🔴 İstek uçarken panelde başka bir davetiye seçilmiş olabilir. Geç
+      // gelen yanıt yazılsaydı önceki davetiyenin misafirleri yenisinin
+      // sayımına karışırdı — `setInvitationScope`'un önlemeye çalıştığı şey.
+      if (get().invitationId !== invitationId) return;
       set({ rsvpList: rsvps, remoteError: false, isLoading: false });
     } catch {
+      if (get().invitationId !== invitationId) return;
       // Arka plandaki tek bir başarısız yenileme paneli hata ekranına
       // düşürmemeli: elde çalışan bir liste var ve bir sonraki poll
       // muhtemelen başaracak.
@@ -233,16 +238,17 @@ export const useRsvpStore = create<RsvpState>()((set, get) => ({
   },
 
   deleteRsvp: async (id) => {
-    const previous = get().rsvpList;
+    const { rsvpList: previous, invitationId } = get();
     set({ rsvpList: previous.filter((r) => r.id !== id) });
 
     // Önizleme kayıtlarının sunucuda karşılığı yok; silme isteği 404 verirdi.
-    if (!get().invitationId) return;
+    if (!invitationId) return;
 
     try {
       await persistenceService.deleteRsvp(id);
     } catch (error) {
-      set({ rsvpList: previous });
+      // Geri alma yalnızca aynı davetiyenin listesine yapılır.
+      if (get().invitationId === invitationId) set({ rsvpList: previous });
       throw error;
     }
   },
