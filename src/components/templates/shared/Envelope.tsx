@@ -128,13 +128,17 @@ export function Envelope({ invitation, theme, flavor, onOpened }: EnvelopeProps)
           </motion.button>
         </div>
 
-        {/* Hint */}
+        {/* Hint — bekleme nabzı CSS'te, compositor'da döner (bkz. index.css).
+            🔴 Nabız içteki span'dedir: aynı elemanın opaklığını hem Motion
+            (açılırken söndürme) hem CSS animasyonu yönetirse Chrome animasyonu
+            compositor'a alamıyor ve sayfa boştayken bile her karede ana thread
+            çalışıyordu. Opaklıklar çarpıldığı için görünüm aynıdır. */}
         <motion.p
           className={cn('mt-8 text-center text-[11px] font-medium tracking-[0.25em] uppercase', theme.body)}
-          animate={opening ? { opacity: 0 } : { opacity: [0.4, 1, 0.4] }}
-          transition={opening ? { duration: 0.3 } : { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
+          animate={{ opacity: opening ? 0 : 1 }}
+          transition={{ duration: 0.3 }}
         >
-          Mühre dokunarak açın
+          <span className={opening ? 'inline-block' : 'inline-block animate-hint-fade'}>Mühre dokunarak açın</span>
         </motion.p>
       </motion.div>
     </motion.div>

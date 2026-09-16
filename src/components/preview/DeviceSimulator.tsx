@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Laptop, LucideIcon, Maximize2, Smartphone, Tablet } from 'lucide-react';
 import { RsvpModal } from './RsvpModal';
 import { TemplateRenderer } from '../templates/TemplateRenderer';
@@ -58,6 +58,18 @@ const DEVICE_SPECS: Record<PreviewDevice, DeviceSpec> = {
 
 const DEVICE_ORDER: PreviewDevice[] = ['phone', 'tablet', 'laptop'];
 
+/**
+ * 🔴 Giriş animasyonları bağımsız `y`/`scale` değerleriyle değil tek bir
+ * `transform` dizesiyle yazılır. Motion yalnızca `transform` ve `opacity`'yi
+ * tarayıcının compositor'ına (WAAPI) devredebilir; `y`, `scale` gibi değerleri
+ * her karede JavaScript'te hesaplayıp inline style olarak yazar. Bu bölüm
+ * ana sayfadaki ilk kaydırmada ekrana girdiği için o kareler zaten doluydu.
+ * Fonksiyon listeleri iki uçta aynı sırada tutulur ki ara değerler doğrusal
+ * interpolasyonla hesaplansın.
+ */
+const RISE_HIDDEN = { opacity: 0, transform: 'translateY(10px)' };
+const RISE_SHOWN = { opacity: 1, transform: 'translateY(0px)' };
+
 interface DeviceSimulatorProps {
   simulatorRef: React.RefObject<HTMLDivElement>;
 }
@@ -77,6 +89,8 @@ export function DeviceSimulator({ simulatorRef }: DeviceSimulatorProps) {
   const setInvitationScope = useRsvpStore(s => s.setInvitationScope);
 
   const screenRef = useRef<HTMLDivElement>(null);
+  // Hareketi azaltmayı seçen kullanıcıda girişler atlanır (bkz. TemplateGrid).
+  const reduceMotion = useReducedMotion();
 
   // 🔴 Simülatör tanımı gereği bir ÖNIZLEMEDIR: içindeki davetiyenin sunucuda
   // bir karşılığı olmayabilir (tasarım editörü) ya da hiç olmaz (ana sayfa
@@ -110,14 +124,36 @@ export function DeviceSimulator({ simulatorRef }: DeviceSimulatorProps) {
     >
       {/* Device frame entrance */}
       <motion.div
-        initial={isMobile ? { opacity: 0, y: 30, scale: 0.95 } : { opacity: 0, y: 60, scale: 0.7, rotateX: 15 }}
-        whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+        initial={reduceMotion ? false : {
+          opacity: 0,
+          transform: isMobile
+            ? 'translateY(30px) scale(0.95) rotateX(0deg)'
+            : 'translateY(60px) scale(0.7) rotateX(15deg)'
+        }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px) scale(1) rotateX(0deg)' }}
         viewport={{ once: true, margin: '0px' }}
         transition={{ duration: 1.2, ease: EASE_LUXE }}
         className="relative will-change-transform max-w-full"
       >
         {/* Ambient glow behind device */}
         <div className="absolute -inset-4 md:-inset-8 bg-gradient-to-b from-emerald-200/25 via-champagne/25 to-emerald-200/10 rounded-[60px] blur-xl md:blur-2xl pointer-events-none" />
+
+        {/* Nefes alan gölge: iki gölge durumu çerçevenin arkasında ayrı
+            katmanlarda durur, yalnızca opaklıkları değişir (bkz. index.css). */}
+        <motion.span
+          aria-hidden="true"
+          animate={{ borderRadius: spec.frameRadius, height: frameHeight }}
+          initial={false}
+          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          className="device-glow-rest absolute left-0 top-0 w-full"
+        />
+        <motion.span
+          aria-hidden="true"
+          animate={{ borderRadius: spec.frameRadius, height: frameHeight }}
+          initial={false}
+          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          className="device-glow-peak absolute left-0 top-0 w-full"
+        />
 
         {/* Actual device frame — width/height/radius glide between mockups */}
         <motion.div
@@ -129,7 +165,7 @@ export function DeviceSimulator({ simulatorRef }: DeviceSimulatorProps) {
           }}
           initial={false}
           transition={{ duration: 0.8, ease: EASE_LUXE }}
-          className="relative bg-slate-900 shadow-2xl overflow-hidden border-[3px] lg:border-4 border-slate-800 device-glow"
+          className="relative bg-slate-900 overflow-hidden border-[3px] lg:border-4 border-slate-800"
         >
           {/* Device-specific chrome: notch (phone) / camera dot (tablet, laptop) */}
           <AnimatePresence>
@@ -201,8 +237,8 @@ export function DeviceSimulator({ simulatorRef }: DeviceSimulatorProps) {
 
       {/* Device switcher — phone / tablet / laptop */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={reduceMotion ? false : RISE_HIDDEN}
+        whileInView={RISE_SHOWN}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.15, ease: EASE_LUXE }}
         className="mt-6 flex items-center gap-1 bg-white/80 backdrop-blur-sm border border-brand/10 rounded-full p-1 shadow-sm"
@@ -239,8 +275,8 @@ export function DeviceSimulator({ simulatorRef }: DeviceSimulatorProps) {
 
       {/* Tam Ekranda Görüntüle Button */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={reduceMotion ? false : RISE_HIDDEN}
+        whileInView={RISE_SHOWN}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2, ease: EASE_LUXE }}
         className="w-full mt-4 flex justify-center"
@@ -256,18 +292,15 @@ export function DeviceSimulator({ simulatorRef }: DeviceSimulatorProps) {
 
       {/* Animated scroll label - desktop only */}
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={reduceMotion ? false : RISE_HIDDEN}
+        whileInView={RISE_SHOWN}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.3, ease: EASE_LUXE }}
         className="hidden lg:flex gap-2 items-center text-muted text-xs font-semibold mt-6"
       >
-        <motion.div
-          animate={{ y: [0, -4, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-        >
+        <div className="animate-bob-up-4">
           <Smartphone size={14} />
-        </motion.div>
+        </div>
         <span>Önizleme üzerinde deneyin! Katılım Bildir butonuna basıp form doldurabilirsiniz.</span>
       </motion.div>
     </div>

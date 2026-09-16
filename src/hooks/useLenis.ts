@@ -7,6 +7,8 @@ const HEADER_OFFSET = -76;
 // glide with the same physics as anchor clicks. Null when Lenis is inactive
 // (prefers-reduced-motion) — callers fall back to native scrolling.
 let lenisInstance: Lenis | null = null;
+/** Uyuyan rAF döngüsünü programatik bir kaydırmadan önce uyandırır (bkz. useLenis). */
+let wakeLenis: (() => void) | null = null;
 
 /**
  * Smooth-scroll to an element id or an absolute position, through Lenis when
@@ -32,6 +34,7 @@ export function scrollToTarget(target: string | number, options?: { immediate?: 
       duration: 1.2,
       easing: (t: number) => 1 - Math.pow(1 - t, 4)
     });
+    wakeLenis?.();
   } else if (el) {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   } else {
@@ -69,12 +72,38 @@ export function useLenis() {
     });
     lenisInstance = lenis;
 
-    let rafId: number;
+    // 🔴 rAF döngüsü yalnızca Lenis bir kaydırmayı canlandırırken döner.
+    // Hiç durmayan bir döngü, sayfa boştayken bile tarayıcıyı her ekran
+    // yenilemesinde bir ana thread karesi üretmeye zorluyordu: çalışan her CSS
+    // animasyonunun stili yeniden hesaplanıyor, IntersectionObserver'lar yeniden
+    // ölçülüyordu. Oysa o animasyonlar compositor'da döner ve ana thread'e
+    // ihtiyaç duymaz. Tekerlek girdisi ve programatik kaydırmalar döngüyü uyandırır;
+    // animasyon bitince (`isScrolling` 'smooth' olmaktan çıkınca) döngü uyur.
+    // Dokunmatik ve kaydırma çubuğu zaten doğaldır, rAF'e ihtiyaç duymaz.
+    let rafId = 0;
+    let rafRunning = false;
     const raf = (time: number) => {
       lenis.raf(time);
+      if (lenis.isScrolling === 'smooth') {
+        rafId = requestAnimationFrame(raf);
+      } else {
+        rafId = 0;
+        rafRunning = false;
+      }
+    };
+    const wake = () => {
+      if (rafRunning) return;
+      rafRunning = true;
+      // Lenis kare aralığını bir önceki `raf` zamanından hesaplar. Uykudan
+      // sonraki ilk karede bütün bekleme süresini tek adımda uygular ve kaydırma
+      // yumuşamak yerine hedefe zıplardı; `time` sıfırlanınca ilk aralık 0 sayılır.
+      lenis.time = 0;
       rafId = requestAnimationFrame(raf);
     };
-    rafId = requestAnimationFrame(raf);
+    wakeLenis = wake;
+    // Pasif dinleyici: Lenis'in kendi (engelleyen) tekerlek dinleyicisini
+    // etkilemez, yalnızca döngüyü uyandırır.
+    window.addEventListener('wheel', wake, { passive: true });
 
     let autoScrolling = false;
     let unlockTimer: number | undefined;
@@ -91,29 +120,57 @@ export function useLenis() {
         easing: EASE_OUT_QUART,
         onComplete: () => { autoScrolling = false; }
       });
+      wake();
     };
 
-    // Where the snap-down actually lands: Lenis subtracts the element's
-    // scroll-margin-top (e.g. Tailwind `scroll-mt-*`) on top of our offset,
-    // so the zone boundary must use the same math or the landing point can
-    // end up inside the zone and re-trigger the snap on every scroll.
-    // scroll-margin-top is static (Tailwind scroll-mt-*), so read it once —
-    // getComputedStyle on every scroll frame is wasted layout work on phones.
-    let snapMargin: number | undefined;
-    const getSnapPoint = (section: HTMLElement, sectionTop: number) => {
-      snapMargin ??= Number.parseFloat(getComputedStyle(section).scrollMarginTop) || 0;
-      return sectionTop - snapMargin + HEADER_OFFSET;
+    // 🔴 Snap geometrisi ÖNBELLEKTE tutulur. Bu callback kaydırma sürdükçe her
+    // karede çalışır; her seferinde getBoundingClientRect okumak, o karede
+    // Motion'ın yazdığı stiller yüzünden tarayıcıyı senkron style/layout
+    // hesabına zorluyordu — tam da ilk kaydırmanın en kalabalık karelerinde.
+    // Bölümün konumu yalnızca boyutlar değişince değişir: pencere yeniden
+    // boyutlanınca ya da sayfa içeriğinin yüksekliği değişince (tembel yüklenen
+    // bölümler, route değişimi) önbellek düşürülür ve bir sonraki karede bir kez
+    // okunur.
+    interface SnapGeometry {
+      section: HTMLElement;
+      /** Kaydırmanın bu değeri geçince hero tamamen görünür (yüksek ekranlarda 0). */
+      heroFloor: number;
+      /**
+       * Aşağı snap'in gerçekten indiği yer: Lenis öğenin scroll-margin-top'unu
+       * (Tailwind `scroll-mt-*`) bizim ofsetimize ekler; bölge sınırı aynı
+       * hesabı kullanmazsa iniş noktası bölgenin içinde kalıp her kaydırmada
+       * snap'i yeniden tetikleyebilir.
+       */
+      snapPoint: number;
+    }
+
+    let geometry: SnapGeometry | null = null;
+    const invalidateGeometry = () => {
+      geometry = null;
     };
+
+    const readGeometry = (): SnapGeometry | null => {
+      if (geometry?.section.isConnected) return geometry;
+      const section = document.getElementById(SNAP_SECTION_ID);
+      if (!section) return null;
+      const sectionTop = section.getBoundingClientRect().top + lenis.scroll;
+      const snapMargin = Number.parseFloat(getComputedStyle(section).scrollMarginTop) || 0;
+      geometry = {
+        section,
+        heroFloor: Math.max(0, sectionTop - window.innerHeight),
+        snapPoint: sectionTop - snapMargin + HEADER_OFFSET
+      };
+      return geometry;
+    };
+
+    const resizeObserver = new ResizeObserver(invalidateGeometry);
+    resizeObserver.observe(document.body);
+    window.addEventListener('resize', invalidateGeometry, { passive: true });
 
     // Hero snap: the zone opens only once the hero's bottom edge — where the
     // "Keşfet" cue sits — is fully on screen, so on small viewports the stats
     // above it are scrolled through normally instead of being flown past.
     const onScroll = () => {
-      const section = document.getElementById(SNAP_SECTION_ID);
-      if (!section) return;
-      const sectionTop = section.getBoundingClientRect().top + lenis.scroll;
-      const snapPoint = getSnapPoint(section, sectionTop);
-
       if (autoScrolling) return;
 
       // Never snap against browser-driven movement (native touch fling,
@@ -122,13 +179,14 @@ export function useLenis() {
       // the hero — fully native; the snap only engages on wheel input.
       if (lenis.isScrolling === 'native') return;
 
-      // Scroll position at which the hero is fully revealed; 0 on screens
-      // tall enough to show the whole hero at once.
-      const heroFloor = Math.max(0, sectionTop - window.innerHeight);
-      const inSnapZone = lenis.scroll > heroFloor + SNAP_TRIGGER && lenis.scroll < snapPoint - SNAP_TRIGGER;
+      const snap = readGeometry();
+      if (!snap) return;
+
+      const inSnapZone =
+        lenis.scroll > snap.heroFloor + SNAP_TRIGGER && lenis.scroll < snap.snapPoint - SNAP_TRIGGER;
       if (!inSnapZone) return;
-      if (lenis.direction === 1) glideTo(section, 1.2, true);
-      else if (lenis.direction === -1) glideTo(heroFloor, 1.2, true);
+      if (lenis.direction === 1) glideTo(snap.section, 1.2, true);
+      else if (lenis.direction === -1) glideTo(snap.heroFloor, 1.2, true);
     };
     lenis.on('scroll', onScroll);
 
@@ -147,7 +205,11 @@ export function useLenis() {
 
     return () => {
       cancelAnimationFrame(rafId);
+      window.removeEventListener('wheel', wake);
+      wakeLenis = null;
       window.clearTimeout(unlockTimer);
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', invalidateGeometry);
       document.removeEventListener('click', onClick);
       lenisInstance = null;
       lenis.destroy();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ArrowRight, Check, LayoutGrid, PenLine, WandSparkles } from 'lucide-react';
 import { FEATURED_TEMPLATES, TEMPLATE_PRESETS, getCategoryLabel } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
@@ -8,6 +8,28 @@ import { useUIStore } from '../../stores/useUIStore';
 import { TemplateCover } from './TemplateCover';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+
+/**
+ * 🔴 Giriş animasyonları tek bir `transform` dizesiyle yazılır, `x`/`y`/`scale`
+ * ile değil: Motion yalnızca `transform` ve `opacity`'yi compositor'a (WAAPI)
+ * devredebilir. Bu ızgara ana sayfadaki ilk kaydırmada ekrana girer; bağımsız
+ * değerlerle 11 ayrı animasyon her karede inline style yazıp kartları kök
+ * katmanda yeniden boyatıyordu.
+ */
+const rise = (px: number) => ({
+  hidden: { opacity: 0, transform: `translateY(${px}px)` },
+  shown: { opacity: 1, transform: 'translateY(0px)' }
+});
+const CARD_HIDDEN = { opacity: 0, transform: 'translateY(30px) scale(0.95)' };
+const CARD_SHOWN = { opacity: 1, transform: 'translateY(0px) scale(1)' };
+
+/**
+ * Kart üzerine gelince yükselme ve basınca küçülme CSS'in ayrı `translate` /
+ * `scale` özellikleriyle yapılır; böylece girişin `transform` animasyonuyla
+ * çakışmaz ve Motion'ın her karede JS'te çalışmasına gerek kalmaz.
+ */
+const CARD_MOTION_CLASS =
+  '[transition:box-shadow_700ms_ease,translate_400ms_var(--ease-luxe),scale_150ms_ease-out] hover:-translate-y-[5px] active:scale-[0.97]';
 
 interface TemplateGridProps {
   simulatorRef: React.RefObject<HTMLDivElement>;
@@ -21,6 +43,9 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
   const isMobile = useUIStore(s => s.isMobile);
   const previewDevice = useUIStore(s => s.previewDevice);
   const navigate = useNavigate();
+  // Hareketi azaltmayı seçen kullanıcıda girişler atlanır, öğeler son hâlinde
+  // çizilir. (MotionConfig bunu `transform` dizesi için kendisi yapmaz.)
+  const reduceMotion = useReducedMotion();
 
   // Showcase slots — the 5 most popular designs, each pinned to one category.
   const featured = FEATURED_TEMPLATES.flatMap((slot) => {
@@ -41,15 +66,15 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
       className={`w-full flex flex-col justify-center space-y-4 lg:space-y-6 pt-4 transition-[width] duration-700 ${
         previewDevice === 'laptop' ? 'lg:w-2/5' : 'lg:w-1/2'
       }`}
-      initial={{ opacity: 0, x: -60 }}
-      whileInView={{ opacity: 1, x: 0 }}
+      initial={reduceMotion ? false : { opacity: 0, transform: 'translateX(-60px)' }}
+      whileInView={{ opacity: 1, transform: 'translateX(0px)' }}
       viewport={{ once: true, margin: '-20px' }}
       transition={{ duration: 1, ease: EASE_LUXE }}
     >
       <div className="mb-4 text-center lg:text-left hidden lg:block">
         <motion.span
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={reduceMotion ? false : rise(10).hidden}
+          whileInView={rise(10).shown}
           viewport={{ once: true }}
           transition={{ duration: 0.6, ease: EASE_LUXE }}
           className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block"
@@ -57,8 +82,8 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
           En Popüler Tasarımlar
         </motion.span>
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={reduceMotion ? false : rise(20).hidden}
+          whileInView={rise(20).shown}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.1 }}
           className="font-serif text-3xl md:text-4xl font-bold text-ink mt-4 mb-3"
@@ -67,8 +92,8 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
           <span className="italic text-brand font-medium font-serif">Koleksiyonlar</span>
         </motion.h2>
         <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={reduceMotion ? false : rise(15).hidden}
+          whileInView={rise(15).shown}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.2 }}
           className="text-muted text-sm md:text-base max-w-md mx-auto lg:mx-0"
@@ -84,14 +109,12 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
           return (
             <motion.div
               key={`${slotCategoryId}-${preset.id}`}
-              initial={{ opacity: 0, y: 30, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              initial={reduceMotion ? false : CARD_HIDDEN}
+              whileInView={CARD_SHOWN}
               viewport={{ once: true, margin: '0px' }}
               transition={{ duration: 0.7, ease: EASE_LUXE, delay: idx * 0.08 }}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.97 }}
               onClick={() => handleSelect(preset.id, slotCategoryId)}
-              className={`group relative rounded-2xl overflow-hidden h-36 lg:h-48 cursor-pointer transition-shadow duration-700 ${isActive
+              className={`group relative rounded-2xl overflow-hidden h-36 lg:h-48 cursor-pointer ${CARD_MOTION_CLASS} ${isActive
                   ? 'shadow-xl shadow-brand/20 ring-2 ring-brand ring-offset-2 ring-offset-cream'
                   : 'shadow-sm hover:shadow-2xl hover:shadow-ink/15'
                 }`}
@@ -137,13 +160,11 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
         <motion.button
           type="button"
           onClick={() => navigate('/create')}
-          initial={{ opacity: 0, y: 30, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={reduceMotion ? false : CARD_HIDDEN}
+          whileInView={CARD_SHOWN}
           viewport={{ once: true, margin: '0px' }}
           transition={{ duration: 0.7, ease: EASE_LUXE, delay: featured.length * 0.08 }}
-          whileHover={{ y: -5 }}
-          whileTap={{ scale: 0.97 }}
-          className="group relative rounded-2xl overflow-hidden h-36 lg:h-48 cursor-pointer bg-gradient-to-br from-brand via-brand-deep to-emerald-950 text-left shadow-sm hover:shadow-2xl hover:shadow-brand/30 transition-shadow duration-700"
+          className={`group relative rounded-2xl overflow-hidden h-36 lg:h-48 cursor-pointer bg-gradient-to-br from-brand via-brand-deep to-emerald-950 text-left shadow-sm hover:shadow-2xl hover:shadow-brand/30 ${CARD_MOTION_CLASS}`}
         >
           {/* Understated lattice + glow to keep the CTA premium, not empty */}
           <span className="absolute inset-0 pattern-elegant opacity-[0.08] invert pointer-events-none" />
@@ -167,8 +188,8 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
 
         {/* Coming soon: AI-designed themes */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={reduceMotion ? false : rise(30).hidden}
+          whileInView={rise(30).shown}
           viewport={{ once: true, margin: '0px' }}
           transition={{ duration: 0.7, ease: EASE_LUXE, delay: 0.35 }}
           className="col-span-2 group relative rounded-2xl border-2 border-dashed border-brand/15 bg-white/60 hover:border-gold/50 hover:bg-white transition-all duration-500 p-5 flex items-center gap-4 cursor-default"
@@ -190,8 +211,8 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
 
       {/* Quick Info Box - hidden on mobile */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={reduceMotion ? false : rise(20).hidden}
+        whileInView={rise(20).shown}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.5 }}
         className="bg-champagne/30 p-4 rounded-2xl border border-champagne hidden lg:flex items-start gap-4 mt-4 hover:bg-champagne/50 transition-colors duration-500"

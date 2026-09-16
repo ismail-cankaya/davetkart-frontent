@@ -219,11 +219,14 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
       {/* Scroll hint */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, y: [0, 6, 0] }}
-        transition={{ opacity: { delay: 2.2, duration: 0.8 }, y: { duration: 1.6, repeat: Infinity, ease: 'easeInOut' } }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.2, duration: 0.8 }}
         className={cn('absolute bottom-6 left-1/2 -translate-x-1/2', theme.body)}
       >
-        <ChevronDownIcon size={20} />
+        {/* Sürekli döngü CSS'te, compositor'da döner (bkz. index.css) */}
+        <div className="animate-bob-down-6">
+          <ChevronDownIcon size={20} />
+        </div>
       </motion.div>
     </section>
   );

@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { PenLine, ArrowRight } from 'lucide-react';
 import { Hero } from '../components/home/Hero';
 import { PreviewSection } from '../components/preview/PreviewSection';
+import { DeferredSection } from '../components/ui/DeferredSection';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -16,11 +17,13 @@ const Testimonials = React.lazy(() => import('../components/home/Testimonials').
  * on the landing page, detailed editing lives in the /create studio.
  */
 function CreateCtaBanner() {
+  const reduceMotion = useReducedMotion();
   return (
     <section className="pb-16 md:pb-24 bg-cream">
       <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        // `transform` dizesi: Motion bunu compositor'a devredebilir (bkz. TemplateGrid).
+        initial={reduceMotion ? false : { opacity: 0, transform: 'translateY(25px)' }}
+        whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         viewport={{ once: true }}
         transition={{ duration: 0.9, ease: EASE_LUXE }}
         className="max-w-3xl mx-auto px-4 text-center space-y-5"
@@ -62,10 +65,21 @@ export default function HomePage() {
           </div>
         }
       >
+        {/* 🔴 Features bilerek ERTELENMEZ. Hero snap'i önizleme bölümüne indiğinde
+            Features görünür alana çok yakındır; ertelenseydi ilk çizimi (tek
+            karede stil + layout) tam ilk kaydırmanın ortasına düşerdi. 4× CPU
+            yavaşlatmasıyla ölçüldü: ertelendiğinde en uzun görev ~590 ms,
+            ertelenmediğinde ~85 ms. */}
         <Features />
+        {/* Daha aşağıdaki bölümler kullanıcı yaklaşana kadar çizilmez.
+            Tahmini yükseklikler 390 / 768 / 1440 px genişlikte ölçüldü. */}
         {/* Vitrin: canlı katılım takibi — ziyaretçi önizlemedeki RSVP formuyla deneyebilir */}
-        <LiveRsvpPanel />
-        <Testimonials />
+        <DeferredSection estimateClassName="[--defer-height:970px]">
+          <LiveRsvpPanel />
+        </DeferredSection>
+        <DeferredSection estimateClassName="[--defer-height:1160px] md:[--defer-height:825px] lg:[--defer-height:720px]">
+          <Testimonials />
+        </DeferredSection>
       </React.Suspense>
     </>
   );

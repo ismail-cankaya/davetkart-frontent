@@ -121,13 +121,9 @@ export function AssistantWidget() {
             className="fixed bottom-5 right-4 md:bottom-6 md:right-6 z-[95] w-14 h-14 rounded-full bg-gradient-to-br from-brand to-brand-deep text-champagne shadow-xl shadow-brand/35 border border-gold/25 flex items-center justify-center cursor-pointer overflow-hidden"
           >
             <span className="absolute inset-0 animate-shimmer pointer-events-none opacity-50" />
-            {/* Nefes alan halka */}
+            {/* Nefes alan halka — CSS'te, compositor'da döner (bkz. index.css) */}
             {!isOpen && (
-              <motion.span
-                animate={{ scale: [1, 1.35], opacity: [0.45, 0] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeOut' }}
-                className="absolute inset-0 rounded-full border-2 border-gold/50"
-              />
+              <span className="animate-ring-ping absolute inset-0 rounded-full border-2 border-gold/50" />
             )}
             <AnimatePresence mode="wait" initial={false}>
               <motion.span

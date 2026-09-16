@@ -70,24 +70,44 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* ————— Shimmer sweep for badges & buttons ————— */
+/* ————— Shimmer sweep for badges & buttons —————
+   🔴 Compositor-only. Eski sürüm `background-position`'ı canlandırıyordu; o
+   özellik compositor'da çalışmaz, yani her karede ana thread'de yeniden
+   boyama ve GPU'da yeniden rasterize demekti. Ana sayfada aynı anda altı tane
+   vardı ve sayfa boşta dururken bile hiçbir kareyi boş bırakmıyorlardı.
+
+   Görüntü birebir aynı: 2W genişliğinde tekrarlanan degrade döngü başına 4W
+   sola kayar. Burada 6W genişliğinde, üç kez tekrarlanan bir sözde eleman
+   `transform` ile kaydırılır ve eleman kendi taşmasını kırpar. Kullanan her
+   yer zaten `absolute inset-0` olduğu için ek konumlandırma gerekmez. */
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+  from {
+    transform: translate3d(0, 0, 0);
   }
 
-  100% {
-    background-position: 200% 0;
+  to {
+    transform: translate3d(-66.6667%, 0, 0);
   }
 }
 
 .animate-shimmer {
+  overflow: hidden;
+}
+
+.animate-shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 600%;
   background: linear-gradient(105deg,
       rgba(255, 255, 255, 0) 35%,
       rgba(255, 255, 255, 0.35) 50%,
-      rgba(255, 255, 255, 0) 65%);
-  background-size: 200% 100%;
+      rgba(255, 255, 255, 0) 65%) 0 0 / 33.3333% 100% repeat-x;
   animation: shimmer 3.5s var(--ease-luxe) infinite;
+  will-change: transform;
+  pointer-events: none;
 }
 
 /* ————— Ambient aurora blobs (hero background) —————
@@ -225,21 +245,263 @@ html.lenis body {
   animation: float-gentle 6s ease-in-out infinite;
 }
 
-/* ————— Ambient glow pulse for the device frame ————— */
-@keyframes glow-pulse {
+/* ————— Ambient glow pulse for the device frame —————
+   🔴 Eski sürüm `box-shadow`'u canlandırıyordu. box-shadow compositor'da
+   çalışmaz: cihaz çerçevesi ve içindeki canlı şablon her karede yeniden
+   boyanıyordu. Şimdi iki durumun gölgesi çerçevenin arkasındaki iki ayrı
+   katmanda durur ve yalnızca opaklıkları çapraz geçiş yapar. */
+@keyframes glow-rest {
 
   0%,
   100% {
-    box-shadow: 0 0 24px rgba(4, 56, 43, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    opacity: 1;
   }
 
   50% {
-    box-shadow: 0 0 48px rgba(201, 169, 97, 0.18), 0 25px 60px -12px rgba(0, 0, 0, 0.35);
+    opacity: 0;
   }
 }
 
-.device-glow {
-  animation: glow-pulse 5s ease-in-out infinite;
+@keyframes glow-peak {
+
+  0%,
+  100% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.device-glow-rest,
+.device-glow-peak {
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.device-glow-rest {
+  box-shadow: 0 0 24px rgba(4, 56, 43, 0.12), 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: glow-rest 5s ease-in-out infinite;
+}
+
+.device-glow-peak {
+  box-shadow: 0 0 48px rgba(201, 169, 97, 0.18), 0 25px 60px -12px rgba(0, 0, 0, 0.35);
+  animation: glow-peak 5s ease-in-out infinite;
+}
+
+/* ————— Sürekli dekoratif döngüler —————
+   🔴 Motion'da `animate={{ y: [0, 8, 0] }}` + `repeat: Infinity` biçiminde
+   yazılan döngüler JavaScript'te çalışır: her karede inline style yazılır,
+   stil yeniden hesaplanır ve eleman kök katmanda yeniden boyanır — sayfa
+   boştayken ve eleman ekranın çok altındayken bile. Aynı hareketler burada
+   yalnızca transform/opacity ile compositor'da döner; ana thread boşta kalır.
+   Zamanlamalar Motion karşılıklarıyla aynıdır (easeInOut = ease-in-out). */
+@keyframes bob-down-8 {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+@keyframes bob-down-6 {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+@keyframes bob-up-4 {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+@keyframes spin-cw {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-ccw {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes breathe-6 {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes heartbeat-20 {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes twinkle-up {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: translate3d(0, -8px, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes twinkle-down {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: translate3d(0, 6px, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes ring-ping {
+  from {
+    transform: scale(1);
+    opacity: 0.45;
+  }
+
+  to {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+}
+
+@keyframes hint-fade {
+
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.animate-bob-down-8 {
+  animation: bob-down-8 2s ease-in-out infinite;
+}
+
+.animate-bob-down-6 {
+  animation: bob-down-6 1.6s ease-in-out infinite;
+}
+
+.animate-bob-up-4 {
+  animation: bob-up-4 1.5s ease-in-out infinite;
+}
+
+.animate-spin-40s {
+  animation: spin-cw 40s linear infinite;
+}
+
+.animate-spin-reverse-60s {
+  animation: spin-ccw 60s linear infinite;
+}
+
+.animate-breathe {
+  animation: breathe-6 4s ease-in-out infinite;
+}
+
+.animate-heartbeat {
+  animation: heartbeat-20 2s ease-in-out infinite;
+}
+
+.animate-twinkle-up {
+  animation: twinkle-up 3s ease-in-out infinite;
+}
+
+.animate-twinkle-down {
+  animation: twinkle-down 3.6s ease-in-out 0.8s infinite both;
+}
+
+.animate-ring-ping {
+  animation: ring-ping 2.2s cubic-bezier(0, 0, 0.58, 1) infinite;
+}
+
+.animate-hint-fade {
+  animation: hint-fade 2.4s ease-in-out infinite;
+}
+
+/* Hareket hassasiyeti olan kullanıcılar: süsleme döngüleri durur, öğeler
+   yerinde ve görünür kalır. Tailwind'in `animate-pulse`'u bunu kendiliğinden
+   yapmaz; rozet ikonları ve iskelet yükleyiciler de burada durur. */
+@media (prefers-reduced-motion: reduce) {
+
+  .animate-pulse,
+  .animate-shimmer::before,
+  .device-glow-rest,
+  .device-glow-peak,
+  .animate-bob-down-8,
+  .animate-bob-down-6,
+  .animate-bob-up-4,
+  .animate-spin-40s,
+  .animate-spin-reverse-60s,
+  .animate-breathe,
+  .animate-heartbeat,
+  .animate-twinkle-up,
+  .animate-twinkle-down,
+  .animate-ring-ping,
+  .animate-hint-fade {
+    animation: none;
+  }
+
+  .animate-shimmer::before,
+  .device-glow-peak {
+    opacity: 0;
+  }
+}
+
+/* ————— Ekran dışı bölümler —————
+   `content-visibility: auto`: bölüm görünür alana yaklaşana kadar tarayıcı
+   onun stil, layout ve boyama işini tamamen atlar; içindeki animasyonlar da
+   çizilmez. Tahmini yükseklik, henüz çizilmemiş bölümün kaydırma çubuğunda
+   yer tutması için; `auto` bir kez çizildikten sonra gerçek boyu hatırlar. */
+.defer-offscreen {
+  content-visibility: auto;
+  contain-intrinsic-size: auto var(--defer-height, 900px);
 }
 
 /* ————— Animated gradient text ————— */

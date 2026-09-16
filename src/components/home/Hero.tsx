@@ -38,8 +38,37 @@ function StatCounter({ value, prefix = '', suffix = '' }: { value: number; prefi
   );
 }
 
+/**
+ * Arka plan videosunu yalnızca görünür alandayken oynatır.
+ *
+ * `autoPlay` bir kez başlatır ve sonsuza dek bırakır: kullanıcı önizleme
+ * bölümüne indikten sonra da video kod çözülmeye ve her karede compositor'a
+ * gönderilmeye devam ederdi — tam da kaydırma animasyonlarının GPU'ya en çok
+ * ihtiyaç duyduğu anda. Reduced-motion'da video `display: none` olduğu için
+ * gözlemci onu hiç görünür saymaz ve oynatmaz.
+ */
+function usePlayWhileVisible(ref: React.RefObject<HTMLVideoElement | null>) {
+  useEffect(() => {
+    const video = ref.current;
+    if (!video || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        // Autoplay politikası reddederse poster görünür kalır; hata değil.
+        video.play().catch(() => undefined);
+      } else {
+        video.pause();
+      }
+    });
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [ref]);
+}
+
 export const Hero = React.memo(function Hero() {
   const { t } = useTranslation();
+  const videoRef = useRef<HTMLVideoElement>(null);
+  usePlayWhileVisible(videoRef);
 
   // Headline arrives as lead/accent/tail phrases per language, then gets
   // split into words so the staggered blur-rise reveal survives translation.
@@ -63,6 +92,7 @@ export const Hero = React.memo(function Hero() {
           "pop" olmuyor ve fade-in hilesine gerek kalmıyor. */}
       <div className="hero-media absolute inset-0 z-0" aria-hidden="true">
         <video
+          ref={videoRef}
           className="hero-video w-full h-full object-cover"
           autoPlay
           muted
@@ -179,13 +209,10 @@ export const Hero = React.memo(function Hero() {
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 cursor-pointer group"
       >
         <span className="text-[10px] text-muted uppercase tracking-[0.2em] font-semibold group-hover:text-brand transition-colors">{t('hero.explore')}</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-          className="w-5 h-8 rounded-full border-2 border-brand/20 flex items-start justify-center pt-1.5 group-hover:border-brand/40 transition-colors"
-        >
+        {/* Sürekli döngü CSS'te, compositor'da döner (bkz. index.css) */}
+        <div className="animate-bob-down-8 w-5 h-8 rounded-full border-2 border-brand/20 flex items-start justify-center pt-1.5 group-hover:border-brand/40 transition-colors">
           <div className="w-1 h-2 bg-brand/40 rounded-full group-hover:bg-brand/60 transition-colors" />
-        </motion.div>
+        </div>
       </motion.a>
     </section>
   );

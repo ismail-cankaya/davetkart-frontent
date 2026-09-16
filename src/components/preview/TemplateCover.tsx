@@ -50,6 +50,8 @@ export function TemplateCover({ preset, alt, className }: TemplateCoverProps) {
       src={preset.imageUrl}
       alt={alt}
       loading="lazy"
+      // Çözme ana thread'i beklemesin: kapaklar ilk kaydırmada ekrana girer.
+      decoding="async"
       onError={() => setFailed(true)}
     />
   );

@@ -141,37 +141,19 @@ export const Features = React.memo(function Features() {
             {/* Visual */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative w-52 h-52 md:w-64 md:h-64">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-0 rounded-full border border-dashed border-gold/25"
-                />
-                <motion.div
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-                  className="absolute inset-6 rounded-full border border-dashed border-champagne/20"
-                />
-                <motion.div
-                  animate={{ scale: [1, 1.06, 1] }}
-                  transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute inset-0 m-auto w-24 h-24 md:w-28 md:h-28 rounded-3xl bg-gradient-to-br from-gold/25 to-emerald-700/30 border border-gold/30 backdrop-blur-sm flex items-center justify-center text-champagne shadow-xl shadow-black/20"
-                >
+                {/* Sürekli döngüler CSS'te, compositor'da döner (bkz. index.css).
+                    Motion ile JS'te dönerken her karede kök katmanı boyatıyordu. */}
+                <div className="animate-spin-40s absolute inset-0 rounded-full border border-dashed border-gold/25" />
+                <div className="animate-spin-reverse-60s absolute inset-6 rounded-full border border-dashed border-champagne/20" />
+                <div className="animate-breathe absolute inset-0 m-auto w-24 h-24 md:w-28 md:h-28 rounded-3xl bg-gradient-to-br from-gold/25 to-emerald-700/30 border border-gold/30 backdrop-blur-sm flex items-center justify-center text-champagne shadow-xl shadow-black/20">
                   <WandSparkles size={40} />
-                </motion.div>
-                <motion.span
-                  animate={{ y: [0, -8, 0], opacity: [0.6, 1, 0.6] }}
-                  transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                  className="absolute top-3 right-8 text-gold"
-                >
+                </div>
+                <span className="animate-twinkle-up absolute top-3 right-8 text-gold">
                   <Sparkles size={18} />
-                </motion.span>
-                <motion.span
-                  animate={{ y: [0, 6, 0], opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 0.8 }}
-                  className="absolute bottom-6 left-6 text-champagne"
-                >
+                </span>
+                <span className="animate-twinkle-down absolute bottom-6 left-6 text-champagne">
                   <Sparkles size={14} />
-                </motion.span>
+                </span>
               </div>
             </div>
           </div>

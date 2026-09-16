@@ -113,7 +113,9 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-slate-900',
     titleColor: 'text-white',
     btnColor: 'bg-emerald-500 hover:bg-emerald-400 text-white',
-    imageUrl: '/images/emerald.png',
+    // Kart kapağı: 640 px WebP (105 KB). Kaynak 1024 px JPEG'di (1.1 MB) ve
+    // ~272×192 px'lik kartta gösterilirken ilk kaydırmada çözülüyordu.
+    imageUrl: '/images/emerald-640.webp',
     categories: COMPOSABLE_CATEGORIES
   },
   {
@@ -123,7 +125,8 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-[#1a1c23]',
     titleColor: 'text-amber-400',
     btnColor: 'bg-gradient-to-r from-amber-400 to-amber-600 text-stone-900',
-    imageUrl: '/images/corporate.png',
+    // Kart kapağı: 640 px WebP (43 KB); kaynak 1024 px JPEG, 763 KB.
+    imageUrl: '/images/corporate-640.webp',
     categories: COMPOSABLE_CATEGORIES
   },
   {

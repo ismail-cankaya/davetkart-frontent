@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'motion/react';
@@ -34,8 +34,8 @@ const menuItemVariants = {
 export const Header = React.memo(function Header() {
   const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
+  const headerRef = useRef<HTMLElement>(null);
 
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const user = useAuthStore(s => s.user);
@@ -47,20 +47,44 @@ export const Header = React.memo(function Header() {
     navigate('/');
   };
 
-  useMotionValueEvent(scrollY, 'change', (latest) => {
-    setScrolled(latest > 12);
-  });
+  /**
+   * 🔴 "Kaydırıldı" görünümü React state DEĞİL, header'ın `data-scrolled`
+   * özniteliğidir; stili Tailwind `data-scrolled:` varyantları verir.
+   *
+   * State olduğunda ilk kaydırmanın en kalabalık ilk karelerinde Header (ve
+   * içindeki Motion bileşenleri) iki kez yeniden render oluyordu. Görünüm
+   * yalnızca CSS'i ilgilendirir; öznitelik eşik geçildiğinde bir kez yazılır.
+   */
+  const syncScrolled = (y: number) => {
+    const header = headerRef.current;
+    if (!header) return;
+    const scrolled = y > 12;
+    if ('scrolled' in header.dataset === scrolled) return;
+    if (scrolled) header.dataset.scrolled = '';
+    else delete header.dataset.scrolled;
+  };
+  useMotionValueEvent(scrollY, 'change', syncScrolled);
+  // Sayfa kaydırılmış hâlde açılırsa (geri gelme, yenileme) ilk karede doğru görünsün.
+  useEffect(() => syncScrolled(scrollY.get()), [scrollY]);
 
   return (
     <motion.header
+      ref={headerRef}
+      data-menu-open={mobileMenuOpen ? '' : undefined}
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className={`sticky top-0 z-50 transition-all duration-500 ${
-        scrolled || mobileMenuOpen
-          ? 'bg-white/85 backdrop-blur-xl border-b border-ink/5 shadow-[0_1px_20px_rgba(20,32,27,0.06)]'
-          : 'bg-transparent border-b border-transparent'
-      }`}
+      // `transition-all` DEĞİL: header'ın girişini Motion her karede
+      // `transform` yazarak yapar ve `all` bu yazımların her birini yeni bir
+      // CSS geçişine çevirirdi. İlk kaydırmada yalnızca zemin, kenarlık ve
+      // gölge değişir; backdrop-blur neredeyse düz krem zemin üzerinde anında
+      // açılır ve GPU'da 500 ms boyunca her karede yeniden bulanıklaştırılmaz.
+      className={[
+        'sticky top-0 z-50 border-b bg-transparent border-transparent',
+        'transition-[background-color,border-color,box-shadow] duration-500',
+        'data-scrolled:bg-white/85 data-scrolled:backdrop-blur-xl data-scrolled:border-ink/5 data-scrolled:shadow-[0_1px_20px_rgba(20,32,27,0.06)]',
+        'data-menu-open:bg-white/85 data-menu-open:backdrop-blur-xl data-menu-open:border-ink/5 data-menu-open:shadow-[0_1px_20px_rgba(20,32,27,0.06)]'
+      ].join(' ')}
     >
       <div className="flex justify-between items-center w-full px-4 md:px-12 py-4 max-w-7xl mx-auto">
         {/* Brand */}

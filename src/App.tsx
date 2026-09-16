@@ -1,5 +1,6 @@
 import React from 'react';
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { MotionConfig } from 'motion/react';
 import { AppLayout } from './components/layout/AppLayout';
 import { useDocumentDirection } from './hooks/useDocumentDirection';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
@@ -63,7 +64,14 @@ const router = createBrowserRouter([
 function App() {
   // Flips <html dir> to rtl for Arabic and keeps <html lang> current.
   useDocumentDirection();
-  return <RouterProvider router={router} />;
+  return (
+    // "Hareketi azalt" tercihi açıksa Motion transform/layout animasyonlarını
+    // atlar, opaklık geçişlerini korur. `transform` dizesiyle yazılmış girişler
+    // bunu kendi bileşenlerinde `useReducedMotion` ile ayrıca yapar.
+    <MotionConfig reducedMotion="user">
+      <RouterProvider router={router} />
+    </MotionConfig>
+  );
 }
 
 export default App;

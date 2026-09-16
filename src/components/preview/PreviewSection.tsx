@@ -1,19 +1,21 @@
 import React, { useRef } from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { DeviceSimulator } from './DeviceSimulator';
 import { TemplateGrid } from './TemplateGrid';
 
 export const PreviewSection = React.memo(function PreviewSection() {
   // Shared between the grid (scroll target on mobile) and the simulator (the device itself).
   const simulatorRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
 
   return (
     <section id="animasyon-ve-onizleme" className="py-12 md:py-20 bg-cream relative overflow-hidden scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 md:px-12">
         {/* Mobile-only section header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          // `transform` dizesi: Motion bunu compositor'a devredebilir (bkz. TemplateGrid).
+          initial={reduceMotion ? false : { opacity: 0, transform: 'translateY(20px)' }}
+          whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="lg:hidden text-center mb-8"

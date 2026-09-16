@@ -249,9 +249,10 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
             {/* Footer Info */}
             <div className="bg-gradient-to-r from-brand/5 to-emerald-50 p-4 rounded-xl border border-emerald-100 text-center">
               <p className="text-xs font-semibold text-brand flex items-center justify-center gap-1.5">
-                <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 2, repeat: Infinity }}>
+                {/* Sürekli döngü CSS'te, compositor'da döner (bkz. index.css) */}
+                <span className="animate-heartbeat inline-flex">
                   <UserCheck size={14} />
-                </motion.div>
+                </span>
                 Yukarıdaki telefon önizlemesinden Katılım bildirerek bu paneli canlı test edebilirsiniz!
               </p>
             </div>
