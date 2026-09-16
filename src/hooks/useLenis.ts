@@ -29,6 +29,13 @@ export function scrollToTarget(target: string | number, options?: { immediate?: 
   }
 
   if (lenisInstance) {
+    // 🔴 Önce boyutları tazele. Lenis hedefi kaydırma sınırına (belge yüksekliği
+    // − görünüm) kırpar ve bu sınırı ResizeObserver ile 250 ms gecikmeli
+    // günceller. Sihirbaz bir adımı bağlayıp hemen ona kaydırdığında sınır hâlâ
+    // adım eklenmeden önceki yüksekliği gösterir: kaydırma yolun yarısında durur,
+    // görünümü yüksek ekranlarda hiç kıpırdamaz — "kategoriye tıklayınca
+    // ilerlemiyor" hatası buydu. `resize()` senkrondur ve tek bir ölçüm yapar.
+    lenisInstance.resize();
     lenisInstance.scrollTo(dest, {
       offset: el ? HEADER_OFFSET : 0,
       duration: 1.2,
