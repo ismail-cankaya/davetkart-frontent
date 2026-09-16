@@ -174,7 +174,10 @@
       "after": "{{field}} must be a later date.",
       "after_or_equal": "{{field}} must be a later date.",
       "before": "{{field}} must be an earlier date.",
-      "before_or_equal": "{{field}} must be an earlier date."
+      "before_or_equal": "{{field}} must be an earlier date.",
+      "uploaded": "{{field}} couldn't be uploaded. Please try again.",
+      "dimensions": "{{field}} does not have the expected dimensions.",
+      "extensions": "{{field}} has an unsupported file extension."
     },
     "byField": {
       "guestCount": {

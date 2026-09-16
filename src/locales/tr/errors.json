@@ -174,7 +174,10 @@
       "after": "{{field}} daha ileri bir tarih olmalıdır.",
       "after_or_equal": "{{field}} daha ileri bir tarih olmalıdır.",
       "before": "{{field}} daha geri bir tarih olmalıdır.",
-      "before_or_equal": "{{field}} daha geri bir tarih olmalıdır."
+      "before_or_equal": "{{field}} daha geri bir tarih olmalıdır.",
+      "uploaded": "{{field}} yüklenemedi. Lütfen tekrar deneyin.",
+      "dimensions": "{{field}} beklenen boyutlarda değil.",
+      "extensions": "{{field}} desteklenmeyen bir dosya uzantısına sahip."
     },
     "byField": {
       "guestCount": {
