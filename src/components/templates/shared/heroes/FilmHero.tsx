@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -67,6 +67,8 @@ export interface FilmHeroProps extends HeroRenderProps {
 export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame = '#0e0d10' }: FilmHeroProps) {
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-5 @sm:px-8 py-12 @sm:py-16">
@@ -97,23 +99,29 @@ export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame =
               </h1>
             </Frame>
 
-            <Frame delay={0.45} border={theme.border}>
-              <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em]', theme.body)}>
-                Tarih
-              </span>
-              <span className={cn('block font-serif italic text-base @sm:text-lg mt-1.5', theme.heading)}>
-                {formatDateStr(invitation.date)}
-              </span>
-            </Frame>
+            {/* Girilmemiş bilgi için kare basılmaz: boş kare, sekansta
+                "kayıp bir sahne" gibi okunur. */}
+            {dateLabel && (
+              <Frame delay={0.45} border={theme.border}>
+                <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em]', theme.body)}>
+                  Tarih
+                </span>
+                <span className={cn('block font-serif italic text-base @sm:text-lg mt-1.5', theme.heading)}>
+                  {dateLabel}
+                </span>
+              </Frame>
+            )}
 
-            <Frame delay={0.62} border={theme.border}>
-              <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em]', theme.body)}>
-                Mekân
-              </span>
-              <span className={cn('block text-[11.5px] font-medium mt-1.5 leading-snug', theme.heading)}>
-                {invitation.venue}
-              </span>
-            </Frame>
+            {venue && (
+              <Frame delay={0.62} border={theme.border}>
+                <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em]', theme.body)}>
+                  Mekân
+                </span>
+                <span className={cn('block text-[11.5px] font-medium mt-1.5 leading-snug', theme.heading)}>
+                  {venue}
+                </span>
+              </Frame>
+            )}
 
             <Frame delay={0.78} border={theme.border}>
               <span className={theme.accent}>

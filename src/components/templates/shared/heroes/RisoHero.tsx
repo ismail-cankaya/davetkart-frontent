@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -23,6 +23,8 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
   const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
   const names = invitation.names || 'Davetlisiniz';
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex flex-col justify-center px-6 @sm:px-9 py-12 @sm:py-16 overflow-hidden">
@@ -106,19 +108,17 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
           className={cn('block h-1 w-24 mt-7 origin-left', theme.accentBg)}
         />
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.9 }}
-          className="mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-2"
-        >
-          <span className={cn('font-serif font-bold text-xl @sm:text-2xl', theme.heading)}>
-            {formatDateStr(invitation.date)}
-          </span>
-          <span className={cn('text-[11px] font-bold uppercase tracking-[0.18em]', theme.body)}>
-            {invitation.venue}
-          </span>
-        </motion.div>
+        {(dateLabel || venue) && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.9 }}
+            className="mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-2"
+          >
+            {dateLabel && <span className={cn('font-serif font-bold text-xl @sm:text-2xl', theme.heading)}>{dateLabel}</span>}
+            {venue && <span className={cn('text-[11px] font-bold uppercase tracking-[0.18em]', theme.body)}>{venue}</span>}
+          </motion.div>
+        )}
 
         {invitation.showTimer && valid && (
           <motion.div

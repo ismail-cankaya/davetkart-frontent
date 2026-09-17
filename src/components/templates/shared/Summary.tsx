@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
-import { formatDateStr } from '../utils';
+import { displayText, formatDateStr } from '../utils';
 import { SectionTheme, EASE_LUXE } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ChevronDownIcon } from './icons';
@@ -92,6 +92,9 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
   const compact = density === 'compact';
   const { Ornament } = flavor;
   const nameWords = (invitation.names || 'Davetlisiniz').split(' ');
+  // Tarih ve mekân yalnızca kullanıcı gerçekten girdiyse çizilir.
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   return (
     <section
@@ -197,19 +200,25 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
         </motion.p>
 
         {/* Date & venue line */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 1.4 }}
-          className="flex flex-col items-center gap-1"
-        >
-          <span className={cn('font-serif italic', compact ? 'text-lg @sm:text-xl' : 'text-lg @md:text-xl', theme.heading)}>
-            {formatDateStr(invitation.date)}
-          </span>
-          <span className={cn('font-medium tracking-[0.15em] uppercase', compact ? 'text-[11px]' : 'text-[11px] @md:text-xs', theme.body)}>
-            {invitation.venue}
-          </span>
-        </motion.div>
+        {(dateLabel || venue) && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.4 }}
+            className="flex flex-col items-center gap-1"
+          >
+            {dateLabel && (
+              <span className={cn('font-serif italic', compact ? 'text-lg @sm:text-xl' : 'text-lg @md:text-xl', theme.heading)}>
+                {dateLabel}
+              </span>
+            )}
+            {venue && (
+              <span className={cn('font-medium tracking-[0.15em] uppercase', compact ? 'text-[11px]' : 'text-[11px] @md:text-xs', theme.body)}>
+                {venue}
+              </span>
+            )}
+          </motion.div>
+        )}
 
         {invitation.showTimer && (
           <Countdown date={invitation.date} timeZone={invitation.timezone} theme={theme} compact={compact} />

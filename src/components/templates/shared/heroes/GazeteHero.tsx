@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -27,9 +27,12 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
+  // Tarih girilmemişse `formatDateStr` boş döner; parçalar da boş kalır ve
+  // tarihe bağlı kutular hiç basılmaz.
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');
   const timeText = dateParts.slice(-1)[0];
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-4 @sm:px-7 py-10 @sm:py-14">
@@ -61,7 +64,7 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
           <div className={cn('mt-3 border-t-2 border-b', theme.border)}>
             <div className={cn('flex items-center justify-between gap-2 py-1.5 text-[7.5px] @sm:text-[8.5px] font-semibold uppercase tracking-[0.16em]', theme.body)}>
               <span>Yıl 1 · Sayı 1</span>
-              <span className={theme.accent}>{dateText}</span>
+              {dateText && <span className={theme.accent}>{dateText}</span>}
               <span>Fiyatsız</span>
             </div>
           </div>
@@ -80,14 +83,16 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
           </motion.h1>
 
           {/* Spot: manşetin altındaki italik özet. */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.5 }}
-            className={cn('font-serif italic text-center text-[13px] @sm:text-sm mt-3 leading-snug', theme.accent)}
-          >
-            {invitation.venue}
-          </motion.p>
+          {venue && (
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.5 }}
+              className={cn('font-serif italic text-center text-[13px] @sm:text-sm mt-3 leading-snug', theme.accent)}
+            >
+              {venue}
+            </motion.p>
+          )}
 
           <div className={cn('my-4 h-px', theme.divider)} />
 
@@ -106,13 +111,15 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
             </p>
 
             <div className="space-y-2.5">
-              <div className={cn('border p-2.5', theme.border)}>
-                <span className={cn('block text-[7.5px] font-bold uppercase tracking-[0.18em]', theme.accent)}>
-                  Program
-                </span>
-                <span className={cn('block text-[11px] font-semibold mt-1', theme.heading)}>{timeText}</span>
-                <span className={cn('block text-[10px] mt-0.5 leading-snug', theme.body)}>{dateText}</span>
-              </div>
+              {dateText && (
+                <div className={cn('border p-2.5', theme.border)}>
+                  <span className={cn('block text-[7.5px] font-bold uppercase tracking-[0.18em]', theme.accent)}>
+                    Program
+                  </span>
+                  <span className={cn('block text-[11px] font-semibold mt-1', theme.heading)}>{timeText}</span>
+                  <span className={cn('block text-[10px] mt-0.5 leading-snug', theme.body)}>{dateText}</span>
+                </div>
+              )}
 
               {invitation.showTimer && valid && (
                 <div className={cn('border p-2.5', theme.border)}>

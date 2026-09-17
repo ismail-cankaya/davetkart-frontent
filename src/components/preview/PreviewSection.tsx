@@ -35,7 +35,8 @@ export const PreviewSection = React.memo(function PreviewSection() {
         <div className="flex flex-col-reverse lg:flex-row gap-8 lg:gap-16 items-center lg:items-start justify-center">
           <TemplateGrid simulatorRef={simulatorRef} />
 
-          <DeviceSimulator simulatorRef={simulatorRef} />
+          {/* Tanıtım modu: taslak boşken örnek içerikle çizilir. */}
+          <DeviceSimulator simulatorRef={simulatorRef} showcase />
         </div>
       </div>
     </section>

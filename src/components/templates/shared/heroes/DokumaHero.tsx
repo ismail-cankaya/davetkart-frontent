@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -121,6 +121,8 @@ export function DokumaHero({
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const stitchColor = stitch ?? threads[0];
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-5 @sm:px-8 py-12 @sm:py-16 overflow-hidden">
@@ -208,17 +210,17 @@ export function DokumaHero({
             {invitation.subtitle}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.82 }}
-            className="mt-6 flex flex-col items-center gap-1.5"
-          >
-            <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>
-              {formatDateStr(invitation.date)}
-            </span>
-            <span className={cn('text-[10px] uppercase tracking-[0.24em]', theme.body)}>{invitation.venue}</span>
-          </motion.div>
+          {(dateLabel || venue) && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.82 }}
+              className="mt-6 flex flex-col items-center gap-1.5"
+            >
+              {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
+              {venue && <span className={cn('text-[10px] uppercase tracking-[0.24em]', theme.body)}>{venue}</span>}
+            </motion.div>
+          )}
 
           {invitation.showTimer && valid && (
             <motion.div

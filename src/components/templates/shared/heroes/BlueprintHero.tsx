@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -103,6 +103,14 @@ export function BlueprintHero({
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');
   const timeText = dateParts.length > 3 ? dateParts.slice(-1)[0] : '';
+  const venue = displayText(invitation.venue);
+
+  // Referans notları yalnızca girilmiş bilgilerden kurulur ve numaraları
+  // kalan notlara göre verilir — "01" olmadan "02" başlayan bir pafta olmaz.
+  const notes = [
+    ...(dateText ? [{ label: 'Tarih', value: timeText ? `${dateText} / ${timeText}` : dateText }] : []),
+    ...(venue ? [{ label: 'Konum', value: venue }] : [])
+  ];
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-4 @sm:px-6 py-10 @sm:py-14">
@@ -211,50 +219,50 @@ export function BlueprintHero({
 
           {/* Referans notları: numaralı balonlar ve kesik çizgili çeken
               çizgiler — planda bir detaya işaret etmenin standart yolu. */}
-          <div className="mt-7 space-y-3">
-            {[
-              { n: '01', label: 'Tarih', value: timeText ? `${dateText} / ${timeText}` : dateText },
-              { n: '02', label: 'Konum', value: invitation.venue }
-            ].map((note, i) => (
-              <motion.div
-                key={note.n}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7, ease: EASE_LUXE, delay: 0.9 + i * 0.12 }}
-                className="flex items-center gap-2.5"
-              >
-                <span
-                  className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[7.5px] font-bold tabular-nums"
-                  style={{ border: `1px solid ${line}`, color: line, opacity: 0.85 }}
+          {notes.length > 0 && (
+            <div className="mt-7 space-y-3">
+              {notes.map((note, i) => (
+                <motion.div
+                  key={note.label}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7, ease: EASE_LUXE, delay: 0.9 + i * 0.12 }}
+                  className="flex items-center gap-2.5"
                 >
-                  {note.n}
-                </span>
-                <span
-                  className="block w-5 shrink-0 h-px"
-                  style={{ backgroundImage: `repeating-linear-gradient(90deg, ${line} 0 3px, transparent 3px 6px)`, opacity: 0.6 }}
-                />
-                <span className="min-w-0">
-                  <span className="block text-[6.5px] font-semibold uppercase tracking-[0.22em] opacity-55" style={{ color: line }}>
-                    {note.label}
+                  <span
+                    className="shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-[7.5px] font-bold tabular-nums"
+                    style={{ border: `1px solid ${line}`, color: line, opacity: 0.85 }}
+                  >
+                    {String(i + 1).padStart(2, '0')}
                   </span>
-                  <span className="block text-[11.5px] font-medium leading-snug break-words" style={{ color: line }}>
-                    {note.value || '—'}
+                  <span
+                    className="block w-5 shrink-0 h-px"
+                    style={{ backgroundImage: `repeating-linear-gradient(90deg, ${line} 0 3px, transparent 3px 6px)`, opacity: 0.6 }}
+                  />
+                  <span className="min-w-0">
+                    <span className="block text-[6.5px] font-semibold uppercase tracking-[0.22em] opacity-55" style={{ color: line }}>
+                      {note.label}
+                    </span>
+                    <span className="block text-[11.5px] font-medium leading-snug break-words" style={{ color: line }}>
+                      {note.value}
+                    </span>
                   </span>
-                </span>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
 
-          {/* Antet: sayfanın imzası. Üç hücre, aralarında tek piksel kural. */}
+          {/* Antet: sayfanın imzası. Hücreler arasında tek piksel kural; tarih
+              girilmemişse "Tarih" hücresi basılmaz ve antet iki hücreye iner. */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: EASE_LUXE, delay: 1.15 }}
-            className="mt-7 grid grid-cols-3 border"
+            className={cn('mt-7 grid border', dateText ? 'grid-cols-3' : 'grid-cols-2')}
             style={{ borderColor: `${line}55` }}
           >
             <BlockCell label="Proje" value={flavor.envelopeLabel} color={line} className="border-r" />
-            <BlockCell label="Tarih" value={dateText} color={line} className="border-r" />
+            {dateText && <BlockCell label="Tarih" value={dateText} color={line} className="border-r" />}
             <BlockCell
               label={invitation.showTimer && valid ? 'Kalan' : 'Durum'}
               value={invitation.showTimer && valid ? `${days} G ${String(hours).padStart(2, '0')} S` : 'Onaylandı'}

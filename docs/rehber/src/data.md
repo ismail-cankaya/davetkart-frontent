@@ -135,3 +135,58 @@ Faz 3'ün kalan iki işi backend tarafında, ikisi de doküman:
 
 Ve `claude/Notlar/03-FRONTEND-YAPILACAKLAR.md` güncellenecek: bu fazda kapanan
 maddeler işaretlenip kalanlar (K20 çeviri katmanı, `restoreSession`) bırakılacak.
+
+---
+
+## 8. Güncelleme — yeni davetiye boş doğar
+
+> **İlgili dosyalar:** `src/data.ts`, `src/utils/showcase.ts`, `src/utils/timelineEvents.ts`
+> **Denetim:** `npm run verify:content`
+
+Yukarıdaki bölümlerin kararları geçerliliğini koruyor (`id: null`, sabit
+veride deterministik `localKey`, değişmezlik). Değişen şey **başlangıç
+içeriği**:
+
+| Alan | Önce | Şimdi |
+|---|---|---|
+| `names` | `'Sophia & Elias'` | `''` |
+| `date` | `'2026-09-12T19:00'` | `''` |
+| `venue` | `'Çırağan Sarayı Kempinski, İstanbul'` | `''` |
+| `timelineEvents` | 4 dolu adım (17:00 Karşılama…) | 2 **boş** adım (`tl-default-1`, `tl-default-2`) |
+
+### 🔴 Neden?
+
+Varsayılan değer bir öneri değil, **veridir**. Kullanıcı ona dokunmadan
+"Davetiyeni Oluştur"a basarsa otomatik kaydetme onu sunucuya yazar ve misafir
+hiç seçilmemiş bir tarihe, başka bir mekâna davet edilir. Yönlendirici metin
+artık yalnızca form alanlarının `placeholder`'ında durur: "Gelin adını
+giriniz", "Davet tarihini seçiniz", "Çırağan Sarayı, İstanbul".
+
+İsim placeholder'ları kategoriye göre değişir; `EventCategory.namePlaceholders`
+`nameLabels`'ın hemen yanında tutulur.
+
+`title` ve `subtitle` bilinçli olarak dolu kaldı: ikisi de kişisel bilgi değil,
+kategori seçimine göre önerilen şablon metnidir.
+
+### Ana sayfa tanıtımı neden boşalmadı?
+
+Ana sayfadaki canlı önizleme aynı store'u çiziyor. Örnek içerik
+`SHOWCASE_CONTENT`'e taşındı ve yalnızca **çizime** bindirilir
+(`withShowcaseContent`, `DeviceSimulator showcase`): store'a yazılmaz,
+dolayısıyla kaydedilmez.
+
+Kullanıcı tek bir alanı doldurduğu anda tanıtım taslağı **olduğu gibi**
+gösterir. Gerçek isimle örnek tarihi karıştırmak, girilmemiş bir bilgiyi
+kaydedilmiş gibi gösterirdi.
+
+### Önizleme boş alanı nasıl çiziyor?
+
+| Alan | Boşken |
+|---|---|
+| Tarih | Tarih satırı/hücresi, "Tarih & Saat" etiketi, geri sayım ve takvim kısayolları çizilmez |
+| Mekân | "Mekân" satırı/hücresi çizilmez |
+| Program adımı | Yalnızca en az bir alanı dolu adımlar çizilir; hiçbiri yoksa bölüm gizlenir |
+| Tarih + mekân + ulaşım | "Ne Zaman & Nerede" bölümü tamamen gizlenir |
+
+`formatDateStr` boş, yalnızca boşluk ya da ayrıştırılamayan değerde boş metin
+döner — "Invalid Date" yazmaz, istisna fırlatmaz.

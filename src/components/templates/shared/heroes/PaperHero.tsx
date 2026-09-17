@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { PaperGrain, DeckleEdge, WaxSeal } from '../effects';
@@ -30,6 +30,8 @@ interface PaperHeroProps extends HeroRenderProps {
 export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroProps) {
   const { Ornament } = flavor;
   const names = invitation.names || 'Davetlisiniz';
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   // Mühür monogramı: iki ismin baş harfleri, yoksa tek harf.
   const initials = names
@@ -108,19 +110,25 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
             {invitation.subtitle}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.1 }}
-            className="mt-7 flex flex-col items-center gap-1.5"
-          >
-            <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)} style={emboss}>
-              {formatDateStr(invitation.date)}
-            </span>
-            <span className={cn('text-[10px] uppercase tracking-[0.26em]', theme.body)} style={emboss}>
-              {invitation.venue}
-            </span>
-          </motion.div>
+          {(dateLabel || venue) && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, ease: EASE_LUXE, delay: 1.1 }}
+              className="mt-7 flex flex-col items-center gap-1.5"
+            >
+              {dateLabel && (
+                <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)} style={emboss}>
+                  {dateLabel}
+                </span>
+              )}
+              {venue && (
+                <span className={cn('text-[10px] uppercase tracking-[0.26em]', theme.body)} style={emboss}>
+                  {venue}
+                </span>
+              )}
+            </motion.div>
+          )}
 
           {/* Mühür kartın alt kenarına BİNER — üstüne basılmış, içine
               yerleştirilmemiş gibi görünsün diye taşma bilinçli. */}

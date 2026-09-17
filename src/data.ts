@@ -24,6 +24,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Düğün',
     description: 'Hayatınızın en özel gününe zarif bir davet',
     nameLabels: ['Gelin Adı', 'Damat Adı'],
+    namePlaceholders: ['Gelin adını giriniz', 'Damat adını giriniz'],
     suggestedTitle: 'HAYATIMIZIN EN ANLAMLI GÜNÜ'
   },
   {
@@ -31,6 +32,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Kına Gecesi',
     description: 'Geleneksel gecenize modern bir dokunuş',
     nameLabels: ['Gelin Adı', 'Damat Adı'],
+    namePlaceholders: ['Gelin adını giriniz', 'Damat adını giriniz'],
     suggestedTitle: 'KINA GECEMİZE DAVETLİSİNİZ'
   },
   {
@@ -38,6 +40,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Nişan',
     description: 'Mutluluğa atılan ilk adımı birlikte kutlayın',
     nameLabels: ['Partner 1', 'Partner 2'],
+    namePlaceholders: ['Birinci partnerin adını giriniz', 'İkinci partnerin adını giriniz'],
     suggestedTitle: 'NİŞANIMIZA DAVETLİSİNİZ'
   },
   {
@@ -45,6 +48,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Sünnet',
     description: 'Şehzadenizin büyük günü için görkemli davet',
     nameLabels: ['Çocuğun Adı', 'Aile Adı'],
+    namePlaceholders: ['Çocuğun adını giriniz', 'Aile adını giriniz'],
     suggestedTitle: 'SÜNNET DÜĞÜNÜMÜZE DAVETLİSİNİZ'
   },
   {
@@ -52,6 +56,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Doğum Günü',
     description: 'Yeni yaşınızı sevdiklerinizle karşılayın',
     nameLabels: ['Doğum Günü Sahibi', 'Ev Sahibi (opsiyonel)'],
+    namePlaceholders: ['Doğum günü sahibinin adını giriniz', 'Ev sahibinin adını giriniz'],
     suggestedTitle: 'DOĞUM GÜNÜ PARTİSİNE DAVETLİSİNİZ'
   },
   {
@@ -59,6 +64,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Mezuniyet',
     description: 'Emeklerinizin taçlandığı anı paylaşın',
     nameLabels: ['Mezun Adı', 'Okul / Bölüm'],
+    namePlaceholders: ['Mezunun adını giriniz', 'Okul veya bölüm adını giriniz'],
     suggestedTitle: 'MEZUNİYET TÖRENİME DAVETLİSİNİZ'
   },
   {
@@ -66,6 +72,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Baby Shower',
     description: 'Minik misafirinizi hep birlikte karşılayın',
     nameLabels: ['Anne Adayı', 'Bebeğin Adı'],
+    namePlaceholders: ['Anne adayının adını giriniz', 'Bebeğin adını giriniz'],
     suggestedTitle: 'ARAMIZA HOŞ GELDİN BEBEĞİM'
   },
   {
@@ -73,6 +80,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Parti',
     description: 'Unutulmaz bir gece için şık bir başlangıç',
     nameLabels: ['Ev Sahibi 1', 'Ev Sahibi 2 (opsiyonel)'],
+    namePlaceholders: ['Ev sahibinin adını giriniz', 'İkinci ev sahibinin adını giriniz'],
     suggestedTitle: 'PARTİMİZE DAVETLİSİNİZ'
   },
   {
@@ -80,6 +88,7 @@ export const EVENT_CATEGORIES: EventCategory[] = [
     label: 'Kurumsal Etkinlik',
     description: 'Lansman, zirve ve gala için profesyonel davet',
     nameLabels: ['Kurum / Marka', 'Etkinlik Adı'],
+    namePlaceholders: ['Kurum veya marka adını giriniz', 'Etkinlik adını giriniz'],
     suggestedTitle: 'ETKİNLİĞİMİZE DAVETLİSİNİZ'
   }
 ];
@@ -2673,42 +2682,20 @@ export const DEFAULT_INVITE_MESSAGES: string[] = [
   'Bu anlamlı günü sevdiklerimizle paylaşmak, mutluluğumuzu ikiye katlayacak.'
 ];
 
-/** Starter program flow shown when the timeline module is enabled. */
 /**
- * Yeni davetiyenin başlangıç programı.
+ * Yeni davetiyenin başlangıç programı: kullanıcıya iki BOŞ adım sunulur.
+ *
+ * 🔴 Örnek etkinlik ya da saat yazılmaz. Dolu bir varsayılan, kullanıcı ona
+ * hiç dokunmadan kaydedilir ve misafirin önüne gerçek program gibi çıkardı.
  *
  * 🔴 `id: null` — bunlar henüz kaydedilmemiş adımlardır; kimliği backend
- * kaydederken üretir (K44). `localKey` yalnızca React'in liste anahtarıdır.
+ * kaydederken üretir (K44). `localKey` yalnızca React'in liste anahtarıdır ve
+ * sabit veride deterministik tutulur; sonradan eklenen adımların anahtarını
+ * `utils/timelineEvents.ts` üretir.
  */
 export const DEFAULT_TIMELINE_EVENTS: TimelineEvent[] = [
-  {
-    id: null,
-    localKey: 'tl-default-1',
-    time: '17:00',
-    title: 'Karşılama & Kokteyl',
-    description: 'Misafirlerimizi hoş geldin kokteyli ile karşılıyoruz.'
-  },
-  {
-    id: null,
-    localKey: 'tl-default-2',
-    time: '19:00',
-    title: 'Nikah Töreni',
-    description: 'Evet dediğimiz o büyülü ana hep birlikte tanıklık edin.'
-  },
-  {
-    id: null,
-    localKey: 'tl-default-3',
-    time: '20:00',
-    title: 'Akşam Yemeği',
-    description: 'Özenle hazırlanan menümüz eşliğinde keyifli bir akşam.'
-  },
-  {
-    id: null,
-    localKey: 'tl-default-4',
-    time: '22:00',
-    title: 'İlk Dans & Eğlence',
-    description: 'Gece boyu sürecek müzik ve dans ile kutlamaya devam.'
-  }
+  { id: null, localKey: 'tl-default-1', time: '', title: '', description: '' },
+  { id: null, localKey: 'tl-default-2', time: '', title: '', description: '' }
 ];
 
 /** Pre-set gift amounts (₺) offered in the gift registry section. */
@@ -2773,14 +2760,24 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   }
 ];
 
+/**
+ * Yeni bir davetiyenin başlangıç durumu — sihirbaz formu bununla açılır.
+ *
+ * 🔴 Kişiye özel içerik alanları (isimler, tarih, konum, ulaşım) BOŞ başlar.
+ * Buraya yazılan her değer kullanıcı hiç dokunmasa da otomatik kaydetmeyle
+ * sunucuya gider ve misafire gerçek bilgi gibi gösterilir. Yönlendirici
+ * metinler form alanlarının placeholder'ında durur, state'te değil.
+ *
+ * Ana sayfa önizlemesinin örnek içeriği ayrı tutulur: `SHOWCASE_CONTENT`.
+ */
 export const INITIAL_INVITATION: Invitation = {
   title: 'HAYATIMIZIN EN ANLAMLI GÜNÜ',
   subtitle: 'Sizleri de bu mutlu günümüzde aramızda görmekten onur duyarız.',
-  names: 'Sophia & Elias',
-  date: '2026-09-12T19:00',
+  names: '',
+  date: '',
   // Varsayılan davetiye İstanbul'da; backend'in `default_timezone` değeriyle aynı.
   timezone: 'Europe/Istanbul',
-  venue: 'Çırağan Sarayı Kempinski, İstanbul',
+  venue: '',
   mapUrl: '',
   phoneBackground: 'moda-gece',
   imageTheme: 'moda-gece',
@@ -2804,6 +2801,52 @@ export const INITIAL_INVITATION: Invitation = {
 
   timelineEvents: DEFAULT_TIMELINE_EVENTS,
   galleryImages: []
+};
+
+/** Ana sayfa önizlemesinin örnek içerikle doldurduğu alanlar. */
+export type ShowcaseContent = Pick<Invitation, 'names' | 'date' | 'venue' | 'timelineEvents'>;
+
+/**
+ * Ana sayfadaki canlı önizlemenin tanıtım içeriği.
+ *
+ * 🔴 Kullanıcı verisi DEĞİLDİR ve store'a hiç yazılmaz: yalnızca taslakta
+ * henüz içerik yokken önizlemeye bindirilir (bkz. `utils/showcase.ts`).
+ * Böylece tanıtım dolu görünür, sihirbaz formu ise boş açılır.
+ */
+export const SHOWCASE_CONTENT: ShowcaseContent = {
+  names: 'Sophia & Elias',
+  date: '2026-09-12T19:00',
+  venue: 'Çırağan Sarayı Kempinski, İstanbul',
+  timelineEvents: [
+    {
+      id: null,
+      localKey: 'tl-showcase-1',
+      time: '17:00',
+      title: 'Karşılama & Kokteyl',
+      description: 'Misafirlerimizi hoş geldin kokteyli ile karşılıyoruz.'
+    },
+    {
+      id: null,
+      localKey: 'tl-showcase-2',
+      time: '19:00',
+      title: 'Nikah Töreni',
+      description: 'Evet dediğimiz o büyülü ana hep birlikte tanıklık edin.'
+    },
+    {
+      id: null,
+      localKey: 'tl-showcase-3',
+      time: '20:00',
+      title: 'Akşam Yemeği',
+      description: 'Özenle hazırlanan menümüz eşliğinde keyifli bir akşam.'
+    },
+    {
+      id: null,
+      localKey: 'tl-showcase-4',
+      time: '22:00',
+      title: 'İlk Dans & Eğlence',
+      description: 'Gece boyu sürecek müzik ve dans ile kutlamaya devam.'
+    }
+  ]
 };
 
 export const INITIAL_RSVP_DRAFT: RsvpDraft = {

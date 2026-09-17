@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
-import { formatDateStr } from '../utils';
+import { displayText, formatDateStr } from '../utils';
 import { SectionTheme, EASE_LUXE } from './palette';
 import { TemplateFlavor } from './flavor';
 import { CalendarIcon, MapPinIcon, ExternalLinkIcon } from './icons';
@@ -16,9 +16,17 @@ interface DetailsProps {
 /**
  * Venue & directions — an elegant card pairing the date with the venue and a
  * one-tap Google Maps directions button.
+ *
+ * Yalnızca girilmiş bilgiler çizilir; tarih, mekân ve ulaşım bağlantısının
+ * hiçbiri yoksa bölüm tamamen gizlenir.
  */
 export function Details({ invitation, theme, flavor }: DetailsProps) {
   const isDark = theme.id === 'midnight';
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
+  const mapUrl = displayText(invitation.mapUrl);
+
+  if (!dateLabel && !venue && !mapUrl) return null;
 
   return (
     <section className={cn('relative px-6 py-16', theme.page)}>
@@ -70,33 +78,35 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
         </div>
 
         <div className="p-6 space-y-5">
-          <div className="flex items-start gap-3.5">
-            <span className={cn('mt-0.5 shrink-0', theme.accent)}>
-              <CalendarIcon size={17} />
-            </span>
-            <div>
-              <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase', theme.body)}>Tarih &amp; Saat</p>
-              <p className={cn('font-serif text-base font-semibold mt-0.5', theme.heading)}>
-                {formatDateStr(invitation.date)}
-              </p>
+          {dateLabel && (
+            <div className="flex items-start gap-3.5">
+              <span className={cn('mt-0.5 shrink-0', theme.accent)}>
+                <CalendarIcon size={17} />
+              </span>
+              <div>
+                <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase', theme.body)}>Tarih &amp; Saat</p>
+                <p className={cn('font-serif text-base font-semibold mt-0.5', theme.heading)}>{dateLabel}</p>
+              </div>
             </div>
-          </div>
+          )}
 
-          <div className={cn('h-px w-full', theme.divider)} />
+          {dateLabel && venue && <div className={cn('h-px w-full', theme.divider)} />}
 
-          <div className="flex items-start gap-3.5">
-            <span className={cn('mt-0.5 shrink-0', theme.accent)}>
-              <MapPinIcon size={17} />
-            </span>
-            <div>
-              <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase', theme.body)}>Mekan</p>
-              <p className={cn('font-serif text-base font-semibold mt-0.5', theme.heading)}>{invitation.venue}</p>
+          {venue && (
+            <div className="flex items-start gap-3.5">
+              <span className={cn('mt-0.5 shrink-0', theme.accent)}>
+                <MapPinIcon size={17} />
+              </span>
+              <div>
+                <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase', theme.body)}>Mekan</p>
+                <p className={cn('font-serif text-base font-semibold mt-0.5', theme.heading)}>{venue}</p>
+              </div>
             </div>
-          </div>
+          )}
 
-          {invitation.mapUrl && (
+          {mapUrl && (
             <motion.a
-              href={invitation.mapUrl}
+              href={mapUrl}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ y: -2 }}

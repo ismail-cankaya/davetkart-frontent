@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -93,6 +93,8 @@ export function SuluboyaHero({
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const dark = theme.id === 'midnight';
   const blend = dark ? 'screen' : 'multiply';
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-6 @sm:px-10 py-14 @sm:py-20 overflow-hidden">
@@ -174,17 +176,17 @@ export function SuluboyaHero({
           {invitation.subtitle}
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 1.4 }}
-          className="mt-7 flex flex-col items-center gap-2"
-        >
-          <span className={cn('font-serif italic text-lg @sm:text-2xl', theme.heading)}>
-            {formatDateStr(invitation.date)}
-          </span>
-          <span className={cn('text-[10px] uppercase tracking-[0.26em]', theme.body)}>{invitation.venue}</span>
-        </motion.div>
+        {(dateLabel || venue) && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.4 }}
+            className="mt-7 flex flex-col items-center gap-2"
+          >
+            {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-2xl', theme.heading)}>{dateLabel}</span>}
+            {venue && <span className={cn('text-[10px] uppercase tracking-[0.26em]', theme.body)}>{venue}</span>}
+          </motion.div>
+        )}
 
         {invitation.showTimer && valid && (
           <motion.div

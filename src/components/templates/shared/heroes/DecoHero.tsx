@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -20,6 +20,8 @@ import { DecoFrame, Sunburst } from '../effects';
 export function DecoHero({ invitation, theme, flavor }: HeroRenderProps) {
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-6 @sm:px-10 py-12 @sm:py-16">
@@ -82,23 +84,25 @@ export function DecoHero({ invitation, theme, flavor }: HeroRenderProps) {
         </motion.p>
 
         {/* Künye bandı: tarih · mekân, ayırıcı elmaslarla. */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 1.1 }}
-          className="mt-8 flex flex-col items-center gap-2.5"
-        >
-          <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>
-            {formatDateStr(invitation.date)}
-          </span>
-          <span className="flex items-center gap-3">
-            <span className={cn('w-1.5 h-1.5 rotate-45', theme.accentBg)} />
-            <span className={cn('text-[10px] uppercase tracking-[0.28em]', theme.body)}>
-              {invitation.venue}
-            </span>
-            <span className={cn('w-1.5 h-1.5 rotate-45', theme.accentBg)} />
-          </span>
-        </motion.div>
+        {(dateLabel || venue) && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.1 }}
+            className="mt-8 flex flex-col items-center gap-2.5"
+          >
+            {dateLabel && (
+              <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>
+            )}
+            {venue && (
+              <span className="flex items-center gap-3">
+                <span className={cn('w-1.5 h-1.5 rotate-45', theme.accentBg)} />
+                <span className={cn('text-[10px] uppercase tracking-[0.28em]', theme.body)}>{venue}</span>
+                <span className={cn('w-1.5 h-1.5 rotate-45', theme.accentBg)} />
+              </span>
+            )}
+          </motion.div>
+        )}
 
         {invitation.showTimer && valid && (
           <motion.div

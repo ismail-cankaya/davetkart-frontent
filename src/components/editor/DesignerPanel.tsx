@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useId, useRef } from 'react';
 import { motion } from 'motion/react';
 import { Check, Palette, RotateCcw, Sparkles, Type } from 'lucide-react';
 import { Invitation } from '../../types';
 import { getTemplatesForCategory } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
-import { useActiveCategory } from '../../stores/useCreateWizardStore';
 import { CoupleNameFields } from '../create/CoupleNameFields';
+import { DateTimeInput } from '../ui/DateTimeInput';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -23,7 +23,7 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
   const selectTemplate = useInvitationStore(s => s.selectTemplate);
   const updateField = useInvitationStore(s => s.updateField);
   const resetInvitation = useInvitationStore(s => s.resetInvitation);
-  const category = useActiveCategory();
+  const fieldId = useId();
 
   // Only offer themes belonging to the invitation's event category.
   const categoryTemplates = getTemplatesForCategory(invitation.categoryId || null);
@@ -123,11 +123,7 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
             Metinler &amp; Konumlandırma
           </h3>
 
-          <CoupleNameFields
-            labels={category?.nameLabels ?? ['Partner 1', 'Partner 2']}
-            labelClass={labelClass}
-            inputClass={inputClass}
-          />
+          <CoupleNameFields labelClass={labelClass} inputClass={inputClass} />
 
           <div className="space-y-2">
             <label className={labelClass}>Üst Başlık (Slogan)</label>
@@ -143,24 +139,26 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="space-y-2">
-              <label className={labelClass}>Etkinlik Tarihi &amp; Saati</label>
-              <input
-                type="datetime-local"
+              <label htmlFor={`${fieldId}-date`} className={labelClass}>Etkinlik Tarihi &amp; Saati</label>
+              <DateTimeInput
+                id={`${fieldId}-date`}
                 name="date"
                 value={localInvitation.date}
                 onChange={handleLocalChange}
+                placeholder="Davet tarihini seçiniz"
                 className={`${inputClass} [color-scheme:dark]`}
               />
             </div>
 
             <div className="space-y-2">
-              <label className={labelClass}>Etkinlik Mekanı / Adres</label>
+              <label htmlFor={`${fieldId}-venue`} className={labelClass}>Davet Konumu</label>
               <input
+                id={`${fieldId}-venue`}
                 type="text"
                 name="venue"
                 value={localInvitation.venue}
                 onChange={handleLocalChange}
-                placeholder="Örn. Çırağan Sarayı, Beşiktaş"
+                placeholder="Çırağan Sarayı, İstanbul"
                 className={inputClass}
               />
             </div>

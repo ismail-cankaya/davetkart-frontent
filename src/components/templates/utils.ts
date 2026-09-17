@@ -1,6 +1,17 @@
-export const formatDateStr = (dateStr: string) => {
-  if (!dateStr) return '';
+import { hasText } from '../../utils/text';
+
+/**
+ * Davetiye tarihini okunur metne çevirir: "12 Eylül 2026 19:00".
+ *
+ * 🔴 Tarih artık boş doğar (kullanıcı seçmeden sahte tarih yok). Boş, yalnızca
+ * boşluk ya da ayrıştırılamayan değerde BOŞ METİN döner — "Invalid Date"
+ * yazmaz, istisna fırlatmaz. Çağıranlar `''` gördüğünde tarih kabını hiç
+ * çizmez.
+ */
+export const formatDateStr = (dateStr: string | null | undefined): string => {
+  if (!hasText(dateStr)) return '';
   const date = new Date(dateStr);
+  if (Number.isNaN(date.getTime())) return '';
   return date.toLocaleDateString('tr-TR', {
     day: 'numeric',
     month: 'long',
@@ -9,6 +20,15 @@ export const formatDateStr = (dateStr: string) => {
     minute: '2-digit'
   });
 };
+
+/**
+ * İsteğe bağlı bir metin alanının çizilecek hâli; girilmemişse `''`.
+ *
+ * Önizleme misafir ucundan gelen veriyi de çizdiği için `null`/`undefined`
+ * kabul eder. Şablonlar `''` gördüğünde alanın kabını (etiket, ikon, ayırıcı)
+ * hiç çizmez — boş bir "Mekân" satırı, girilmemiş bilgiyi var gibi gösterir.
+ */
+export const displayText = (value: string | null | undefined): string => value?.trim() ?? '';
 
 /**
  * `yyyy-MM-dd` biçimindeki bir takvim gününü okunur tarihe çevirir.

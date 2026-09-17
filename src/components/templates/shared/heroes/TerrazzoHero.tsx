@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -97,6 +97,8 @@ export function TerrazzoHero({
   const pebbles = React.useMemo(() => buildChips(chips, seed, density), [chips, seed, density]);
 
   const dateParts = formatDateStr(invitation.date).split(' ');
+  const dayText = dateParts.slice(0, 3).join(' ');
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-5 @sm:px-8 py-12 @sm:py-16">
@@ -194,13 +196,17 @@ export function TerrazzoHero({
           </p>
         )}
 
-        <div className={cn('mt-6 pt-5 border-t space-y-2.5', theme.border)}>
-          <p className={cn('font-serif italic text-[15px] @sm:text-base', theme.heading)}>
-            {dateParts.slice(0, 3).join(' ')}
-            {dateParts.length > 3 && <span className={theme.body}> · {dateParts.slice(-1)[0]}</span>}
-          </p>
-          <p className={cn('text-[11.5px] font-medium leading-snug', theme.body)}>{invitation.venue}</p>
-        </div>
+        {(dayText || venue) && (
+          <div className={cn('mt-6 pt-5 border-t space-y-2.5', theme.border)}>
+            {dayText && (
+              <p className={cn('font-serif italic text-[15px] @sm:text-base', theme.heading)}>
+                {dayText}
+                {dateParts.length > 3 && <span className={theme.body}> · {dateParts.slice(-1)[0]}</span>}
+              </p>
+            )}
+            {venue && <p className={cn('text-[11.5px] font-medium leading-snug', theme.body)}>{venue}</p>}
+          </div>
+        )}
 
         {invitation.showTimer && valid && (
           <div className="mt-6 grid grid-cols-3 gap-2.5">

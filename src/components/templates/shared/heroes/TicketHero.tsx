@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -43,6 +43,10 @@ function Field({
 export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
   const { valid, days } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
+  const dateParts = formatDateStr(invitation.date).split(' ');
+  const dayText = dateParts.slice(0, 3).join(' ');
+  const timeText = dateParts.slice(-1)[0];
+  const venue = displayText(invitation.venue);
 
   // Deterministik "sıra no": aynı davetiye hep aynı numarayı gösterir.
   const serial = String(
@@ -89,20 +93,25 @@ export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
             {invitation.subtitle}
           </p>
 
-          {/* Etiketli alanlar — biletin okunabilir veri bloğu. */}
-          <div className="grid grid-cols-3 gap-3 mt-5">
-            <Field label="Tarih" value={formatDateStr(invitation.date).split(' ').slice(0, 3).join(' ')} theme={theme} />
-            <Field label="Saat" value={formatDateStr(invitation.date).split(' ').slice(-1)[0]} theme={theme} />
-            <Field
-              label="Kalan"
-              value={invitation.showTimer && valid ? `${days} gün` : '—'}
-              theme={theme}
-            />
-          </div>
+          {/* Etiketli alanlar — biletin okunabilir veri bloğu. Tarih
+              girilmemişse tarih, saat ve kalan süre alanları basılmaz. */}
+          {dayText && (
+            <div className="grid grid-cols-3 gap-3 mt-5">
+              <Field label="Tarih" value={dayText} theme={theme} />
+              <Field label="Saat" value={timeText} theme={theme} />
+              <Field
+                label="Kalan"
+                value={invitation.showTimer && valid ? `${days} gün` : '—'}
+                theme={theme}
+              />
+            </div>
+          )}
 
-          <div className="mt-3">
-            <Field label="Mekân" value={invitation.venue} theme={theme} />
-          </div>
+          {venue && (
+            <div className={dayText ? 'mt-3' : 'mt-5'}>
+              <Field label="Mekân" value={venue} theme={theme} />
+            </div>
+          )}
         </div>
 
         {/* ——— Perforasyon ——— */}

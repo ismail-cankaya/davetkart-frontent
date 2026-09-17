@@ -272,6 +272,13 @@ export interface EventCategory {
   description: string;
   /** Field labels for the two-person name inputs (e.g. Gelin / Damat). */
   nameLabels: [string, string];
+  /**
+   * İsim alanlarının yönlendirici placeholder'ları ("Gelin adını giriniz").
+   *
+   * 🔴 Örnek bir isim DEĞİL, talimat taşır: gerçek veri gibi görünen metin
+   * ("Örn. Sophia") kullanıcıya alan doluymuş izlenimi verir.
+   */
+  namePlaceholders: [string, string];
   /** Suggested top badge text applied when the category is picked. */
   suggestedTitle: string;
 }
@@ -296,3 +303,25 @@ export interface FeaturedTemplate {
 
 /** Device frames offered by the preview simulator. */
 export type PreviewDevice = 'phone' | 'tablet' | 'laptop';
+
+/** WGS84 koordinatı (derece). */
+export interface GeoPoint {
+  lat: number;
+  lng: number;
+}
+
+/**
+ * Konum aramasında listelenen tek bir öneri.
+ *
+ * Öneriler backend'in harita sağlayıcısı vekilinden gelir (bkz.
+ * `services/places.ts`); sağlayıcı anahtarı frontend'e hiç inmez.
+ */
+export interface PlaceSuggestion {
+  /** Sağlayıcının yer kimliği (Google `place_id`); yalnızca liste anahtarı. */
+  placeId: string;
+  /** Birincil satır: "Çırağan Sarayı Kempinski". */
+  name: string;
+  /** İkincil satır: "Çırağan Cd. No:32, Beşiktaş/İstanbul". */
+  address: string;
+  location: GeoPoint;
+}

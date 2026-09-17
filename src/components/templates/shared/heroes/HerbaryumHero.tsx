@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { PaperGrain } from '../effects';
 import { HeroRenderProps } from '../InvitationComposition';
@@ -138,11 +138,19 @@ export function HerbaryumHero({
   const dateText = dateParts.slice(0, 3).join(' ');
   const timeText = dateParts.length > 3 ? dateParts.slice(-1)[0] : '';
 
-  const fields: Array<[string, string]> = [
-    ['Tür', invitation.names || 'Davetlisiniz'],
-    ['Tarih', timeText ? `${dateText} · ${timeText}` : dateText],
-    ['Lokasyon', invitation.venue]
-  ];
+  const venue = displayText(invitation.venue);
+
+  // Girilmemiş bilgi için satır açılmaz; "Tarih: —" satırı, alanın
+  // doldurulmuş ama boş bırakılmış gibi okunmasına yol açardı.
+  const fields: Array<[string, string]> = [['Tür', invitation.names || 'Davetlisiniz']];
+
+  if (dateText) {
+    fields.push(['Tarih', timeText ? `${dateText} · ${timeText}` : dateText]);
+  }
+
+  if (venue) {
+    fields.push(['Lokasyon', venue]);
+  }
 
   if (invitation.showTimer && valid) {
     fields.push(['Kalan', `${days} gün ${String(hours).padStart(2, '0')} saat`]);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 
@@ -86,11 +86,13 @@ export function BrutalHero({
   const dateText = dateParts.slice(0, 3).join(' ');
   const timeText = dateParts.slice(-1)[0];
 
-  const rows: Array<[string, string]> = [
+  // Yalnızca girilmiş bilgiler satır olur; "Tarih: —" satırı, alan
+  // doldurulmuş ama boş bırakılmış gibi okunurdu.
+  const rows = ([
     ['Tarih', dateText],
     ['Saat', timeText],
-    ['Mekan', invitation.venue]
-  ];
+    ['Mekan', displayText(invitation.venue)]
+  ] as Array<[string, string]>).filter(([, value]) => value !== '');
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-4 @sm:px-6 py-10 @sm:py-14">
@@ -176,32 +178,34 @@ export function BrutalHero({
             {/* Bilgi satırları: her satır kalın bir kuralla ayrılır, etiket
                 solda sabit genişlikte mono, değer sağda ağır. Tablo değil ama
                 tablonun okunma ritmini taşır. */}
-            <dl className="mt-5">
-              {rows.map(([label, value], i) => (
-                <div
-                  key={label}
-                  className="flex items-baseline gap-3 py-2.5"
-                  style={{
-                    borderTopWidth: 3,
-                    borderTopStyle: 'solid',
-                    borderTopColor: ink,
-                    borderBottomWidth: i === rows.length - 1 ? 3 : 0,
-                    borderBottomStyle: 'solid',
-                    borderBottomColor: ink
-                  }}
-                >
-                  <dt
-                    className="w-14 shrink-0 text-[8.5px] font-black uppercase tracking-[0.16em]"
-                    style={{ color: accent }}
+            {rows.length > 0 && (
+              <dl className="mt-5">
+                {rows.map(([label, value], i) => (
+                  <div
+                    key={label}
+                    className="flex items-baseline gap-3 py-2.5"
+                    style={{
+                      borderTopWidth: 3,
+                      borderTopStyle: 'solid',
+                      borderTopColor: ink,
+                      borderBottomWidth: i === rows.length - 1 ? 3 : 0,
+                      borderBottomStyle: 'solid',
+                      borderBottomColor: ink
+                    }}
                   >
-                    {label}
-                  </dt>
-                  <dd className={cn('text-[12px] font-bold uppercase leading-tight break-words', theme.heading)}>
-                    {value || '—'}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+                    <dt
+                      className="w-14 shrink-0 text-[8.5px] font-black uppercase tracking-[0.16em]"
+                      style={{ color: accent }}
+                    >
+                      {label}
+                    </dt>
+                    <dd className={cn('text-[12px] font-bold uppercase leading-tight break-words', theme.heading)}>
+                      {value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            )}
 
             {/* Sayaç: rakamlar düz renk bloklara oturur. Kart değil, dolgu. */}
             {invitation.showTimer && valid && (

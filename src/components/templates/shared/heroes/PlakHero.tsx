@@ -1,10 +1,13 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+
+/** Künye şeridinin sütun sayısı, dolu hücre sayısına göre (Tailwind statik sınıf ister). */
+const INFO_GRID_COLUMNS = ['', 'grid-cols-1', 'grid-cols-2', 'grid-cols-3'] as const;
 
 /**
  * Vinil Plak hero — kompozisyonun DAİRESEL olduğu tek düzen.
@@ -43,6 +46,19 @@ export function PlakHero({
   const reduced = useReducedMotion();
   const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
+
+  const dateParts = formatDateStr(invitation.date).split(' ');
+  const dayText = dateParts.slice(0, 3).join(' ');
+  const timeText = dateParts.slice(-1)[0];
+  const venue = displayText(invitation.venue);
+
+  // Künye hücreleri yalnızca girilmiş bilgilerden kurulur. "Kalan" tarihe
+  // bağlıdır: tarih yoksa hesaplanacak bir süre de yoktur.
+  const infoCells = [
+    ...(timeText ? [{ l: 'Saat', v: timeText }] : []),
+    ...(venue ? [{ l: 'Mekân', v: venue }] : []),
+    ...(dayText ? [{ l: 'Kalan', v: invitation.showTimer && valid ? `${days}g ${String(hours).padStart(2, '0')}s` : '—' }] : [])
+  ];
 
   // Kavisli başlık için benzersiz path kimliği: aynı sayfada iki plak
   // olursa textPath'ler birbirine bağlanmasın.
@@ -120,9 +136,11 @@ export function PlakHero({
             {invitation.names || 'Davetlisiniz'}
           </h1>
 
-          <span className="mt-1 text-[7.5px] @sm:text-[8.5px] font-semibold uppercase tracking-[0.16em] opacity-80">
-            {formatDateStr(invitation.date).split(' ').slice(0, 3).join(' ')}
-          </span>
+          {dayText && (
+            <span className="mt-1 text-[7.5px] @sm:text-[8.5px] font-semibold uppercase tracking-[0.16em] opacity-80">
+              {dayText}
+            </span>
+          )}
 
           {/* İğne deliği: merkezdeki boşluk plağın en tanıdık detayı. */}
           <span
@@ -157,20 +175,18 @@ export function PlakHero({
           {invitation.subtitle}
         </p>
 
-        <div className={cn('mt-5 grid grid-cols-3 border-t border-b divide-x', theme.border)}>
-          {[
-            { l: 'Saat', v: formatDateStr(invitation.date).split(' ').slice(-1)[0] },
-            { l: 'Mekân', v: invitation.venue },
-            { l: 'Kalan', v: invitation.showTimer && valid ? `${days}g ${String(hours).padStart(2, '0')}s` : '—' }
-          ].map((cell) => (
-            <div key={cell.l} className={cn('px-3 py-3 text-center min-w-0', theme.border)}>
-              <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.2em]', theme.accent)}>
-                {cell.l}
-              </span>
-              <span className={cn('block text-[11px] font-medium mt-1 truncate', theme.heading)}>{cell.v}</span>
-            </div>
-          ))}
-        </div>
+        {infoCells.length > 0 && (
+          <div className={cn('mt-5 grid border-t border-b divide-x', INFO_GRID_COLUMNS[infoCells.length], theme.border)}>
+            {infoCells.map((cell) => (
+              <div key={cell.l} className={cn('px-3 py-3 text-center min-w-0', theme.border)}>
+                <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.2em]', theme.accent)}>
+                  {cell.l}
+                </span>
+                <span className={cn('block text-[11px] font-medium mt-1 truncate', theme.heading)}>{cell.v}</span>
+              </div>
+            ))}
+          </div>
+        )}
       </motion.div>
     </section>
   );

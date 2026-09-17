@@ -122,11 +122,14 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                 Başarıyla katılımınız oluşturuldu
               </h3>
               <p className={cn('text-[13px] font-light mt-2 leading-relaxed', theme.body)}>
-                Teşekkür ederiz! Büyük günü kaçırmamak için etkinliği takviminize ekleyebilirsiniz.
+                Teşekkür ederiz!
+                {calendarUrl && ' Büyük günü kaçırmamak için etkinliği takviminize ekleyebilirsiniz.'}
               </p>
 
-              <div className="mt-6 space-y-2.5">
-                {calendarUrl && (
+              {/* Takvim kısayolları tarihten türer: tarih girilmemişse ikisi de
+                  işlevsizdir (.ics indirmesi sessizce hiçbir şey yapmazdı). */}
+              {calendarUrl && (
+                <div className="mt-6 space-y-2.5">
                   <motion.a
                     href={calendarUrl}
                     target="_blank"
@@ -141,21 +144,21 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     <GoogleIcon size={14} />
                     Google Takvim'e Ekle
                   </motion.a>
-                )}
-                <motion.button
-                  type="button"
-                  onClick={() => downloadIcsFile(invitation)}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                  className={cn(
-                    'w-full flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold transition-colors duration-300 cursor-pointer',
-                    theme.buttonGhost
-                  )}
-                >
-                  <AppleIcon size={14} />
-                  Apple Takvim'e Ekle (.ics)
-                </motion.button>
-              </div>
+                  <motion.button
+                    type="button"
+                    onClick={() => downloadIcsFile(invitation)}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={cn(
+                      'w-full flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold transition-colors duration-300 cursor-pointer',
+                      theme.buttonGhost
+                    )}
+                  >
+                    <AppleIcon size={14} />
+                    Apple Takvim'e Ekle (.ics)
+                  </motion.button>
+                </div>
+              )}
             </motion.div>
           ) : (
             <motion.form

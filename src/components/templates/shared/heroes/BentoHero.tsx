@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -62,6 +62,11 @@ function Label({ children, className }: { children: React.ReactNode; className?:
 export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
+  // Girilmemiş bilgi hücresi çizilmez. Tek hücre kalırsa boşalan yarıyı
+  // doldurur; hiç kalmazsa isim hücresi tüm genişliğe yayılır.
+  const infoCellSpan = dateLabel && venue ? '' : 'col-span-2 @lg:col-span-1 @lg:row-span-2';
 
   return (
     <section className={cn('relative flex-1 flex flex-col justify-center px-4 @sm:px-6 py-10 @sm:py-14', theme.page)}>
@@ -89,7 +94,10 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
             surface={theme.surface}
             border={theme.border}
             delay={0.1}
-            className="col-span-2 @lg:col-span-2 row-span-2 min-h-[136px] @sm:min-h-[168px] justify-center"
+            className={cn(
+              'col-span-2 row-span-2 min-h-[136px] @sm:min-h-[168px] justify-center',
+              dateLabel || venue ? '@lg:col-span-2' : '@lg:col-span-3'
+            )}
           >
             <div>
               <Label className={theme.body}>Davetliler</Label>
@@ -109,20 +117,34 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
           </Cell>
 
           {/* Tarih */}
-          <Cell surface={theme.surface} border={theme.border} delay={0.2} className="min-h-[64px] @sm:min-h-[78px]">
-            <Label className={theme.body}>Tarih</Label>
-            <span className={cn('font-serif italic text-base @sm:text-lg leading-tight mt-1.5', theme.heading)}>
-              {formatDateStr(invitation.date)}
-            </span>
-          </Cell>
+          {dateLabel && (
+            <Cell
+              surface={theme.surface}
+              border={theme.border}
+              delay={0.2}
+              className={cn('min-h-[64px] @sm:min-h-[78px]', infoCellSpan)}
+            >
+              <Label className={theme.body}>Tarih</Label>
+              <span className={cn('font-serif italic text-base @sm:text-lg leading-tight mt-1.5', theme.heading)}>
+                {dateLabel}
+              </span>
+            </Cell>
+          )}
 
           {/* Mekân */}
-          <Cell surface={theme.surface} border={theme.border} delay={0.28} className="min-h-[64px] @sm:min-h-[78px]">
-            <Label className={theme.body}>Mekân</Label>
-            <span className={cn('text-[11px] @sm:text-xs font-medium leading-snug mt-1.5', theme.heading)}>
-              {invitation.venue}
-            </span>
-          </Cell>
+          {venue && (
+            <Cell
+              surface={theme.surface}
+              border={theme.border}
+              delay={0.28}
+              className={cn('min-h-[64px] @sm:min-h-[78px]', infoCellSpan)}
+            >
+              <Label className={theme.body}>Mekân</Label>
+              <span className={cn('text-[11px] @sm:text-xs font-medium leading-snug mt-1.5', theme.heading)}>
+                {venue}
+              </span>
+            </Cell>
+          )}
 
           {/* Sayaç — tam genişlik şerit. Rakamlar tabular-nums ile sabit
               genişlikte, saniye başı zıplama olmaz. */}

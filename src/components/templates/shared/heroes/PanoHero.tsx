@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -161,6 +161,7 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');
   const timeText = dateParts.slice(-1)[0];
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-4 @sm:px-8 py-12 @sm:py-16">
@@ -182,23 +183,33 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
 
         <FlapRow text={invitation.names || 'Davetlisiniz'} size="lg" flap={flap} ink={ink} max={20} />
 
-        <div className={cn('my-5 h-px', theme.divider)} />
+        {/* Girilmemiş bilgi için pano satırı açılmaz: boş kanat dizisi ya da
+            tek başına bir "·", bilgi bekleniyormuş gibi okunur. */}
+        {(dateText || venue) && (
+          <>
+            <div className={cn('my-5 h-px', theme.divider)} />
 
-        <div className="space-y-3.5">
-          <div>
-            <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em] mb-1.5 text-center', theme.body)}>
-              Tarih
-            </span>
-            <FlapRow text={`${dateText} · ${timeText}`} size="sm" flap={flap} ink={ink} delay={700} max={24} />
-          </div>
+            <div className="space-y-3.5">
+              {dateText && (
+                <div>
+                  <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em] mb-1.5 text-center', theme.body)}>
+                    Tarih
+                  </span>
+                  <FlapRow text={`${dateText} · ${timeText}`} size="sm" flap={flap} ink={ink} delay={700} max={24} />
+                </div>
+              )}
 
-          <div>
-            <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em] mb-1.5 text-center', theme.body)}>
-              Mekân
-            </span>
-            <FlapRow text={invitation.venue} size="sm" flap={flap} ink={ink} delay={1100} max={26} />
-          </div>
-        </div>
+              {venue && (
+                <div>
+                  <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em] mb-1.5 text-center', theme.body)}>
+                    Mekân
+                  </span>
+                  <FlapRow text={venue} size="sm" flap={flap} ink={ink} delay={1100} max={26} />
+                </div>
+              )}
+            </div>
+          </>
+        )}
 
         <p className={cn('text-[12px] leading-relaxed font-light text-center mt-5', theme.body)}>
           {invitation.subtitle}

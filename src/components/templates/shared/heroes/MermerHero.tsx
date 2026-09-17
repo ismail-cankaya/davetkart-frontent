@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -65,6 +65,8 @@ export function MermerHero({
 }: MermerHeroProps) {
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   // Oyma: üstte koyu (oyuğun gölgeli duvarı), altta açık (ışık alan taban).
   const carved =
@@ -171,19 +173,25 @@ export function MermerHero({
             {invitation.subtitle}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.02 }}
-            className="mt-7 flex flex-col items-center gap-1.5"
-          >
-            <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)} style={carved}>
-              {formatDateStr(invitation.date)}
-            </span>
-            <span className={cn('text-[10px] uppercase tracking-[0.26em]', theme.body)} style={carved}>
-              {invitation.venue}
-            </span>
-          </motion.div>
+          {(dateLabel || venue) && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: EASE_LUXE, delay: 1.02 }}
+              className="mt-7 flex flex-col items-center gap-1.5"
+            >
+              {dateLabel && (
+                <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)} style={carved}>
+                  {dateLabel}
+                </span>
+              )}
+              {venue && (
+                <span className={cn('text-[10px] uppercase tracking-[0.26em]', theme.body)} style={carved}>
+                  {venue}
+                </span>
+              )}
+            </motion.div>
+          )}
 
           {invitation.showTimer && valid && (
             <motion.div

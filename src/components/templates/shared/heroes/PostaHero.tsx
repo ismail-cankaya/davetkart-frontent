@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -58,6 +58,14 @@ export function PostaHero({
 
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');
+  const venue = displayText(invitation.venue);
+
+  // Adres satırları yalnızca girilmiş bilgilerden kurulur; boş bir çizgili
+  // satır, doldurulmayı bekleyen bir form alanı gibi okunurdu.
+  const addressLines = [
+    ...(venue ? [{ key: 'venue', text: venue }] : []),
+    ...(dateText ? [{ key: 'date', text: `${dateText} · ${dateParts.slice(-1)[0]}` }] : [])
+  ];
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-5 @sm:px-8 py-12 @sm:py-16">
@@ -119,14 +127,16 @@ export function PostaHero({
               {invitation.names || 'Davetlisiniz'}
             </motion.h1>
 
-            <div className={cn('mt-3 space-y-2.5')}>
-              {[invitation.venue, `${dateText} · ${dateParts.slice(-1)[0]}`].map((line, i) => (
-                <div key={i} className="relative">
-                  <span className={cn('block text-[11.5px] font-medium pb-1 leading-snug', theme.heading)}>{line}</span>
-                  <span className={cn('block h-px', theme.divider)} />
-                </div>
-              ))}
-            </div>
+            {addressLines.length > 0 && (
+              <div className={cn('mt-3 space-y-2.5')}>
+                {addressLines.map((line) => (
+                  <div key={line.key} className="relative">
+                    <span className={cn('block text-[11.5px] font-medium pb-1 leading-snug', theme.heading)}>{line.text}</span>
+                    <span className={cn('block h-px', theme.divider)} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <p className={cn('text-[11.5px] leading-relaxed font-light mt-5 max-w-[17rem]', theme.body)}>

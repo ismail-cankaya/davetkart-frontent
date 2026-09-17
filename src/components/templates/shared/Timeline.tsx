@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useSpring } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
+import { hasTimelineEventContent } from '../../../utils/timelineEvents';
+import { displayText } from '../utils';
 import { SectionTheme, EASE_LUXE } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ClockIcon } from './icons';
@@ -18,6 +20,10 @@ interface TimelineProps {
  * Program flow — Aceternity-style vertical timeline. The gradient spine is
  * drawn in sync with scrolling and each event card slides in as it enters
  * the viewport.
+ *
+ * 🔴 Yalnızca en az bir alanı dolu adımlar çizilir. Sihirbaz iki boş adımla
+ * açılır; onlar kullanıcının dolduracağı form satırlarıdır, misafire boş kart
+ * olarak gösterilmez. Hiç dolu adım yoksa bölüm başlığıyla birlikte gizlenir.
  */
 export function Timeline({ invitation, theme, flavor, scrollContainer }: TimelineProps) {
   const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -28,7 +34,14 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
   });
   const lineProgress = useSpring(scrollYProgress, { stiffness: 90, damping: 25 });
 
-  const events = invitation.timelineEvents;
+  const events = (invitation.timelineEvents ?? []).filter(hasTimelineEventContent).map((event) => ({
+    // `id` kaydedilmemiş adımlarda null'dır ve birden çok adımda çakışırdı;
+    // `localKey` her adımda benzersizdir.
+    key: event.localKey,
+    time: displayText(event.time),
+    title: displayText(event.title),
+    description: displayText(event.description)
+  }));
   if (events.length === 0) return null;
 
   return (
@@ -60,7 +73,7 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
         <div className="space-y-10">
           {events.map((event, index) => (
             <motion.article
-              key={event.id}
+              key={event.key}
               initial={{ opacity: 0, x: index % 2 === 0 ? 36 : -36, filter: 'blur(6px)' }}
               whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
               viewport={{ once: true, amount: 0.4 }}
@@ -85,13 +98,17 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
                   theme.border
                 )}
               >
-                <div className={cn('flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase', theme.accent)}>
-                  <ClockIcon size={13} />
-                  {event.time}
-                </div>
-                <h3 className={cn('font-serif text-lg font-bold mt-1.5', theme.heading)}>{event.title}</h3>
+                {event.time && (
+                  <div className={cn('flex items-center gap-1.5 text-[11px] font-semibold tracking-widest uppercase', theme.accent)}>
+                    <ClockIcon size={13} />
+                    {event.time}
+                  </div>
+                )}
+                {event.title && (
+                  <h3 className={cn('font-serif text-lg font-bold mt-1.5 first:mt-0', theme.heading)}>{event.title}</h3>
+                )}
                 {event.description && (
-                  <p className={cn('text-[13px] leading-relaxed mt-1 font-light', theme.body)}>
+                  <p className={cn('text-[13px] leading-relaxed mt-1 first:mt-0 font-light', theme.body)}>
                     {event.description}
                   </p>
                 )}

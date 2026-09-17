@@ -1,10 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { useInvitationStore } from '../../stores/useInvitationStore';
+import { useActiveCategory } from '../../stores/useCreateWizardStore';
 import { joinNames, splitNames } from '../../utils/names';
 
+/** Kategori henüz seçilmemişken kullanılan nötr etiketler. */
+const FALLBACK_LABELS: [string, string] = ['Partner 1', 'Partner 2'];
+const FALLBACK_PLACEHOLDERS: [string, string] = ['Birinci ismi giriniz', 'İkinci ismi giriniz'];
+
 interface CoupleNameFieldsProps {
-  /** Field labels, e.g. ['Gelin Adı', 'Damat Adı'] — driven by the category. */
-  labels: [string, string];
   labelClass: string;
   inputClass: string;
 }
@@ -13,10 +16,21 @@ interface CoupleNameFieldsProps {
  * Two-person name entry bound to the invitation's single `names` string.
  * Keystrokes stay local for instant feedback; the joined value is written to
  * the store behind a debounce so the live preview doesn't re-render per key.
+ *
+ * Etiketler ve placeholder'lar aktif kategoriden okunur ("Gelin Adı" /
+ * "Gelin adını giriniz"); iki ayrı ekran (sihirbaz formu ve tasarım
+ * stüdyosu) aynı metinleri prop zinciriyle taşımak zorunda kalmaz.
+ *
+ * 🔴 Alanlar boş başlar: yönlendirme placeholder'dadır, state'te değil.
  */
-export function CoupleNameFields({ labels, labelClass, inputClass }: CoupleNameFieldsProps) {
+export function CoupleNameFields({ labelClass, inputClass }: CoupleNameFieldsProps) {
   const names = useInvitationStore(s => s.invitation.names);
   const updateField = useInvitationStore(s => s.updateField);
+  const category = useActiveCategory();
+  const fieldId = useId();
+
+  const labels = category?.nameLabels ?? FALLBACK_LABELS;
+  const placeholders = category?.namePlaceholders ?? FALLBACK_PLACEHOLDERS;
 
   const [pair, setPair] = useState<[string, string]>(() => splitNames(names));
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -51,12 +65,15 @@ export function CoupleNameFields({ labels, labelClass, inputClass }: CoupleNameF
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {([0, 1] as const).map((index) => (
         <div key={index} className="space-y-2">
-          <label className={labelClass}>{labels[index]}</label>
+          <label htmlFor={`${fieldId}-${index}`} className={labelClass}>
+            {labels[index]}
+          </label>
           <input
+            id={`${fieldId}-${index}`}
             type="text"
             value={pair[index]}
             onChange={handleChange(index)}
-            placeholder={index === 0 ? 'Örn. Sophia' : 'Örn. Elias'}
+            placeholder={placeholders[index]}
             className={inputClass}
           />
         </div>

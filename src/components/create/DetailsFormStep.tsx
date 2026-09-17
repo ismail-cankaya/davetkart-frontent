@@ -1,15 +1,17 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { WandSparkles } from 'lucide-react';
 import { Invitation } from '../../types';
 import { DEFAULT_INVITE_MESSAGES } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
-import { useActiveCategory, useCreateWizardStore } from '../../stores/useCreateWizardStore';
+import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
 import { CoupleNameFields } from './CoupleNameFields';
 import { ToggleRow } from './ToggleRow';
 import { TimelineEditor } from './TimelineEditor';
 import { GalleryUploader } from './GalleryUploader';
+import { LocationSearchField } from './location/LocationSearchField';
 import { Switch } from '../ui/Switch';
+import { DateTimeInput } from '../ui/DateTimeInput';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { cn } from '../../utils/cn';
 import { formatTimeZoneLabel, timeZoneOptions } from '../../utils/timeZones';
@@ -21,10 +23,37 @@ const inputClass =
   'w-full bg-white/5 border border-white/15 focus:border-gold focus:ring-2 focus:ring-gold/20 focus:outline-none rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 transition-all duration-300';
 
 /** Invitation fields edited through the debounced text pipeline. */
-type TextField = 'subtitle' | 'date' | 'venue' | 'mapUrl' | 'bankName' | 'accountHolder' | 'iban' | 'rsvpDeadline';
+type TextField = 'subtitle' | 'date' | 'venue' | 'bankName' | 'accountHolder' | 'iban' | 'rsvpDeadline';
 
 /** Module visibility flags surfaced as Grup C toggles. */
 type FlagField = 'showEnvelope' | 'showTimer' | 'showTimeline' | 'showGallery' | 'showGift' | 'showRSVP' | 'askMenuPreference';
+
+/**
+ * Bu formun yerel kopyada tuttuğu ve store'a GERİ YAZDIĞI alanlar.
+ *
+ * 🔴 İsimler, saat dilimi, program akışı ve galeri store'a kendi
+ * bileşenlerinden doğrudan yazılır; yerel kopyadaki halleri o sırada eskimiş
+ * olabilir. Tüm anahtarları karşılaştırıp yazmak, onların yeni değerini
+ * eskisiyle ezerdi (ör. isim yazılıp hemen bir anahtar açılınca isim geri
+ * dönerdi).
+ */
+const FORM_FIELDS: ReadonlyArray<TextField | FlagField | 'mapUrl'> = [
+  'subtitle',
+  'date',
+  'venue',
+  'mapUrl',
+  'bankName',
+  'accountHolder',
+  'iban',
+  'rsvpDeadline',
+  'showEnvelope',
+  'showTimer',
+  'showTimeline',
+  'showGallery',
+  'showGift',
+  'showRSVP',
+  'askMenuPreference'
+];
 
 /** Section header shared by the three wizard groups. */
 function GroupHeading({ step, title, hint }: { step: string; title: string; hint: string }) {
@@ -53,56 +82,77 @@ export function DetailsFormStep() {
   // Liste çalışma zamanında okunuyor ve ~400 kayıt; her render'da yeniden
   // kurulmasın.
   const timeZones = useMemo(() => timeZoneOptions(), []);
+  const fieldId = useId();
   const startGeneration = useCreateWizardStore(s => s.startGeneration);
-  const category = useActiveCategory();
 
   // Local mirror keeps typing instant; the store is updated behind a debounce.
-  const [local, setLocal] = useState<Invitation>(invitation);
+  // The ref always holds the latest mirror so timers never read a stale copy.
+  const [local, setLocalState] = useState<Invitation>(invitation);
+  const localRef = useRef<Invitation>(invitation);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+
+  const setLocal = (next: Invitation) => {
+    localRef.current = next;
+    setLocalState(next);
+  };
 
   useEffect(() => {
     // Skip the sync while an edit is pending here — it will commit shortly and
     // trigger this effect again with our own values.
-    if (!debounceRef.current) setLocal(invitation);
+    if (!debounceRef.current) {
+      localRef.current = invitation;
+      setLocalState(invitation);
+    }
   }, [invitation]);
 
-  useEffect(() => () => {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-  }, []);
-
-  /** Commit every locally-diverged text field to the store immediately. */
-  const flushLocal = (snapshot: Invitation = local) => {
+  /**
+   * Commit every locally-diverged form field to the store immediately.
+   *
+   * Karşılaştırma store'un GÜNCEL haliyle yapılır, render anındaki kopyayla
+   * değil; yalnızca bu formun alanları yazılır (bkz. `FORM_FIELDS`).
+   */
+  const flushLocal = (snapshot: Invitation = localRef.current) => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
       debounceRef.current = undefined;
     }
-    (Object.keys(snapshot) as Array<keyof Invitation>).forEach((key) => {
-      if (snapshot[key] !== invitation[key]) updateField(key, snapshot[key]);
+    const stored = useInvitationStore.getState().invitation;
+    FORM_FIELDS.forEach((key) => {
+      if (snapshot[key] !== stored[key]) updateField(key, snapshot[key]);
     });
   };
 
+  // A pending edit must survive unmount (e.g. leaving the page while the
+  // debounce is still open) — flush it instead of dropping it. `flushLocal`
+  // reads only refs and the store, so the first render's closure is current.
+  useEffect(() => () => {
+    if (debounceRef.current) flushLocal();
+  }, []);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const name = e.target.name as TextField;
-    const { value } = e.target;
-    setLocal(prev => ({ ...prev, [name]: value }));
+    setLocal({ ...localRef.current, [name]: e.target.value });
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      debounceRef.current = undefined;
-      updateField(name, value);
-    }, 400);
+    // 🔴 Zamanlayıcı yalnızca son yazılan alanı değil, bekleyen TÜM alanları
+    // yazar: iki alan 400 ms içinde art arda düzenlendiğinde ilkinin son
+    // harfleri kaybolmasın.
+    debounceRef.current = setTimeout(() => flushLocal(), 400);
   };
 
-  /** Toggles bypass the debounce — but flush pending text first so nothing is lost. */
-  const setFlag = (name: FlagField, value: boolean) => {
-    const snapshot = { ...local, [name]: value };
+  /** Instant commits (toggles, map location) — flush pending text first so nothing is lost. */
+  const commitNow = (patch: Partial<Invitation>) => {
+    const snapshot = { ...localRef.current, ...patch };
     setLocal(snapshot);
     flushLocal(snapshot);
   };
 
-  const applySuggestedMessage = (message: string) => {
-    setLocal(prev => ({ ...prev, subtitle: message }));
-    updateField('subtitle', message);
+  const setFlag = (name: FlagField, value: boolean) => {
+    const patch: Partial<Invitation> = {};
+    patch[name] = value;
+    commitNow(patch);
   };
+
+  const applySuggestedMessage = (message: string) => commitNow({ subtitle: message });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,11 +202,7 @@ export function DetailsFormStep() {
               hint="Etkinlik sahipleri, davet mesajınız ve büyük günün tarihi."
             />
 
-            <CoupleNameFields
-              labels={category?.nameLabels ?? ['Partner 1', 'Partner 2']}
-              labelClass={labelClass}
-              inputClass={inputClass}
-            />
+            <CoupleNameFields labelClass={labelClass} inputClass={inputClass} />
 
             <div className="space-y-2">
               <label className={labelClass}>Davet Mesajı</label>
@@ -188,12 +234,15 @@ export function DetailsFormStep() {
             </div>
 
             <div className="space-y-2">
-              <label className={labelClass}>Etkinlik Tarihi &amp; Saati</label>
-              <input
-                type="datetime-local"
+              <label htmlFor={`${fieldId}-date`} className={labelClass}>Etkinlik Tarihi &amp; Saati</label>
+              {/* Boş başlar: kullanıcı seçmeden state'te tarih yoktur ve
+                  önizleme tarih göstermez. */}
+              <DateTimeInput
+                id={`${fieldId}-date`}
                 name="date"
                 value={local.date}
                 onChange={handleChange}
+                placeholder="Davet tarihini seçiniz"
                 className={cn(inputClass, '[color-scheme:dark]')}
               />
             </div>
@@ -231,30 +280,30 @@ export function DetailsFormStep() {
               hint="Misafirleriniz tek dokunuşla yol tarifi alabilsin."
             />
 
+            {/* 🔴 İki alan da boş başlar; "Çırağan Sarayı, İstanbul" yalnızca
+                silik placeholder'dır, state'e yazılmaz. */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label className={labelClass}>Mekan Adı</label>
+                <label htmlFor={`${fieldId}-venue`} className={labelClass}>Davet Konumu</label>
                 <input
+                  id={`${fieldId}-venue`}
                   type="text"
                   name="venue"
                   value={local.venue}
                   onChange={handleChange}
-                  placeholder="Örn. Çırağan Sarayı, İstanbul"
+                  placeholder="Çırağan Sarayı, İstanbul"
                   className={inputClass}
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className={labelClass}>Google Harita Konum Linki</label>
-                <input
-                  type="url"
-                  name="mapUrl"
-                  value={local.mapUrl}
-                  onChange={handleChange}
-                  placeholder="https://maps.app.goo.gl/..."
-                  className={inputClass}
-                />
-              </div>
+              <LocationSearchField
+                label="Ulaşım Bilgileri"
+                placeholder="Çırağan Sarayı, İstanbul"
+                value={local.mapUrl}
+                onChange={(mapUrl) => commitNow({ mapUrl })}
+                labelClass={labelClass}
+                inputClass={inputClass}
+              />
             </div>
           </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Laptop, LucideIcon, Maximize2, Smartphone, Tablet } from 'lucide-react';
 import { RsvpModal } from './RsvpModal';
@@ -7,6 +7,7 @@ import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useUIStore } from '../../stores/useUIStore';
 import { useRsvpStore } from '../../stores/useRsvpStore';
 import { PreviewDevice } from '../../types';
+import { withShowcaseContent } from '../../utils/showcase';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -72,14 +73,24 @@ const RISE_SHOWN = { opacity: 1, transform: 'translateY(0px)' };
 
 interface DeviceSimulatorProps {
   simulatorRef: React.RefObject<HTMLDivElement>;
+  /**
+   * Ana sayfa tanıtımı. Yeni davetiye boş doğduğu için, taslak henüz içerik
+   * taşımıyorsa önizlemeye örnek içerik bindirilir (store'a yazılmaz).
+   * Tasarım stüdyosu bunu geçmez: orada yalnızca kullanıcının girdiği görünür.
+   */
+  showcase?: boolean;
 }
 
 /**
  * Multi-device preview simulator — renders the live invitation inside a
  * phone, tablet or laptop mockup and animates the frame between them.
  */
-export function DeviceSimulator({ simulatorRef }: DeviceSimulatorProps) {
-  const invitation = useInvitationStore(s => s.invitation);
+export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimulatorProps) {
+  const storedInvitation = useInvitationStore(s => s.invitation);
+  const invitation = useMemo(
+    () => (showcase ? withShowcaseContent(storedInvitation) : storedInvitation),
+    [showcase, storedInvitation]
+  );
   const activePresetId = useInvitationStore(s => s.activePresetId);
   const isMobile = useUIStore(s => s.isMobile);
   const isRsvpModalOpen = useUIStore(s => s.isRsvpModalOpen);

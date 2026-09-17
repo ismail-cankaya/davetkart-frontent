@@ -145,3 +145,56 @@ dokunmuyor.
 ## 8. Sırada ne var?
 
 **F8 — `src/data.ts`.** Varsayılan programın `tl-1`…`tl-4` kimlikleri.
+
+---
+
+## 9. Güncelleme — boş adımlar ve güvenilir anahtar
+
+> **İlgili dosya:** `src/utils/timelineEvents.ts`
+> **Denetim:** `npm run verify:content`
+
+### Yeni adım artık boş doğuyor
+
+§1'deki `time: '20:00'` kaldırıldı. Yeni adım `createTimelineEvent()` ile
+üretilir ve **tüm alanları boştur**; sihirbazın başlangıçtaki iki adımıyla aynı
+biçimdedir. Örnek saat, kullanıcı fark etmeden misafire giden gerçek bir saate
+dönüşüyordu. Placeholder'lar da örnek etkinlik yerine talimat taşır: "Adım
+başlığını giriniz", "Kısa açıklama giriniz (opsiyonel)".
+
+### 🔴 `tl-${Date.now()}-${events.length}` neden yetmedi?
+
+§2'nin gerekçesi *"aynı milisaniyede eklenen ikinci adımda liste uzunluğu bir
+artmıştır"* idi. Silme bu varsayımı bozar:
+
+```
+[a, b]           → ekle          → [a, b, tl-T-2]
+[a, b, tl-T-2]   → a'yı sil      → [b, tl-T-2]      (uzunluk yine 2)
+[b, tl-T-2]      → aynı ms'de ekle → tl-T-2         ❌ çakışma
+```
+
+Yeni anahtar modül içinde **tekdüze artan bir sayaçla** üretilir
+(`tl-<zaman36>-<sayaç36>`): aynı oturumda iki kez aynı değeri veremez. Zaman
+damgası yalnızca Vite HMR modülü yeniden yüklediğinde sıfırlanan sayaca karşı
+sigortadır.
+
+### İşleyiciler store'dan taze okur
+
+`patchEvent`, `addEvent` ve `removeEvent` render anındaki `events` kopyasıyla
+değil `useInvitationStore.getState()` ile çalışır. Kaydetme yanıtı araya girip
+adımlara sunucu kimliği yazmışsa eski kopyayla yazmak o kimlikleri `null`'a
+geri çevirir; bir sonraki kaydetme satırları silip yeniden oluştururdu.
+
+### Tüm adımlar silinirse
+
+| Katman | Davranış |
+|---|---|
+| Editör | "Program akışında henüz adım yok…" notu + ekleme düğmesi |
+| Önizleme | Program bölümü başlığıyla birlikte gizlenir |
+| Kaydetme | `timelineEvents: []` gider; backend bunu "hepsini sil" olarak uygular (`null` "dokunma" demektir) |
+
+### Önizleme
+
+`shared/Timeline.tsx` artık `key={event.localKey}` kullanıyor. Eskiden
+`event.id` idi — §4'te editör için anlatılan iki sorun önizlemede de
+vardı. Yalnızca `hasTimelineEventContent` olan adımlar çizilir; saat, başlık ve
+açıklama satırları da ayrı ayrı, yalnızca doluysa basılır.

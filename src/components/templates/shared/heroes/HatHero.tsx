@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -32,6 +32,8 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
   const reduced = useReducedMotion();
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   // Hareketi azaltma tercihinde çizim atlanır ve kartuş TAM çizilmiş
   // başlar: animasyonu silmek kompozisyonu eksik bırakmamalı.
@@ -140,19 +142,17 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
             {invitation.subtitle}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: textDelay + 0.62 }}
-            className="mt-8 flex flex-col items-center gap-2"
-          >
-            <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>
-              {formatDateStr(invitation.date)}
-            </span>
-            <span className={cn('text-[9.5px] uppercase tracking-[0.3em]', theme.body)}>
-              {invitation.venue}
-            </span>
-          </motion.div>
+          {(dateLabel || venue) && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: EASE_LUXE, delay: textDelay + 0.62 }}
+              className="mt-8 flex flex-col items-center gap-2"
+            >
+              {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
+              {venue && <span className={cn('text-[9.5px] uppercase tracking-[0.3em]', theme.body)}>{venue}</span>}
+            </motion.div>
+          )}
 
           {invitation.showTimer && valid && (
             <motion.div

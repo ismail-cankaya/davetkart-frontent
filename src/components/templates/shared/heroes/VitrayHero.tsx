@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -208,6 +208,8 @@ export function VitrayHero({
   const dark = theme.id === 'midnight';
   const leadColor = lead ?? (dark ? '#0a0810' : '#4a4038');
   const glowColor = glow ?? glass[1];
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-5 @sm:px-8 py-12 @sm:py-16">
@@ -309,19 +311,17 @@ export function VitrayHero({
             {invitation.subtitle}
           </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.02 }}
-            className="mt-6 flex flex-col items-center gap-1.5"
-          >
-            <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>
-              {formatDateStr(invitation.date)}
-            </span>
-            <span className={cn('text-[10px] uppercase tracking-[0.24em]', theme.body)}>
-              {invitation.venue}
-            </span>
-          </motion.div>
+          {(dateLabel || venue) && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: EASE_LUXE, delay: 1.02 }}
+              className="mt-6 flex flex-col items-center gap-1.5"
+            >
+              {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
+              {venue && <span className={cn('text-[10px] uppercase tracking-[0.24em]', theme.body)}>{venue}</span>}
+            </motion.div>
+          )}
 
           {/* Sayaç pencerenin "denizliği": kemerin dibinde yatay bir şerit.
               Rakamlar tabular-nums ile sabit genişlikte, dakika değişince

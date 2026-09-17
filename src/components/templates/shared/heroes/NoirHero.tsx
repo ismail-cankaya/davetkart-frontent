@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -21,6 +21,35 @@ import { useCountdown } from '../useCountdown';
 export function NoirHero({ invitation, theme }: HeroRenderProps) {
   const { valid, days } = useCountdown(invitation.date, invitation.timezone);
   const words = (invitation.names || 'Davetlisiniz').split(' ');
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
+
+  // Şeridin öğeleri yalnızca girilmiş bilgilerden kurulur; ayırıcılar
+  // öğelerin ARASINA konur ki boş bir bilginin yerinde yalnız bir kural kalmasın.
+  const infoItems: Array<{ key: string; node: React.ReactNode }> = [];
+  if (dateLabel) {
+    infoItems.push({
+      key: 'date',
+      node: (
+        <span className={cn('font-serif italic normal-case tracking-normal text-base @sm:text-lg', theme.heading)}>
+          {dateLabel}
+        </span>
+      )
+    });
+  }
+  if (venue) {
+    infoItems.push({ key: 'venue', node: <span>{venue}</span> });
+  }
+  if (invitation.showTimer && valid) {
+    infoItems.push({
+      key: 'countdown',
+      node: (
+        <span className={theme.accent}>
+          <span className="tabular-nums">{days}</span> gün kaldı
+        </span>
+      )
+    });
+  }
 
   return (
     <section
@@ -77,36 +106,31 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
 
         {/* Alt bilgi şeridi: tarih · mekân · kalan gün, hepsi aynı ağırlıkta.
             Hiçbiri diğerinden önemli değil, hepsi başlıktan sonra gelir. */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1.1, ease: EASE_LUXE, delay: 1.15 }}
-          className="mt-10 @sm:mt-14"
-        >
-          <span className={cn('block h-px w-full mb-5', theme.divider)} />
-
-          <div
-            className={cn(
-              'flex flex-wrap items-center justify-center gap-x-5 @sm:gap-x-8 gap-y-2',
-              'text-[10px] @sm:text-[11px] uppercase tracking-[0.22em]',
-              theme.body
-            )}
+        {infoItems.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.1, ease: EASE_LUXE, delay: 1.15 }}
+            className="mt-10 @sm:mt-14"
           >
-            <span className={cn('font-serif italic normal-case tracking-normal text-base @sm:text-lg', theme.heading)}>
-              {formatDateStr(invitation.date)}
-            </span>
-            <span className={cn('h-3 w-px', theme.divider)} />
-            <span>{invitation.venue}</span>
-            {invitation.showTimer && valid && (
-              <>
-                <span className={cn('h-3 w-px', theme.divider)} />
-                <span className={theme.accent}>
-                  <span className="tabular-nums">{days}</span> gün kaldı
-                </span>
-              </>
-            )}
-          </div>
-        </motion.div>
+            <span className={cn('block h-px w-full mb-5', theme.divider)} />
+
+            <div
+              className={cn(
+                'flex flex-wrap items-center justify-center gap-x-5 @sm:gap-x-8 gap-y-2',
+                'text-[10px] @sm:text-[11px] uppercase tracking-[0.22em]',
+                theme.body
+              )}
+            >
+              {infoItems.map((item, i) => (
+                <React.Fragment key={item.key}>
+                  {i > 0 && <span className={cn('h-3 w-px', theme.divider)} />}
+                  {item.node}
+                </React.Fragment>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </div>
     </section>
   );

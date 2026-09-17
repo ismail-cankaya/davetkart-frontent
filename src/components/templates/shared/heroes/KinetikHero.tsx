@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { formatDateStr } from '../../utils';
+import { displayText, formatDateStr } from '../../utils';
 import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
@@ -102,9 +102,13 @@ export function KinetikHero({ invitation, theme, flavor, topWord }: KinetikHeroP
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
   const names = invitation.names || 'Davetlisiniz';
+  const dateLabel = formatDateStr(invitation.date);
+  const venue = displayText(invitation.venue);
 
   const top = (topWord || invitation.title || 'Davetlisiniz').toLocaleUpperCase('tr-TR');
-  const bottom = (invitation.venue || formatDateStr(invitation.date)).toLocaleUpperCase('tr-TR');
+  // Alt şerit mekânı ya da tarihi akıtır; ikisi de girilmemişse boş şerit
+  // yerine kategorinin adına düşer (uydurma bir mekân/tarih basılmaz).
+  const bottom = (venue || dateLabel || flavor.envelopeLabel).toLocaleUpperCase('tr-TR');
 
   return (
     <section className="relative flex-1 flex flex-col justify-center gap-7 @sm:gap-10 py-12 @sm:py-16 overflow-hidden">
@@ -157,19 +161,19 @@ export function KinetikHero({ invitation, theme, flavor, topWord }: KinetikHeroP
           {invitation.subtitle}
         </motion.p>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.72 }}
-          className="mt-6 flex flex-col items-center gap-2"
-        >
-          <span className={cn('font-serif italic text-lg @sm:text-2xl', theme.heading)}>
-            {formatDateStr(invitation.date)}
-          </span>
-          <span className={cn('text-[10px] font-semibold uppercase tracking-[0.28em]', theme.accent)}>
-            {invitation.venue}
-          </span>
-        </motion.div>
+        {(dateLabel || venue) && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.72 }}
+            className="mt-6 flex flex-col items-center gap-2"
+          >
+            {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-2xl', theme.heading)}>{dateLabel}</span>}
+            {venue && (
+              <span className={cn('text-[10px] font-semibold uppercase tracking-[0.28em]', theme.accent)}>{venue}</span>
+            )}
+          </motion.div>
+        )}
 
         {invitation.showTimer && valid && (
           <motion.div
