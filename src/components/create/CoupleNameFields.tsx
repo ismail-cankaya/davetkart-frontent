@@ -49,6 +49,19 @@ export function CoupleNameFields({ labelClass, inputClass }: CoupleNameFieldsPro
     flushRef.current?.();
   }, []);
 
+  // …ama belge değiştiyse (sıfırlama, başka kayıt yükleme) bekleyen yazım eski
+  // belgeye aittir: atılır, yoksa sıfırlanan davetiyeye eski isimler geri yazılır.
+  const documentVersion = useInvitationStore(s => s.documentVersion);
+  const versionRef = useRef(documentVersion);
+  useEffect(() => {
+    if (versionRef.current === documentVersion) return;
+    versionRef.current = documentVersion;
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = undefined;
+    flushRef.current = null;
+    setPair(splitNames(useInvitationStore.getState().invitation.names));
+  }, [documentVersion]);
+
   const handleChange = (index: 0 | 1) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const next: [string, string] = index === 0 ? [e.target.value, pair[1]] : [pair[0], e.target.value];
     setPair(next);

@@ -279,3 +279,37 @@ göremediği dört hata bu dosyada bulundu. Hepsi **sıralama** hatasıdır. Art
 > saniyenin altında başka bir kart açılırsa, önceki belgenin son birkaç
 > düzenlemesi kaydedilmeyebilir. Alternatif — o kaydetmeyi yeni belgenin
 > kimliğiyle çalıştırmak — bir belgenin içeriğini ötekinin üzerine yazmaktır.
+
+---
+
+## Ek — `documentVersion` ve `applyGallery`
+
+### `documentVersion`
+
+`documentGeneration` modül içinde kalır ve kaydetme kuyruğunu korur.
+`documentVersion` ise aynı sayacın **bileşenlerin izleyebildiği** kopyasıdır.
+`loadRecord` ve `resetInvitation` ikisini birlikte artırır.
+
+Formlar (`useInvitationDraft`, `CoupleNameFields`) sürüm değişince bekleyen
+gecikmeli yazımlarını **atar**. Yoksa "Bütün Alanları Sıfırla"dan hemen önce
+yazılan metin 400 ms sonra sıfırlanmış davetiyeye geri yazılırdı.
+
+> 🔴 Düzenleme, kaydetme yanıtı ve galeri güncellemesi sürümü **artırmaz**.
+> Artırsaydı kullanıcının o anda yazdığı metin her otomatik kayıtta silinirdi.
+> `verify:state` → "Belge sürümü (bekleyen form yazımları)".
+
+Ayrıntı: `docs/rehber/src/hooks/useInvitationDraft.md`.
+
+### `applyGallery(recordId, update)`
+
+Galeri artık sunucuya aittir (`docs/rehber/src/services/media.md`). Yükleme ve
+silme yanıtları yerel listeyi bu eylemle günceller:
+
+```ts
+applyGallery(invitationId, (images) => [...images, { id: media.id, url: media.url }]);
+```
+
+Yanıt gelene kadar başka bir kayıt açıldıysa (`recordId` farklıysa) güncelleme
+**atlanır**. Böylece bir davetiyenin fotoğrafı ötekinin galerisinde görünmez.
+`editRevision`'ı artırmaz: galeri kaydetme gövdesinde yoktur, otomatik kaydetme
+tetiklemek için bir sebep yoktur.

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import {
+  GalleryImage,
   Invitation,
   InvitationRecord,
   InvitationSaveState,
@@ -51,10 +52,32 @@ interface InvitationState {
    * açık kaldıkça sonsuz bir PUT döngüsü dönerdi.
    */
   editRevision: number;
+  /**
+   * Editördeki BELGENİN sürümü — yalnızca `loadRecord` ve `resetInvitation`
+   * artırır (modül içindeki `documentGeneration` ile birlikte).
+   *
+   * Gecikmeli yazan formlar (`useInvitationDraft`, `CoupleNameFields`) bunu
+   * izler: belge değiştiyse bekleyen yazım ESKİ belgeye aittir ve atılır.
+   * Atılmasaydı "Bütün Alanları Sıfırla"dan hemen önce yazılan metin, 400 ms
+   * sonra sıfırlanmış davetiyeye geri yazılırdı.
+   */
+  documentVersion: number;
   /** Update a single invitation field (form inputs). */
   updateField: <K extends keyof Invitation>(name: K, value: Invitation[K]) => void;
   /** Switch the visual template; keeps the invitation's theme fields in sync. */
   selectTemplate: (presetId: string) => void;
+  /**
+   * Sunucunun onayladığı galeri değişikliğini editöre yazar — kaydetme
+   * TETİKLEMEZ.
+   *
+   * Galerinin üyeliği yükleme ve silme uçlarında zaten yazıldı; bunu bir
+   * kullanıcı düzenlemesi sayıp `editRevision`'ı artırmak, galeri bile
+   * taşımayan gereksiz bir PUT başlatırdı.
+   *
+   * 🔴 `recordId` eşleşmiyorsa yok sayılır: yükleme uçarken kullanıcı başka bir
+   * davetiyeyi açtıysa fotoğraf o davetiyenin galerisine yazılmamalı.
+   */
+  applyGallery: (recordId: string, update: (images: GalleryImage[]) => GalleryImage[]) => void;
   /** Dashboard "düzenlemeye devam et" — kaydı KİMLİĞİYLE birlikte yükler. */
   loadRecord: (record: InvitationRecord) => void;
   /** Restore the invitation and template to their factory defaults. */
@@ -193,6 +216,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
     recordId: null,
     saveState: 'idle',
     editRevision: 0,
+    documentVersion: 0,
 
     updateField: (name, value) =>
       set((state) => ({
@@ -212,6 +236,13 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
         }
       })),
 
+    applyGallery: (recordId, update) =>
+      set((state) =>
+        state.recordId !== recordId
+          ? state
+          : { invitation: { ...state.invitation, galleryImages: update(state.invitation.galleryImages) } }
+      ),
+
     // Merge over the factory defaults so records created before newer modular
     // fields existed (showGift, timelineEvents…) load with sane values.
     loadRecord: (record) => {
@@ -221,7 +252,8 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
         recordId: record.id,
         invitation: { ...INITIAL_INVITATION, ...record.invitation },
         activePresetId: record.invitation.imageTheme || INITIAL_INVITATION.imageTheme,
-        saveState: 'idle'
+        saveState: 'idle',
+        documentVersion: documentGeneration
       });
     },
 
@@ -234,7 +266,8 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
         recordId: null,
         invitation: INITIAL_INVITATION,
         activePresetId: INITIAL_INVITATION.imageTheme,
-        saveState: 'idle'
+        saveState: 'idle',
+        documentVersion: documentGeneration
       });
     },
 

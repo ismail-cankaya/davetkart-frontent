@@ -13,7 +13,8 @@
 import { api } from '../src/services/api';
 import { useAuthStore } from '../src/stores/useAuthStore';
 import { useInvitationStore } from '../src/stores/useInvitationStore';
-import { EVENT_CATEGORIES, INITIAL_INVITATION, SHOWCASE_CONTENT } from '../src/data';
+import { EVENT_CATEGORIES, INITIAL_INVITATION, SHOWCASE_CONTENT, upcomingShowcaseDate } from '../src/data';
+import { displayNames, joinNames, splitNames } from '../src/utils/names';
 import { displayText, formatDateStr } from '../src/components/templates/utils';
 import { wallClockToInstant } from '../src/utils/eventTime';
 import { createTimelineEvent, hasTimelineEventContent } from '../src/utils/timelineEvents';
@@ -280,6 +281,45 @@ function homepageShowcase(): void {
     timelineEvents: [{ id: null, localKey: 'k', time: '', title: 'Kına', description: '' }]
   };
   check(withShowcaseContent(stepOnly) === stepOnly, 'yalnızca bir program adımı dolu taslak da olduğu gibi gösteriliyor', 'örnek içerik bindirildi');
+
+  // Sabit bir tanıtım tarihi bir gün geçmişte kalır; geri sayım sıfırda donar.
+  const showcaseAt = wallClockToInstant(SHOWCASE_CONTENT.date, 'Europe/Istanbul');
+  const monthAhead = Date.now() + 30 * 24 * 60 * 60 * 1000;
+  check(
+    showcaseAt !== null && showcaseAt > monthAhead,
+    'tanıtım tarihi geçmişte kalmıyor (en az bir ay sonrası)',
+    SHOWCASE_CONTENT.date
+  );
+  check(
+    upcomingShowcaseDate(new Date(2026, 10, 20, 23, 59)) === '2027-03-20T19:00',
+    'tanıtım tarihi ay ve yıl geçişinde doğru biçimde kuruluyor',
+    upcomingShowcaseDate(new Date(2026, 10, 20, 23, 59))
+  );
+}
+
+function coupleNames(): void {
+  console.log('\nİsim alanları');
+
+  // Tek isim girildiğinde hangi alana ait olduğu kaybolmamalı.
+  const secondOnly = joinNames('', 'Ali');
+  check(
+    splitNames(secondOnly)[0] === '' && splitNames(secondOnly)[1] === 'Ali',
+    'yalnızca ikinci isim girilince isim kendi alanında kalıyor',
+    JSON.stringify(splitNames(secondOnly))
+  );
+  check(joinNames('Ayşe', '') === 'Ayşe' && splitNames('Ayşe')[0] === 'Ayşe', 'yalnızca birinci isim düz metin olarak saklanıyor', joinNames('Ayşe', ''));
+  check(joinNames('', '') === '' && joinNames('  ', ' ') === '', 'iki alan da boşken isim boş kalıyor', JSON.stringify(joinNames('  ', ' ')));
+  check(
+    joinNames(' Ayşe ', ' Ali ') === 'Ayşe & Ali' && splitNames('Ayşe & Ali').join('|') === 'Ayşe|Ali',
+    'iki isim birleşip aynı biçimde ayrılıyor',
+    joinNames(' Ayşe ', ' Ali ')
+  );
+
+  // Saklama işareti ekrana basılmaz.
+  check(displayNames(secondOnly) === 'Ali', 'önizleme ayracı göstermiyor (& Ali → Ali)', displayNames(secondOnly));
+  check(displayNames('Ayşe &') === 'Ayşe', 'sondaki ayraç da gösterilmiyor', displayNames('Ayşe &'));
+  check(displayNames('Ayşe & Ali') === 'Ayşe & Ali', 'iki isimli metin olduğu gibi gösteriliyor', displayNames('Ayşe & Ali'));
+  check(displayNames('&') === '' && displayNames('') === '', 'yalnızca ayraç kalan isim boş sayılıyor', JSON.stringify(displayNames('&')));
 }
 
 async function main(): Promise<void> {
@@ -289,6 +329,7 @@ async function main(): Promise<void> {
   emptyDatesAndVenues();
   mapLocations();
   homepageShowcase();
+  coupleNames();
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);

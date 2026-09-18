@@ -25,6 +25,7 @@ import { startNewInvitation } from '../stores/sessionActions';
 import { useRsvpStore } from '../stores/useRsvpStore';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { fullName } from '../utils/user';
+import { displayNames } from '../utils/names';
 import { toDisplayError } from '../utils/toDisplayError';
 import { EVENT_CATEGORIES, TEMPLATE_PRESETS } from '../data';
 import { Invitation, InvitationRecord } from '../types';
@@ -90,6 +91,7 @@ interface InvitationCardProps {
  */
 function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCardProps) {
   const inv = card.invitation;
+  const names = displayNames(inv.names);
   const preset = TEMPLATE_PRESETS.find((p) => p.id === inv.imageTheme);
   const meta = KIND_META[card.kind];
   const bannerBg = preset?.backgroundStyle ?? 'bg-slate-900';
@@ -112,14 +114,14 @@ function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCard
         </div>
 
         <p className={`relative font-serif text-xl font-bold italic truncate ${bannerText}`}>
-          {inv.names || 'İsimsiz Davetiye'}
+          {names || 'İsimsiz Davetiye'}
         </p>
       </div>
 
       {/* Details */}
       <div className="flex-1 flex flex-col p-5">
         <h3 className="font-serif text-base font-bold text-ink truncate">
-          {inv.names ? `${inv.names} · ${categoryLabel(inv.categoryId)}` : categoryLabel(inv.categoryId)}
+          {names ? `${names} · ${categoryLabel(inv.categoryId)}` : categoryLabel(inv.categoryId)}
         </h3>
 
         <div className="space-y-2 mt-3 mb-5">
@@ -247,7 +249,7 @@ export default function DashboardPage() {
    * burası kesin tarihe geçer.
    */
   const handleDelete = async (card: DashboardCard) => {
-    const ad = card.invitation.names || 'Bu davetiye';
+    const ad = displayNames(card.invitation.names) || 'Bu davetiye';
     const isPublished = card.kind === 'published';
 
     const approved = await confirmAction({
@@ -513,7 +515,7 @@ export default function DashboardPage() {
                         : 'bg-white/60 text-muted border-ink/10 hover:border-brand/40 hover:text-brand'
                     }`}
                   >
-                    {record.invitation.names || 'İsimsiz davetiye'}
+                    {displayNames(record.invitation.names) || 'İsimsiz davetiye'}
                   </button>
                 );
               })}
@@ -521,7 +523,7 @@ export default function DashboardPage() {
           ) : published.length === 1 ? (
             <p className="text-xs text-muted">
               <span className="font-semibold text-ink">
-                {published[0].invitation.names || 'İsimsiz davetiye'}
+                {displayNames(published[0].invitation.names) || 'İsimsiz davetiye'}
               </span>{' '}
               davetiyesine gelen yanıtlar
             </p>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   DugunSade, DugunManzara, DugunSekilli, DugunModern,
   Dugun1, Dugun2, Dugun3, Dugun4, Dugun5,
@@ -77,6 +77,7 @@ import {
   KurumsalBrutal, KurumsalTerrazzo, KurumsalBlueprint, KurumsalHerbaryum
 } from './kurumsal';
 import { Invitation } from '../../types';
+import { displayNames } from '../../utils/names';
 import { TemplateProps } from './types';
 
 interface TemplateRendererProps {
@@ -369,7 +370,16 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'kurumsal-herbaryum': KurumsalHerbaryum,
 };
 
-export function TemplateRenderer({ templateId, invitation, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {
+export function TemplateRenderer({ templateId, invitation: stored, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {
+  // Şablonların tek giriş kapısı: saklama biçimindeki isim ayracı (`& Ali`,
+  // bkz. utils/names) burada temizlenir; 180+ şablonun her biri ayrıca bilmez.
+  // Değişiklik yoksa aynı nesne geçer — şablonların memo'su bozulmaz.
+  const names = displayNames(stored.names);
+  const invitation = useMemo(
+    () => (names === stored.names ? stored : { ...stored, names }),
+    [stored, names]
+  );
+
   // Combine category and style, fallback to 'dugun' if category lacks templates
   const category = ['dugun', 'kina', 'nisan'].includes(invitation.categoryId) ? invitation.categoryId : 'dugun';
   

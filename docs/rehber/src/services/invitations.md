@@ -278,3 +278,19 @@ await invitationService.get('BASKASININ_ULIDI');
 Store'ların konuştuğu arayüz. `getInvitation/saveInvitation` ikilisi, kimlik
 taşıyan yeni sözleşmeye uyarlanacak — ve editörün "hangi kaydı düzenliyorum?"
 sorusu ilk kez ortaya çıkacak.
+
+---
+
+## 12. Güncelleme — galeri sunucuya ait
+
+`galleryImages` artık `{ id, url }[]` (`GalleryImage`). Sahip yanıtında `id`
+medya ULID'sidir; silme ucu bunu kullanır.
+
+- `hydrate` gelen listeyi `{ id, url }` olarak eşler.
+- `toPayload` galeriyi **göndermez**
+  (`const { galleryImages: _serverOwnedGallery, ...rest }`). Sıra sunucuda
+  yükleme anında, kilit altında kurulur. Kaydetme gövdesi listeyi taşısaydı
+  yükleme sırasında tetiklenen otomatik kaydetme yeni fotoğrafı silebilirdi.
+- `verify:endpoints` → "davetiye kaydı": gövdede `galleryImages` yok.
+
+Ayrıntı: `docs/rehber/src/services/media.md`.

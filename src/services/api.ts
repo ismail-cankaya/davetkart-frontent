@@ -61,10 +61,19 @@ function assertApiBaseUrl(baseUrl: string): void {
 
 assertApiBaseUrl(BASE_URL);
 
+/**
+ * 🔴 İstemci geneline `Content-Type` YAZILMAZ.
+ *
+ * axios düz nesne gövdelerine `application/json`'ı zaten kendisi koyar. Sabit
+ * bir JSON başlığı ise `transformRequest`'te FormData'yı da JSON'a çevirir
+ * (`JSON.stringify(formDataToJSON(data))`): dosya `{}` olur, sunucu
+ * `file required` ile 422 döner. Galeri ve LCV fotoğraf yüklemesi bu satır
+ * yüzünden HİÇ çalışmıyordu. Gövdesiz isteklerde başlığı adaptör kaldırır;
+ * FormData'da tarayıcı multipart sınırını kendisi yazar.
+ */
 export const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 15_000,
-  headers: { 'Content-Type': 'application/json' }
+  timeout: 15_000
 });
 
 // Aktif oturumun Sanctum token'ını her giden isteğe iliştir.

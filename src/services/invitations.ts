@@ -6,10 +6,22 @@ import { Invitation, InvitationRecord, TimelineEvent } from '../types';
  * React anahtarıdır (K44). `Omit` ile türetiyoruz ki sözleşme tek yerde kalsın.
  */
 type WireTimelineEvent = Omit<TimelineEvent, 'localKey'>;
-type WireInvitation = Omit<Invitation, 'timelineEvents'> & {
+/** Sahibin galerisi her zaman kimlikle gelir (silme ucu kimlik ister). */
+type WireGalleryImage = { id: string; url: string };
+type WireInvitation = Omit<Invitation, 'timelineEvents' | 'galleryImages'> & {
   timelineEvents: WireTimelineEvent[];
+  galleryImages: WireGalleryImage[];
 };
 type WireRecord = Omit<InvitationRecord, 'invitation'> & { invitation: WireInvitation };
+
+/**
+ * Kayıt gövdesi — galeri YOK.
+ *
+ * 🔴 Galerinin üyeliğini ve sırasını sunucu tutar: yükleme sona ekler, silme
+ * ayrı uçtan çıkarır. Liste burada gönderilseydi otomatik kaydetme ile yükleme
+ * yarışında yeni fotoğraf ezilirdi (backend zaten yok sayıyor; C5).
+ */
+type WireInvitationPayload = Omit<WireInvitation, 'galleryImages'>;
 
 /**
  * Ağ sınırı: buradan içerisi güvenilir, dışarısı değil. Yanlış yönlendirilmiş
@@ -29,7 +41,9 @@ function hydrate(record: WireRecord): InvitationRecord {
       timelineEvents: (record.invitation.timelineEvents ?? []).map((event) => ({
         ...event,
         localKey: `srv-${event.id}`
-      }))
+      })),
+      // Alanlar açıkça seçilir: sunucu ileride öğeye alan eklerse store'a sızmasın.
+      galleryImages: (record.invitation.galleryImages ?? []).map((image) => ({ id: image.id, url: image.url }))
     }
   };
 }
@@ -66,8 +80,9 @@ function toRecordList(payload: unknown): InvitationRecord[] {
  * her alan bir sözdür: sözleşmede yeri olmayanı göndermek, yarın birinin ona
  * bağlanmasına davetiye çıkarır.
  */
-function toPayload(invitation: Invitation): { invitation: WireInvitation } {
-  const { timelineEvents, ...design } = invitation;
+function toPayload(invitation: Invitation): { invitation: WireInvitationPayload } {
+  // Galeri gövdeye girmez (bkz. WireInvitationPayload).
+  const { timelineEvents, galleryImages: _serverOwnedGallery, ...design } = invitation;
 
   return {
     invitation: {

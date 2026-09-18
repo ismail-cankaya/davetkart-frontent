@@ -18,12 +18,15 @@ import { sendContactMessage } from '../src/services/contact';
 import { invitationService } from '../src/services/invitations';
 import { paymentService } from '../src/services/payments';
 import { assistantService } from '../src/services/assistant';
+import { INITIAL_INVITATION } from '../src/data';
 import type { RsvpCreatePayload } from '../src/types';
 
 interface RecordedCall {
   method: string;
   url: string;
   data: unknown;
+  /** Taşıma katmanına ulaşan Content-Type (axios dönüşümlerinden SONRA). */
+  contentType: string;
 }
 
 let recorded: RecordedCall | null = null;
@@ -37,10 +40,12 @@ function fail(message: string): void {
 /** Ağa çıkmadan isteği yakalayan taşıma katmanı. */
 function mockAdapter(response: unknown) {
   return async (config: Record<string, unknown>) => {
+    const headers = config.headers as { getContentType?: () => unknown } | undefined;
     recorded = {
       method: String(config.method ?? '').toUpperCase(),
       url: String(config.url ?? ''),
       data: config.data,
+      contentType: String(headers?.getContentType?.() ?? ''),
     };
     return { data: response, status: 200, statusText: 'OK', headers: {}, config };
   };
@@ -108,6 +113,36 @@ function expectField(label: string, body: Record<string, unknown>, field: string
   }
 }
 
+/**
+ * 🔴 Yükleme gövdesi GERÇEK bir FormData olmalı ve dosyayı taşımalı.
+ *
+ * `expectField(..., 'file')` bunu yakalayamıyordu: istemci geneline sabit bir
+ * JSON Content-Type yazıldığında axios FormData'yı JSON'a çevirir ve gövde
+ * `{"kind":"gallery","file":{}}` olur — `file` anahtarı VARDIR ama dosya yoktur.
+ * Galeri ve LCV fotoğraf yüklemeleri bu yüzden hiç çalışmadı.
+ */
+function expectMultipartFile(label: string, fileName: string): void {
+  const call = recorded as RecordedCall | null;
+
+  if (!call || !(call.data instanceof FormData)) {
+    fail(`${label} → gövde FormData değil (${typeof call?.data}); dosya JSON'a çevrilmiş olabilir`);
+    return;
+  }
+
+  const entry = call.data.get('file');
+  if (!(entry instanceof File) || entry.name !== fileName) {
+    fail(`${label} → 'file' alanı dosyayı taşımıyor`);
+    return;
+  }
+
+  if (call.contentType.includes('application/json')) {
+    fail(`${label} → Content-Type JSON: ${call.contentType}`);
+    return;
+  }
+
+  console.log(`  ✓ ${label}: gövde multipart, dosya taşınıyor`);
+}
+
 const INVITATION_ID = '01J000000000000000000000';
 const MEDIA = { data: { id: '01J111111111111111111111', url: 'https://cdn.example/x.jpg' } };
 
@@ -126,6 +161,7 @@ async function main(): Promise<void> {
   // dosyayı doğrulamadan önce türü bilmek zorunda.
   expectField('sahip yüklemesi', ownerBody, 'kind', 'gallery');
   expectField('sahip yüklemesi', ownerBody, 'file');
+  expectMultipartFile('sahip yüklemesi', file.name);
 
   const guestBody = await check(
     'misafir yüklemesi',
@@ -134,10 +170,18 @@ async function main(): Promise<void> {
     () => mediaService.uploadAsGuest(INVITATION_ID, file, 'rsvp_photo'),
   );
   expectField('misafir yüklemesi', guestBody, 'kind', 'rsvp_photo');
+  expectMultipartFile('misafir yüklemesi', file.name);
 
   // 🔴 Yanıt `id` taşımalı: LCV medyayı kimlikle bağlar, URL'yle değil.
   const uploaded = await mediaService.uploadForOwner(INVITATION_ID, file);
   if (!uploaded.id) fail('yükleme yanıtındaki `id` düştü — LCV\'ye medya bağlanamaz');
+
+  await check(
+    'galeri silme (sahip)',
+    { method: 'DELETE', url: `/invitations/${INVITATION_ID}/media/${MEDIA.data.id}` },
+    {},
+    () => mediaService.removeForOwner(INVITATION_ID, MEDIA.data.id),
+  );
 
   console.log('\nLCV uçları');
 
@@ -196,6 +240,31 @@ async function main(): Promise<void> {
     publishedRecord,
     () => invitationService.publish(INVITATION_ID),
   );
+
+  const updateBody = await check(
+    'davetiye kaydı',
+    { method: 'PUT', url: `/invitations/${INVITATION_ID}` },
+    publishedRecord,
+    () =>
+      invitationService.update(INVITATION_ID, {
+        ...INITIAL_INVITATION,
+        galleryImages: [{ id: MEDIA.data.id, url: MEDIA.data.url }],
+      }),
+  );
+
+  // 🔴 Galeri kayıt gövdesine GİRMEZ: üyeliğini ve sırasını sunucu tutar
+  // (yükleme sona ekler, silme ayrı uç). Gönderilseydi otomatik kaydetme ile
+  // yükleme yarışında yeni fotoğraf ezilirdi.
+  const invitationBody = (updateBody.invitation ?? {}) as Record<string, unknown>;
+  if ('galleryImages' in invitationBody) {
+    fail('davetiye kaydı → gövdede galleryImages var; galeri sunucunundur');
+  }
+
+  // Sabit JSON başlığı kaldırıldı; düz nesne gövdelerinde axios onu kendisi koymalı.
+  const updateCall = recorded as RecordedCall | null;
+  if (!updateCall?.contentType.includes('application/json')) {
+    fail(`davetiye kaydı → Content-Type JSON değil: ${updateCall?.contentType}`);
+  }
 
   const invoiceBody = await check(
     'checkout (davetiye)',

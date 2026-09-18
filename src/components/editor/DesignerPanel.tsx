@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useId, useRef } from 'react';
+import React, { useId } from 'react';
 import { motion } from 'motion/react';
 import { Check, Palette, RotateCcw, Sparkles, Type } from 'lucide-react';
-import { Invitation } from '../../types';
 import { getTemplatesForCategory } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
+import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { CoupleNameFields } from '../create/CoupleNameFields';
 import { DateTimeInput } from '../ui/DateTimeInput';
+
+/** Bu panelin gecikmeli yazdığı alanlar — isimler kendi bileşeninde yazılır. */
+type PanelField = 'title' | 'date' | 'venue' | 'subtitle';
+const PANEL_FIELDS: readonly PanelField[] = ['title', 'date', 'venue', 'subtitle'];
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -21,7 +25,6 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
   const invitation = useInvitationStore(s => s.invitation);
   const activePresetId = useInvitationStore(s => s.activePresetId);
   const selectTemplate = useInvitationStore(s => s.selectTemplate);
-  const updateField = useInvitationStore(s => s.updateField);
   const resetInvitation = useInvitationStore(s => s.resetInvitation);
   const fieldId = useId();
 
@@ -30,27 +33,12 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
 
   // Local mirror keeps typing instant; the store (and live preview) is
   // updated behind a debounce so every keystroke doesn't re-render the app.
-  const [localInvitation, setLocalInvitation] = useState<Invitation>(invitation);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  // Eski sürüm yalnızca son alanı yazıyor ve bekleyen yazımı ayrılırken
+  // atıyordu; ortak hook ikisini de kapatır (bkz. useInvitationDraft).
+  const { draft: localInvitation, setField } = useInvitationDraft(PANEL_FIELDS);
 
-  useEffect(() => {
-    setLocalInvitation(invitation);
-  }, [invitation]);
-
-  useEffect(() => () => {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-  }, []);
-
-  const handleLocalChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const name = e.target.name as keyof Invitation;
-    const { value } = e.target;
-    setLocalInvitation(prev => ({ ...prev, [name]: value }));
-
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      updateField(name, value);
-    }, 400);
-  };
+  const handleLocalChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setField(e.target.name as PanelField, e.target.value);
 
   return (
     <motion.div

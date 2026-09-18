@@ -2806,6 +2806,23 @@ export const INITIAL_INVITATION: Invitation = {
 /** Ana sayfa önizlemesinin örnek içerikle doldurduğu alanlar. */
 export type ShowcaseContent = Pick<Invitation, 'names' | 'date' | 'venue' | 'timelineEvents'>;
 
+/** Tanıtımdaki etkinliğin, sayfanın açıldığı günden kaç gün sonra olduğu. */
+const SHOWCASE_LEAD_DAYS = 120;
+
+/**
+ * Tanıtım etkinliğinin tarihi: bugünden `SHOWCASE_LEAD_DAYS` gün sonra, 19:00.
+ *
+ * 🔴 Sabit yazılamaz. Sabit bir tarih bir gün geçmişte kalır ve ana sayfadaki
+ * geri sayım sıfırda donar, "geçmiş etkinlik" gibi görünür — kod değişmeden
+ * bozulan türden bir hata. Biçim, formun ve backend'in kullandığı offset'siz
+ * duvar saatidir (`2026-11-14T19:00`, bkz. `utils/eventTime.ts`).
+ */
+export function upcomingShowcaseDate(now: Date = new Date()): string {
+  const day = new Date(now.getFullYear(), now.getMonth(), now.getDate() + SHOWCASE_LEAD_DAYS);
+  const pad = (value: number) => String(value).padStart(2, '0');
+  return `${day.getFullYear()}-${pad(day.getMonth() + 1)}-${pad(day.getDate())}T19:00`;
+}
+
 /**
  * Ana sayfadaki canlı önizlemenin tanıtım içeriği.
  *
@@ -2815,7 +2832,7 @@ export type ShowcaseContent = Pick<Invitation, 'names' | 'date' | 'venue' | 'tim
  */
 export const SHOWCASE_CONTENT: ShowcaseContent = {
   names: 'Sophia & Elias',
-  date: '2026-09-12T19:00',
+  date: upcomingShowcaseDate(),
   venue: 'Çırağan Sarayı Kempinski, İstanbul',
   timelineEvents: [
     {

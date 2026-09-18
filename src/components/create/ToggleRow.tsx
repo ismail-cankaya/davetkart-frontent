@@ -1,7 +1,7 @@
 import React from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { cn } from '../../utils/cn';
-import { Switch } from '../ui/Switch';
+import { SwitchTrack } from '../ui/Switch';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
@@ -28,19 +28,20 @@ export function ToggleRow({ question, hint, checked, onChange, children }: Toggl
         checked ? 'border-gold/30 bg-white/[0.05]' : 'border-white/10 bg-white/[0.02]'
       )}
     >
+      {/* Satırın kendisi anahtardır: erişilebilir adı soru + ipucu metnidir.
+          İçeride ikinci bir <button> (Switch) olamaz — görseli SwitchTrack çizer. */}
       <button
         type="button"
+        role="switch"
+        aria-checked={checked}
         onClick={() => onChange(!checked)}
-        className="w-full flex items-center justify-between gap-4 p-4 text-left cursor-pointer"
+        className="w-full flex items-center justify-between gap-4 p-4 text-left cursor-pointer rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/40"
       >
         <span>
           <span className="block text-sm font-semibold text-white">{question}</span>
           {hint && <span className="block text-xs text-white/45 mt-0.5 leading-relaxed">{hint}</span>}
         </span>
-        {/* The row itself toggles; the switch is the visual state. */}
-        <span className="pointer-events-none shrink-0">
-          <Switch checked={checked} onChange={() => undefined} label={question} />
-        </span>
+        <SwitchTrack checked={checked} />
       </button>
 
       <AnimatePresence initial={false}>

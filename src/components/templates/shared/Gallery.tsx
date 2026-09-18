@@ -18,12 +18,17 @@ interface GalleryProps {
  */
 export function Gallery({ invitation, theme, flavor }: GalleryProps) {
   const images = invitation.galleryImages;
-  const [[index, direction], setIndex] = useState<[number, number]>([0, 0]);
+  const [[storedIndex, direction], setIndex] = useState<[number, number]>([0, 0]);
 
   if (images.length === 0) return null;
 
+  // Galeri artık görüntülenirken küçülebilir (fotoğraf silme, başka kayıt
+  // yükleme). Saklı konum listenin dışında kalırsa `images[index]` tanımsız
+  // olur ve önizleme çöker; konum her çizimde listeye sıkıştırılır.
+  const index = Math.min(storedIndex, images.length - 1);
+
   const paginate = (dir: number) => {
-    setIndex(([current]) => [(current + dir + images.length) % images.length, dir]);
+    setIndex(([current]) => [(Math.min(current, images.length - 1) + dir + images.length) % images.length, dir]);
   };
 
   return (
@@ -54,7 +59,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
           <AnimatePresence initial={false} custom={direction}>
             <motion.img
               key={index}
-              src={images[index]}
+              src={images[index].url}
               alt={`Galeri fotoğrafı ${index + 1}`}
               className="absolute inset-0 w-full h-full object-cover"
               custom={direction}
@@ -103,9 +108,9 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
         {/* Dot navigation */}
         {images.length > 1 && (
           <div className="flex items-center justify-center gap-2 mt-5">
-            {images.map((_, dotIndex) => (
+            {images.map((image, dotIndex) => (
               <button
-                key={dotIndex}
+                key={image.id ?? image.url}
                 type="button"
                 aria-label={`${dotIndex + 1}. fotoğrafa git`}
                 onClick={() => setIndex(([current]) => [dotIndex, dotIndex > current ? 1 : -1])}

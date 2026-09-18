@@ -1,6 +1,6 @@
 import { unwrapEnvelope } from './api';
 import { conditionalGet } from './conditionalGet';
-import { Invitation, TimelineEvent } from '../types';
+import { GalleryImage, Invitation, TimelineEvent } from '../types';
 
 /**
  * Misafirin gördüğü davetiye — `GET /api/public/invitations/:id`.
@@ -15,6 +15,9 @@ import { Invitation, TimelineEvent } from '../types';
 
 /** Misafirin adımlarında `id` YOKTUR: düzenleme yapmaz, kimliğe ihtiyacı olmaz. */
 type WireTimelineEvent = Omit<TimelineEvent, 'id' | 'localKey'>;
+
+/** Misafirin galeri öğesi de kimliksizdir — backend `PublicGalleryImageResource`. */
+type WireGalleryImage = Omit<GalleryImage, 'id'>;
 
 /** Her zaman gelen alanlar — davetiyenin iskeleti ve modül bayrakları. */
 type PublicCore = Omit<
@@ -31,12 +34,10 @@ type PublicCore = Omit<
 
 /** Modül AÇIKSA gelen, kapalıysa gövdede HİÇ BULUNMAYAN alanlar. */
 type PublicModules = Partial<
-  Pick<
-    Invitation,
-    'galleryImages' | 'bankName' | 'accountHolder' | 'iban' | 'giftOptions' | 'rsvpDeadline' | 'askMenuPreference'
-  >
+  Pick<Invitation, 'bankName' | 'accountHolder' | 'iban' | 'giftOptions' | 'rsvpDeadline' | 'askMenuPreference'>
 > & {
   timelineEvents?: WireTimelineEvent[];
+  galleryImages?: WireGalleryImage[];
 };
 
 type WirePublicInvitation = PublicCore & PublicModules;
@@ -81,7 +82,8 @@ function hydrate(wire: WirePublicInvitation): Invitation {
     rsvpDeadline: wire.rsvpDeadline ?? '',
     askMenuPreference: wire.askMenuPreference ?? false,
 
-    galleryImages: wire.galleryImages ?? [],
+    // Timeline ile aynı dürüstlük: sunucu kimlik göndermedi, `id: null`.
+    galleryImages: (wire.galleryImages ?? []).map((image) => ({ id: null, url: image.url })),
 
     // `id: null` dürüst olan tek değer: sunucu kimlik göndermedi, uydurmuyoruz.
     // `localKey` dizinin konumundan üretiliyor; liste bu sayfada değişmiyor.

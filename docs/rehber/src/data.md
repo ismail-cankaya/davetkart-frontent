@@ -190,3 +190,26 @@ kaydedilmiş gibi gösterirdi.
 
 `formatDateStr` boş, yalnızca boşluk ya da ayrıştırılamayan değerde boş metin
 döner — "Invalid Date" yazmaz, istisna fırlatmaz.
+
+---
+
+## 9. Güncelleme — tanıtım tarihi ileriye kurulur
+
+> **İlgili dosya:** `src/data.ts` (`upcomingShowcaseDate`)
+> **Denetim:** `npm run verify:content` ("Ana sayfa tanıtımı")
+
+`SHOWCASE_CONTENT.date` sabit `'2026-09-12T19:00'` idi ve bu tarih **geçti**.
+Ana sayfadaki geri sayım sıfırda donuyor, tanıtım geçmiş bir etkinliği
+gösteriyordu. Kod değişmeden bozulan türden bir hata.
+
+Tarih artık modül yüklenirken kurulur: **bugünden 120 gün sonra, 19:00**.
+Biçim, formun ve backend'in kullandığı offset'siz duvar saatidir
+(`2027-01-15T19:00`). Program akışındaki örnek saatler (17:00–22:00) de bu
+saatle uyumludur.
+
+| Denetim | Neden |
+|---|---|
+| Tanıtım tarihi en az bir ay sonrası | Sabit tarihe geri dönülürse betik düşer |
+| `upcomingShowcaseDate(20 Kasım 2026)` → `2027-03-20T19:00` | Ay ve yıl geçişi, sıfır doldurma |
+
+Tarayıcıda ana sayfa "15 Ocak 2027 19:00" ve "119 GÜN" gösterdi.

@@ -68,6 +68,24 @@ export interface TimelineEvent {
   description: string;
 }
 
+/**
+ * Galerideki tek bir fotoğraf.
+ *
+ * 🔴 Sıra ve üyelik SUNUCUNUNDUR: yükleme fotoğrafı galerinin sonuna sunucu
+ * tarafında ekler, silme ayrı bir uçtan yapılır. Galeri davetiye kaydıyla
+ * (PUT) GÖNDERİLMEZ — gönderilseydi yükleme ile otomatik kaydetme yarışında
+ * yeni fotoğraf kaybolurdu.
+ */
+export interface GalleryImage {
+  /**
+   * `media` kaydının ULID'si — silme ucu bunu ister. Misafir görünümünde
+   * `null`: misafir galeriyi düzenlemez ve sunucu ona kimlik göndermez (C5).
+   */
+  id: string | null;
+  /** Sunucunun türettiği genel adres (E1). */
+  url: string;
+}
+
 export interface Invitation {
   title: string;
   subtitle: string;
@@ -118,8 +136,8 @@ export interface Invitation {
 
   // ——— Content collections ———
   timelineEvents: TimelineEvent[];
-  /** Uploaded gallery photo URLs (served by the media boundary). */
-  galleryImages: string[];
+  /** Galeri fotoğrafları, sunucunun tuttuğu sırayla. */
+  galleryImages: GalleryImage[];
 }
 
 /** Paid plan tiers — there is no free tier; publishing always requires a purchase. */

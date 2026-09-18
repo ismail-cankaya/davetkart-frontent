@@ -188,6 +188,10 @@
       "invitation/giftOptions/*": {
         "min": "{{field}} must be at least {{min}}.",
         "max": "{{field}} can be at most {{max}}."
+      },
+      "file": {
+        "max": "That file is too large. Please pick a smaller photo and try again.",
+        "dimensions": "That photo's resolution is too high. Please pick a smaller photo."
       }
     }
   }

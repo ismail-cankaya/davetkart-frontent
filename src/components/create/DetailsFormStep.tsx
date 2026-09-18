@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
+import React, { useId, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { WandSparkles } from 'lucide-react';
 import { Invitation } from '../../types';
@@ -13,6 +13,7 @@ import { LocationSearchField } from './location/LocationSearchField';
 import { Switch } from '../ui/Switch';
 import { DateTimeInput } from '../ui/DateTimeInput';
 import { scrollToTarget } from '../../hooks/useLenis';
+import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { cn } from '../../utils/cn';
 import { formatTimeZoneLabel, timeZoneOptions } from '../../utils/timeZones';
 
@@ -28,16 +29,16 @@ type TextField = 'subtitle' | 'date' | 'venue' | 'bankName' | 'accountHolder' | 
 /** Module visibility flags surfaced as Grup C toggles. */
 type FlagField = 'showEnvelope' | 'showTimer' | 'showTimeline' | 'showGallery' | 'showGift' | 'showRSVP' | 'askMenuPreference';
 
+type FormField = TextField | FlagField | 'mapUrl';
+
 /**
  * Bu formun yerel kopyada tuttuğu ve store'a GERİ YAZDIĞI alanlar.
  *
  * 🔴 İsimler, saat dilimi, program akışı ve galeri store'a kendi
- * bileşenlerinden doğrudan yazılır; yerel kopyadaki halleri o sırada eskimiş
- * olabilir. Tüm anahtarları karşılaştırıp yazmak, onların yeni değerini
- * eskisiyle ezerdi (ör. isim yazılıp hemen bir anahtar açılınca isim geri
- * dönerdi).
+ * bileşenlerinden doğrudan yazılır; burada listelenmezler (bkz.
+ * `useInvitationDraft`).
  */
-const FORM_FIELDS: ReadonlyArray<TextField | FlagField | 'mapUrl'> = [
+const FORM_FIELDS: readonly FormField[] = [
   'subtitle',
   'date',
   'venue',
@@ -86,77 +87,23 @@ export function DetailsFormStep() {
   const startGeneration = useCreateWizardStore(s => s.startGeneration);
 
   // Local mirror keeps typing instant; the store is updated behind a debounce.
-  // The ref always holds the latest mirror so timers never read a stale copy.
-  const [local, setLocalState] = useState<Invitation>(invitation);
-  const localRef = useRef<Invitation>(invitation);
-  const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const { draft: local, setField, commit, flush } = useInvitationDraft(FORM_FIELDS);
 
-  const setLocal = (next: Invitation) => {
-    localRef.current = next;
-    setLocalState(next);
-  };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setField(e.target.name as TextField, e.target.value);
 
-  useEffect(() => {
-    // Skip the sync while an edit is pending here — it will commit shortly and
-    // trigger this effect again with our own values.
-    if (!debounceRef.current) {
-      localRef.current = invitation;
-      setLocalState(invitation);
-    }
-  }, [invitation]);
-
-  /**
-   * Commit every locally-diverged form field to the store immediately.
-   *
-   * Karşılaştırma store'un GÜNCEL haliyle yapılır, render anındaki kopyayla
-   * değil; yalnızca bu formun alanları yazılır (bkz. `FORM_FIELDS`).
-   */
-  const flushLocal = (snapshot: Invitation = localRef.current) => {
-    if (debounceRef.current) {
-      clearTimeout(debounceRef.current);
-      debounceRef.current = undefined;
-    }
-    const stored = useInvitationStore.getState().invitation;
-    FORM_FIELDS.forEach((key) => {
-      if (snapshot[key] !== stored[key]) updateField(key, snapshot[key]);
-    });
-  };
-
-  // A pending edit must survive unmount (e.g. leaving the page while the
-  // debounce is still open) — flush it instead of dropping it. `flushLocal`
-  // reads only refs and the store, so the first render's closure is current.
-  useEffect(() => () => {
-    if (debounceRef.current) flushLocal();
-  }, []);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const name = e.target.name as TextField;
-    setLocal({ ...localRef.current, [name]: e.target.value });
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    // 🔴 Zamanlayıcı yalnızca son yazılan alanı değil, bekleyen TÜM alanları
-    // yazar: iki alan 400 ms içinde art arda düzenlendiğinde ilkinin son
-    // harfleri kaybolmasın.
-    debounceRef.current = setTimeout(() => flushLocal(), 400);
-  };
-
-  /** Instant commits (toggles, map location) — flush pending text first so nothing is lost. */
-  const commitNow = (patch: Partial<Invitation>) => {
-    const snapshot = { ...localRef.current, ...patch };
-    setLocal(snapshot);
-    flushLocal(snapshot);
-  };
-
+  /** Toggles commit immediately — and take any pending text with them. */
   const setFlag = (name: FlagField, value: boolean) => {
-    const patch: Partial<Invitation> = {};
+    const patch: Partial<Pick<Invitation, FormField>> = {};
     patch[name] = value;
-    commitNow(patch);
+    commit(patch);
   };
 
-  const applySuggestedMessage = (message: string) => commitNow({ subtitle: message });
+  const applySuggestedMessage = (message: string) => commit({ subtitle: message });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    flushLocal();
+    flush();
     startGeneration();
     scrollToTarget(0, { immediate: true });
   };
@@ -300,7 +247,7 @@ export function DetailsFormStep() {
                 label="Ulaşım Bilgileri"
                 placeholder="Çırağan Sarayı, İstanbul"
                 value={local.mapUrl}
-                onChange={(mapUrl) => commitNow({ mapUrl })}
+                onChange={(mapUrl) => commit({ mapUrl })}
                 labelClass={labelClass}
                 inputClass={inputClass}
               />

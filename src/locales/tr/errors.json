@@ -188,6 +188,10 @@
       "invitation/giftOptions/*": {
         "min": "{{field}} en az {{min}} olmalıdır.",
         "max": "{{field}} en fazla {{max}} olabilir."
+      },
+      "file": {
+        "max": "Dosya çok büyük. Daha küçük bir fotoğraf seçip tekrar deneyin.",
+        "dimensions": "Fotoğrafın çözünürlüğü çok yüksek. Daha küçük bir fotoğraf seçin."
       }
     }
   }

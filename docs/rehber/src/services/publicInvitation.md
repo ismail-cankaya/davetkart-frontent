@@ -194,3 +194,19 @@ Object.prototype.hasOwnProperty.call(r.data.invitation, 'iban');   // false
 
 [`../pages/InvitePage.md`](../pages/InvitePage.md) — bu servisi çağıran sayfa
 ve üç ayrı yükleme durumunun neden ayrı ayrı ele alındığı.
+
+---
+
+## 9. Güncelleme — misafir galerisi
+
+Misafir yanıtı galeriyi yalnızca `show_gallery` açıksa ve **kimliksiz**
+gönderir: `galleryImages: [{ url }]`. Medya kimlikleri misafire açılmaz; silme
+yalnızca sahibin işidir.
+
+`hydrate`, `id: null` yazar (bkz. §4 — `id: null` neden dürüst tek değer):
+
+```ts
+galleryImages: (wire.galleryImages ?? []).map((image) => ({ id: null, url: image.url }))
+```
+
+Sıra, sahibin yükleme sırasıdır (`gallery_media_ids`).

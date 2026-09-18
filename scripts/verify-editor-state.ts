@@ -192,6 +192,39 @@ async function autosaveContract(): Promise<void> {
   check(posts === 1, 'eşzamanlı iki kaydetme tek POST üretiyor (kuyruk)', `POST sayısı=${posts}`);
 }
 
+async function documentVersionContract(): Promise<void> {
+  console.log('\nBelge sürümü (bekleyen form yazımları)');
+  reset();
+
+  // Formlar `documentVersion` değişince bekleyen (gecikmeli) yazımlarını atar.
+  // Kaydetme yanıtı ya da galeri güncellemesi sürümü artırsaydı, kullanıcının
+  // o anda yazdığı metin her otomatik kayıtta sessizce silinirdi.
+  const start = useInvitationStore.getState().documentVersion;
+  useInvitationStore.getState().updateField('names', 'Deniz & Can');
+  await useInvitationStore.getState().saveInvitation();
+  const recordId = useInvitationStore.getState().recordId;
+  if (recordId) {
+    useInvitationStore.getState().applyGallery(recordId, (images) => [...images, { id: 'MEDIA-1', url: 'https://cdn.test/1.jpg' }]);
+  }
+  check(
+    useInvitationStore.getState().documentVersion === start,
+    'düzenleme, kaydetme ve galeri güncellemesi belge sürümünü değiştirmiyor',
+    `${start} → ${useInvitationStore.getState().documentVersion}`,
+  );
+
+  // Sıfırlama ve kayıt yükleme ise başka bir belgeye geçiştir: eski belgeye ait
+  // bekleyen yazım yeni belgeye düşmemeli.
+  useInvitationStore.getState().resetInvitation();
+  const afterReset = useInvitationStore.getState().documentVersion;
+  useInvitationStore.getState().loadRecord(record('REC-B', { names: 'Ayşe & Ali' }));
+  const afterLoad = useInvitationStore.getState().documentVersion;
+  check(
+    afterReset > start && afterLoad > afterReset,
+    'sıfırlama ve kayıt yükleme belge sürümünü artırıyor',
+    `${start} → ${afterReset} → ${afterLoad}`,
+  );
+}
+
 async function newInvitationDoesNotOverwrite(): Promise<void> {
   console.log('\nYeni davetiye');
   reset();
@@ -373,6 +406,7 @@ function calendarDayAcrossZones(): void {
 
 async function main(): Promise<void> {
   await autosaveContract();
+  await documentVersionContract();
   await newInvitationDoesNotOverwrite();
   await staleSaveResponseIsIgnored();
   await publishRequiresSuccessfulSave();

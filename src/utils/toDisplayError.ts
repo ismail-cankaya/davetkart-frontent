@@ -25,6 +25,7 @@ import {
   type ApiFieldViolation,
 } from '../services/api';
 import { errorCodeMeta, isErrorCode, type ErrorCode } from '../contracts/errorCodes';
+import { MediaTooLargeError } from '../services/media';
 
 const NS = 'errors';
 
@@ -136,6 +137,14 @@ function violationMessage(field: string, violation: ApiFieldViolation): string {
  * - Sunucu tanınmayan bir şey döndürdü → genel metin
  */
 export function toDisplayError(error: unknown): string {
+  // 🔴 İstemcinin KENDİ kararı: dosya sunucuya hiç gönderilmedi (sıkıştırmadan
+  // sonra bile sınırın üstünde kaldı). Sunucunun aynı durumda döndürdüğü kodun
+  // metni kullanılıyor — kullanıcı için ikisi aynı olaydır ve iki ayrı cümle
+  // yazmak sözlüğü bölerdi. `.detailed` seçilmiyor, çünkü `max` parametresi yok.
+  if (error instanceof MediaTooLargeError) {
+    return i18n.t(['codes.FILE_TOO_LARGE.base', 'codes.FILE_TOO_LARGE', 'unknown'], { ns: NS });
+  }
+
   if (isNetworkError(error)) {
     return i18n.t('network', { ns: NS });
   }
