@@ -1,0 +1,45 @@
+name: CI
+
+# Backend'deki ci.yml ile ayni mantik: her branch'e push'ta hemen geri
+# bildirim, main'e acilan PR'larda ayrica "checks" sekmesinde gorunsun diye.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  quality:
+    name: npm run check (tip kontrolü + build + sözleşme testleri)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodu çek
+        uses: actions/checkout@v4
+
+      - name: Node 22 kur
+        # actions/setup-node'un kendi "cache: npm" ozelligi var - backend'de
+        # kullandigimiz ayri actions/cache adimina burada gerek yok, ayni isi
+        # tek satirda hallediyor.
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Bağımlılıkları kur
+        # npm install degil npm ci: package-lock.json'daki surumleri BIREBIR
+        # kurar, kilit dosyasiyla tutarsizsa hata verir - CI'da tekrarlanabilirligi
+        # garanti eder.
+        run: npm ci
+
+      - name: check (lint + build + verify)
+        # Backend'deki "composer check" ile ayni prensip: yerelde calistirdigin
+        # tek kalite kapisini (package.json -> "check") CI'da da birebir
+        # cagiriyoruz. Ayri bir "CI'a ozel" kontrol seti yazmiyoruz.
+        #
+        # Icerik: lint (tsc --noEmit, tip kontrolu) -> build (vite build) ->
+        # verify (uc/sozlesme denetimleri - gercek agabaglantisi kurmadan,
+        # axios'un tasima katmanini sahteyle degistirip gercek servis kodunu
+        # calistirir). Sirali oldugu icin en ucuz/hizli kontrol (lint) once
+        # calisir, en pahalisi (verify, yedi ayri betik) en sonda.
+        run: npm run check

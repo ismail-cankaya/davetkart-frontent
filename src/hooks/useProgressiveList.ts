@@ -21,6 +21,16 @@ export interface ProgressiveListOptions {
    * gövdesi gibi) o kap. Verilmezse görünür alan (viewport) kullanılır.
    */
   root?: React.RefObject<HTMLElement | null>;
+  /**
+   * Sentinel'in görünür alana ne kadar kala tetikleneceği.
+   *
+   * Geniş bir pay (öntanımlı 400px) partiyi kullanıcı ızgaranın sonunu
+   * görmeden hazırlar: kesintisiz kaydırma. Ancak ızgara altında bir yükleme
+   * göstergesi varsa bu pay göstergeyi ekran dışında oynatır — kullanıcı
+   * aşağı vardığında iş çoktan bitmiştir. Göstergeli listeler bu yüzden daha
+   * dar bir pay verir.
+   */
+  rootMargin?: string;
 }
 
 export interface ProgressiveList<T> {
@@ -64,7 +74,14 @@ interface ProgressiveState {
  */
 export function useProgressiveList<T>(
   items: readonly T[],
-  { initial = 8, step = 8, auto = true, ensureIndex = -1, root }: ProgressiveListOptions = {}
+  {
+    initial = 8,
+    step = 8,
+    auto = true,
+    ensureIndex = -1,
+    root,
+    rootMargin = '400px 0px'
+  }: ProgressiveListOptions = {}
 ): ProgressiveList<T> {
   // İlk parti seçili öğeyi de kapsayacak kadar büyütülür, ama parti
   // katlarına yuvarlanır ki ızgara yarım satırla başlamasın.
@@ -113,7 +130,7 @@ export function useProgressiveList<T>(
   }, [items, step, floor]);
 
   // Sonsuz kaydırma. `rootMargin` sayesinde parti, sentinel ekrana girmeden
-  // önce yüklenir; kullanıcı boşluk görmez.
+  // önce yüklenebilir; payı çağıran belirler (bkz. ProgressiveListOptions).
   useEffect(() => {
     if (!auto || !hasMore) return;
 
@@ -124,12 +141,12 @@ export function useProgressiveList<T>(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) showMore();
       },
-      { root: root?.current ?? null, rootMargin: '400px 0px' }
+      { root: root?.current ?? null, rootMargin }
     );
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, [auto, hasMore, showMore, root]);
+  }, [auto, hasMore, showMore, root, rootMargin]);
 
   const visible = useMemo(() => items.slice(0, count), [items, count]);
 
