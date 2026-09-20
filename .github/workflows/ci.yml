@@ -43,3 +43,17 @@ jobs:
         # calistirir). Sirali oldugu icin en ucuz/hizli kontrol (lint) once
         # calisir, en pahalisi (verify, yedi ayri betik) en sonda.
         run: npm run check
+
+      - name: npm güvenlik taraması
+        # Backend'deki "composer audit" ile ayni gerekce: kalite kapisindan
+        # ayri bir adim, cunku kod kalitesi ile bilinen guvenlik acigi
+        # taramasi farkli kaygilar.
+        #
+        # Neden --audit-level=high? Dusuk/orta siddetli bulgular npm
+        # ekosisteminde cok sik gorunuyor ve buyuk cogunlugu bizim dogrudan
+        # kontrolumuzde olmayan transitive bagimliliklardan (bagimliligin
+        # bagimliligi) geliyor. Esik olmasa her push'ta kirmizi X alirdik;
+        # surekli kirmizi duran bir CI ise bir sure sonra hic okunmaz hale
+        # gelir - yani gurultu, guvenligi artirmak yerine azaltir.
+        # "high" ve "critical" olanlar yine kosuyu dusurur.
+        run: npm audit --audit-level=high
