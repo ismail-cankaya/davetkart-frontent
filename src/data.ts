@@ -2648,13 +2648,31 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
 ];
 
 /**
+ * Kategori → şablon listesi önbelleği.
+ *
+ * 🔴 Referans kararlılığı burada bir mikro-optimizasyon değil, doğruluk
+ * meselesidir: `filter()` her çağrıda YENİ bir dizi üretir. Çağıran taraf bu
+ * diziyi bir `useEffect`/`useMemo` bağımlılığı yaptığında (tema ızgarasının
+ * kademeli yükleme sayacı böyle sıfırlanır) her render'da "liste değişti"
+ * sanılır ve sayaç sonsuza dek başa döner. `TEMPLATE_PRESETS` derleme zamanı
+ * sabiti olduğundan sonuç da sabittir; bir kez süzüp saklıyoruz.
+ */
+const templatesByCategory = new Map<string, TemplatePreset[]>();
+
+/**
  * Kategoriye göre şablon filtreleme — hem /create sihirbazı hem anasayfa
  * vitrini bu tek kaynaktan beslenir. Kategori seçilmemişse (null) tüm
- * koleksiyon döner.
+ * koleksiyon döner. Aynı kategori için her zaman AYNI dizi örneği döner.
  */
 export function getTemplatesForCategory(categoryId: string | null): TemplatePreset[] {
   if (!categoryId) return TEMPLATE_PRESETS;
-  return TEMPLATE_PRESETS.filter((preset) => preset.categories.includes(categoryId));
+
+  const cached = templatesByCategory.get(categoryId);
+  if (cached) return cached;
+
+  const filtered = TEMPLATE_PRESETS.filter((preset) => preset.categories.includes(categoryId));
+  templatesByCategory.set(categoryId, filtered);
+  return filtered;
 }
 
 /** Display label of a category (e.g. "dugun" → "Düğün"). */

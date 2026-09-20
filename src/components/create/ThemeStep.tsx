@@ -1,17 +1,28 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Check } from 'lucide-react';
+import { Check, ChevronDown } from 'lucide-react';
 import { getTemplatesForCategory } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useCreateWizardStore, useActiveCategory } from '../../stores/useCreateWizardStore';
+import { useProgressiveList } from '../../hooks/useProgressiveList';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { TemplateCover } from '../preview/TemplateCover';
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
+/** İlk anda çizilen tema sayısı ve her adımda eklenen parti büyüklüğü. */
+const INITIAL_THEMES = 8;
+const THEME_STEP = 8;
+
 /**
  * Wizard step 2a — theme gallery. Picking a theme reveals the details form
  * below and glides down to it.
+ *
+ * 🔴 Kategori başına 25-35 tema var ve bunlar bir zamanlar tek seferde
+ * basılıyordu: 35 kart + 35 giriş animasyonu, üstelik sonuncusunun gecikmesi
+ * 2.8 saniyeydi. Artık ilk parti hemen gelir, gerisi kaydırmayla kendiliğinden
+ * yüklenir (e-ticaret ızgaralarındaki gibi) — bağlantısı zayıf olan ya da
+ * kaydırmayı sevmeyen kullanıcı için açık bir "daha fazla" düğmesi de durur.
  */
 export function ThemeStep() {
   const activePresetId = useInvitationStore(s => s.activePresetId);
@@ -22,6 +33,23 @@ export function ThemeStep() {
 
   // Only the templates belonging to the picked category (dugun → düğün temaları…).
   const categoryTemplates = getTemplatesForCategory(activeCategory?.id ?? null);
+
+  // Kullanıcı düzenleme ekranından geri döndüğünde seçili tema listenin
+  // derinlerinde olabilir; ilk parti onu kapsayacak kadar açılır.
+  const selectedIndex = categoryTemplates.findIndex(preset => preset.id === activePresetId);
+
+  const {
+    visible: visibleTemplates,
+    hasMore,
+    remaining,
+    showMore,
+    sentinelRef,
+    batchStart
+  } = useProgressiveList(categoryTemplates, {
+    initial: INITIAL_THEMES,
+    step: THEME_STEP,
+    ensureIndex: themeChosen ? selectedIndex : -1
+  });
 
   const handleSelect = (id: string) => {
     selectTemplate(id);
@@ -48,15 +76,18 @@ export function ThemeStep() {
           </h2>
           <p className="text-muted text-sm mt-3 max-w-lg mx-auto">
             {activeCategory
-              ? `${activeCategory.label} etkinliğinize özel ${categoryTemplates.length} tema listeleniyor; `
+              ? `${activeCategory.label} etkinliğinize özel ${categoryTemplates.length} tema hazır; `
               : 'Tüm temalar seçtiğiniz etkinliğe göre kişiselleştirilir; '}
             dilerseniz son adımda renkleri ve metinleri ince ayarlayabilirsiniz.
           </p>
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
-          {categoryTemplates.map((preset, idx) => {
+          {visibleTemplates.map((preset, idx) => {
             const isActive = themeChosen && activePresetId === preset.id;
+            // Yalnızca yeni gelen parti sırayla belirir; daha önce çizilmiş
+            // kartlar yerinde durur (gecikme 0'a iner, yeniden oynatılmaz).
+            const delay = idx >= batchStart ? (idx - batchStart) * 0.06 : 0;
             return (
               <motion.button
                 key={preset.id}
@@ -64,7 +95,7 @@ export function ThemeStep() {
                 onClick={() => handleSelect(preset.id)}
                 initial={{ opacity: 0, y: 30, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.7, ease: EASE_LUXE, delay: idx * 0.08 }}
+                transition={{ duration: 0.7, ease: EASE_LUXE, delay }}
                 whileHover={{ y: -6 }}
                 whileTap={{ scale: 0.97 }}
                 className={`group relative rounded-2xl overflow-hidden h-44 md:h-60 cursor-pointer text-left transition-shadow duration-700 ${
@@ -106,6 +137,31 @@ export function ThemeStep() {
             );
           })}
         </div>
+
+        {/* Kaydırma tetikleyicisi + açık kontrol. Sentinel görünüre girdiğinde
+            sonraki parti kendiliğinden yüklenir; düğme ise otomatik yükleme
+            çalışmadığında (IntersectionObserver yok, kısa ekran) yedektir. */}
+        {hasMore && (
+          <div ref={sentinelRef} className="mt-8 md:mt-10 flex flex-col items-center gap-3">
+            <motion.button
+              type="button"
+              onClick={showMore}
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.98 }}
+              className="group inline-flex items-center gap-2.5 bg-white text-brand border border-brand/20 hover:border-brand/50 px-7 py-3.5 rounded-full font-semibold text-xs shadow-sm hover:shadow-lg hover:shadow-ink/10 transition-all duration-500 cursor-pointer"
+            >
+              {/* 🔴 Burada dönen bir spinner YOK: temalar zaten paketin
+                  içinde, beklenen bir ağ turu yok. Kalıcı spinner
+                  olmayan bir yüklemeyi varmış gibi gösterirdi. */}
+              Daha fazla tema göster
+              <span className="text-muted font-medium">({remaining})</span>
+              <ChevronDown size={14} className="group-hover:translate-y-0.5 transition-transform duration-300" />
+            </motion.button>
+            <span className="text-muted text-[11px]">
+              {visibleTemplates.length} / {categoryTemplates.length} tema gösteriliyor
+            </span>
+          </div>
+        )}
       </div>
     </motion.section>
   );

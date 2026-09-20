@@ -1,17 +1,21 @@
-import React, { useId } from 'react';
+import React, { useId, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
-import { Check, Palette, RotateCcw, Sparkles, Type } from 'lucide-react';
-import { getTemplatesForCategory } from '../../data';
+import { Check, LayoutGrid, Palette, RotateCcw, Sparkles, Type } from 'lucide-react';
+import { getCategoryLabel, getTemplatesForCategory } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { CoupleNameFields } from '../create/CoupleNameFields';
 import { DateTimeInput } from '../ui/DateTimeInput';
+import { ThemePickerModal } from './ThemePickerModal';
 
 /** Bu panelin gecikmeli yazdığı alanlar — isimler kendi bileşeninde yazılır. */
 type PanelField = 'title' | 'date' | 'venue' | 'subtitle';
 const PANEL_FIELDS: readonly PanelField[] = ['title', 'date', 'venue', 'subtitle'];
 
 const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+
+/** Panelde duran hızlı seçim kutucuğu sayısı; gerisi tema seçiciden gelir. */
+const QUICK_THEME_COUNT = 4;
 
 const labelClass = 'block text-xs font-bold tracking-wider uppercase text-champagne';
 const inputClass =
@@ -27,9 +31,30 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
   const selectTemplate = useInvitationStore(s => s.selectTemplate);
   const resetInvitation = useInvitationStore(s => s.resetInvitation);
   const fieldId = useId();
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   // Only offer themes belonging to the invitation's event category.
   const categoryTemplates = getTemplatesForCategory(invitation.categoryId || null);
+
+  /**
+   * Hızlı seçim — koleksiyonun tamamı değil, yalnızca dört kutucuk.
+   *
+   * 🔴 Burada 30 küsur temayı listelemek, asıl işi (metinleri yazmak) ekranın
+   * çok aşağısına itiyordu. Seçili tema ilk dördün dışında kaldığında başa
+   * sabitlenir: kullanıcı seçiminin ne olduğunu her zaman görebilmeli.
+   */
+  const quickTemplates = useMemo(() => {
+    const selectedIndex = categoryTemplates.findIndex(preset => preset.id === activePresetId);
+    if (selectedIndex < QUICK_THEME_COUNT) return categoryTemplates.slice(0, QUICK_THEME_COUNT);
+
+    const selected = categoryTemplates[selectedIndex];
+    const rest = categoryTemplates
+      .filter(preset => preset.id !== selected.id)
+      .slice(0, QUICK_THEME_COUNT - 1);
+    return [selected, ...rest];
+  }, [categoryTemplates, activePresetId]);
+
+  const hiddenThemeCount = Math.max(categoryTemplates.length - quickTemplates.length, 0);
 
   // Local mirror keeps typing instant; the store (and live preview) is
   // updated behind a debounce so every keystroke doesn't re-render the app.
@@ -68,20 +93,29 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
           </p>
         </div>
 
-        {/* Theme & palette */}
+        {/* Theme & palette — hızlı seçim + tam koleksiyon */}
         <div className="space-y-3">
-          <h3 className="text-xs font-bold tracking-wider uppercase text-champagne flex items-center gap-2">
-            <Palette size={13} className="text-gold" />
-            Tema &amp; Renk Paleti
-          </h3>
+          <div className="flex items-center justify-between gap-3">
+            <h3 className="text-xs font-bold tracking-wider uppercase text-champagne flex items-center gap-2">
+              <Palette size={13} className="text-gold" />
+              Tema &amp; Renk Paleti
+            </h3>
+            {hiddenThemeCount > 0 && (
+              <span className="text-emerald-100/50 text-[10px] font-medium">
+                {categoryTemplates.length} tema
+              </span>
+            )}
+          </div>
+
           <div className="grid grid-cols-2 gap-2.5">
-            {categoryTemplates.map((preset) => {
+            {quickTemplates.map((preset) => {
               const isActive = activePresetId === preset.id;
               return (
                 <button
                   key={preset.id}
                   type="button"
                   onClick={() => selectTemplate(preset.id)}
+                  aria-pressed={isActive}
                   className={`group flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left cursor-pointer transition-all duration-300 ${
                     isActive
                       ? 'bg-champagne/15 border-gold/60 shadow-inner'
@@ -95,13 +129,35 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
                   >
                     {isActive && <Check size={11} className="text-champagne" strokeWidth={3} />}
                   </span>
-                  <span className={`text-[11px] font-semibold leading-tight ${isActive ? 'text-champagne' : 'text-white/80'}`}>
-                    {preset.name.split(' (')[0]}
+                  <span className="min-w-0">
+                    <span className={`block text-[11px] font-semibold leading-tight truncate ${isActive ? 'text-champagne' : 'text-white/80'}`}>
+                      {preset.name.split(' (')[0]}
+                    </span>
+                    {/* Seçili olanı yalnızca o kutucuk söyler; diğerleri sessiz kalır. */}
+                    {isActive && (
+                      <span className="block text-[9px] font-semibold tracking-wider uppercase text-gold/80 mt-0.5">
+                        Seçili
+                      </span>
+                    )}
                   </span>
                 </button>
               );
             })}
           </div>
+
+          {hiddenThemeCount > 0 && (
+            <motion.button
+              type="button"
+              onClick={() => setPickerOpen(true)}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full flex items-center justify-center gap-2 rounded-xl border border-dashed border-white/25 hover:border-gold/60 bg-white/[0.03] hover:bg-white/[0.07] px-3 py-2.5 text-[11px] font-semibold text-emerald-100/80 hover:text-champagne cursor-pointer transition-colors duration-300"
+            >
+              <LayoutGrid size={13} className="text-gold" />
+              Daha fazla tema
+              <span className="text-emerald-100/50 font-medium">(+{hiddenThemeCount})</span>
+            </motion.button>
+          )}
         </div>
 
         {/* Text fields */}
@@ -176,6 +232,15 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
           </button>
         </div>
       </div>
+
+      <ThemePickerModal
+        open={pickerOpen}
+        templates={categoryTemplates}
+        activePresetId={activePresetId}
+        categoryLabel={invitation.categoryId ? getCategoryLabel(invitation.categoryId) : undefined}
+        onSelect={selectTemplate}
+        onClose={() => setPickerOpen(false)}
+      />
     </motion.div>
   );
 });
