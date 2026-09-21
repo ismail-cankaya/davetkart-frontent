@@ -17,7 +17,7 @@ const DOGUM_GUNU_TERRAZZO_THEME: SectionTheme = {
   accent: 'text-[#ff6b35]',
   accentBg: 'bg-[#ff6b35]',
   accentSoft: 'bg-[#ff6b35]/12',
-  input: 'w-full bg-[#fffdf8] border border-[#f2e3d2] rounded-2xl px-4 py-2.5 text-sm text-[#2a2018] placeholder:text-[#8a7a68] focus:outline-none focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/20 transition-all duration-300',
+  input: 'w-full bg-[#fffdf8] border border-[#f2e3d2] rounded-2xl px-4 py-2.5 text-sm text-[#2a2018] placeholder:text-[#8a7a68] focus:outline-none focus:border-[#ff6b35] focus:ring-2 focus:ring-[#ff6b35]/20 transition duration-300',
   buttonPrimary: 'bg-[#2a2018] hover:brightness-125 text-[#fff7ef] rounded-full shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#f2e3d2] text-[#2a2018] hover:bg-[#ff6b35]/10 hover:border-[#ff6b35]/50 rounded-full',
   divider: 'bg-[#f2e3d2]',

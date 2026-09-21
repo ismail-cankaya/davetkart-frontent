@@ -21,7 +21,7 @@ const PARTI_DECO_THEME: SectionTheme = {
   accentBg: 'bg-[#d4af5f]',
   accentSoft: 'bg-[#d4af5f]/10',
   input:
-    'w-full bg-white/[0.05] border border-[#d4af5f]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f2e9d4] placeholder:text-[#7d7365] focus:outline-none focus:border-[#d4af5f] focus:ring-2 focus:ring-[#d4af5f]/20 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#d4af5f]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f2e9d4] placeholder:text-[#7d7365] focus:outline-none focus:border-[#d4af5f] focus:ring-2 focus:ring-[#d4af5f]/20 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#d4af5f] to-[#eed79b] hover:brightness-110 text-[#14110a] shadow-lg shadow-[#d4af5f]/20',
   buttonGhost:

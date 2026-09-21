@@ -18,7 +18,7 @@ const KINA_FILM_THEME: SectionTheme = {
   accent: 'text-[#e0785f]',
   accentBg: 'bg-[#e0785f]',
   accentSoft: 'bg-[#e0785f]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f9ece6] placeholder:text-[#9b8480] focus:outline-none focus:border-[#e0785f]/60 focus:ring-2 focus:ring-[#e0785f]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f9ece6] placeholder:text-[#9b8480] focus:outline-none focus:border-[#e0785f]/60 focus:ring-2 focus:ring-[#e0785f]/15 transition duration-300',
   buttonPrimary: 'bg-[#e0785f] hover:brightness-110 text-[#150a0b] shadow-lg shadow-[#e0785f]/25',
   buttonGhost: 'border border-white/16 text-[#e7d7d3] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

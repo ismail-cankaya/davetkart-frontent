@@ -20,7 +20,7 @@ const SUNNET_AURORA_THEME: SectionTheme = {
   accentBg: 'bg-[#5fb8e8]',
   accentSoft: 'bg-[#5fb8e8]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f4f8ff] placeholder:text-[#8b98ad] focus:outline-none focus:border-[#5fb8e8]/60 focus:ring-2 focus:ring-[#5fb8e8]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f4f8ff] placeholder:text-[#8b98ad] focus:outline-none focus:border-[#5fb8e8]/60 focus:ring-2 focus:ring-[#5fb8e8]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#5fb8e8] to-[#7d8ff0] hover:brightness-110 text-[#07131f] shadow-lg shadow-[#5fb8e8]/25',
   buttonGhost:

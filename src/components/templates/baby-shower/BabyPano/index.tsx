@@ -24,7 +24,7 @@ const BABY_PANO_THEME: SectionTheme = {
   accentBg: 'bg-[#a88f5f]',
   accentSoft: 'bg-[#a88f5f]/14',
   input:
-    'w-full bg-white border border-[#e2dccc] rounded-lg px-3.5 py-2.5 text-sm text-[#565247] placeholder:text-[#8a8478] focus:outline-none focus:border-[#a88f5f] focus:ring-2 focus:ring-[#a88f5f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e2dccc] rounded-lg px-3.5 py-2.5 text-sm text-[#565247] placeholder:text-[#8a8478] focus:outline-none focus:border-[#a88f5f] focus:ring-2 focus:ring-[#a88f5f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2e2b24] hover:bg-[#464236] text-[#f7f5f0] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d9d2be] text-[#645f52] hover:bg-[#efebe0] hover:border-[#bdb49a]',
   divider: 'bg-[#e2dccc]',

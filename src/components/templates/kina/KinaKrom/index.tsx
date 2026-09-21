@@ -25,7 +25,7 @@ const KINA_KROM_THEME: SectionTheme = {
   accentBg: 'bg-[#f0b9a0]',
   accentSoft: 'bg-[#f0b9a0]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#f6e8e2] placeholder:text-[#8f7671] focus:outline-none focus:border-[#f0b9a0]/60 focus:ring-2 focus:ring-[#f0b9a0]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#f6e8e2] placeholder:text-[#8f7671] focus:outline-none focus:border-[#f0b9a0]/60 focus:ring-2 focus:ring-[#f0b9a0]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#ffeadd] via-[#f0b9a0] to-[#d98fa8] hover:brightness-110 text-[#190c0d] shadow-lg shadow-[#f0b9a0]/20',
   buttonGhost:

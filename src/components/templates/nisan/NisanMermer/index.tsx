@@ -18,7 +18,7 @@ const NISAN_MERMER_THEME: SectionTheme = {
   accent: 'text-[#5f7f9f]',
   accentBg: 'bg-[#5f7f9f]',
   accentSoft: 'bg-[#5f7f9f]/12',
-  input: 'w-full bg-white border border-[#e2e4e8] rounded-lg px-3.5 py-2.5 text-sm text-[#4c5158] placeholder:text-[#828892] focus:outline-none focus:border-[#5f7f9f] focus:ring-2 focus:ring-[#5f7f9f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e2e4e8] rounded-lg px-3.5 py-2.5 text-sm text-[#4c5158] placeholder:text-[#828892] focus:outline-none focus:border-[#5f7f9f] focus:ring-2 focus:ring-[#5f7f9f]/18 transition duration-300',
   buttonPrimary: 'bg-[#23272c] hover:brightness-125 text-[#f5f6f7] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e2e4e8] text-[#4c5158] hover:bg-[#f5f6f7] hover:border-[#5f7f9f]/40',
   divider: 'bg-[#e2e4e8]',

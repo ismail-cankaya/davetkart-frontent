@@ -27,7 +27,7 @@ const NETWORK_THEME: SectionTheme = {
   accentBg: 'bg-[#6ea8ff]',
   accentSoft: 'bg-[#6ea8ff]/12',
   input:
-    'w-full bg-white/[0.05] border border-[#5b8cf0]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#e7ecf8] placeholder:text-[#6d7891] focus:outline-none focus:border-[#6ea8ff]/60 focus:ring-2 focus:ring-[#6ea8ff]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#5b8cf0]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#e7ecf8] placeholder:text-[#6d7891] focus:outline-none focus:border-[#6ea8ff]/60 focus:ring-2 focus:ring-[#6ea8ff]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#4a7ef0] to-[#8b6cf0] hover:from-[#5a8bf5] hover:to-[#9a7cf5] text-[#f4f7ff] shadow-lg shadow-[#4a7ef0]/25',
   buttonGhost:

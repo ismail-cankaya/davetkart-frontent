@@ -118,7 +118,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
                 onClick={() => void fetchRsvps()}
                 disabled={isLoading}
                 title="Listeyi Yenile"
-                className="p-2.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-500 hover:text-brand hover:border-brand/30 transition-all cursor-pointer flex items-center gap-1.5 text-xs font-semibold disabled:opacity-50"
+                className="p-2.5 rounded-xl bg-gray-50 border border-gray-200 text-gray-500 hover:text-brand hover:border-brand/30 transition cursor-pointer flex items-center gap-1.5 text-xs font-semibold disabled:opacity-50"
               >
                 <RefreshCw size={13} className={isLoading ? 'animate-spin' : undefined} /> Yenile
               </button>
@@ -205,7 +205,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
                           </span>
                           <button
                             onClick={() => void handleDeleteRsvp(rsvp.id)}
-                            className="p-1 h-7 w-7 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700 flex items-center justify-center border border-red-200 transition-all"
+                            className="p-1 h-7 w-7 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700 flex items-center justify-center border border-red-200 transition"
                             title="Kaydı Sil"
                           >
                             <Trash2 size={12} />

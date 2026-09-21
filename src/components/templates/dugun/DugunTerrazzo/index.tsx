@@ -17,7 +17,7 @@ const DUGUN_TERRAZZO_THEME: SectionTheme = {
   accent: 'text-[#c9a227]',
   accentBg: 'bg-[#c9a227]',
   accentSoft: 'bg-[#c9a227]/12',
-  input: 'w-full bg-[#fffdf9] border border-[#e6ded0] rounded-2xl px-4 py-2.5 text-sm text-[#2b2620] placeholder:text-[#7d766a] focus:outline-none focus:border-[#c9a227] focus:ring-2 focus:ring-[#c9a227]/20 transition-all duration-300',
+  input: 'w-full bg-[#fffdf9] border border-[#e6ded0] rounded-2xl px-4 py-2.5 text-sm text-[#2b2620] placeholder:text-[#7d766a] focus:outline-none focus:border-[#c9a227] focus:ring-2 focus:ring-[#c9a227]/20 transition duration-300',
   buttonPrimary: 'bg-[#2b2620] hover:brightness-125 text-[#f6f2ec] rounded-full shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e6ded0] text-[#2b2620] hover:bg-[#c9a227]/10 hover:border-[#c9a227]/50 rounded-full',
   divider: 'bg-[#e6ded0]',

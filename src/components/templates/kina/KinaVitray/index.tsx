@@ -24,7 +24,7 @@ const KINA_VITRAY_THEME: SectionTheme = {
   accentBg: 'bg-[#d1587f]',
   accentSoft: 'bg-[#d1587f]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#fbeef0] placeholder:text-[#9c8288] focus:outline-none focus:border-[#d1587f]/60 focus:ring-2 focus:ring-[#d1587f]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#fbeef0] placeholder:text-[#9c8288] focus:outline-none focus:border-[#d1587f]/60 focus:ring-2 focus:ring-[#d1587f]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#d1587f] to-[#e0a75c] hover:brightness-110 text-[#1c0a10] shadow-lg shadow-[#d1587f]/20',
   buttonGhost:

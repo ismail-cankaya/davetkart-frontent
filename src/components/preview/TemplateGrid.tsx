@@ -28,7 +28,7 @@ const CARD_SHOWN = { opacity: 1, transform: 'translateY(0px) scale(1)' };
  * çakışmaz ve Motion'ın her karede JS'te çalışmasına gerek kalmaz.
  */
 const CARD_MOTION_CLASS =
-  '[transition:box-shadow_700ms_ease,translate_400ms_var(--ease-luxe),scale_150ms_ease-out] hover:-translate-y-[5px] active:scale-[0.97]';
+  '[transition:box-shadow_300ms_ease,translate_300ms_var(--ease-luxe),scale_120ms_ease-out] hover:-translate-y-[5px] active:scale-[0.97]';
 
 interface TemplateGridProps {
   simulatorRef: React.RefObject<HTMLDivElement>;
@@ -121,7 +121,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
               <TemplateCover
                 preset={preset}
                 alt={`${getCategoryLabel(slotCategoryId)} — ${preset.name}`}
-                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1200ms] ease-out filter brightness-90 md:brightness-[0.82] group-hover:brightness-95"
+                className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-luxe filter brightness-90 md:brightness-[0.82] group-hover:brightness-95"
               />
 
               <AnimatePresence>
@@ -140,16 +140,21 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
 
               {/* Category first (loud), design name second (soft & elegant) */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-5">
-                <span className={`w-3 h-3 rounded-full ${preset.backgroundStyle} border border-white/40 mb-2 shadow-sm`} />
-                <h3 className="text-white font-bold text-sm lg:text-base tracking-[0.18em] uppercase leading-tight translate-y-0 group-hover:-translate-y-0.5 transition-transform duration-500">
-                  {getCategoryLabel(slotCategoryId)}
-                </h3>
-                <p className="font-serif italic text-[11px] lg:text-xs text-white/85 font-medium mt-0.5">
-                  {preset.name.split(' (')[0]}
-                </p>
-                <p className="text-[10px] text-white/70 font-medium tracking-wide max-h-0 opacity-0 group-hover:max-h-6 group-hover:opacity-100 group-hover:mt-0.5 transition-all duration-500 overflow-hidden">
-                  Önizlemek için tıklayın
-                </p>
+                {/* Alt başlık yeri baştan ayrılır; blok onun boyu (18px) kadar aşağıda
+                    bekler ve hover'da yukarı kayar. `max-height` açmak her karede
+                    layout hesaplatırdı; bu yalnızca transform + opacity. */}
+                <div className="translate-y-[1.125rem] group-hover:translate-y-0 transition-transform duration-300 ease-luxe">
+                  <span className={`block w-3 h-3 rounded-full ${preset.backgroundStyle} border border-white/40 mb-2 shadow-sm`} />
+                  <h3 className="text-white font-bold text-sm lg:text-base tracking-[0.18em] uppercase leading-tight">
+                    {getCategoryLabel(slotCategoryId)}
+                  </h3>
+                  <p className="font-serif italic text-[11px] lg:text-xs text-white/85 font-medium mt-0.5">
+                    {preset.name.split(' (')[0]}
+                  </p>
+                  <p aria-hidden="true" className="h-4 mt-0.5 text-[10px] leading-4 text-white/70 font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Önizlemek için tıklayın
+                  </p>
+                </div>
               </div>
             </motion.div>
           );
@@ -167,10 +172,10 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
         >
           {/* Understated lattice + glow to keep the CTA premium, not empty */}
           <span className="absolute inset-0 pattern-elegant opacity-[0.08] invert pointer-events-none" />
-          <span className="absolute -top-10 -right-10 w-36 h-36 bg-gold/20 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-700" />
+          <span className="absolute -top-10 -right-10 w-36 h-36 bg-gold/20 rounded-full blur-2xl pointer-events-none group-hover:scale-125 transition-transform duration-300 ease-luxe" />
 
           <span className="relative z-10 h-full flex flex-col justify-between p-5">
-            <span className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 text-champagne flex items-center justify-center group-hover:bg-white/20 transition-colors duration-500">
+            <span className="w-9 h-9 rounded-xl bg-white/10 border border-white/15 text-champagne flex items-center justify-center group-hover:bg-white/20 transition-colors duration-200">
               <LayoutGrid size={17} />
             </span>
             <span>
@@ -191,9 +196,9 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
           whileInView={rise(30).shown}
           viewport={{ once: true, margin: '0px' }}
           transition={{ duration: 0.7, ease: ease.out, delay: 0.35 }}
-          className="col-span-2 group relative rounded-2xl border-2 border-dashed border-brand/15 bg-white/60 hover:border-gold/50 hover:bg-white transition-all duration-500 p-5 flex items-center gap-4 cursor-default"
+          className="col-span-2 group relative rounded-2xl border-2 border-dashed border-brand/15 bg-white/60 hover:border-gold/50 hover:bg-white transition duration-300 ease-luxe p-5 flex items-center gap-4 cursor-default"
         >
-          <div className="w-11 h-11 shrink-0 rounded-xl bg-gradient-to-br from-champagne to-gold/30 text-brand flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+          <div className="w-11 h-11 shrink-0 rounded-xl bg-gradient-to-br from-champagne to-gold/30 text-brand flex items-center justify-center group-hover:scale-105 transition-transform duration-300 ease-luxe">
             <WandSparkles size={20} />
           </div>
           <div className="text-left">
@@ -214,7 +219,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
         whileInView={rise(20).shown}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: ease.out, delay: 0.5 }}
-        className="bg-champagne/30 p-4 rounded-2xl border border-champagne hidden lg:flex items-start gap-4 mt-4 hover:bg-champagne/50 transition-colors duration-500"
+        className="bg-champagne/30 p-4 rounded-2xl border border-champagne hidden lg:flex items-start gap-4 mt-4 hover:bg-champagne/50 transition-colors duration-200"
       >
         <div className="p-2 rounded-xl bg-white text-brand shadow-sm mt-0.5">
           <PenLine size={16} />

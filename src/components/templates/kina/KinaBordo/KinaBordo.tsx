@@ -24,7 +24,7 @@ const KINA_BORDO_THEME: SectionTheme = {
   accentBg: 'bg-[#e8c07a]',
   accentSoft: 'bg-[#e8c07a]/10',
   input:
-    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#f2ded3] placeholder:text-[#c0a094] focus:outline-none focus:border-[#e8c07a]/50 focus:ring-2 focus:ring-[#e8c07a]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#f2ded3] placeholder:text-[#c0a094] focus:outline-none focus:border-[#e8c07a]/50 focus:ring-2 focus:ring-[#e8c07a]/15 transition duration-300',
   buttonPrimary:
     'bg-[#e8c07a] hover:bg-[#f0cf95] text-[#2b0a15] shadow-lg shadow-[#e8c07a]/15',
   buttonGhost:

@@ -7,7 +7,7 @@ import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { CoupleNameFields } from '../create/CoupleNameFields';
 import { DateTimeInput } from '../ui/DateTimeInput';
 import { ThemePickerModal } from './ThemePickerModal';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 /** Bu panelin gecikmeli yazdığı alanlar — isimler kendi bileşeninde yazılır. */
 type PanelField = 'title' | 'date' | 'venue' | 'subtitle';
@@ -18,7 +18,7 @@ const QUICK_THEME_COUNT = 4;
 
 const labelClass = 'block text-xs font-bold tracking-wider uppercase text-champagne';
 const inputClass =
-  'w-full bg-white/5 border border-white/15 focus:border-gold focus:ring-2 focus:ring-gold/20 focus:outline-none rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 transition-all duration-300';
+  'w-full bg-white/5 border border-white/15 focus:border-gold focus:ring-2 focus:ring-gold/20 focus:outline-none rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 transition duration-300';
 
 /**
  * Detailed editing panel of the editor workspace: theme & palette switching
@@ -66,9 +66,9 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: -40 }}
+      initial={{ opacity: 0, x: -16 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.9, ease: ease.out, delay: 0.1 }}
+      transition={{ duration: duration.panel, ease: ease.out, delay: 0.05 }}
       className="w-full lg:w-1/2 bg-gradient-to-b from-brand-deep via-emerald-950 to-brand-deep text-white rounded-3xl border border-white/10 shadow-2xl shadow-black/20 p-6 md:p-8 space-y-7 relative overflow-hidden"
     >
       {/* Ambient glow */}
@@ -115,7 +115,7 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
                   type="button"
                   onClick={() => selectTemplate(preset.id)}
                   aria-pressed={isActive}
-                  className={`group flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left cursor-pointer transition-all duration-300 ${
+                  className={`group flex items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left cursor-pointer transition duration-300 ${
                     isActive
                       ? 'bg-champagne/15 border-gold/60 shadow-inner'
                       : 'bg-white/5 border-white/10 hover:border-white/30 hover:bg-white/10'

@@ -26,7 +26,7 @@ const BABY_VITRAY_THEME: SectionTheme = {
   accentBg: 'bg-[#e695a8]',
   accentSoft: 'bg-[#e695a8]/14',
   input:
-    'w-full bg-white border border-[#e4ddd1] rounded-lg px-3.5 py-2.5 text-sm text-[#5c564b] placeholder:text-[#8a8479] focus:outline-none focus:border-[#e695a8] focus:ring-2 focus:ring-[#e695a8]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e4ddd1] rounded-lg px-3.5 py-2.5 text-sm text-[#5c564b] placeholder:text-[#8a8479] focus:outline-none focus:border-[#e695a8] focus:ring-2 focus:ring-[#e695a8]/18 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#e695a8] to-[#a8d5e2] hover:brightness-105 text-[#2b2822] shadow-lg shadow-[#e695a8]/20',
   buttonGhost:

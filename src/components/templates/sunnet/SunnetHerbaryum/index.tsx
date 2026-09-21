@@ -18,7 +18,7 @@ const SUNNET_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#2f7f8c]',
   accentBg: 'bg-[#2f7f8c]',
   accentSoft: 'bg-[#2f7f8c]/10',
-  input: 'w-full bg-[#fdfffd] border border-[#4f7a6a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#202b26] placeholder:text-[#74827b] focus:outline-none focus:border-[#2f7f8c] focus:ring-2 focus:ring-[#2f7f8c]/15 transition-all duration-300',
+  input: 'w-full bg-[#fdfffd] border border-[#4f7a6a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#202b26] placeholder:text-[#74827b] focus:outline-none focus:border-[#2f7f8c] focus:ring-2 focus:ring-[#2f7f8c]/15 transition duration-300',
   buttonPrimary: 'bg-[#202b26] hover:brightness-125 text-[#f1f5f1] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#4f7a6a]/35 text-[#202b26] hover:bg-[#4f7a6a]/10 hover:border-[#4f7a6a]/60 rounded-sm',
   divider: 'bg-[#4f7a6a]/20',

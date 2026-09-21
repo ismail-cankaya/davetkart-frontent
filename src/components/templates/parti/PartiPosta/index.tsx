@@ -18,7 +18,7 @@ const PARTI_POSTA_THEME: SectionTheme = {
   accent: 'text-[#ff5f8f]',
   accentBg: 'bg-[#ff5f8f]',
   accentSoft: 'bg-[#ff5f8f]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f4f2f6] placeholder:text-[#8a8590] focus:outline-none focus:border-[#ff5f8f]/60 focus:ring-2 focus:ring-[#ff5f8f]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f4f2f6] placeholder:text-[#8a8590] focus:outline-none focus:border-[#ff5f8f]/60 focus:ring-2 focus:ring-[#ff5f8f]/15 transition duration-300',
   buttonPrimary: 'bg-[#ff5f8f] hover:brightness-110 text-[#0b0a0c] shadow-lg shadow-[#ff5f8f]/25',
   buttonGhost: 'border border-white/16 text-[#dcd8de] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

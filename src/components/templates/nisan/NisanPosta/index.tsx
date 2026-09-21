@@ -18,7 +18,7 @@ const NISAN_POSTA_THEME: SectionTheme = {
   accent: 'text-[#4f6f9f]',
   accentBg: 'bg-[#4f6f9f]',
   accentSoft: 'bg-[#4f6f9f]/12',
-  input: 'w-full bg-white border border-[#e2e5ea] rounded-lg px-3.5 py-2.5 text-sm text-[#4c525a] placeholder:text-[#828892] focus:outline-none focus:border-[#4f6f9f] focus:ring-2 focus:ring-[#4f6f9f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e2e5ea] rounded-lg px-3.5 py-2.5 text-sm text-[#4c525a] placeholder:text-[#828892] focus:outline-none focus:border-[#4f6f9f] focus:ring-2 focus:ring-[#4f6f9f]/18 transition duration-300',
   buttonPrimary: 'bg-[#22262e] hover:brightness-125 text-[#f6f7f9] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e2e5ea] text-[#4c525a] hover:bg-[#f6f7f9] hover:border-[#4f6f9f]/40',
   divider: 'bg-[#e2e5ea]',

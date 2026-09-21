@@ -26,7 +26,7 @@ const DUGUN_NOIR_THEME: SectionTheme = {
   accentBg: 'bg-[#c9a961]',
   accentSoft: 'bg-[#c9a961]/10',
   input:
-    'w-full bg-white/[0.035] border border-[#c9a961]/16 rounded-none px-3.5 py-2.5 text-sm text-[#ece8e0] placeholder:text-[#75706a] focus:outline-none focus:border-[#c9a961]/55 focus:ring-0 transition-all duration-300',
+    'w-full bg-white/[0.035] border border-[#c9a961]/16 rounded-none px-3.5 py-2.5 text-sm text-[#ece8e0] placeholder:text-[#75706a] focus:outline-none focus:border-[#c9a961]/55 focus:ring-0 transition duration-300',
   // Köşesiz (rounded-none) butonlar: İsviçre tipografisinin sert geometrisi.
   buttonPrimary:
     'rounded-none bg-[#c9a961] hover:bg-[#d8ba76] text-[#0b0a07] shadow-none',

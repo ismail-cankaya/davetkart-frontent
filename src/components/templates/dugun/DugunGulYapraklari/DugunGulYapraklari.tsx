@@ -29,7 +29,7 @@ const GUL_THEME: SectionTheme = {
   accentBg: 'bg-[#bf7f88]',
   accentSoft: 'bg-[#bf7f88]/10',
   input:
-    'w-full bg-white/85 border border-[#f0dcd9] rounded-lg px-3.5 py-2.5 text-sm text-[#59403f] placeholder:text-[#bda3a3] focus:outline-none focus:border-[#bf7f88] focus:ring-2 focus:ring-[#bf7f88]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#f0dcd9] rounded-lg px-3.5 py-2.5 text-sm text-[#59403f] placeholder:text-[#bda3a3] focus:outline-none focus:border-[#bf7f88] focus:ring-2 focus:ring-[#bf7f88]/20 transition duration-300',
   buttonPrimary:
     'bg-[#a8616c] hover:bg-[#b9737f] text-[#fdf4f2] shadow-lg shadow-[#a8616c]/15',
   buttonGhost:

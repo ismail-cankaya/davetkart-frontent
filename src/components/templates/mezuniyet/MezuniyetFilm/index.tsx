@@ -18,7 +18,7 @@ const MEZUNIYET_FILM_THEME: SectionTheme = {
   accent: 'text-[#c9a961]',
   accentBg: 'bg-[#c9a961]',
   accentSoft: 'bg-[#c9a961]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f2f6] placeholder:text-[#858b95] focus:outline-none focus:border-[#c9a961]/60 focus:ring-2 focus:ring-[#c9a961]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f2f6] placeholder:text-[#858b95] focus:outline-none focus:border-[#c9a961]/60 focus:ring-2 focus:ring-[#c9a961]/15 transition duration-300',
   buttonPrimary: 'bg-[#c9a961] hover:brightness-110 text-[#0b0d12] shadow-lg shadow-[#c9a961]/25',
   buttonGhost: 'border border-white/16 text-[#dbdfe6] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

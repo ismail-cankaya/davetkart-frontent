@@ -19,7 +19,7 @@ const DUGUN_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#9c6b3f]',
   accentSoft: 'bg-[#9c6b3f]/12',
   input:
-    'w-full bg-white border border-[#e2d6bf] rounded-lg px-3.5 py-2.5 text-sm text-[#544a3d] placeholder:text-[#8b8071] focus:outline-none focus:border-[#9c6b3f] focus:ring-2 focus:ring-[#9c6b3f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e2d6bf] rounded-lg px-3.5 py-2.5 text-sm text-[#544a3d] placeholder:text-[#8b8071] focus:outline-none focus:border-[#9c6b3f] focus:ring-2 focus:ring-[#9c6b3f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2b2118] hover:bg-[#453626] text-[#f7f1e6] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dacdb2] text-[#63594a] hover:bg-[#f0e8d9] hover:border-[#bfae8e]',
   divider: 'bg-[#e2d6bf]',

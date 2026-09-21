@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, CalendarDays, ChevronRight, Mail, ScrollText } from 'lucide-react';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 export interface LegalSection {
   id: string;
@@ -74,7 +74,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: ease.out }}
+            transition={{ duration: duration.panel, ease: ease.out }}
             className="max-w-3xl space-y-5"
           >
             <nav className="flex items-center gap-1.5 text-xs text-emerald-100/50" aria-label="breadcrumb">
@@ -114,7 +114,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
                   <a
                     key={section.id}
                     href={`#${section.id}`}
-                    className={`relative flex items-baseline gap-2.5 ps-4 py-1.5 text-xs leading-snug transition-all duration-300 ${
+                    className={`relative flex items-baseline gap-2.5 ps-4 py-1.5 text-xs leading-snug transition duration-300 ${
                       isActive ? 'text-brand font-semibold' : 'text-muted hover:text-brand'
                     }`}
                   >
@@ -143,7 +143,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.7, ease: ease.out }}
+              transition={{ duration: duration.panel, ease: ease.out }}
             >
               <div className="flex items-center gap-3 mb-4">
                 <span className="font-serif text-sm font-bold text-gold">{String(idx + 1).padStart(2, '0')}</span>
@@ -189,7 +189,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
             <Link
               key={link.to}
               to={link.to}
-              className="group rounded-3xl bg-white border border-ink/[0.06] p-6 shadow-sm hover:shadow-xl hover:shadow-brand/10 hover:border-brand/15 transition-all duration-500 hover:-translate-y-1"
+              className="group rounded-3xl bg-white border border-ink/[0.06] p-6 shadow-sm hover:shadow-xl hover:shadow-brand/10 hover:border-brand/15 transition duration-300 ease-luxe hover:-translate-y-1"
             >
               <h3 className="font-serif text-lg font-bold text-ink mb-1.5 flex items-center justify-between gap-2">
                 {link.label}
@@ -210,7 +210,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
           </div>
           <Link
             to="/contact"
-            className="relative z-10 inline-flex items-center gap-2.5 bg-champagne text-brand-deep px-7 py-3.5 rounded-full font-bold text-sm hover:bg-gold transition-all duration-300 hover:-translate-y-0.5 shrink-0"
+            className="relative z-10 inline-flex items-center gap-2.5 bg-champagne text-brand-deep px-7 py-3.5 rounded-full font-bold text-sm hover:bg-gold transition duration-300 hover:-translate-y-0.5 shrink-0"
           >
             <Mail size={15} />
             İletişime Geçin

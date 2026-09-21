@@ -12,7 +12,7 @@ import {
   parseCoordinates,
   readMapLocation
 } from '../../../utils/mapLocation';
-import { ease } from '../../../utils/motion';
+import { backdropVariants, ease, modalVariants } from '../../../utils/motion';
 
 /** Harita, yazma durunca güncellenir: her tuşta iframe yeniden yüklenmesin. */
 const PREVIEW_DEBOUNCE_MS = 450;
@@ -100,10 +100,10 @@ function MapPickerDialog({ initialPoint, onClose, onConfirm }: Omit<MapPickerMod
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: ease.out }}
+      variants={backdropVariants}
+      initial="hidden"
+      animate="shown"
+      exit="exit"
       onClick={onClose}
       data-lenis-prevent
       className="fixed inset-0 z-[110] bg-ink/50 backdrop-blur-md flex items-end sm:items-center justify-center sm:p-4 overflow-y-auto"
@@ -112,10 +112,10 @@ function MapPickerDialog({ initialPoint, onClose, onConfirm }: Omit<MapPickerMod
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        initial={{ opacity: 0, y: 40, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 28, scale: 0.98 }}
-        transition={{ duration: 0.45, ease: ease.out }}
+        variants={modalVariants}
+        initial="hidden"
+        animate="shown"
+        exit="exit"
         onClick={(e) => e.stopPropagation()}
         className="relative w-full sm:max-w-xl bg-cream rounded-t-3xl sm:rounded-3xl shadow-2xl shadow-ink/30 border border-white/40 overflow-hidden"
       >
@@ -202,7 +202,7 @@ function MapPickerDialog({ initialPoint, onClose, onConfirm }: Omit<MapPickerMod
               aria-describedby={hintId}
               className={cn(
                 'w-full rounded-xl border bg-white pl-10 pr-4 py-3 text-sm text-ink font-mono placeholder:font-sans placeholder:text-muted/50',
-                'focus:outline-none focus:ring-2 transition-all duration-300',
+                'focus:outline-none focus:ring-2 transition duration-300',
                 errorVisible
                   ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/15'
                   : 'border-ink/15 focus:border-brand focus:ring-brand/15'

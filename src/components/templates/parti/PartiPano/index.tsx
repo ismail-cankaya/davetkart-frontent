@@ -19,7 +19,7 @@ const PARTI_PANO_THEME: SectionTheme = {
   accentBg: 'bg-[#4fe0a0]',
   accentSoft: 'bg-[#4fe0a0]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2ef] placeholder:text-[#87877f] focus:outline-none focus:border-[#4fe0a0]/60 focus:ring-2 focus:ring-[#4fe0a0]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2ef] placeholder:text-[#87877f] focus:outline-none focus:border-[#4fe0a0]/60 focus:ring-2 focus:ring-[#4fe0a0]/15 transition duration-300',
   buttonPrimary: 'bg-[#4fe0a0] hover:bg-[#71e9b5] text-[#04140c] shadow-lg shadow-[#4fe0a0]/25',
   buttonGhost: 'border border-white/16 text-[#dcdedb] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

@@ -25,7 +25,7 @@ const MASALLAH_THEME: SectionTheme = {
   accentBg: 'bg-[#e0b662]',
   accentSoft: 'bg-[#e0b662]/10',
   input:
-    'w-full bg-white/[0.06] border border-[#e0b662]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f7e8da] placeholder:text-[#8f746c] focus:outline-none focus:border-[#e0b662]/60 focus:ring-2 focus:ring-[#e0b662]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#e0b662]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f7e8da] placeholder:text-[#8f746c] focus:outline-none focus:border-[#e0b662]/60 focus:ring-2 focus:ring-[#e0b662]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#e0b662] to-[#f0d18d] hover:from-[#e9c477] hover:to-[#f7dea6] text-[#1d0f06] shadow-lg shadow-[#e0b662]/20',
   buttonGhost:

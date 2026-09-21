@@ -16,11 +16,11 @@ import { scrollToTarget } from '../../hooks/useLenis';
 import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { cn } from '../../utils/cn';
 import { formatTimeZoneLabel, timeZoneOptions } from '../../utils/timeZones';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 const labelClass = 'block text-xs font-bold tracking-wider uppercase text-champagne';
 const inputClass =
-  'w-full bg-white/5 border border-white/15 focus:border-gold focus:ring-2 focus:ring-gold/20 focus:outline-none rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 transition-all duration-300';
+  'w-full bg-white/5 border border-white/15 focus:border-gold focus:ring-2 focus:ring-gold/20 focus:outline-none rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 transition duration-300';
 
 /** Invitation fields edited through the debounced text pipeline. */
 type TextField = 'subtitle' | 'date' | 'venue' | 'bankName' | 'accountHolder' | 'iban' | 'rsvpDeadline';
@@ -111,10 +111,10 @@ export function DetailsFormStep() {
     <motion.section
       id="sihirbaz-form"
       className="py-12 md:py-20 bg-gradient-to-b from-brand-deep via-emerald-950 to-brand-deep text-white relative overflow-hidden scroll-mt-20"
-      initial={{ opacity: 0, y: 60 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.9, ease: ease.out }}
+      exit={{ opacity: 0, y: 12, transition: { duration: duration.fast, ease: ease.in } }}
+      transition={{ duration: duration.panel, ease: ease.out }}
     >
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
@@ -135,9 +135,9 @@ export function DetailsFormStep() {
 
         <motion.form
           onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: ease.out, delay: 0.1 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: duration.panel, ease: ease.out, delay: 0.08 }}
           className="bg-white/[0.07] backdrop-blur-md p-6 md:p-8 rounded-3xl border border-white/10 space-y-8 shadow-2xl shadow-black/20"
         >
           {/* ————— Grup A: Temel Bilgiler ————— */}
@@ -374,7 +374,7 @@ export function DetailsFormStep() {
             type="submit"
             whileHover={{ y: -3 }}
             whileTap={{ scale: 0.98 }}
-            className="group relative overflow-hidden w-full bg-champagne hover:bg-gold text-brand-deep font-bold py-4 rounded-2xl text-sm flex items-center justify-center gap-2.5 shadow-lg shadow-black/25 cursor-pointer transition-colors duration-500"
+            className="group relative overflow-hidden w-full bg-champagne hover:bg-gold text-brand-deep font-bold py-4 rounded-2xl text-sm flex items-center justify-center gap-2.5 shadow-lg shadow-black/25 cursor-pointer transition-colors duration-200"
           >
             <span className="absolute inset-0 animate-shimmer pointer-events-none" />
             <WandSparkles size={17} className="group-hover:rotate-12 transition-transform duration-300" />

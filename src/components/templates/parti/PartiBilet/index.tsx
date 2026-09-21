@@ -21,7 +21,7 @@ const PARTI_BILET_THEME: SectionTheme = {
   accentBg: 'bg-[#ff4fa3]',
   accentSoft: 'bg-[#ff4fa3]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2ebf8] placeholder:text-[#7f7291] focus:outline-none focus:border-[#ff4fa3] focus:ring-2 focus:ring-[#ff4fa3]/20 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2ebf8] placeholder:text-[#7f7291] focus:outline-none focus:border-[#ff4fa3] focus:ring-2 focus:ring-[#ff4fa3]/20 transition duration-300',
   buttonPrimary:
     'bg-[#ff4fa3] hover:bg-[#ff6cb4] text-[#1a0410] shadow-lg shadow-[#ff4fa3]/25',
   buttonGhost:

@@ -19,7 +19,7 @@ const SUNNET_YILDIZ_HARITASI_THEME: SectionTheme = {
   accentBg: 'bg-[#7fd0c0]',
   accentSoft: 'bg-[#7fd0c0]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef4f8] placeholder:text-[#818e98] focus:outline-none focus:border-[#7fd0c0]/60 focus:ring-2 focus:ring-[#7fd0c0]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef4f8] placeholder:text-[#818e98] focus:outline-none focus:border-[#7fd0c0]/60 focus:ring-2 focus:ring-[#7fd0c0]/15 transition duration-300',
   buttonPrimary: 'bg-[#7fd0c0] hover:bg-[#9adcd0] text-[#04141a] shadow-lg shadow-[#7fd0c0]/25',
   buttonGhost: 'border border-white/16 text-[#d8e2ea] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

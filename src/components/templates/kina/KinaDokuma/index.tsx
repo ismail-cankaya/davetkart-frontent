@@ -24,7 +24,7 @@ const KINA_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#8a4f7a]',
   accentSoft: 'bg-[#8a4f7a]/12',
   input:
-    'w-full bg-white border border-[#e6d4bc] rounded-lg px-3.5 py-2.5 text-sm text-[#554438] placeholder:text-[#8d7d6c] focus:outline-none focus:border-[#8a4f7a] focus:ring-2 focus:ring-[#8a4f7a]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e6d4bc] rounded-lg px-3.5 py-2.5 text-sm text-[#554438] placeholder:text-[#8d7d6c] focus:outline-none focus:border-[#8a4f7a] focus:ring-2 focus:ring-[#8a4f7a]/18 transition duration-300',
   buttonPrimary: 'bg-[#2c1d16] hover:bg-[#463125] text-[#f9efe2] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#ddc9ae] text-[#655445] hover:bg-[#f2e6d5] hover:border-[#c2ab8a]',
   divider: 'bg-[#e6d4bc]',

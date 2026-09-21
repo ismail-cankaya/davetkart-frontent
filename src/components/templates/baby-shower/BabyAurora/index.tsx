@@ -26,7 +26,7 @@ const BABY_AURORA_THEME: SectionTheme = {
   accentBg: 'bg-[#9a8fd8]',
   accentSoft: 'bg-[#9a8fd8]/14',
   input:
-    'w-full bg-white/85 border border-[#e6e3ee] rounded-lg px-3.5 py-2.5 text-sm text-[#5a5566] placeholder:text-[#8a8496] focus:outline-none focus:border-[#9a8fd8] focus:ring-2 focus:ring-[#9a8fd8]/18 transition-all duration-300',
+    'w-full bg-white/85 border border-[#e6e3ee] rounded-lg px-3.5 py-2.5 text-sm text-[#5a5566] placeholder:text-[#8a8496] focus:outline-none focus:border-[#9a8fd8] focus:ring-2 focus:ring-[#9a8fd8]/18 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#9a8fd8] to-[#7ec8e0] hover:brightness-105 text-[#1e1a28] shadow-lg shadow-[#9a8fd8]/20',
   buttonGhost:

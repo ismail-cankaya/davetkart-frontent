@@ -7,7 +7,7 @@ import { AssistantLoginCta } from './AssistantLoginCta';
 import { useAssistantChat } from './useAssistantChat';
 import { AssistantWindowState } from './types';
 import { useAuthStore } from '../../stores/useAuthStore';
-import { ease } from '../../utils/motion';
+import { backdropVariants, duration, ease, gesture } from '../../utils/motion';
 
 /**
  * Sağ altta yaşayan asistan: yuvarlak buton (FAB), Messenger tarzı açılır
@@ -29,9 +29,10 @@ export function AssistantWidget() {
       <AnimatePresence>
         {isFullscreen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            variants={backdropVariants}
+            initial="hidden"
+            animate="shown"
+            exit="exit"
             onClick={() => setWindowState('open')}
             className="fixed inset-0 bg-ink/40 backdrop-blur-sm z-[80]"
           />
@@ -46,8 +47,8 @@ export function AssistantWidget() {
             layout
             initial={{ opacity: 0, y: 24, scale: 0.92, transformOrigin: 'bottom right' }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.92 }}
-            transition={{ duration: 0.45, ease: ease.out }}
+            exit={{ opacity: 0, y: 16, scale: 0.95, transition: { duration: duration.fast, ease: ease.in } }}
+            transition={{ duration: duration.panel, ease: ease.out }}
             className={`fixed z-[90] overflow-hidden bg-cream shadow-2xl shadow-ink/25 border border-ink/10 flex flex-col ${
               isFullscreen
                 ? 'inset-2 md:inset-x-auto md:inset-y-6 md:right-6 md:w-[min(560px,calc(100vw-3rem))] rounded-2xl md:rounded-3xl'
@@ -88,8 +89,8 @@ export function AssistantWidget() {
             key="assistant-minibar"
             initial={{ opacity: 0, y: 16, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.9 }}
-            transition={{ duration: 0.35, ease: ease.out }}
+            exit={{ opacity: 0, y: 16, scale: 0.9, transition: { duration: duration.fast, ease: ease.in } }}
+            transition={{ duration: duration.base, ease: ease.out }}
             onClick={() => setWindowState('open')}
             className="fixed bottom-24 right-4 md:right-6 z-[90] flex items-center gap-2.5 bg-gradient-to-r from-brand-deep to-brand text-white pl-2.5 pr-4 py-2 rounded-full shadow-xl shadow-brand/25 border border-gold/20 hover:-translate-y-0.5 transition-transform duration-300 cursor-pointer"
             aria-label="Sohbeti geri aç"
@@ -109,12 +110,12 @@ export function AssistantWidget() {
         {!isFullscreen && (
           <motion.button
             key="assistant-fab"
-            initial={{ opacity: 0, scale: 0, y: 20 }}
+            initial={{ opacity: 0, scale: 0.85, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0 }}
-            transition={{ duration: 0.5, ease: ease.out, delay: 0.2 }}
-            whileHover={{ scale: 1.08, y: -2 }}
-            whileTap={{ scale: 0.92 }}
+            exit={{ opacity: 0, scale: 0.85, transition: { duration: duration.fast, ease: ease.in } }}
+            transition={{ duration: duration.base, ease: ease.out, delay: 0.2 }}
+            whileHover={{ scale: 1.06, y: -2, transition: gesture.hover }}
+            whileTap={{ scale: 0.94, transition: gesture.press }}
             onClick={() => setWindowState(isOpen ? 'closed' : 'open')}
             aria-label={isOpen ? 'Asistanı kapat' : 'Asistanı aç'}
             className="fixed bottom-5 right-4 md:bottom-6 md:right-6 z-[95] w-14 h-14 rounded-full bg-gradient-to-br from-brand to-brand-deep text-champagne shadow-xl shadow-brand/35 border border-gold/25 flex items-center justify-center cursor-pointer overflow-hidden"

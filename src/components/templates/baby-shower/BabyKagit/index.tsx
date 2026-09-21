@@ -21,7 +21,7 @@ const BABY_KAGIT_THEME: SectionTheme = {
   accentBg: 'bg-[#3f6b57]',
   accentSoft: 'bg-[#3f6b57]/12',
   input:
-    'w-full bg-white border border-[#ddd6c6] rounded-lg px-3.5 py-2.5 text-sm text-[#57503f] placeholder:text-[#867f6c] focus:outline-none focus:border-[#3f6b57] focus:ring-2 focus:ring-[#3f6b57]/18 transition-all duration-300',
+    'w-full bg-white border border-[#ddd6c6] rounded-lg px-3.5 py-2.5 text-sm text-[#57503f] placeholder:text-[#867f6c] focus:outline-none focus:border-[#3f6b57] focus:ring-2 focus:ring-[#3f6b57]/18 transition duration-300',
   buttonPrimary:
     'bg-[#2b2618] hover:bg-[#443d29] text-[#f8f5ef] shadow-lg shadow-black/10',
   buttonGhost:

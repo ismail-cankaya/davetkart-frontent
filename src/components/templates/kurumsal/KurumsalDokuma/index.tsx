@@ -19,7 +19,7 @@ const KURUMSAL_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#2f5f6f]',
   accentSoft: 'bg-[#2f5f6f]/12',
   input:
-    'w-full bg-white border border-[#dedcd4] rounded-lg px-3.5 py-2.5 text-sm text-[#4b4e50] placeholder:text-[#7e8184] focus:outline-none focus:border-[#2f5f6f] focus:ring-2 focus:ring-[#2f5f6f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dedcd4] rounded-lg px-3.5 py-2.5 text-sm text-[#4b4e50] placeholder:text-[#7e8184] focus:outline-none focus:border-[#2f5f6f] focus:ring-2 focus:ring-[#2f5f6f]/18 transition duration-300',
   buttonPrimary: 'bg-[#22262a] hover:bg-[#383d42] text-[#f4f3ef] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d3d1c8] text-[#5a5d60] hover:bg-[#eceae4] hover:border-[#b0aea3]',
   divider: 'bg-[#dedcd4]',

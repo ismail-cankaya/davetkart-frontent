@@ -23,7 +23,7 @@ const DUGUN_KAGIT_THEME: SectionTheme = {
   accentBg: 'bg-[#8e1b2e]',
   accentSoft: 'bg-[#8e1b2e]/10',
   input:
-    'w-full bg-white/80 border border-[#d9cdb8] rounded-lg px-3.5 py-2.5 text-sm text-[#5a5044] placeholder:text-[#a89c8a] focus:outline-none focus:border-[#8e1b2e] focus:ring-2 focus:ring-[#8e1b2e]/20 transition-all duration-300',
+    'w-full bg-white/80 border border-[#d9cdb8] rounded-lg px-3.5 py-2.5 text-sm text-[#5a5044] placeholder:text-[#a89c8a] focus:outline-none focus:border-[#8e1b2e] focus:ring-2 focus:ring-[#8e1b2e]/20 transition duration-300',
   buttonPrimary:
     'bg-[#2a231b] hover:bg-[#43392e] text-[#f7f2e8] shadow-lg shadow-black/10',
   buttonGhost:

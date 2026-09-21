@@ -18,7 +18,7 @@ const KINA_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#b8434f]',
   accentBg: 'bg-[#b8434f]',
   accentSoft: 'bg-[#b8434f]/10',
-  input: 'w-full bg-[#fffcf2] border border-[#8a6a3a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2d2116] placeholder:text-[#8a7a62] focus:outline-none focus:border-[#b8434f] focus:ring-2 focus:ring-[#b8434f]/15 transition-all duration-300',
+  input: 'w-full bg-[#fffcf2] border border-[#8a6a3a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2d2116] placeholder:text-[#8a7a62] focus:outline-none focus:border-[#b8434f] focus:ring-2 focus:ring-[#b8434f]/15 transition duration-300',
   buttonPrimary: 'bg-[#2d2116] hover:brightness-125 text-[#faf1e0] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#8a6a3a]/35 text-[#2d2116] hover:bg-[#8a6a3a]/10 hover:border-[#8a6a3a]/60 rounded-sm',
   divider: 'bg-[#8a6a3a]/20',

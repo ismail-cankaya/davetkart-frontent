@@ -2,7 +2,7 @@ import React from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { cn } from '../../utils/cn';
 import { SwitchTrack } from '../ui/Switch';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 interface ToggleRowProps {
   /** Wizard question, e.g. "Geri sayım sayacı eklensin mi?" */
@@ -23,7 +23,7 @@ export function ToggleRow({ question, hint, checked, onChange, children }: Toggl
   return (
     <div
       className={cn(
-        'rounded-2xl border transition-colors duration-500',
+        'rounded-2xl border transition-colors duration-200',
         checked ? 'border-gold/30 bg-white/[0.05]' : 'border-white/10 bg-white/[0.02]'
       )}
     >
@@ -50,7 +50,7 @@ export function ToggleRow({ question, hint, checked, onChange, children }: Toggl
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.5, ease: ease.out }}
+            transition={{ duration: duration.base, ease: ease.out }}
             className="overflow-hidden"
           >
             <div className="px-4 pb-4 pt-1 space-y-4 border-t border-white/5">{children}</div>

@@ -24,7 +24,7 @@ const BABY_KABARCIK_THEME: SectionTheme = {
   accentBg: 'bg-[#e2a08c]',
   accentSoft: 'bg-[#e2a08c]/10',
   input:
-    'w-full bg-white/85 border border-[#dceee8] rounded-lg px-3.5 py-2.5 text-sm text-[#38504b] placeholder:text-[#8aa09a] focus:outline-none focus:border-[#e2a08c] focus:ring-2 focus:ring-[#e2a08c]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#dceee8] rounded-lg px-3.5 py-2.5 text-sm text-[#38504b] placeholder:text-[#8aa09a] focus:outline-none focus:border-[#e2a08c] focus:ring-2 focus:ring-[#e2a08c]/20 transition duration-300',
   buttonPrimary:
     'bg-[#5f9c8f] hover:bg-[#6fada0] text-[#f2fbf8] shadow-lg shadow-[#5f9c8f]/20',
   buttonGhost:

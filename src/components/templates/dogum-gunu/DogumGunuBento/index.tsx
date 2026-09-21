@@ -25,7 +25,7 @@ const DOGUM_GUNU_BENTO_THEME: SectionTheme = {
   accentBg: 'bg-[#f26b3a]',
   accentSoft: 'bg-[#f26b3a]/12',
   input:
-    'w-full bg-white border border-[#e2e0da] rounded-lg px-3.5 py-2.5 text-sm text-[#4b4842] placeholder:text-[#7d7a73] focus:outline-none focus:border-[#f26b3a] focus:ring-2 focus:ring-[#f26b3a]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e2e0da] rounded-lg px-3.5 py-2.5 text-sm text-[#4b4842] placeholder:text-[#7d7a73] focus:outline-none focus:border-[#f26b3a] focus:ring-2 focus:ring-[#f26b3a]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1b1a17] hover:bg-[#333029] text-[#f6f6f4] shadow-lg shadow-black/10',
   buttonGhost:

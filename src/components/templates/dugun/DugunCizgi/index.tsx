@@ -24,7 +24,7 @@ const DUGUN_CIZGI_THEME: SectionTheme = {
   accentBg: 'bg-[#4a5b7a]',
   accentSoft: 'bg-[#4a5b7a]/10',
   input:
-    'w-full bg-white border border-[#ddd6ca] rounded-lg px-3.5 py-2.5 text-sm text-[#4c4740] placeholder:text-[#847d72] focus:outline-none focus:border-[#4a5b7a] focus:ring-2 focus:ring-[#4a5b7a]/18 transition-all duration-300',
+    'w-full bg-white border border-[#ddd6ca] rounded-lg px-3.5 py-2.5 text-sm text-[#4c4740] placeholder:text-[#847d72] focus:outline-none focus:border-[#4a5b7a] focus:ring-2 focus:ring-[#4a5b7a]/18 transition duration-300',
   buttonPrimary:
     'bg-[#23201b] hover:bg-[#3b362e] text-[#faf7f2] shadow-lg shadow-black/10',
   buttonGhost:

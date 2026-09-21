@@ -18,7 +18,7 @@ const DOGUM_GUNU_MERMER_THEME: SectionTheme = {
   accent: 'text-[#c05f7f]',
   accentBg: 'bg-[#c05f7f]',
   accentSoft: 'bg-[#c05f7f]/12',
-  input: 'w-full bg-white border border-[#ebdcdc] rounded-lg px-3.5 py-2.5 text-sm text-[#544449] placeholder:text-[#8a7b7f] focus:outline-none focus:border-[#c05f7f] focus:ring-2 focus:ring-[#c05f7f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#ebdcdc] rounded-lg px-3.5 py-2.5 text-sm text-[#544449] placeholder:text-[#8a7b7f] focus:outline-none focus:border-[#c05f7f] focus:ring-2 focus:ring-[#c05f7f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2c2224] hover:brightness-125 text-[#f8f2f2] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#ebdcdc] text-[#544449] hover:bg-[#f8f2f2] hover:border-[#c05f7f]/40',
   divider: 'bg-[#ebdcdc]',

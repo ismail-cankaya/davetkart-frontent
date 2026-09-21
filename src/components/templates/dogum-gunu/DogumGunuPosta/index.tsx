@@ -18,7 +18,7 @@ const DOGUM_GUNU_POSTA_THEME: SectionTheme = {
   accent: 'text-[#d9603f]',
   accentBg: 'bg-[#d9603f]',
   accentSoft: 'bg-[#d9603f]/12',
-  input: 'w-full bg-white border border-[#ece0cf] rounded-lg px-3.5 py-2.5 text-sm text-[#534a3f] placeholder:text-[#8a8073] focus:outline-none focus:border-[#d9603f] focus:ring-2 focus:ring-[#d9603f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#ece0cf] rounded-lg px-3.5 py-2.5 text-sm text-[#534a3f] placeholder:text-[#8a8073] focus:outline-none focus:border-[#d9603f] focus:ring-2 focus:ring-[#d9603f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2b2219] hover:brightness-125 text-[#fdf8f2] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#ece0cf] text-[#534a3f] hover:bg-[#fdf8f2] hover:border-[#d9603f]/40',
   divider: 'bg-[#ece0cf]',

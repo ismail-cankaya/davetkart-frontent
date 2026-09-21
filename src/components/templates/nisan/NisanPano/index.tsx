@@ -19,7 +19,7 @@ const NISAN_PANO_THEME: SectionTheme = {
   accentBg: 'bg-[#9fb8d8]',
   accentSoft: 'bg-[#9fb8d8]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f8] placeholder:text-[#868e9c] focus:outline-none focus:border-[#9fb8d8]/60 focus:ring-2 focus:ring-[#9fb8d8]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f8] placeholder:text-[#868e9c] focus:outline-none focus:border-[#9fb8d8]/60 focus:ring-2 focus:ring-[#9fb8d8]/15 transition duration-300',
   buttonPrimary: 'bg-[#9fb8d8] hover:bg-[#b6cae6] text-[#0c0f14] shadow-lg shadow-[#9fb8d8]/20',
   buttonGhost: 'border border-white/16 text-[#dbe0e8] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { WandSparkles } from 'lucide-react';
 import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
 import { scrollToTarget } from '../../hooks/useLenis';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 const LOADING_MESSAGES = [
   'Tasarımınız hazırlanıyor...',
@@ -43,7 +43,7 @@ export function GenerationLoader() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.6, ease: ease.out }}
+      transition={{ duration: duration.panel, ease: ease.out }}
     >
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">

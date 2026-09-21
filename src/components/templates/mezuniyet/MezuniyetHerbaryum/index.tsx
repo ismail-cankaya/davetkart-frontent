@@ -18,7 +18,7 @@ const MEZUNIYET_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#7a2f39]',
   accentBg: 'bg-[#7a2f39]',
   accentSoft: 'bg-[#7a2f39]/10',
-  input: 'w-full bg-[#fffdf5] border border-[#5f6b4a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#262319] placeholder:text-[#7f7a66] focus:outline-none focus:border-[#7a2f39] focus:ring-2 focus:ring-[#7a2f39]/15 transition-all duration-300',
+  input: 'w-full bg-[#fffdf5] border border-[#5f6b4a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#262319] placeholder:text-[#7f7a66] focus:outline-none focus:border-[#7a2f39] focus:ring-2 focus:ring-[#7a2f39]/15 transition duration-300',
   buttonPrimary: 'bg-[#262319] hover:brightness-125 text-[#f5f1e6] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#5f6b4a]/35 text-[#262319] hover:bg-[#5f6b4a]/10 hover:border-[#5f6b4a]/60 rounded-sm',
   divider: 'bg-[#5f6b4a]/20',

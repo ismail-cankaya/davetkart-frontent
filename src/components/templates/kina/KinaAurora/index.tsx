@@ -24,7 +24,7 @@ const KINA_AURORA_THEME: SectionTheme = {
   accentBg: 'bg-[#f0b775]',
   accentSoft: 'bg-[#f0b775]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/14 rounded-lg px-3.5 py-2.5 text-sm text-[#f8e9ef] placeholder:text-[#9c7a89] focus:outline-none focus:border-[#f0b775]/60 focus:ring-2 focus:ring-[#f0b775]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/14 rounded-lg px-3.5 py-2.5 text-sm text-[#f8e9ef] placeholder:text-[#9c7a89] focus:outline-none focus:border-[#f0b775]/60 focus:ring-2 focus:ring-[#f0b775]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#f0b775] to-[#e0568c] hover:from-[#f4c68d] hover:to-[#e86d9c] text-[#1a0710] shadow-lg shadow-[#e0568c]/25',
   buttonGhost:

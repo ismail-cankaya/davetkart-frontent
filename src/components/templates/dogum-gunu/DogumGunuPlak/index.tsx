@@ -24,7 +24,7 @@ const DOGUM_GUNU_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#f2758a]',
   accentSoft: 'bg-[#f2758a]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f8f2f4] placeholder:text-[#928a8f] focus:outline-none focus:border-[#f2758a]/60 focus:ring-2 focus:ring-[#f2758a]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f8f2f4] placeholder:text-[#928a8f] focus:outline-none focus:border-[#f2758a]/60 focus:ring-2 focus:ring-[#f2758a]/15 transition duration-300',
   buttonPrimary:
     'bg-[#f2758a] hover:bg-[#f78ea0] text-[#18090d] shadow-lg shadow-[#f2758a]/25',
   buttonGhost:

@@ -19,7 +19,7 @@ const KINA_YILDIZ_THEME: SectionTheme = {
   accentBg: 'bg-[#e0a878]',
   accentSoft: 'bg-[#e0a878]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#fbeee8] placeholder:text-[#998184] focus:outline-none focus:border-[#e0a878]/60 focus:ring-2 focus:ring-[#e0a878]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#fbeee8] placeholder:text-[#998184] focus:outline-none focus:border-[#e0a878]/60 focus:ring-2 focus:ring-[#e0a878]/15 transition duration-300',
   buttonPrimary: 'bg-[#e0a878] hover:bg-[#ebbd95] text-[#180a10] shadow-lg shadow-[#e0a878]/25',
   buttonGhost: 'border border-white/16 text-[#e7d8d6] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

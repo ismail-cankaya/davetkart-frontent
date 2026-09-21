@@ -7,7 +7,7 @@ import { EVENT_CATEGORIES, getTemplatesForCategory } from '../../data';
 import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { scrollToTarget } from '../../hooks/useLenis';
-import { ease } from '../../utils/motion';
+import { duration, ease, gesture } from '../../utils/motion';
 
 /** Decorative silhouette per category — a UI concern, kept out of the data layer. */
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -61,9 +61,9 @@ export function CategoryStep() {
 
       <div className="max-w-6xl mx-auto px-4 md:px-8 relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: ease.out }}
+          transition={{ duration: duration.panel, ease: ease.out }}
           className="text-center mb-10 md:mb-14"
         >
           <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block">
@@ -86,22 +86,22 @@ export function CategoryStep() {
                 key={category.id}
                 type="button"
                 onClick={() => handleSelect(category.id)}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: ease.out, delay: 0.15 + idx * 0.06 }}
-                whileHover={{ scale: 1.035, y: -6 }}
-                whileTap={{ scale: 0.97 }}
-                className={`group relative text-left rounded-3xl p-5 md:p-6 min-h-[150px] md:min-h-[176px] overflow-hidden cursor-pointer border transition-[box-shadow,border-color,background-color] duration-500 ${
+                transition={{ duration: duration.panel, ease: ease.out, delay: 0.05 + idx * 0.04 }}
+                whileHover={{ scale: 1.035, y: -6, transition: gesture.hover }}
+                whileTap={{ scale: 0.97, transition: gesture.press }}
+                className={`group relative text-left rounded-3xl p-5 md:p-6 min-h-[150px] md:min-h-[176px] overflow-hidden cursor-pointer border transition-[box-shadow,border-color,background-color] duration-300 ${
                   isActive
                     ? 'bg-brand text-white border-brand shadow-xl shadow-brand/25'
                     : 'bg-white/80 backdrop-blur-sm text-ink border-brand/10 shadow-sm hover:shadow-2xl hover:shadow-ink/10 hover:border-gold/40'
                 }`}
               >
                 {/* Understated classic lattice behind the content */}
-                <span className={`absolute inset-0 pattern-elegant pointer-events-none transition-opacity duration-500 ${isActive ? 'opacity-[0.08] invert' : 'opacity-[0.05]'}`} />
+                <span className={`absolute inset-0 pattern-elegant pointer-events-none transition-opacity duration-300 ${isActive ? 'opacity-[0.08] invert' : 'opacity-[0.05]'}`} />
                 {/* Oversized silhouette bleeding off the corner */}
                 <Icon
-                  className={`absolute -bottom-5 -right-4 w-24 h-24 md:w-28 md:h-28 -rotate-12 pointer-events-none transition-all duration-700 group-hover:rotate-[-6deg] group-hover:scale-110 ${
+                  className={`absolute -bottom-5 -right-4 w-24 h-24 md:w-28 md:h-28 -rotate-12 pointer-events-none transition duration-300 ease-luxe group-hover:rotate-[-6deg] group-hover:scale-110 ${
                     isActive ? 'text-white/15' : 'text-brand/[0.07]'
                   }`}
                   strokeWidth={1.2}
@@ -109,7 +109,7 @@ export function CategoryStep() {
 
                 <span className="relative z-10 flex flex-col h-full">
                   <span
-                    className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-colors duration-500 ${
+                    className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-colors duration-200 ${
                       isActive ? 'bg-white/15 text-champagne' : 'bg-champagne/60 text-brand group-hover:bg-champagne'
                     }`}
                   >

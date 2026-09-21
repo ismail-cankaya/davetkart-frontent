@@ -74,7 +74,7 @@ export default function SustainabilityPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7, ease: ease.out, delay: idx * 0.1 }}
-              className="rounded-3xl bg-white border border-ink/[0.06] p-6 md:p-8 text-center shadow-sm hover:shadow-xl hover:shadow-brand/10 transition-all duration-500 hover:-translate-y-1"
+              className="rounded-3xl bg-white border border-ink/[0.06] p-6 md:p-8 text-center shadow-sm hover:shadow-xl hover:shadow-brand/10 transition duration-300 ease-luxe hover:-translate-y-1"
             >
               <div className="w-12 h-12 mx-auto rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center mb-4">
                 {stat.icon}
@@ -129,7 +129,7 @@ export default function SustainabilityPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.7, ease: ease.out, delay: idx * 0.12 }}
-                className="rounded-3xl bg-white/[0.05] border border-white/10 p-7 backdrop-blur-sm hover:bg-white/[0.08] transition-colors duration-500"
+                className="rounded-3xl bg-white/[0.05] border border-white/10 p-7 backdrop-blur-sm hover:bg-white/[0.08] transition-colors duration-200"
               >
                 <div className="w-12 h-12 rounded-2xl bg-gold/15 text-gold border border-gold/25 flex items-center justify-center mb-5">
                   {item.icon}
@@ -167,9 +167,9 @@ export default function SustainabilityPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.1 }}
-              className="group flex gap-5 rounded-3xl bg-white border border-ink/[0.06] p-7 md:p-8 shadow-sm hover:shadow-2xl hover:shadow-brand/10 hover:border-brand/15 transition-all duration-700 hover:-translate-y-1.5"
+              className="group flex gap-5 rounded-3xl bg-white border border-ink/[0.06] p-7 md:p-8 shadow-sm hover:shadow-2xl hover:shadow-brand/10 hover:border-brand/15 transition duration-300 ease-luxe hover:-translate-y-1.5"
             >
-              <div className="w-12 h-12 rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-champagne transition-all duration-500">
+              <div className="w-12 h-12 rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-champagne transition duration-300 ease-luxe">
                 {item.icon}
               </div>
               <div>
@@ -195,7 +195,7 @@ export default function SustainabilityPage() {
           </h2>
           <Link
             to="/create"
-            className="group relative overflow-hidden inline-flex items-center gap-3 bg-brand text-white px-10 py-5 rounded-full font-semibold text-sm md:text-base hover:bg-brand-soft transition-all duration-500 shadow-lg shadow-brand/20 hover:shadow-2xl hover:shadow-brand/30 hover:-translate-y-1"
+            className="group relative overflow-hidden inline-flex items-center gap-3 bg-brand text-white px-10 py-5 rounded-full font-semibold text-sm md:text-base hover:bg-brand-soft transition duration-200 ease-luxe shadow-lg shadow-brand/20 hover:shadow-2xl hover:shadow-brand/30 hover:-translate-y-1"
           >
             <span className="absolute inset-0 animate-shimmer pointer-events-none" />
             <Leaf size={17} />

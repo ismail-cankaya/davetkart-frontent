@@ -18,7 +18,7 @@ const KINA_MERMER_THEME: SectionTheme = {
   accent: 'text-[#a04f4f]',
   accentBg: 'bg-[#a04f4f]',
   accentSoft: 'bg-[#a04f4f]/12',
-  input: 'w-full bg-white border border-[#e5d9c8] rounded-lg px-3.5 py-2.5 text-sm text-[#564839] placeholder:text-[#8b7f6f] focus:outline-none focus:border-[#a04f4f] focus:ring-2 focus:ring-[#a04f4f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e5d9c8] rounded-lg px-3.5 py-2.5 text-sm text-[#564839] placeholder:text-[#8b7f6f] focus:outline-none focus:border-[#a04f4f] focus:ring-2 focus:ring-[#a04f4f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2c211a] hover:brightness-125 text-[#f6f0e8] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e5d9c8] text-[#564839] hover:bg-[#f6f0e8] hover:border-[#a04f4f]/40',
   divider: 'bg-[#e5d9c8]',

@@ -26,7 +26,7 @@ const DUGUN_BENTO_THEME: SectionTheme = {
   accentBg: 'bg-[#7d8c6f]',
   accentSoft: 'bg-[#7d8c6f]/12',
   input:
-    'w-full bg-white border border-[#e4dfd6] rounded-lg px-3.5 py-2.5 text-sm text-[#4a4640] placeholder:text-[#a9a49a] focus:outline-none focus:border-[#7d8c6f] focus:ring-2 focus:ring-[#7d8c6f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e4dfd6] rounded-lg px-3.5 py-2.5 text-sm text-[#4a4640] placeholder:text-[#a9a49a] focus:outline-none focus:border-[#7d8c6f] focus:ring-2 focus:ring-[#7d8c6f]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1f1d1a] hover:bg-[#35322d] text-[#f7f5f1] shadow-lg shadow-black/10',
   buttonGhost:

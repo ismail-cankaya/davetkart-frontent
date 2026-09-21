@@ -20,7 +20,7 @@ const DOGUM_GUNU_AURORA_THEME: SectionTheme = {
   accentBg: 'bg-[#ff7ac6]',
   accentSoft: 'bg-[#ff7ac6]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#fdf5fd] placeholder:text-[#a891ab] focus:outline-none focus:border-[#ff7ac6]/60 focus:ring-2 focus:ring-[#ff7ac6]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#fdf5fd] placeholder:text-[#a891ab] focus:outline-none focus:border-[#ff7ac6]/60 focus:ring-2 focus:ring-[#ff7ac6]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#ff7ac6] to-[#a78bfa] hover:brightness-110 text-[#1a0714] shadow-lg shadow-[#ff7ac6]/25',
   buttonGhost:

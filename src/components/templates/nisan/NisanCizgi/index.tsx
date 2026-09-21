@@ -21,7 +21,7 @@ const NISAN_CIZGI_THEME: SectionTheme = {
   accentBg: 'bg-[#6b7a4f]',
   accentSoft: 'bg-[#6b7a4f]/10',
   input:
-    'w-full bg-white border border-[#dde0e5] rounded-lg px-3.5 py-2.5 text-sm text-[#494e56] placeholder:text-[#7f858f] focus:outline-none focus:border-[#6b7a4f] focus:ring-2 focus:ring-[#6b7a4f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dde0e5] rounded-lg px-3.5 py-2.5 text-sm text-[#494e56] placeholder:text-[#7f858f] focus:outline-none focus:border-[#6b7a4f] focus:ring-2 focus:ring-[#6b7a4f]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1e2228] hover:bg-[#343a43] text-[#f6f7f9] shadow-lg shadow-black/10',
   buttonGhost:

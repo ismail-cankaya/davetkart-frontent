@@ -23,7 +23,7 @@ const KURUMSAL_CIZGI_THEME: SectionTheme = {
   accentBg: 'bg-[#20386b]',
   accentSoft: 'bg-[#20386b]/10',
   input:
-    'w-full bg-white border border-[#dbe0e4] rounded-lg px-3.5 py-2.5 text-sm text-[#464d54] placeholder:text-[#7a828a] focus:outline-none focus:border-[#20386b] focus:ring-2 focus:ring-[#20386b]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dbe0e4] rounded-lg px-3.5 py-2.5 text-sm text-[#464d54] placeholder:text-[#7a828a] focus:outline-none focus:border-[#20386b] focus:ring-2 focus:ring-[#20386b]/18 transition duration-300',
   buttonPrimary:
     'bg-[#101418] hover:bg-[#262c33] text-[#f4f6f7] shadow-lg shadow-black/10',
   buttonGhost:

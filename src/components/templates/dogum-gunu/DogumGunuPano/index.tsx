@@ -19,7 +19,7 @@ const DOGUM_GUNU_PANO_THEME: SectionTheme = {
   accentBg: 'bg-[#f5b04f]',
   accentSoft: 'bg-[#f5b04f]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f7f2f5] placeholder:text-[#8f8a8e] focus:outline-none focus:border-[#f5b04f]/60 focus:ring-2 focus:ring-[#f5b04f]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f7f2f5] placeholder:text-[#8f8a8e] focus:outline-none focus:border-[#f5b04f]/60 focus:ring-2 focus:ring-[#f5b04f]/15 transition duration-300',
   buttonPrimary: 'bg-[#f5b04f] hover:bg-[#f9c274] text-[#171104] shadow-lg shadow-[#f5b04f]/25',
   buttonGhost: 'border border-white/16 text-[#e5e0e4] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

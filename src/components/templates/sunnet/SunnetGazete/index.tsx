@@ -18,7 +18,7 @@ const SUNNET_GAZETE_THEME: SectionTheme = {
   accent: 'text-[#1f6f8c]',
   accentBg: 'bg-[#1f6f8c]',
   accentSoft: 'bg-[#1f6f8c]/12',
-  input: 'w-full bg-white border border-[#dde4e8] rounded-lg px-3.5 py-2.5 text-sm text-[#47525a] placeholder:text-[#7c868e] focus:outline-none focus:border-[#1f6f8c] focus:ring-2 focus:ring-[#1f6f8c]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#dde4e8] rounded-lg px-3.5 py-2.5 text-sm text-[#47525a] placeholder:text-[#7c868e] focus:outline-none focus:border-[#1f6f8c] focus:ring-2 focus:ring-[#1f6f8c]/18 transition duration-300',
   buttonPrimary: 'bg-[#141c22] hover:brightness-125 text-[#f2f5f6] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dde4e8] text-[#47525a] hover:bg-[#f2f5f6] hover:border-[#1f6f8c]/40',
   divider: 'bg-[#dde4e8]',

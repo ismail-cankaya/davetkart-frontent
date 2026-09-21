@@ -19,7 +19,7 @@ const MEZUNIYET_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#7a4f2f]',
   accentSoft: 'bg-[#7a4f2f]/12',
   input:
-    'w-full bg-white border border-[#e0ddcd] rounded-lg px-3.5 py-2.5 text-sm text-[#4f4c42] placeholder:text-[#847f73] focus:outline-none focus:border-[#7a4f2f] focus:ring-2 focus:ring-[#7a4f2f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e0ddcd] rounded-lg px-3.5 py-2.5 text-sm text-[#4f4c42] placeholder:text-[#847f73] focus:outline-none focus:border-[#7a4f2f] focus:ring-2 focus:ring-[#7a4f2f]/18 transition duration-300',
   buttonPrimary: 'bg-[#26241c] hover:bg-[#3e3b2e] text-[#f5f3ea] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d6d2c0] text-[#5e5b50] hover:bg-[#eeece1] hover:border-[#b4ae99]',
   divider: 'bg-[#e0ddcd]',

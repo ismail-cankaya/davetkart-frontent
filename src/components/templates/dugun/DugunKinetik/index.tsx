@@ -24,7 +24,7 @@ const DUGUN_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#a8804f]',
   accentSoft: 'bg-[#a8804f]/12',
   input:
-    'w-full bg-white border border-[#e2dacc] rounded-lg px-3.5 py-2.5 text-sm text-[#4a453c] placeholder:text-[#7a7266] focus:outline-none focus:border-[#a8804f] focus:ring-2 focus:ring-[#a8804f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e2dacc] rounded-lg px-3.5 py-2.5 text-sm text-[#4a453c] placeholder:text-[#7a7266] focus:outline-none focus:border-[#a8804f] focus:ring-2 focus:ring-[#a8804f]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1a1712] hover:bg-[#332e26] text-[#f5f1ea] shadow-lg shadow-black/10',
   buttonGhost:

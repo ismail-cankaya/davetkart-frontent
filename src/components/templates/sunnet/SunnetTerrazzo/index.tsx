@@ -17,7 +17,7 @@ const SUNNET_TERRAZZO_THEME: SectionTheme = {
   accent: 'text-[#2f7f8c]',
   accentBg: 'bg-[#2f7f8c]',
   accentSoft: 'bg-[#2f7f8c]/12',
-  input: 'w-full bg-[#fbfeff] border border-[#d8e6e9] rounded-2xl px-4 py-2.5 text-sm text-[#17262b] placeholder:text-[#6b7f85] focus:outline-none focus:border-[#2f7f8c] focus:ring-2 focus:ring-[#2f7f8c]/20 transition-all duration-300',
+  input: 'w-full bg-[#fbfeff] border border-[#d8e6e9] rounded-2xl px-4 py-2.5 text-sm text-[#17262b] placeholder:text-[#6b7f85] focus:outline-none focus:border-[#2f7f8c] focus:ring-2 focus:ring-[#2f7f8c]/20 transition duration-300',
   buttonPrimary: 'bg-[#17262b] hover:brightness-125 text-[#eff6f7] rounded-full shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d8e6e9] text-[#17262b] hover:bg-[#2f7f8c]/10 hover:border-[#2f7f8c]/50 rounded-full',
   divider: 'bg-[#d8e6e9]',

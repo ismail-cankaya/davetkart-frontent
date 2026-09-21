@@ -24,7 +24,7 @@ const PARTI_AURORA_THEME: SectionTheme = {
   accentBg: 'bg-[#35e0ff]',
   accentSoft: 'bg-[#35e0ff]/10',
   input:
-    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#ece8fa] placeholder:text-[#9d97b8] focus:outline-none focus:border-[#35e0ff]/50 focus:ring-2 focus:ring-[#35e0ff]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#ece8fa] placeholder:text-[#9d97b8] focus:outline-none focus:border-[#35e0ff]/50 focus:ring-2 focus:ring-[#35e0ff]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#ff3fa4] to-[#8b5cff] hover:from-[#ff58b1] hover:to-[#9a70ff] text-white shadow-lg shadow-[#35e0ff]/15',
   buttonGhost:

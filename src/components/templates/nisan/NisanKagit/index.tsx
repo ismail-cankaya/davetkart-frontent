@@ -21,7 +21,7 @@ const NISAN_KAGIT_THEME: SectionTheme = {
   accentBg: 'bg-[#2f5d8a]',
   accentSoft: 'bg-[#2f5d8a]/10',
   input:
-    'w-full bg-white/80 border border-[#cfd6dd] rounded-lg px-3.5 py-2.5 text-sm text-[#4e565e] placeholder:text-[#9aa3ac] focus:outline-none focus:border-[#2f5d8a] focus:ring-2 focus:ring-[#2f5d8a]/20 transition-all duration-300',
+    'w-full bg-white/80 border border-[#cfd6dd] rounded-lg px-3.5 py-2.5 text-sm text-[#4e565e] placeholder:text-[#9aa3ac] focus:outline-none focus:border-[#2f5d8a] focus:ring-2 focus:ring-[#2f5d8a]/20 transition duration-300',
   buttonPrimary:
     'bg-[#1e262e] hover:bg-[#333d47] text-[#f2f4f6] shadow-lg shadow-black/10',
   buttonGhost:

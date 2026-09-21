@@ -21,7 +21,7 @@ const PARTI_NOIR_THEME: SectionTheme = {
   accentBg: 'bg-[#c9a961]',
   accentSoft: 'bg-[#c9a961]/12',
   input:
-    'w-full bg-white/[0.06] border border-[#c9a961]/16 rounded-none px-3.5 py-2.5 text-sm text-[#f6f3ec] placeholder:text-[#8b8780] focus:outline-none focus:border-[#c9a961]/60 focus:ring-2 focus:ring-[#c9a961]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#c9a961]/16 rounded-none px-3.5 py-2.5 text-sm text-[#f6f3ec] placeholder:text-[#8b8780] focus:outline-none focus:border-[#c9a961]/60 focus:ring-2 focus:ring-[#c9a961]/15 transition duration-300',
   buttonPrimary:
     'rounded-none bg-[#c9a961] hover:bg-[#d8ba76] text-[#0b0a07] shadow-none',
   buttonGhost:

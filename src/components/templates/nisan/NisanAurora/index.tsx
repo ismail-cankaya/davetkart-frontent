@@ -24,7 +24,7 @@ const NISAN_AURORA_THEME: SectionTheme = {
   accentBg: 'bg-[#7fd8e8]',
   accentSoft: 'bg-[#7fd8e8]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/14 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf1fb] placeholder:text-[#7c8aa3] focus:outline-none focus:border-[#7fd8e8]/60 focus:ring-2 focus:ring-[#7fd8e8]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/14 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf1fb] placeholder:text-[#7c8aa3] focus:outline-none focus:border-[#7fd8e8]/60 focus:ring-2 focus:ring-[#7fd8e8]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#7fd8e8] to-[#8ba7f0] hover:from-[#95e0ed] hover:to-[#9db6f4] text-[#08131c] shadow-lg shadow-[#7fd8e8]/25',
   buttonGhost:

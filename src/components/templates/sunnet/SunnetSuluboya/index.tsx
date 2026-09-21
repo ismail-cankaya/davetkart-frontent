@@ -19,7 +19,7 @@ const SUNNET_SULUBOYA_THEME: SectionTheme = {
   accentBg: 'bg-[#3f7fa8]',
   accentSoft: 'bg-[#3f7fa8]/12',
   input:
-    'w-full bg-white border border-[#dde5ec] rounded-lg px-3.5 py-2.5 text-sm text-[#48525c] placeholder:text-[#7d8792] focus:outline-none focus:border-[#3f7fa8] focus:ring-2 focus:ring-[#3f7fa8]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dde5ec] rounded-lg px-3.5 py-2.5 text-sm text-[#48525c] placeholder:text-[#7d8792] focus:outline-none focus:border-[#3f7fa8] focus:ring-2 focus:ring-[#3f7fa8]/18 transition duration-300',
   buttonPrimary: 'bg-[#1c2630] hover:bg-[#323e4a] text-[#f6f9fb] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d2dce5] text-[#58626c] hover:bg-[#ecf2f6] hover:border-[#aeb9c4]',
   divider: 'bg-[#dde5ec]',

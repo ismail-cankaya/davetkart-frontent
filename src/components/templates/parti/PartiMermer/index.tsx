@@ -18,7 +18,7 @@ const PARTI_MERMER_THEME: SectionTheme = {
   accent: 'text-[#d8c08f]',
   accentBg: 'bg-[#d8c08f]',
   accentSoft: 'bg-[#d8c08f]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2f4] placeholder:text-[#8a8a92] focus:outline-none focus:border-[#d8c08f]/60 focus:ring-2 focus:ring-[#d8c08f]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2f4] placeholder:text-[#8a8a92] focus:outline-none focus:border-[#d8c08f]/60 focus:ring-2 focus:ring-[#d8c08f]/15 transition duration-300',
   buttonPrimary: 'bg-[#d8c08f] hover:brightness-110 text-[#0d0d0f] shadow-lg shadow-[#d8c08f]/25',
   buttonGhost: 'border border-white/16 text-[#dcdce0] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

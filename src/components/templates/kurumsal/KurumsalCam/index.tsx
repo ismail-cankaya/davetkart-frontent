@@ -29,7 +29,7 @@ const CAM_THEME: SectionTheme = {
   accentBg: 'bg-[#7ee0d0]',
   accentSoft: 'bg-[#7ee0d0]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/16 rounded-lg px-3.5 py-2.5 text-sm text-[#eaeef8] placeholder:text-[#727b90] focus:outline-none focus:border-[#7ee0d0]/60 focus:ring-2 focus:ring-[#7ee0d0]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/16 rounded-lg px-3.5 py-2.5 text-sm text-[#eaeef8] placeholder:text-[#727b90] focus:outline-none focus:border-[#7ee0d0]/60 focus:ring-2 focus:ring-[#7ee0d0]/15 transition duration-300',
   buttonPrimary:
     'bg-[#7ee0d0] hover:bg-[#95e8da] text-[#07231f] shadow-lg shadow-[#7ee0d0]/22',
   buttonGhost:

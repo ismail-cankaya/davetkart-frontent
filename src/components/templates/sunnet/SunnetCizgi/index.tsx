@@ -21,7 +21,7 @@ const SUNNET_CIZGI_THEME: SectionTheme = {
   accentBg: 'bg-[#8c3b4a]',
   accentSoft: 'bg-[#8c3b4a]/10',
   input:
-    'w-full bg-white border border-[#d9e2e9] rounded-lg px-3.5 py-2.5 text-sm text-[#454e59] placeholder:text-[#7b848f] focus:outline-none focus:border-[#8c3b4a] focus:ring-2 focus:ring-[#8c3b4a]/18 transition-all duration-300',
+    'w-full bg-white border border-[#d9e2e9] rounded-lg px-3.5 py-2.5 text-sm text-[#454e59] placeholder:text-[#7b848f] focus:outline-none focus:border-[#8c3b4a] focus:ring-2 focus:ring-[#8c3b4a]/18 transition duration-300',
   buttonPrimary:
     'bg-[#17202b] hover:bg-[#2c3743] text-[#f2f6f9] shadow-lg shadow-black/10',
   buttonGhost:

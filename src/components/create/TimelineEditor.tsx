@@ -5,7 +5,7 @@ import { TimelineEvent } from '../../types';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { cn } from '../../utils/cn';
 import { createTimelineEvent } from '../../utils/timelineEvents';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 interface TimelineEditorProps {
   inputClass: string;
@@ -58,7 +58,7 @@ export function TimelineEditor({ inputClass }: TimelineEditorProps) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4, ease: ease.out }}
+            transition={{ duration: duration.base, ease: ease.out }}
             className="overflow-hidden"
           >
             <div className="rounded-xl border border-white/10 bg-white/[0.03] p-3 space-y-2.5">

@@ -25,7 +25,7 @@ const LUNAPARK_THEME: SectionTheme = {
   accentBg: 'bg-[#ffb547]',
   accentSoft: 'bg-[#ffb547]/12',
   input:
-    'w-full bg-white/[0.07] border border-[#7c6bd6]/25 rounded-lg px-3.5 py-2.5 text-sm text-[#efeafc] placeholder:text-[#837aa0] focus:outline-none focus:border-[#ffb547]/60 focus:ring-2 focus:ring-[#ffb547]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-[#7c6bd6]/25 rounded-lg px-3.5 py-2.5 text-sm text-[#efeafc] placeholder:text-[#837aa0] focus:outline-none focus:border-[#ffb547]/60 focus:ring-2 focus:ring-[#ffb547]/15 transition duration-300',
   buttonPrimary:
     'bg-[#ffb547] hover:bg-[#ffc468] text-[#241505] shadow-lg shadow-[#ffb547]/25',
   buttonGhost:

@@ -19,7 +19,7 @@ const KINA_SULUBOYA_THEME: SectionTheme = {
   accentBg: 'bg-[#b8434f]',
   accentSoft: 'bg-[#b8434f]/12',
   input:
-    'w-full bg-white border border-[#e8dcc8] rounded-lg px-3.5 py-2.5 text-sm text-[#544539] placeholder:text-[#8c7f6e] focus:outline-none focus:border-[#b8434f] focus:ring-2 focus:ring-[#b8434f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e8dcc8] rounded-lg px-3.5 py-2.5 text-sm text-[#544539] placeholder:text-[#8c7f6e] focus:outline-none focus:border-[#b8434f] focus:ring-2 focus:ring-[#b8434f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2b1e18] hover:bg-[#453227] text-[#fbf6ee] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e0d2ba] text-[#655847] hover:bg-[#f4ecdf] hover:border-[#c4b294]',
   divider: 'bg-[#e8dcc8]',

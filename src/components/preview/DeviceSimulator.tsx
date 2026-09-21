@@ -293,7 +293,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
       >
         <button
           onClick={handleFullscreen}
-          className="w-full max-w-[280px] lg:max-w-[335px] bg-white/80 hover:bg-white text-brand border border-brand/10 hover:border-brand/25 py-3 rounded-xl font-bold text-xs shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer transition-all duration-300 flex items-center justify-center gap-2"
+          className="w-full max-w-[280px] lg:max-w-[335px] bg-white/80 hover:bg-white text-brand border border-brand/10 hover:border-brand/25 py-3 rounded-xl font-bold text-xs shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer transition duration-300 flex items-center justify-center gap-2"
         >
           <Maximize2 size={16} />
           Tam Ekranda Görüntüle

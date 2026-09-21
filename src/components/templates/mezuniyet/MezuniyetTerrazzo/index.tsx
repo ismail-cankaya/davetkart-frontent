@@ -17,7 +17,7 @@ const MEZUNIYET_TERRAZZO_THEME: SectionTheme = {
   accent: 'text-[#7a2f39]',
   accentBg: 'bg-[#7a2f39]',
   accentSoft: 'bg-[#7a2f39]/12',
-  input: 'w-full bg-[#fffdf7] border border-[#e6dfcd] rounded-2xl px-4 py-2.5 text-sm text-[#24211a] placeholder:text-[#7d766a] focus:outline-none focus:border-[#7a2f39] focus:ring-2 focus:ring-[#7a2f39]/20 transition-all duration-300',
+  input: 'w-full bg-[#fffdf7] border border-[#e6dfcd] rounded-2xl px-4 py-2.5 text-sm text-[#24211a] placeholder:text-[#7d766a] focus:outline-none focus:border-[#7a2f39] focus:ring-2 focus:ring-[#7a2f39]/20 transition duration-300',
   buttonPrimary: 'bg-[#24211a] hover:brightness-125 text-[#f5f2ea] rounded-full shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e6dfcd] text-[#24211a] hover:bg-[#7a2f39]/10 hover:border-[#7a2f39]/50 rounded-full',
   divider: 'bg-[#e6dfcd]',

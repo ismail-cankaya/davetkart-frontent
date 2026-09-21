@@ -24,7 +24,7 @@ const PARTI_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#3fc0b8]',
   accentSoft: 'bg-[#3fc0b8]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f6f0ee] placeholder:text-[#948a88] focus:outline-none focus:border-[#3fc0b8]/60 focus:ring-2 focus:ring-[#3fc0b8]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f6f0ee] placeholder:text-[#948a88] focus:outline-none focus:border-[#3fc0b8]/60 focus:ring-2 focus:ring-[#3fc0b8]/15 transition duration-300',
   buttonPrimary: 'bg-[#3fc0b8] hover:bg-[#5fd0c9] text-[#04140f] shadow-lg shadow-[#3fc0b8]/25',
   buttonGhost: 'border border-white/16 text-[#e2dad8] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

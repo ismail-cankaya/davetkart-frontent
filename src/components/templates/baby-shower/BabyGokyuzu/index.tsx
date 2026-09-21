@@ -25,7 +25,7 @@ const BABY_GOKYUZU_THEME: SectionTheme = {
   accentBg: 'bg-[#e8917f]',
   accentSoft: 'bg-[#e8917f]/12',
   input:
-    'w-full bg-white/88 border border-[#dde7f2] rounded-lg px-3.5 py-2.5 text-sm text-[#54637a] placeholder:text-[#a5b3c4] focus:outline-none focus:border-[#e8917f] focus:ring-2 focus:ring-[#e8917f]/20 transition-all duration-300',
+    'w-full bg-white/88 border border-[#dde7f2] rounded-lg px-3.5 py-2.5 text-sm text-[#54637a] placeholder:text-[#a5b3c4] focus:outline-none focus:border-[#e8917f] focus:ring-2 focus:ring-[#e8917f]/20 transition duration-300',
   buttonPrimary:
     'bg-[#5b7ba6] hover:bg-[#6c8cb7] text-[#f4f8fc] shadow-lg shadow-[#5b7ba6]/18',
   buttonGhost:

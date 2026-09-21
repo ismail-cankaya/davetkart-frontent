@@ -21,7 +21,7 @@ const BABY_RISO_THEME: SectionTheme = {
   accentBg: 'bg-[#ff6b5a]',
   accentSoft: 'bg-[#3fbf9f]/25',
   input:
-    'w-full bg-white/85 border border-[#1b1a17]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#3b3a35] placeholder:text-[#9a998f] focus:outline-none focus:border-[#ff6b5a] focus:ring-2 focus:ring-[#ff6b5a]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#1b1a17]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#3b3a35] placeholder:text-[#9a998f] focus:outline-none focus:border-[#ff6b5a] focus:ring-2 focus:ring-[#ff6b5a]/20 transition duration-300',
   buttonPrimary:
     'bg-[#1b1a17] hover:bg-[#3b3a35] text-[#f6f4ee] shadow-none',
   buttonGhost:

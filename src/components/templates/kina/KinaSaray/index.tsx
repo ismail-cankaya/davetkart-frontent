@@ -24,7 +24,7 @@ const SARAY_THEME: SectionTheme = {
   accentBg: 'bg-[#e3bd72]',
   accentSoft: 'bg-[#e3bd72]/10',
   input:
-    'w-full bg-white/[0.06] border border-[#e3bd72]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f8e6dc] placeholder:text-[#8f7070] focus:outline-none focus:border-[#e3bd72]/60 focus:ring-2 focus:ring-[#e3bd72]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#e3bd72]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f8e6dc] placeholder:text-[#8f7070] focus:outline-none focus:border-[#e3bd72]/60 focus:ring-2 focus:ring-[#e3bd72]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#e3bd72] to-[#f3d99e] hover:from-[#ecc986] hover:to-[#f9e5b4] text-[#1f0c07] shadow-lg shadow-[#e3bd72]/20',
   buttonGhost:

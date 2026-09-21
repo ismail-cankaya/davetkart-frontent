@@ -24,7 +24,7 @@ const MEZUNIYET_LACIVERT_THEME: SectionTheme = {
   accentBg: 'bg-[#f0c761]',
   accentSoft: 'bg-[#f0c761]/10',
   input:
-    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#dee7f4] placeholder:text-[#8fa2bd] focus:outline-none focus:border-[#f0c761]/50 focus:ring-2 focus:ring-[#f0c761]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#dee7f4] placeholder:text-[#8fa2bd] focus:outline-none focus:border-[#f0c761]/50 focus:ring-2 focus:ring-[#f0c761]/15 transition duration-300',
   buttonPrimary:
     'bg-[#f0c761] hover:bg-[#f6d780] text-[#071328] shadow-lg shadow-[#f0c761]/15',
   buttonGhost:

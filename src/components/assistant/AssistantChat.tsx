@@ -164,7 +164,7 @@ export function AssistantChat({
             // aynı: kullanıcı 422 almak yerine sınırı yazarken görmeli.
             maxLength={ASSISTANT_MAX_PROMPT_CHARS}
             placeholder={isBlocked ? 'Şu anda mesaj gönderilemiyor' : 'Mesajınızı yazın...'}
-            className="flex-grow bg-cream border border-ink/10 rounded-full px-4 py-2.5 text-[13px] text-ink placeholder:text-muted/60 focus:outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex-grow bg-cream border border-ink/10 rounded-full px-4 py-2.5 text-[13px] text-ink placeholder:text-muted/60 focus:outline-none focus:border-brand/40 focus:ring-2 focus:ring-brand/10 transition duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
           />
           <motion.button
             whileHover={isBlocked ? undefined : { scale: 1.08 }}

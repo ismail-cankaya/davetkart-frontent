@@ -19,7 +19,7 @@ const KURUMSAL_PANO_THEME: SectionTheme = {
   accentBg: 'bg-[#4fb0e0]',
   accentSoft: 'bg-[#4fb0e0]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f5] placeholder:text-[#828b96] focus:outline-none focus:border-[#4fb0e0]/60 focus:ring-2 focus:ring-[#4fb0e0]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f5] placeholder:text-[#828b96] focus:outline-none focus:border-[#4fb0e0]/60 focus:ring-2 focus:ring-[#4fb0e0]/15 transition duration-300',
   buttonPrimary: 'bg-[#4fb0e0] hover:bg-[#6ec2ea] text-[#04121c] shadow-lg shadow-[#4fb0e0]/25',
   buttonGhost: 'border border-white/16 text-[#d9dee3] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

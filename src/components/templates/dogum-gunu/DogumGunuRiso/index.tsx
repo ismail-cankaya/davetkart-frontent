@@ -21,7 +21,7 @@ const DOGUM_GUNU_RISO_THEME: SectionTheme = {
   accentBg: 'bg-[#ff3d7f]',
   accentSoft: 'bg-[#2f6df0]/25',
   input:
-    'w-full bg-white/85 border border-[#1c1917]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#3a3330] placeholder:text-[#9c918a] focus:outline-none focus:border-[#ff3d7f] focus:ring-2 focus:ring-[#ff3d7f]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#1c1917]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#3a3330] placeholder:text-[#9c918a] focus:outline-none focus:border-[#ff3d7f] focus:ring-2 focus:ring-[#ff3d7f]/20 transition duration-300',
   buttonPrimary:
     'bg-[#1c1917] hover:bg-[#3a3330] text-[#f7f2e7] shadow-none',
   buttonGhost:

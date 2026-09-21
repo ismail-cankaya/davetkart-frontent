@@ -24,7 +24,7 @@ const DOGUM_GUNU_VITRAY_THEME: SectionTheme = {
   accentBg: 'bg-[#48c9d8]',
   accentSoft: 'bg-[#48c9d8]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f6f0fa] placeholder:text-[#98899f] focus:outline-none focus:border-[#48c9d8]/60 focus:ring-2 focus:ring-[#48c9d8]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f6f0fa] placeholder:text-[#98899f] focus:outline-none focus:border-[#48c9d8]/60 focus:ring-2 focus:ring-[#48c9d8]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#48c9d8] to-[#ff6fae] hover:brightness-110 text-[#12061a] shadow-lg shadow-[#48c9d8]/25',
   buttonGhost:

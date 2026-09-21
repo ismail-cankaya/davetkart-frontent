@@ -18,7 +18,7 @@ const DUGUN_POSTA_THEME: SectionTheme = {
   accent: 'text-[#9c3b46]',
   accentBg: 'bg-[#9c3b46]',
   accentSoft: 'bg-[#9c3b46]/12',
-  input: 'w-full bg-white border border-[#e4ddcc] rounded-lg px-3.5 py-2.5 text-sm text-[#524a3e] placeholder:text-[#867e70] focus:outline-none focus:border-[#9c3b46] focus:ring-2 focus:ring-[#9c3b46]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e4ddcc] rounded-lg px-3.5 py-2.5 text-sm text-[#524a3e] placeholder:text-[#867e70] focus:outline-none focus:border-[#9c3b46] focus:ring-2 focus:ring-[#9c3b46]/18 transition duration-300',
   buttonPrimary: 'bg-[#2a231b] hover:brightness-125 text-[#f8f5ee] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e4ddcc] text-[#524a3e] hover:bg-[#f8f5ee] hover:border-[#9c3b46]/40',
   divider: 'bg-[#e4ddcc]',

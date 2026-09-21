@@ -21,7 +21,7 @@ const KURUMSAL_DECO_THEME: SectionTheme = {
   accentBg: 'bg-[#d8c07a]',
   accentSoft: 'bg-[#d8c07a]/10',
   input:
-    'w-full bg-white/[0.05] border border-[#d8c07a]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf4ee] placeholder:text-[#6f8a7d] focus:outline-none focus:border-[#d8c07a] focus:ring-2 focus:ring-[#d8c07a]/20 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#d8c07a]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf4ee] placeholder:text-[#6f8a7d] focus:outline-none focus:border-[#d8c07a] focus:ring-2 focus:ring-[#d8c07a]/20 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#d8c07a] to-[#f0e0aa] hover:brightness-110 text-[#0a1a14] shadow-lg shadow-[#d8c07a]/20',
   buttonGhost:

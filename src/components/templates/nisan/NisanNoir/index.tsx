@@ -24,7 +24,7 @@ const NISAN_NOIR_THEME: SectionTheme = {
   accentBg: 'bg-[#c4d0dd]',
   accentSoft: 'bg-[#c4d0dd]/10',
   input:
-    'w-full bg-white/[0.035] border border-[#c4d0dd]/16 rounded-none px-3.5 py-2.5 text-sm text-[#e8ecf1] placeholder:text-[#71777f] focus:outline-none focus:border-[#c4d0dd]/55 focus:ring-0 transition-all duration-300',
+    'w-full bg-white/[0.035] border border-[#c4d0dd]/16 rounded-none px-3.5 py-2.5 text-sm text-[#e8ecf1] placeholder:text-[#71777f] focus:outline-none focus:border-[#c4d0dd]/55 focus:ring-0 transition duration-300',
   buttonPrimary:
     'rounded-none bg-[#c4d0dd] hover:bg-[#d6e0ea] text-[#08090b] shadow-none',
   buttonGhost:

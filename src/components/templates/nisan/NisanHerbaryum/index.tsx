@@ -18,7 +18,7 @@ const NISAN_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#6f7fa3]',
   accentBg: 'bg-[#6f7fa3]',
   accentSoft: 'bg-[#6f7fa3]/10',
-  input: 'w-full bg-[#fffefa] border border-[#7d8c74]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2a2b26] placeholder:text-[#7f8278] focus:outline-none focus:border-[#6f7fa3] focus:ring-2 focus:ring-[#6f7fa3]/15 transition-all duration-300',
+  input: 'w-full bg-[#fffefa] border border-[#7d8c74]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2a2b26] placeholder:text-[#7f8278] focus:outline-none focus:border-[#6f7fa3] focus:ring-2 focus:ring-[#6f7fa3]/15 transition duration-300',
   buttonPrimary: 'bg-[#2a2b26] hover:brightness-125 text-[#f6f4ee] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#7d8c74]/35 text-[#2a2b26] hover:bg-[#7d8c74]/10 hover:border-[#7d8c74]/60 rounded-sm',
   divider: 'bg-[#7d8c74]/20',

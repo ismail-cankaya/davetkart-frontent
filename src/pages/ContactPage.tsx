@@ -45,7 +45,7 @@ const CONTACT_CHANNELS = [
 ];
 
 const INPUT_CLASS =
-  'w-full bg-cream/60 border border-ink/10 rounded-xl px-4 py-3 text-sm text-ink placeholder:text-muted/60 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition-all duration-300';
+  'w-full bg-cream/60 border border-ink/10 rounded-xl px-4 py-3 text-sm text-ink placeholder:text-muted/60 focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand/15 transition duration-300';
 
 interface FormState {
   name: string;
@@ -134,9 +134,9 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: ease.out, delay: idx * 0.08 }}
-              className="group flex gap-4 rounded-3xl bg-white border border-ink/[0.06] p-6 shadow-sm hover:shadow-xl hover:shadow-brand/10 hover:border-brand/15 transition-all duration-500 hover:-translate-y-1"
+              className="group flex gap-4 rounded-3xl bg-white border border-ink/[0.06] p-6 shadow-sm hover:shadow-xl hover:shadow-brand/10 hover:border-brand/15 transition duration-300 ease-luxe hover:-translate-y-1"
             >
-              <div className="w-11 h-11 rounded-xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-champagne transition-all duration-500">
+              <div className="w-11 h-11 rounded-xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-champagne transition duration-300 ease-luxe">
                 {channel.icon}
               </div>
               <div className="min-w-0">
@@ -287,7 +287,7 @@ export default function ContactPage() {
                     <button
                       type="submit"
                       disabled={sending}
-                      className="relative overflow-hidden inline-flex items-center justify-center gap-2.5 bg-brand text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-brand-soft transition-all duration-500 shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25 hover:-translate-y-0.5 disabled:opacity-60 disabled:pointer-events-none cursor-pointer shrink-0 w-full sm:w-auto"
+                      className="relative overflow-hidden inline-flex items-center justify-center gap-2.5 bg-brand text-white px-8 py-3.5 rounded-full font-bold text-sm hover:bg-brand-soft transition duration-200 ease-luxe shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25 hover:-translate-y-0.5 disabled:opacity-60 disabled:pointer-events-none cursor-pointer shrink-0 w-full sm:w-auto"
                     >
                       <span className="absolute inset-0 animate-shimmer pointer-events-none" />
                       {sending ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />}

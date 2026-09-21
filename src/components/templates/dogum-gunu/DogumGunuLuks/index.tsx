@@ -26,7 +26,7 @@ const LUKS_THEME: SectionTheme = {
   accentBg: 'bg-[#e0b878]',
   accentSoft: 'bg-[#e0b878]/10',
   input:
-    'w-full bg-white/[0.06] border border-[#e0b878]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f5ebe0] placeholder:text-[#877b71] focus:outline-none focus:border-[#e0b878]/60 focus:ring-2 focus:ring-[#e0b878]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#e0b878]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f5ebe0] placeholder:text-[#877b71] focus:outline-none focus:border-[#e0b878]/60 focus:ring-2 focus:ring-[#e0b878]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#e0b878] to-[#f0d5a4] hover:from-[#e9c78d] hover:to-[#f7e2b8] text-[#171009] shadow-lg shadow-[#e0b878]/25',
   buttonGhost:

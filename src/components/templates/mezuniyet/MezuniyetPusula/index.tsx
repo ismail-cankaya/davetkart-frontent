@@ -25,7 +25,7 @@ const PUSULA_THEME: SectionTheme = {
   accentBg: 'bg-[#d9b45c]',
   accentSoft: 'bg-[#d9b45c]/10',
   input:
-    'w-full bg-white/[0.06] border border-[#d9b45c]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f4ecd8] placeholder:text-[#8d8168] focus:outline-none focus:border-[#d9b45c]/60 focus:ring-2 focus:ring-[#d9b45c]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#d9b45c]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f4ecd8] placeholder:text-[#8d8168] focus:outline-none focus:border-[#d9b45c]/60 focus:ring-2 focus:ring-[#d9b45c]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#d9b45c] to-[#efd493] hover:from-[#e4c273] hover:to-[#f6e2ab] text-[#1c1509] shadow-lg shadow-[#d9b45c]/20',
   buttonGhost:

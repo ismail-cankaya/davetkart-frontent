@@ -5,7 +5,7 @@ import { Check, ChevronDown, Palette, X } from 'lucide-react';
 import { TemplatePreset } from '../../types';
 import { useProgressiveList } from '../../hooks/useProgressiveList';
 import { TemplateCover } from '../preview/TemplateCover';
-import { ease } from '../../utils/motion';
+import { backdropVariants, duration, ease, gesture, modalVariants } from '../../utils/motion';
 
 const INITIAL_THEMES = 9;
 const THEME_STEP = 9;
@@ -91,10 +91,10 @@ function ThemePickerDialog({
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: ease.out }}
+      variants={backdropVariants}
+      initial="hidden"
+      animate="shown"
+      exit="exit"
       onClick={onClose}
       className="fixed inset-0 z-[100] bg-ink/45 backdrop-blur-md flex items-end sm:items-center justify-center p-0 sm:p-4"
       role="dialog"
@@ -102,10 +102,10 @@ function ThemePickerDialog({
       aria-labelledby={titleId}
     >
       <motion.div
-        initial={{ opacity: 0, y: 40, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        exit={{ opacity: 0, y: 30, scale: 0.98 }}
-        transition={{ duration: 0.45, ease: ease.out }}
+        variants={modalVariants}
+        initial="hidden"
+        animate="shown"
+        exit="exit"
         onClick={(e) => e.stopPropagation()}
         className="relative w-full sm:max-w-3xl max-h-[88vh] sm:max-h-[85vh] bg-cream rounded-t-3xl sm:rounded-3xl shadow-2xl shadow-ink/30 border border-white/40 overflow-hidden flex flex-col"
       >
@@ -155,11 +155,11 @@ function ThemePickerDialog({
                   }}
                   initial={{ opacity: 0, y: 20, scale: 0.97 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.5, ease: ease.out, delay }}
-                  whileHover={{ y: -4 }}
-                  whileTap={{ scale: 0.97 }}
+                  transition={{ duration: duration.panel, ease: ease.out, delay }}
+                  whileHover={{ y: -4, transition: gesture.hover }}
+                  whileTap={{ scale: 0.97, transition: gesture.press }}
                   aria-pressed={isActive}
-                  className={`group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer text-left transition-shadow duration-500 ${
+                  className={`group relative rounded-2xl overflow-hidden h-32 sm:h-40 cursor-pointer text-left transition-shadow duration-300 ${
                     isActive
                       ? 'shadow-xl shadow-brand/25 ring-2 ring-brand ring-offset-2 ring-offset-cream'
                       : 'shadow-sm hover:shadow-xl hover:shadow-ink/15'
@@ -168,7 +168,7 @@ function ThemePickerDialog({
                   <TemplateCover
                     preset={preset}
                     alt={preset.name}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1200ms] ease-out filter brightness-90 group-hover:brightness-95"
+                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-luxe filter brightness-90 group-hover:brightness-95"
                   />
 
                   {isActive && (
@@ -200,7 +200,7 @@ function ThemePickerDialog({
                 onClick={showMore}
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="group inline-flex items-center gap-2 bg-white text-brand border border-brand/20 hover:border-brand/50 px-6 py-3 rounded-full font-semibold text-xs shadow-sm hover:shadow-lg hover:shadow-ink/10 transition-all duration-500 cursor-pointer"
+                className="group inline-flex items-center gap-2 bg-white text-brand border border-brand/20 hover:border-brand/50 px-6 py-3 rounded-full font-semibold text-xs shadow-sm hover:shadow-lg hover:shadow-ink/10 transition duration-200 ease-luxe cursor-pointer"
               >
                 Daha fazla tema
                 <span className="text-muted font-medium">({remaining})</span>

@@ -18,7 +18,7 @@ const DOGUM_GUNU_GAZETE_THEME: SectionTheme = {
   accent: 'text-[#d9432f]',
   accentBg: 'bg-[#d9432f]',
   accentSoft: 'bg-[#d9432f]/12',
-  input: 'w-full bg-white border border-[#e9e0cb] rounded-lg px-3.5 py-2.5 text-sm text-[#524a3d] placeholder:text-[#877f70] focus:outline-none focus:border-[#d9432f] focus:ring-2 focus:ring-[#d9432f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e9e0cb] rounded-lg px-3.5 py-2.5 text-sm text-[#524a3d] placeholder:text-[#877f70] focus:outline-none focus:border-[#d9432f] focus:ring-2 focus:ring-[#d9432f]/18 transition duration-300',
   buttonPrimary: 'bg-[#1d1a12] hover:brightness-125 text-[#faf6ec] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e9e0cb] text-[#524a3d] hover:bg-[#faf6ec] hover:border-[#d9432f]/40',
   divider: 'bg-[#e9e0cb]',

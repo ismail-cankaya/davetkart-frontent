@@ -18,7 +18,7 @@ const DUGUN_MERMER_THEME: SectionTheme = {
   accent: 'text-[#9c7f5f]',
   accentBg: 'bg-[#9c7f5f]',
   accentSoft: 'bg-[#9c7f5f]/12',
-  input: 'w-full bg-white border border-[#e2ddd2] rounded-lg px-3.5 py-2.5 text-sm text-[#544d43] placeholder:text-[#857e73] focus:outline-none focus:border-[#9c7f5f] focus:ring-2 focus:ring-[#9c7f5f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e2ddd2] rounded-lg px-3.5 py-2.5 text-sm text-[#544d43] placeholder:text-[#857e73] focus:outline-none focus:border-[#9c7f5f] focus:ring-2 focus:ring-[#9c7f5f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2b2620] hover:brightness-125 text-[#f4f2ed] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e2ddd2] text-[#544d43] hover:bg-[#f4f2ed] hover:border-[#9c7f5f]/40',
   divider: 'bg-[#e2ddd2]',

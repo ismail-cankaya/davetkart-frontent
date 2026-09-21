@@ -18,7 +18,7 @@ const SUNNET_POSTA_THEME: SectionTheme = {
   accent: 'text-[#2f7f8c]',
   accentBg: 'bg-[#2f7f8c]',
   accentSoft: 'bg-[#2f7f8c]/12',
-  input: 'w-full bg-white border border-[#dde5ea] rounded-lg px-3.5 py-2.5 text-sm text-[#48525a] placeholder:text-[#7d8790] focus:outline-none focus:border-[#2f7f8c] focus:ring-2 focus:ring-[#2f7f8c]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#dde5ea] rounded-lg px-3.5 py-2.5 text-sm text-[#48525a] placeholder:text-[#7d8790] focus:outline-none focus:border-[#2f7f8c] focus:ring-2 focus:ring-[#2f7f8c]/18 transition duration-300',
   buttonPrimary: 'bg-[#1d2730] hover:brightness-125 text-[#f4f7f9] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dde5ea] text-[#48525a] hover:bg-[#f4f7f9] hover:border-[#2f7f8c]/40',
   divider: 'bg-[#dde5ea]',

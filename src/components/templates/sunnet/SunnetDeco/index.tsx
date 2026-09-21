@@ -21,7 +21,7 @@ const SUNNET_DECO_THEME: SectionTheme = {
   accentBg: 'bg-[#d9b45c]',
   accentSoft: 'bg-[#d9b45c]/12',
   input:
-    'w-full bg-white/[0.06] border border-[#d9b45c]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f9f3e2] placeholder:text-[#948b7b] focus:outline-none focus:border-[#d9b45c]/60 focus:ring-2 focus:ring-[#d9b45c]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#d9b45c]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f9f3e2] placeholder:text-[#948b7b] focus:outline-none focus:border-[#d9b45c]/60 focus:ring-2 focus:ring-[#d9b45c]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#d9b45c] to-[#f0d79a] hover:brightness-110 text-[#15110a] shadow-lg shadow-[#d9b45c]/20',
   buttonGhost:

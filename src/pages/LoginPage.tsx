@@ -105,7 +105,7 @@ export default function LoginPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full relative overflow-hidden bg-champagne hover:bg-gold disabled:opacity-60 disabled:cursor-wait text-brand-deep font-bold py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+          className="w-full relative overflow-hidden bg-champagne hover:bg-gold disabled:opacity-60 disabled:cursor-wait text-brand-deep font-bold py-3.5 rounded-xl text-sm flex items-center justify-center gap-2 shadow-lg shadow-black/20 transition duration-300 hover:-translate-y-0.5 cursor-pointer"
         >
           <LogIn size={15} />
           {isSubmitting ? 'Giriş yapılıyor…' : 'Giriş Yap'}

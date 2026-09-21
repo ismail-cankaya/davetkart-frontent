@@ -21,7 +21,7 @@ const PARTI_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#a78bfa]',
   accentSoft: 'bg-[#a78bfa]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f4f1fb] placeholder:text-[#8b8598] focus:outline-none focus:border-[#a78bfa]/60 focus:ring-2 focus:ring-[#a78bfa]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f4f1fb] placeholder:text-[#8b8598] focus:outline-none focus:border-[#a78bfa]/60 focus:ring-2 focus:ring-[#a78bfa]/15 transition duration-300',
   buttonPrimary:
     'bg-[#a78bfa] hover:bg-[#bda4fc] text-[#0b0616] shadow-lg shadow-[#a78bfa]/25',
   buttonGhost:

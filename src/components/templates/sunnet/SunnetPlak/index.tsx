@@ -21,7 +21,7 @@ const SUNNET_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#e0a05c]',
   accentSoft: 'bg-[#e0a05c]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f5fa] placeholder:text-[#83909c] focus:outline-none focus:border-[#e0a05c]/60 focus:ring-2 focus:ring-[#e0a05c]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f5fa] placeholder:text-[#83909c] focus:outline-none focus:border-[#e0a05c]/60 focus:ring-2 focus:ring-[#e0a05c]/15 transition duration-300',
   buttonPrimary:
     'bg-[#e0a05c] hover:bg-[#ebb478] text-[#12080a] shadow-lg shadow-[#e0a05c]/25',
   buttonGhost:

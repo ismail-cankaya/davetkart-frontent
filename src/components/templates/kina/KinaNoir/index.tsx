@@ -26,7 +26,7 @@ const KINA_NOIR_THEME: SectionTheme = {
   accentBg: 'bg-[#d9564f]',
   accentSoft: 'bg-[#d9564f]/10',
   input:
-    'w-full bg-white/[0.035] border border-[#c0392f]/18 rounded-none px-3.5 py-2.5 text-sm text-[#ece2e4] placeholder:text-[#77696c] focus:outline-none focus:border-[#d9564f]/55 focus:ring-0 transition-all duration-300',
+    'w-full bg-white/[0.035] border border-[#c0392f]/18 rounded-none px-3.5 py-2.5 text-sm text-[#ece2e4] placeholder:text-[#77696c] focus:outline-none focus:border-[#d9564f]/55 focus:ring-0 transition duration-300',
   buttonPrimary:
     'rounded-none bg-[#b3323f] hover:bg-[#c64450] text-[#fdf2f3] shadow-none',
   buttonGhost:

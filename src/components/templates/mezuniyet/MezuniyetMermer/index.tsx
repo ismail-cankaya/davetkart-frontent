@@ -18,7 +18,7 @@ const MEZUNIYET_MERMER_THEME: SectionTheme = {
   accent: 'text-[#3f6b4f]',
   accentBg: 'bg-[#3f6b4f]',
   accentSoft: 'bg-[#3f6b4f]/12',
-  input: 'w-full bg-white border border-[#dee3da] rounded-lg px-3.5 py-2.5 text-sm text-[#4a5049] placeholder:text-[#7f877d] focus:outline-none focus:border-[#3f6b4f] focus:ring-2 focus:ring-[#3f6b4f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#dee3da] rounded-lg px-3.5 py-2.5 text-sm text-[#4a5049] placeholder:text-[#7f877d] focus:outline-none focus:border-[#3f6b4f] focus:ring-2 focus:ring-[#3f6b4f]/18 transition duration-300',
   buttonPrimary: 'bg-[#212722] hover:brightness-125 text-[#f3f5f1] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dee3da] text-[#4a5049] hover:bg-[#f3f5f1] hover:border-[#3f6b4f]/40',
   divider: 'bg-[#dee3da]',

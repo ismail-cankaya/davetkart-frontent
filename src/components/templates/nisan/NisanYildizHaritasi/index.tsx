@@ -19,7 +19,7 @@ const NISAN_YILDIZ_THEME: SectionTheme = {
   accentBg: 'bg-[#a8c0f0]',
   accentSoft: 'bg-[#a8c0f0]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f4fc] placeholder:text-[#848da0] focus:outline-none focus:border-[#a8c0f0]/60 focus:ring-2 focus:ring-[#a8c0f0]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f4fc] placeholder:text-[#848da0] focus:outline-none focus:border-[#a8c0f0]/60 focus:ring-2 focus:ring-[#a8c0f0]/15 transition duration-300',
   buttonPrimary: 'bg-[#a8c0f0] hover:bg-[#bed1f6] text-[#080c18] shadow-lg shadow-[#a8c0f0]/20',
   buttonGhost: 'border border-white/16 text-[#dae0ec] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

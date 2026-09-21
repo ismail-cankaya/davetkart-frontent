@@ -21,7 +21,7 @@ const BABY_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#3fb894]',
   accentSoft: 'bg-[#3fb894]/14',
   input:
-    'w-full bg-white border border-[#e0e6de] rounded-lg px-3.5 py-2.5 text-sm text-[#4c554e] placeholder:text-[#828c85] focus:outline-none focus:border-[#3fb894] focus:ring-2 focus:ring-[#3fb894]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e0e6de] rounded-lg px-3.5 py-2.5 text-sm text-[#4c554e] placeholder:text-[#828c85] focus:outline-none focus:border-[#3fb894] focus:ring-2 focus:ring-[#3fb894]/18 transition duration-300',
   buttonPrimary:
     'bg-[#26302a] hover:bg-[#3c483f] text-[#f6f8f4] shadow-lg shadow-black/10',
   buttonGhost:

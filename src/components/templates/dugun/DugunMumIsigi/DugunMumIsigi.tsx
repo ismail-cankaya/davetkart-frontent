@@ -26,7 +26,7 @@ const MUM_ISIGI_THEME: SectionTheme = {
   accentBg: 'bg-[#e3b878]',
   accentSoft: 'bg-[#e3b878]/10',
   input:
-    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#f0e6d2] placeholder:text-[#7d7060] focus:outline-none focus:border-[#e3b878]/50 focus:ring-2 focus:ring-[#e3b878]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#f0e6d2] placeholder:text-[#7d7060] focus:outline-none focus:border-[#e3b878]/50 focus:ring-2 focus:ring-[#e3b878]/15 transition duration-300',
   buttonPrimary:
     'bg-[#e3b878] hover:bg-[#efc98d] text-[#17110a] shadow-lg shadow-[#e3b878]/15',
   buttonGhost:

@@ -19,7 +19,7 @@ const BABY_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#7f9f8f]',
   accentSoft: 'bg-[#7f9f8f]/14',
   input:
-    'w-full bg-white border border-[#e5e0d3] rounded-lg px-3.5 py-2.5 text-sm text-[#54514a] placeholder:text-[#89857b] focus:outline-none focus:border-[#7f9f8f] focus:ring-2 focus:ring-[#7f9f8f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e5e0d3] rounded-lg px-3.5 py-2.5 text-sm text-[#54514a] placeholder:text-[#89857b] focus:outline-none focus:border-[#7f9f8f] focus:ring-2 focus:ring-[#7f9f8f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2b2a24] hover:bg-[#44423a] text-[#faf7f0] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dcd6c7] text-[#625f56] hover:bg-[#f2eee4] hover:border-[#bfb8a5]',
   divider: 'bg-[#e5e0d3]',

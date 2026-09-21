@@ -18,7 +18,7 @@ const SUNNET_MERMER_THEME: SectionTheme = {
   accent: 'text-[#2f6f8c]',
   accentBg: 'bg-[#2f6f8c]',
   accentSoft: 'bg-[#2f6f8c]/12',
-  input: 'w-full bg-white border border-[#dce3e8] rounded-lg px-3.5 py-2.5 text-sm text-[#485259] placeholder:text-[#7d8891] focus:outline-none focus:border-[#2f6f8c] focus:ring-2 focus:ring-[#2f6f8c]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#dce3e8] rounded-lg px-3.5 py-2.5 text-sm text-[#485259] placeholder:text-[#7d8891] focus:outline-none focus:border-[#2f6f8c] focus:ring-2 focus:ring-[#2f6f8c]/18 transition duration-300',
   buttonPrimary: 'bg-[#1e2830] hover:brightness-125 text-[#f2f5f7] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dce3e8] text-[#485259] hover:bg-[#f2f5f7] hover:border-[#2f6f8c]/40',
   divider: 'bg-[#dce3e8]',

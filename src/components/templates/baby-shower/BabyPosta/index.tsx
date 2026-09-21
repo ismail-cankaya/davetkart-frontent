@@ -18,7 +18,7 @@ const BABY_POSTA_THEME: SectionTheme = {
   accent: 'text-[#8fa8b8]',
   accentBg: 'bg-[#8fa8b8]',
   accentSoft: 'bg-[#8fa8b8]/12',
-  input: 'w-full bg-white border border-[#e7e3d8] rounded-lg px-3.5 py-2.5 text-sm text-[#54514a] placeholder:text-[#8a867c] focus:outline-none focus:border-[#8fa8b8] focus:ring-2 focus:ring-[#8fa8b8]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e7e3d8] rounded-lg px-3.5 py-2.5 text-sm text-[#54514a] placeholder:text-[#8a867c] focus:outline-none focus:border-[#8fa8b8] focus:ring-2 focus:ring-[#8fa8b8]/18 transition duration-300',
   buttonPrimary: 'bg-[#2a2822] hover:brightness-125 text-[#fbf9f4] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e7e3d8] text-[#54514a] hover:bg-[#fbf9f4] hover:border-[#8fa8b8]/40',
   divider: 'bg-[#e7e3d8]',

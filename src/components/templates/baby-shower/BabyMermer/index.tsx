@@ -18,7 +18,7 @@ const BABY_MERMER_THEME: SectionTheme = {
   accent: 'text-[#8fa8b8]',
   accentBg: 'bg-[#8fa8b8]',
   accentSoft: 'bg-[#8fa8b8]/12',
-  input: 'w-full bg-white border border-[#e8e1d5] rounded-lg px-3.5 py-2.5 text-sm text-[#565045] placeholder:text-[#8a8378] focus:outline-none focus:border-[#8fa8b8] focus:ring-2 focus:ring-[#8fa8b8]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e8e1d5] rounded-lg px-3.5 py-2.5 text-sm text-[#565045] placeholder:text-[#8a8378] focus:outline-none focus:border-[#8fa8b8] focus:ring-2 focus:ring-[#8fa8b8]/18 transition duration-300',
   buttonPrimary: 'bg-[#2b2823] hover:brightness-125 text-[#faf7f2] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e8e1d5] text-[#565045] hover:bg-[#faf7f2] hover:border-[#8fa8b8]/40',
   divider: 'bg-[#e8e1d5]',

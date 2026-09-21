@@ -8,7 +8,7 @@ import { LanguageSwitcher } from '../LanguageSwitcher';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { signOut } from '../../stores/sessionActions';
 import { fullName } from '../../utils/user';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 const NAV_LINKS = [
   { to: '/', labelKey: 'nav.home' },
@@ -21,15 +21,15 @@ const menuVariants = {
   visible: {
     opacity: 1,
     height: 'auto' as const,
-    transition: { duration: 0.4, ease: ease.out, staggerChildren: 0.05, delayChildren: 0.1 }
+    transition: { duration: duration.panel, ease: ease.out, staggerChildren: 0.04, delayChildren: 0.06 }
   },
-  exit: { opacity: 0, height: 0, transition: { duration: 0.3, ease: ease.out } }
+  exit: { opacity: 0, height: 0, transition: { duration: duration.fast, ease: ease.in } }
 };
 
 const menuItemVariants = {
   hidden: { opacity: 0, x: -12 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: ease.out } },
-  exit: { opacity: 0 }
+  visible: { opacity: 1, x: 0, transition: { duration: duration.base, ease: ease.out } },
+  exit: { opacity: 0, transition: { duration: duration.fast, ease: ease.in } }
 };
 
 export const Header = React.memo(function Header() {
@@ -90,7 +90,7 @@ export const Header = React.memo(function Header() {
       <div className="flex justify-between items-center w-full px-4 md:px-12 py-4 max-w-7xl mx-auto">
         {/* Brand */}
         <Link className="flex items-center gap-2.5 group" to="/">
-          <span className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-brand text-champagne shadow-md shadow-brand/20 group-hover:shadow-lg group-hover:shadow-brand/30 group-hover:-translate-y-0.5 transition-all duration-500">
+          <span className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-brand text-champagne shadow-md shadow-brand/20 group-hover:shadow-lg group-hover:shadow-brand/30 group-hover:-translate-y-0.5 transition duration-300 ease-luxe">
             <BrandMark size={19} />
           </span>
           <span className="font-serif text-lg md:text-xl font-bold text-brand tracking-tight">
@@ -114,7 +114,7 @@ export const Header = React.memo(function Header() {
                 <>
                   {t(link.labelKey)}
                   <span
-                    className={`absolute start-0 -bottom-0.5 w-full h-px bg-gold transition-transform duration-500 ease-luxe ${
+                    className={`absolute start-0 -bottom-0.5 w-full h-px bg-gold transition-transform duration-300 ease-luxe ${
                       isActive
                         ? 'scale-x-100'
                         : 'origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100'
@@ -143,7 +143,7 @@ export const Header = React.memo(function Header() {
               </button>
               <Link
                 to="/dashboard"
-                className="relative overflow-hidden bg-brand text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition-all duration-500 shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25 hover:-translate-y-0.5 flex items-center gap-1.5"
+                className="relative overflow-hidden bg-brand text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition duration-200 ease-luxe shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25 hover:-translate-y-0.5 flex items-center gap-1.5"
               >
                 <span className="absolute inset-0 animate-shimmer pointer-events-none" />
                 <LayoutDashboard size={14} />
@@ -160,7 +160,7 @@ export const Header = React.memo(function Header() {
               </Link>
               <Link
                 to="/register"
-                className="relative overflow-hidden bg-brand text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition-all duration-500 shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25 hover:-translate-y-0.5"
+                className="relative overflow-hidden bg-brand text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition duration-200 ease-luxe shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25 hover:-translate-y-0.5"
               >
                 <span className="absolute inset-0 animate-shimmer pointer-events-none" />
                 {t('auth.register')}

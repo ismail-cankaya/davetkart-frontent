@@ -24,7 +24,7 @@ const KURUMSAL_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#f2653a]',
   accentSoft: 'bg-[#f2653a]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5f7] placeholder:text-[#828b96] focus:outline-none focus:border-[#f2653a]/60 focus:ring-2 focus:ring-[#f2653a]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5f7] placeholder:text-[#828b96] focus:outline-none focus:border-[#f2653a]/60 focus:ring-2 focus:ring-[#f2653a]/15 transition duration-300',
   buttonPrimary:
     'bg-[#f2653a] hover:bg-[#ff7d55] text-[#120704] shadow-lg shadow-[#f2653a]/25',
   buttonGhost:

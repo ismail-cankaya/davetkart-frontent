@@ -18,7 +18,7 @@ const KINA_GAZETE_THEME: SectionTheme = {
   accent: 'text-[#b8323f]',
   accentBg: 'bg-[#b8323f]',
   accentSoft: 'bg-[#b8323f]/12',
-  input: 'w-full bg-white border border-[#e6d9c3] rounded-lg px-3.5 py-2.5 text-sm text-[#54473a] placeholder:text-[#877c6b] focus:outline-none focus:border-[#b8323f] focus:ring-2 focus:ring-[#b8323f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e6d9c3] rounded-lg px-3.5 py-2.5 text-sm text-[#54473a] placeholder:text-[#877c6b] focus:outline-none focus:border-[#b8323f] focus:ring-2 focus:ring-[#b8323f]/18 transition duration-300',
   buttonPrimary: 'bg-[#20180f] hover:brightness-125 text-[#f8f1e5] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e6d9c3] text-[#54473a] hover:bg-[#f8f1e5] hover:border-[#b8323f]/40',
   divider: 'bg-[#e6d9c3]',

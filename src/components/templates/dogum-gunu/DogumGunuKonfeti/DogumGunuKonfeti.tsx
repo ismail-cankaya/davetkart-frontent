@@ -24,7 +24,7 @@ const DOGUM_KONFETI_THEME: SectionTheme = {
   accentBg: 'bg-[#e8705f]',
   accentSoft: 'bg-[#e8705f]/10',
   input:
-    'w-full bg-white/85 border border-[#f3e2d8] rounded-lg px-3.5 py-2.5 text-sm text-[#37271f] placeholder:text-[#8b7a72] focus:outline-none focus:border-[#e8705f] focus:ring-2 focus:ring-[#e8705f]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#f3e2d8] rounded-lg px-3.5 py-2.5 text-sm text-[#37271f] placeholder:text-[#8b7a72] focus:outline-none focus:border-[#e8705f] focus:ring-2 focus:ring-[#e8705f]/20 transition duration-300',
   buttonPrimary:
     'bg-[#e8705f] hover:bg-[#f0836f] text-white shadow-lg shadow-[#e8705f]/20',
   buttonGhost:

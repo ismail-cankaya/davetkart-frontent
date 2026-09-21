@@ -26,7 +26,7 @@ const DUGUN_KROM_THEME: SectionTheme = {
   accentBg: 'bg-[#b9c8f5]',
   accentSoft: 'bg-[#b9c8f5]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#eaeef8] placeholder:text-[#7d859c] focus:outline-none focus:border-[#b9c8f5]/60 focus:ring-2 focus:ring-[#b9c8f5]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#eaeef8] placeholder:text-[#7d859c] focus:outline-none focus:border-[#b9c8f5]/60 focus:ring-2 focus:ring-[#b9c8f5]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#dfe6ff] via-[#c9b8f0] to-[#9fd6f5] hover:brightness-110 text-[#0d1018] shadow-lg shadow-[#9fd6f5]/20',
   buttonGhost:

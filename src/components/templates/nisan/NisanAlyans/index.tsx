@@ -25,7 +25,7 @@ const ALYANS_THEME: SectionTheme = {
   accentBg: 'bg-[#bcd4ea]',
   accentSoft: 'bg-[#bcd4ea]/10',
   input:
-    'w-full bg-white/[0.05] border border-[#9db4d0]/18 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf0f8] placeholder:text-[#71808f] focus:outline-none focus:border-[#bcd4ea]/55 focus:ring-2 focus:ring-[#bcd4ea]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#9db4d0]/18 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf0f8] placeholder:text-[#71808f] focus:outline-none focus:border-[#bcd4ea]/55 focus:ring-2 focus:ring-[#bcd4ea]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#bcd4ea] to-[#e6eef8] hover:from-[#cadeef] hover:to-[#f2f7fd] text-[#0b1018] shadow-lg shadow-[#bcd4ea]/20',
   buttonGhost:

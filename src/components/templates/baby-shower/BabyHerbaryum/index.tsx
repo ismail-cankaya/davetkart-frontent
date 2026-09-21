@@ -18,7 +18,7 @@ const BABY_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#8fa8b8]',
   accentBg: 'bg-[#8fa8b8]',
   accentSoft: 'bg-[#8fa8b8]/10',
-  input: 'w-full bg-[#fffefa] border border-[#93a98a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2b2a23] placeholder:text-[#85806f] focus:outline-none focus:border-[#8fa8b8] focus:ring-2 focus:ring-[#8fa8b8]/15 transition-all duration-300',
+  input: 'w-full bg-[#fffefa] border border-[#93a98a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2b2a23] placeholder:text-[#85806f] focus:outline-none focus:border-[#8fa8b8] focus:ring-2 focus:ring-[#8fa8b8]/15 transition duration-300',
   buttonPrimary: 'bg-[#2b2a23] hover:brightness-125 text-[#fbf8f1] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#93a98a]/35 text-[#2b2a23] hover:bg-[#93a98a]/10 hover:border-[#93a98a]/60 rounded-sm',
   divider: 'bg-[#93a98a]/20',

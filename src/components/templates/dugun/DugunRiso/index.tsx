@@ -24,7 +24,7 @@ const DUGUN_RISO_THEME: SectionTheme = {
   accentBg: 'bg-[#d9536f]',
   accentSoft: 'bg-[#5f7f57]/25',
   input:
-    'w-full bg-white border border-[#1b1712]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#3b352c] placeholder:text-[#6c655a] focus:outline-none focus:border-[#d9536f] focus:ring-2 focus:ring-[#d9536f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#1b1712]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#3b352c] placeholder:text-[#6c655a] focus:outline-none focus:border-[#d9536f] focus:ring-2 focus:ring-[#d9536f]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1b1712] hover:bg-[#3b352c] text-[#f7f3ea] shadow-none',
   buttonGhost:

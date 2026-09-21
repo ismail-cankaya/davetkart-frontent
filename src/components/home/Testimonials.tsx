@@ -60,14 +60,14 @@ export const Testimonials = React.memo(function Testimonials() {
           {REVIEWS.map((review, idx) => (
             <motion.div
               key={review.name}
-              className="relative bg-white/[0.04] backdrop-blur-md border border-white/10 rounded-3xl p-8 hover:bg-white/[0.08] hover:border-gold/30 hover:-translate-y-1.5 transition-all duration-500 group"
+              className="relative bg-white/[0.04] backdrop-blur-md border border-white/10 rounded-3xl p-8 hover:bg-white/[0.08] hover:border-gold/30 hover:-translate-y-1.5 transition duration-300 ease-luxe group"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.12 }}
             >
               {/* Decorative gold quote mark */}
-              <span className="absolute top-5 right-7 font-serif text-6xl leading-none text-gold/15 group-hover:text-gold/30 transition-colors duration-500 select-none pointer-events-none">
+              <span className="absolute top-5 right-7 font-serif text-6xl leading-none text-gold/15 group-hover:text-gold/30 transition-colors duration-200 select-none pointer-events-none">
                 &rdquo;
               </span>
 

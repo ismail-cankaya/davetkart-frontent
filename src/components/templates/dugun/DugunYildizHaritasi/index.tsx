@@ -19,7 +19,7 @@ const DUGUN_YILDIZ_THEME: SectionTheme = {
   accentBg: 'bg-[#f0d6a8]',
   accentSoft: 'bg-[#f0d6a8]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f6f2ea] placeholder:text-[#8b8b9c] focus:outline-none focus:border-[#f0d6a8]/60 focus:ring-2 focus:ring-[#f0d6a8]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f6f2ea] placeholder:text-[#8b8b9c] focus:outline-none focus:border-[#f0d6a8]/60 focus:ring-2 focus:ring-[#f0d6a8]/15 transition duration-300',
   buttonPrimary: 'bg-[#f0d6a8] hover:bg-[#f7e4c4] text-[#0f1018] shadow-lg shadow-[#f0d6a8]/20',
   buttonGhost: 'border border-white/16 text-[#dcdce8] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

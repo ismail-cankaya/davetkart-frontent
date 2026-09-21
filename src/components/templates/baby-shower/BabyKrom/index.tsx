@@ -26,7 +26,7 @@ const BABY_KROM_THEME: SectionTheme = {
   accentBg: 'bg-[#7fb3c9]',
   accentSoft: 'bg-[#7fb3c9]/14',
   input:
-    'w-full bg-white/85 border border-[#e3e7ee] rounded-xl px-3.5 py-2.5 text-sm text-[#5b606b] placeholder:text-[#8a909c] focus:outline-none focus:border-[#7fb3c9] focus:ring-2 focus:ring-[#7fb3c9]/18 transition-all duration-300',
+    'w-full bg-white/85 border border-[#e3e7ee] rounded-xl px-3.5 py-2.5 text-sm text-[#5b606b] placeholder:text-[#8a909c] focus:outline-none focus:border-[#7fb3c9] focus:ring-2 focus:ring-[#7fb3c9]/18 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#a9c9e8] via-[#d8c0e8] to-[#a9e0d8] hover:brightness-105 text-[#22262e] shadow-lg shadow-[#a9c9e8]/30',
   buttonGhost:

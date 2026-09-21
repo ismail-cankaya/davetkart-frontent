@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { AlertTriangle, X } from 'lucide-react';
-import { ease } from '../../utils/motion';
+import { backdropVariants, modalVariants } from '../../utils/motion';
 
 export interface ConfirmOptions {
   title: string;
@@ -93,10 +93,10 @@ export function ConfirmHost() {
     <AnimatePresence>
       {pending && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: ease.out }}
+          variants={backdropVariants}
+          initial="hidden"
+          animate="shown"
+          exit="exit"
           onClick={() => settle(false)}
           className="fixed inset-0 z-[100] bg-ink/45 backdrop-blur-md flex items-center justify-center p-4"
           role="dialog"
@@ -104,10 +104,10 @@ export function ConfirmHost() {
           aria-labelledby="confirm-title"
         >
           <motion.div
-            initial={{ opacity: 0, y: 28, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.97 }}
-            transition={{ duration: 0.45, ease: ease.out }}
+            variants={modalVariants}
+            initial="hidden"
+            animate="shown"
+            exit="exit"
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-md bg-cream rounded-3xl shadow-2xl shadow-ink/30 border border-white/40 overflow-hidden"
           >

@@ -20,7 +20,7 @@ const PARTI_KROM_THEME: SectionTheme = {
   accentBg: 'bg-[#c084fc]',
   accentSoft: 'bg-[#c084fc]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#faf7ff] placeholder:text-[#9a90b0] focus:outline-none focus:border-[#c084fc]/60 focus:ring-2 focus:ring-[#c084fc]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#faf7ff] placeholder:text-[#9a90b0] focus:outline-none focus:border-[#c084fc]/60 focus:ring-2 focus:ring-[#c084fc]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#f0d4ff] via-[#c084fc] to-[#8ab6f5] hover:brightness-110 text-[#12081c] shadow-lg shadow-[#c084fc]/22',
   buttonGhost:

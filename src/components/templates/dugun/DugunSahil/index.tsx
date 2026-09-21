@@ -32,7 +32,7 @@ const SAHIL_THEME: SectionTheme = {
   accentBg: 'bg-[#f0b46a]',
   accentSoft: 'bg-[#f0b46a]/10',
   input:
-    'w-full bg-white/[0.06] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#f3e9dc] placeholder:text-[#847668] focus:outline-none focus:border-[#f0b46a]/50 focus:ring-2 focus:ring-[#f0b46a]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#f3e9dc] placeholder:text-[#847668] focus:outline-none focus:border-[#f0b46a]/50 focus:ring-2 focus:ring-[#f0b46a]/15 transition duration-300',
   buttonPrimary:
     'bg-[#f0b46a] hover:bg-[#f6c384] text-[#2a1d13] shadow-lg shadow-[#f0b46a]/20',
   buttonGhost:

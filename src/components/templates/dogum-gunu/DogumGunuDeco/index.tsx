@@ -21,7 +21,7 @@ const DOGUM_GUNU_DECO_THEME: SectionTheme = {
   accentBg: 'bg-[#e8b878]',
   accentSoft: 'bg-[#e8b878]/12',
   input:
-    'w-full bg-white/[0.06] border border-[#e8b878]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#fdf5e8] placeholder:text-[#9b9080] focus:outline-none focus:border-[#e8b878]/60 focus:ring-2 focus:ring-[#e8b878]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#e8b878]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#fdf5e8] placeholder:text-[#9b9080] focus:outline-none focus:border-[#e8b878]/60 focus:ring-2 focus:ring-[#e8b878]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#e8b878] to-[#f6dcae] hover:brightness-110 text-[#17110a] shadow-lg shadow-[#e8b878]/20',
   buttonGhost:

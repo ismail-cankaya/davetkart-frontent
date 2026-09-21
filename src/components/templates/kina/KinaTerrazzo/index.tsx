@@ -17,7 +17,7 @@ const KINA_TERRAZZO_THEME: SectionTheme = {
   accent: 'text-[#c1272d]',
   accentBg: 'bg-[#c1272d]',
   accentSoft: 'bg-[#c1272d]/12',
-  input: 'w-full bg-[#fffcf5] border border-[#ecdcc4] rounded-2xl px-4 py-2.5 text-sm text-[#2c1d16] placeholder:text-[#857260] focus:outline-none focus:border-[#c1272d] focus:ring-2 focus:ring-[#c1272d]/20 transition-all duration-300',
+  input: 'w-full bg-[#fffcf5] border border-[#ecdcc4] rounded-2xl px-4 py-2.5 text-sm text-[#2c1d16] placeholder:text-[#857260] focus:outline-none focus:border-[#c1272d] focus:ring-2 focus:ring-[#c1272d]/20 transition duration-300',
   buttonPrimary: 'bg-[#2c1d16] hover:brightness-125 text-[#fbf3e6] rounded-full shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#ecdcc4] text-[#2c1d16] hover:bg-[#c1272d]/10 hover:border-[#c1272d]/50 rounded-full',
   divider: 'bg-[#ecdcc4]',

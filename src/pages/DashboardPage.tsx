@@ -29,7 +29,7 @@ import { displayNames } from '../utils/names';
 import { toDisplayError } from '../utils/toDisplayError';
 import { EVENT_CATEGORIES, TEMPLATE_PRESETS } from '../data';
 import { Invitation, InvitationRecord } from '../types';
-import { ease, spring } from '../utils/motion';
+import { duration, ease, spring } from '../utils/motion';
 
 type TabId = 'published' | 'saved';
 
@@ -97,7 +97,7 @@ function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCard
   const bannerText = preset?.titleColor ?? 'text-white';
 
   return (
-    <div className="group h-full flex flex-col bg-white rounded-3xl border border-ink/[0.05] shadow-lg shadow-ink/[0.04] hover:shadow-2xl hover:shadow-ink/10 hover:-translate-y-1.5 transition-all duration-500 overflow-hidden">
+    <div className="group h-full flex flex-col bg-white rounded-3xl border border-ink/[0.05] shadow-lg shadow-ink/[0.04] hover:shadow-2xl hover:shadow-ink/10 hover:-translate-y-1.5 transition duration-300 ease-luxe overflow-hidden">
       {/* Theme banner */}
       <div className={`relative h-32 p-5 flex flex-col justify-between overflow-hidden ${bannerBg}`}>
         <div className="absolute -top-10 -right-10 w-36 h-36 bg-white/10 rounded-full blur-2xl pointer-events-none" />
@@ -140,19 +140,19 @@ function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCard
             <div className="grid grid-cols-3 gap-2">
               <Link
                 to={`/invite/${card.remoteId}`}
-                className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2.5 rounded-xl bg-stone-50 text-ink/70 border border-stone-200 hover:border-brand/40 hover:text-brand transition-all duration-300"
+                className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2.5 rounded-xl bg-stone-50 text-ink/70 border border-stone-200 hover:border-brand/40 hover:text-brand transition duration-300"
               >
                 <Eye size={13} /> Görüntüle
               </Link>
               <button
                 onClick={() => onCopyLink(card.remoteId)}
-                className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2.5 rounded-xl bg-stone-50 text-ink/70 border border-stone-200 hover:border-brand/40 hover:text-brand transition-all duration-300 cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2.5 rounded-xl bg-stone-50 text-ink/70 border border-stone-200 hover:border-brand/40 hover:text-brand transition duration-300 cursor-pointer"
               >
                 <Copy size={13} /> Kopyala
               </button>
               <button
                 onClick={() => onResume(card)}
-                className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-soft shadow-sm shadow-brand/20 transition-all duration-300 cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2.5 rounded-xl bg-brand text-white hover:bg-brand-soft shadow-sm shadow-brand/20 transition duration-300 cursor-pointer"
               >
                 <PenLine size={13} /> Düzenle
               </button>
@@ -174,7 +174,7 @@ function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCard
             type="button"
             onClick={() => onDelete(card)}
             aria-label="Bu davetiyeyi sil"
-            className="w-full inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2 rounded-xl text-muted/70 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition-all duration-300 cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2 rounded-xl text-muted/70 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition duration-300 cursor-pointer"
           >
             <Trash2 size={12} /> Sil
           </button>
@@ -309,9 +309,9 @@ export default function DashboardPage() {
       {/* Welcome header */}
       <section className="pt-14 md:pt-20 bg-cream">
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: ease.out }}
+          transition={{ duration: duration.panel, ease: ease.out }}
           className="max-w-6xl mx-auto px-4 md:px-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6"
         >
           <div>
@@ -329,7 +329,7 @@ export default function DashboardPage() {
           <Link
             to="/create"
             onClick={startNewInvitation}
-            className="shrink-0 inline-flex items-center gap-2 bg-brand text-white px-6 py-3.5 rounded-full font-semibold text-xs hover:bg-brand-soft transition-all duration-300 shadow-md shadow-brand/15 hover:-translate-y-0.5"
+            className="shrink-0 inline-flex items-center gap-2 bg-brand text-white px-6 py-3.5 rounded-full font-semibold text-xs hover:bg-brand-soft transition duration-300 shadow-md shadow-brand/15 hover:-translate-y-0.5"
           >
             <Plus size={15} />
             Yeni Davetiye Oluştur
@@ -344,7 +344,7 @@ export default function DashboardPage() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: ease.out }}
+              transition={{ duration: duration.base, ease: ease.out }}
               className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl px-5 py-4 mb-8 text-xs"
             >
               <span className="flex items-center gap-2 font-medium">
@@ -378,9 +378,9 @@ export default function DashboardPage() {
           ) : totalCount === 0 ? (
             /* Global empty state — nothing anywhere, invite the first design */
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: ease.out }}
+              transition={{ duration: duration.panel, ease: ease.out }}
               className="relative overflow-hidden text-center py-20 md:py-28 px-6 bg-white rounded-[2.5rem] border border-ink/[0.05] shadow-xl shadow-ink/[0.04]"
             >
               <div className="absolute top-0 left-1/4 w-72 h-72 bg-emerald-100/30 rounded-full blur-3xl pointer-events-none" />
@@ -390,7 +390,7 @@ export default function DashboardPage() {
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.8, ease: ease.out, delay: 0.15 }}
+                  transition={{ duration: duration.panel, ease: ease.out, delay: 0.1 }}
                   className="w-20 h-20 mx-auto rounded-full bg-brand/5 border border-brand/10 flex items-center justify-center mb-6"
                 >
                   <Sparkles className="text-brand" size={30} />
@@ -408,7 +408,7 @@ export default function DashboardPage() {
                   <Link
                     to="/create"
                     onClick={startNewInvitation}
-                    className="relative overflow-hidden inline-flex items-center gap-2.5 bg-brand text-white px-9 py-4 rounded-full font-semibold text-sm hover:bg-brand-soft transition-colors duration-500 shadow-lg shadow-brand/20 hover:shadow-xl hover:shadow-brand/30"
+                    className="relative overflow-hidden inline-flex items-center gap-2.5 bg-brand text-white px-9 py-4 rounded-full font-semibold text-sm hover:bg-brand-soft transition-colors duration-200 shadow-lg shadow-brand/20 hover:shadow-xl hover:shadow-brand/30"
                   >
                     <span className="absolute inset-0 animate-shimmer pointer-events-none" />
                     <Plus size={16} />
@@ -423,7 +423,7 @@ export default function DashboardPage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: ease.out, delay: 0.1 }}
+                transition={{ duration: duration.panel, ease: ease.out, delay: 0.05 }}
                 className="flex justify-center sm:justify-start mb-8"
               >
                 <div className="inline-flex items-center gap-1 bg-white border border-ink/[0.06] rounded-full p-1.5 shadow-sm overflow-x-auto max-w-full">
@@ -467,7 +467,7 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.45, ease: ease.out }}
+                  transition={{ duration: duration.base, ease: ease.out }}
                   className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
                 >
                   {activeCards.length === 0 ? (
@@ -484,7 +484,7 @@ export default function DashboardPage() {
                         key={card.key}
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.55, ease: ease.out, delay: i * 0.07 }}
+                        transition={{ duration: duration.panel, ease: ease.out, delay: i * 0.05 }}
                       >
                         <InvitationCard card={card} onResume={handleResume} onCopyLink={handleCopyLink} onDelete={handleDelete} />
                       </motion.div>
@@ -508,7 +508,7 @@ export default function DashboardPage() {
                     key={record.id}
                     type="button"
                     onClick={() => setRsvpScopeId(record.id)}
-                    className={`px-4 py-2 rounded-full text-xs font-semibold border transition-all duration-300 cursor-pointer ${
+                    className={`px-4 py-2 rounded-full text-xs font-semibold border transition duration-300 cursor-pointer ${
                       isActive
                         ? 'bg-brand text-white border-brand shadow-lg shadow-brand/20'
                         : 'bg-white/60 text-muted border-ink/10 hover:border-brand/40 hover:text-brand'

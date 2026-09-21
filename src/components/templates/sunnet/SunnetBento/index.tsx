@@ -25,7 +25,7 @@ const SUNNET_BENTO_THEME: SectionTheme = {
   accentBg: 'bg-[#1c7d99]',
   accentSoft: 'bg-[#1c7d99]/12',
   input:
-    'w-full bg-white border border-[#dce3ea] rounded-lg px-3.5 py-2.5 text-sm text-[#454e59] placeholder:text-[#79828e] focus:outline-none focus:border-[#1c7d99] focus:ring-2 focus:ring-[#1c7d99]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dce3ea] rounded-lg px-3.5 py-2.5 text-sm text-[#454e59] placeholder:text-[#79828e] focus:outline-none focus:border-[#1c7d99] focus:ring-2 focus:ring-[#1c7d99]/18 transition duration-300',
   buttonPrimary:
     'bg-[#141a22] hover:bg-[#28313d] text-[#f3f6f9] shadow-lg shadow-black/10',
   buttonGhost:

@@ -23,7 +23,7 @@ const KURUMSAL_AURORA_THEME: SectionTheme = {
   accentBg: 'bg-[#8b7dff]',
   accentSoft: 'bg-[#8b7dff]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f4f4ff] placeholder:text-[#8b8ba3] focus:outline-none focus:border-[#8b7dff]/60 focus:ring-2 focus:ring-[#8b7dff]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f4f4ff] placeholder:text-[#8b8ba3] focus:outline-none focus:border-[#8b7dff]/60 focus:ring-2 focus:ring-[#8b7dff]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#8b7dff] to-[#4f9dff] hover:brightness-110 text-[#070714] shadow-lg shadow-[#8b7dff]/25',
   buttonGhost:

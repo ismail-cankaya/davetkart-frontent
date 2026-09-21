@@ -158,7 +158,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
                   if (dotIndex !== index) goTo(() => dotIndex, dotIndex > index ? 1 : -1);
                 }}
                 className={cn(
-                  'h-1.5 rounded-full transition-all duration-500 cursor-pointer',
+                  'h-1.5 rounded-full transition-[width,opacity] duration-300 ease-luxe cursor-pointer',
                   dotIndex === index ? cn('w-6', theme.accentBg) : cn('w-1.5 opacity-40', theme.accentBg)
                 )}
               />

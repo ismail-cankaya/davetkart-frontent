@@ -19,7 +19,7 @@ const DOGUM_GUNU_YILDIZ_THEME: SectionTheme = {
   accentBg: 'bg-[#f0a0d0]',
   accentSoft: 'bg-[#f0a0d0]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f8f0fa] placeholder:text-[#928aa0] focus:outline-none focus:border-[#f0a0d0]/60 focus:ring-2 focus:ring-[#f0a0d0]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f8f0fa] placeholder:text-[#928aa0] focus:outline-none focus:border-[#f0a0d0]/60 focus:ring-2 focus:ring-[#f0a0d0]/15 transition duration-300',
   buttonPrimary: 'bg-[#f0a0d0] hover:bg-[#f6b8dd] text-[#16081a] shadow-lg shadow-[#f0a0d0]/25',
   buttonGhost: 'border border-white/16 text-[#e4dcec] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

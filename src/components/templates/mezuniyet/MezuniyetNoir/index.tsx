@@ -21,7 +21,7 @@ const MEZUNIYET_NOIR_THEME: SectionTheme = {
   accentBg: 'bg-[#b08d4f]',
   accentSoft: 'bg-[#b08d4f]/12',
   input:
-    'w-full bg-white/[0.06] border border-[#b08d4f]/16 rounded-none px-3.5 py-2.5 text-sm text-[#f5f2ea] placeholder:text-[#8a8579] focus:outline-none focus:border-[#b08d4f]/60 focus:ring-2 focus:ring-[#b08d4f]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#b08d4f]/16 rounded-none px-3.5 py-2.5 text-sm text-[#f5f2ea] placeholder:text-[#8a8579] focus:outline-none focus:border-[#b08d4f]/60 focus:ring-2 focus:ring-[#b08d4f]/15 transition duration-300',
   buttonPrimary:
     'rounded-none bg-[#b08d4f] hover:bg-[#c29f63] text-[#0a0806] shadow-none',
   buttonGhost:

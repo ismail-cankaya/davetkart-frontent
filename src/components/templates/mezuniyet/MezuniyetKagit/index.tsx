@@ -25,7 +25,7 @@ const MEZUNIYET_KAGIT_THEME: SectionTheme = {
   accentBg: 'bg-[#1d3f76]',
   accentSoft: 'bg-[#1d3f76]/12',
   input:
-    'w-full bg-white border border-[#dcd5c4] rounded-lg px-3.5 py-2.5 text-sm text-[#55503f] placeholder:text-[#847c6c] focus:outline-none focus:border-[#1d3f76] focus:ring-2 focus:ring-[#1d3f76]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dcd5c4] rounded-lg px-3.5 py-2.5 text-sm text-[#55503f] placeholder:text-[#847c6c] focus:outline-none focus:border-[#1d3f76] focus:ring-2 focus:ring-[#1d3f76]/18 transition duration-300',
   buttonPrimary:
     'bg-[#221f18] hover:bg-[#3c3729] text-[#f7f4ec] shadow-lg shadow-black/10',
   buttonGhost:

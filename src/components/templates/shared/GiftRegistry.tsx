@@ -125,7 +125,7 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
                     whileTap={{ scale: 0.94 }}
                     onClick={() => setSelectedAmount(isActive ? null : amount)}
                     className={cn(
-                      'rounded-full border px-4 py-2 text-xs font-bold transition-all duration-300 cursor-pointer',
+                      'rounded-full border px-4 py-2 text-xs font-bold transition duration-300 cursor-pointer',
                       isActive
                         ? cn(theme.accentBg, theme.id === 'midnight' ? 'text-slate-950 border-transparent' : 'text-stone-50 border-transparent')
                         : cn(theme.border, theme.heading, 'hover:opacity-80')

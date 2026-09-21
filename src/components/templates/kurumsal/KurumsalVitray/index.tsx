@@ -25,7 +25,7 @@ const KURUMSAL_VITRAY_THEME: SectionTheme = {
   accentBg: 'bg-[#3f9e88]',
   accentSoft: 'bg-[#3f9e88]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef4f5] placeholder:text-[#818e92] focus:outline-none focus:border-[#3f9e88]/60 focus:ring-2 focus:ring-[#3f9e88]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef4f5] placeholder:text-[#818e92] focus:outline-none focus:border-[#3f9e88]/60 focus:ring-2 focus:ring-[#3f9e88]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#3f9e88] to-[#3d7ea6] hover:brightness-110 text-[#04100e] shadow-lg shadow-[#3f9e88]/20',
   buttonGhost:

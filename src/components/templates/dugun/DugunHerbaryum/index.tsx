@@ -18,7 +18,7 @@ const DUGUN_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#9c3b46]',
   accentBg: 'bg-[#9c3b46]',
   accentSoft: 'bg-[#9c3b46]/10',
-  input: 'w-full bg-[#fffdf6] border border-[#6b7f5c]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2e2a1f] placeholder:text-[#837c68] focus:outline-none focus:border-[#9c3b46] focus:ring-2 focus:ring-[#9c3b46]/15 transition-all duration-300',
+  input: 'w-full bg-[#fffdf6] border border-[#6b7f5c]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2e2a1f] placeholder:text-[#837c68] focus:outline-none focus:border-[#9c3b46] focus:ring-2 focus:ring-[#9c3b46]/15 transition duration-300',
   buttonPrimary: 'bg-[#2e2a1f] hover:brightness-125 text-[#f7f3e8] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#6b7f5c]/35 text-[#2e2a1f] hover:bg-[#6b7f5c]/10 hover:border-[#6b7f5c]/60 rounded-sm',
   divider: 'bg-[#6b7f5c]/20',

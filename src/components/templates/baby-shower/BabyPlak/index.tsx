@@ -25,7 +25,7 @@ const BABY_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#b08a1e]',
   accentSoft: 'bg-[#b08a1e]/14',
   input:
-    'w-full bg-white border border-[#e2ddd0] rounded-lg px-3.5 py-2.5 text-sm text-[#585349] placeholder:text-[#8a8478] focus:outline-none focus:border-[#b08a1e] focus:ring-2 focus:ring-[#b08a1e]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e2ddd0] rounded-lg px-3.5 py-2.5 text-sm text-[#585349] placeholder:text-[#8a8478] focus:outline-none focus:border-[#b08a1e] focus:ring-2 focus:ring-[#b08a1e]/18 transition duration-300',
   buttonPrimary:
     'bg-[#2a271f] hover:bg-[#433e31] text-[#f6f4ef] shadow-lg shadow-black/10',
   buttonGhost:

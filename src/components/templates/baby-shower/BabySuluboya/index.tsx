@@ -19,7 +19,7 @@ const BABY_SULUBOYA_THEME: SectionTheme = {
   accentBg: 'bg-[#7fa8b8]',
   accentSoft: 'bg-[#7fa8b8]/14',
   input:
-    'w-full bg-white border border-[#e5e2d8] rounded-lg px-3.5 py-2.5 text-sm text-[#514f47] placeholder:text-[#88867d] focus:outline-none focus:border-[#7fa8b8] focus:ring-2 focus:ring-[#7fa8b8]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e5e2d8] rounded-lg px-3.5 py-2.5 text-sm text-[#514f47] placeholder:text-[#88867d] focus:outline-none focus:border-[#7fa8b8] focus:ring-2 focus:ring-[#7fa8b8]/18 transition duration-300',
   buttonPrimary: 'bg-[#2b2b26] hover:bg-[#43433b] text-[#fbfaf7] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dcd9cd] text-[#605e55] hover:bg-[#f2f0ea] hover:border-[#bfbcae]',
   divider: 'bg-[#e5e2d8]',

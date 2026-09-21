@@ -25,7 +25,7 @@ const ORMAN_THEME: SectionTheme = {
   accentBg: 'bg-[#d8b26a]',
   accentSoft: 'bg-[#d8b26a]/10',
   input:
-    'w-full bg-white/[0.05] border border-[#9fb08a]/20 rounded-lg px-3.5 py-2.5 text-sm text-[#eceedf] placeholder:text-[#7d8a72] focus:outline-none focus:border-[#d8b26a]/55 focus:ring-2 focus:ring-[#d8b26a]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#9fb08a]/20 rounded-lg px-3.5 py-2.5 text-sm text-[#eceedf] placeholder:text-[#7d8a72] focus:outline-none focus:border-[#d8b26a]/55 focus:ring-2 focus:ring-[#d8b26a]/15 transition duration-300',
   buttonPrimary:
     'bg-[#d8b26a] hover:bg-[#e4c384] text-[#1a1409] shadow-lg shadow-[#d8b26a]/20',
   buttonGhost:

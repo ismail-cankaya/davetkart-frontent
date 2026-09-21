@@ -25,7 +25,7 @@ const ZIRVE_THEME: SectionTheme = {
   accentBg: 'bg-[#e8b06a]',
   accentSoft: 'bg-[#e8b06a]/12',
   input:
-    'w-full bg-white/[0.06] border border-[#e0a860]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f9] placeholder:text-[#74808f] focus:outline-none focus:border-[#e8b06a]/60 focus:ring-2 focus:ring-[#e8b06a]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#e0a860]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f9] placeholder:text-[#74808f] focus:outline-none focus:border-[#e8b06a]/60 focus:ring-2 focus:ring-[#e8b06a]/15 transition duration-300',
   buttonPrimary:
     'bg-[#e8b06a] hover:bg-[#f0c184] text-[#1a1206] shadow-lg shadow-[#e8b06a]/22',
   buttonGhost:

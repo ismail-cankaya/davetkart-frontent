@@ -48,6 +48,17 @@ export const spring = {
 } as const satisfies Record<string, Transition>;
 
 /**
+ * Hover / tap geçişleri. Bir motion öğesinin `transition` prop'u jestlere de
+ * uygulanır — giriş kademesinin `delay` değeri dahil. Kademeli giren
+ * kartlarda hover bu yüzden kendi geçişini taşır; aksi hâlde onuncu kartın
+ * kalkması 0.4 s gecikir.
+ */
+export const gesture = {
+  hover: { duration: duration.base, ease: ease.out },
+  press: { duration: duration.press, ease: ease.out }
+} as const;
+
+/**
  * Modal / diyalog kartı. Giriş ve çıkış ayrı ayarlanır: çıkış girişin
  * yaklaşık %60'ı kadar sürer ve ease-in ile hızlanarak uzaklaşır.
  */

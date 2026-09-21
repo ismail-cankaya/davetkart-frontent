@@ -3,7 +3,22 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, animate, useInView } from 'motion/react';
 import { Sparkles, ArrowRight } from 'lucide-react';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
+
+/**
+ * Hero koreografisi (s). Birincil CTA ~0.6 s'de oturur, hero ~1.6 s'de
+ * durulur (eskiden 1.5 s ve 2.6 s). Pazarlama sahnesi olduğu için süreler
+ * `stage` temposunda, ama birincil eylem beklemez.
+ */
+const HERO_TIMING = {
+  wordStagger: 0.06,
+  subtitle: 0.2,
+  cta: 0.2,
+  stats: 0.35,
+  statItem: 0.4,
+  statStagger: 0.08,
+  cue: 1.0
+} as const;
 
 const STATS = [
   { value: 10, suffix: 'K+', labelKey: 'hero.stats.invitations' },
@@ -12,23 +27,41 @@ const STATS = [
   { value: 100, prefix: '%', suffix: '', labelKey: 'hero.stats.eco' }
 ];
 
-function StatCounter({ value, prefix = '', suffix = '' }: { value: number; prefix?: string; suffix?: string }) {
+interface StatCounterProps {
+  value: number;
+  prefix?: string;
+  suffix?: string;
+  /** Kutunun girişinin bittiği an (mount'tan itibaren, s). */
+  revealAt: number;
+}
+
+/**
+ * 🔴 Sayım, kutusu GÖRÜNÜR olduktan sonra başlar. `useInView` opaklığa
+ * bakmaz: masaüstünde istatistikler ilk ekrandadır ve gözlemci mount anında
+ * tetiklenir, oysa kutu giriş animasyonu bitene kadar saydamdır. Sayım o
+ * anda başlasaydı kullanıcı yalnızca ikinci yarısını görürdü. Sayfa
+ * kaydırılarak gelinirse giriş çoktan bitmiştir ve bekleme sıfıra iner.
+ */
+function StatCounter({ value, prefix = '', suffix = '', revealAt }: StatCounterProps) {
   const ref = useRef<HTMLParagraphElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-40px' });
+  const mountedAt = useRef(performance.now());
+  const inView = useInView(ref, { once: true, amount: 'all' });
 
   useEffect(() => {
     if (!inView || !ref.current) return;
     const node = ref.current;
+    const elapsed = (performance.now() - mountedAt.current) / 1000;
     // Count by writing textContent straight to the DOM node: piping the
     // 60fps ticks through setState re-rendered the component on every
     // frame and blocked the main thread during the hero's entrance.
     const controls = animate(0, value, {
-      duration: 1.8,
+      duration: 1.4,
+      delay: Math.max(0, revealAt - elapsed),
       ease: ease.out,
       onUpdate: v => { node.textContent = `${prefix}${Math.round(v)}${suffix}`; }
     });
     return () => controls.stop();
-  }, [inView, value, prefix, suffix]);
+  }, [inView, value, prefix, suffix, revealAt]);
 
   return (
     <p ref={ref} className="font-serif text-3xl md:text-4xl font-bold text-brand tabular-nums">
@@ -112,9 +145,9 @@ export const Hero = React.memo(function Hero() {
 
         {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, y: -20, scale: 0.9 }}
+          initial={{ opacity: 0, y: -12, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, ease: ease.out }}
+          transition={{ duration: 0.6, ease: ease.out }}
           className="relative bg-champagne text-brand-deep px-4 py-1.5 rounded-full font-semibold text-xs tracking-wide mb-8 inline-flex items-center gap-1.5 shadow-sm border border-brand-deep/10 overflow-hidden"
         >
           <div className="absolute inset-0 animate-shimmer" />
@@ -127,9 +160,9 @@ export const Hero = React.memo(function Hero() {
           {headline.map((word, idx) => (
             <span key={`${word.text}-${idx}`} className="inline-block overflow-hidden align-bottom pb-1">
               <motion.span
-                initial={{ opacity: 0, y: '70%', filter: 'blur(8px)' }}
+                initial={{ opacity: 0, y: '70%', filter: 'blur(4px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                transition={{ duration: 1, ease: ease.out, delay: 0.15 + idx * 0.09 }}
+                transition={{ duration: 0.7, ease: ease.out, delay: 0.05 + idx * HERO_TIMING.wordStagger }}
                 className={`inline-block me-[0.28em] ${word.accent ? 'text-brand italic font-medium' : ''}`}
               >
                 {word.text}
@@ -139,9 +172,9 @@ export const Hero = React.memo(function Hero() {
         </h1>
 
         <motion.p
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: ease.out, delay: 0.55 }}
+          transition={{ duration: 0.6, ease: ease.out, delay: HERO_TIMING.subtitle }}
           className="text-muted text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           {t('hero.subtitle')}
@@ -149,14 +182,14 @@ export const Hero = React.memo(function Hero() {
 
         {/* CTAs */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: ease.out, delay: 0.7 }}
+          transition={{ duration: duration.panel, ease: ease.out, delay: HERO_TIMING.cta }}
           className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto"
         >
           <Link
             to="/create"
-            className="group relative overflow-hidden bg-brand text-white px-8 py-4 rounded-full font-semibold text-sm hover:bg-brand-soft transition-all duration-500 shadow-lg shadow-brand/20 flex items-center justify-center gap-2 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand/30"
+            className="group relative overflow-hidden bg-brand text-white px-8 py-4 rounded-full font-semibold text-sm hover:bg-brand-soft transition duration-200 ease-luxe shadow-lg shadow-brand/20 flex items-center justify-center gap-2 hover:-translate-y-1 hover:shadow-xl hover:shadow-brand/30"
           >
             <span className="absolute inset-0 animate-shimmer pointer-events-none" />
             {t('hero.ctaPrimary')}
@@ -164,7 +197,7 @@ export const Hero = React.memo(function Hero() {
           </Link>
           <Link
             to="/create"
-            className="bg-white/70 backdrop-blur-sm text-brand border border-brand/15 px-8 py-4 rounded-full font-semibold text-sm hover:bg-white hover:border-brand/30 transition-all duration-500 flex items-center justify-center gap-2 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
+            className="bg-white/70 backdrop-blur-sm text-brand border border-brand/15 px-8 py-4 rounded-full font-semibold text-sm hover:bg-white hover:border-brand/30 transition duration-200 ease-luxe flex items-center justify-center gap-2 hover:-translate-y-0.5 shadow-sm hover:shadow-md"
           >
             {t('hero.ctaSecondary')}
           </Link>
@@ -173,20 +206,25 @@ export const Hero = React.memo(function Hero() {
         {/* Hero Stats with count-up */}
         <motion.div
           id="hero-stats"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.85, ease: ease.out }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: HERO_TIMING.stats, ease: ease.out }}
           className="mt-20 w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 border-t border-ink/10 pt-12 text-center"
         >
           {STATS.map((stat, idx) => (
             <motion.div
               key={stat.labelKey}
               className="p-2"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.95 + idx * 0.1, ease: ease.out }}
+              transition={{ duration: 0.5, delay: HERO_TIMING.statItem + idx * HERO_TIMING.statStagger, ease: ease.out }}
             >
-              <StatCounter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
+              <StatCounter
+                value={stat.value}
+                prefix={stat.prefix}
+                suffix={stat.suffix}
+                revealAt={HERO_TIMING.statItem + idx * HERO_TIMING.statStagger + 0.3}
+              />
               <p className="text-xs text-muted uppercase tracking-wider font-semibold mt-2">{t(stat.labelKey)}</p>
             </motion.div>
           ))}
@@ -204,7 +242,7 @@ export const Hero = React.memo(function Hero() {
         href="#animasyon-ve-onizleme"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.6, duration: 1 }}
+        transition={{ delay: HERO_TIMING.cue, duration: 0.6 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10 cursor-pointer group"
       >
         <span className="text-[10px] text-muted uppercase tracking-[0.2em] font-semibold group-hover:text-brand transition-colors">{t('hero.explore')}</span>

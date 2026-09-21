@@ -24,7 +24,7 @@ const KAMPUS_THEME: SectionTheme = {
   accentBg: 'bg-[#c9a961]',
   accentSoft: 'bg-[#c9a961]/10',
   input:
-    'w-full bg-white/[0.06] border border-[#c9a961]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f2ebda] placeholder:text-[#877b66] focus:outline-none focus:border-[#c9a961]/60 focus:ring-2 focus:ring-[#c9a961]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#c9a961]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f2ebda] placeholder:text-[#877b66] focus:outline-none focus:border-[#c9a961]/60 focus:ring-2 focus:ring-[#c9a961]/15 transition duration-300',
   buttonPrimary:
     'bg-[#c9a961] hover:bg-[#d8ba76] text-[#1a1409] shadow-lg shadow-[#c9a961]/20',
   buttonGhost:

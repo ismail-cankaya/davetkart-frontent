@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { BrandMark } from '../ui/BrandMark';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 /** Shared input styling for the auth forms (mirrors the designer panel). */
 export const authInputClass =
-  'w-full bg-white/5 border border-white/15 focus:border-gold focus:ring-2 focus:ring-gold/20 focus:outline-none rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 transition-all duration-300';
+  'w-full bg-white/5 border border-white/15 focus:border-gold focus:ring-2 focus:ring-gold/20 focus:outline-none rounded-xl px-4 py-3 text-sm text-white placeholder:text-white/30 transition duration-300';
 
 interface AuthShellProps {
   title: React.ReactNode;
@@ -31,7 +31,7 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.9, ease: ease.out }}
+        transition={{ duration: duration.panel, ease: ease.out }}
         className="relative z-10 w-full max-w-md"
       >
         <div className="bg-white/[0.07] backdrop-blur-md p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl shadow-black/25 space-y-7">

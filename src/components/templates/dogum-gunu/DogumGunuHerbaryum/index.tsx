@@ -18,7 +18,7 @@ const DOGUM_GUNU_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#d9603f]',
   accentBg: 'bg-[#d9603f]',
   accentSoft: 'bg-[#d9603f]/10',
-  input: 'w-full bg-[#fffdf6] border border-[#7f8b4f]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2c2418] placeholder:text-[#8a7d63] focus:outline-none focus:border-[#d9603f] focus:ring-2 focus:ring-[#d9603f]/15 transition-all duration-300',
+  input: 'w-full bg-[#fffdf6] border border-[#7f8b4f]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#2c2418] placeholder:text-[#8a7d63] focus:outline-none focus:border-[#d9603f] focus:ring-2 focus:ring-[#d9603f]/15 transition duration-300',
   buttonPrimary: 'bg-[#2c2418] hover:brightness-125 text-[#fdf6ea] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#7f8b4f]/35 text-[#2c2418] hover:bg-[#7f8b4f]/10 hover:border-[#7f8b4f]/60 rounded-sm',
   divider: 'bg-[#7f8b4f]/20',

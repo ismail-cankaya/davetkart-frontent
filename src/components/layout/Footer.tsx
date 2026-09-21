@@ -38,22 +38,22 @@ export const Footer = React.memo(function Footer() {
         <div className="md:col-span-2 space-y-3">
           <h4 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Koleksiyonlar</h4>
           <ul className="space-y-2.5 text-xs text-emerald-100/50">
-            <li><Link to="/create" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Düğün &amp; Nikah</Link></li>
-            <li><Link to="/create" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Sünnet Düğünü</Link></li>
-            <li><Link to="/create" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Baby Shower</Link></li>
-            <li><Link to="/create" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Doğum Günü</Link></li>
-            <li><Link to="/create" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Kurumsal Gala</Link></li>
+            <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Düğün &amp; Nikah</Link></li>
+            <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Sünnet Düğünü</Link></li>
+            <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Baby Shower</Link></li>
+            <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Doğum Günü</Link></li>
+            <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Kurumsal Gala</Link></li>
           </ul>
         </div>
 
         <div className="md:col-span-2 space-y-3">
           <h4 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Kurumsal</h4>
           <ul className="space-y-2.5 text-xs text-emerald-100/50">
-            <li><Link to="/about" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Hakkımızda</Link></li>
-            <li><Link to="/" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Özellikler</Link></li>
-            <li><Link to="/pricing" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Fiyatlandırma</Link></li>
-            <li><Link to="/sustainability" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">Sürdürülebilirlik</Link></li>
-            <li><Link to="/contact" className="hover:text-white hover:pl-1 transition-all duration-300 inline-block">İletişim</Link></li>
+            <li><Link to="/about" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Hakkımızda</Link></li>
+            <li><Link to="/" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Özellikler</Link></li>
+            <li><Link to="/pricing" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Fiyatlandırma</Link></li>
+            <li><Link to="/sustainability" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Sürdürülebilirlik</Link></li>
+            <li><Link to="/contact" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">İletişim</Link></li>
           </ul>
         </div>
 
@@ -69,11 +69,11 @@ export const Footer = React.memo(function Footer() {
               onChange={e => setEmail(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter') handleSubscribe(); }}
               placeholder="E-posta adresiniz"
-              className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 flex-grow transition-all duration-300"
+              className="bg-white/5 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-white placeholder:text-white/30 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 flex-grow transition duration-300"
             />
             <button
               onClick={handleSubscribe}
-              className="bg-champagne text-brand-deep border-none px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-gold transition-all duration-300 cursor-pointer flex items-center gap-1.5 hover:-translate-y-0.5"
+              className="bg-champagne text-brand-deep border-none px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-gold transition duration-300 cursor-pointer flex items-center gap-1.5 hover:-translate-y-0.5"
             >
               <Send size={12} />
               Kayıt Ol

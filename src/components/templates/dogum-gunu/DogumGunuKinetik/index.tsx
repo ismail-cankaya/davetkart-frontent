@@ -21,7 +21,7 @@ const DOGUM_GUNU_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#f5e050]',
   accentSoft: 'bg-[#f5e050]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f7f5ea] placeholder:text-[#8d8a80] focus:outline-none focus:border-[#f5e050]/60 focus:ring-2 focus:ring-[#f5e050]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f7f5ea] placeholder:text-[#8d8a80] focus:outline-none focus:border-[#f5e050]/60 focus:ring-2 focus:ring-[#f5e050]/15 transition duration-300',
   buttonPrimary:
     'bg-[#f5e050] hover:bg-[#f9ea7c] text-[#171509] shadow-lg shadow-[#f5e050]/25',
   buttonGhost:

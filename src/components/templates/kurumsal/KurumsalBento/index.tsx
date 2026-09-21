@@ -21,7 +21,7 @@ const KURUMSAL_BENTO_THEME: SectionTheme = {
   accentBg: 'bg-[#1f7a8c]',
   accentSoft: 'bg-[#1f7a8c]/12',
   input:
-    'w-full bg-white border border-[#dde1e7] rounded-lg px-3.5 py-2.5 text-sm text-[#464c55] placeholder:text-[#7c838d] focus:outline-none focus:border-[#1f7a8c] focus:ring-2 focus:ring-[#1f7a8c]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dde1e7] rounded-lg px-3.5 py-2.5 text-sm text-[#464c55] placeholder:text-[#7c838d] focus:outline-none focus:border-[#1f7a8c] focus:ring-2 focus:ring-[#1f7a8c]/18 transition duration-300',
   buttonPrimary:
     'bg-[#12161c] hover:bg-[#242b34] text-[#f5f6f8] shadow-lg shadow-black/10',
   buttonGhost:

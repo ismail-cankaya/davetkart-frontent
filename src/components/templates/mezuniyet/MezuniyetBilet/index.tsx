@@ -21,7 +21,7 @@ const MEZUNIYET_BILET_THEME: SectionTheme = {
   accentBg: 'bg-[#e8b45c]',
   accentSoft: 'bg-[#e8b45c]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf0f9] placeholder:text-[#77839a] focus:outline-none focus:border-[#e8b45c] focus:ring-2 focus:ring-[#e8b45c]/20 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf0f9] placeholder:text-[#77839a] focus:outline-none focus:border-[#e8b45c] focus:ring-2 focus:ring-[#e8b45c]/20 transition duration-300',
   buttonPrimary:
     'bg-[#e8b45c] hover:bg-[#f0c47a] text-[#1a1206] shadow-lg shadow-[#e8b45c]/22',
   buttonGhost:

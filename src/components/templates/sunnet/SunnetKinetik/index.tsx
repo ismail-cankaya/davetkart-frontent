@@ -21,7 +21,7 @@ const SUNNET_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#ff7a5c]',
   accentSoft: 'bg-[#ff7a5c]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/14 rounded-lg px-3.5 py-2.5 text-sm text-[#eef4ff] placeholder:text-[#8794ab] focus:outline-none focus:border-[#ff7a5c]/60 focus:ring-2 focus:ring-[#ff7a5c]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/14 rounded-lg px-3.5 py-2.5 text-sm text-[#eef4ff] placeholder:text-[#8794ab] focus:outline-none focus:border-[#ff7a5c]/60 focus:ring-2 focus:ring-[#ff7a5c]/15 transition duration-300',
   buttonPrimary:
     'bg-[#ff7a5c] hover:bg-[#ff9077] text-[#0b1b3a] shadow-lg shadow-[#ff7a5c]/25',
   buttonGhost:

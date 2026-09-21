@@ -18,7 +18,7 @@ const NISAN_GAZETE_THEME: SectionTheme = {
   accent: 'text-[#2f5f8c]',
   accentBg: 'bg-[#2f5f8c]',
   accentSoft: 'bg-[#2f5f8c]/12',
-  input: 'w-full bg-white border border-[#e1e3e7] rounded-lg px-3.5 py-2.5 text-sm text-[#4b5058] placeholder:text-[#7f858e] focus:outline-none focus:border-[#2f5f8c] focus:ring-2 focus:ring-[#2f5f8c]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e1e3e7] rounded-lg px-3.5 py-2.5 text-sm text-[#4b5058] placeholder:text-[#7f858e] focus:outline-none focus:border-[#2f5f8c] focus:ring-2 focus:ring-[#2f5f8c]/18 transition duration-300',
   buttonPrimary: 'bg-[#15181d] hover:brightness-125 text-[#f4f5f6] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e1e3e7] text-[#4b5058] hover:bg-[#f4f5f6] hover:border-[#2f5f8c]/40',
   divider: 'bg-[#e1e3e7]',

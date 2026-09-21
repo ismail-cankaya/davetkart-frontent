@@ -24,7 +24,7 @@ const PARTI_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#ff8a1f]',
   accentSoft: 'bg-[#ff8a1f]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2ef] placeholder:text-[#87877f] focus:outline-none focus:border-[#ff8a1f]/60 focus:ring-2 focus:ring-[#ff8a1f]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2ef] placeholder:text-[#87877f] focus:outline-none focus:border-[#ff8a1f]/60 focus:ring-2 focus:ring-[#ff8a1f]/15 transition duration-300',
   buttonPrimary:
     'bg-[#ff8a1f] hover:bg-[#ffa24a] text-[#150a02] shadow-lg shadow-[#ff8a1f]/25',
   buttonGhost:

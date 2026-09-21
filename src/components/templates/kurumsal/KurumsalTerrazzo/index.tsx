@@ -17,7 +17,7 @@ const KURUMSAL_TERRAZZO_THEME: SectionTheme = {
   accent: 'text-[#2f6f8c]',
   accentBg: 'bg-[#2f6f8c]',
   accentSoft: 'bg-[#2f6f8c]/12',
-  input: 'w-full bg-[#fdfeff] border border-[#dde4e7] rounded-2xl px-4 py-2.5 text-sm text-[#1a2024] placeholder:text-[#67737a] focus:outline-none focus:border-[#2f6f8c] focus:ring-2 focus:ring-[#2f6f8c]/20 transition-all duration-300',
+  input: 'w-full bg-[#fdfeff] border border-[#dde4e7] rounded-2xl px-4 py-2.5 text-sm text-[#1a2024] placeholder:text-[#67737a] focus:outline-none focus:border-[#2f6f8c] focus:ring-2 focus:ring-[#2f6f8c]/20 transition duration-300',
   buttonPrimary: 'bg-[#1a2024] hover:brightness-125 text-[#f1f4f5] rounded-full shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dde4e7] text-[#1a2024] hover:bg-[#2f6f8c]/10 hover:border-[#2f6f8c]/50 rounded-full',
   divider: 'bg-[#dde4e7]',

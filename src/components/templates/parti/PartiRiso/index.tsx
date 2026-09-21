@@ -21,7 +21,7 @@ const PARTI_RISO_THEME: SectionTheme = {
   accentBg: 'bg-[#e0453f]',
   accentSoft: 'bg-[#1f6feb]/25',
   input:
-    'w-full bg-white border border-[#1a1712]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#39332c] placeholder:text-[#6b645b] focus:outline-none focus:border-[#e0453f] focus:ring-2 focus:ring-[#e0453f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#1a1712]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#39332c] placeholder:text-[#6b645b] focus:outline-none focus:border-[#e0453f] focus:ring-2 focus:ring-[#e0453f]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1a1712] hover:bg-[#39332c] text-[#f7f3e9] shadow-none',
   buttonGhost:

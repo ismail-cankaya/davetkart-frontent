@@ -19,7 +19,7 @@ const DUGUN_PANO_THEME: SectionTheme = {
   accentBg: 'bg-[#d8b98a]',
   accentSoft: 'bg-[#d8b98a]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f7f2e8] placeholder:text-[#948c80] focus:outline-none focus:border-[#d8b98a]/60 focus:ring-2 focus:ring-[#d8b98a]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f7f2e8] placeholder:text-[#948c80] focus:outline-none focus:border-[#d8b98a]/60 focus:ring-2 focus:ring-[#d8b98a]/15 transition duration-300',
   buttonPrimary: 'bg-[#d8b98a] hover:bg-[#e6cda6] text-[#17130e] shadow-lg shadow-[#d8b98a]/20',
   buttonGhost: 'border border-white/16 text-[#e0d9cd] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

@@ -18,7 +18,7 @@ const KURUMSAL_FILM_THEME: SectionTheme = {
   accent: 'text-[#5fb0c8]',
   accentBg: 'bg-[#5fb0c8]',
   accentSoft: 'bg-[#5fb0c8]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f4] placeholder:text-[#828b90] focus:outline-none focus:border-[#5fb0c8]/60 focus:ring-2 focus:ring-[#5fb0c8]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f4] placeholder:text-[#828b90] focus:outline-none focus:border-[#5fb0c8]/60 focus:ring-2 focus:ring-[#5fb0c8]/15 transition duration-300',
   buttonPrimary: 'bg-[#5fb0c8] hover:brightness-110 text-[#0a0d10] shadow-lg shadow-[#5fb0c8]/25',
   buttonGhost: 'border border-white/16 text-[#d8dee1] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

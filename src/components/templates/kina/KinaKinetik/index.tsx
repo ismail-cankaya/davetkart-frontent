@@ -21,7 +21,7 @@ const KINA_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#dd6b7a]',
   accentSoft: 'bg-[#dd6b7a]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f9ece6] placeholder:text-[#9d8078] focus:outline-none focus:border-[#dd6b7a]/60 focus:ring-2 focus:ring-[#dd6b7a]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f9ece6] placeholder:text-[#9d8078] focus:outline-none focus:border-[#dd6b7a]/60 focus:ring-2 focus:ring-[#dd6b7a]/15 transition duration-300',
   buttonPrimary:
     'bg-[#dd6b7a] hover:bg-[#e8838f] text-[#1a0710] shadow-lg shadow-[#dd6b7a]/25',
   buttonGhost:

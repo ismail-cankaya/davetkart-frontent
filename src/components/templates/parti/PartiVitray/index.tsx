@@ -24,7 +24,7 @@ const PARTI_VITRAY_THEME: SectionTheme = {
   accentBg: 'bg-[#22d3ee]',
   accentSoft: 'bg-[#22d3ee]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f0fa] placeholder:text-[#8b849c] focus:outline-none focus:border-[#22d3ee]/60 focus:ring-2 focus:ring-[#22d3ee]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f0fa] placeholder:text-[#8b849c] focus:outline-none focus:border-[#22d3ee]/60 focus:ring-2 focus:ring-[#22d3ee]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#22d3ee] to-[#ff3d81] hover:brightness-110 text-[#07040f] shadow-lg shadow-[#22d3ee]/25',
   buttonGhost:

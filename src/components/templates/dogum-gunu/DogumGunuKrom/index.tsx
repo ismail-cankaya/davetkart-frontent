@@ -24,7 +24,7 @@ const DOGUM_GUNU_KROM_THEME: SectionTheme = {
   accentBg: 'bg-[#ff9ad5]',
   accentSoft: 'bg-[#ff9ad5]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#f4e9fa] placeholder:text-[#8a7f98] focus:outline-none focus:border-[#ff9ad5]/60 focus:ring-2 focus:ring-[#ff9ad5]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#f4e9fa] placeholder:text-[#8a7f98] focus:outline-none focus:border-[#ff9ad5]/60 focus:ring-2 focus:ring-[#ff9ad5]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#ffd6f0] via-[#ff9ad5] to-[#8fe6f0] hover:brightness-110 text-[#150a1c] shadow-lg shadow-[#ff9ad5]/25',
   buttonGhost:

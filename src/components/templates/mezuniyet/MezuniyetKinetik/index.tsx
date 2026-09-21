@@ -24,7 +24,7 @@ const MEZUNIYET_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#2f6b4f]',
   accentSoft: 'bg-[#2f6b4f]/12',
   input:
-    'w-full bg-white border border-[#e0ded6] rounded-lg px-3.5 py-2.5 text-sm text-[#494c54] placeholder:text-[#767a84] focus:outline-none focus:border-[#2f6b4f] focus:ring-2 focus:ring-[#2f6b4f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e0ded6] rounded-lg px-3.5 py-2.5 text-sm text-[#494c54] placeholder:text-[#767a84] focus:outline-none focus:border-[#2f6b4f] focus:ring-2 focus:ring-[#2f6b4f]/18 transition duration-300',
   buttonPrimary:
     'bg-[#14171f] hover:bg-[#2a2e38] text-[#f4f2ec] shadow-lg shadow-black/10',
   buttonGhost:

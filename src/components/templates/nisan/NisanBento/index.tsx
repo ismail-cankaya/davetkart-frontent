@@ -25,7 +25,7 @@ const NISAN_BENTO_THEME: SectionTheme = {
   accentBg: 'bg-[#4a7fb5]',
   accentSoft: 'bg-[#4a7fb5]/12',
   input:
-    'w-full bg-white border border-[#dde3ec] rounded-lg px-3.5 py-2.5 text-sm text-[#454e5c] placeholder:text-[#a3adbd] focus:outline-none focus:border-[#4a7fb5] focus:ring-2 focus:ring-[#4a7fb5]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dde3ec] rounded-lg px-3.5 py-2.5 text-sm text-[#454e5c] placeholder:text-[#a3adbd] focus:outline-none focus:border-[#4a7fb5] focus:ring-2 focus:ring-[#4a7fb5]/18 transition duration-300',
   buttonPrimary:
     'bg-[#141d2b] hover:bg-[#26344a] text-[#f4f6f9] shadow-lg shadow-[#141d2b]/12',
   buttonGhost:

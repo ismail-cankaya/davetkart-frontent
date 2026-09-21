@@ -25,7 +25,7 @@ const KURUMSAL_KAGIT_THEME: SectionTheme = {
   accentBg: 'bg-[#2c4a44]',
   accentSoft: 'bg-[#2c4a44]/12',
   input:
-    'w-full bg-white border border-[#dcd8cc] rounded-lg px-3.5 py-2.5 text-sm text-[#4f4d45] placeholder:text-[#7d7a70] focus:outline-none focus:border-[#2c4a44] focus:ring-2 focus:ring-[#2c4a44]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dcd8cc] rounded-lg px-3.5 py-2.5 text-sm text-[#4f4d45] placeholder:text-[#7d7a70] focus:outline-none focus:border-[#2c4a44] focus:ring-2 focus:ring-[#2c4a44]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1c1b18] hover:bg-[#33312b] text-[#f6f5f0] shadow-lg shadow-black/10',
   buttonGhost:

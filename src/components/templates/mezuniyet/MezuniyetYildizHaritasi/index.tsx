@@ -19,7 +19,7 @@ const MEZUNIYET_YILDIZ_THEME: SectionTheme = {
   accentBg: 'bg-[#d8c890]',
   accentSoft: 'bg-[#d8c890]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f4f8] placeholder:text-[#838a97] focus:outline-none focus:border-[#d8c890]/60 focus:ring-2 focus:ring-[#d8c890]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f4f8] placeholder:text-[#838a97] focus:outline-none focus:border-[#d8c890]/60 focus:ring-2 focus:ring-[#d8c890]/15 transition duration-300',
   buttonPrimary: 'bg-[#d8c890] hover:bg-[#e5d8ae] text-[#0b0e16] shadow-lg shadow-[#d8c890]/20',
   buttonGhost: 'border border-white/16 text-[#d9dee8] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

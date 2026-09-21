@@ -7,6 +7,7 @@ import { toast } from '../ui/Toast';
 import { HoneypotField } from '../ui/HoneypotField';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { RSVP_STATUSES, RSVP_STATUS_CHOICES } from '../../utils/rsvpStatus';
+import { duration, ease } from '../../utils/motion';
 
 export function RsvpModal() {
   const draft = useRsvpStore(s => s.draft);
@@ -48,7 +49,8 @@ export function RsvpModal() {
     <motion.div
       initial={{ opacity: 0, y: 150, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: 150, scale: 0.95 }}
+      // Giriş yayla yükselir; çıkış kısa ve ease-in — kapatılan form oyalanmaz.
+      exit={{ opacity: 0, y: 150, scale: 0.95, transition: { duration: duration.fast, ease: ease.in } }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="absolute inset-0 bg-slate-950/95 backdrop-blur-md z-50 p-6 flex flex-col justify-center"
     >
@@ -134,7 +136,7 @@ export function RsvpModal() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => updateDraft({ status: st })}
-                className={`py-2 px-1 text-[10px] font-semibold rounded-lg border transition-all duration-300 ${
+                className={`py-2 px-1 text-[10px] font-semibold rounded-lg border transition duration-300 ${
                   draft.status === st
                     ? 'bg-amber-400 border-amber-400 text-slate-950 font-bold shadow-lg shadow-amber-400/20'
                     : 'bg-white/5 border-white/10 text-stone-300 hover:bg-white/10'

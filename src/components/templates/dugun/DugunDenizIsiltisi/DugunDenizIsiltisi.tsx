@@ -25,7 +25,7 @@ const DENIZ_THEME: SectionTheme = {
   accentBg: 'bg-[#c0985c]',
   accentSoft: 'bg-[#c0985c]/10',
   input:
-    'w-full bg-white/85 border border-[#d3e6e3] rounded-lg px-3.5 py-2.5 text-sm text-[#33504f] placeholder:text-[#9ab5b2] focus:outline-none focus:border-[#5f9c98] focus:ring-2 focus:ring-[#5f9c98]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#d3e6e3] rounded-lg px-3.5 py-2.5 text-sm text-[#33504f] placeholder:text-[#9ab5b2] focus:outline-none focus:border-[#5f9c98] focus:ring-2 focus:ring-[#5f9c98]/20 transition duration-300',
   buttonPrimary:
     'bg-[#2f5d5b] hover:bg-[#3c716e] text-[#f1faf9] shadow-lg shadow-[#2f5d5b]/15',
   buttonGhost:

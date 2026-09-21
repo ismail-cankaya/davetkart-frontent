@@ -25,7 +25,7 @@ const KINA_BENTO_THEME: SectionTheme = {
   accentBg: 'bg-[#b08442]',
   accentSoft: 'bg-[#b08442]/12',
   input:
-    'w-full bg-white border border-[#eddadd] rounded-lg px-3.5 py-2.5 text-sm text-[#5e444a] placeholder:text-[#bfa3a9] focus:outline-none focus:border-[#b08442] focus:ring-2 focus:ring-[#b08442]/18 transition-all duration-300',
+    'w-full bg-white border border-[#eddadd] rounded-lg px-3.5 py-2.5 text-sm text-[#5e444a] placeholder:text-[#bfa3a9] focus:outline-none focus:border-[#b08442] focus:ring-2 focus:ring-[#b08442]/18 transition duration-300',
   buttonPrimary:
     'bg-[#8e1b2e] hover:bg-[#a52b40] text-[#faf3f4] shadow-lg shadow-[#8e1b2e]/15',
   buttonGhost:

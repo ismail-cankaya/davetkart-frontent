@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'motion/react';
 import { Globe, ChevronDown, Check } from 'lucide-react';
 import { SUPPORTED_LANGUAGES } from '../i18n';
-import { ease } from '../utils/motion';
+import { duration, ease } from '../utils/motion';
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -8, scale: 0.96 },
@@ -11,14 +11,14 @@ const dropdownVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.3, ease: ease.out, staggerChildren: 0.025 }
+    transition: { duration: duration.base, ease: ease.out, staggerChildren: 0.025 }
   },
-  exit: { opacity: 0, y: -6, scale: 0.97, transition: { duration: 0.18 } }
+  exit: { opacity: 0, y: -6, scale: 0.97, transition: { duration: duration.fast, ease: ease.in } }
 };
 
 const itemVariants = {
   hidden: { opacity: 0, x: -6 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.25, ease: ease.out } }
+  visible: { opacity: 1, x: 0, transition: { duration: duration.base, ease: ease.out } }
 };
 
 interface LanguageSwitcherProps {
@@ -81,7 +81,7 @@ export const LanguageSwitcher = React.memo(function LanguageSwitcher({ variant =
                 onClick={() => selectLanguage(lang.code)}
                 title={lang.nativeName}
                 aria-pressed={active}
-                className={`h-9 rounded-xl border text-[11px] font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${
+                className={`h-9 rounded-xl border text-[11px] font-bold uppercase tracking-wider transition duration-300 cursor-pointer ${
                   active
                     ? 'bg-brand text-white border-brand shadow-md shadow-brand/20'
                     : 'bg-white/70 border-ink/10 text-muted hover:text-brand hover:border-brand/25 hover:bg-white'
@@ -103,7 +103,7 @@ export const LanguageSwitcher = React.memo(function LanguageSwitcher({ variant =
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label="Language"
-        className={`flex items-center gap-1.5 h-9 ps-3 pe-2.5 rounded-full border text-xs font-bold tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+        className={`flex items-center gap-1.5 h-9 ps-3 pe-2.5 rounded-full border text-xs font-bold tracking-wider uppercase transition duration-300 cursor-pointer ${
           open
             ? 'border-brand/25 bg-brand/[0.06] text-brand'
             : 'border-ink/10 bg-white/60 text-muted hover:text-brand hover:border-brand/20 hover:bg-white'

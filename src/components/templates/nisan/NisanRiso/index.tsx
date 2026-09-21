@@ -24,7 +24,7 @@ const NISAN_RISO_THEME: SectionTheme = {
   accentBg: 'bg-[#2f5fe0]',
   accentSoft: 'bg-[#f2856b]/28',
   input:
-    'w-full bg-white border border-[#161a20]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#383d45] placeholder:text-[#666d78] focus:outline-none focus:border-[#2f5fe0] focus:ring-2 focus:ring-[#2f5fe0]/18 transition-all duration-300',
+    'w-full bg-white border border-[#161a20]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#383d45] placeholder:text-[#666d78] focus:outline-none focus:border-[#2f5fe0] focus:ring-2 focus:ring-[#2f5fe0]/18 transition duration-300',
   buttonPrimary:
     'bg-[#161a20] hover:bg-[#383d45] text-[#f2f4f7] shadow-none',
   buttonGhost:

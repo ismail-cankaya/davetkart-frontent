@@ -18,7 +18,7 @@ const KURUMSAL_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#2f6f8c]',
   accentBg: 'bg-[#2f6f8c]',
   accentSoft: 'bg-[#2f6f8c]/10',
-  input: 'w-full bg-[#fdfffc] border border-[#5f7a6a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#222824] placeholder:text-[#737d78] focus:outline-none focus:border-[#2f6f8c] focus:ring-2 focus:ring-[#2f6f8c]/15 transition-all duration-300',
+  input: 'w-full bg-[#fdfffc] border border-[#5f7a6a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#222824] placeholder:text-[#737d78] focus:outline-none focus:border-[#2f6f8c] focus:ring-2 focus:ring-[#2f6f8c]/15 transition duration-300',
   buttonPrimary: 'bg-[#222824] hover:brightness-125 text-[#f3f5f2] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#5f7a6a]/35 text-[#222824] hover:bg-[#5f7a6a]/10 hover:border-[#5f7a6a]/60 rounded-sm',
   divider: 'bg-[#5f7a6a]/20',

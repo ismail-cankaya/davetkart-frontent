@@ -21,7 +21,7 @@ const MEZUNIYET_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#7cbfa4]',
   accentSoft: 'bg-[#7cbfa4]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5f6] placeholder:text-[#878e92] focus:outline-none focus:border-[#7cbfa4]/60 focus:ring-2 focus:ring-[#7cbfa4]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5f6] placeholder:text-[#878e92] focus:outline-none focus:border-[#7cbfa4]/60 focus:ring-2 focus:ring-[#7cbfa4]/15 transition duration-300',
   buttonPrimary:
     'bg-[#7cbfa4] hover:bg-[#95d0b8] text-[#0b1512] shadow-lg shadow-[#7cbfa4]/25',
   buttonGhost:

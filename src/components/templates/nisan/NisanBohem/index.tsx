@@ -25,7 +25,7 @@ const BOHEM_THEME: SectionTheme = {
   accentBg: 'bg-[#c08b5c]',
   accentSoft: 'bg-[#c08b5c]/10',
   input:
-    'w-full bg-white/85 border border-[#e6d5c0] rounded-lg px-3.5 py-2.5 text-sm text-[#5c4a3a] placeholder:text-[#b4a08b] focus:outline-none focus:border-[#c08b5c] focus:ring-2 focus:ring-[#c08b5c]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#e6d5c0] rounded-lg px-3.5 py-2.5 text-sm text-[#5c4a3a] placeholder:text-[#b4a08b] focus:outline-none focus:border-[#c08b5c] focus:ring-2 focus:ring-[#c08b5c]/20 transition duration-300',
   buttonPrimary:
     'bg-[#a8703f] hover:bg-[#bb8250] text-[#f9f3ea] shadow-lg shadow-[#a8703f]/15',
   buttonGhost:

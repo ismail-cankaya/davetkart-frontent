@@ -25,7 +25,7 @@ const PARTI_CIZGI_THEME: SectionTheme = {
   accentBg: 'bg-[#5b4ff0]',
   accentSoft: 'bg-[#5b4ff0]/10',
   input:
-    'w-full bg-white border border-[#dedee0] rounded-lg px-3.5 py-2.5 text-sm text-[#484850] placeholder:text-[#7c7c84] focus:outline-none focus:border-[#5b4ff0] focus:ring-2 focus:ring-[#5b4ff0]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dedee0] rounded-lg px-3.5 py-2.5 text-sm text-[#484850] placeholder:text-[#7c7c84] focus:outline-none focus:border-[#5b4ff0] focus:ring-2 focus:ring-[#5b4ff0]/18 transition duration-300',
   buttonPrimary:
     'bg-[#121214] hover:bg-[#2b2b30] text-[#f4f4f2] shadow-lg shadow-black/10',
   buttonGhost:

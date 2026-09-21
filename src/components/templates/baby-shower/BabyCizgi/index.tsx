@@ -21,7 +21,7 @@ const BABY_CIZGI_THEME: SectionTheme = {
   accentBg: 'bg-[#6f86a8]',
   accentSoft: 'bg-[#6f86a8]/12',
   input:
-    'w-full bg-white border border-[#e2e0d8] rounded-lg px-3.5 py-2.5 text-sm text-[#4f4f48] placeholder:text-[#87877e] focus:outline-none focus:border-[#6f86a8] focus:ring-2 focus:ring-[#6f86a8]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e2e0d8] rounded-lg px-3.5 py-2.5 text-sm text-[#4f4f48] placeholder:text-[#87877e] focus:outline-none focus:border-[#6f86a8] focus:ring-2 focus:ring-[#6f86a8]/18 transition duration-300',
   buttonPrimary:
     'bg-[#2a2a26] hover:bg-[#42423b] text-[#f9f8f5] shadow-lg shadow-black/10',
   buttonGhost:

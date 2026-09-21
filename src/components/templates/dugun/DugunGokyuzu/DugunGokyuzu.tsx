@@ -30,7 +30,7 @@ const GOKYUZU_THEME: SectionTheme = {
   accentBg: 'bg-[#bd8078]',
   accentSoft: 'bg-[#bd8078]/10',
   input:
-    'w-full bg-white/85 border border-[#dde6f0] rounded-lg px-3.5 py-2.5 text-sm text-[#3b4759] placeholder:text-[#a3b1c2] focus:outline-none focus:border-[#7fa3c8] focus:ring-2 focus:ring-[#7fa3c8]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#dde6f0] rounded-lg px-3.5 py-2.5 text-sm text-[#3b4759] placeholder:text-[#a3b1c2] focus:outline-none focus:border-[#7fa3c8] focus:ring-2 focus:ring-[#7fa3c8]/20 transition duration-300',
   buttonPrimary:
     'bg-[#3f5673] hover:bg-[#4e6a8c] text-[#f4f8fc] shadow-lg shadow-[#3f5673]/15',
   buttonGhost:

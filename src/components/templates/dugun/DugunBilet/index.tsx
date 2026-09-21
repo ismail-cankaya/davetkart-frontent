@@ -25,7 +25,7 @@ const DUGUN_BILET_THEME: SectionTheme = {
   accentBg: 'bg-[#9c3b46]',
   accentSoft: 'bg-[#9c3b46]/12',
   input:
-    'w-full bg-white border border-[#ded3c0] rounded-lg px-3.5 py-2.5 text-sm text-[#4a4237] placeholder:text-[#867c6c] focus:outline-none focus:border-[#9c3b46] focus:ring-2 focus:ring-[#9c3b46]/18 transition-all duration-300',
+    'w-full bg-white border border-[#ded3c0] rounded-lg px-3.5 py-2.5 text-sm text-[#4a4237] placeholder:text-[#867c6c] focus:outline-none focus:border-[#9c3b46] focus:ring-2 focus:ring-[#9c3b46]/18 transition duration-300',
   buttonPrimary:
     'bg-[#26201a] hover:bg-[#3f372c] text-[#f8f4ec] shadow-lg shadow-black/10',
   buttonGhost:

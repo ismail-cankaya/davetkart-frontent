@@ -21,7 +21,7 @@ const MEZUNIYET_BENTO_THEME: SectionTheme = {
   accentBg: 'bg-[#8a6d2f]',
   accentSoft: 'bg-[#8a6d2f]/12',
   input:
-    'w-full bg-white border border-[#e2dfd4] rounded-lg px-3.5 py-2.5 text-sm text-[#474439] placeholder:text-[#7d7a6e] focus:outline-none focus:border-[#8a6d2f] focus:ring-2 focus:ring-[#8a6d2f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e2dfd4] rounded-lg px-3.5 py-2.5 text-sm text-[#474439] placeholder:text-[#7d7a6e] focus:outline-none focus:border-[#8a6d2f] focus:ring-2 focus:ring-[#8a6d2f]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1c1a14] hover:bg-[#332f26] text-[#f6f5f1] shadow-lg shadow-black/10',
   buttonGhost:

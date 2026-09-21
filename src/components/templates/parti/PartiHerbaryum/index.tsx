@@ -18,7 +18,7 @@ const PARTI_HERBARYUM_THEME: SectionTheme = {
   accent: 'text-[#ff7fa8]',
   accentBg: 'bg-[#ff7fa8]',
   accentSoft: 'bg-[#ff7fa8]/10',
-  input: 'w-full bg-[#201d16] border border-[#9fbf8a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#ece7d8] placeholder:text-[#9a9382] focus:outline-none focus:border-[#ff7fa8] focus:ring-2 focus:ring-[#ff7fa8]/15 transition-all duration-300',
+  input: 'w-full bg-[#201d16] border border-[#9fbf8a]/30 rounded-sm px-3.5 py-2.5 text-sm text-[#ece7d8] placeholder:text-[#9a9382] focus:outline-none focus:border-[#ff7fa8] focus:ring-2 focus:ring-[#ff7fa8]/15 transition duration-300',
   buttonPrimary: 'bg-[#ece7d8] hover:brightness-125 text-[#17150f] rounded-sm shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#9fbf8a]/35 text-[#ece7d8] hover:bg-[#9fbf8a]/10 hover:border-[#9fbf8a]/60 rounded-sm',
   divider: 'bg-[#9fbf8a]/20',

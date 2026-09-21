@@ -25,7 +25,7 @@ const NISAN_KROM_THEME: SectionTheme = {
   accentBg: 'bg-[#9fd0e8]',
   accentSoft: 'bg-[#9fd0e8]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#e8eef7] placeholder:text-[#78849a] focus:outline-none focus:border-[#9fd0e8]/60 focus:ring-2 focus:ring-[#9fd0e8]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#e8eef7] placeholder:text-[#78849a] focus:outline-none focus:border-[#9fd0e8]/60 focus:ring-2 focus:ring-[#9fd0e8]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#dff0fa] via-[#a9d8ec] to-[#8fb4e0] hover:brightness-110 text-[#0a1119] shadow-lg shadow-[#9fd0e8]/20',
   buttonGhost:

@@ -24,7 +24,7 @@ const SUNNET_VITRAY_THEME: SectionTheme = {
   accentBg: 'bg-[#3fa88f]',
   accentSoft: 'bg-[#3fa88f]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef6f2] placeholder:text-[#83938f] focus:outline-none focus:border-[#3fa88f]/60 focus:ring-2 focus:ring-[#3fa88f]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eef6f2] placeholder:text-[#83938f] focus:outline-none focus:border-[#3fa88f]/60 focus:ring-2 focus:ring-[#3fa88f]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#3fa88f] to-[#e2b558] hover:brightness-110 text-[#04140f] shadow-lg shadow-[#3fa88f]/20',
   buttonGhost:

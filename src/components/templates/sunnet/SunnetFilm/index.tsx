@@ -18,7 +18,7 @@ const SUNNET_FILM_THEME: SectionTheme = {
   accent: 'text-[#5fb8a8]',
   accentBg: 'bg-[#5fb8a8]',
   accentSoft: 'bg-[#5fb8a8]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf2f8] placeholder:text-[#82909a] focus:outline-none focus:border-[#5fb8a8]/60 focus:ring-2 focus:ring-[#5fb8a8]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf2f8] placeholder:text-[#82909a] focus:outline-none focus:border-[#5fb8a8]/60 focus:ring-2 focus:ring-[#5fb8a8]/15 transition duration-300',
   buttonPrimary: 'bg-[#5fb8a8] hover:brightness-110 text-[#071019] shadow-lg shadow-[#5fb8a8]/25',
   buttonGhost: 'border border-white/16 text-[#d8e2ea] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

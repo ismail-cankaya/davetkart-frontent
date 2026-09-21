@@ -18,7 +18,7 @@ const BABY_FILM_THEME: SectionTheme = {
   accent: 'text-[#a8c8d8]',
   accentBg: 'bg-[#a8c8d8]',
   accentSoft: 'bg-[#a8c8d8]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f4f8] placeholder:text-[#868e98] focus:outline-none focus:border-[#a8c8d8]/60 focus:ring-2 focus:ring-[#a8c8d8]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f4f8] placeholder:text-[#868e98] focus:outline-none focus:border-[#a8c8d8]/60 focus:ring-2 focus:ring-[#a8c8d8]/15 transition duration-300',
   buttonPrimary: 'bg-[#a8c8d8] hover:brightness-110 text-[#0e1118] shadow-lg shadow-[#a8c8d8]/25',
   buttonGhost: 'border border-white/16 text-[#dde3ea] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

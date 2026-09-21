@@ -21,7 +21,7 @@ const NISAN_KINETIK_THEME: SectionTheme = {
   accentBg: 'bg-[#b0798f]',
   accentSoft: 'bg-[#b0798f]/12',
   input:
-    'w-full bg-white border border-[#e8dce0] rounded-lg px-3.5 py-2.5 text-sm text-[#544750] placeholder:text-[#8b7d84] focus:outline-none focus:border-[#b0798f] focus:ring-2 focus:ring-[#b0798f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e8dce0] rounded-lg px-3.5 py-2.5 text-sm text-[#544750] placeholder:text-[#8b7d84] focus:outline-none focus:border-[#b0798f] focus:ring-2 focus:ring-[#b0798f]/18 transition duration-300',
   buttonPrimary:
     'bg-[#2a1f26] hover:bg-[#41333b] text-[#f7f0f2] shadow-lg shadow-black/10',
   buttonGhost:

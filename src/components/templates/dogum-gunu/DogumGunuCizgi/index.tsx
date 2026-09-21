@@ -24,7 +24,7 @@ const DOGUM_GUNU_CIZGI_THEME: SectionTheme = {
   accentBg: 'bg-[#7a4fa8]',
   accentSoft: 'bg-[#7a4fa8]/10',
   input:
-    'w-full bg-white border border-[#e3dbcf] rounded-lg px-3.5 py-2.5 text-sm text-[#4d4740] placeholder:text-[#867f76] focus:outline-none focus:border-[#7a4fa8] focus:ring-2 focus:ring-[#7a4fa8]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e3dbcf] rounded-lg px-3.5 py-2.5 text-sm text-[#4d4740] placeholder:text-[#867f76] focus:outline-none focus:border-[#7a4fa8] focus:ring-2 focus:ring-[#7a4fa8]/18 transition duration-300',
   buttonPrimary:
     'bg-[#201d1a] hover:bg-[#38332d] text-[#fbf8f3] shadow-lg shadow-black/10',
   buttonGhost:

@@ -7,7 +7,7 @@ import { useCreateWizardStore, useActiveCategory } from '../../stores/useCreateW
 import { useProgressiveList } from '../../hooks/useProgressiveList';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { TemplateCover } from '../preview/TemplateCover';
-import { ease } from '../../utils/motion';
+import { duration, ease, gesture } from '../../utils/motion';
 
 /**
  * İlk anda çizilen tema sayısı ve her adımda eklenen parti büyüklüğü.
@@ -138,10 +138,10 @@ export function ThemeStep() {
     <motion.section
       id="sihirbaz-tema"
       className="py-12 md:py-16 bg-cream scroll-mt-20"
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.9, ease: ease.out }}
+      exit={{ opacity: 0, y: 12, transition: { duration: duration.fast, ease: ease.in } }}
+      transition={{ duration: duration.panel, ease: ease.out }}
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="text-center mb-8 md:mb-10">
@@ -174,12 +174,12 @@ export function ThemeStep() {
                 key={preset.id}
                 type="button"
                 onClick={() => handleSelect(preset.id)}
-                initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                initial={{ opacity: 0, y: 16, scale: 0.97 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.7, ease: ease.out, delay }}
-                whileHover={{ y: -6 }}
-                whileTap={{ scale: 0.97 }}
-                className={`group relative rounded-2xl overflow-hidden h-44 md:h-60 cursor-pointer text-left transition-shadow duration-700 ${
+                transition={{ duration: duration.panel, ease: ease.out, delay }}
+                whileHover={{ y: -6, transition: gesture.hover }}
+                whileTap={{ scale: 0.97, transition: gesture.press }}
+                className={`group relative rounded-2xl overflow-hidden h-44 md:h-60 cursor-pointer text-left transition-shadow duration-300 ${
                   isActive
                     ? 'shadow-xl shadow-brand/25 ring-2 ring-brand ring-offset-2 ring-offset-cream'
                     : 'shadow-sm hover:shadow-2xl hover:shadow-ink/15'
@@ -188,7 +188,7 @@ export function ThemeStep() {
                 <TemplateCover
                   preset={preset}
                   alt={preset.name}
-                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-[1200ms] ease-out filter brightness-90 group-hover:brightness-95"
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-luxe filter brightness-90 group-hover:brightness-95"
                 />
 
                 <AnimatePresence>
@@ -206,12 +206,16 @@ export function ThemeStep() {
                 </AnimatePresence>
 
                 <span className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-4 md:p-5">
-                  <span className={`w-3 h-3 rounded-full ${preset.backgroundStyle} border border-white/40 mb-2 shadow-sm`} />
-                  <span className="font-serif text-base md:text-lg text-white font-bold leading-tight">
-                    {preset.name.split(' (')[0]}
-                  </span>
-                  <span className="text-[10px] text-white/70 font-medium tracking-wide max-h-0 opacity-0 group-hover:max-h-6 group-hover:opacity-100 group-hover:mt-0.5 transition-all duration-500 overflow-hidden">
-                    Bu temayla devam et
+                  {/* Alt başlık yeri baştan ayrılır; blok hover'da yalnızca
+                      transform ile yukarı kayar (max-height layout'u yok). */}
+                  <span className="block translate-y-[1.125rem] group-hover:translate-y-0 transition-transform duration-300 ease-luxe">
+                    <span className={`block w-3 h-3 rounded-full ${preset.backgroundStyle} border border-white/40 mb-2 shadow-sm`} />
+                    <span className="block font-serif text-base md:text-lg text-white font-bold leading-tight">
+                      {preset.name.split(' (')[0]}
+                    </span>
+                    <span aria-hidden="true" className="block h-4 mt-0.5 text-[10px] leading-4 text-white/70 font-medium tracking-wide opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      Bu temayla devam et
+                    </span>
                   </span>
                 </span>
 
@@ -271,7 +275,7 @@ export function ThemeStep() {
                     onClick={showMore}
                     whileHover={{ y: -3 }}
                     whileTap={{ scale: 0.98 }}
-                    className="group inline-flex items-center gap-2.5 bg-white text-brand border border-brand/20 hover:border-brand/50 px-7 py-3.5 rounded-full font-semibold text-xs shadow-sm hover:shadow-lg hover:shadow-ink/10 transition-all duration-500 cursor-pointer"
+                    className="group inline-flex items-center gap-2.5 bg-white text-brand border border-brand/20 hover:border-brand/50 px-7 py-3.5 rounded-full font-semibold text-xs shadow-sm hover:shadow-lg hover:shadow-ink/10 transition duration-200 ease-luxe cursor-pointer"
                   >
                     {/* 🔴 Düğmenin KENDİSİ dönmez: tıklama anında parti zaten
                         hazırdır, bekleyen bir ağ turu yoktur. Dönen gösterge

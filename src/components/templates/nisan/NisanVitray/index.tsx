@@ -21,7 +21,7 @@ const NISAN_VITRAY_THEME: SectionTheme = {
   accentBg: 'bg-[#c9b6f2]',
   accentSoft: 'bg-[#c9b6f2]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2ff] placeholder:text-[#8b8ba3] focus:outline-none focus:border-[#c9b6f2]/60 focus:ring-2 focus:ring-[#c9b6f2]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2ff] placeholder:text-[#8b8ba3] focus:outline-none focus:border-[#c9b6f2]/60 focus:ring-2 focus:ring-[#c9b6f2]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#c9b6f2] to-[#6fb6e8] hover:brightness-110 text-[#0d1020] shadow-lg shadow-[#c9b6f2]/20',
   buttonGhost:

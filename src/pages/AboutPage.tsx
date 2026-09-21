@@ -177,9 +177,9 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.1 }}
-              className="group rounded-3xl bg-white border border-ink/[0.06] p-8 md:p-10 shadow-sm hover:shadow-2xl hover:shadow-brand/10 hover:border-brand/15 transition-all duration-700 hover:-translate-y-2"
+              className="group rounded-3xl bg-white border border-ink/[0.06] p-8 md:p-10 shadow-sm hover:shadow-2xl hover:shadow-brand/10 hover:border-brand/15 transition duration-300 ease-luxe hover:-translate-y-2"
             >
-              <div className="w-14 h-14 rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center mb-6 group-hover:bg-brand group-hover:text-champagne group-hover:scale-105 transition-all duration-500">
+              <div className="w-14 h-14 rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center mb-6 group-hover:bg-brand group-hover:text-champagne group-hover:scale-105 transition duration-300 ease-luxe">
                 {value.icon}
               </div>
               <h3 className="font-serif text-xl md:text-2xl font-bold text-ink mb-3">{value.title}</h3>
@@ -203,7 +203,7 @@ export default function AboutPage() {
           </h2>
           <Link
             to="/create"
-            className="group relative overflow-hidden inline-flex items-center gap-3 bg-brand text-white px-10 py-5 rounded-full font-semibold text-sm md:text-base hover:bg-brand-soft transition-all duration-500 shadow-lg shadow-brand/20 hover:shadow-2xl hover:shadow-brand/30 hover:-translate-y-1"
+            className="group relative overflow-hidden inline-flex items-center gap-3 bg-brand text-white px-10 py-5 rounded-full font-semibold text-sm md:text-base hover:bg-brand-soft transition duration-200 ease-luxe shadow-lg shadow-brand/20 hover:shadow-2xl hover:shadow-brand/30 hover:-translate-y-1"
           >
             <span className="absolute inset-0 animate-shimmer pointer-events-none" />
             <PenLine size={17} />

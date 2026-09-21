@@ -17,7 +17,7 @@ const NISAN_TERRAZZO_THEME: SectionTheme = {
   accent: 'text-[#5b7db1]',
   accentBg: 'bg-[#5b7db1]',
   accentSoft: 'bg-[#5b7db1]/12',
-  input: 'w-full bg-[#fdfeff] border border-[#dfe4ec] rounded-2xl px-4 py-2.5 text-sm text-[#232833] placeholder:text-[#767e8c] focus:outline-none focus:border-[#5b7db1] focus:ring-2 focus:ring-[#5b7db1]/20 transition-all duration-300',
+  input: 'w-full bg-[#fdfeff] border border-[#dfe4ec] rounded-2xl px-4 py-2.5 text-sm text-[#232833] placeholder:text-[#767e8c] focus:outline-none focus:border-[#5b7db1] focus:ring-2 focus:ring-[#5b7db1]/20 transition duration-300',
   buttonPrimary: 'bg-[#232833] hover:brightness-125 text-[#f3f5f8] rounded-full shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dfe4ec] text-[#232833] hover:bg-[#5b7db1]/10 hover:border-[#5b7db1]/50 rounded-full',
   divider: 'bg-[#dfe4ec]',

@@ -19,7 +19,7 @@ const KURUMSAL_SULUBOYA_THEME: SectionTheme = {
   accentBg: 'bg-[#4f7f9f]',
   accentSoft: 'bg-[#4f7f9f]/12',
   input:
-    'w-full bg-white border border-[#dfe3e6] rounded-lg px-3.5 py-2.5 text-sm text-[#474c52] placeholder:text-[#7c8288] focus:outline-none focus:border-[#4f7f9f] focus:ring-2 focus:ring-[#4f7f9f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dfe3e6] rounded-lg px-3.5 py-2.5 text-sm text-[#474c52] placeholder:text-[#7c8288] focus:outline-none focus:border-[#4f7f9f] focus:ring-2 focus:ring-[#4f7f9f]/18 transition duration-300',
   buttonPrimary: 'bg-[#1a1f24] hover:bg-[#30363d] text-[#f7f8f9] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d4d9dd] text-[#575c62] hover:bg-[#edeff1] hover:border-[#b0b6bb]',
   divider: 'bg-[#dfe3e6]',

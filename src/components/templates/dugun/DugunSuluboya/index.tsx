@@ -19,7 +19,7 @@ const DUGUN_SULUBOYA_THEME: SectionTheme = {
   accentBg: 'bg-[#b5798f]',
   accentSoft: 'bg-[#b5798f]/12',
   input:
-    'w-full bg-white border border-[#e6ded0] rounded-lg px-3.5 py-2.5 text-sm text-[#514a41] placeholder:text-[#8a8074] focus:outline-none focus:border-[#b5798f] focus:ring-2 focus:ring-[#b5798f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e6ded0] rounded-lg px-3.5 py-2.5 text-sm text-[#514a41] placeholder:text-[#8a8074] focus:outline-none focus:border-[#b5798f] focus:ring-2 focus:ring-[#b5798f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2e2620] hover:bg-[#463c32] text-[#fbf8f4] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#ded5c5] text-[#615a4f] hover:bg-[#f3eee5] hover:border-[#c2b7a2]',
   divider: 'bg-[#e6ded0]',

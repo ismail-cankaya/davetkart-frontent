@@ -21,7 +21,7 @@ const DUGUN_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#c98a5e]',
   accentSoft: 'bg-[#c98a5e]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f7f2ea] placeholder:text-[#948c81] focus:outline-none focus:border-[#c98a5e]/60 focus:ring-2 focus:ring-[#c98a5e]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f7f2ea] placeholder:text-[#948c81] focus:outline-none focus:border-[#c98a5e]/60 focus:ring-2 focus:ring-[#c98a5e]/15 transition duration-300',
   buttonPrimary:
     'bg-[#c98a5e] hover:bg-[#d99e75] text-[#171310] shadow-lg shadow-[#c98a5e]/25',
   buttonGhost:

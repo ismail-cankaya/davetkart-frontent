@@ -24,7 +24,7 @@ const DUGUN1_THEME: SectionTheme = {
   accentBg: 'bg-[#a4646f]',
   accentSoft: 'bg-[#a4646f]/10',
   input:
-    'w-full bg-white/80 border border-[#e7ddd1] rounded-lg px-3.5 py-2.5 text-sm text-[#4a3e3d] placeholder:text-[#b5a698] focus:outline-none focus:border-[#a4646f] focus:ring-2 focus:ring-[#a4646f]/20 transition-all duration-300',
+    'w-full bg-white/80 border border-[#e7ddd1] rounded-lg px-3.5 py-2.5 text-sm text-[#4a3e3d] placeholder:text-[#b5a698] focus:outline-none focus:border-[#a4646f] focus:ring-2 focus:ring-[#a4646f]/20 transition duration-300',
   buttonPrimary:
     'bg-[#4a3e3d] hover:bg-[#5f504c] text-[#faf6f0] shadow-lg shadow-[#4a3e3d]/15',
   buttonGhost:

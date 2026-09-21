@@ -19,7 +19,7 @@ const BABY_YILDIZ_THEME: SectionTheme = {
   accentBg: 'bg-[#c8d8f0]',
   accentSoft: 'bg-[#c8d8f0]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5fc] placeholder:text-[#868ea2] focus:outline-none focus:border-[#c8d8f0]/60 focus:ring-2 focus:ring-[#c8d8f0]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5fc] placeholder:text-[#868ea2] focus:outline-none focus:border-[#c8d8f0]/60 focus:ring-2 focus:ring-[#c8d8f0]/15 transition duration-300',
   buttonPrimary: 'bg-[#c8d8f0] hover:bg-[#dae5f6] text-[#0c1020] shadow-lg shadow-[#c8d8f0]/20',
   buttonGhost: 'border border-white/16 text-[#dbe1ee] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

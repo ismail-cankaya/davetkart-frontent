@@ -19,7 +19,7 @@ const SUNNET_PANO_THEME: SectionTheme = {
   accentBg: 'bg-[#4fa88f]',
   accentSoft: 'bg-[#4fa88f]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf2fa] placeholder:text-[#83909c] focus:outline-none focus:border-[#4fa88f]/60 focus:ring-2 focus:ring-[#4fa88f]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf2fa] placeholder:text-[#83909c] focus:outline-none focus:border-[#4fa88f]/60 focus:ring-2 focus:ring-[#4fa88f]/15 transition duration-300',
   buttonPrimary: 'bg-[#4fa88f] hover:bg-[#68bda5] text-[#04140f] shadow-lg shadow-[#4fa88f]/20',
   buttonGhost: 'border border-white/16 text-[#dae3ec] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

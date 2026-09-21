@@ -24,7 +24,7 @@ const NISAN_SAMPANYA_THEME: SectionTheme = {
   accentBg: 'bg-[#b08d57]',
   accentSoft: 'bg-[#b08d57]/10',
   input:
-    'w-full bg-white/85 border border-[#e8e0d0] rounded-lg px-3.5 py-2.5 text-sm text-[#3b342a] placeholder:text-[#8d8172] focus:outline-none focus:border-[#b08d57] focus:ring-2 focus:ring-[#b08d57]/20 transition-all duration-300',
+    'w-full bg-white/85 border border-[#e8e0d0] rounded-lg px-3.5 py-2.5 text-sm text-[#3b342a] placeholder:text-[#8d8172] focus:outline-none focus:border-[#b08d57] focus:ring-2 focus:ring-[#b08d57]/20 transition duration-300',
   buttonPrimary:
     'bg-[#3b342a] hover:bg-[#4e4536] text-[#faf6ee] shadow-lg shadow-[#3b342a]/15',
   buttonGhost:

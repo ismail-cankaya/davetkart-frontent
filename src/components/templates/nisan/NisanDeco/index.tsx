@@ -24,7 +24,7 @@ const NISAN_DECO_THEME: SectionTheme = {
   accentBg: 'bg-[#dcc188]',
   accentSoft: 'bg-[#dcc188]/10',
   input:
-    'w-full bg-white/[0.05] border border-[#dcc188]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#eeeaf0] placeholder:text-[#78798a] focus:outline-none focus:border-[#dcc188] focus:ring-2 focus:ring-[#dcc188]/20 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#dcc188]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#eeeaf0] placeholder:text-[#78798a] focus:outline-none focus:border-[#dcc188] focus:ring-2 focus:ring-[#dcc188]/20 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#dcc188] to-[#f2e2b8] hover:brightness-110 text-[#0d1120] shadow-lg shadow-[#dcc188]/20',
   buttonGhost:

@@ -25,7 +25,7 @@ const MUZIK_THEME: SectionTheme = {
   accentBg: 'bg-[#c98f6a]',
   accentSoft: 'bg-[#c98f6a]/12',
   input:
-    'w-full bg-white/88 border border-[#ecdcc9] rounded-lg px-3.5 py-2.5 text-sm text-[#6b584c] placeholder:text-[#bba895] focus:outline-none focus:border-[#c98f6a] focus:ring-2 focus:ring-[#c98f6a]/20 transition-all duration-300',
+    'w-full bg-white/88 border border-[#ecdcc9] rounded-lg px-3.5 py-2.5 text-sm text-[#6b584c] placeholder:text-[#bba895] focus:outline-none focus:border-[#c98f6a] focus:ring-2 focus:ring-[#c98f6a]/20 transition duration-300',
   buttonPrimary:
     'bg-[#a9704f] hover:bg-[#ba8161] text-[#fdf6ef] shadow-lg shadow-[#a9704f]/18',
   buttonGhost:

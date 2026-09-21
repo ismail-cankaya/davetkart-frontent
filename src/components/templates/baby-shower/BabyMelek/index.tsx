@@ -25,7 +25,7 @@ const MELEK_THEME: SectionTheme = {
   accentBg: 'bg-[#c9a961]',
   accentSoft: 'bg-[#c9a961]/12',
   input:
-    'w-full bg-white/88 border border-[#eee4d5] rounded-lg px-3.5 py-2.5 text-sm text-[#6b6055] placeholder:text-[#b8ac9c] focus:outline-none focus:border-[#c9a961] focus:ring-2 focus:ring-[#c9a961]/20 transition-all duration-300',
+    'w-full bg-white/88 border border-[#eee4d5] rounded-lg px-3.5 py-2.5 text-sm text-[#6b6055] placeholder:text-[#b8ac9c] focus:outline-none focus:border-[#c9a961] focus:ring-2 focus:ring-[#c9a961]/20 transition duration-300',
   buttonPrimary:
     'bg-[#c9a961] hover:bg-[#d6ba79] text-[#fffdf8] shadow-lg shadow-[#c9a961]/20',
   buttonGhost:

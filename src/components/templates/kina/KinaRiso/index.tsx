@@ -25,7 +25,7 @@ const KINA_RISO_THEME: SectionTheme = {
   accentBg: 'bg-[#e04b2e]',
   accentSoft: 'bg-[#0f7a72]/25',
   input:
-    'w-full bg-white border border-[#1d1712]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#3d3227] placeholder:text-[#6f6355] focus:outline-none focus:border-[#e04b2e] focus:ring-2 focus:ring-[#e04b2e]/18 transition-all duration-300',
+    'w-full bg-white border border-[#1d1712]/15 rounded-lg px-3.5 py-2.5 text-sm text-[#3d3227] placeholder:text-[#6f6355] focus:outline-none focus:border-[#e04b2e] focus:ring-2 focus:ring-[#e04b2e]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1d1712] hover:bg-[#3d3227] text-[#f8f1e4] shadow-none',
   buttonGhost:

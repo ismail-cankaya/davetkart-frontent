@@ -21,7 +21,7 @@ const KURUMSAL_NOIR_THEME: SectionTheme = {
   accentBg: 'bg-[#a8b4bd]',
   accentSoft: 'bg-[#a8b4bd]/12',
   input:
-    'w-full bg-white/[0.06] border border-[#a8b4bd]/16 rounded-none px-3.5 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#868a8e] focus:outline-none focus:border-[#a8b4bd]/60 focus:ring-2 focus:ring-[#a8b4bd]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#a8b4bd]/16 rounded-none px-3.5 py-2.5 text-sm text-[#f4f6f7] placeholder:text-[#868a8e] focus:outline-none focus:border-[#a8b4bd]/60 focus:ring-2 focus:ring-[#a8b4bd]/15 transition duration-300',
   buttonPrimary:
     'rounded-none bg-[#a8b4bd] hover:bg-[#bdc7ce] text-[#08090a] shadow-none',
   buttonGhost:

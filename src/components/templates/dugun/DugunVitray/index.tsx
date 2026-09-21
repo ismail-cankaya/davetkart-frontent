@@ -24,7 +24,7 @@ const DUGUN_VITRAY_THEME: SectionTheme = {
   accentBg: 'bg-[#dda3b6]',
   accentSoft: 'bg-[#dda3b6]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f8f0f4] placeholder:text-[#948a9c] focus:outline-none focus:border-[#dda3b6]/60 focus:ring-2 focus:ring-[#dda3b6]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f8f0f4] placeholder:text-[#948a9c] focus:outline-none focus:border-[#dda3b6]/60 focus:ring-2 focus:ring-[#dda3b6]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#dda3b6] to-[#e8c88a] hover:brightness-110 text-[#1a0f16] shadow-lg shadow-[#dda3b6]/20',
   buttonGhost:

@@ -24,7 +24,7 @@ const PARTI_KAGIT_THEME: SectionTheme = {
   accentBg: 'bg-[#2f4f7a]',
   accentSoft: 'bg-[#2f4f7a]/12',
   input:
-    'w-full bg-white border border-[#ddd6c6] rounded-lg px-3.5 py-2.5 text-sm text-[#544e42] placeholder:text-[#857f72] focus:outline-none focus:border-[#2f4f7a] focus:ring-2 focus:ring-[#2f4f7a]/18 transition-all duration-300',
+    'w-full bg-white border border-[#ddd6c6] rounded-lg px-3.5 py-2.5 text-sm text-[#544e42] placeholder:text-[#857f72] focus:outline-none focus:border-[#2f4f7a] focus:ring-2 focus:ring-[#2f4f7a]/18 transition duration-300',
   buttonPrimary:
     'bg-[#221f1a] hover:bg-[#3c372c] text-[#f6f3ea] shadow-lg shadow-black/10',
   buttonGhost:

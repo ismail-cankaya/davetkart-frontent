@@ -19,7 +19,7 @@ const NISAN_SULUBOYA_THEME: SectionTheme = {
   accentBg: 'bg-[#7f8fb5]',
   accentSoft: 'bg-[#7f8fb5]/12',
   input:
-    'w-full bg-white border border-[#e0e4ea] rounded-lg px-3.5 py-2.5 text-sm text-[#4c515a] placeholder:text-[#828894] focus:outline-none focus:border-[#7f8fb5] focus:ring-2 focus:ring-[#7f8fb5]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e0e4ea] rounded-lg px-3.5 py-2.5 text-sm text-[#4c515a] placeholder:text-[#828894] focus:outline-none focus:border-[#7f8fb5] focus:ring-2 focus:ring-[#7f8fb5]/18 transition duration-300',
   buttonPrimary: 'bg-[#232830] hover:bg-[#3a404a] text-[#f8f9fb] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d6dbe2] text-[#5c626c] hover:bg-[#eef1f5] hover:border-[#b4bcc7]',
   divider: 'bg-[#e0e4ea]',

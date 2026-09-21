@@ -25,7 +25,7 @@ const ZARIF_THEME: SectionTheme = {
   accentBg: 'bg-[#d9bd7c]',
   accentSoft: 'bg-[#d9bd7c]/10',
   input:
-    'w-full bg-white/[0.06] border border-[#d9bd7c]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f3e9d5] placeholder:text-[#847a66] focus:outline-none focus:border-[#d9bd7c]/60 focus:ring-2 focus:ring-[#d9bd7c]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-[#d9bd7c]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f3e9d5] placeholder:text-[#847a66] focus:outline-none focus:border-[#d9bd7c]/60 focus:ring-2 focus:ring-[#d9bd7c]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#d9bd7c] to-[#efdaa8] hover:from-[#e4ca8e] hover:to-[#f6e6bd] text-[#171208] shadow-lg shadow-[#d9bd7c]/20',
   buttonGhost:

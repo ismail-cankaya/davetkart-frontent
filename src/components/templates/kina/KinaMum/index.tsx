@@ -25,7 +25,7 @@ const KINA_MUM_THEME: SectionTheme = {
   accentBg: 'bg-[#e09a5e]',
   accentSoft: 'bg-[#e09a5e]/10',
   input:
-    'w-full bg-white/[0.05] border border-[#e09a5e]/20 rounded-lg px-3.5 py-2.5 text-sm text-[#f6e4d6] placeholder:text-[#8a6a5f] focus:outline-none focus:border-[#e09a5e]/60 focus:ring-2 focus:ring-[#e09a5e]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#e09a5e]/20 rounded-lg px-3.5 py-2.5 text-sm text-[#f6e4d6] placeholder:text-[#8a6a5f] focus:outline-none focus:border-[#e09a5e]/60 focus:ring-2 focus:ring-[#e09a5e]/15 transition duration-300',
   buttonPrimary:
     'bg-[#b3323f] hover:bg-[#c64450] text-[#fdeee6] shadow-lg shadow-[#b3323f]/25',
   buttonGhost:

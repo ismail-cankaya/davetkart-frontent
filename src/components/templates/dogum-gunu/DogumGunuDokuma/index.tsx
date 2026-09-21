@@ -19,7 +19,7 @@ const DOGUM_GUNU_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#c0522f]',
   accentSoft: 'bg-[#c0522f]/12',
   input:
-    'w-full bg-white border border-[#e8dcc4] rounded-lg px-3.5 py-2.5 text-sm text-[#544a3c] placeholder:text-[#8c8271] focus:outline-none focus:border-[#c0522f] focus:ring-2 focus:ring-[#c0522f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e8dcc4] rounded-lg px-3.5 py-2.5 text-sm text-[#544a3c] placeholder:text-[#8c8271] focus:outline-none focus:border-[#c0522f] focus:ring-2 focus:ring-[#c0522f]/18 transition duration-300',
   buttonPrimary: 'bg-[#2c2318] hover:bg-[#463928] text-[#faf4e8] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#dfd2b6] text-[#645a48] hover:bg-[#f3ecdc] hover:border-[#c3b391]',
   divider: 'bg-[#e8dcc4]',

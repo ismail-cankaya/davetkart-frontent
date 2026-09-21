@@ -24,7 +24,7 @@ const KINA_CIZGI_THEME: SectionTheme = {
   accentBg: 'bg-[#1f6f6a]',
   accentSoft: 'bg-[#1f6f6a]/10',
   input:
-    'w-full bg-white border border-[#e0d5c0] rounded-lg px-3.5 py-2.5 text-sm text-[#4e463b] placeholder:text-[#877c6c] focus:outline-none focus:border-[#1f6f6a] focus:ring-2 focus:ring-[#1f6f6a]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e0d5c0] rounded-lg px-3.5 py-2.5 text-sm text-[#4e463b] placeholder:text-[#877c6c] focus:outline-none focus:border-[#1f6f6a] focus:ring-2 focus:ring-[#1f6f6a]/18 transition duration-300',
   buttonPrimary:
     'bg-[#241a14] hover:bg-[#3d2d22] text-[#f9f3e8] shadow-lg shadow-black/10',
   buttonGhost:

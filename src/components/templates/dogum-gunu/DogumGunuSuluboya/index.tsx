@@ -19,7 +19,7 @@ const DOGUM_GUNU_SULUBOYA_THEME: SectionTheme = {
   accentBg: 'bg-[#e07fa8]',
   accentSoft: 'bg-[#e07fa8]/12',
   input:
-    'w-full bg-white border border-[#ebe0d2] rounded-lg px-3.5 py-2.5 text-sm text-[#524940] placeholder:text-[#8b8175] focus:outline-none focus:border-[#e07fa8] focus:ring-2 focus:ring-[#e07fa8]/18 transition-all duration-300',
+    'w-full bg-white border border-[#ebe0d2] rounded-lg px-3.5 py-2.5 text-sm text-[#524940] placeholder:text-[#8b8175] focus:outline-none focus:border-[#e07fa8] focus:ring-2 focus:ring-[#e07fa8]/18 transition duration-300',
   buttonPrimary: 'bg-[#2b2320] hover:bg-[#443832] text-[#fdf9f4] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e2d7c8] text-[#625849] hover:bg-[#f6efe6] hover:border-[#c6b9a6]',
   divider: 'bg-[#ebe0d2]',

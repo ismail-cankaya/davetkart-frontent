@@ -21,7 +21,7 @@ const KINA_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#e08a72]',
   accentSoft: 'bg-[#e08a72]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#faeee9] placeholder:text-[#9b8480] focus:outline-none focus:border-[#e08a72]/60 focus:ring-2 focus:ring-[#e08a72]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#faeee9] placeholder:text-[#9b8480] focus:outline-none focus:border-[#e08a72]/60 focus:ring-2 focus:ring-[#e08a72]/15 transition duration-300',
   buttonPrimary:
     'bg-[#e08a72] hover:bg-[#eda189] text-[#1a0b0c] shadow-lg shadow-[#e08a72]/25',
   buttonGhost:

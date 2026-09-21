@@ -25,7 +25,7 @@ const KINA_DECO_THEME: SectionTheme = {
   accentBg: 'bg-[#cf9f4e]',
   accentSoft: 'bg-[#cf9f4e]/10',
   input:
-    'w-full bg-white/[0.05] border border-[#cf9f4e]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f4e8dc] placeholder:text-[#8a7466] focus:outline-none focus:border-[#cf9f4e] focus:ring-2 focus:ring-[#cf9f4e]/20 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#cf9f4e]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#f4e8dc] placeholder:text-[#8a7466] focus:outline-none focus:border-[#cf9f4e] focus:ring-2 focus:ring-[#cf9f4e]/20 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#cf9f4e] to-[#ecd5a2] hover:brightness-110 text-[#1a0b0d] shadow-lg shadow-[#cf9f4e]/20',
   buttonGhost:

@@ -18,7 +18,7 @@ const MEZUNIYET_POSTA_THEME: SectionTheme = {
   accent: 'text-[#7a2f39]',
   accentBg: 'bg-[#7a2f39]',
   accentSoft: 'bg-[#7a2f39]/12',
-  input: 'w-full bg-white border border-[#e2e0d4] rounded-lg px-3.5 py-2.5 text-sm text-[#4e4d45] placeholder:text-[#807f75] focus:outline-none focus:border-[#7a2f39] focus:ring-2 focus:ring-[#7a2f39]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e2e0d4] rounded-lg px-3.5 py-2.5 text-sm text-[#4e4d45] placeholder:text-[#807f75] focus:outline-none focus:border-[#7a2f39] focus:ring-2 focus:ring-[#7a2f39]/18 transition duration-300',
   buttonPrimary: 'bg-[#22221b] hover:brightness-125 text-[#f6f4ee] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e2e0d4] text-[#4e4d45] hover:bg-[#f6f4ee] hover:border-[#7a2f39]/40',
   divider: 'bg-[#e2e0d4]',

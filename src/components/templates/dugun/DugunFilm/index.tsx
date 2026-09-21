@@ -18,7 +18,7 @@ const DUGUN_FILM_THEME: SectionTheme = {
   accent: 'text-[#d8b98a]',
   accentBg: 'bg-[#d8b98a]',
   accentSoft: 'bg-[#d8b98a]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f6f1e9] placeholder:text-[#918a82] focus:outline-none focus:border-[#d8b98a]/60 focus:ring-2 focus:ring-[#d8b98a]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f6f1e9] placeholder:text-[#918a82] focus:outline-none focus:border-[#d8b98a]/60 focus:ring-2 focus:ring-[#d8b98a]/15 transition duration-300',
   buttonPrimary: 'bg-[#d8b98a] hover:brightness-110 text-[#100e0f] shadow-lg shadow-[#d8b98a]/25',
   buttonGhost: 'border border-white/16 text-[#e0d9d2] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

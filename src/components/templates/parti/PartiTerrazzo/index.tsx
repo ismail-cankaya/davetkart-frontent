@@ -17,7 +17,7 @@ const PARTI_TERRAZZO_THEME: SectionTheme = {
   accent: 'text-[#ff5f8f]',
   accentBg: 'bg-[#ff5f8f]',
   accentSoft: 'bg-[#ff5f8f]/12',
-  input: 'w-full bg-white/[0.06] border border-white/12 rounded-2xl px-4 py-2.5 text-sm text-[#f6f2f8] placeholder:text-[#928a9c] focus:outline-none focus:border-[#ff5f8f] focus:ring-2 focus:ring-[#ff5f8f]/20 transition-all duration-300',
+  input: 'w-full bg-white/[0.06] border border-white/12 rounded-2xl px-4 py-2.5 text-sm text-[#f6f2f8] placeholder:text-[#928a9c] focus:outline-none focus:border-[#ff5f8f] focus:ring-2 focus:ring-[#ff5f8f]/20 transition duration-300',
   buttonPrimary: 'bg-[#f6f2f8] hover:brightness-125 text-[#131018] rounded-full shadow-lg shadow-black/10',
   buttonGhost: 'border border-white/12 text-[#f6f2f8] hover:bg-[#ff5f8f]/10 hover:border-[#ff5f8f]/50 rounded-full',
   divider: 'bg-white/12',

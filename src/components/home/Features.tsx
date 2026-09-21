@@ -59,19 +59,19 @@ export const Features = React.memo(function Features() {
           {STEPS.map((item, idx) => (
             <motion.div
               key={item.step}
-              className="relative group rounded-3xl bg-white border border-ink/[0.06] p-8 md:p-10 shadow-sm hover:shadow-2xl hover:shadow-brand/10 hover:border-brand/15 transition-all duration-700 hover:-translate-y-2 overflow-hidden"
+              className="relative group rounded-3xl bg-white border border-ink/[0.06] p-8 md:p-10 shadow-sm hover:shadow-2xl hover:shadow-brand/10 hover:border-brand/15 transition duration-300 ease-luxe hover:-translate-y-2 overflow-hidden"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.15 }}
             >
               {/* Ghost step numeral */}
-              <span className="absolute -top-6 right-2 font-serif text-[7rem] leading-none font-bold text-brand/[0.05] group-hover:text-gold/15 transition-colors duration-700 select-none pointer-events-none">
+              <span className="absolute -top-6 right-2 font-serif text-[7rem] leading-none font-bold text-brand/[0.05] group-hover:text-gold/15 transition-colors duration-200 select-none pointer-events-none">
                 {item.step}
               </span>
 
               {/* Icon */}
-              <div className="relative w-14 h-14 rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center mb-6 group-hover:bg-brand group-hover:text-champagne group-hover:scale-105 transition-all duration-500">
+              <div className="relative w-14 h-14 rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center mb-6 group-hover:bg-brand group-hover:text-champagne group-hover:scale-105 transition duration-300 ease-luxe">
                 {item.icon}
               </div>
 
@@ -168,7 +168,7 @@ export const Features = React.memo(function Features() {
         >
           <Link
             to="/create"
-            className="group relative overflow-hidden inline-flex items-center gap-3 bg-brand text-white px-10 py-5 rounded-full font-semibold text-sm hover:bg-brand-soft transition-all duration-500 shadow-lg shadow-brand/20 hover:shadow-2xl hover:shadow-brand/30 hover:-translate-y-1"
+            className="group relative overflow-hidden inline-flex items-center gap-3 bg-brand text-white px-10 py-5 rounded-full font-semibold text-sm hover:bg-brand-soft transition duration-200 ease-luxe shadow-lg shadow-brand/20 hover:shadow-2xl hover:shadow-brand/30 hover:-translate-y-1"
           >
             <span className="absolute inset-0 animate-shimmer pointer-events-none" />
             Hemen Başlayın

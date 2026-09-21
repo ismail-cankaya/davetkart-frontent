@@ -28,7 +28,7 @@ const DUGUN_AURORA_THEME: SectionTheme = {
   accentBg: 'bg-[#f0abd0]',
   accentSoft: 'bg-[#f0abd0]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/14 rounded-lg px-3.5 py-2.5 text-sm text-[#efeafc] placeholder:text-[#8b83a6] focus:outline-none focus:border-[#f0abd0]/60 focus:ring-2 focus:ring-[#f0abd0]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/14 rounded-lg px-3.5 py-2.5 text-sm text-[#efeafc] placeholder:text-[#8b83a6] focus:outline-none focus:border-[#f0abd0]/60 focus:ring-2 focus:ring-[#f0abd0]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#f0abd0] to-[#a78bfa] hover:from-[#f4bcda] hover:to-[#b79dfb] text-[#140f1e] shadow-lg shadow-[#a78bfa]/25',
   buttonGhost:

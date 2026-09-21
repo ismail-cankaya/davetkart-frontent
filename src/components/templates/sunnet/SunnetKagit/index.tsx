@@ -21,7 +21,7 @@ const SUNNET_KAGIT_THEME: SectionTheme = {
   accentBg: 'bg-[#1f4e8c]',
   accentSoft: 'bg-[#1f4e8c]/10',
   input:
-    'w-full bg-white/80 border border-[#ccd7e4] rounded-lg px-3.5 py-2.5 text-sm text-[#4a5566] placeholder:text-[#95a2b3] focus:outline-none focus:border-[#1f4e8c] focus:ring-2 focus:ring-[#1f4e8c]/20 transition-all duration-300',
+    'w-full bg-white/80 border border-[#ccd7e4] rounded-lg px-3.5 py-2.5 text-sm text-[#4a5566] placeholder:text-[#95a2b3] focus:outline-none focus:border-[#1f4e8c] focus:ring-2 focus:ring-[#1f4e8c]/20 transition duration-300',
   buttonPrimary:
     'bg-[#16243a] hover:bg-[#293a53] text-[#f0f4f9] shadow-lg shadow-black/10',
   buttonGhost:

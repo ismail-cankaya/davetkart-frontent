@@ -14,7 +14,7 @@ import { AuthRedirectState, isSubscriptionTier } from '../../types';
 import { apiErrorCode, apiErrorParams } from '../../services/api';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { scrollToTarget } from '../../hooks/useLenis';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 /**
  * Wizard step 4 — the final workspace: detailed designer panel on the left,
@@ -116,7 +116,7 @@ export function EditorWorkspace() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: ease.out }}
+      transition={{ duration: duration.panel, ease: ease.out }}
       className="bg-cream"
     >
       <section className="pt-10 md:pt-16 pb-6 md:pb-10">
@@ -124,7 +124,7 @@ export function EditorWorkspace() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: ease.out }}
+            transition={{ duration: duration.panel, ease: ease.out }}
             className="text-center mb-8 md:mb-12"
           >
             <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block">
@@ -155,9 +155,9 @@ export function EditorWorkspace() {
       {/* Action bar */}
       <section className="pb-16 md:pb-24 pt-4">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: ease.out, delay: 0.3 }}
+          transition={{ duration: duration.panel, ease: ease.out, delay: 0.1 }}
           className="max-w-3xl mx-auto px-4 text-center space-y-5"
         >
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5">
@@ -168,7 +168,7 @@ export function EditorWorkspace() {
               disabled={isPublishing}
               whileHover={isPublishing ? undefined : { y: -4 }}
               whileTap={isPublishing ? undefined : { scale: 0.98 }}
-              className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 bg-brand text-white px-10 py-4.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition-colors duration-500 shadow-lg shadow-brand/20 hover:shadow-xl hover:shadow-brand/30 cursor-pointer disabled:opacity-70 disabled:cursor-wait"
+              className="group relative overflow-hidden inline-flex items-center justify-center gap-2.5 bg-brand text-white px-10 py-4.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition-colors duration-200 shadow-lg shadow-brand/20 hover:shadow-xl hover:shadow-brand/30 cursor-pointer disabled:opacity-70 disabled:cursor-wait"
             >
               {!isPublishing && <span className="absolute inset-0 animate-shimmer pointer-events-none" />}
               {isPublishing ? (
@@ -188,7 +188,7 @@ export function EditorWorkspace() {
               onClick={handleBackToEdit}
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center gap-2.5 bg-white text-brand border border-brand/20 hover:border-brand/50 px-10 py-4.5 rounded-full font-semibold text-sm shadow-sm hover:shadow-lg hover:shadow-ink/10 transition-all duration-500 cursor-pointer"
+              className="inline-flex items-center justify-center gap-2.5 bg-white text-brand border border-brand/20 hover:border-brand/50 px-10 py-4.5 rounded-full font-semibold text-sm shadow-sm hover:shadow-lg hover:shadow-ink/10 transition duration-200 ease-luxe cursor-pointer"
             >
               <PenLine size={15} />
               Tasarımını Düzenle

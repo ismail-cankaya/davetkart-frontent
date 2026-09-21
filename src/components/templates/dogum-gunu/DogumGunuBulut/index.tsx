@@ -25,7 +25,7 @@ const BULUT_THEME: SectionTheme = {
   accentBg: 'bg-[#e277b0]',
   accentSoft: 'bg-[#e277b0]/12',
   input:
-    'w-full bg-white/88 border border-[#f3d8ea] rounded-lg px-3.5 py-2.5 text-sm text-[#5d4560] placeholder:text-[#b8a3bd] focus:outline-none focus:border-[#e277b0] focus:ring-2 focus:ring-[#e277b0]/20 transition-all duration-300',
+    'w-full bg-white/88 border border-[#f3d8ea] rounded-lg px-3.5 py-2.5 text-sm text-[#5d4560] placeholder:text-[#b8a3bd] focus:outline-none focus:border-[#e277b0] focus:ring-2 focus:ring-[#e277b0]/20 transition duration-300',
   buttonPrimary:
     'bg-[#e277b0] hover:bg-[#ea8dbe] text-[#fff5fa] shadow-lg shadow-[#e277b0]/25',
   buttonGhost:

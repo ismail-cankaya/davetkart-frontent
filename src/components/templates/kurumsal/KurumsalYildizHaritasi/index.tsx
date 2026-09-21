@@ -19,7 +19,7 @@ const KURUMSAL_YILDIZ_THEME: SectionTheme = {
   accentBg: 'bg-[#8fb8d8]',
   accentSoft: 'bg-[#8fb8d8]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eff3f6] placeholder:text-[#818a94] focus:outline-none focus:border-[#8fb8d8]/60 focus:ring-2 focus:ring-[#8fb8d8]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eff3f6] placeholder:text-[#818a94] focus:outline-none focus:border-[#8fb8d8]/60 focus:ring-2 focus:ring-[#8fb8d8]/15 transition duration-300',
   buttonPrimary: 'bg-[#8fb8d8] hover:bg-[#a8cae4] text-[#06090e] shadow-lg shadow-[#8fb8d8]/20',
   buttonGhost: 'border border-white/16 text-[#d7dde3] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

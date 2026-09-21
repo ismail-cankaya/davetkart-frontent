@@ -24,7 +24,7 @@ const MEZUNIYET_PANO_THEME: SectionTheme = {
   accentBg: 'bg-[#d8843f]',
   accentSoft: 'bg-[#d8843f]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f3f7] placeholder:text-[#858b94] focus:outline-none focus:border-[#d8843f]/60 focus:ring-2 focus:ring-[#d8843f]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f3f7] placeholder:text-[#858b94] focus:outline-none focus:border-[#d8843f]/60 focus:ring-2 focus:ring-[#d8843f]/15 transition duration-300',
   buttonPrimary: 'bg-[#d8843f] hover:bg-[#e59c5e] text-[#140b04] shadow-lg shadow-[#d8843f]/25',
   buttonGhost: 'border border-white/16 text-[#dcdfe4] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

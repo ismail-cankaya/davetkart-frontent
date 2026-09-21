@@ -161,7 +161,7 @@ export default function PricingPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.12 }}
-              className={`relative flex flex-col rounded-[2rem] p-8 md:p-9 transition-all duration-700 hover:-translate-y-2 ${
+              className={`relative flex flex-col rounded-[2rem] p-8 md:p-9 transition duration-300 ease-luxe hover:-translate-y-2 ${
                 plan.highlighted
                   ? 'bg-brand-deep text-white border border-gold/25 shadow-2xl shadow-brand/30 md:-my-3'
                   : 'bg-white text-ink border border-ink/[0.06] shadow-sm hover:shadow-2xl hover:shadow-brand/10'
@@ -210,7 +210,7 @@ export default function PricingPage() {
 
               <Link
                 to="/create"
-                className={`relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-bold text-sm transition-all duration-500 hover:-translate-y-0.5 ${
+                className={`relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-bold text-sm transition duration-200 ease-luxe hover:-translate-y-0.5 ${
                   plan.highlighted
                     ? 'bg-champagne text-brand-deep hover:bg-gold shadow-lg shadow-black/20'
                     : 'bg-brand text-white hover:bg-brand-soft shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25'

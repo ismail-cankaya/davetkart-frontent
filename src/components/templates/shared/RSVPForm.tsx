@@ -248,7 +248,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                       type="button"
                       onClick={() => setStatus(option)}
                       className={cn(
-                        'rounded-md py-2 text-xs font-bold transition-all duration-300 cursor-pointer',
+                        'rounded-md py-2 text-xs font-bold transition duration-300 cursor-pointer',
                         status === option
                           ? cn(theme.accentBg, isDark ? 'text-slate-950' : 'text-stone-50', 'shadow-sm')
                           : cn(theme.body, 'hover:opacity-75')

@@ -21,7 +21,7 @@ const NISAN_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#8aa8d8]',
   accentSoft: 'bg-[#8aa8d8]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5fa] placeholder:text-[#868e9c] focus:outline-none focus:border-[#8aa8d8]/60 focus:ring-2 focus:ring-[#8aa8d8]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5fa] placeholder:text-[#868e9c] focus:outline-none focus:border-[#8aa8d8]/60 focus:ring-2 focus:ring-[#8aa8d8]/15 transition duration-300',
   buttonPrimary:
     'bg-[#8aa8d8] hover:bg-[#a2bce6] text-[#0d1016] shadow-lg shadow-[#8aa8d8]/25',
   buttonGhost:

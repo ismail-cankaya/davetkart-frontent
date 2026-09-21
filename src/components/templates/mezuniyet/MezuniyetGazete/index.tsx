@@ -18,7 +18,7 @@ const MEZUNIYET_GAZETE_THEME: SectionTheme = {
   accent: 'text-[#2f5f4f]',
   accentBg: 'bg-[#2f5f4f]',
   accentSoft: 'bg-[#2f5f4f]/12',
-  input: 'w-full bg-white border border-[#e0dfd3] rounded-lg px-3.5 py-2.5 text-sm text-[#4c4e48] placeholder:text-[#7f827a] focus:outline-none focus:border-[#2f5f4f] focus:ring-2 focus:ring-[#2f5f4f]/18 transition-all duration-300',
+  input: 'w-full bg-white border border-[#e0dfd3] rounded-lg px-3.5 py-2.5 text-sm text-[#4c4e48] placeholder:text-[#7f827a] focus:outline-none focus:border-[#2f5f4f] focus:ring-2 focus:ring-[#2f5f4f]/18 transition duration-300',
   buttonPrimary: 'bg-[#161814] hover:brightness-125 text-[#f4f3ed] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#e0dfd3] text-[#4c4e48] hover:bg-[#f4f3ed] hover:border-[#2f5f4f]/40',
   divider: 'bg-[#e0dfd3]',

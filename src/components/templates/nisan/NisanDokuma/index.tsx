@@ -19,7 +19,7 @@ const NISAN_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#5f7f9f]',
   accentSoft: 'bg-[#5f7f9f]/12',
   input:
-    'w-full bg-white border border-[#e0dfd4] rounded-lg px-3.5 py-2.5 text-sm text-[#4e5058] placeholder:text-[#82858d] focus:outline-none focus:border-[#5f7f9f] focus:ring-2 focus:ring-[#5f7f9f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e0dfd4] rounded-lg px-3.5 py-2.5 text-sm text-[#4e5058] placeholder:text-[#82858d] focus:outline-none focus:border-[#5f7f9f] focus:ring-2 focus:ring-[#5f7f9f]/18 transition duration-300',
   buttonPrimary: 'bg-[#242830] hover:bg-[#3a3f49] text-[#f6f4ee] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d5d4c8] text-[#5d6068] hover:bg-[#eeece4] hover:border-[#b2b1a4]',
   divider: 'bg-[#e0dfd4]',

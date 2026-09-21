@@ -30,7 +30,7 @@ const ONYX_THEME: SectionTheme = {
   accentBg: 'bg-[#d4af5f]',
   accentSoft: 'bg-[#d4af5f]/10',
   input:
-    'w-full bg-white/[0.05] border border-[#d4af5f]/20 rounded-lg px-3.5 py-2.5 text-sm text-[#f0e7d5] placeholder:text-[#7a7264] focus:outline-none focus:border-[#d4af5f]/60 focus:ring-2 focus:ring-[#d4af5f]/15 transition-all duration-300',
+    'w-full bg-white/[0.05] border border-[#d4af5f]/20 rounded-lg px-3.5 py-2.5 text-sm text-[#f0e7d5] placeholder:text-[#7a7264] focus:outline-none focus:border-[#d4af5f]/60 focus:ring-2 focus:ring-[#d4af5f]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#d4af5f] to-[#e8c987] hover:from-[#e0bd70] hover:to-[#f0d59a] text-[#14100a] shadow-lg shadow-[#d4af5f]/20',
   buttonGhost:

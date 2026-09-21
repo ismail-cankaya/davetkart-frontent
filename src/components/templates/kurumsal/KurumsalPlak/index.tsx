@@ -24,7 +24,7 @@ const KURUMSAL_PLAK_THEME: SectionTheme = {
   accentBg: 'bg-[#5f9fd8]',
   accentSoft: 'bg-[#5f9fd8]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f4f7] placeholder:text-[#828b96] focus:outline-none focus:border-[#5f9fd8]/60 focus:ring-2 focus:ring-[#5f9fd8]/15 transition-all duration-300',
+    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f4f7] placeholder:text-[#828b96] focus:outline-none focus:border-[#5f9fd8]/60 focus:ring-2 focus:ring-[#5f9fd8]/15 transition duration-300',
   buttonPrimary:
     'bg-[#5f9fd8] hover:bg-[#7cb3e4] text-[#08111a] shadow-lg shadow-[#5f9fd8]/25',
   buttonGhost:

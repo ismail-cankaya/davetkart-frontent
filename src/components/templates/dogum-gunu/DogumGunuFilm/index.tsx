@@ -18,7 +18,7 @@ const DOGUM_GUNU_FILM_THEME: SectionTheme = {
   accent: 'text-[#f5a0c8]',
   accentBg: 'bg-[#f5a0c8]',
   accentSoft: 'bg-[#f5a0c8]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f8f2f6] placeholder:text-[#8f8a94] focus:outline-none focus:border-[#f5a0c8]/60 focus:ring-2 focus:ring-[#f5a0c8]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f8f2f6] placeholder:text-[#8f8a94] focus:outline-none focus:border-[#f5a0c8]/60 focus:ring-2 focus:ring-[#f5a0c8]/15 transition duration-300',
   buttonPrimary: 'bg-[#f5a0c8] hover:brightness-110 text-[#110e14] shadow-lg shadow-[#f5a0c8]/25',
   buttonGhost: 'border border-white/16 text-[#e4dee6] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

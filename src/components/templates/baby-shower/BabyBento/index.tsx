@@ -21,7 +21,7 @@ const BABY_BENTO_THEME: SectionTheme = {
   accentBg: 'bg-[#7fa88c]',
   accentSoft: 'bg-[#7fa88c]/12',
   input:
-    'w-full bg-white border border-[#e5e3db] rounded-lg px-3.5 py-2.5 text-sm text-[#4a4842] placeholder:text-[#807d75] focus:outline-none focus:border-[#7fa88c] focus:ring-2 focus:ring-[#7fa88c]/18 transition-all duration-300',
+    'w-full bg-white border border-[#e5e3db] rounded-lg px-3.5 py-2.5 text-sm text-[#4a4842] placeholder:text-[#807d75] focus:outline-none focus:border-[#7fa88c] focus:ring-2 focus:ring-[#7fa88c]/18 transition duration-300',
   buttonPrimary:
     'bg-[#1f1e1a] hover:bg-[#37352f] text-[#f7f6f2] shadow-lg shadow-black/10',
   buttonGhost:

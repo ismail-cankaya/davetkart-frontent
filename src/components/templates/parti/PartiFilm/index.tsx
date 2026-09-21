@@ -18,7 +18,7 @@ const PARTI_FILM_THEME: SectionTheme = {
   accent: 'text-[#ff5f7a]',
   accentBg: 'bg-[#ff5f7a]',
   accentSoft: 'bg-[#ff5f7a]/12',
-  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2ef] placeholder:text-[#87877f] focus:outline-none focus:border-[#ff5f7a]/60 focus:ring-2 focus:ring-[#ff5f7a]/15 transition-all duration-300',
+  input: 'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f2ef] placeholder:text-[#87877f] focus:outline-none focus:border-[#ff5f7a]/60 focus:ring-2 focus:ring-[#ff5f7a]/15 transition duration-300',
   buttonPrimary: 'bg-[#ff5f7a] hover:brightness-110 text-[#08080a] shadow-lg shadow-[#ff5f7a]/25',
   buttonGhost: 'border border-white/16 text-[#dcdcd8] hover:bg-white/[0.08] hover:border-white/30',
   divider: 'bg-white/12',

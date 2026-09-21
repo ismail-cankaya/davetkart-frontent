@@ -94,7 +94,7 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
 
               <div
                 className={cn(
-                  'rounded-2xl border p-4 transition-shadow duration-500 hover:shadow-lg',
+                  'rounded-2xl border p-4 transition-shadow duration-300 hover:shadow-lg',
                   theme.surface,
                   theme.border
                 )}

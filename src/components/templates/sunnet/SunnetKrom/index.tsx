@@ -24,7 +24,7 @@ const SUNNET_KROM_THEME: SectionTheme = {
   accentBg: 'bg-[#8fd0ee]',
   accentSoft: 'bg-[#8fd0ee]/12',
   input:
-    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#e8eefa] placeholder:text-[#7b8398] focus:outline-none focus:border-[#8fd0ee]/60 focus:ring-2 focus:ring-[#8fd0ee]/15 transition-all duration-300',
+    'w-full bg-white/[0.07] border border-white/16 rounded-xl px-3.5 py-2.5 text-sm text-[#e8eefa] placeholder:text-[#7b8398] focus:outline-none focus:border-[#8fd0ee]/60 focus:ring-2 focus:ring-[#8fd0ee]/15 transition duration-300',
   buttonPrimary:
     'bg-gradient-to-r from-[#dcecff] via-[#a9c8f0] to-[#7fe0e8] hover:brightness-110 text-[#0a1018] shadow-lg shadow-[#7fe0e8]/20',
   buttonGhost:

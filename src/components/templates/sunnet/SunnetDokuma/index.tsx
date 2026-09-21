@@ -19,7 +19,7 @@ const SUNNET_DOKUMA_THEME: SectionTheme = {
   accentBg: 'bg-[#3f7f5f]',
   accentSoft: 'bg-[#3f7f5f]/12',
   input:
-    'w-full bg-white border border-[#dedcc9] rounded-lg px-3.5 py-2.5 text-sm text-[#4d5147] placeholder:text-[#82867a] focus:outline-none focus:border-[#3f7f5f] focus:ring-2 focus:ring-[#3f7f5f]/18 transition-all duration-300',
+    'w-full bg-white border border-[#dedcc9] rounded-lg px-3.5 py-2.5 text-sm text-[#4d5147] placeholder:text-[#82867a] focus:outline-none focus:border-[#3f7f5f] focus:ring-2 focus:ring-[#3f7f5f]/18 transition duration-300',
   buttonPrimary: 'bg-[#232a24] hover:bg-[#39423a] text-[#f4f2e8] shadow-lg shadow-black/10',
   buttonGhost: 'border border-[#d3d1bd] text-[#5c6055] hover:bg-[#edebe0] hover:border-[#b0ae98]',
   divider: 'bg-[#dedcc9]',
