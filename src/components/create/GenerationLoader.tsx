@@ -12,9 +12,35 @@ const LOADING_MESSAGES = [
   'Son dokunuşlar ekleniyor...'
 ] as const;
 
-/** How long the staged "generation" takes before the editor reveals. */
-const GENERATION_DURATION_MS = 2800;
-const MESSAGE_INTERVAL_MS = 850;
+/**
+ * Sahnelenmiş "üretim" süresi. İlk seferde tam gösteri kişiselleştirme anını
+ * hissettirir; aynı cihazda ikinci davetiyeyi oluşturan kullanıcıyı aynı
+ * 2.8 sn'lik gösteriye yeniden oturtmak ise yalnızca gecikmedir.
+ */
+const FIRST_RUN_MS = 2800;
+const REPEAT_RUN_MS = 1200;
+const SEEN_KEY = 'davetkart_generation_seen';
+/**
+ * Mesaj değişimi (çıkış + giriş, mode="wait") ~0.56 sn sürer; daha sık
+ * değişen mesajlar birbirini yutardı. Kısa gösteride bu yüzden iki mesaj okunur.
+ */
+const MIN_MESSAGE_MS = 600;
+
+function hasSeenGeneration(): boolean {
+  try {
+    return localStorage.getItem(SEEN_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function markGenerationSeen() {
+  try {
+    localStorage.setItem(SEEN_KEY, '1');
+  } catch {
+    // Private-mode/quota failures only cost the shorter repeat run.
+  }
+}
 
 /**
  * Wizard step 3 — theatrical loading screen between the form and the editor.
@@ -23,19 +49,23 @@ const MESSAGE_INTERVAL_MS = 850;
 export function GenerationLoader() {
   const completeGeneration = useCreateWizardStore(s => s.completeGeneration);
   const [messageIndex, setMessageIndex] = useState(0);
+  // Mount'ta bir kez okunur: gösteri ortasında süre değişmez.
+  const [runMs] = useState(() => (hasSeenGeneration() ? REPEAT_RUN_MS : FIRST_RUN_MS));
 
   useEffect(() => {
     scrollToTarget(0, { immediate: true });
+    markGenerationSeen();
+    // Mesajlar sürenin tamamına yayılır, ama biri okunmadan diğeri gelmez.
     const messageTimer = window.setInterval(
       () => setMessageIndex(i => Math.min(i + 1, LOADING_MESSAGES.length - 1)),
-      MESSAGE_INTERVAL_MS
+      Math.max(runMs / LOADING_MESSAGES.length, MIN_MESSAGE_MS)
     );
-    const doneTimer = window.setTimeout(completeGeneration, GENERATION_DURATION_MS);
+    const doneTimer = window.setTimeout(completeGeneration, runMs);
     return () => {
       window.clearInterval(messageTimer);
       window.clearTimeout(doneTimer);
     };
-  }, [completeGeneration]);
+  }, [completeGeneration, runMs]);
 
   return (
     <motion.section
@@ -85,7 +115,7 @@ export function GenerationLoader() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.35, ease: ease.out }}
+              transition={{ duration: duration.base, ease: ease.out }}
               className="absolute inset-0 text-emerald-100/70 text-sm"
             >
               {LOADING_MESSAGES[messageIndex]}
@@ -95,13 +125,13 @@ export function GenerationLoader() {
 
         {/* Progress shimmer bar */}
         <div className="w-56 h-1 bg-white/10 rounded-full mt-8 overflow-hidden">
-          {/* scaleX, width değil: 2.8 s boyunca her karede layout yerine
+          {/* scaleX, width değil: gösteri boyunca her karede layout yerine
               yalnızca transform. Uç yuvarlaklığını kapsayıcının kırpması verir. */}
           <motion.span
             className="block h-full w-full origin-left rtl:origin-right bg-gradient-to-r from-gold via-champagne to-gold"
             initial={{ scaleX: 0.05 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: GENERATION_DURATION_MS / 1000, ease: 'easeInOut' }}
+            transition={{ duration: runMs / 1000, ease: ease.inOut }}
           />
         </div>
       </div>

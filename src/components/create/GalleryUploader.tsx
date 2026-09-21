@@ -8,7 +8,7 @@ import { MEDIA_UPLOAD_LIMIT_BYTES, mediaService } from '../../services/media';
 import { apiErrorCode } from '../../services/api';
 import { toast } from '../ui/Toast';
 import { toDisplayError } from '../../utils/toDisplayError';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 const MAX_PHOTOS = 8;
 
@@ -151,17 +151,20 @@ export function GalleryUploader() {
 
   return (
     <div className="space-y-3">
-      <div className="grid grid-cols-4 gap-2.5">
-        <AnimatePresence initial={false}>
+      {/* `layout` + popLayout: silinen fotoğrafın yerine komşular ve "Ekle"
+          karosu kayarak gelir; eskiden çıkış bitince tek karede sıçrıyorlardı. */}
+      <div className="relative grid grid-cols-4 gap-2.5">
+        <AnimatePresence initial={false} mode="popLayout">
           {images.map((image) => {
             const isRemoving = image.id !== null && removing.has(image.id);
             return (
               <motion.div
                 key={image.id ?? image.url}
+                layout
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: isRemoving ? 0.5 : 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.85 }}
-                transition={{ duration: 0.4, ease: ease.out }}
+                exit={{ opacity: 0, scale: 0.85, transition: { duration: duration.fast, ease: ease.in } }}
+                transition={{ duration: duration.base, ease: ease.out }}
                 className="relative aspect-square rounded-lg overflow-hidden border border-white/10 group"
               >
                 <img src={image.url} alt="Galeri fotoğrafı" className="w-full h-full object-cover" />
@@ -180,7 +183,9 @@ export function GalleryUploader() {
         </AnimatePresence>
 
         {images.length < MAX_PHOTOS && (
-          <button
+          <motion.button
+            layout
+            transition={{ duration: duration.base, ease: ease.out }}
             type="button"
             onClick={() => inputRef.current?.click()}
             disabled={uploading}
@@ -188,7 +193,7 @@ export function GalleryUploader() {
           >
             {uploading ? <Loader2 size={16} className="animate-spin" /> : <ImagePlus size={16} />}
             <span className="text-[9px] font-semibold">{uploading ? 'Yükleniyor' : 'Ekle'}</span>
-          </button>
+          </motion.button>
         )}
       </div>
 

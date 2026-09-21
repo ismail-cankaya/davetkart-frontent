@@ -7,7 +7,7 @@ import { toast } from '../ui/Toast';
 import { confirmAction } from '../ui/ConfirmDialog';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { RSVP_STATUS_BADGE, RSVP_STATUS_LABELS } from '../../utils/rsvpStatus';
-import { ease } from '../../utils/motion';
+import { duration, ease } from '../../utils/motion';
 
 interface LiveRsvpPanelProps {
   /**
@@ -168,18 +168,22 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
               </div>
             </div>
 
-            {/* Guest List */}
-            <div className="space-y-3 max-h-72 overflow-y-auto pr-1" data-lenis-prevent>
-              <AnimatePresence initial={false}>
+            {/* Guest List — `layout` + popLayout: bir kayıt çıkınca komşular
+                tek karede sıçramaz, yerlerine kayar. `layoutScroll`, kaydırılmış
+                listede konumların doğru ölçülmesi için. */}
+            <motion.div layoutScroll className="relative space-y-3 max-h-72 overflow-y-auto pr-1" data-lenis-prevent>
+              <AnimatePresence initial={false} mode="popLayout">
                 {rsvpList.map((rsvp) => {
                   const badgeBg = RSVP_STATUS_BADGE[rsvp.status];
 
                   return (
                     <motion.div
                       key={rsvp.id}
+                      layout
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
+                      exit={{ opacity: 0, x: -20, transition: { duration: duration.fast, ease: ease.in } }}
+                      transition={{ duration: duration.base, ease: ease.out }}
                       className="flex flex-col gap-2 bg-slate-50/80 hover:bg-white rounded-xl p-3 md:p-4 border border-slate-100 transition-colors duration-300"
                     >
                       <div className="flex items-center justify-between">
@@ -245,7 +249,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
                   {isLoading ? 'Katılım yanıtları yükleniyor…' : 'Henüz kaydedilmiş katılım yanıtı bulunmuyor.'}
                 </p>
               )}
-            </div>
+            </motion.div>
 
             {/* Footer Info */}
             <div className="bg-gradient-to-r from-brand/5 to-emerald-50 p-4 rounded-xl border border-emerald-100 text-center">

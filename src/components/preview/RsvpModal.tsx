@@ -7,7 +7,7 @@ import { toast } from '../ui/Toast';
 import { HoneypotField } from '../ui/HoneypotField';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { RSVP_STATUSES, RSVP_STATUS_CHOICES } from '../../utils/rsvpStatus';
-import { duration, ease } from '../../utils/motion';
+import { duration, ease, gesture } from '../../utils/motion';
 
 export function RsvpModal() {
   const draft = useRsvpStore(s => s.draft);
@@ -60,8 +60,8 @@ export function RsvpModal() {
           Davet Katılım Formu
         </h3>
         <motion.button
-          whileHover={{ scale: 1.1, rotate: 90 }}
-          whileTap={{ scale: 0.9 }}
+          // Kapat düğmeleri tek dilde konuşur (bkz. ConfirmDialog): hover renk, basış küçülme.
+          whileTap={{ scale: 0.92, transition: gesture.press }}
           onClick={() => setRsvpModalOpen(false)}
           className="p-1 text-stone-400 hover:text-white rounded-full bg-white/5 border border-white/10 transition-colors"
         >

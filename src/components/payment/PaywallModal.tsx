@@ -6,7 +6,7 @@ import { TIER_RANK, useSubscriptionStore } from '../../stores/useSubscriptionSto
 import { SubscriptionTier } from '../../types';
 import { toast } from '../ui/Toast';
 import { toDisplayError } from '../../utils/toDisplayError';
-import { backdropVariants, duration, ease, modalVariants } from '../../utils/motion';
+import { backdropVariants, duration, ease, gesture, modalVariants } from '../../utils/motion';
 
 const PLAN_ICONS: Record<SubscriptionTier, typeof Crown> = {
   standart: Feather,
@@ -103,8 +103,8 @@ export function PaywallModal() {
           >
             {/* Close */}
             <motion.button
-              whileHover={{ scale: 1.08, rotate: 90 }}
-              whileTap={{ scale: 0.92 }}
+              // Kapat düğmeleri tek dilde konuşur (bkz. ConfirmDialog): hover renk, basış küçülme.
+              whileTap={{ scale: 0.92, transition: gesture.press }}
               onClick={closePaywall}
               disabled={isProcessing}
               className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white border border-ink/10 text-muted hover:text-ink shadow-sm transition-colors cursor-pointer disabled:opacity-40"

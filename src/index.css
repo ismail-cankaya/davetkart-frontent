@@ -138,74 +138,6 @@ html.lenis body {
   animation: shimmer-sweep 3.5s var(--ease-luxe) infinite;
 }
 
-/* ————— Ambient aurora blobs (hero background) —————
-   Compositor-only keyframes (transform/opacity) with will-change, so the
-   blurred blobs live on their own GPU layer and never touch the main
-   thread — a JS-driven 60fps animation on a blur-3xl element is what was
-   janking mobile scroll. Blob 3 bakes its -50%/-50% centering into the
-   keyframes because the animation transform replaces class transforms. */
-@keyframes aurora-drift-1 {
-
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(30px, -20px, 0);
-  }
-}
-
-@keyframes aurora-drift-2 {
-
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  50% {
-    transform: translate3d(-20px, 30px, 0);
-  }
-}
-
-@keyframes aurora-breathe {
-
-  0%,
-  100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.2;
-  }
-
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-    opacity: 0.35;
-  }
-}
-
-.animate-aurora-1 {
-  animation: aurora-drift-1 12s ease-in-out infinite;
-  will-change: transform;
-}
-
-.animate-aurora-2 {
-  animation: aurora-drift-2 15s ease-in-out infinite;
-  will-change: transform;
-}
-
-.animate-aurora-3 {
-  animation: aurora-breathe 10s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-/* On phones the 30px drift is imperceptible behind heavy blur but still
-   forces continuous compositing — freeze it into a static glow instead. */
-@media (max-width: 767px) {
-  .animate-aurora-1 {
-    animation: none;
-    will-change: auto;
-  }
-}
-
 /* ————— Hero arkaplan videosu + koruyucu peçe —————
    Poster, video etiketinin kendisinde değil kapsayıcının background'ında
    duruyor. Böylece tek bir kaynak hem ilk boyama (FCP) hem ağ hatası hem de
@@ -575,27 +507,6 @@ html.lenis body {
   contain-intrinsic-size: auto var(--defer-height, 900px);
 }
 
-/* ————— Animated gradient text ————— */
-@keyframes gradient-shift {
-
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.animate-gradient-text {
-  background-size: 200% auto;
-  animation: gradient-shift 4s ease infinite;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 /* ————— Elegant lattice pattern for wizard category cards ————— */
 .pattern-elegant {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%2304382b' stroke-width='0.75' opacity='0.5'%3E%3Ccircle cx='28' cy='28' r='18'/%3E%3Ccircle cx='0' cy='0' r='18'/%3E%3Ccircle cx='56' cy='0' r='18'/%3E%3Ccircle cx='0' cy='56' r='18'/%3E%3Ccircle cx='56' cy='56' r='18'/%3E%3C/g%3E%3C/svg%3E");
@@ -739,17 +650,6 @@ html.lenis body {
   50% {
     opacity: 0.75;
     transform: scale(1.08);
-  }
-}
-
-/* Ken Burns: durağan katmana çok yavaş sinematik yakınlaşma. */
-@keyframes slow-zoom {
-  0% {
-    transform: scale(1) translate3d(0, 0, 0);
-  }
-
-  100% {
-    transform: scale(1.12) translate3d(0, -1.5%, 0);
   }
 }
 

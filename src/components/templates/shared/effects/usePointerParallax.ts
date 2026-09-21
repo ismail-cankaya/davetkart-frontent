@@ -38,8 +38,27 @@ export function usePointerParallax(
     const element = ref.current;
     if (!element) return;
 
+    // Kutu her `pointermove`'da ölçülmez: aynı karede yazılan transform'larla
+    // birlikte her ölçüm zorunlu bir senkron layout demekti. Ölçüm önbelleğe
+    // alınır; boyut değişince hemen, herhangi bir kaydırmadan sonra (davetiye
+    // kendi kutusunda kayar, olay capture ile yakalanır) ilk harekette yenilenir.
+    let rect = element.getBoundingClientRect();
+    let stale = false;
+    const markStale = () => {
+      stale = true;
+    };
+    const resizeObserver = new ResizeObserver(() => {
+      rect = element.getBoundingClientRect();
+      stale = false;
+    });
+    resizeObserver.observe(element);
+    window.addEventListener('scroll', markStale, { passive: true, capture: true });
+
     const onMove = (event: PointerEvent) => {
-      const rect = element.getBoundingClientRect();
+      if (stale) {
+        rect = element.getBoundingClientRect();
+        stale = false;
+      }
       if (rect.width === 0 || rect.height === 0) return;
 
       rawX.set(((event.clientX - rect.left) / rect.width) * 2 - 1);
@@ -56,6 +75,8 @@ export function usePointerParallax(
     window.addEventListener('pointercancel', recenter, { passive: true });
 
     return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('scroll', markStale, { capture: true });
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', recenter);
       window.removeEventListener('pointercancel', recenter);
