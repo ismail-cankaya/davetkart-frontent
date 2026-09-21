@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
@@ -203,6 +203,9 @@ export function VitrayHero({
   glow,
   seed = 31
 }: VitrayHeroProps) {
+  // Sonsuz döngü açıkça korunur; MotionConfig'in transform'u sessizce
+  // atlamasına güvenilmez (bkz. KinetikHero, PlakHero).
+  const reduced = useReducedMotion();
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const dark = theme.id === 'midnight';
@@ -262,7 +265,7 @@ export function VitrayHero({
         <motion.div
           aria-hidden="true"
           initial={{ x: '-70%' }}
-          animate={{ x: '170%' }}
+          animate={reduced ? undefined : { x: '170%' }}
           transition={{ duration: 13, ease: 'linear', repeat: Infinity, repeatDelay: 4 }}
           className="absolute inset-y-0 w-1/3 pointer-events-none"
           style={{

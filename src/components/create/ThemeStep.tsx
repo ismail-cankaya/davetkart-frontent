@@ -227,7 +227,7 @@ export function ThemeStep() {
                       initial={false}
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.35, ease: ease.out }}
-                      className="absolute inset-0 animate-shimmer pointer-events-none"
+                      className="absolute inset-0 animate-sweep pointer-events-none"
                     />
                   )}
                 </AnimatePresence>

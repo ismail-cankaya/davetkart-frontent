@@ -106,14 +106,15 @@ export function BrutalHero({
           {/* Üst ticker: tek satırlık kayan etiket şeridi. Marquee brutalist
               webin imzasıdır; burada başlık metnini taşıyarak dekor değil
               BİLGİ taşır. */}
+          {/* CSS marquee (bkz. index.css): üzerine gelince durur, "hareketi
+              azalt" açıkken donar. */}
           <div
-            className="relative overflow-hidden border-b-[3px] py-1.5"
+            className="pause-marquee relative overflow-hidden border-b-[3px] py-1.5"
             style={{ borderColor: ink, background: accent }}
           >
-            <motion.div
-              className="flex w-max gap-6 whitespace-nowrap"
-              animate={{ x: ['0%', '-50%'] }}
-              transition={{ duration: 18, ease: 'linear', repeat: Infinity }}
+            <div
+              className="animate-marquee flex w-max gap-6 whitespace-nowrap"
+              style={{ '--marquee-duration': '18s' } as React.CSSProperties}
             >
               {/* İki kopya: biri çıkarken diğeri girer, dikiş görünmez. */}
               {[0, 1].map((copy) => (
@@ -129,7 +130,7 @@ export function BrutalHero({
                   ))}
                 </span>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           <div className="relative px-5 @sm:px-6 pt-6 @sm:pt-7 pb-5 @sm:pb-6">

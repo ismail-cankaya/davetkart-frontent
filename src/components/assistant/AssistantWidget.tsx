@@ -120,8 +120,7 @@ export function AssistantWidget() {
             aria-label={isOpen ? 'Asistanı kapat' : 'Asistanı aç'}
             className="fixed bottom-5 right-4 md:bottom-6 md:right-6 z-[95] w-14 h-14 rounded-full bg-gradient-to-br from-brand to-brand-deep text-champagne shadow-xl shadow-brand/35 border border-gold/25 flex items-center justify-center cursor-pointer overflow-hidden"
           >
-            <span className="absolute inset-0 animate-shimmer pointer-events-none opacity-50" />
-            {/* Nefes alan halka — CSS'te, compositor'da döner (bkz. index.css) */}
+            {/* Nefes alan halka — üç kez atıp durur; CSS/compositor (bkz. index.css) */}
             {!isOpen && (
               <span className="animate-ring-ping absolute inset-0 rounded-full border-2 border-gold/50" />
             )}

@@ -145,7 +145,6 @@ export const Header = React.memo(function Header() {
                 to="/dashboard"
                 className="relative overflow-hidden bg-brand text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition duration-200 ease-luxe shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25 hover:-translate-y-0.5 flex items-center gap-1.5"
               >
-                <span className="absolute inset-0 animate-shimmer pointer-events-none" />
                 <LayoutDashboard size={14} />
                 <span className="max-w-28 truncate">{(user && fullName(user)) || t('auth.myPanel')}</span>
               </Link>
@@ -162,7 +161,6 @@ export const Header = React.memo(function Header() {
                 to="/register"
                 className="relative overflow-hidden bg-brand text-white px-5 py-2.5 rounded-full font-semibold text-sm hover:bg-brand-soft transition duration-200 ease-luxe shadow-md shadow-brand/15 hover:shadow-lg hover:shadow-brand/25 hover:-translate-y-0.5"
               >
-                <span className="absolute inset-0 animate-shimmer pointer-events-none" />
                 {t('auth.register')}
               </Link>
             </>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
@@ -91,6 +91,9 @@ export function TerrazzoHero({
   seed = 7,
   density = 26
 }: TerrazzoHeroProps) {
+  // Sonsuz döngü açıkça korunur; MotionConfig'in transform'u sessizce
+  // atlamasına güvenilmez (bkz. KinetikHero, PlakHero).
+  const reduced = useReducedMotion();
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
@@ -124,7 +127,7 @@ export function TerrazzoHero({
               scale: 1,
               opacity: 0.72,
               // Taş yüzmez; sadece ışık altında hafifçe kayar gibi görünür.
-              y: [0, -chip.drift, 0]
+              ...(reduced ? {} : { y: [0, -chip.drift, 0] })
             }}
             transition={{
               scale: { duration: 0.7, ease: ease.out, delay: i * 0.018 },

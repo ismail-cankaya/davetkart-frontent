@@ -110,7 +110,7 @@ export const Features = React.memo(function Features() {
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-10 items-center p-8 md:p-14">
             <div className="lg:col-span-7 space-y-5">
               <span className="inline-flex items-center gap-1.5 bg-gold/15 text-gold border border-gold/25 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-[0.12em] uppercase">
-                <Sparkles size={13} className="animate-pulse" /> İlk Sürümde Sizlerle
+                <Sparkles size={13} /> İlk Sürümde Sizlerle
               </span>
               <h3 className="font-serif text-2xl md:text-4xl font-bold leading-tight">
                 Yapay Zeka ile <span className="italic text-champagne font-medium">Size Özel</span> Tema Tasarımları
@@ -140,17 +140,18 @@ export const Features = React.memo(function Features() {
             {/* Visual */}
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative w-52 h-52 md:w-64 md:h-64">
-                {/* Sürekli döngüler CSS'te, compositor'da döner (bkz. index.css).
-                    Motion ile JS'te dönerken her karede kök katmanı boyatıyordu. */}
+                {/* Döngü bütçesi: illüstrasyonda tek döngü — yavaş dönen dış halka
+                    (CSS, compositor'da). Merkez karo backdrop-blur taşıdığı için
+                    ölçeklenmez; nefes alsaydı her karede yeniden bulanıklaşırdı. */}
                 <div className="animate-spin-40s absolute inset-0 rounded-full border border-dashed border-gold/25" />
-                <div className="animate-spin-reverse-60s absolute inset-6 rounded-full border border-dashed border-champagne/20" />
-                <div className="animate-breathe absolute inset-0 m-auto w-24 h-24 md:w-28 md:h-28 rounded-3xl bg-gradient-to-br from-gold/25 to-emerald-700/30 border border-gold/30 backdrop-blur-sm flex items-center justify-center text-champagne shadow-xl shadow-black/20">
+                <div className="absolute inset-6 rounded-full border border-dashed border-champagne/20" />
+                <div className="absolute inset-0 m-auto w-24 h-24 md:w-28 md:h-28 rounded-3xl bg-gradient-to-br from-gold/25 to-emerald-700/30 border border-gold/30 backdrop-blur-sm flex items-center justify-center text-champagne shadow-xl shadow-black/20">
                   <WandSparkles size={40} />
                 </div>
-                <span className="animate-twinkle-up absolute top-3 right-8 text-gold">
+                <span className="absolute top-3 right-8 text-gold">
                   <Sparkles size={18} />
                 </span>
-                <span className="animate-twinkle-down absolute bottom-6 left-6 text-champagne">
+                <span className="absolute bottom-6 left-6 text-champagne">
                   <Sparkles size={14} />
                 </span>
               </div>

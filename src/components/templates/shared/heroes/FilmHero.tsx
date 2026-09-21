@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
@@ -65,6 +65,9 @@ export interface FilmHeroProps extends HeroRenderProps {
 }
 
 export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame = '#0e0d10' }: FilmHeroProps) {
+  // Sonsuz döngü açıkça korunur; MotionConfig'in transform'u sessizce
+  // atlamasına güvenilmez (bkz. KinetikHero, PlakHero).
+  const reduced = useReducedMotion();
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const dateLabel = formatDateStr(invitation.date);
@@ -155,7 +158,7 @@ export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame =
           <motion.div
             aria-hidden="true"
             initial={{ y: '-60%' }}
-            animate={{ y: '160%' }}
+            animate={reduced ? undefined : { y: '160%' }}
             transition={{ duration: 11, ease: 'linear', repeat: Infinity, repeatDelay: 3 }}
             className="absolute inset-x-0 h-1/4 pointer-events-none mix-blend-screen"
             style={{ background: 'linear-gradient(180deg, transparent, rgba(255,255,255,0.09), transparent)' }}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
@@ -63,6 +63,9 @@ export function MermerHero({
   polish = 'light',
   seed = 11
 }: MermerHeroProps) {
+  // Sonsuz döngü açıkça korunur; MotionConfig'in transform'u sessizce
+  // atlamasına güvenilmez (bkz. KinetikHero, PlakHero).
+  const reduced = useReducedMotion();
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const dateLabel = formatDateStr(invitation.date);
@@ -96,7 +99,7 @@ export function MermerHero({
         <motion.div
           aria-hidden="true"
           initial={{ x: '-80%' }}
-          animate={{ x: '180%' }}
+          animate={reduced ? undefined : { x: '180%' }}
           transition={{ duration: 16, ease: 'linear', repeat: Infinity, repeatDelay: 5 }}
           className="absolute inset-y-0 w-2/5 pointer-events-none"
           style={{

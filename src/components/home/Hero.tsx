@@ -150,8 +150,7 @@ export const Hero = React.memo(function Hero() {
           transition={{ duration: 0.6, ease: ease.out }}
           className="relative bg-champagne text-brand-deep px-4 py-1.5 rounded-full font-semibold text-xs tracking-wide mb-8 inline-flex items-center gap-1.5 shadow-sm border border-brand-deep/10 overflow-hidden"
         >
-          <div className="absolute inset-0 animate-shimmer" />
-          <Sparkles size={14} className="text-gold animate-pulse relative z-10" />
+          <Sparkles size={14} className="text-gold relative z-10" />
           <span className="relative z-10">{t('hero.badge')}</span>
         </motion.div>
 

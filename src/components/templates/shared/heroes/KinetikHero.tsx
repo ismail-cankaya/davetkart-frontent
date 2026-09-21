@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'motion/react';
+import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
@@ -18,8 +18,9 @@ import { ease } from '../../../../utils/motion';
  * isimle yarışır, kadraj okunamaz hale gelirdi. Kontur "arka plan sesi"
  * seviyesinde kalır.
  *
- * Erişilebilirlik: `useReducedMotion` açıkken şeritler donar — hareketi
- * azaltma tercihinde sürekli kayan yazı en rahatsız edici katmandır.
+ * Erişilebilirlik: şeritler CSS marquee'dir (bkz. index.css). "Hareketi
+ * azalt" açıkken donar — sürekli kayan yazı en rahatsız edici katmandır —
+ * ve işaretçi hero'nun üzerindeyken durur ki metin okunabilsin (WCAG 2.2.2).
  */
 
 interface BandProps {
@@ -38,8 +39,6 @@ interface BandProps {
 }
 
 function Band({ text, direction, duration, variant, colorClass, tilt, className }: BandProps) {
-  const reduced = useReducedMotion();
-
   // Aynı içerik iki kez basılır ve şerit tam yarısı kadar kaydırılır:
   // döngü başa döndüğünde ikinci kopya birincinin yerine oturduğu için
   // dikiş yeri görünmez.
@@ -60,31 +59,27 @@ function Band({ text, direction, duration, variant, colorClass, tilt, className 
       className={cn('relative w-full overflow-hidden select-none pointer-events-none', className)}
       style={{ transform: `rotate(${tilt}deg)` }}
     >
-      <motion.div
+      <div
         className={cn(
-          'flex w-max will-change-transform font-serif font-black uppercase leading-none',
+          'animate-marquee flex w-max font-serif font-black uppercase leading-none',
+          direction === 'right' && 'animate-marquee-reverse',
           'text-[2.75rem] @sm:text-[4.5rem] @lg:text-[5.5rem]',
           colorClass
         )}
-        style={
-          variant === 'outline'
+        style={{
+          '--marquee-duration': `${duration}s`,
+          ...(variant === 'outline'
             ? {
                 WebkitTextStrokeWidth: '1px',
                 WebkitTextStrokeColor: 'currentColor',
                 WebkitTextFillColor: 'transparent'
               }
-            : undefined
-        }
-        animate={
-          reduced
-            ? undefined
-            : { x: direction === 'left' ? ['0%', '-50%'] : ['-50%', '0%'] }
-        }
-        transition={{ duration, ease: 'linear', repeat: Infinity }}
+            : undefined)
+        } as React.CSSProperties}
       >
         {half}
         {half}
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -111,7 +106,7 @@ export function KinetikHero({ invitation, theme, flavor, topWord }: KinetikHeroP
   const bottom = (venue || dateLabel || flavor.envelopeLabel).toLocaleUpperCase('tr-TR');
 
   return (
-    <section className="relative flex-1 flex flex-col justify-center gap-7 @sm:gap-10 py-12 @sm:py-16 overflow-hidden">
+    <section className="pause-marquee relative flex-1 flex flex-col justify-center gap-7 @sm:gap-10 py-12 @sm:py-16 overflow-hidden">
       <Band
         text={top}
         direction="left"

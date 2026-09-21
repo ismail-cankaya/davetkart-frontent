@@ -78,7 +78,6 @@ export function AssistantChat({
     <div className="flex flex-col h-full bg-cream">
       {/* Header */}
       <div className="relative shrink-0 bg-gradient-to-r from-brand-deep via-brand to-brand-soft text-white px-4 py-3.5 flex items-center gap-3 overflow-hidden">
-        <div className="absolute inset-0 animate-shimmer pointer-events-none opacity-40" />
         <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-white/10 border border-gold/30 text-champagne shrink-0">
           <BrandMark size={20} />
           <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-brand rounded-full" />
