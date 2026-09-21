@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'motion/react';
+import React, { useRef, useState } from 'react';
+import { AnimatePresence, motion, Variants } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { SectionTheme, EASE_LUXE } from './palette';
@@ -13,12 +13,44 @@ interface GalleryProps {
 }
 
 /**
+ * Yön, variant FONKSİYONLARI üzerinden okunur. Çıkan görsel ağaçtan
+ * düştüğünde prop'ları son render'ında donar; güncel yön ona yalnızca
+ * `AnimatePresence custom` ile ulaşır ve `custom` yalnızca fonksiyon
+ * variant'lara iletilir. Düz nesne yazılırsa İleri → Geri geçişinde eski
+ * görsel önceki yönde çıkar ve yenisiyle aynı tarafta üst üste biner.
+ *
+ * `dragX`: sürüklemeyle geçildiğinde yeni kare çerçevenin kenarından değil,
+ * bırakılan karenin hemen yanından (px cinsinden) gelir; iki kare parmağın
+ * bıraktığı yerde bitişik kalır.
+ */
+interface SlideCustom {
+  dir: number;
+  /** Bırakılan karenin görünen kayması (px); düğmeyle geçişte 0. */
+  dragX: number;
+  /** Çerçeve genişliği (px); ölçülemezse 0 ve yüzde kullanılır. */
+  width: number;
+}
+
+const DRAG_ELASTIC = 0.6;
+
+const slideVariants: Variants = {
+  enter: ({ dir, dragX, width }: SlideCustom) => ({
+    x: width > 0 ? (dir >= 0 ? width : -width) + dragX : dir >= 0 ? '100%' : '-100%',
+    opacity: 0.4,
+    scale: 1.05
+  }),
+  center: { x: 0, opacity: 1, scale: 1 },
+  exit: ({ dir }: SlideCustom) => ({ x: dir >= 0 ? '-30%' : '30%', opacity: 0 })
+};
+
+/**
  * Photo gallery — a swipeable, minimal slider with directional slide
  * transitions and dot navigation.
  */
 export function Gallery({ invitation, theme, flavor }: GalleryProps) {
   const images = invitation.galleryImages;
-  const [[storedIndex, direction], setIndex] = useState<[number, number]>([0, 0]);
+  const [[storedIndex, slide], setIndex] = useState<[number, SlideCustom]>([0, { dir: 0, dragX: 0, width: 0 }]);
+  const frameRef = useRef<HTMLDivElement>(null);
 
   if (images.length === 0) return null;
 
@@ -27,8 +59,13 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
   // olur ve önizleme çöker; konum her çizimde listeye sıkıştırılır.
   const index = Math.min(storedIndex, images.length - 1);
 
-  const paginate = (dir: number) => {
-    setIndex(([current]) => [(Math.min(current, images.length - 1) + dir + images.length) % images.length, dir]);
+  const goTo = (resolve: (current: number) => number, dir: number, dragX = 0) => {
+    const width = frameRef.current?.offsetWidth ?? 0;
+    setIndex(([current]) => [resolve(Math.min(current, images.length - 1)), { dir, dragX, width }]);
+  };
+
+  const paginate = (dir: number, dragX = 0) => {
+    goTo((current) => (current + dir + images.length) % images.length, dir, dragX);
   };
 
   return (
@@ -55,24 +92,27 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
         transition={{ duration: 0.9, ease: EASE_LUXE }}
         className="max-w-md mx-auto"
       >
-        <div className={cn('relative aspect-[4/5] rounded-3xl overflow-hidden border', theme.border)}>
-          <AnimatePresence initial={false} custom={direction}>
+        <div ref={frameRef} className={cn('relative aspect-[4/5] rounded-3xl overflow-hidden border', theme.border)}>
+          <AnimatePresence initial={false} custom={slide}>
             <motion.img
               key={index}
               src={images[index].url}
               alt={`Galeri fotoğrafı ${index + 1}`}
               className="absolute inset-0 w-full h-full object-cover"
-              custom={direction}
-              initial={{ x: direction >= 0 ? '100%' : '-100%', opacity: 0.4, scale: 1.05 }}
-              animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={{ x: direction >= 0 ? '-30%' : '30%', opacity: 0 }}
+              custom={slide}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
               transition={{ duration: 0.7, ease: EASE_LUXE }}
               drag={images.length > 1 ? 'x' : false}
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.6}
+              dragElastic={DRAG_ELASTIC}
               onDragEnd={(_, info) => {
-                if (info.offset.x < -60) paginate(1);
-                else if (info.offset.x > 60) paginate(-1);
+                // Elastik sürüklemede kare, parmağın yalnızca DRAG_ELASTIC katı kadar kayar.
+                const dragX = info.offset.x * DRAG_ELASTIC;
+                if (info.offset.x < -60) paginate(1, dragX);
+                else if (info.offset.x > 60) paginate(-1, dragX);
               }}
             />
           </AnimatePresence>
@@ -113,7 +153,9 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
                 key={image.id ?? image.url}
                 type="button"
                 aria-label={`${dotIndex + 1}. fotoğrafa git`}
-                onClick={() => setIndex(([current]) => [dotIndex, dotIndex > current ? 1 : -1])}
+                onClick={() => {
+                  if (dotIndex !== index) goTo(() => dotIndex, dotIndex > index ? 1 : -1);
+                }}
                 className={cn(
                   'h-1.5 rounded-full transition-all duration-500 cursor-pointer',
                   dotIndex === index ? cn('w-6', theme.accentBg) : cn('w-1.5 opacity-40', theme.accentBg)
