@@ -45,7 +45,7 @@ export function Dugun2({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN2_THEME}
-      renderHeroBackground={() => (
+      renderHeroBackground={({ revealed }) => (
         <div className="relative h-full w-full max-w-3xl mx-auto">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[72%] max-w-[430px]">
             <motion.img
@@ -53,7 +53,7 @@ export function Dugun2({ invitation, mode = 'preview' }: TemplateProps) {
               alt=""
               draggable={false}
               initial={{ opacity: 0, y: -24 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: -24 }}
               transition={{ duration: 1.5, ease: ease.out, delay: 0.4 }}
               className="w-full h-auto mix-blend-multiply select-none"
             />
@@ -64,7 +64,7 @@ export function Dugun2({ invitation, mode = 'preview' }: TemplateProps) {
               alt=""
               draggable={false}
               initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
               transition={{ duration: 1.5, ease: ease.out, delay: 0.4 }}
               className="w-full h-auto mix-blend-multiply select-none"
             />

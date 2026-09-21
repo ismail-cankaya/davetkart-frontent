@@ -50,7 +50,7 @@ export function Dugun4({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={DUGUN4_THEME}
       summaryDensity="compact"
       heroContentClassName="mx-auto w-full max-w-md"
-      renderHeroBackground={() => (
+      renderHeroBackground={({ revealed }) => (
         <div className="absolute inset-0">
           <img
             src={backgroundWash}
@@ -66,7 +66,7 @@ export function Dugun4({ invitation, mode = 'preview' }: TemplateProps) {
               alt=""
               draggable={false}
               initial={{ opacity: 0, scale: 1.04 }}
-              animate={{ opacity: 1, scale: 1 }}
+              animate={revealed ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 1.04 }}
               transition={{ duration: 1.8, ease: ease.out, delay: 0.2 }}
               className="w-full h-full object-cover object-bottom mix-blend-multiply select-none"
             />

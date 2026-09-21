@@ -21,12 +21,23 @@ export interface HeroRenderProps {
   flavor: TemplateFlavor;
 }
 
+/** Hero arka planına geçirilen giriş durumu. */
+export interface HeroBackgroundState {
+  /**
+   * Zarf yoksa baştan, varsa zarf kaymaya başladığı anda `true` olur. Arka
+   * planda bir GİRİŞ animasyonu olan şablonlar (ör. Dugun süs görselleri)
+   * onu buna bağlar; aksi hâlde giriş zarfın arkasında görünmeden biter.
+   * Sürekli ortam döngüleri (ışık, sis, parçacık) bunu yok sayabilir.
+   */
+  revealed: boolean;
+}
+
 interface InvitationCompositionProps {
   invitation: Invitation;
   flavor: TemplateFlavor;
   mode: 'preview' | 'live';
   themeOverride?: ReturnType<typeof getSectionTheme>;
-  renderHeroBackground?: () => React.ReactNode;
+  renderHeroBackground?: (state: HeroBackgroundState) => React.ReactNode;
   /**
    * Hero'nun ÖN PLANINI tamamen değiştirir (varsayılan: Summary).
    *
@@ -64,9 +75,21 @@ export function InvitationComposition({
 }: InvitationCompositionProps) {
   const theme = themeOverride || getSectionTheme(invitation.palette);
   const [envelopeOpened, setEnvelopeOpened] = useState(false);
+  const [revealStarted, setRevealStarted] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
 
   const envelopeVisible = invitation.showEnvelope && !envelopeOpened;
+
+  /**
+   * 🔴 Intro kapısı. Hero'nun ön planı zarf kaymaya BAŞLADIĞI anda mount
+   * edilir, ondan önce değil. Hero'lar girişlerini `animate` ile mount anında
+   * başlatır; zarfla birlikte mount edilselerdi koreografinin tamamı (~3 s)
+   * opak zarfın arkasında oynayıp biter ve mühür kırıldığında altta durağan
+   * bir hero belirirdi. Ağır katmanlar (video, parçacık, atmosfer)
+   * `renderHeroBackground`'da yaşar ve baştan mount kalır; ön plan yalnızca
+   * metin ve SVG süs olduğundan geç mount ucuzdur.
+   */
+  const revealed = !envelopeVisible || revealStarted;
 
   const sectionFallback = (
     <div className={cn('w-full h-24 flex items-center justify-center', theme.page)}>
@@ -94,6 +117,7 @@ export function InvitationComposition({
             invitation={invitation}
             theme={theme}
             flavor={flavor}
+            onRevealStart={() => setRevealStarted(true)}
             onOpened={() => setEnvelopeOpened(true)}
           />
         )}
@@ -113,13 +137,14 @@ export function InvitationComposition({
           {/* Dynamic background effect strictly for the Hero section */}
           {renderHeroBackground && (
             <div className="absolute inset-0 z-0 pointer-events-none">
-              {renderHeroBackground()}
+              {renderHeroBackground({ revealed })}
             </div>
           )}
           <div className={cn('relative z-10 w-full h-full flex flex-col grow', heroContentClassName)}>
-            {renderHero
-              ? renderHero({ invitation, theme, flavor })
-              : <Summary invitation={invitation} theme={theme} flavor={flavor} density={summaryDensity} />}
+            {revealed &&
+              (renderHero
+                ? renderHero({ invitation, theme, flavor })
+                : <Summary invitation={invitation} theme={theme} flavor={flavor} density={summaryDensity} />)}
           </div>
         </div>
 

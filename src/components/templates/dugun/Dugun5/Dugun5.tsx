@@ -45,7 +45,7 @@ export function Dugun5({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN5_THEME}
-      renderHeroBackground={() => (
+      renderHeroBackground={({ revealed }) => (
         <div className="absolute inset-0">
           <img
             src={backgroundSky}
@@ -59,7 +59,7 @@ export function Dugun5({ invitation, mode = 'preview' }: TemplateProps) {
               alt=""
               draggable={false}
               initial={{ opacity: 0, y: 36 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={revealed ? { opacity: 1, y: 0 } : { opacity: 0, y: 36 }}
               transition={{ duration: 1.6, ease: ease.out, delay: 0.3 }}
               className="absolute bottom-0 left-0 w-full h-[42%] object-cover object-bottom mix-blend-multiply select-none"
             />

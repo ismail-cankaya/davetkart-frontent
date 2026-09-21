@@ -51,14 +51,14 @@ export function Dugun1({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={DUGUN1_THEME}
       summaryDensity="compact"
       heroContentClassName="mx-auto max-w-4xl px-[15%] @xl:px-[22%] @3xl:px-[25%]"
-      renderHeroBackground={() => (
+      renderHeroBackground={({ revealed }) => (
         <div className="relative h-full w-full max-w-4xl mx-auto">
           <motion.img
             src={leftOrnament}
             alt=""
             draggable={false}
             initial={{ opacity: 0, x: -28 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={revealed ? { opacity: 1, x: 0 } : { opacity: 0, x: -28 }}
             transition={{ duration: 1.5, ease: ease.out, delay: 0.4 }}
             className="absolute left-0 top-0 h-full w-auto max-w-[14%] @xl:max-w-[21%] @3xl:max-w-[28%] object-contain object-left z-10 mix-blend-multiply select-none"
           />
@@ -67,7 +67,7 @@ export function Dugun1({ invitation, mode = 'preview' }: TemplateProps) {
             alt=""
             draggable={false}
             initial={{ opacity: 0, x: 28 }}
-            animate={{ opacity: 1, x: 0 }}
+            animate={revealed ? { opacity: 1, x: 0 } : { opacity: 0, x: 28 }}
             transition={{ duration: 1.5, ease: ease.out, delay: 0.4 }}
             className="absolute right-0 top-0 h-full w-auto max-w-[14%] @xl:max-w-[21%] @3xl:max-w-[28%] object-contain object-right z-10 mix-blend-multiply select-none"
           />

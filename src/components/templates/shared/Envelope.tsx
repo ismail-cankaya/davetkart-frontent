@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, useReducedMotion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
-import { ease } from '../../../utils/motion';
+import { duration, ease } from '../../../utils/motion';
+
+/**
+ * Mühür kırıldıktan sonra zarfın kaymaya başladığı an (s): kanat (0.7 s)
+ * açılır, mektup yükselir, sonra zarf çekilir. Hero'nun intro kapısı da tam
+ * bu anda açılır ki hero, zarf çekilirken yükselsin.
+ */
+const REVEAL_DELAY = 0.9;
 
 interface EnvelopeProps {
   invitation: Invitation;
   theme: SectionTheme;
   flavor: TemplateFlavor;
+  /** Zarf kaymaya başladığında bir kez çağrılır; hero girişini başlatır. */
+  onRevealStart?: () => void;
   /** Fired once the opening animation finishes so the parent can unmount us. */
   onOpened: () => void;
 }
@@ -17,9 +26,29 @@ interface EnvelopeProps {
 /**
  * Full-screen envelope gate. A tap breaks the wax seal, the flap swings open
  * in 3D and the whole envelope glides away to reveal the invitation.
+ *
+ * "Hareketi azalt" açıkken kanat dönmez, mektup yükselmez (MotionConfig
+ * transform'ları atlar); bu yüzden 0.9 s'lik ritüel beklemesi de atlanır ve
+ * zarf tek adımda solar. Aksi hâlde kullanıcı hiçbir şey olmadan beklerdi.
  */
-export function Envelope({ invitation, theme, flavor, onOpened }: EnvelopeProps) {
+export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }: EnvelopeProps) {
   const [opening, setOpening] = useState(false);
+  const reduced = useReducedMotion();
+  const revealDelay = reduced ? 0 : REVEAL_DELAY;
+
+  // Ebeveyn her render'da yeni bir fonksiyon geçirir; zamanlayıcı bu yüzden
+  // yeniden kurulmasın, en güncel geri çağrı ref'ten okunur.
+  const onRevealStartRef = useRef(onRevealStart);
+  useEffect(() => {
+    onRevealStartRef.current = onRevealStart;
+  }, [onRevealStart]);
+
+  useEffect(() => {
+    if (!opening) return;
+    const id = window.setTimeout(() => onRevealStartRef.current?.(), revealDelay * 1000);
+    return () => window.clearTimeout(id);
+  }, [opening, revealDelay]);
+
   const isDark = theme.id === 'midnight';
   const { Ornament } = flavor;
 
@@ -43,7 +72,13 @@ export function Envelope({ invitation, theme, flavor, onOpened }: EnvelopeProps)
       onClick={handleOpen}
       initial={{ opacity: 1 }}
       animate={opening ? { opacity: 0, y: '-100%' } : { opacity: 1, y: 0 }}
-      transition={{ duration: 1, ease: ease.out, delay: opening ? 0.9 : 0 }}
+      // Çıkış ease-in: zarf yavaş kalkar ve hızlanarak çekilir. Ease-out
+      // olsaydı ekranın üst kenarında oyalanıp hero'yu gereksiz yere örterdi.
+      transition={{
+        duration: reduced ? duration.base : duration.stage,
+        ease: ease.in,
+        delay: opening ? revealDelay : 0
+      }}
       onAnimationComplete={() => {
         if (opening) onOpened();
       }}
