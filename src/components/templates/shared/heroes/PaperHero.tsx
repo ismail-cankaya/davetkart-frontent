@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { PaperGrain, DeckleEdge, WaxSeal } from '../effects';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Kağıt & Mühür hero — ekranda duran bir NESNE.
@@ -51,7 +51,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
       <motion.article
         initial={{ opacity: 0, y: 26, rotateX: 6 }}
         animate={{ opacity: 1, y: 0, rotateX: 0 }}
-        transition={{ duration: 1, ease: EASE_LUXE }}
+        transition={{ duration: 1, ease: ease.out }}
         className="relative w-full max-w-md"
         style={{ filter: 'drop-shadow(0 18px 34px rgba(60,42,28,0.22))' }}
       >
@@ -67,7 +67,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
           <motion.div
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.25 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.25 }}
             className={theme.accent}
           >
             <Ornament size={30} />
@@ -76,7 +76,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.4 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.4 }}
             className={cn('mt-5 text-[9px] font-semibold uppercase tracking-[0.42em]', theme.body)}
             style={emboss}
           >
@@ -86,7 +86,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
           <motion.h1
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: EASE_LUXE, delay: 0.55 }}
+            transition={{ duration: 1.1, ease: ease.out, delay: 0.55 }}
             className={cn('font-serif font-normal leading-[1.08] mt-4 text-3xl @sm:text-[2.6rem]', theme.heading)}
             style={emboss}
           >
@@ -96,14 +96,14 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.85 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.85 }}
             className={cn('h-px w-20 my-6', theme.divider)}
           />
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.95 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.95 }}
             className={cn('text-[13px] leading-relaxed font-light max-w-[16rem]', theme.body)}
             style={emboss}
           >
@@ -114,7 +114,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, ease: EASE_LUXE, delay: 1.1 }}
+              transition={{ duration: 1, ease: ease.out, delay: 1.1 }}
               className="mt-7 flex flex-col items-center gap-1.5"
             >
               {dateLabel && (

@@ -89,6 +89,3 @@ const STONE: SectionTheme = {
 export function getSectionTheme(palette: PaletteId): SectionTheme {
   return palette === 'stone' ? STONE : MIDNIGHT;
 }
-
-/** The luxe easing curve shared by every invitation animation. */
-export const EASE_LUXE = [0.22, 1, 0.36, 1] as const;

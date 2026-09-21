@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 interface PageHeaderProps {
   badge: string;
@@ -28,7 +27,7 @@ export function PageHeader({ badge, title, accent, tail, description, icon }: Pa
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="max-w-3xl mx-auto px-4 text-center space-y-5 relative z-10"
       >
         <span className="inline-flex items-center gap-1.5 text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full">

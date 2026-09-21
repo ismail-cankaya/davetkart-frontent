@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme, EASE_LUXE } from '../../shared/palette';
+import { SectionTheme } from '../../shared/palette';
 import { DUGUN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 import topGarland from './assets/dugun2-top.png';
 import bottomGarland from './assets/dugun2-buttom.png';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Dugun2 — "Pastel Buket" teması: krem gül ve okaliptüs girlandlarına uygun
@@ -53,7 +54,7 @@ export function Dugun2({ invitation, mode = 'preview' }: TemplateProps) {
               draggable={false}
               initial={{ opacity: 0, y: -24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.5, ease: EASE_LUXE, delay: 0.4 }}
+              transition={{ duration: 1.5, ease: ease.out, delay: 0.4 }}
               className="w-full h-auto mix-blend-multiply select-none"
             />
           </div>
@@ -64,7 +65,7 @@ export function Dugun2({ invitation, mode = 'preview' }: TemplateProps) {
               draggable={false}
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.5, ease: EASE_LUXE, delay: 0.4 }}
+              transition={{ duration: 1.5, ease: ease.out, delay: 0.4 }}
               className="w-full h-auto mix-blend-multiply select-none"
             />
           </div>

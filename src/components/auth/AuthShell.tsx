@@ -1,8 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { BrandMark } from '../ui/BrandMark';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 /** Shared input styling for the auth forms (mirrors the designer panel). */
 export const authInputClass =
@@ -32,7 +31,7 @@ export function AuthShell({ title, subtitle, children, footer }: AuthShellProps)
       <motion.div
         initial={{ opacity: 0, y: 30, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="relative z-10 w-full max-w-md"
       >
         <div className="bg-white/[0.07] backdrop-blur-md p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl shadow-black/25 space-y-7">

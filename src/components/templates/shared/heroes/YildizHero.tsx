@@ -2,9 +2,9 @@ import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Yıldız Haritası hero — davetin kendi gökyüzü.
@@ -105,7 +105,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
       <motion.div
         initial={{ opacity: 0, scale: 0.92 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.2, ease: EASE_LUXE }}
+        transition={{ duration: 1.2, ease: ease.out }}
         className="relative w-[min(74%,18rem)] @sm:w-[min(68%,20rem)] aspect-square"
       >
         <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full" aria-hidden="true">
@@ -141,7 +141,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
               strokeLinecap="round"
               initial={reduced ? { pathLength: 1 } : { pathLength: 0 }}
               animate={{ pathLength: 1 }}
-              transition={{ duration: 2.4, ease: EASE_LUXE, delay: 0.6 }}
+              transition={{ duration: 2.4, ease: ease.out, delay: 0.6 }}
             />
           )}
         </svg>
@@ -171,7 +171,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 0.4 }}
+          transition={{ duration: 1, ease: ease.out, delay: 0.4 }}
           className={cn('text-[9px] font-semibold uppercase tracking-[0.4em]', theme.accent)}
         >
           {invitation.title}
@@ -180,7 +180,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, ease: EASE_LUXE, delay: 0.5 }}
+          transition={{ duration: 1.1, ease: ease.out, delay: 0.5 }}
           className={cn(
             'font-serif font-normal leading-[1.1] mt-3 text-[1.9rem] @sm:text-[2.4rem] break-words',
             theme.heading
@@ -192,7 +192,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 0.65 }}
+          transition={{ duration: 1, ease: ease.out, delay: 0.65 }}
           className={cn('text-[12.5px] leading-relaxed font-light mt-4 max-w-[16rem]', theme.body)}
         >
           {invitation.subtitle}
@@ -202,7 +202,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.78 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.78 }}
             className={cn('mt-6 flex flex-col items-center gap-1.5 pt-5 border-t w-full max-w-[15rem]', theme.border)}
           >
             {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
@@ -214,7 +214,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.9 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.9 }}
             className="mt-5 flex items-baseline gap-4"
           >
             {[

@@ -3,9 +3,10 @@ import { motion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { displayText, formatDateStr } from '../utils';
-import { SectionTheme, EASE_LUXE } from './palette';
+import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { CalendarIcon, MapPinIcon, ExternalLinkIcon } from './icons';
+import { ease } from '../../../utils/motion';
 
 interface DetailsProps {
   invitation: Invitation;
@@ -34,7 +35,7 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="text-center mb-10"
       >
         <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
@@ -49,7 +50,7 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
         initial={{ opacity: 0, y: 30, scale: 0.98 }}
         whileInView={{ opacity: 1, y: 0, scale: 1 }}
         viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: 0.95, ease: EASE_LUXE, delay: 0.1 }}
+        transition={{ duration: 0.95, ease: ease.out, delay: 0.1 }}
         className={cn('max-w-md mx-auto rounded-3xl border overflow-hidden', theme.surface, theme.border)}
       >
         {/* Decorative abstract map header */}

@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Suluboya hero — kenarı DÜZGÜN OLMAYAN tek dil.
@@ -44,7 +44,7 @@ function Wash({ color, seed, spread = 26, className, blend, delay = 0 }: WashPro
       initial={{ opacity: 0, scale: 0.92 }}
       animate={{ opacity: 1, scale: 1 }}
       // Uzun süre bilinçli: boya "belirmez", yayılır.
-      transition={{ duration: 2.2, ease: EASE_LUXE, delay }}
+      transition={{ duration: 2.2, ease: ease.out, delay }}
       className={cn('absolute pointer-events-none', className)}
       style={{ mixBlendMode: blend }}
     >
@@ -128,7 +128,7 @@ export function SuluboyaHero({
         <motion.div
           initial={{ opacity: 0, scale: 0.7 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.7 }}
+          transition={{ duration: 0.9, ease: ease.out, delay: 0.7 }}
           className={theme.accent}
         >
           <Ornament size={28} />
@@ -137,7 +137,7 @@ export function SuluboyaHero({
         <motion.span
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 0.85 }}
+          transition={{ duration: 1, ease: ease.out, delay: 0.85 }}
           className={cn('mt-5 text-[9px] font-semibold uppercase tracking-[0.38em]', theme.body)}
         >
           {invitation.title}
@@ -146,7 +146,7 @@ export function SuluboyaHero({
         <motion.h1
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, ease: EASE_LUXE, delay: 0.95 }}
+          transition={{ duration: 1.1, ease: ease.out, delay: 0.95 }}
           className={cn(
             'font-serif font-normal leading-[1.1] mt-4 text-[2rem] @sm:text-[2.6rem] break-words',
             theme.heading
@@ -159,7 +159,7 @@ export function SuluboyaHero({
         <motion.span
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 1.15 }}
+          transition={{ duration: 0.9, ease: ease.out, delay: 1.15 }}
           className="block h-[3px] w-24 my-6 rounded-full origin-center"
           style={{
             background: `linear-gradient(90deg, transparent, ${washes[0]}, ${washes[2]}, transparent)`,
@@ -170,7 +170,7 @@ export function SuluboyaHero({
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 1.25 }}
+          transition={{ duration: 1, ease: ease.out, delay: 1.25 }}
           className={cn('text-[12.5px] leading-[1.85] font-light max-w-[16rem]', theme.body)}
         >
           {invitation.subtitle}
@@ -180,7 +180,7 @@ export function SuluboyaHero({
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.4 }}
+            transition={{ duration: 1, ease: ease.out, delay: 1.4 }}
             className="mt-7 flex flex-col items-center gap-2"
           >
             {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-2xl', theme.heading)}>{dateLabel}</span>}
@@ -192,7 +192,7 @@ export function SuluboyaHero({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.55 }}
+            transition={{ duration: 1, ease: ease.out, delay: 1.55 }}
             className="mt-6 flex items-baseline gap-4"
           >
             {[

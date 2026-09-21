@@ -6,8 +6,7 @@ import { TIER_RANK, useSubscriptionStore } from '../../stores/useSubscriptionSto
 import { SubscriptionTier } from '../../types';
 import { toast } from '../ui/Toast';
 import { toDisplayError } from '../../utils/toDisplayError';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 const PLAN_ICONS: Record<SubscriptionTier, typeof Crown> = {
   standart: Feather,
@@ -90,7 +89,7 @@ export function PaywallModal() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: EASE_LUXE }}
+          transition={{ duration: 0.35, ease: ease.out }}
           onClick={closePaywall}
           className="fixed inset-0 z-[90] bg-ink/45 backdrop-blur-md flex items-center justify-center p-4 md:p-8 overflow-y-auto"
         >
@@ -98,7 +97,7 @@ export function PaywallModal() {
             initial={{ opacity: 0, y: 40, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.97 }}
-            transition={{ duration: 0.55, ease: EASE_LUXE }}
+            transition={{ duration: 0.55, ease: ease.out }}
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-5xl bg-cream rounded-[2rem] shadow-2xl shadow-ink/30 border border-white/40 my-auto max-h-full overflow-y-auto"
           >
@@ -185,7 +184,7 @@ export function PaywallModal() {
                       key={plan.id}
                       initial={{ opacity: 0, y: 24 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.55, ease: EASE_LUXE, delay: TIER_RANK[plan.id] * 0.08 }}
+                      transition={{ duration: 0.55, ease: ease.out, delay: TIER_RANK[plan.id] * 0.08 }}
                       onClick={() => !isLocked && !isProcessing && selectTier(plan.id)}
                       className={`relative flex flex-col rounded-3xl border-2 p-5 md:p-6 pt-7 transition-all duration-400 ${
                         isLocked

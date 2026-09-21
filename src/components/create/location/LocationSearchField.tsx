@@ -13,8 +13,7 @@ import {
   readMapLocation
 } from '../../../utils/mapLocation';
 import { MapPickerModal } from './MapPickerModal';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../../utils/motion';
 
 type LocationOption =
   | { kind: 'place'; id: string; place: PlaceSuggestion }
@@ -222,7 +221,7 @@ export function LocationSearchField({
                 initial={{ opacity: 0, scale: 0.6 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.6 }}
-                transition={{ duration: 0.2, ease: EASE_LUXE }}
+                transition={{ duration: 0.2, ease: ease.out }}
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => {
                   commit('', '');
@@ -256,7 +255,7 @@ export function LocationSearchField({
               initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.22, ease: EASE_LUXE }}
+              transition={{ duration: 0.22, ease: ease.out }}
               data-lenis-prevent
               className="absolute left-0 right-0 top-full mt-2 z-30 max-h-72 overflow-y-auto rounded-xl border border-white/15 bg-brand-deep p-1.5 shadow-2xl shadow-black/40"
             >
@@ -337,7 +336,7 @@ export function LocationSearchField({
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.25, ease: EASE_LUXE }}
+            transition={{ duration: 0.25, ease: ease.out }}
             className="text-[11px] leading-relaxed text-amber-200/80"
           >
             Yazdığınız konum henüz seçilmedi. Listeden bir öneri seçin ya da haritadan işaretleyin.
@@ -351,7 +350,7 @@ export function LocationSearchField({
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.25, ease: EASE_LUXE }}
+            transition={{ duration: 0.25, ease: ease.out }}
             className="flex items-start gap-1.5 text-[11px] leading-relaxed text-white/45"
           >
             <MapPin size={11} className="mt-[3px] shrink-0 text-champagne/70" />

@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme, EASE_LUXE } from '../../shared/palette';
+import { SectionTheme } from '../../shared/palette';
 import { DUGUN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 import topRightLily from './assets/dugun3-top-right.png';
 import bottomBouquet from './assets/dugun3-bottom.png';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Dugun3 — "Bordo Zambak" teması: dramatik bordo zambaklara uygun porselen
@@ -53,7 +54,7 @@ export function Dugun3({ invitation, mode = 'preview' }: TemplateProps) {
               draggable={false}
               initial={{ opacity: 0, x: 24, rotate: 6 }}
               animate={{ opacity: 1, x: 0, rotate: 0 }}
-              transition={{ duration: 1.6, ease: EASE_LUXE, delay: 0.4 }}
+              transition={{ duration: 1.6, ease: ease.out, delay: 0.4 }}
               className="w-full h-auto mix-blend-multiply select-none"
             />
           </div>
@@ -64,7 +65,7 @@ export function Dugun3({ invitation, mode = 'preview' }: TemplateProps) {
               draggable={false}
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, ease: EASE_LUXE, delay: 0.55 }}
+              transition={{ duration: 1.6, ease: ease.out, delay: 0.55 }}
               className="w-full h-auto mix-blend-multiply select-none"
             />
           </div>

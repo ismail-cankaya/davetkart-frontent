@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../utils/cn';
+import { spring } from '../../utils/motion';
 
 interface SwitchTrackProps {
   checked: boolean;
@@ -28,7 +29,7 @@ export function SwitchTrack({ checked, disabled = false }: SwitchTrackProps) {
     >
       <motion.span
         layout
-        transition={{ type: 'spring', stiffness: 500, damping: 32 }}
+        transition={spring.snappy}
         className={cn(
           'inline-block h-[18px] w-[18px] rounded-full shadow-sm',
           checked ? 'bg-brand-deep ml-[22px]' : 'bg-white/80 ml-[3px]'

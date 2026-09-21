@@ -2,8 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Sparkles, Laptop, Send, ArrowRight, WandSparkles, Palette, Zap, Layers } from 'lucide-react';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 const STEPS = [
   {
@@ -42,7 +41,7 @@ export const Features = React.memo(function Features() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
         >
           <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block mb-4">
             Basit 3 Adım
@@ -64,7 +63,7 @@ export const Features = React.memo(function Features() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: EASE_LUXE, delay: idx * 0.15 }}
+              transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.15 }}
             >
               {/* Ghost step numeral */}
               <span className="absolute -top-6 right-2 font-serif text-[7rem] leading-none font-bold text-brand/[0.05] group-hover:text-gold/15 transition-colors duration-700 select-none pointer-events-none">
@@ -101,7 +100,7 @@ export const Features = React.memo(function Features() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, ease: EASE_LUXE }}
+          transition={{ duration: 1, ease: ease.out }}
           className="relative mt-16 md:mt-24 rounded-[2rem] overflow-hidden bg-brand-deep text-white border border-gold/15 shadow-2xl shadow-brand/25"
         >
           {/* Ambient glows */}
@@ -165,7 +164,7 @@ export const Features = React.memo(function Features() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.4 }}
+          transition={{ duration: 0.8, ease: ease.out, delay: 0.4 }}
         >
           <Link
             to="/create"

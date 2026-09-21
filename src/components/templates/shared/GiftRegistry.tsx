@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
-import { SectionTheme, EASE_LUXE } from './palette';
+import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { GiftIcon, CopyIcon, CheckIcon } from './icons';
+import { ease } from '../../../utils/motion';
 
 interface GiftRegistryProps {
   invitation: Invitation;
@@ -44,7 +45,7 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="text-center mb-10"
       >
         <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
@@ -62,7 +63,7 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: 0.95, ease: EASE_LUXE, delay: 0.1 }}
+        transition={{ duration: 0.95, ease: ease.out, delay: 0.1 }}
         className={cn('max-w-md mx-auto rounded-3xl border p-6 space-y-5', theme.surface, theme.border)}
       >
         <div className="flex items-center gap-3">

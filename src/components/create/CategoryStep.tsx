@@ -7,8 +7,7 @@ import { EVENT_CATEGORIES, getTemplatesForCategory } from '../../data';
 import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { scrollToTarget } from '../../hooks/useLenis';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 /** Decorative silhouette per category — a UI concern, kept out of the data layer. */
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -64,7 +63,7 @@ export function CategoryStep() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE }}
+          transition={{ duration: 0.9, ease: ease.out }}
           className="text-center mb-10 md:mb-14"
         >
           <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block">
@@ -89,7 +88,7 @@ export function CategoryStep() {
                 onClick={() => handleSelect(category.id)}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: EASE_LUXE, delay: 0.15 + idx * 0.06 }}
+                transition={{ duration: 0.7, ease: ease.out, delay: 0.15 + idx * 0.06 }}
                 whileHover={{ scale: 1.035, y: -6 }}
                 whileTap={{ scale: 0.97 }}
                 className={`group relative text-left rounded-3xl p-5 md:p-6 min-h-[150px] md:min-h-[176px] overflow-hidden cursor-pointer border transition-[box-shadow,border-color,background-color] duration-500 ${

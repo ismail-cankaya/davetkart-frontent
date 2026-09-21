@@ -2,9 +2,9 @@ import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /** Künye şeridinin sütun sayısı, dolu hücre sayısına göre (Tailwind statik sınıf ister). */
 const INFO_GRID_COLUMNS = ['', 'grid-cols-1', 'grid-cols-2', 'grid-cols-3'] as const;
@@ -69,7 +69,7 @@ export function PlakHero({
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.1, ease: EASE_LUXE }}
+        transition={{ duration: 1.1, ease: ease.out }}
         className="relative w-[min(76%,19rem)] @sm:w-[min(70%,21rem)] aspect-square"
       >
         {/* Tırnaklar: dönen tek katman. Eş aralıklı halkalar yerine
@@ -156,7 +156,7 @@ export function PlakHero({
           aria-hidden="true"
           initial={{ opacity: 0, rotate: -14 }}
           animate={{ opacity: 1, rotate: 0 }}
-          transition={{ duration: 1.2, ease: EASE_LUXE, delay: 0.5 }}
+          transition={{ duration: 1.2, ease: ease.out, delay: 0.5 }}
           className="absolute -top-3 -right-2 w-1/2 origin-top-right"
         >
           <div className={cn('h-px w-full rotate-[38deg] origin-right', theme.divider)} />
@@ -168,7 +168,7 @@ export function PlakHero({
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.35 }}
+        transition={{ duration: 0.9, ease: ease.out, delay: 0.35 }}
         className="w-full max-w-sm"
       >
         <p className={cn('text-[12px] leading-relaxed font-light text-center', theme.body)}>

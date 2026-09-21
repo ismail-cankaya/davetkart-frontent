@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { Perforation, Barcode } from '../effects';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Etkinlik Bileti hero — yerleşim süs değil, İŞLEV taşır.
@@ -60,7 +60,7 @@ export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
       <motion.div
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.95, ease: EASE_LUXE }}
+        transition={{ duration: 0.95, ease: ease.out }}
         className={cn(
           'relative w-full max-w-md rounded-xl overflow-hidden border',
           theme.surface,

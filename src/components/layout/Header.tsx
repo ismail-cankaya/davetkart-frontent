@@ -8,6 +8,7 @@ import { LanguageSwitcher } from '../LanguageSwitcher';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { signOut } from '../../stores/sessionActions';
 import { fullName } from '../../utils/user';
+import { ease } from '../../utils/motion';
 
 const NAV_LINKS = [
   { to: '/', labelKey: 'nav.home' },
@@ -20,14 +21,14 @@ const menuVariants = {
   visible: {
     opacity: 1,
     height: 'auto' as const,
-    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const, staggerChildren: 0.05, delayChildren: 0.1 }
+    transition: { duration: 0.4, ease: ease.out, staggerChildren: 0.05, delayChildren: 0.1 }
   },
-  exit: { opacity: 0, height: 0, transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const } }
+  exit: { opacity: 0, height: 0, transition: { duration: 0.3, ease: ease.out } }
 };
 
 const menuItemVariants = {
   hidden: { opacity: 0, x: -12 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.35, ease: ease.out } },
   exit: { opacity: 0 }
 };
 
@@ -73,7 +74,7 @@ export const Header = React.memo(function Header() {
       data-menu-open={mobileMenuOpen ? '' : undefined}
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.8, ease: ease.out }}
       // `transition-all` DEĞİL: header'ın girişini Motion her karede
       // `transform` yazarak yapar ve `all` bu yazımların her birini yeni bir
       // CSS geçişine çevirirdi. İlk kaydırmada yalnızca zemin, kenarlık ve
@@ -113,7 +114,7 @@ export const Header = React.memo(function Header() {
                 <>
                   {t(link.labelKey)}
                   <span
-                    className={`absolute start-0 -bottom-0.5 w-full h-px bg-gold transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    className={`absolute start-0 -bottom-0.5 w-full h-px bg-gold transition-transform duration-500 ease-luxe ${
                       isActive
                         ? 'scale-x-100'
                         : 'origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100'

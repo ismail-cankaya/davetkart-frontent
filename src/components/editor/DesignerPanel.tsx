@@ -7,12 +7,11 @@ import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { CoupleNameFields } from '../create/CoupleNameFields';
 import { DateTimeInput } from '../ui/DateTimeInput';
 import { ThemePickerModal } from './ThemePickerModal';
+import { ease } from '../../utils/motion';
 
 /** Bu panelin gecikmeli yazdığı alanlar — isimler kendi bileşeninde yazılır. */
 type PanelField = 'title' | 'date' | 'venue' | 'subtitle';
 const PANEL_FIELDS: readonly PanelField[] = ['title', 'date', 'venue', 'subtitle'];
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 
 /** Panelde duran hızlı seçim kutucuğu sayısı; gerisi tema seçiciden gelir. */
 const QUICK_THEME_COUNT = 4;
@@ -69,7 +68,7 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
     <motion.div
       initial={{ opacity: 0, x: -40 }}
       animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.1 }}
+      transition={{ duration: 0.9, ease: ease.out, delay: 0.1 }}
       className="w-full lg:w-1/2 bg-gradient-to-b from-brand-deep via-emerald-950 to-brand-deep text-white rounded-3xl border border-white/10 shadow-2xl shadow-black/20 p-6 md:p-8 space-y-7 relative overflow-hidden"
     >
       {/* Ambient glow */}

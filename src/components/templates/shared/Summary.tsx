@@ -3,10 +3,11 @@ import { motion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { displayText, formatDateStr } from '../utils';
-import { SectionTheme, EASE_LUXE } from './palette';
+import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ChevronDownIcon } from './icons';
 import { useCountdown } from './useCountdown';
+import { ease } from '../../../utils/motion';
 
 /**
  * Yoğunluk modu: 'compact', süslemelerin metin alanını daralttığı şablonlarda
@@ -70,7 +71,7 @@ function Countdown({ date, timeZone, theme, compact = false }: { date: string; t
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.9, ease: EASE_LUXE, delay: 1.6 }}
+      transition={{ duration: 0.9, ease: ease.out, delay: 1.6 }}
       // 4 sabit sütun: Gün/Saat/Dakika/Saniye her genişlikte tek satırda kalır.
       className={cn('grid grid-cols-4 w-full mx-auto', compact ? 'gap-1 @sm:gap-2 max-w-[300px]' : 'gap-1.5 @sm:gap-2.5 max-w-[340px]')}
     >
@@ -138,7 +139,7 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
         <motion.div
           initial={{ opacity: 0, scale: 0.6, rotate: -12 }}
           animate={{ opacity: 1, scale: 1, rotate: 0 }}
-          transition={{ duration: 1, ease: EASE_LUXE }}
+          transition={{ duration: 1, ease: ease.out }}
           className={theme.accent}
         >
           <Ornament size={compact ? 34 : 44} />
@@ -148,7 +149,7 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
         <motion.span
           initial={{ opacity: 0, letterSpacing: '0.1em' }}
           animate={{ opacity: 1, letterSpacing: '0.35em' }}
-          transition={{ duration: 1.2, ease: EASE_LUXE, delay: 0.3 }}
+          transition={{ duration: 1.2, ease: ease.out, delay: 0.3 }}
           className={cn('text-[10px] font-semibold uppercase', theme.accent)}
         >
           {invitation.title}
@@ -168,7 +169,7 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
               className="inline-block mr-[0.28em] last:mr-0"
               initial={{ opacity: 0, y: 26, filter: 'blur(8px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.5 + i * 0.14 }}
+              transition={{ duration: 0.9, ease: ease.out, delay: 0.5 + i * 0.14 }}
             >
               {word === '&' ? <span className={cn('italic font-medium', theme.accent)}>&amp;</span> : word}
             </motion.span>
@@ -179,7 +180,7 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
         <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: 1.1, ease: EASE_LUXE, delay: 1 }}
+          transition={{ duration: 1.1, ease: ease.out, delay: 1 }}
           className={cn(
             'h-px',
             compact ? 'w-24' : 'w-40',
@@ -193,7 +194,7 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 1.2 }}
+          transition={{ duration: 1, ease: ease.out, delay: 1.2 }}
           className={cn('leading-relaxed font-light max-w-xs', compact ? 'text-sm' : 'text-sm @md:text-base', theme.body)}
         >
           {invitation.subtitle}
@@ -204,7 +205,7 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 1.4 }}
+            transition={{ duration: 1, ease: ease.out, delay: 1.4 }}
             className="flex flex-col items-center gap-1"
           >
             {dateLabel && (

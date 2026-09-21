@@ -8,8 +8,7 @@ import { useUIStore } from '../../stores/useUIStore';
 import { useRsvpStore } from '../../stores/useRsvpStore';
 import { PreviewDevice } from '../../types';
 import { withShowcaseContent } from '../../utils/showcase';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease, spring } from '../../utils/motion';
 
 interface DeviceSpec {
   label: string;
@@ -143,7 +142,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
         }}
         whileInView={{ opacity: 1, transform: 'translateY(0px) scale(1) rotateX(0deg)' }}
         viewport={{ once: true, margin: '0px' }}
-        transition={{ duration: 1.2, ease: EASE_LUXE }}
+        transition={{ duration: 1.2, ease: ease.out }}
         className="relative will-change-transform max-w-full"
       >
         {/* Ambient glow behind device */}
@@ -155,14 +154,14 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
           aria-hidden="true"
           animate={{ borderRadius: spec.frameRadius, height: frameHeight }}
           initial={false}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
           className="device-glow-rest absolute left-0 top-0 w-full"
         />
         <motion.span
           aria-hidden="true"
           animate={{ borderRadius: spec.frameRadius, height: frameHeight }}
           initial={false}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
           className="device-glow-peak absolute left-0 top-0 w-full"
         />
 
@@ -175,7 +174,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
             padding: spec.framePadding
           }}
           initial={false}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
           className="relative bg-slate-900 overflow-hidden border-[3px] lg:border-4 border-slate-800"
         >
           {/* Device-specific chrome: notch (phone) / camera dot (tablet, laptop) */}
@@ -186,7 +185,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.4, ease: EASE_LUXE }}
+                transition={{ duration: 0.4, ease: ease.out }}
                 className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-6 bg-slate-900 rounded-b-2xl z-40 flex items-center justify-center"
               >
                 <div className="w-12 h-1 bg-slate-800 rounded-full" />
@@ -211,7 +210,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
             data-lenis-prevent
             animate={{ borderRadius: spec.screenRadius }}
             initial={false}
-            transition={{ duration: 0.8, ease: EASE_LUXE }}
+            transition={{ duration: 0.8, ease: ease.out }}
             className="w-full h-full overflow-hidden relative bg-emerald-950 flex flex-col"
           >
             {/* Dynamically render the selected template */}
@@ -237,7 +236,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
               initial={{ opacity: 0, scaleX: 0.7 }}
               animate={{ opacity: 1, scaleX: 1 }}
               exit={{ opacity: 0, scaleX: 0.7 }}
-              transition={{ duration: 0.5, ease: EASE_LUXE, delay: 0.25 }}
+              transition={{ duration: 0.5, ease: ease.out, delay: 0.25 }}
               className="relative w-[114%] -ml-[7%] h-3.5 lg:h-4 rounded-b-2xl rounded-t-[3px] bg-gradient-to-b from-slate-700 via-slate-800 to-slate-900 shadow-xl"
             >
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 lg:w-24 h-1.5 bg-slate-950/80 rounded-b-lg" />
@@ -251,7 +250,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
         initial={reduceMotion ? false : RISE_HIDDEN}
         whileInView={RISE_SHOWN}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.15, ease: EASE_LUXE }}
+        transition={{ duration: 0.8, delay: 0.15, ease: ease.out }}
         className="mt-6 flex items-center gap-1 bg-white/80 backdrop-blur-sm border border-brand/10 rounded-full p-1 shadow-sm"
         role="tablist"
         aria-label="Önizleme cihazı seçimi"
@@ -273,7 +272,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
               {isActive && (
                 <motion.span
                   layoutId="device-switch-pill"
-                  transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                  transition={spring.snappy}
                   className="absolute inset-0 bg-brand rounded-full shadow-md shadow-brand/25"
                 />
               )}
@@ -289,7 +288,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
         initial={reduceMotion ? false : RISE_HIDDEN}
         whileInView={RISE_SHOWN}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2, ease: EASE_LUXE }}
+        transition={{ duration: 0.8, delay: 0.2, ease: ease.out }}
         className="w-full mt-4 flex justify-center"
       >
         <button
@@ -306,7 +305,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
         initial={reduceMotion ? false : RISE_HIDDEN}
         whileInView={RISE_SHOWN}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.3, ease: EASE_LUXE }}
+        transition={{ duration: 0.8, delay: 0.3, ease: ease.out }}
         className="hidden lg:flex gap-2 items-center text-muted text-xs font-semibold mt-6"
       >
         <div className="animate-bob-up-4">

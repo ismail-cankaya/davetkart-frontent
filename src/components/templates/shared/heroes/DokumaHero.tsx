@@ -2,9 +2,9 @@ import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Dokuma hero — davetiyenin kağıt değil KUMAŞ olduğu düzen.
@@ -131,7 +131,7 @@ export function DokumaHero({
       <motion.article
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: EASE_LUXE }}
+        transition={{ duration: 1, ease: ease.out }}
         className={cn('relative w-full max-w-[21rem] @sm:max-w-sm rounded-sm overflow-hidden', theme.surface)}
         style={{ boxShadow: '0 18px 36px -20px rgba(0,0,0,0.45)' }}
       >
@@ -144,7 +144,7 @@ export function DokumaHero({
           aria-hidden="true"
           initial={reduced ? { opacity: 1 } : { opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 0.5 }}
+          transition={{ duration: 1, ease: ease.out, delay: 0.5 }}
           className="absolute inset-x-3 inset-y-8 pointer-events-none"
           style={{
             border: `1.5px dashed ${stitchColor}`,
@@ -157,7 +157,7 @@ export function DokumaHero({
           <motion.div
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.25 }}
+            transition={{ duration: 0.8, ease: ease.out, delay: 0.25 }}
             className={theme.accent}
           >
             <Ornament size={26} />
@@ -166,7 +166,7 @@ export function DokumaHero({
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.35 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.35 }}
             className={cn('mt-4 text-[9px] font-semibold uppercase tracking-[0.36em]', theme.body)}
           >
             {invitation.title}
@@ -175,7 +175,7 @@ export function DokumaHero({
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.45 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.45 }}
             className={cn(
               'font-serif font-normal leading-[1.1] mt-3.5 text-[1.8rem] @sm:text-[2.3rem] break-words',
               theme.heading
@@ -189,7 +189,7 @@ export function DokumaHero({
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.6 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.6 }}
             className="flex items-center gap-2 my-5"
           >
             {/* Fragment sarmalayıcı: projede @types/react kurulu olmadığından
@@ -204,7 +204,7 @@ export function DokumaHero({
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.7 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.7 }}
             className={cn('text-[12.5px] leading-[1.85] font-light max-w-[15rem]', theme.body)}
           >
             {invitation.subtitle}
@@ -214,7 +214,7 @@ export function DokumaHero({
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.82 }}
+              transition={{ duration: 0.9, ease: ease.out, delay: 0.82 }}
               className="mt-6 flex flex-col items-center gap-1.5"
             >
               {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
@@ -226,7 +226,7 @@ export function DokumaHero({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.95 }}
+              transition={{ duration: 0.9, ease: ease.out, delay: 0.95 }}
               className="mt-6 flex items-baseline gap-4"
             >
               {[

@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme, EASE_LUXE } from '../../shared/palette';
+import { SectionTheme } from '../../shared/palette';
 import { DUGUN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 import leftOrnament from './assets/dugun1-left.png';
 import rightOrnament from './assets/dugun1-right.png';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Dugun1 — "Zarif Çerçeve" teması: görsellerdeki suluboya paletine göre
@@ -58,7 +59,7 @@ export function Dugun1({ invitation, mode = 'preview' }: TemplateProps) {
             draggable={false}
             initial={{ opacity: 0, x: -28 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.5, ease: EASE_LUXE, delay: 0.4 }}
+            transition={{ duration: 1.5, ease: ease.out, delay: 0.4 }}
             className="absolute left-0 top-0 h-full w-auto max-w-[14%] @xl:max-w-[21%] @3xl:max-w-[28%] object-contain object-left z-10 mix-blend-multiply select-none"
           />
           <motion.img
@@ -67,7 +68,7 @@ export function Dugun1({ invitation, mode = 'preview' }: TemplateProps) {
             draggable={false}
             initial={{ opacity: 0, x: 28 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1.5, ease: EASE_LUXE, delay: 0.4 }}
+            transition={{ duration: 1.5, ease: ease.out, delay: 0.4 }}
             className="absolute right-0 top-0 h-full w-auto max-w-[14%] @xl:max-w-[21%] @3xl:max-w-[28%] object-contain object-right z-10 mix-blend-multiply select-none"
           />
         </div>

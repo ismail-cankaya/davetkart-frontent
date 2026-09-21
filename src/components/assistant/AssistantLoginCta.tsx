@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { LogIn, Maximize2, Minimize2, Minus, Sparkles, X } from 'lucide-react';
 import { BrandMark } from '../ui/BrandMark';
 import { AuthRedirectState } from '../../types';
+import { ease } from '../../utils/motion';
 
 interface AssistantLoginCtaProps {
   isFullscreen: boolean;
@@ -72,7 +73,7 @@ export function AssistantLoginCta({
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5, ease: ease.out }}
           className="text-center"
         >
           <span className="inline-flex items-center gap-1.5 text-brand font-semibold text-[10px] tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3 py-1.5 rounded-full mb-4">

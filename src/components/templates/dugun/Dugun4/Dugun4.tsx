@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme, EASE_LUXE } from '../../shared/palette';
+import { SectionTheme } from '../../shared/palette';
 import { DUGUN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 import backgroundWash from './assets/dugun4-background.png';
 import floralArch from './assets/dugun4.png';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Dugun4 — "Pembe Kemer" teması: pembe suluboya zemin ve çiçekli kemer
@@ -66,7 +67,7 @@ export function Dugun4({ invitation, mode = 'preview' }: TemplateProps) {
               draggable={false}
               initial={{ opacity: 0, scale: 1.04 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1.8, ease: EASE_LUXE, delay: 0.2 }}
+              transition={{ duration: 1.8, ease: ease.out, delay: 0.2 }}
               className="w-full h-full object-cover object-bottom mix-blend-multiply select-none"
             />
           </div>

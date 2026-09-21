@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Mermer & Rölyef hero — yazının yüzeyin ÜSTÜNDE değil İÇİNDE olduğu düzen.
@@ -79,7 +79,7 @@ export function MermerHero({
       <motion.article
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: EASE_LUXE }}
+        transition={{ duration: 1, ease: ease.out }}
         className="relative w-full max-w-[21rem] @sm:max-w-sm rounded-sm overflow-hidden"
         style={{
           background: slab,
@@ -120,7 +120,7 @@ export function MermerHero({
           <motion.div
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.3 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.3 }}
             className={theme.accent}
             style={{ filter: 'drop-shadow(0 1px 0 rgba(255,255,255,0.7))' }}
           >
@@ -130,7 +130,7 @@ export function MermerHero({
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.45 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.45 }}
             className={cn('mt-5 text-[9px] font-semibold uppercase tracking-[0.42em]', theme.body)}
             style={carved}
           >
@@ -140,7 +140,7 @@ export function MermerHero({
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: EASE_LUXE, delay: 0.55 }}
+            transition={{ duration: 1.1, ease: ease.out, delay: 0.55 }}
             className={cn(
               'font-serif font-normal uppercase leading-[1.12] mt-4 text-[1.6rem] @sm:text-[2.1rem] tracking-[0.06em] break-words',
               theme.heading
@@ -153,7 +153,7 @@ export function MermerHero({
           <motion.div
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.8 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.8 }}
             className="h-[3px] w-20 my-6 rounded-full"
             style={{
               background:
@@ -166,7 +166,7 @@ export function MermerHero({
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.9 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.9 }}
             className={cn('text-[12.5px] leading-[1.85] font-light max-w-[15rem]', theme.body)}
             style={carved}
           >
@@ -177,7 +177,7 @@ export function MermerHero({
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: EASE_LUXE, delay: 1.02 }}
+              transition={{ duration: 1, ease: ease.out, delay: 1.02 }}
               className="mt-7 flex flex-col items-center gap-1.5"
             >
               {dateLabel && (
@@ -197,7 +197,7 @@ export function MermerHero({
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, ease: EASE_LUXE, delay: 1.15 }}
+              transition={{ duration: 1, ease: ease.out, delay: 1.15 }}
               className="mt-6 flex items-baseline gap-4"
             >
               {[

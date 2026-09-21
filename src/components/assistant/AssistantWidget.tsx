@@ -7,8 +7,7 @@ import { AssistantLoginCta } from './AssistantLoginCta';
 import { useAssistantChat } from './useAssistantChat';
 import { AssistantWindowState } from './types';
 import { useAuthStore } from '../../stores/useAuthStore';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 /**
  * Sağ altta yaşayan asistan: yuvarlak buton (FAB), Messenger tarzı açılır
@@ -48,7 +47,7 @@ export function AssistantWidget() {
             initial={{ opacity: 0, y: 24, scale: 0.92, transformOrigin: 'bottom right' }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.92 }}
-            transition={{ duration: 0.45, ease: EASE_LUXE }}
+            transition={{ duration: 0.45, ease: ease.out }}
             className={`fixed z-[90] overflow-hidden bg-cream shadow-2xl shadow-ink/25 border border-ink/10 flex flex-col ${
               isFullscreen
                 ? 'inset-2 md:inset-x-auto md:inset-y-6 md:right-6 md:w-[min(560px,calc(100vw-3rem))] rounded-2xl md:rounded-3xl'
@@ -90,7 +89,7 @@ export function AssistantWidget() {
             initial={{ opacity: 0, y: 16, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16, scale: 0.9 }}
-            transition={{ duration: 0.35, ease: EASE_LUXE }}
+            transition={{ duration: 0.35, ease: ease.out }}
             onClick={() => setWindowState('open')}
             className="fixed bottom-24 right-4 md:right-6 z-[90] flex items-center gap-2.5 bg-gradient-to-r from-brand-deep to-brand text-white pl-2.5 pr-4 py-2 rounded-full shadow-xl shadow-brand/25 border border-gold/20 hover:-translate-y-0.5 transition-transform duration-300 cursor-pointer"
             aria-label="Sohbeti geri aç"
@@ -113,7 +112,7 @@ export function AssistantWidget() {
             initial={{ opacity: 0, scale: 0, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0 }}
-            transition={{ duration: 0.5, ease: EASE_LUXE, delay: 0.2 }}
+            transition={{ duration: 0.5, ease: ease.out, delay: 0.2 }}
             whileHover={{ scale: 1.08, y: -2 }}
             whileTap={{ scale: 0.92 }}
             onClick={() => setWindowState(isOpen ? 'closed' : 'open')}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { AlertTriangle, CheckCircle2, Info } from 'lucide-react';
+import { ease } from '../../utils/motion';
 
 /**
  * `error` ayrı bir tondur: bir işlemin *başarısız olduğunu* söyler. Bunu
@@ -58,7 +59,7 @@ export function Toaster() {
               initial={{ opacity: 0, y: 24, scale: 0.92, filter: 'blur(4px)' }}
               animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: 12, scale: 0.95, filter: 'blur(4px)' }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.5, ease: ease.out }}
               className={`pointer-events-auto flex items-start gap-3 bg-brand-deep/95 backdrop-blur-xl text-white pl-4 pr-6 py-3.5 rounded-2xl shadow-2xl shadow-brand-deep/30 border max-w-md ${ring}`}
             >
               <span className={`mt-px shrink-0 ${accent}`}>

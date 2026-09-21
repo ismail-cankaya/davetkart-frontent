@@ -7,8 +7,7 @@ import { useCreateWizardStore, useActiveCategory } from '../../stores/useCreateW
 import { useProgressiveList } from '../../hooks/useProgressiveList';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { TemplateCover } from '../preview/TemplateCover';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 /**
  * İlk anda çizilen tema sayısı ve her adımda eklenen parti büyüklüğü.
@@ -142,7 +141,7 @@ export function ThemeStep() {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.9, ease: EASE_LUXE }}
+      transition={{ duration: 0.9, ease: ease.out }}
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="text-center mb-8 md:mb-10">
@@ -177,7 +176,7 @@ export function ThemeStep() {
                 onClick={() => handleSelect(preset.id)}
                 initial={{ opacity: 0, y: 30, scale: 0.96 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 0.7, ease: EASE_LUXE, delay }}
+                transition={{ duration: 0.7, ease: ease.out, delay }}
                 whileHover={{ y: -6 }}
                 whileTap={{ scale: 0.97 }}
                 className={`group relative rounded-2xl overflow-hidden h-44 md:h-60 cursor-pointer text-left transition-shadow duration-700 ${
@@ -223,7 +222,7 @@ export function ThemeStep() {
                       aria-hidden="true"
                       initial={false}
                       exit={{ opacity: 0 }}
-                      transition={{ duration: 0.35, ease: EASE_LUXE }}
+                      transition={{ duration: 0.35, ease: ease.out }}
                       className="absolute inset-0 animate-shimmer pointer-events-none"
                     />
                   )}

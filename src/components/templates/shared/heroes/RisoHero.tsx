@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { Halftone } from '../effects';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Risograph Poster hero — düz renk, tram dokusu, kayık baskı.
@@ -33,7 +33,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
         aria-hidden="true"
         initial={{ scale: 0.6, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 1.1, ease: EASE_LUXE }}
+        transition={{ duration: 1.1, ease: ease.out }}
         className={cn('absolute -top-16 -right-14 w-56 h-56 rounded-full', theme.accentBg)}
         style={{ opacity: 0.9 }}
       />
@@ -42,7 +42,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
         aria-hidden="true"
         initial={{ y: 60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1.1, ease: EASE_LUXE, delay: 0.15 }}
+        transition={{ duration: 1.1, ease: ease.out, delay: 0.15 }}
         className={cn('absolute -bottom-20 -left-16 w-64 h-40 rounded-[50%]', theme.accentSoft)}
       />
       <Halftone color="0,0,0" size={7} angle={75} opacity={0.1} />
@@ -51,7 +51,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
         <motion.div
           initial={{ opacity: 0, x: -14 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.2 }}
+          transition={{ duration: 0.8, ease: ease.out, delay: 0.2 }}
           className="flex items-center gap-3"
         >
           <span className={theme.accent}>
@@ -66,7 +66,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.35 }}
+          transition={{ duration: 0.9, ease: ease.out, delay: 0.35 }}
           className="relative mt-5"
         >
           <h1
@@ -94,7 +94,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.6 }}
+          transition={{ duration: 0.9, ease: ease.out, delay: 0.6 }}
           className={cn('text-sm leading-relaxed font-medium mt-6 max-w-sm', theme.body)}
         >
           {invitation.subtitle}
@@ -104,7 +104,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
         <motion.span
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.75 }}
+          transition={{ duration: 0.9, ease: ease.out, delay: 0.75 }}
           className={cn('block h-1 w-24 mt-7 origin-left', theme.accentBg)}
         />
 
@@ -112,7 +112,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.9 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.9 }}
             className="mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-2"
           >
             {dateLabel && <span className={cn('font-serif font-bold text-xl @sm:text-2xl', theme.heading)}>{dateLabel}</span>}
@@ -124,7 +124,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 1.05 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 1.05 }}
             className="mt-6 flex items-baseline gap-2"
           >
             <span className={cn('font-serif font-black tabular-nums text-3xl @sm:text-4xl leading-none', theme.accent)}>

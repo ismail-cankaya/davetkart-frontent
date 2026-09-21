@@ -2,9 +2,9 @@ import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Mekanik Pano hero — bilginin YERİNE OTURDUĞU düzen.
@@ -168,7 +168,7 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
       <motion.div
         initial={{ opacity: 0, y: 22 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className={cn('relative w-full max-w-md rounded-xl border px-4 @sm:px-6 py-6 @sm:py-8', theme.border, theme.surface)}
       >
         {/* Pano başlığı: gerçek panolardaki gibi sol etiket + sağ durum. */}

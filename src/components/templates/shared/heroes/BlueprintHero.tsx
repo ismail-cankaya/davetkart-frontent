@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Blueprint hero — daveti bir DUYURU değil, bir PROJE olarak sunan dil.
@@ -39,7 +39,7 @@ function DimensionLine({ label, color, delay = 0 }: { label: string; color: stri
       <motion.span
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE, delay }}
+        transition={{ duration: 0.9, ease: ease.out, delay }}
         className="block h-px flex-1 origin-left"
         style={{ background: color }}
       />
@@ -49,7 +49,7 @@ function DimensionLine({ label, color, delay = 0 }: { label: string; color: stri
       <motion.span
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE, delay }}
+        transition={{ duration: 0.9, ease: ease.out, delay }}
         className="block h-px flex-1 origin-right"
         style={{ background: color }}
       />
@@ -134,7 +134,7 @@ export function BlueprintHero({
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: EASE_LUXE }}
+        transition={{ duration: 0.8, ease: ease.out }}
         className="relative w-full max-w-[23rem] @sm:max-w-md"
       >
         {/* Çerçeve: mürekkep gerçekten ÇİZİLİR (pathLength). Sayfa hazır
@@ -157,7 +157,7 @@ export function BlueprintHero({
             vectorEffect="non-scaling-stroke"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
-            transition={{ duration: 1.6, ease: EASE_LUXE, delay: 0.15 }}
+            transition={{ duration: 1.6, ease: ease.out, delay: 0.15 }}
           />
         </svg>
 
@@ -197,7 +197,7 @@ export function BlueprintHero({
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.65 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.65 }}
             className="font-sans font-light uppercase leading-[1.02] tracking-[0.02em] mt-4 text-center break-words"
             style={{ color: line, fontSize: 'clamp(1.6rem, 9.5cqw, 2.6rem)' }}
           >
@@ -226,7 +226,7 @@ export function BlueprintHero({
                   key={note.label}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.7, ease: EASE_LUXE, delay: 0.9 + i * 0.12 }}
+                  transition={{ duration: 0.7, ease: ease.out, delay: 0.9 + i * 0.12 }}
                   className="flex items-center gap-2.5"
                 >
                   <span
@@ -257,7 +257,7 @@ export function BlueprintHero({
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE_LUXE, delay: 1.15 }}
+            transition={{ duration: 0.8, ease: ease.out, delay: 1.15 }}
             className={cn('mt-7 grid border', dateText ? 'grid-cols-3' : 'grid-cols-2')}
             style={{ borderColor: `${line}55` }}
           >

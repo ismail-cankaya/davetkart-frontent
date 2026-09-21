@@ -8,8 +8,8 @@ import { MEDIA_UPLOAD_LIMIT_BYTES, mediaService } from '../../services/media';
 import { apiErrorCode } from '../../services/api';
 import { toast } from '../ui/Toast';
 import { toDisplayError } from '../../utils/toDisplayError';
+import { ease } from '../../utils/motion';
 
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
 const MAX_PHOTOS = 8;
 
 /**
@@ -161,7 +161,7 @@ export function GalleryUploader() {
                 initial={{ opacity: 0, scale: 0.85 }}
                 animate={{ opacity: isRemoving ? 0.5 : 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.85 }}
-                transition={{ duration: 0.4, ease: EASE_LUXE }}
+                transition={{ duration: 0.4, ease: ease.out }}
                 className="relative aspect-square rounded-lg overflow-hidden border border-white/10 group"
               >
                 <img src={image.url} alt="Galeri fotoğrafı" className="w-full h-full object-cover" />

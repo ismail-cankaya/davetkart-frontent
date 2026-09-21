@@ -5,8 +5,7 @@ import { PenLine, ArrowRight } from 'lucide-react';
 import { Hero } from '../components/home/Hero';
 import { PreviewSection } from '../components/preview/PreviewSection';
 import { DeferredSection } from '../components/ui/DeferredSection';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../utils/motion';
 
 const Features = React.lazy(() => import('../components/home/Features').then(m => ({ default: m.Features })));
 const LiveRsvpPanel = React.lazy(() => import('../components/rsvp/LiveRsvpPanel').then(m => ({ default: m.LiveRsvpPanel })));
@@ -25,7 +24,7 @@ function CreateCtaBanner() {
         initial={reduceMotion ? false : { opacity: 0, transform: 'translateY(25px)' }}
         whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
         viewport={{ once: true }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="max-w-3xl mx-auto px-4 text-center space-y-5"
       >
         <p className="text-muted text-sm md:text-base max-w-md mx-auto leading-relaxed">

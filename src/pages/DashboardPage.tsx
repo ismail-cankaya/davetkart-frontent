@@ -29,8 +29,7 @@ import { displayNames } from '../utils/names';
 import { toDisplayError } from '../utils/toDisplayError';
 import { EVENT_CATEGORIES, TEMPLATE_PRESETS } from '../data';
 import { Invitation, InvitationRecord } from '../types';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease, spring } from '../utils/motion';
 
 type TabId = 'published' | 'saved';
 
@@ -312,7 +311,7 @@ export default function DashboardPage() {
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
           className="max-w-6xl mx-auto px-4 md:px-12 flex flex-col sm:flex-row sm:items-end justify-between gap-6"
         >
           <div>
@@ -345,7 +344,7 @@ export default function DashboardPage() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: EASE_LUXE }}
+              transition={{ duration: 0.5, ease: ease.out }}
               className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl px-5 py-4 mb-8 text-xs"
             >
               <span className="flex items-center gap-2 font-medium">
@@ -381,7 +380,7 @@ export default function DashboardPage() {
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: EASE_LUXE }}
+              transition={{ duration: 0.9, ease: ease.out }}
               className="relative overflow-hidden text-center py-20 md:py-28 px-6 bg-white rounded-[2.5rem] border border-ink/[0.05] shadow-xl shadow-ink/[0.04]"
             >
               <div className="absolute top-0 left-1/4 w-72 h-72 bg-emerald-100/30 rounded-full blur-3xl pointer-events-none" />
@@ -391,7 +390,7 @@ export default function DashboardPage() {
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.15 }}
+                  transition={{ duration: 0.8, ease: ease.out, delay: 0.15 }}
                   className="w-20 h-20 mx-auto rounded-full bg-brand/5 border border-brand/10 flex items-center justify-center mb-6"
                 >
                   <Sparkles className="text-brand" size={30} />
@@ -424,7 +423,7 @@ export default function DashboardPage() {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: EASE_LUXE, delay: 0.1 }}
+                transition={{ duration: 0.7, ease: ease.out, delay: 0.1 }}
                 className="flex justify-center sm:justify-start mb-8"
               >
                 <div className="inline-flex items-center gap-1 bg-white border border-ink/[0.06] rounded-full p-1.5 shadow-sm overflow-x-auto max-w-full">
@@ -442,7 +441,7 @@ export default function DashboardPage() {
                           <motion.span
                             layoutId="dashboard-tab-pill"
                             className="absolute inset-0 bg-brand rounded-full"
-                            transition={{ duration: 0.45, ease: EASE_LUXE }}
+                            transition={spring.snappy}
                           />
                         )}
                         <span className="relative z-10 flex items-center gap-2">
@@ -468,7 +467,7 @@ export default function DashboardPage() {
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.45, ease: EASE_LUXE }}
+                  transition={{ duration: 0.45, ease: ease.out }}
                   className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
                 >
                   {activeCards.length === 0 ? (
@@ -485,7 +484,7 @@ export default function DashboardPage() {
                         key={card.key}
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.55, ease: EASE_LUXE, delay: i * 0.07 }}
+                        transition={{ duration: 0.55, ease: ease.out, delay: i * 0.07 }}
                       >
                         <InvitationCard card={card} onResume={handleResume} onCopyLink={handleCopyLink} onDelete={handleDelete} />
                       </motion.div>

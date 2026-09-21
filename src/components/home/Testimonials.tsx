@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 const REVIEWS = [
   {
@@ -43,7 +42,7 @@ export const Testimonials = React.memo(function Testimonials() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
         >
           <span className="text-champagne font-semibold text-xs tracking-[0.15em] uppercase bg-champagne/10 px-3.5 py-1.5 rounded-full inline-block mb-4 border border-champagne/20">
             Müşteri Deneyimleri
@@ -65,7 +64,7 @@ export const Testimonials = React.memo(function Testimonials() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: EASE_LUXE, delay: idx * 0.12 }}
+              transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.12 }}
             >
               {/* Decorative gold quote mark */}
               <span className="absolute top-5 right-7 font-serif text-6xl leading-none text-gold/15 group-hover:text-gold/30 transition-colors duration-500 select-none pointer-events-none">
@@ -80,7 +79,7 @@ export const Testimonials = React.memo(function Testimonials() {
                     initial={{ opacity: 0, scale: 0.4 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: idx * 0.12 + 0.3 + i * 0.06, ease: EASE_LUXE }}
+                    transition={{ duration: 0.4, delay: idx * 0.12 + 0.3 + i * 0.06, ease: ease.out }}
                     className="w-4 h-4 text-gold fill-gold"
                     viewBox="0 0 20 20"
                   >

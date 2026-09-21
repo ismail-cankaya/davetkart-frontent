@@ -7,6 +7,7 @@ import { toast } from '../ui/Toast';
 import { confirmAction } from '../ui/ConfirmDialog';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { RSVP_STATUS_BADGE, RSVP_STATUS_LABELS } from '../../utils/rsvpStatus';
+import { ease } from '../../utils/motion';
 
 interface LiveRsvpPanelProps {
   /**
@@ -77,7 +78,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, ease: ease.out }}
         >
           <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block mb-4">
             Gerçek Zamanlı Takip
@@ -97,7 +98,7 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+          transition={{ duration: 1, ease: ease.out, delay: 0.15 }}
         >
           <div className="bg-white rounded-3xl p-6 md:p-10 shadow-2xl shadow-ink/10 border border-ink/[0.05] relative z-10 space-y-8">
 

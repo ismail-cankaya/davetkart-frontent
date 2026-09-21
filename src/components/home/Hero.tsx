@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, animate, useInView } from 'motion/react';
 import { Sparkles, ArrowRight } from 'lucide-react';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 const STATS = [
   { value: 10, suffix: 'K+', labelKey: 'hero.stats.invitations' },
@@ -25,7 +24,7 @@ function StatCounter({ value, prefix = '', suffix = '' }: { value: number; prefi
     // frame and blocked the main thread during the hero's entrance.
     const controls = animate(0, value, {
       duration: 1.8,
-      ease: EASE_LUXE,
+      ease: ease.out,
       onUpdate: v => { node.textContent = `${prefix}${Math.round(v)}${suffix}`; }
     });
     return () => controls.stop();
@@ -115,7 +114,7 @@ export const Hero = React.memo(function Hero() {
         <motion.div
           initial={{ opacity: 0, y: -20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1, ease: EASE_LUXE }}
+          transition={{ duration: 1, ease: ease.out }}
           className="relative bg-champagne text-brand-deep px-4 py-1.5 rounded-full font-semibold text-xs tracking-wide mb-8 inline-flex items-center gap-1.5 shadow-sm border border-brand-deep/10 overflow-hidden"
         >
           <div className="absolute inset-0 animate-shimmer" />
@@ -130,7 +129,7 @@ export const Hero = React.memo(function Hero() {
               <motion.span
                 initial={{ opacity: 0, y: '70%', filter: 'blur(8px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                transition={{ duration: 1, ease: EASE_LUXE, delay: 0.15 + idx * 0.09 }}
+                transition={{ duration: 1, ease: ease.out, delay: 0.15 + idx * 0.09 }}
                 className={`inline-block me-[0.28em] ${word.accent ? 'text-brand italic font-medium' : ''}`}
               >
                 {word.text}
@@ -142,7 +141,7 @@ export const Hero = React.memo(function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 0.55 }}
+          transition={{ duration: 1, ease: ease.out, delay: 0.55 }}
           className="text-muted text-base md:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           {t('hero.subtitle')}
@@ -152,7 +151,7 @@ export const Hero = React.memo(function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.7 }}
+          transition={{ duration: 0.8, ease: ease.out, delay: 0.7 }}
           className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto"
         >
           <Link
@@ -176,7 +175,7 @@ export const Hero = React.memo(function Hero() {
           id="hero-stats"
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.85, ease: EASE_LUXE }}
+          transition={{ duration: 1, delay: 0.85, ease: ease.out }}
           className="mt-20 w-full max-w-5xl grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 border-t border-ink/10 pt-12 text-center"
         >
           {STATS.map((stat, idx) => (
@@ -185,7 +184,7 @@ export const Hero = React.memo(function Hero() {
               className="p-2"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.95 + idx * 0.1, ease: EASE_LUXE }}
+              transition={{ duration: 0.8, delay: 0.95 + idx * 0.1, ease: ease.out }}
             >
               <StatCounter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
               <p className="text-xs text-muted uppercase tracking-wider font-semibold mt-2">{t(stat.labelKey)}</p>

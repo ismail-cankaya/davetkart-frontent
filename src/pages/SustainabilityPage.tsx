@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Droplets, Leaf, Recycle, Sprout, TreePine, Truck, Wind } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../utils/motion';
 
 const IMPACT_STATS = [
   { icon: <TreePine size={22} />, value: '310+', label: 'Kurtarılan Ağaç' },
@@ -74,7 +73,7 @@ export default function SustainabilityPage() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: EASE_LUXE, delay: idx * 0.1 }}
+              transition={{ duration: 0.7, ease: ease.out, delay: idx * 0.1 }}
               className="rounded-3xl bg-white border border-ink/[0.06] p-6 md:p-8 text-center shadow-sm hover:shadow-xl hover:shadow-brand/10 transition-all duration-500 hover:-translate-y-1"
             >
               <div className="w-12 h-12 mx-auto rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center mb-4">
@@ -107,7 +106,7 @@ export default function SustainabilityPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, ease: EASE_LUXE }}
+            transition={{ duration: 0.8, ease: ease.out }}
           >
             <span className="inline-flex items-center gap-1.5 bg-gold/15 text-gold border border-gold/25 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-[0.12em] uppercase mb-4">
               <TreePine size={13} />
@@ -129,7 +128,7 @@ export default function SustainabilityPage() {
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.7, ease: EASE_LUXE, delay: idx * 0.12 }}
+                transition={{ duration: 0.7, ease: ease.out, delay: idx * 0.12 }}
                 className="rounded-3xl bg-white/[0.05] border border-white/10 p-7 backdrop-blur-sm hover:bg-white/[0.08] transition-colors duration-500"
               >
                 <div className="w-12 h-12 rounded-2xl bg-gold/15 text-gold border border-gold/25 flex items-center justify-center mb-5">
@@ -150,7 +149,7 @@ export default function SustainabilityPage() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
         >
           <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block mb-4">
             Taahhütlerimiz
@@ -167,7 +166,7 @@ export default function SustainabilityPage() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: EASE_LUXE, delay: idx * 0.1 }}
+              transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.1 }}
               className="group flex gap-5 rounded-3xl bg-white border border-ink/[0.06] p-7 md:p-8 shadow-sm hover:shadow-2xl hover:shadow-brand/10 hover:border-brand/15 transition-all duration-700 hover:-translate-y-1.5"
             >
               <div className="w-12 h-12 rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-champagne transition-all duration-500">
@@ -188,7 +187,7 @@ export default function SustainabilityPage() {
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.9, ease: EASE_LUXE }}
+          transition={{ duration: 0.9, ease: ease.out }}
           className="max-w-3xl mx-auto px-4 text-center space-y-5"
         >
           <h2 className="font-serif text-2xl md:text-4xl font-bold text-ink">

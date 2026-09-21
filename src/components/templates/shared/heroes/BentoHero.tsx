@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Bento Editorial hero — bilgiyi tek bir merkezî bloka yığmak yerine
@@ -33,7 +33,7 @@ function Cell({ children, className, delay = 0, surface, border }: CellProps) {
     <motion.div
       initial={{ opacity: 0, y: 24, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.8, ease: EASE_LUXE, delay }}
+      transition={{ duration: 0.8, ease: ease.out, delay }}
       className={cn(
         'relative rounded-2xl border p-4 @sm:p-5 flex flex-col justify-between overflow-hidden',
         surface,
@@ -76,7 +76,7 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE_LUXE }}
+          transition={{ duration: 0.7, ease: ease.out }}
           className="flex items-center justify-between mb-3 @sm:mb-4"
         >
           <span className={cn('text-[10px] font-semibold uppercase tracking-[0.3em]', theme.accent)}>

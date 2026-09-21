@@ -1,11 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme, EASE_LUXE } from '../../shared/palette';
+import { SectionTheme } from '../../shared/palette';
 import { DUGUN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
 import backgroundSky from './assets/dugun5-background.png';
 import bottomMeadow from './assets/dugun5-bottom.png';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Dugun5 — "Bahar Bahçesi" teması: bulutlu pastel gök ve çiçek çayırına uygun
@@ -59,7 +60,7 @@ export function Dugun5({ invitation, mode = 'preview' }: TemplateProps) {
               draggable={false}
               initial={{ opacity: 0, y: 36 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, ease: EASE_LUXE, delay: 0.3 }}
+              transition={{ duration: 1.6, ease: ease.out, delay: 0.3 }}
               className="absolute bottom-0 left-0 w-full h-[42%] object-cover object-bottom mix-blend-multiply select-none"
             />
           </div>

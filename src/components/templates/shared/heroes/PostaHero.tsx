@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Posta Damgası hero — davetin YOL ALMIŞ olduğu düzen.
@@ -72,7 +72,7 @@ export function PostaHero({
       <motion.article
         initial={{ opacity: 0, y: 24, rotate: -0.8 }}
         animate={{ opacity: 1, y: 0, rotate: -0.8 }}
-        transition={{ duration: 1, ease: EASE_LUXE }}
+        transition={{ duration: 1, ease: ease.out }}
         className={cn('relative w-full max-w-[22rem] @sm:max-w-sm rounded-[3px] border', theme.border, theme.surface)}
         style={{ boxShadow: '0 20px 40px -24px rgba(0,0,0,0.45)' }}
       >
@@ -121,7 +121,7 @@ export function PostaHero({
             <motion.h1
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.25 }}
+              transition={{ duration: 0.9, ease: ease.out, delay: 0.25 }}
               className={cn('font-serif font-normal leading-[1.15] mt-1.5 text-[1.7rem] @sm:text-[2.1rem] break-words', theme.heading)}
             >
               {invitation.names || 'Davetlisiniz'}

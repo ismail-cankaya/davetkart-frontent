@@ -2,9 +2,9 @@ import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Tek Çizgi hero — davetiyenin gözünüzün önünde ÇİZİLDİĞİ düzen.
@@ -43,7 +43,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
       : {
           initial: { pathLength: 0, opacity: 0.9 },
           animate: { pathLength: 1, opacity: 1 },
-          transition: { duration: drawDuration, ease: EASE_LUXE, delay }
+          transition: { duration: drawDuration, ease: ease.out, delay }
         };
 
   // Metin çizgiden SONRA gelir; gecikmeler çizim süresine bağlı.
@@ -96,7 +96,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
           <motion.span
             initial={{ opacity: 0, scale: 0.6, rotate: -12 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 0.8, ease: EASE_LUXE, delay: textDelay }}
+            transition={{ duration: 0.8, ease: ease.out, delay: textDelay }}
             className={theme.accent}
           >
             <Ornament size={26} />
@@ -107,7 +107,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: textDelay + 0.1 }}
+            transition={{ duration: 1, ease: ease.out, delay: textDelay + 0.1 }}
             className={cn('text-[9px] font-semibold uppercase tracking-[0.44em]', theme.accent)}
           >
             {invitation.title}
@@ -116,7 +116,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: EASE_LUXE, delay: textDelay + 0.24 }}
+            transition={{ duration: 1.1, ease: ease.out, delay: textDelay + 0.24 }}
             className={cn(
               'font-serif font-light leading-[1.12] mt-5 text-[1.8rem] @sm:text-[2.4rem] break-words',
               theme.heading
@@ -129,14 +129,14 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
           <motion.span
             initial={{ scaleX: reduced ? 1 : 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: textDelay + 0.4 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: textDelay + 0.4 }}
             className={cn('block h-px w-20 my-6 origin-center', theme.divider)}
           />
 
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: textDelay + 0.5 }}
+            transition={{ duration: 1, ease: ease.out, delay: textDelay + 0.5 }}
             className={cn('text-[12.5px] leading-[1.9] font-light max-w-[15rem]', theme.body)}
           >
             {invitation.subtitle}
@@ -146,7 +146,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: EASE_LUXE, delay: textDelay + 0.62 }}
+              transition={{ duration: 1, ease: ease.out, delay: textDelay + 0.62 }}
               className="mt-8 flex flex-col items-center gap-2"
             >
               {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
@@ -158,7 +158,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, ease: EASE_LUXE, delay: textDelay + 0.75 }}
+              transition={{ duration: 1, ease: ease.out, delay: textDelay + 0.75 }}
               className="mt-7 flex items-center gap-3"
             >
               {[

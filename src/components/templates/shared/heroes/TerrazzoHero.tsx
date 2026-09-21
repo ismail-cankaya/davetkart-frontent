@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Terrazzo hero — dokusunu bir görselden değil, DAĞILIMDAN alan dil.
@@ -127,7 +127,7 @@ export function TerrazzoHero({
               y: [0, -chip.drift, 0]
             }}
             transition={{
-              scale: { duration: 0.7, ease: EASE_LUXE, delay: i * 0.018 },
+              scale: { duration: 0.7, ease: ease.out, delay: i * 0.018 },
               opacity: { duration: 0.7, delay: i * 0.018 },
               y: { duration: chip.duration, ease: 'easeInOut', repeat: Infinity, delay: chip.delay }
             }}
@@ -138,7 +138,7 @@ export function TerrazzoHero({
       <motion.article
         initial={{ opacity: 0, y: 28, scale: 0.97 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1, ease: EASE_LUXE, delay: 0.15 }}
+        transition={{ duration: 1, ease: ease.out, delay: 0.15 }}
         className={cn(
           'relative w-full max-w-[21rem] @sm:max-w-sm rounded-[2.25rem] border px-6 @sm:px-8 py-9 @sm:py-11 text-center',
           theme.border,
@@ -219,7 +219,7 @@ export function TerrazzoHero({
                 key={unit.l}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: EASE_LUXE, delay: 0.6 + i * 0.08 }}
+                transition={{ duration: 0.6, ease: ease.out, delay: 0.6 + i * 0.08 }}
                 className="py-2.5 px-1"
                 style={{
                   background: `${chips[(i + 2) % chips.length]}22`,

@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { AlertTriangle, X } from 'lucide-react';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 export interface ConfirmOptions {
   title: string;
@@ -97,7 +96,7 @@ export function ConfirmHost() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.3, ease: EASE_LUXE }}
+          transition={{ duration: 0.3, ease: ease.out }}
           onClick={() => settle(false)}
           className="fixed inset-0 z-[100] bg-ink/45 backdrop-blur-md flex items-center justify-center p-4"
           role="dialog"
@@ -108,7 +107,7 @@ export function ConfirmHost() {
             initial={{ opacity: 0, y: 28, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.97 }}
-            transition={{ duration: 0.45, ease: EASE_LUXE }}
+            transition={{ duration: 0.45, ease: ease.out }}
             onClick={(e) => e.stopPropagation()}
             className="relative w-full max-w-md bg-cream rounded-3xl shadow-2xl shadow-ink/30 border border-white/40 overflow-hidden"
           >

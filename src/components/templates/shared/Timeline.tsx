@@ -4,9 +4,10 @@ import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { hasTimelineEventContent } from '../../../utils/timelineEvents';
 import { displayText } from '../utils';
-import { SectionTheme, EASE_LUXE } from './palette';
+import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ClockIcon } from './icons';
+import { ease } from '../../../utils/motion';
 
 interface TimelineProps {
   invitation: Invitation;
@@ -50,7 +51,7 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="text-center mb-12"
       >
         <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
@@ -77,7 +78,7 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
               initial={{ opacity: 0, x: index % 2 === 0 ? 36 : -36, filter: 'blur(6px)' }}
               whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
               viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.85, ease: EASE_LUXE }}
+              transition={{ duration: 0.85, ease: ease.out }}
               className="relative pl-12"
             >
               {/* Node dot */}

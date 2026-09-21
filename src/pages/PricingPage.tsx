@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, BadgePercent, Check, ChevronDown, Crown, Gem, Sparkles } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../utils/motion';
 
 interface Plan {
   name: string;
@@ -103,7 +102,7 @@ function FaqItem({ faq, isOpen, onToggle }: { faq: (typeof FAQS)[number]; isOpen
         </span>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: 0.35, ease: EASE_LUXE }}
+          transition={{ duration: 0.35, ease: ease.out }}
           className="text-gold shrink-0"
         >
           <ChevronDown size={18} />
@@ -115,7 +114,7 @@ function FaqItem({ faq, isOpen, onToggle }: { faq: (typeof FAQS)[number]; isOpen
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: EASE_LUXE }}
+            transition={{ duration: 0.4, ease: ease.out }}
             className="overflow-hidden"
           >
             <p className="px-6 pb-5 text-muted text-sm leading-relaxed">{faq.a}</p>
@@ -143,7 +142,7 @@ export default function PricingPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.2 }}
+        transition={{ duration: 0.8, ease: ease.out, delay: 0.2 }}
         className="max-w-3xl mx-auto px-4 mb-12 md:mb-16"
       >
         <div className="flex items-center justify-center gap-2.5 bg-gold/10 border border-gold/25 text-brand rounded-full px-5 py-3 text-xs md:text-sm font-semibold text-center">
@@ -161,7 +160,7 @@ export default function PricingPage() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: EASE_LUXE, delay: idx * 0.12 }}
+              transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.12 }}
               className={`relative flex flex-col rounded-[2rem] p-8 md:p-9 transition-all duration-700 hover:-translate-y-2 ${
                 plan.highlighted
                   ? 'bg-brand-deep text-white border border-gold/25 shadow-2xl shadow-brand/30 md:-my-3'
@@ -243,7 +242,7 @@ export default function PricingPage() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
         >
           <h2 className="font-serif text-2xl md:text-4xl font-bold text-ink mb-3">
             Sıkça Sorulan <span className="italic text-brand font-medium">Sorular</span>
@@ -264,7 +263,7 @@ export default function PricingPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: EASE_LUXE, delay: idx * 0.07 }}
+              transition={{ duration: 0.6, ease: ease.out, delay: idx * 0.07 }}
             >
               <FaqItem faq={faq} isOpen={openFaq === idx} onToggle={() => setOpenFaq(openFaq === idx ? null : idx)} />
             </motion.div>

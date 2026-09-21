@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Film } from 'lucide-react';
 import { TemplatePreset } from '../../types';
 import { cn } from '../../utils/cn';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 type CoverStatus = 'pending' | 'ready' | 'failed';
 
@@ -104,7 +103,7 @@ export function TemplateCover({ preset, alt, className }: TemplateCoverProps) {
             aria-hidden="true"
             initial={false}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.45, ease: EASE_LUXE }}
+            transition={{ duration: 0.45, ease: ease.out }}
             className={cn('absolute inset-0 pointer-events-none', preset.backgroundStyle)}
           />
         )}

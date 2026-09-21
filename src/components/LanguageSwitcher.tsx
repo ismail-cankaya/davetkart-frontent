@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'motion/react';
 import { Globe, ChevronDown, Check } from 'lucide-react';
 import { SUPPORTED_LANGUAGES } from '../i18n';
+import { ease } from '../utils/motion';
 
 const dropdownVariants = {
   hidden: { opacity: 0, y: -8, scale: 0.96 },
@@ -10,14 +11,14 @@ const dropdownVariants = {
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.3, ease: [0.22, 1, 0.36, 1] as const, staggerChildren: 0.025 }
+    transition: { duration: 0.3, ease: ease.out, staggerChildren: 0.025 }
   },
   exit: { opacity: 0, y: -6, scale: 0.97, transition: { duration: 0.18 } }
 };
 
 const itemVariants = {
   hidden: { opacity: 0, x: -6 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.25, ease: [0.22, 1, 0.36, 1] as const } }
+  visible: { opacity: 1, x: 0, transition: { duration: 0.25, ease: ease.out } }
 };
 
 interface LanguageSwitcherProps {

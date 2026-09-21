@@ -14,8 +14,7 @@ import { AuthRedirectState, isSubscriptionTier } from '../../types';
 import { apiErrorCode, apiErrorParams } from '../../services/api';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { scrollToTarget } from '../../hooks/useLenis';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 /**
  * Wizard step 4 — the final workspace: detailed designer panel on the left,
@@ -117,7 +116,7 @@ export function EditorWorkspace() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8, ease: EASE_LUXE }}
+      transition={{ duration: 0.8, ease: ease.out }}
       className="bg-cream"
     >
       <section className="pt-10 md:pt-16 pb-6 md:pb-10">
@@ -125,7 +124,7 @@ export function EditorWorkspace() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: EASE_LUXE }}
+            transition={{ duration: 0.8, ease: ease.out }}
             className="text-center mb-8 md:mb-12"
           >
             <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block">
@@ -158,7 +157,7 @@ export function EditorWorkspace() {
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.3 }}
+          transition={{ duration: 0.9, ease: ease.out, delay: 0.3 }}
           className="max-w-3xl mx-auto px-4 text-center space-y-5"
         >
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5">

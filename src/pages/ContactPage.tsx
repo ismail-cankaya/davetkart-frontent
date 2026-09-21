@@ -7,8 +7,7 @@ import { toast } from '../components/ui/Toast';
 import { sendContactMessage, ContactSubject } from '../services/contact';
 import { HoneypotField } from '../components/ui/HoneypotField';
 import { toDisplayError } from '../utils/toDisplayError';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../utils/motion';
 
 const SUBJECTS: { value: ContactSubject; label: string }[] = [
   { value: 'general', label: 'Genel Sorular' },
@@ -125,7 +124,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
           className="lg:col-span-5 space-y-4"
         >
           {CONTACT_CHANNELS.map((channel, idx) => (
@@ -134,7 +133,7 @@ export default function ContactPage() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, ease: EASE_LUXE, delay: idx * 0.08 }}
+              transition={{ duration: 0.6, ease: ease.out, delay: idx * 0.08 }}
               className="group flex gap-4 rounded-3xl bg-white border border-ink/[0.06] p-6 shadow-sm hover:shadow-xl hover:shadow-brand/10 hover:border-brand/15 transition-all duration-500 hover:-translate-y-1"
             >
               <div className="w-11 h-11 rounded-xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center shrink-0 group-hover:bg-brand group-hover:text-champagne transition-all duration-500">
@@ -165,7 +164,7 @@ export default function ContactPage() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.1 }}
+          transition={{ duration: 0.8, ease: ease.out, delay: 0.1 }}
           className="lg:col-span-7"
         >
           <div className="rounded-[2rem] bg-white border border-ink/[0.06] shadow-sm p-7 md:p-10">
@@ -175,7 +174,7 @@ export default function ContactPage() {
                   key="success"
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, ease: EASE_LUXE }}
+                  transition={{ duration: 0.6, ease: ease.out }}
                   className="text-center py-12 space-y-5"
                 >
                   <div className="w-16 h-16 mx-auto rounded-full bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center">
@@ -203,7 +202,7 @@ export default function ContactPage() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.5, ease: EASE_LUXE }}
+                  transition={{ duration: 0.5, ease: ease.out }}
                   onSubmit={handleSubmit}
                   className="relative space-y-5"
                   noValidate

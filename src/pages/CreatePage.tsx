@@ -7,8 +7,7 @@ import { GenerationLoader } from '../components/create/GenerationLoader';
 import { EditorWorkspace } from '../components/create/EditorWorkspace';
 import { useCreateWizardStore } from '../stores/useCreateWizardStore';
 import { useInvitationAutoSave } from '../hooks/useInvitationAutoSave';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../utils/motion';
 
 /**
  * The invitation-creation wizard, staged as:
@@ -31,7 +30,7 @@ export default function CreatePage() {
   return (
     <AnimatePresence mode="wait">
       {stage === 'build' && (
-        <motion.div key="build" exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5, ease: EASE_LUXE }}>
+        <motion.div key="build" exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.5, ease: ease.out }}>
           <CategoryStep />
           <AnimatePresence>{categoryId !== null && <ThemeStep key="theme" />}</AnimatePresence>
           <AnimatePresence>{categoryId !== null && themeChosen && <DetailsFormStep key="form" />}</AnimatePresence>

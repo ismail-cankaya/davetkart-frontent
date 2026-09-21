@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react';
 import { AnimatePresence, motion, Variants } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
-import { SectionTheme, EASE_LUXE } from './palette';
+import { ease } from '../../../utils/motion';
+import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ChevronLeftIcon, ChevronRightIcon } from './icons';
 
@@ -74,7 +75,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="text-center mb-10"
       >
         <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
@@ -89,7 +90,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
         initial={{ opacity: 0, scale: 0.96 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="max-w-md mx-auto"
       >
         <div ref={frameRef} className={cn('relative aspect-[4/5] rounded-3xl overflow-hidden border', theme.border)}>
@@ -104,7 +105,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
               initial="enter"
               animate="center"
               exit="exit"
-              transition={{ duration: 0.7, ease: EASE_LUXE }}
+              transition={{ duration: 0.7, ease: ease.out }}
               drag={images.length > 1 ? 'x' : false}
               dragConstraints={{ left: 0, right: 0 }}
               dragElastic={DRAG_ELASTIC}

@@ -7,11 +7,12 @@ import { toast } from '../../ui/Toast';
 import { HoneypotField } from '../../ui/HoneypotField';
 import { toDisplayError } from '../../../utils/toDisplayError';
 import { RSVP_STATUS_CHOICES } from '../../../utils/rsvpStatus';
-import { SectionTheme, EASE_LUXE } from './palette';
+import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { googleCalendarUrl, downloadIcsFile } from './calendar';
 import { formatCalendarDay } from '../utils';
 import { CheckIcon, SendIcon, UsersIcon, GoogleIcon, AppleIcon } from './icons';
+import { ease } from '../../../utils/motion';
 
 interface RSVPFormProps {
   invitation: Invitation;
@@ -77,7 +78,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="text-center mb-10"
       >
         <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
@@ -98,7 +99,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.95, ease: EASE_LUXE, delay: 0.1 }}
+        transition={{ duration: 0.95, ease: ease.out, delay: 0.1 }}
         className={cn('max-w-md mx-auto rounded-3xl border p-6', theme.surface, theme.border)}
       >
         <AnimatePresence mode="wait">
@@ -107,7 +108,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
               key="success"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, ease: EASE_LUXE }}
+              transition={{ duration: 0.7, ease: ease.out }}
               className="text-center py-4"
             >
               <motion.span
@@ -165,7 +166,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
               key="form"
               onSubmit={handleSubmit}
               exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.4, ease: EASE_LUXE }}
+              transition={{ duration: 0.4, ease: ease.out }}
               className="relative space-y-5"
             >
               <HoneypotField id="rsvp-inline-website" value={website} onChange={setWebsite} />

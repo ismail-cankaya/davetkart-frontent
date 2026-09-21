@@ -16,8 +16,7 @@ import { scrollToTarget } from '../../hooks/useLenis';
 import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { cn } from '../../utils/cn';
 import { formatTimeZoneLabel, timeZoneOptions } from '../../utils/timeZones';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 const labelClass = 'block text-xs font-bold tracking-wider uppercase text-champagne';
 const inputClass =
@@ -115,7 +114,7 @@ export function DetailsFormStep() {
       initial={{ opacity: 0, y: 60 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 30 }}
-      transition={{ duration: 0.9, ease: EASE_LUXE }}
+      transition={{ duration: 0.9, ease: ease.out }}
     >
       {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none">
@@ -138,7 +137,7 @@ export function DetailsFormStep() {
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.1 }}
+          transition={{ duration: 0.9, ease: ease.out, delay: 0.1 }}
           className="bg-white/[0.07] backdrop-blur-md p-6 md:p-8 rounded-3xl border border-white/10 space-y-8 shadow-2xl shadow-black/20"
         >
           {/* ————— Grup A: Temel Bilgiler ————— */}

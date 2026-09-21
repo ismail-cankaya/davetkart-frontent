@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { Halftone } from '../effects';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Gazete Manşeti hero — davetin HABER olarak sunulduğu düzen.
@@ -39,7 +39,7 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
       <motion.article
         initial={{ opacity: 0, y: 22 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className={cn('relative w-full max-w-md px-5 @sm:px-7 py-6 @sm:py-8 border', theme.border, theme.surface)}
         style={{ boxShadow: '0 16px 34px -22px rgba(0,0,0,0.4)' }}
       >
@@ -51,7 +51,7 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
           <motion.h2
             initial={{ opacity: 0, letterSpacing: '0.6em' }}
             animate={{ opacity: 1, letterSpacing: '0.12em' }}
-            transition={{ duration: 1.1, ease: EASE_LUXE, delay: 0.15 }}
+            transition={{ duration: 1.1, ease: ease.out, delay: 0.15 }}
             className={cn(
               'font-serif font-black uppercase text-center leading-none text-[1.15rem] @sm:text-[1.5rem]',
               theme.heading
@@ -73,7 +73,7 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
           <motion.h1
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.35 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.35 }}
             className={cn(
               'font-serif font-black uppercase text-center leading-[0.95] mt-5 text-[2rem] @sm:text-[2.7rem] break-words text-balance',
               theme.heading
@@ -87,7 +87,7 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.5 }}
+              transition={{ duration: 0.9, ease: ease.out, delay: 0.5 }}
               className={cn('font-serif italic text-center text-[13px] @sm:text-sm mt-3 leading-snug', theme.accent)}
             >
               {venue}
@@ -100,7 +100,7 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.62 }}
+            transition={{ duration: 0.9, ease: ease.out, delay: 0.62 }}
             className="grid grid-cols-2 gap-4"
           >
             <p className={cn('text-[11px] leading-[1.7] text-justify hyphens-auto', theme.body)}>

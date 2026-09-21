@@ -4,6 +4,7 @@ import { AlertTriangle, Maximize2, Minimize2, Minus, SendHorizonal, X } from 'lu
 import { BrandMark } from '../ui/BrandMark';
 import { AssistantBlock, AssistantMessage } from './types';
 import { ASSISTANT_MAX_PROMPT_CHARS } from '../../services/assistant';
+import { ease } from '../../utils/motion';
 
 interface AssistantChatProps {
   messages: AssistantMessage[];
@@ -110,7 +111,7 @@ export function AssistantChat({
               key={msg.id}
               initial={{ opacity: 0, y: 12, scale: 0.97 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              transition={{ duration: 0.35, ease: ease.out }}
               className={`flex items-end gap-2 ${isUser ? 'flex-row-reverse' : ''}`}
             >
               {!isUser && (

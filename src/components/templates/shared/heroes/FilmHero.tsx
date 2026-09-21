@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Film Şeridi hero — bilgiyi KARE KARE veren düzen.
@@ -75,7 +75,7 @@ export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame =
       <motion.div
         initial={{ opacity: 0, y: 26, rotate: -1.2 }}
         animate={{ opacity: 1, y: 0, rotate: -1.2 }}
-        transition={{ duration: 0.9, ease: EASE_LUXE }}
+        transition={{ duration: 0.9, ease: ease.out }}
         className="relative w-full max-w-[21rem] @sm:max-w-sm"
         style={{ filter: 'drop-shadow(0 20px 38px rgba(0,0,0,0.45))' }}
       >

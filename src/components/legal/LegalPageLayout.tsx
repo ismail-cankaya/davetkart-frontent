@@ -2,8 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, CalendarDays, ChevronRight, Mail, ScrollText } from 'lucide-react';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 export interface LegalSection {
   id: string;
@@ -75,7 +74,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE_LUXE }}
+            transition={{ duration: 0.9, ease: ease.out }}
             className="max-w-3xl space-y-5"
           >
             <nav className="flex items-center gap-1.5 text-xs text-emerald-100/50" aria-label="breadcrumb">
@@ -144,7 +143,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.7, ease: EASE_LUXE }}
+              transition={{ duration: 0.7, ease: ease.out }}
             >
               <div className="flex items-center gap-3 mb-4">
                 <span className="font-serif text-sm font-bold text-gold">{String(idx + 1).padStart(2, '0')}</span>

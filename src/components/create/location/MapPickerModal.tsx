@@ -12,8 +12,7 @@ import {
   parseCoordinates,
   readMapLocation
 } from '../../../utils/mapLocation';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../../utils/motion';
 
 /** Harita, yazma durunca güncellenir: her tuşta iframe yeniden yüklenmesin. */
 const PREVIEW_DEBOUNCE_MS = 450;
@@ -104,7 +103,7 @@ function MapPickerDialog({ initialPoint, onClose, onConfirm }: Omit<MapPickerMod
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3, ease: EASE_LUXE }}
+      transition={{ duration: 0.3, ease: ease.out }}
       onClick={onClose}
       data-lenis-prevent
       className="fixed inset-0 z-[110] bg-ink/50 backdrop-blur-md flex items-end sm:items-center justify-center sm:p-4 overflow-y-auto"
@@ -116,7 +115,7 @@ function MapPickerDialog({ initialPoint, onClose, onConfirm }: Omit<MapPickerMod
         initial={{ opacity: 0, y: 40, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 28, scale: 0.98 }}
-        transition={{ duration: 0.45, ease: EASE_LUXE }}
+        transition={{ duration: 0.45, ease: ease.out }}
         onClick={(e) => e.stopPropagation()}
         className="relative w-full sm:max-w-xl bg-cream rounded-t-3xl sm:rounded-3xl shadow-2xl shadow-ink/30 border border-white/40 overflow-hidden"
       >
@@ -163,7 +162,7 @@ function MapPickerDialog({ initialPoint, onClose, onConfirm }: Omit<MapPickerMod
                 initial={{ opacity: 0, y: -6 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.3, ease: EASE_LUXE }}
+                transition={{ duration: 0.3, ease: ease.out }}
                 className="pointer-events-none absolute top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-ink/80 text-cream text-[11px] font-medium px-3 py-1.5 shadow-lg"
               >
                 Koordinat girildiğinde konum burada işaretlenir

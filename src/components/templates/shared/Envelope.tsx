@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
-import { SectionTheme, EASE_LUXE } from './palette';
+import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
+import { ease } from '../../../utils/motion';
 
 interface EnvelopeProps {
   invitation: Invitation;
@@ -42,7 +43,7 @@ export function Envelope({ invitation, theme, flavor, onOpened }: EnvelopeProps)
       onClick={handleOpen}
       initial={{ opacity: 1 }}
       animate={opening ? { opacity: 0, y: '-100%' } : { opacity: 1, y: 0 }}
-      transition={{ duration: 1, ease: EASE_LUXE, delay: opening ? 0.9 : 0 }}
+      transition={{ duration: 1, ease: ease.out, delay: opening ? 0.9 : 0 }}
       onAnimationComplete={() => {
         if (opening) onOpened();
       }}
@@ -58,7 +59,7 @@ export function Envelope({ invitation, theme, flavor, onOpened }: EnvelopeProps)
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.92 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 1.1, ease: EASE_LUXE }}
+        transition={{ duration: 1.1, ease: ease.out }}
         className="relative w-[82%] max-w-sm"
         style={{ perspective: 900 }}
       >
@@ -72,7 +73,7 @@ export function Envelope({ invitation, theme, flavor, onOpened }: EnvelopeProps)
             )}
             initial={false}
             animate={opening ? { y: '-46%', scale: 1.02 } : { y: 0 }}
-            transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.45 }}
+            transition={{ duration: 0.8, ease: ease.out, delay: 0.45 }}
           >
             <span className={cn('text-[9px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
               {flavor.envelopeLabel}
@@ -106,7 +107,7 @@ export function Envelope({ invitation, theme, flavor, onOpened }: EnvelopeProps)
             }}
             initial={false}
             animate={opening ? { rotateX: 180 } : { rotateX: 0 }}
-            transition={{ duration: 0.7, ease: EASE_LUXE }}
+            transition={{ duration: 0.7, ease: ease.out }}
           />
 
           {/* Wax seal */}
@@ -122,7 +123,7 @@ export function Envelope({ invitation, theme, flavor, onOpened }: EnvelopeProps)
             animate={opening ? { scale: 0, rotate: 45, opacity: 0 } : { scale: 1 }}
             whileHover={opening ? undefined : { scale: 1.08 }}
             whileTap={{ scale: 0.92 }}
-            transition={{ duration: 0.4, ease: EASE_LUXE }}
+            transition={{ duration: 0.4, ease: ease.out }}
           >
             <Ornament size={30} />
           </motion.button>

@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { PaperGrain } from '../effects';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Herbaryum hero — daveti bir DUYURU değil, bir KAYIT olarak kuran dil.
@@ -38,7 +38,7 @@ function Tape({
       aria-hidden="true"
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, ease: EASE_LUXE, delay }}
+      transition={{ duration: 0.5, ease: ease.out, delay }}
       className={cn('absolute block pointer-events-none', className)}
       style={{
         rotate,
@@ -78,7 +78,7 @@ function Sprig({ color, flip }: { color: string; flip?: boolean }) {
         strokeOpacity="0.85"
         initial={{ pathLength: 0 }}
         animate={{ pathLength: 1 }}
-        transition={{ duration: 1.3, ease: EASE_LUXE, delay: 0.3 }}
+        transition={{ duration: 1.3, ease: ease.out, delay: 0.3 }}
       />
       {leaves.map((leaf, i) => {
         const y = 118 - leaf.t * 112;
@@ -87,7 +87,7 @@ function Sprig({ color, flip }: { color: string; flip?: boolean }) {
             key={i}
             initial={{ opacity: 0, scale: 0.4 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, ease: EASE_LUXE, delay: 0.7 + i * 0.12 }}
+            transition={{ duration: 0.6, ease: ease.out, delay: 0.7 + i * 0.12 }}
             style={{ transformOrigin: `30px ${y}px` }}
           >
             {[1, -1].map((dir) => (
@@ -161,7 +161,7 @@ export function HerbaryumHero({
       <motion.article
         initial={{ opacity: 0, y: 22 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: EASE_LUXE }}
+        transition={{ duration: 1, ease: ease.out }}
         className={cn('relative w-full max-w-[21rem] @sm:max-w-sm border px-6 @sm:px-8 pt-10 @sm:pt-12 pb-7', theme.border)}
         style={{ background: sheet, boxShadow: '0 24px 48px -30px rgba(0,0,0,0.4)' }}
       >
@@ -199,7 +199,7 @@ export function HerbaryumHero({
           <motion.span
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: EASE_LUXE, delay: 1 }}
+            transition={{ duration: 0.8, ease: ease.out, delay: 1 }}
             className="mb-8 @sm:mb-10"
             style={{ color: specimen }}
           >
@@ -223,7 +223,7 @@ export function HerbaryumHero({
         <motion.div
           initial={{ opacity: 0, y: 16, rotate: -3 }}
           animate={{ opacity: 1, y: 0, rotate: -1.4 }}
-          transition={{ duration: 0.9, ease: EASE_LUXE, delay: 0.55 }}
+          transition={{ duration: 0.9, ease: ease.out, delay: 0.55 }}
           className="relative mt-6 border px-4 pt-4 pb-3"
           style={{ background: label, borderColor: `${specimen}55`, boxShadow: '0 8px 18px -12px rgba(0,0,0,0.4)' }}
         >

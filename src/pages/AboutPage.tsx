@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Gem, HeartHandshake, Leaf, PenLine, Sparkles, WandSparkles } from 'lucide-react';
 import { PageHeader } from '../components/ui/PageHeader';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../utils/motion';
 
 const STATS = [
   { value: '25.000+', label: 'Oluşturulan Davetiye' },
@@ -55,7 +54,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.9, ease: EASE_LUXE }}
+            transition={{ duration: 0.9, ease: ease.out }}
             className="space-y-5"
           >
             <div className="flex items-center gap-3">
@@ -90,7 +89,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 1, ease: EASE_LUXE }}
+            transition={{ duration: 1, ease: ease.out }}
             className="relative flex justify-center"
           >
             <div className="relative w-72 h-72 md:w-96 md:h-96">
@@ -143,7 +142,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.7, ease: EASE_LUXE, delay: idx * 0.1 }}
+              transition={{ duration: 0.7, ease: ease.out, delay: idx * 0.1 }}
               className="text-center space-y-1.5"
             >
               <p className="font-serif text-3xl md:text-4xl font-bold text-champagne">{stat.value}</p>
@@ -160,7 +159,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE }}
+          transition={{ duration: 0.8, ease: ease.out }}
         >
           <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block mb-4">
             Değerlerimiz
@@ -177,7 +176,7 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, ease: EASE_LUXE, delay: idx * 0.1 }}
+              transition={{ duration: 0.8, ease: ease.out, delay: idx * 0.1 }}
               className="group rounded-3xl bg-white border border-ink/[0.06] p-8 md:p-10 shadow-sm hover:shadow-2xl hover:shadow-brand/10 hover:border-brand/15 transition-all duration-700 hover:-translate-y-2"
             >
               <div className="w-14 h-14 rounded-2xl bg-brand/[0.06] text-brand border border-brand/10 flex items-center justify-center mb-6 group-hover:bg-brand group-hover:text-champagne group-hover:scale-105 transition-all duration-500">
@@ -196,7 +195,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.9, ease: EASE_LUXE }}
+          transition={{ duration: 0.9, ease: ease.out }}
           className="max-w-3xl mx-auto px-4 text-center space-y-5"
         >
           <h2 className="font-serif text-2xl md:text-4xl font-bold text-ink">

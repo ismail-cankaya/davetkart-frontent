@@ -6,8 +6,7 @@ import { FEATURED_TEMPLATES, TEMPLATE_PRESETS, getCategoryLabel } from '../../da
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useUIStore } from '../../stores/useUIStore';
 import { TemplateCover } from './TemplateCover';
-
-const EASE_LUXE = [0.22, 1, 0.36, 1] as const;
+import { ease } from '../../utils/motion';
 
 /**
  * 🔴 Giriş animasyonları tek bir `transform` dizesiyle yazılır, `x`/`y`/`scale`
@@ -69,14 +68,14 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
       initial={reduceMotion ? false : { opacity: 0, transform: 'translateX(-60px)' }}
       whileInView={{ opacity: 1, transform: 'translateX(0px)' }}
       viewport={{ once: true, margin: '-20px' }}
-      transition={{ duration: 1, ease: EASE_LUXE }}
+      transition={{ duration: 1, ease: ease.out }}
     >
       <div className="mb-4 text-center lg:text-left hidden lg:block">
         <motion.span
           initial={reduceMotion ? false : rise(10).hidden}
           whileInView={rise(10).shown}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, ease: EASE_LUXE }}
+          transition={{ duration: 0.6, ease: ease.out }}
           className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block"
         >
           En Popüler Tasarımlar
@@ -85,7 +84,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
           initial={reduceMotion ? false : rise(20).hidden}
           whileInView={rise(20).shown}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.1 }}
+          transition={{ duration: 0.8, ease: ease.out, delay: 0.1 }}
           className="font-serif text-3xl md:text-4xl font-bold text-ink mt-4 mb-3"
         >
           Her Etkinliğe Özel <br className="hidden lg:block" />
@@ -95,7 +94,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
           initial={reduceMotion ? false : rise(15).hidden}
           whileInView={rise(15).shown}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.2 }}
+          transition={{ duration: 0.8, ease: ease.out, delay: 0.2 }}
           className="text-muted text-sm md:text-base max-w-md mx-auto lg:mx-0"
         >
           En sevilen tasarımlarımızı seçin ve sağdaki canlı cihaz önizlemesinden anında görüntüleyin.
@@ -112,7 +111,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
               initial={reduceMotion ? false : CARD_HIDDEN}
               whileInView={CARD_SHOWN}
               viewport={{ once: true, margin: '0px' }}
-              transition={{ duration: 0.7, ease: EASE_LUXE, delay: idx * 0.08 }}
+              transition={{ duration: 0.7, ease: ease.out, delay: idx * 0.08 }}
               onClick={() => handleSelect(preset.id, slotCategoryId)}
               className={`group relative rounded-2xl overflow-hidden h-36 lg:h-48 cursor-pointer ${CARD_MOTION_CLASS} ${isActive
                   ? 'shadow-xl shadow-brand/20 ring-2 ring-brand ring-offset-2 ring-offset-cream'
@@ -163,7 +162,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
           initial={reduceMotion ? false : CARD_HIDDEN}
           whileInView={CARD_SHOWN}
           viewport={{ once: true, margin: '0px' }}
-          transition={{ duration: 0.7, ease: EASE_LUXE, delay: featured.length * 0.08 }}
+          transition={{ duration: 0.7, ease: ease.out, delay: featured.length * 0.08 }}
           className={`group relative rounded-2xl overflow-hidden h-36 lg:h-48 cursor-pointer bg-gradient-to-br from-brand via-brand-deep to-emerald-950 text-left shadow-sm hover:shadow-2xl hover:shadow-brand/30 ${CARD_MOTION_CLASS}`}
         >
           {/* Understated lattice + glow to keep the CTA premium, not empty */}
@@ -191,7 +190,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
           initial={reduceMotion ? false : rise(30).hidden}
           whileInView={rise(30).shown}
           viewport={{ once: true, margin: '0px' }}
-          transition={{ duration: 0.7, ease: EASE_LUXE, delay: 0.35 }}
+          transition={{ duration: 0.7, ease: ease.out, delay: 0.35 }}
           className="col-span-2 group relative rounded-2xl border-2 border-dashed border-brand/15 bg-white/60 hover:border-gold/50 hover:bg-white transition-all duration-500 p-5 flex items-center gap-4 cursor-default"
         >
           <div className="w-11 h-11 shrink-0 rounded-xl bg-gradient-to-br from-champagne to-gold/30 text-brand flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
@@ -214,7 +213,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
         initial={reduceMotion ? false : rise(20).hidden}
         whileInView={rise(20).shown}
         viewport={{ once: true }}
-        transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.5 }}
+        transition={{ duration: 0.8, ease: ease.out, delay: 0.5 }}
         className="bg-champagne/30 p-4 rounded-2xl border border-champagne hidden lg:flex items-start gap-4 mt-4 hover:bg-champagne/50 transition-colors duration-500"
       >
         <div className="p-2 rounded-xl bg-white text-brand shadow-sm mt-0.5">

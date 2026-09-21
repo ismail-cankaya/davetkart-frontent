@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { DeviceSimulator } from './DeviceSimulator';
 import { TemplateGrid } from './TemplateGrid';
+import { ease } from '../../utils/motion';
 
 export const PreviewSection = React.memo(function PreviewSection() {
   // Shared between the grid (scroll target on mobile) and the simulator (the device itself).
@@ -17,7 +18,7 @@ export const PreviewSection = React.memo(function PreviewSection() {
           initial={reduceMotion ? false : { opacity: 0, transform: 'translateY(20px)' }}
           whileInView={{ opacity: 1, transform: 'translateY(0px)' }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.8, ease: ease.out }}
           className="lg:hidden text-center mb-8"
         >
           <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block">

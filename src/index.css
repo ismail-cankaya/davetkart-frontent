@@ -16,7 +16,10 @@
   --color-champagne: #efe2c1;
   --color-gold: #c9a961;
 
+  /* Motion token'ları — JS karşılıkları src/utils/motion.ts `ease.out` / `ease.in`.
+     Girişler ease-luxe; çıkışlar ease-luxe-in (hızlanarak uzaklaşır). */
   --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-luxe-in: cubic-bezier(0.55, 0, 1, 0.45);
 }
 
 html {

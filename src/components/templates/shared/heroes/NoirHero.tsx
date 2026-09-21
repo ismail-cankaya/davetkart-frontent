@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Noir Minimal hero — sessiz lüks: tek bir dev serif başlık, ince kurallar
@@ -64,7 +64,7 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, ease: EASE_LUXE }}
+          transition={{ duration: 1, ease: ease.out }}
           className="flex items-center justify-center gap-4 mb-8 @sm:mb-12"
         >
           <span className={cn('h-px w-8 @sm:w-14', theme.divider)} />
@@ -88,7 +88,7 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
               className="inline-block mr-[0.22em] last:mr-0"
               initial={{ opacity: 0, y: 18, letterSpacing: '0.18em' }}
               animate={{ opacity: 1, y: 0, letterSpacing: '-0.02em' }}
-              transition={{ duration: 1.2, ease: EASE_LUXE, delay: 0.25 + i * 0.12 }}
+              transition={{ duration: 1.2, ease: ease.out, delay: 0.25 + i * 0.12 }}
             >
               {word === '&' ? <span className={cn('italic', theme.accent)}>&amp;</span> : word}
             </motion.span>
@@ -98,7 +98,7 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
         <motion.p
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: EASE_LUXE, delay: 0.9 }}
+          transition={{ duration: 1, ease: ease.out, delay: 0.9 }}
           className={cn('font-light leading-relaxed mt-7 @sm:mt-9 text-sm max-w-sm mx-auto', theme.body)}
         >
           {invitation.subtitle}
@@ -110,7 +110,7 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1.1, ease: EASE_LUXE, delay: 1.15 }}
+            transition={{ duration: 1.1, ease: ease.out, delay: 1.15 }}
             className="mt-10 @sm:mt-14"
           >
             <span className={cn('block h-px w-full mb-5', theme.divider)} />

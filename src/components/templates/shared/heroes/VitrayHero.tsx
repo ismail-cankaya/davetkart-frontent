@@ -2,9 +2,9 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
-import { EASE_LUXE } from '../palette';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { ease } from '../../../../utils/motion';
 
 /**
  * Vitray hero — ışığın ARKADAN geldiği kurşun camlı kemer.
@@ -219,7 +219,7 @@ export function VitrayHero({
         aria-hidden="true"
         initial={{ opacity: 0, scale: 0.85 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.6, ease: EASE_LUXE }}
+        transition={{ duration: 1.6, ease: ease.out }}
         className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[88%] max-w-md aspect-square rounded-full blur-3xl pointer-events-none"
         style={{ background: `radial-gradient(circle, ${glowColor}55, transparent 68%)` }}
       />
@@ -227,7 +227,7 @@ export function VitrayHero({
       <motion.article
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.1, ease: EASE_LUXE }}
+        transition={{ duration: 1.1, ease: ease.out }}
         className="relative w-full max-w-[21rem] @sm:max-w-[23rem] rounded-t-full rounded-b-xl overflow-hidden border-2"
         style={{
           borderColor: leadColor,
@@ -275,7 +275,7 @@ export function VitrayHero({
           <motion.span
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.5 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.5 }}
             className={cn('text-[9px] font-semibold uppercase tracking-[0.4em]', theme.accent)}
           >
             {invitation.title}
@@ -284,7 +284,7 @@ export function VitrayHero({
           <motion.h1
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.1, ease: EASE_LUXE, delay: 0.62 }}
+            transition={{ duration: 1.1, ease: ease.out, delay: 0.62 }}
             className={cn(
               'font-serif font-normal leading-[1.08] mt-3.5 text-[1.75rem] @sm:text-[2.3rem] break-words',
               theme.heading
@@ -296,7 +296,7 @@ export function VitrayHero({
           <motion.div
             initial={{ opacity: 0, scale: 0.6 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: EASE_LUXE, delay: 0.8 }}
+            transition={{ duration: 0.8, ease: ease.out, delay: 0.8 }}
             className={cn('my-4', theme.accent)}
           >
             <Ornament size={24} />
@@ -305,7 +305,7 @@ export function VitrayHero({
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE_LUXE, delay: 0.9 }}
+            transition={{ duration: 1, ease: ease.out, delay: 0.9 }}
             className={cn('text-[12.5px] leading-relaxed font-light max-w-[15rem]', theme.body)}
           >
             {invitation.subtitle}
@@ -315,7 +315,7 @@ export function VitrayHero({
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: EASE_LUXE, delay: 1.02 }}
+              transition={{ duration: 1, ease: ease.out, delay: 1.02 }}
               className="mt-6 flex flex-col items-center gap-1.5"
             >
               {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
@@ -330,7 +330,7 @@ export function VitrayHero({
             <motion.div
               initial={{ opacity: 0, scaleX: 0.8 }}
               animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ duration: 0.9, ease: EASE_LUXE, delay: 1.15 }}
+              transition={{ duration: 0.9, ease: ease.out, delay: 1.15 }}
               className={cn(
                 'mt-7 w-full flex items-center justify-center gap-5 py-2.5 rounded-md border',
                 theme.border,
