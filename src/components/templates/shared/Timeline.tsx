@@ -75,8 +75,8 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
           {events.map((event, index) => (
             <motion.article
               key={event.key}
-              initial={{ opacity: 0, x: index % 2 === 0 ? 36 : -36, filter: 'blur(6px)' }}
-              whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? 36 : -36 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.85, ease: ease.out }}
               className="relative pl-12"

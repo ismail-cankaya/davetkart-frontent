@@ -6,6 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { DecoFrame, Sunburst } from '../effects';
 import { ease } from '../../../../utils/motion';
+import { TrackingReveal } from '../TrackingReveal';
 
 /**
  * Art Deco Gala hero — mutlak simetri.
@@ -63,15 +64,15 @@ export function DecoHero({ invitation, theme, flavor }: HeroRenderProps) {
         </motion.div>
 
         <motion.h1
-          initial={{ opacity: 0, y: 16, letterSpacing: '0.24em' }}
-          animate={{ opacity: 1, y: 0, letterSpacing: '0.04em' }}
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.3, ease: ease.out, delay: 0.6 }}
           className={cn(
-            'font-serif font-bold uppercase leading-[1.06] mt-7 text-2xl @sm:text-4xl',
+            'font-serif font-bold uppercase leading-[1.06] mt-7 text-2xl @sm:text-4xl tracking-[0.04em]',
             theme.heading
           )}
         >
-          {invitation.names || 'Davetlisiniz'}
+          <TrackingReveal text={invitation.names || 'Davetlisiniz'} spread={0.2} duration={1.3} delay={0.6} />
         </motion.h1>
 
         <motion.p

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { GoldSheen } from './atmosphere';
+import { ease } from '../../../../utils/motion';
 
 export interface GlassPanelProps {
   children: React.ReactNode;
@@ -41,10 +42,10 @@ export function GlassPanel({
 }: GlassPanelProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 22, filter: 'blur(6px)' }}
-      whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+      initial={{ opacity: 0, y: 22 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.9, delay, ease: ease.out }}
       className={cn(
         'relative overflow-hidden rounded-2xl border backdrop-blur-xl backdrop-saturate-150',
         'shadow-[0_18px_50px_-12px_var(--tw-shadow-color)]',

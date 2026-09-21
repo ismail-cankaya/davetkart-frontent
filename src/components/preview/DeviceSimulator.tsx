@@ -8,7 +8,7 @@ import { useUIStore } from '../../stores/useUIStore';
 import { useRsvpStore } from '../../stores/useRsvpStore';
 import { PreviewDevice } from '../../types';
 import { withShowcaseContent } from '../../utils/showcase';
-import { ease, spring } from '../../utils/motion';
+import { duration, ease, spring } from '../../utils/motion';
 
 interface DeviceSpec {
   label: string;
@@ -114,6 +114,11 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
   const spec = DEVICE_SPECS[device];
   const frameWidth = isMobile ? spec.width.mobile : spec.width.desktop;
   const frameHeight = Math.round(frameWidth / spec.aspect);
+  // Ekranın HEDEF iç ölçüsü: çerçeve − 2 × (kenarlık + çerçeve payı).
+  // Kenarlık `border-[3px] lg:border-4`; isMobile tam olarak lg-altıdır.
+  const inset = 2 * ((isMobile ? 3 : 4) + spec.framePadding);
+  const screenWidth = frameWidth - inset;
+  const screenHeight = frameHeight - inset;
 
   const handleFullscreen = () => {
     const el = screenRef.current;
@@ -128,7 +133,9 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
   return (
     <div
       ref={simulatorRef}
-      className={`w-full flex flex-col items-center justify-center min-h-[400px] lg:min-h-[550px] perspective-container transition-[width] duration-700 ${
+      // Sütun genişliği çerçeveyle aynı süre ve eğride kayar (duration.stage);
+      // eskiden sütun 700 ms, çerçeve 800 ms'de varıyordu.
+      className={`w-full flex flex-col items-center justify-center min-h-[400px] lg:min-h-[550px] perspective-container transition-[width] duration-[800ms] ease-luxe ${
         device === 'laptop' ? 'lg:w-3/5' : 'lg:w-1/2'
       }`}
     >
@@ -154,14 +161,14 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
           aria-hidden="true"
           animate={{ borderRadius: spec.frameRadius, height: frameHeight }}
           initial={false}
-          transition={{ duration: 0.8, ease: ease.out }}
+          transition={{ duration: duration.stage, ease: ease.out }}
           className="device-glow-rest absolute left-0 top-0 w-full"
         />
         <motion.span
           aria-hidden="true"
           animate={{ borderRadius: spec.frameRadius, height: frameHeight }}
           initial={false}
-          transition={{ duration: 0.8, ease: ease.out }}
+          transition={{ duration: duration.stage, ease: ease.out }}
           className="device-glow-peak absolute left-0 top-0 w-full"
         />
 
@@ -174,7 +181,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
             padding: spec.framePadding
           }}
           initial={false}
-          transition={{ duration: 0.8, ease: ease.out }}
+          transition={{ duration: duration.stage, ease: ease.out }}
           className="relative bg-slate-900 overflow-hidden border-[3px] lg:border-4 border-slate-800"
         >
           {/* Device-specific chrome: notch (phone) / camera dot (tablet, laptop) */}
@@ -210,16 +217,27 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
             data-lenis-prevent
             animate={{ borderRadius: spec.screenRadius }}
             initial={false}
-            transition={{ duration: 0.8, ease: ease.out }}
+            transition={{ duration: duration.stage, ease: ease.out }}
             className="w-full h-full overflow-hidden relative bg-emerald-950 flex flex-col"
           >
-            {/* Dynamically render the selected template */}
-            <TemplateRenderer
-              templateId={activePresetId}
-              invitation={invitation}
-              onRsvpClick={() => setRsvpModalOpen(true)}
-              mode="preview"
-            />
+            {/* 🔴 Şablon HEDEF ekran ölçüsünde, sabit piksel ve `contain: strict`
+                bir kutuya çizilir. Cihaz değişince çerçeve 0.8 s boyunca
+                büyüyüp küçülür ve bu kutuyu kırpar; şablon ise geçişin başında
+                bir kez yerleşir. Kutu çerçeveyle birlikte büyüseydi canlı
+                şablon (video, canvas parçacıklar, blur'lu atmosfer) her karede
+                yeniden yerleşir, parçacık canvas'ı her karede yeniden
+                boyutlanırdı. Tam ekranda kutu ekranı doldurur (index.css). */}
+            <div
+              className="device-screen-canvas absolute left-0 top-0 flex flex-col [contain:strict]"
+              style={{ width: screenWidth, height: screenHeight }}
+            >
+              <TemplateRenderer
+                templateId={activePresetId}
+                invitation={invitation}
+                onRsvpClick={() => setRsvpModalOpen(true)}
+                mode="preview"
+              />
+            </div>
 
             {/* RSVP Modal */}
             <AnimatePresence>

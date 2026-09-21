@@ -8,6 +8,7 @@ import { TemplateFlavor } from './flavor';
 import { ChevronDownIcon } from './icons';
 import { useCountdown } from './useCountdown';
 import { ease } from '../../../utils/motion';
+import { TrackingReveal } from './TrackingReveal';
 
 /**
  * Yoğunluk modu: 'compact', süslemelerin metin alanını daralttığı şablonlarda
@@ -147,12 +148,12 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
 
         {/* Eyebrow */}
         <motion.span
-          initial={{ opacity: 0, letterSpacing: '0.1em' }}
-          animate={{ opacity: 1, letterSpacing: '0.35em' }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           transition={{ duration: 1.2, ease: ease.out, delay: 0.3 }}
-          className={cn('text-[10px] font-semibold uppercase', theme.accent)}
+          className={cn('text-[10px] font-semibold uppercase tracking-[0.35em]', theme.accent)}
         >
-          {invitation.title}
+          <TrackingReveal text={invitation.title} spread={-0.25} duration={1.2} delay={0.3} />
         </motion.span>
 
         {/* Names — staggered word reveal */}
@@ -167,7 +168,7 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
             <motion.span
               key={`${word}-${i}`}
               className="inline-block mr-[0.28em] last:mr-0"
-              initial={{ opacity: 0, y: 26, filter: 'blur(8px)' }}
+              initial={{ opacity: 0, y: 26, filter: 'blur(4px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.9, ease: ease.out, delay: 0.5 + i * 0.14 }}
             >

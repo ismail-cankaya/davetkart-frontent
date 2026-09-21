@@ -95,10 +95,12 @@ export function GenerationLoader() {
 
         {/* Progress shimmer bar */}
         <div className="w-56 h-1 bg-white/10 rounded-full mt-8 overflow-hidden">
+          {/* scaleX, width değil: 2.8 s boyunca her karede layout yerine
+              yalnızca transform. Uç yuvarlaklığını kapsayıcının kırpması verir. */}
           <motion.span
-            className="block h-full bg-gradient-to-r from-gold via-champagne to-gold rounded-full"
-            initial={{ width: '5%' }}
-            animate={{ width: '100%' }}
+            className="block h-full w-full origin-left rtl:origin-right bg-gradient-to-r from-gold via-champagne to-gold"
+            initial={{ scaleX: 0.05 }}
+            animate={{ scaleX: 1 }}
             transition={{ duration: GENERATION_DURATION_MS / 1000, ease: 'easeInOut' }}
           />
         </div>

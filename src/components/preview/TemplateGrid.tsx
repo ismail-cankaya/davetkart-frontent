@@ -62,7 +62,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
 
   return (
     <motion.div
-      className={`w-full flex flex-col justify-center space-y-4 lg:space-y-6 pt-4 transition-[width] duration-700 ${
+      className={`w-full flex flex-col justify-center space-y-4 lg:space-y-6 pt-4 transition-[width] duration-[800ms] ease-luxe ${
         previewDevice === 'laptop' ? 'lg:w-2/5' : 'lg:w-1/2'
       }`}
       initial={reduceMotion ? false : { opacity: 0, transform: 'translateX(-60px)' }}

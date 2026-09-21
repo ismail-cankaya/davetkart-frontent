@@ -330,9 +330,13 @@ export function AuroraMesh({
 /**
  * İridesan krom yüzey — sıvı metal yansıması.
  *
- * Renk açısı (hue-rotate) ile konum birlikte kaydırılır; ikisi farklı hızda
- * olduğu için yüzey "aynı dokunun kayması" değil, ışığın metalde dönmesi
- * gibi okunur.
+ * 🔴 Degrade elemanın kendisinde `background-position` ile kaydırılmaz: o
+ * özellik compositor'da çalışmaz ve 9 "Krom" şablonunda tam ekran katman her
+ * karede yeniden boyanırdı. Degrade 3.2 kat genişlikte bir iç katmana
+ * basılır ve katman `transform` ile kayar (bkz. index.css .chrome-layer).
+ * Eski sürümdeki 22°'lik hue-rotate salınımı bırakıldı: taklidi, aynı
+ * boyutta ikinci bir GPU katmanı gerektirirdi; renk değişimi zaten kayan
+ * paletten gelir.
  */
 export function Iridescent({
   duration = 14,
@@ -342,16 +346,19 @@ export function Iridescent({
   return (
     <div
       aria-hidden="true"
-      data-atmosphere=""
-      className={cn('absolute inset-0 pointer-events-none', className)}
-      style={{
-        opacity,
-        backgroundImage:
-          'linear-gradient(115deg, #7f9cf5 0%, #e0c3fc 18%, #8ec5fc 34%, #f5d0c5 52%, #c2e9fb 68%, #d5b4f2 84%, #9ad6f0 100%)',
-        backgroundSize: '320% 320%',
-        animation: `chrome-shift ${duration}s ease-in-out infinite`
-      }}
-    />
+      className={cn('absolute inset-0 pointer-events-none overflow-hidden', className)}
+      style={{ opacity }}
+    >
+      <div
+        data-atmosphere=""
+        className="chrome-layer"
+        style={{
+          backgroundImage:
+            'linear-gradient(115deg, #7f9cf5 0%, #e0c3fc 18%, #8ec5fc 34%, #f5d0c5 52%, #c2e9fb 68%, #d5b4f2 84%, #9ad6f0 100%)',
+          animation: `chrome-slide ${duration}s ease-in-out infinite`
+        }}
+      />
+    </div>
   );
 }
 

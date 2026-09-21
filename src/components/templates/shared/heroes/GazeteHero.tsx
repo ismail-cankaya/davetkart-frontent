@@ -6,6 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { Halftone } from '../effects';
 import { ease } from '../../../../utils/motion';
+import { TrackingReveal } from '../TrackingReveal';
 
 /**
  * Gazete Manşeti hero — davetin HABER olarak sunulduğu düzen.
@@ -49,15 +50,15 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
         <div className="relative">
           {/* ——— Logotype ——— */}
           <motion.h2
-            initial={{ opacity: 0, letterSpacing: '0.6em' }}
-            animate={{ opacity: 1, letterSpacing: '0.12em' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{ duration: 1.1, ease: ease.out, delay: 0.15 }}
             className={cn(
-              'font-serif font-black uppercase text-center leading-none text-[1.15rem] @sm:text-[1.5rem]',
+              'font-serif font-black uppercase text-center leading-none text-[1.15rem] @sm:text-[1.5rem] tracking-[0.12em]',
               theme.heading
             )}
           >
-            {masthead || invitation.title}
+            <TrackingReveal text={masthead || invitation.title} spread={0.48} duration={1.1} delay={0.15} />
           </motion.h2>
 
           {/* Künye satırı: iki kalın kural arasına sıkışmış ince bilgi. */}

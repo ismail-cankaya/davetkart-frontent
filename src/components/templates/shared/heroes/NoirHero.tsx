@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { TrackingReveal } from '../TrackingReveal';
 
 /**
  * Noir Minimal hero — sessiz lüks: tek bir dev serif başlık, ince kurallar
@@ -85,12 +86,16 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
           {words.map((word, i) => (
             <motion.span
               key={`${word}-${i}`}
-              className="inline-block mr-[0.22em] last:mr-0"
-              initial={{ opacity: 0, y: 18, letterSpacing: '0.18em' }}
-              animate={{ opacity: 1, y: 0, letterSpacing: '-0.02em' }}
+              className="inline-block mr-[0.22em] last:mr-0 tracking-[-0.02em]"
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: ease.out, delay: 0.25 + i * 0.12 }}
             >
-              {word === '&' ? <span className={cn('italic', theme.accent)}>&amp;</span> : word}
+              {word === '&' ? (
+                <span className={cn('italic', theme.accent)}>&amp;</span>
+              ) : (
+                <TrackingReveal text={word} spread={0.2} duration={1.2} delay={0.25 + i * 0.12} />
+              )}
             </motion.span>
           ))}
         </h1>

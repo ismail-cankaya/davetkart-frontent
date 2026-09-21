@@ -558,6 +558,13 @@ html.lenis body {
   }
 }
 
+/* Cihaz simülatörünün şablon kutusu normalde hedef ekran ölçüsünde sabittir
+   (bkz. DeviceSimulator); tam ekrana alınan ekran alanında ekranı doldurur. */
+:fullscreen > .device-screen-canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 /* ————— Ekran dışı bölümler —————
    `content-visibility: auto`: bölüm görünür alana yaklaşana kadar tarayıcı
    onun stil, layout ve boyama işini tamamen atlar; içindeki animasyonlar da
@@ -796,19 +803,30 @@ html.lenis body {
 
 /* Krom/iridesan: degradenin konumu kayarken renk açısı da döner —
    tek başına konum kayması "kaydırılmış doku" gibi okunurdu. */
-@keyframes chrome-shift {
-  0% {
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg);
+/* İridesan krom (atmosphere.tsx Iridescent). Katman 3.2W genişlikte, degrade
+   kutusu 3.2W × 3.2H (`background-size: 100% 320%`) — eski
+   `background-size: 320% 320%` ile aynı geometri. Eski `background-position`
+   0% → 100% kayması, katmanın kendi genişliğinin 220/320'si = %68.75'lik
+   transform'una eşittir; görüntü aynı, boyama yok. */
+.chrome-layer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 320%;
+  background-size: 100% 320%;
+  background-position: 0 50%;
+  will-change: transform;
+}
+
+@keyframes chrome-slide {
+
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
   }
 
   50% {
-    background-position: 100% 50%;
-    filter: hue-rotate(22deg);
-  }
-
-  100% {
-    background-position: 0% 50%;
-    filter: hue-rotate(0deg);
+    transform: translate3d(-68.75%, 0, 0);
   }
 }
