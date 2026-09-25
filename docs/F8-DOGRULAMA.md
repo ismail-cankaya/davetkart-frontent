@@ -69,6 +69,7 @@ ne söylediği kadardır.
 | **5** | Paywall'dan bir plan seç → "Ödemeye Geç" | `POST /invitations/{id}/checkout` → **201**, `status: 'pending'`; kullanıcı `redirectUrl`'e gider. **"Ödeme tamamlandı" YAZMAMALI** | "Ödendi" diyorsa planın en pahalı maddesi geri gelmiş: kullanıcı ödediğini sanıp 402 alır |
 | **6** | Webhook'u tetikle (§0) → tekrar yayınla | **200**, `status: 'published'`; panele yönlendirme | 402 geliyorsa webhook siparişi `paid`'e çevirmemiş |
 | **7** | Aynı davetiyeyi ikinci kez yayınla | **409** `INVITATION_ALREADY_PUBLISHED`; *"zaten yayında"* bilgisi + panele gidiş | Hata gibi gösteriliyorsa kullanıcı hedefine ulaşmışken tekrar denemeye itilir |
+| **7b** | Senaryo 5'ten sonra `/odeme/basarili?order=…` açılır; webhook'u **birkaç saniye sonra** tetikle (§0) | Önce *"Ödemeniz onaylanıyor"* + adımlar; webhook gelince sayfa yenilenmeden *"Her şey hazır"* + sipariş özeti. "Davetiyeyi Şimdi Yayınla" → **200**, panele gidiş | Onay gelmeden "ödendi" diyorsa adres kanıt sayılmış; ana sayfaya düşüyorsa rota eksik (B1). `GET /orders/{id}` yoksa ekran *"doğrulayamadık"* der — bu beklenen yedek davranıştır |
 
 ### Misafir yüzeyi
 
@@ -164,6 +165,15 @@ Doğrulandı: `/odeme/basarili?order=01TEST` → `/` (anasayfa).
 **Sonucu:** kullanıcı ödemesini tamamlayıp geri döndüğünde pazarlama
 anasayfasında buluyor kendini; ödemenin alınıp alınmadığını, ne yapması
 gerektiğini öğrenemiyor. F3'te kurulan akışın son halkası kopuk.
+
+**Durum:** 🟡 **Frontend yarısı kapandı** (Faz 10.26–10.27).
+`pages/PaymentReturnPage.tsx` iki rotayı da karşılıyor; iş mantığı
+`hooks/usePaymentReturn.ts` + `hooks/useOrderStatus.ts`'te. Sayfa siparişi
+`GET /orders/{id}` ile 30 sn yokluyor ve **yalnızca sunucu `paid` dediğinde**
+"onaylandı" diyor. Açık kalan: backend'de bu uç henüz yok (10.22–10.25). O
+gelene kadar sayfa 404 alır ve *"doğrulayamadık"* ekranını gösterir; davetiye
+kimliği biliniyorsa (`checkoutMemory`) "Yayınlamayı Dene" ile yetkiyi yine
+yayınlama ucu verir.
 
 ### 🟡 B2 — `uploaded` kuralının çevirisi eksikti
 

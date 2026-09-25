@@ -181,8 +181,49 @@ export interface CheckoutPayload {
   tier: SubscriptionTier;
 }
 
-/** Sipariş yaşam döngüsü — backend `OrderStatus` enum'ı. */
-export type OrderStatus = 'pending' | 'paid' | 'failed' | 'refunded';
+/**
+ * Sipariş yaşam döngüsü — backend `OrderStatus` enum'ı.
+ *
+ * `expired`: `orders:expire` işinin süresi dolan `pending` siparişe yazdığı
+ * durum (K89). `failed` sağlayıcının reddidir; ikisi farklı ekran metni ister.
+ */
+export type OrderStatus = 'pending' | 'paid' | 'failed' | 'refunded' | 'expired';
+
+/** Sunucudan gelen bir dizgi bilinen bir sipariş durumu mu? */
+export function isOrderStatus(value: unknown): value is OrderStatus {
+  return (
+    value === 'pending' ||
+    value === 'paid' ||
+    value === 'failed' ||
+    value === 'refunded' ||
+    value === 'expired'
+  );
+}
+
+/**
+ * `GET /orders/{id}` yanıtı — backend `OrderResource` (Faz 10.23–10.24).
+ *
+ * 🔴 `invitationId` ÜÇ değer taşır ve üçü farklı anlama gelir:
+ *
+ * | Değer | Anlamı |
+ * |---|---|
+ * | `'01J…'` | Sipariş bu davetiyeye yazıldı |
+ * | `null` | Hesap paketi (K42) |
+ * | `undefined` | Sunucu alanı göndermedi — bilinmiyor |
+ *
+ * Bilinmeyeni hesap paketi saymak, "tekrar dene"yi yanlış uca gönderirdi.
+ */
+export interface OrderRecord {
+  orderId: string;
+  tier: SubscriptionTier;
+  status: OrderStatus;
+  invitationId?: string | null;
+  /** ISO 8601; yalnızca ödenmiş siparişte dolu. */
+  paidAt?: string | null;
+}
+
+/** Ödeme sağlayıcısının kullanıcıyı geri gönderdiği rota. */
+export type PaymentReturnOutcome = 'success' | 'failure';
 
 /**
  * `POST /invitations/{id}/checkout` ve `POST /payments/checkout` yanıtı (201).

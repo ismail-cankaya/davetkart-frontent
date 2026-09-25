@@ -1,5 +1,11 @@
 import { api, unwrapEnvelope } from './api';
-import { CheckoutResult, SubscriptionTier } from '../types';
+import {
+  CheckoutResult,
+  isOrderStatus,
+  isSubscriptionTier,
+  OrderRecord,
+  SubscriptionTier
+} from '../types';
 
 /**
  * Ödeme servisi.
@@ -19,6 +25,9 @@ import { CheckoutResult, SubscriptionTier } from '../types';
  * |---|---|
  * | Bu davetiye için | `POST /invitations/{id}/checkout` |
  * | Hesap için (paket) | `POST /payments/checkout` |
+ *
+ * Ödemenin gerçekten alınıp alınmadığını yalnızca `GET /orders/{id}` söyler;
+ * sağlayıcının kullanıcıyı `/odeme/basarili`'ya göndermesi söylemez.
  */
 function toCheckoutResult(payload: unknown): CheckoutResult {
   const body = unwrapEnvelope(payload);
@@ -34,7 +43,53 @@ function toCheckoutResult(payload: unknown): CheckoutResult {
   return body as CheckoutResult;
 }
 
+/**
+ * Sipariş kaydını doğrulayarak okur.
+ *
+ * 🔴 Durum ve plan **doğrulanır**, tip dönüşümüyle kabul edilmez: dönüş
+ * sayfası bu alanlara bakarak *"ödendi"* diyor. Tanımadığımız bir durum
+ * (backend yeni bir değer eklediğinde) sessizce `paid` olmayan bir şeye
+ * düşmemeli — okunamayan sipariş, doğrulanamayan siparişdir.
+ */
+function toOrderRecord(payload: unknown): OrderRecord {
+  const body = unwrapEnvelope(payload) as Record<string, unknown> | null;
+
+  if (
+    !body ||
+    typeof body !== 'object' ||
+    typeof body.orderId !== 'string' ||
+    !isSubscriptionTier(body.tier) ||
+    !isOrderStatus(body.status)
+  ) {
+    throw new Error('Unexpected order response shape');
+  }
+
+  const order: OrderRecord = { orderId: body.orderId, tier: body.tier, status: body.status };
+
+  // Anahtar yoksa HİÇ yazılmaz: `undefined` "bilinmiyor", `null` "hesap
+  // paketi" demektir (bkz. OrderRecord).
+  const { invitationId, paidAt } = body;
+  if (typeof invitationId === 'string') order.invitationId = invitationId;
+  else if (invitationId === null) order.invitationId = null;
+
+  if (typeof paidAt === 'string') order.paidAt = paidAt;
+  else if (paidAt === null) order.paidAt = null;
+
+  return order;
+}
+
 export const paymentService = {
+  /**
+   * Siparişin güncel durumu. Ödeme dönüş sayfası `pending → paid` geçişini
+   * (webhook'un gelişini) bununla yoklar.
+   *
+   * Başkasının siparişinde backend 404 döner (H7).
+   */
+  async getOrder(orderId: string, options: { signal?: AbortSignal } = {}): Promise<OrderRecord> {
+    const { data } = await api.get<unknown>(`/orders/${orderId}`, { signal: options.signal });
+    return toOrderRecord(data);
+  },
+
   /** Tek bir davetiyeyi yayınlamak için plan satın alır. */
   async checkoutForInvitation(
     invitationId: string,

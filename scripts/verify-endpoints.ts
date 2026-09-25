@@ -302,6 +302,45 @@ async function main(): Promise<void> {
     fail('redirectUrl null olarak okundu; yokluğu `undefined` ile temsil edilmeli');
   }
 
+  const ORDER_ID = '01J55555555555555555555555';
+  await check(
+    'sipariş durumu',
+    { method: 'GET', url: `/orders/${ORDER_ID}` },
+    { data: { orderId: ORDER_ID, tier: 'gold', status: 'paid', invitationId: null } },
+    () => paymentService.getOrder(ORDER_ID),
+  );
+
+  // 🔴 `invitationId`'nin üç değeri üç ayrı eylem demek: `null` hesap paketi,
+  // yokluk "bilinmiyor". İkisi karışırsa dönüş sayfasındaki "tekrar dene"
+  // davetiye yerine hesaba sipariş açar.
+  const accountOrder = await paymentService.getOrder(ORDER_ID);
+  if (accountOrder.invitationId !== null) {
+    fail(`invitationId: null okunamadı (${JSON.stringify(accountOrder.invitationId)})`);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (api.defaults as any).adapter = mockAdapter({ data: { orderId: ORDER_ID, tier: 'gold', status: 'pending' } });
+  const unscopedOrder = await paymentService.getOrder(ORDER_ID);
+  if ('invitationId' in unscopedOrder) {
+    fail('invitationId anahtarı gelmediği hâlde yazıldı; "bilinmiyor" hesap paketiyle karışır');
+  }
+
+  // 🔴 Tanınmayan durum hiçbir şeye yuvarlanmaz: dönüş sayfası "ödendi"
+  // demeyi bu alana bakarak yapıyor.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (api.defaults as any).adapter = mockAdapter({ data: { orderId: ORDER_ID, tier: 'gold', status: 'settled' } });
+  let rejectedUnknownStatus = false;
+  try {
+    await paymentService.getOrder(ORDER_ID);
+  } catch {
+    rejectedUnknownStatus = true;
+  }
+  if (rejectedUnknownStatus) {
+    console.log('  ✓ tanınmayan sipariş durumu reddedildi');
+  } else {
+    fail("tanınmayan sipariş durumu ('settled') kabul edildi");
+  }
+
   console.log('\nAsistan ucu');
 
   const assistantBody = await check(

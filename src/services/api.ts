@@ -161,6 +161,11 @@ export function isNetworkError(error: unknown): boolean {
   return axios.isAxiosError(error) && error.response === undefined;
 }
 
+/** Yanıtın HTTP durum kodu; yanıt hiç yoksa (ağ hatası) `null`. */
+export function apiErrorStatus(error: unknown): number | null {
+  return axios.isAxiosError(error) ? (error.response?.status ?? null) : null;
+}
+
 /**
  * 🔴 Bir 401 İKİ farklı olayı anlatır ve ikisine aynı tepki verilemez:
  *

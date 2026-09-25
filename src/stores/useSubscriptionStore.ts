@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { CheckoutResult, Invitation, SubscriptionTier } from '../types';
 import { paymentService } from '../services/payments';
+import { checkoutMemory } from '../services/checkoutMemory';
 
 /** Planları sıralar ki "X planı Y gereksinimini karşılıyor mu" tek kıyas olsun. */
 export const TIER_RANK: Record<SubscriptionTier, number> = {
@@ -72,6 +73,12 @@ interface SubscriptionState {
    * işlemi tamamladıktan sonra webhook ile `paid` olur.
    */
   startCheckout: (tier?: SubscriptionTier) => Promise<CheckoutResult | null>;
+  /**
+   * Ödeme dönüş sayfasından, başarısız siparişle AYNI davetiye ve plan için
+   * yeni bir sipariş açar. Sayfa yeniden yüklendiği için paywall'ın
+   * `invitationId`'si bellekte değildir; önce o yazılır.
+   */
+  retryCheckout: (context: { invitationId: string | null; tier: SubscriptionTier }) => Promise<CheckoutResult | null>;
 }
 
 export const useSubscriptionStore = create<SubscriptionState>()((set, get) => ({
@@ -117,11 +124,21 @@ export const useSubscriptionStore = create<SubscriptionState>()((set, get) => ({
         ? await paymentService.checkoutForInvitation(invitationId, chosen)
         : await paymentService.checkoutForAccount(chosen);
 
+      // Kullanıcı ödeme sayfasına gidip döndüğünde uygulama sıfırdan açılır;
+      // dönüş sayfası hangi davetiyenin yayınlanacağını buradan öğrenir.
+      checkoutMemory.remember({ orderId: result.orderId, invitationId, tier: chosen });
+
       set({ isProcessing: false, pendingOrder: result });
       return result;
     } catch (error) {
       set({ isProcessing: false });
       throw error;
     }
+  },
+
+  retryCheckout: ({ invitationId, tier }) => {
+    if (get().isProcessing) return Promise.resolve(null);
+    set({ invitationId });
+    return get().startCheckout(tier);
   }
 }));

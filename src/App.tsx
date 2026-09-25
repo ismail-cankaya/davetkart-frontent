@@ -12,6 +12,7 @@ const LoginPage = React.lazy(() => import('./pages/LoginPage'));
 const RegisterPage = React.lazy(() => import('./pages/RegisterPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
+const PaymentReturnPage = React.lazy(() => import('./pages/PaymentReturnPage'));
 
 // Kurumsal sayfalar
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
@@ -44,6 +45,25 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        )
+      },
+      // Ödeme sağlayıcısının dönüş adresleri — backend `PAYMENT_SUCCESS_URL` /
+      // `PAYMENT_FAILURE_URL` ile birebir aynı olmalı. Eşleşmezse catch-all
+      // kullanıcıyı `?order=` kaybolmuş hâlde ana sayfaya atar (F8 · B1).
+      {
+        path: '/odeme/basarili',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage outcome="success" />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/odeme/hata',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage outcome="failure" />
           </ProtectedRoute>
         )
       }

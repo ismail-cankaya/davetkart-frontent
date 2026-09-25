@@ -16,7 +16,8 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const location = useLocation();
 
   if (!isAuthenticated) {
-    const state: AuthRedirectState = { from: location.pathname };
+    // Sorgu da korunur: ödeme dönüşünde siparişi taşıyan `?order=` odur.
+    const state: AuthRedirectState = { from: location.pathname + location.search };
     return <Navigate to="/login" replace state={state} />;
   }
 
