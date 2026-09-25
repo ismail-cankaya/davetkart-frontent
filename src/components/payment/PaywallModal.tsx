@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { BadgeCheck, Check, Crown, Feather, Gem, Loader2, Lock, Minus, ShieldCheck, X } from 'lucide-react';
 import { SUBSCRIPTION_PLANS } from '../../data';
@@ -25,6 +26,11 @@ const PLAN_ICONS: Record<SubscriptionTier, typeof Crown> = {
  *
  * Duvarın açılma sebebi iki türlüdür ve metinler ona göre değişir:
  * *"önce bir plan al"* ile *"planını yükselt"* aynı cümle değildir.
+ *
+ * 🔴 `document.body`'ye PORTAL ile basılır. EditorWorkspace'in sarmalayıcısı
+ * Motion'ın giriş `transform`'unu taşır; bu, `fixed` konumlu bir torunu ekrana
+ * değil sayfaya hapseder — katman sayfa boyu uzar ve kaydırılacak bir şey
+ * kalmaz (bkz. ThemePickerModal / MapPickerModal'daki aynı ders).
  */
 export function PaywallModal() {
   const isOpen = useSubscriptionStore((s) => s.isPaywallOpen);
@@ -82,16 +88,26 @@ export function PaywallModal() {
     }
   };
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
+        // 🔴 Kaydırma kabı TEK ve o da bu katmandır. Küçük ekranda üç plan
+        // kartı alt alta dizilir ve pencere ekrandan uzun olur:
+        //  - `data-lenis-prevent` olmadan Lenis tekerlek/trackpad olayını
+        //    `preventDefault` ile yutar ve kilitli sayfayı kaydırmaya çalışır;
+        //    pencere hiç kaymaz.
+        //  - Kart `max-h-full` ile kendi içinde kaydığında, kartın dışındaki
+        //    boşluktan başlayan dokunuş hiçbir şeyi kaydırmıyordu. Kart doğal
+        //    boyunda kalır, katmanın tamamı kayar; `overscroll-contain` sonda
+        //    arkadaki sayfaya taşmayı keser.
         <motion.div
           variants={backdropVariants}
           initial="hidden"
           animate="shown"
           exit="exit"
           onClick={closePaywall}
-          className="fixed inset-0 z-[90] bg-ink/45 backdrop-blur-md flex items-center justify-center p-4 md:p-8 overflow-y-auto"
+          data-lenis-prevent
+          className="fixed inset-0 z-[90] bg-ink/45 backdrop-blur-md flex justify-center p-4 md:p-8 overflow-y-auto overscroll-contain"
         >
           <motion.div
             variants={modalVariants}
@@ -99,7 +115,9 @@ export function PaywallModal() {
             animate="shown"
             exit="exit"
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-5xl bg-cream rounded-[2rem] shadow-2xl shadow-ink/30 border border-white/40 my-auto max-h-full overflow-y-auto"
+            // `my-auto`: sığdığında dikeyde ortalar, sığmadığında üstten başlar
+            // (`items-center` taşan kartın tepesini ulaşılamaz yapardı).
+            className="relative w-full max-w-5xl bg-cream rounded-[2rem] shadow-2xl shadow-ink/30 border border-white/40 my-auto"
           >
             {/* Close */}
             <motion.button
@@ -290,6 +308,7 @@ export function PaywallModal() {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
