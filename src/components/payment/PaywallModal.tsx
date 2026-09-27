@@ -16,7 +16,9 @@ const PLAN_ICONS: Record<SubscriptionTier, typeof Crown> = {
 };
 
 /**
- * Yayınlama 402 ile reddedildiğinde açılan plan duvarı.
+ * Sunucu 402 ile bir plan istediğinde açılan plan duvarı: yayınlama reddi ya
+ * da (Faz 10, K88) yayındaki davetiyede plan üstü bir modülün otomatik kaydı.
+ * CreatePage'de tek kopya olarak durur; sihirbazın her aşamasında açılabilir.
  *
  * 🔴 Bu ekran bir ödeme ekranı DEĞİLDİR. Buradaki eylem bir sipariş başlatır
  * (`status: 'pending'`) ve kullanıcıyı sağlayıcının ödeme sayfasına
@@ -27,10 +29,13 @@ const PLAN_ICONS: Record<SubscriptionTier, typeof Crown> = {
  * Duvarın açılma sebebi iki türlüdür ve metinler ona göre değişir:
  * *"önce bir plan al"* ile *"planını yükselt"* aynı cümle değildir.
  *
- * 🔴 `document.body`'ye PORTAL ile basılır. EditorWorkspace'in sarmalayıcısı
- * Motion'ın giriş `transform`'unu taşır; bu, `fixed` konumlu bir torunu ekrana
- * değil sayfaya hapseder — katman sayfa boyu uzar ve kaydırılacak bir şey
- * kalmaz (bkz. ThemePickerModal / MapPickerModal'daki aynı ders).
+ * 🔴 `document.body`'ye PORTAL ile basılır. Sihirbaz aşamalarının
+ * sarmalayıcıları (EditorWorkspace, form) Motion'ın giriş `transform`'unu
+ * taşır; bu, `fixed` konumlu bir torunu ekrana değil sayfaya hapseder —
+ * katman sayfa boyu uzar ve kaydırılacak bir şey kalmaz (bkz.
+ * ThemePickerModal / MapPickerModal'daki aynı ders). Duvar Faz 10'da sayfa
+ * seviyesine taşındı; portal yine de kalır, çünkü nerede çizileceğine
+ * çağıranın ağacı değil duvarın kendisi karar vermeli.
  */
 export function PaywallModal() {
   const isOpen = useSubscriptionStore((s) => s.isPaywallOpen);

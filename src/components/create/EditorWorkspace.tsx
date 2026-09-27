@@ -4,14 +4,13 @@ import { motion } from 'motion/react';
 import { CloudOff, CloudUpload, CheckCircle2, Loader2, PenLine, Rocket, ShieldCheck } from 'lucide-react';
 import { DesignerPanel } from '../editor/DesignerPanel';
 import { DeviceSimulator } from '../preview/DeviceSimulator';
-import { PaywallModal } from '../payment/PaywallModal';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
 import { useInvitationStore } from '../../stores/useInvitationStore';
-import { getRequiredTier, useSubscriptionStore } from '../../stores/useSubscriptionStore';
+import { paywallFromError, useSubscriptionStore } from '../../stores/useSubscriptionStore';
 import { toast } from '../ui/Toast';
-import { AuthRedirectState, isSubscriptionTier } from '../../types';
-import { apiErrorCode, apiErrorParams } from '../../services/api';
+import { AuthRedirectState } from '../../types';
+import { apiErrorCode } from '../../services/api';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { duration, ease } from '../../utils/motion';
@@ -59,31 +58,20 @@ export function EditorWorkspace() {
       navigate('/dashboard');
       return;
     } catch (error) {
-      const code = apiErrorCode(error);
-
       // 🔴 İki 402, iki ayrı ekran. "Önce bir plan al" ile "planını yükselt"
-      // aynı şey değildir; ayrım `code`'dadır, durum kodunda değil.
-      if (code === 'PAYMENT_REQUIRED' || code === 'PAYWALL_TIER_INSUFFICIENT') {
-        const { invitation, recordId } = useInvitationStore.getState();
-
-        // Gereken planı SUNUCU bildirir. `getRequiredTier()` yalnızca yanıtın
-        // taşımadığı bir durumda yedek olarak kullanılır.
-        const serverTier = apiErrorParams(error).requiredTier;
-        const requiredTier = isSubscriptionTier(serverTier)
-          ? serverTier
-          : getRequiredTier(invitation);
-
-        useSubscriptionStore.getState().openPaywall({
-          requiredTier,
-          reason: code === 'PAYMENT_REQUIRED' ? 'purchase' : 'upgrade',
-          invitationId: recordId
-        });
+      // aynı şey değildir; ayrım `code`'dadır, durum kodunda değil. Eşleme
+      // TEK yerde (`paywallFromError`): otomatik kaydetmenin 402'si de aynı
+      // ekranı açar (Faz 10). Duvarın kendisi CreatePage'de.
+      const { invitation, recordId } = useInvitationStore.getState();
+      const paywall = paywallFromError(error, invitation, recordId);
+      if (paywall) {
+        useSubscriptionStore.getState().openPaywall(paywall);
         return;
       }
 
       // Zaten yayındaysa kullanıcı hedefine ulaşmış demektir; hata gibi
       // göstermek onu bir kez daha denemeye iterdi.
-      if (code === 'INVITATION_ALREADY_PUBLISHED') {
+      if (apiErrorCode(error) === 'INVITATION_ALREADY_PUBLISHED') {
         toast('Bu davetiye zaten yayında.', 'info');
         navigate('/dashboard');
         return;
@@ -227,8 +215,6 @@ export function EditorWorkspace() {
           </p>
         </motion.div>
       </section>
-
-      <PaywallModal />
     </motion.div>
   );
 }
