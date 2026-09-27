@@ -1,6 +1,7 @@
 import { create } from 'zustand';
-import { CheckoutResult, Invitation, SubscriptionTier } from '../types';
+import { CheckoutResult, Invitation, SubscriptionTier, isSubscriptionTier } from '../types';
 import { paymentService } from '../services/payments';
+import { apiErrorCode, apiErrorParams } from '../services/api';
 
 /** Planları sıralar ki "X planı Y gereksinimini karşılıyor mu" tek kıyas olsun. */
 export const TIER_RANK: Record<SubscriptionTier, number> = {
@@ -41,12 +42,42 @@ export function getRequiredTier(invitation: Invitation): SubscriptionTier {
  */
 export type PaywallReason = 'purchase' | 'upgrade';
 
-interface OpenPaywallOptions {
+export interface OpenPaywallOptions {
   /** Sunucunun bildirdiği gereken plan (`error.params.requiredTier`). */
   requiredTier: SubscriptionTier;
   reason: PaywallReason;
   /** Checkout'un yazılacağı davetiye; `null` = hesap paketi (K42). */
   invitationId: string | null;
+}
+
+/**
+ * Bir API hatasını paywall açılış seçeneklerine çevirir; paywall 402'si
+ * değilse `null`.
+ *
+ * 🔴 TEK eşleme noktası (C3). Aynı 402 iki yoldan gelir — yayınlama
+ * (`EditorWorkspace`) ve yayındaki davetiyenin otomatik kaydı
+ * (`useInvitationStore`, Faz 10 / K88) — ve ikisi AYNI ekranı açmalıdır.
+ * Eşleme iki yerde yazılsaydı biri `requiredTier`'ı sunucudan, öbürü
+ * yerel kopyadan okurdu ve iki ekran farklı planı önerirdi.
+ *
+ * Gereken planı SUNUCU bildirir. `getRequiredTier()` yalnızca yanıt onu
+ * taşımıyorsa (beklenmeyen bir durum) yedek olarak kullanılır.
+ */
+export function paywallFromError(
+  error: unknown,
+  invitation: Invitation,
+  invitationId: string | null
+): OpenPaywallOptions | null {
+  const code = apiErrorCode(error);
+  if (code !== 'PAYMENT_REQUIRED' && code !== 'PAYWALL_TIER_INSUFFICIENT') return null;
+
+  const serverTier = apiErrorParams(error).requiredTier;
+
+  return {
+    requiredTier: isSubscriptionTier(serverTier) ? serverTier : getRequiredTier(invitation),
+    reason: code === 'PAYMENT_REQUIRED' ? 'purchase' : 'upgrade',
+    invitationId
+  };
 }
 
 interface SubscriptionState {
