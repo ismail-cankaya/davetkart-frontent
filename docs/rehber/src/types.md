@@ -1,8 +1,8 @@
 # `src/types.ts` — Faz 3 değişikliği
 
 > **Kod dosyası:** `davetkart-frontent/src/types.ts`
-> **Faz:** 3 — frontend uyarlaması, dosya F1/8
-> **İlgili karar:** K44 — kimliği backend üretir
+> **Faz:** 3 — frontend uyarlaması, dosya F1/8 · 🆕 **Faz 10**, adım 10.9 (§10)
+> **İlgili karar:** K44 — kimliği backend üretir · Faz 10: K89 (`expired`)
 
 ---
 
@@ -197,3 +197,48 @@ yapıyor. İkisi de aynı soruyu soruyor: *"söylediğin şeyi gerçekten yaptı
 Tek davetiye varsayan servis, REST koleksiyonu istemcisine dönüşecek:
 `list / get / create / update / remove`. Orada ayrıca sunucudan gelen adımlara
 `localKey` atanacak ve giden gövdeden düşürülecek.
+
+---
+
+## 10. 🆕 Faz 10 — `OrderStatus`'a `'expired'` (10.9 · K89)
+
+### 10.1 Ne değişti?
+
+```ts
+export type OrderStatus = 'pending' | 'paid' | 'failed' | 'expired' | 'refunded';
+```
+
+Backend 10.3'te `OrderStatus` enum'una `Expired` ekledi. `orders:expire` komutu
+(saatlik) ödeme penceresi dolan `pending` siparişleri artık `failed` değil
+`expired` yapıyor (10.5).
+
+### 10.2 `failed` ile farkı — ve neden frontend'i ilgilendiriyor?
+
+| Durum | Kim söyledi | Sonradan `paid` olabilir mi? |
+|---|---|---|
+| `failed` | Sağlayıcı (ya da ödeme hiç başlatılamadı) | ❌ |
+| `expired` | Bizim sabrımızın sonu | ✅ Geç gelen webhook ile |
+
+Bugün frontend bu değeri yalnızca `CheckoutResult.status`'ta görebilir ve orada
+sipariş **hep** `pending` doğar. Yani bu değişiklik bugün hiçbir ekranı
+değiştirmiyor. Asıl okuyucusu **10.27**'nin ödeme dönüş sayfası olacak: siparişi
+birkaç saniye yoklayıp `paid` → *"yayınlayabilirsin"*, `pending` → *"bekliyor"*,
+`expired`/`failed` → *"tekrar dene"* diyecek.
+
+### 10.3 Neden şimdi, sayfa yazılmadan önce?
+
+Sözleşme bir **tip**tir ve tip önde gider (bu dosyanın §1'deki ilkesi). Backend
+`expired` dönmeye başladığı anda (10.5 deploy edilince) frontend'in tipi eksik
+kalırsa, bir sonraki geliştirici `switch (order.status)`'a bu kolu yazmayı
+unutabilir — TypeScript uyarmaz, çünkü tip o değerin var olduğunu bilmiyor.
+Tip genişleyince, `Record<OrderStatus, …>` gibi **tam** eşleme isteyen her yer
+derleme hatası verir ve eksik kolu gösterir.
+
+```powershell
+npm run lint     # bugün yeşil: OrderStatus'u tam eşleyen bir yer henüz yok
+```
+
+Bugün yeşil olması bir **bulgu**: `OrderStatus`'u kullanan tek yer
+`CheckoutResult.status` ve o değeri hiçbir yer `switch`'lemiyor. 10.27 yazılırken
+ilk iş, dönüş sayfasının durum eşlemesini `Record<OrderStatus, …>` olarak kurmak
+olmalı — o zaman `expired` unutulamaz.

@@ -181,8 +181,16 @@ export interface CheckoutPayload {
   tier: SubscriptionTier;
 }
 
-/** Sipariş yaşam döngüsü — backend `OrderStatus` enum'ı. */
-export type OrderStatus = 'pending' | 'paid' | 'failed' | 'refunded';
+/**
+ * Sipariş yaşam döngüsü — backend `OrderStatus` enum'ı.
+ *
+ * `expired` (Faz 10, K89): ödeme penceresi doldu, sağlayıcıdan sonuç GELMEDİ.
+ * `failed`'dan farkı: kesin bir red değil, bir bekleme sonu — geç gelen ödeme
+ * siparişi yine `paid` yapabilir. Arayüz ikisini de "tekrar dene" diye
+ * gösterebilir; ama `expired` bir siparişin sonradan `paid` olabileceğini
+ * bilmek, ödeme dönüş sayfasının (10.27) yoklamayı erken bırakmamasını sağlar.
+ */
+export type OrderStatus = 'pending' | 'paid' | 'failed' | 'expired' | 'refunded';
 
 /**
  * `POST /invitations/{id}/checkout` ve `POST /payments/checkout` yanıtı (201).
