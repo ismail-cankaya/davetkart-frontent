@@ -11,6 +11,7 @@ import {
 import { INITIAL_INVITATION, TEMPLATE_PRESETS } from '../data';
 import { persistenceService } from '../services/persistence';
 import { useAuthStore } from './useAuthStore';
+import { paywallFromError, useSubscriptionStore } from './useSubscriptionStore';
 
 /** Palette carried by each modular preset; legacy presets keep the current palette. */
 const PRESET_PALETTES: Record<string, PaletteId> = {
@@ -127,6 +128,35 @@ let documentOwnerId: string | null = null;
 const currentUserId = (): string | null => useAuthStore.getState().user?.id ?? null;
 
 /**
+ * Plana bağlı modül bayrakları — backend'deki `davetkart.module_tiers`
+ * haritasının anahtarları (`show_*`).
+ *
+ * Hangi modülün hangi plana ait olduğu BURADA YOK: o karar sunucunundur
+ * (`TierResolver`). Bu liste yalnızca "reddedilen bir kayıtta hangi anahtar
+ * açılmıştı?" sorusu için var.
+ */
+const MODULE_FLAGS = ['showEnvelope', 'showTimer', 'showTimeline', 'showGallery', 'showGift', 'showRSVP'] as const;
+type ModuleFlag = (typeof MODULE_FLAGS)[number];
+type ModuleFlags = Pick<Invitation, ModuleFlag>;
+
+/**
+ * 🔴 Sunucunun son ONAYLADIĞI modül bayrakları (Faz 10, K88).
+ *
+ * Yayındaki davetiyede plan üstü bir modül açılırsa sunucu kaydın TAMAMINI
+ * 402 ile reddeder. Editör hangi anahtarı geri alacağını ancak "sunucu en son
+ * neyi kabul etmişti?" sorusuyla bulabilir: o an açık olup burada kapalı olan
+ * modül, reddedilen açılıştır. Kayıt yüklendiğinde, her başarılı kaydetmede ve
+ * yayında güncellenir; yeni (kaydedilmemiş) belgede `null`.
+ */
+let confirmedModules: ModuleFlags | null = null;
+
+function pickModules(invitation: Invitation): ModuleFlags {
+  const picked = {} as ModuleFlags;
+  for (const flag of MODULE_FLAGS) picked[flag] = invitation[flag];
+  return picked;
+}
+
+/**
  * Sunucunun ürettiği program kimliklerini geri yazar (K44).
  *
  * İstek uçarken kullanıcı yazmaya devam etmiş olabilir; bu yüzden yanıtın
@@ -184,6 +214,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       if (generation !== documentGeneration) return SUPERSEDED;
 
       documentOwnerId = ownerId;
+      confirmedModules = pickModules(record.invitation);
       set((state) => ({
         recordId: record.id,
         saveState: 'saved',
@@ -197,9 +228,51 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       // A failed save must never crash the editor; the status hint surfaces
       // it and the next edit re-triggers the debounced save.
       if (generation !== documentGeneration) return SUPERSEDED;
+
+      // 🔴 Faz 10 (K88): 402 bir bağlantı hatası DEĞİL, içeriğin reddidir.
+      // Aynı içeriği yeniden göndermek aynı 402'yi üretir; önce açılan
+      // anahtar geri alınır, sonra plan duvarı açılır.
+      const paywall = paywallFromError(error, invitation, recordId);
+      if (paywall) {
+        rollBackRejectedModules(invitation);
+        useSubscriptionStore.getState().openPaywall(paywall);
+        return { ok: false, error };
+      }
+
       set({ saveState: 'error' });
       return { ok: false, error };
     }
+  };
+
+  /**
+   * 402 ile reddedilen kayıtta AÇILMIŞ modülleri kapatır ve yeniden
+   * kaydetmeyi tetikler.
+   *
+   * 🔴 Üç karar:
+   * 1. Açılan = gönderilende açık, sunucunun son onayladığında kapalı. Plan
+   *    haritası burada tahmin edilmez; tahmin sunucuyla ayrışırsa geri
+   *    alınmayan anahtar her kaydetmede yeni bir 402 üretirdi (402 fırtınası).
+   * 2. Sunucu isteğin TAMAMINI geri aldı: aynı pencerede yazılan metin de
+   *    kaydedilmedi. `editRevision` artırılır ki otomatik kaydetme kalanı
+   *    (artık bayraksız) yeniden göndersin.
+   * 3. Geri alınacak bir şey bulunamazsa (ör. aynı davetiye iki sekmede)
+   *    sayaç ARTIRILMAZ: aynı 402'yi otomatik olarak tekrarlayan bir döngü
+   *    kurulmaz; durum `error` kalır.
+   */
+  const rollBackRejectedModules = (sent: Invitation): void => {
+    const confirmed = confirmedModules;
+    const opened = confirmed ? MODULE_FLAGS.filter((flag) => sent[flag] && !confirmed[flag]) : [];
+
+    if (opened.length === 0) {
+      set({ saveState: 'error' });
+      return;
+    }
+
+    set((state) => {
+      const invitation = { ...state.invitation };
+      for (const flag of opened) invitation[flag] = false;
+      return { invitation, saveState: 'idle', editRevision: state.editRevision + 1 };
+    });
   };
 
   const enqueueSave = (): Promise<SaveOutcome> => {
@@ -248,6 +321,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
     loadRecord: (record) => {
       documentGeneration += 1;
       documentOwnerId = currentUserId();
+      confirmedModules = pickModules({ ...INITIAL_INVITATION, ...record.invitation });
       set({
         recordId: record.id,
         invitation: { ...INITIAL_INVITATION, ...record.invitation },
@@ -262,6 +336,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
     resetInvitation: () => {
       documentGeneration += 1;
       documentOwnerId = null;
+      confirmedModules = null;
       set({
         recordId: null,
         invitation: INITIAL_INVITATION,
@@ -297,6 +372,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
 
       // Sunucunun döndürdüğü durum ('published') editöre yazılır ki aynı
       // oturumda ikinci kez yayınlamaya çalışılmasın.
+      confirmedModules = pickModules(record.invitation);
       set({ recordId: record.id });
       return record;
     }

@@ -1,8 +1,9 @@
 # `src/stores/useInvitationStore.ts` — Faz 3 değişikliği
 
 > **Kod dosyası:** `davetkart-frontent/src/stores/useInvitationStore.ts`
-> **Faz:** 3 — frontend uyarlaması, dosya F4/8 — **uyarlamanın kalbi**
-> **İlgili kararlar:** K37 (REST) · K44 (kimliği backend üretir)
+> **Faz:** 3 — frontend uyarlaması, dosya F4/8 — **uyarlamanın kalbi** ·
+> 🆕 **Faz 10**, adım 10.8b (Ek — 402'de açılan modülün geri alınması)
+> **İlgili kararlar:** K37 (REST) · K44 (kimliği backend üretir) · K88 (Faz 10)
 
 ---
 
@@ -313,3 +314,125 @@ Yanıt gelene kadar başka bir kayıt açıldıysa (`recordId` farklıysa) günc
 **atlanır**. Böylece bir davetiyenin fotoğrafı ötekinin galerisinde görünmez.
 `editRevision`'ı artırmaz: galeri kaydetme gövdesinde yoktur, otomatik kaydetme
 tetiklemek için bir sebep yoktur.
+
+---
+
+## 🆕 Ek — Faz 10: sunucu bir modülü reddettiğinde (10.8b · K88)
+
+### Ne değişti, neden?
+
+Backend 10.1'den beri **yayındaki** bir davetiyede plan üstü bir modülün açılmasını
+kayıt anında reddediyor: `PUT /invitations/{id}` → **402**
+`PAYWALL_TIER_INSUFFICIENT`, `params.requiredTier`. Kaydın **tamamı** reddedilir;
+aynı istekteki metin de yazılmaz (backend `PaywallTest` §11.2).
+
+Editör bu 402'yi Faz 10'a kadar bir **bağlantı hatası** gibi karşılıyordu:
+
+```
+saveState = 'error'  →  "Kaydedilemedi — bağlantınızı kontrol edin"
+anahtar AÇIK kalır   →  sonraki her düzenleme aynı PUT'u atar → yine 402
+```
+
+İki hata birden: yanlış mesaj ve **402 fırtınası** (plan tuzağı #2). Autosave 1,5
+saniyelik boşluktan sonra her düzenlemede tüm davetiyeyi gönderdiği için,
+açık kalan anahtar yazılan her harfle yeni bir 402 üretirdi.
+
+### Akış
+
+```
+runSave → PUT → 402
+   │
+   ├─ paywallFromError(error, gönderilen, recordId)   ← useSubscriptionStore (10.8a)
+   │     402 değilse → eski yol: saveState = 'error'
+   │
+   ├─ rollBackRejectedModules(gönderilen)
+   │     açılan = gönderilende AÇIK ∧ son onaylananda KAPALI
+   │     → o anahtarlar false, editRevision + 1, saveState = 'idle'
+   │
+   └─ openPaywall(…)   → reason 'upgrade', sunucunun requiredTier'ı
+```
+
+`editRevision + 1` otomatik kaydetmeyi yeniden kurar: 1,5 saniye sonra kalan
+düzenlemeler (aynı penceredeki metin) **bayraksız** gider ve 200 alır.
+
+### 🔴 "Hangi anahtar açılmıştı?" — `confirmedModules`
+
+```ts
+let confirmedModules: ModuleFlags | null = null;   // modül seviyesinde, render'a girmez
+```
+
+Sunucunun **son onayladığı** modül bayrakları. Üç yerde güncellenir:
+
+| Ne zaman | Kaynak |
+|---|---|
+| `loadRecord` | Yüklenen kayıt |
+| Başarılı `runSave` | Sunucunun yanıtı (`record.invitation`) |
+| `publishInvitation` | Yayın yanıtı |
+
+`resetInvitation`'da `null` olur: kaydedilmemiş bir belgenin onaylanmış bir hâli
+yoktur (ve taslak 402 alamaz — backend taslağı serbest bırakır).
+
+**Neden plan haritasına bakıp tahmin etmiyoruz?** Frontend'in de bir kopyası var
+(`getRequiredTier()`). Ama o bir **sunum** kopyasıdır ve ayrışabilir. Ayrıştığı
+gün geri alınması gereken anahtar geri alınmaz ve her kaydetme yeni bir 402
+üretir — fırtına geri gelir. *"Sunucu en son neyi kabul etti?"* sorusu ise
+tahmin gerektirmez: cevabı sunucunun kendi yanıtıdır.
+
+| Seçenek | Aynı pencerede metin + Elit modül | Fiyat haritası ayrışınca |
+|---|---|---|
+| Plan haritasıyla tahmin | ✅ | 🔴 Geri alınmayan anahtar → fırtına |
+| **Son onaylananla fark** ✅ | ✅ | ✅ |
+
+Bilinen bedel: aynı 1,5 saniyelik pencerede **iki** modül açılırsa ve yalnızca biri
+plan dışıysa, ikisi de geri alınır (kullanıcı plan içindekini yeniden açar).
+Pencere tek tıklık; nadir ve zararsız.
+
+### Geri alınacak bir şey yoksa
+
+```ts
+if (opened.length === 0) {
+  set({ saveState: 'error' });
+  return;                     // editRevision ARTIRILMAZ
+}
+```
+
+Bu, ancak son onaylanan hâl **bayatsa** olur (aynı davetiye iki sekmede
+düzenleniyor). Editör neyi geri alacağını bilemez. Sayaç artırılsaydı aynı 402'yi
+otomatik olarak tekrarlayan bir döngü kurulurdu; artırılmayınca her 402 bir
+**kullanıcı eylemine** bağlı kalır.
+
+### Neden store paywall'ı açıyor?
+
+Frontend `CLAUDE.md`: *"iş mantığı bileşenlerin dışında."* Otomatik kaydetmenin
+sonucunu bekleyen bir bileşen yok (hook ateşler ve unutur), dolayısıyla 402'ye
+cevap verebilecek tek yer kaydetmeyi yapan store'dur. `openPaywall` bir arayüz
+çağrısı değil, başka bir store'un **durumunu** değiştirir; duvarı çizmek
+`PaywallModal`'ın işi (CreatePage, 10.8d).
+
+### Bu değişikliğin yapmadıkları
+
+| Yapmaz | Nerede |
+|---|---|
+| Formdaki yerel taslağın bayat anahtarı geri yazmasını engellemek | `useInvitationDraft` (10.8c) |
+| Duvarı formun olduğu aşamada da çizmek | `CreatePage` (10.8d) |
+| Sayfadan ayrılırken boşaltılan kaydetmenin 402'sinden sonra kalanları kaydetmek | Otomatik kaydetme hook'u sayfayla birlikte ölür; kullanıcı döndüğünde bir sonraki düzenleme hepsini gönderir |
+
+### Doğrulama
+
+`npm run verify:state` → **"Yayındaki davetiyede plan üstü modül (Faz 10 · K88)"**
+ve **"Geri alınacak modül yoksa"** bölümleri (10.8e). Mutasyonlar kum havuzunda
+koşturuldu:
+
+| Mutasyon | Kırılan kontrol |
+|---|---|
+| `rollBackRejectedModules` çağrısını sil | *"anahtar geri alınıyor"*, *"402 fırtınası yok"* (+4) |
+| `editRevision + 1`'i sil | *"geri alma yeniden kaydetmeyi tetikliyor"* |
+| `loadRecord`'da `confirmedModules`'ı yazma | *"anahtar geri alınıyor"* (+4) |
+| Boş geri almada da sayacı artır | *"otomatik yeniden kaydetme döngüsü kurulmuyor"* |
+| 402'yi bağlantı hatası say (`paywall && false`) | *"plan duvarı bir kez … açılıyor"* (+5) |
+
+Elle: Standart ile bir davetiye yayınla → Panel → **Düzenle** → *Tasarımını
+Düzenle* → **Fotoğraf Galerisi** anahtarını aç. Beklenen: 1,5 sn sonra plan duvarı
+*"Planınızı Yükseltin"* başlığıyla **Elit** önerir, anahtar kendiliğinden kapanır,
+Network sekmesinde 402'yi bir 200 izler. Duvarı kapatıp başka bir alan düzenle:
+yeni bir duvar açılmamalı.
