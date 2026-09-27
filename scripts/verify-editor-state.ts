@@ -16,7 +16,9 @@ import { useAuthStore } from '../src/stores/useAuthStore';
 import { useCreateWizardStore } from '../src/stores/useCreateWizardStore';
 import { useInvitationStore } from '../src/stores/useInvitationStore';
 import { useRsvpStore } from '../src/stores/useRsvpStore';
+import { useSubscriptionStore } from '../src/stores/useSubscriptionStore';
 import { signOut, startNewInvitation } from '../src/stores/sessionActions';
+import { pendingWrites } from '../src/hooks/useInvitationDraft';
 import { formatCalendarDay } from '../src/components/templates/utils';
 import { INITIAL_INVITATION } from '../src/data';
 import type { AuthUser, Invitation, InvitationRecord } from '../src/types';
@@ -307,6 +309,117 @@ async function publishRequiresSuccessfulSave(): Promise<void> {
   );
 }
 
+/** Yayındaki davetiyede Elit modülü açan kaydı reddeden sunucu (K88). */
+const paywallServer: Server = (req) =>
+  req.method === 'PUT' && req.body?.invitation?.showGallery === true
+    ? { status: 402, data: { error: { code: 'PAYWALL_TIER_INSUFFICIENT', params: { requiredTier: 'elit' } } } }
+    : defaultServer(req);
+
+async function publishedModuleRejection(): Promise<void> {
+  console.log('\nYayındaki davetiyede plan üstü modül (Faz 10 · K88)');
+  reset();
+
+  const opened: string[] = [];
+  const stopWatching = useSubscriptionStore.subscribe((state, prev) => {
+    if (state.isPaywallOpen && !prev.isPaywallOpen) {
+      opened.push(`${state.reason}/${state.requiredTier}/${state.invitationId}`);
+    }
+  });
+
+  useInvitationStore.getState().loadRecord({ ...record('REC-P', { venue: 'Eski Salon' }), status: 'published' });
+  server = paywallServer;
+
+  // Aynı otomatik kaydetme penceresinde iki düzenleme: metin + Elit modül.
+  useInvitationStore.getState().updateField('venue', 'Çırağan Sarayı');
+  useInvitationStore.getState().updateField('showGallery', true);
+  const revisionBefore = useInvitationStore.getState().editRevision;
+  await useInvitationStore.getState().saveInvitation();
+
+  const rejected = useInvitationStore.getState();
+  check(rejected.invitation.showGallery === false, 'reddedilen modül anahtarı geri alınıyor', `showGallery=${rejected.invitation.showGallery}`);
+  check(
+    rejected.invitation.venue === 'Çırağan Sarayı',
+    'aynı penceredeki metin korunuyor — yalnızca açılan modül geri alınır',
+    `venue="${rejected.invitation.venue}"`,
+  );
+  check(
+    opened.length === 1 && opened[0] === 'upgrade/elit/REC-P',
+    'plan duvarı bir kez, sunucunun planıyla ve "yükselt" nedeniyle açılıyor',
+    JSON.stringify(opened),
+  );
+  check(
+    rejected.editRevision === revisionBefore + 1 && rejected.saveState === 'idle',
+    'geri alma yeniden kaydetmeyi tetikliyor (sunucu isteğin tamamını reddetmişti)',
+    `editRevision ${revisionBefore} → ${rejected.editRevision}, saveState=${rejected.saveState}`,
+  );
+
+  // Kullanıcı duvarı kapatır; otomatik kaydetme kalan düzenlemeyi yeniden
+  // gönderir. Duvar kapalıyken gelen her yeni 402 onu YENİDEN açardı —
+  // fırtına tam olarak böyle görünür.
+  useSubscriptionStore.getState().closePaywall();
+  await useInvitationStore.getState().saveInvitation();
+  const resent = invitationWrites().at(-1);
+  check(
+    resent?.method === 'PUT' &&
+      resent.body?.invitation?.showGallery === false &&
+      resent.body?.invitation?.venue === 'Çırağan Sarayı',
+    'yeniden kaydetme metni gönderiyor, reddedilen modülü göndermiyor',
+    `${resent?.method} showGallery=${resent?.body?.invitation?.showGallery} venue="${resent?.body?.invitation?.venue}"`,
+  );
+  check(useInvitationStore.getState().saveState === 'saved', 'yeniden kaydetme başarılı', `saveState=${useInvitationStore.getState().saveState}`);
+
+  useInvitationStore.getState().updateField('title', 'Nikâhımıza Davetlisiniz');
+  await useInvitationStore.getState().saveInvitation();
+  check(opened.length === 1, 'sonraki kaydetmeler yeni bir plan duvarı açmıyor (402 fırtınası yok)', `açılış sayısı=${opened.length}`);
+
+  stopWatching();
+  useSubscriptionStore.getState().closePaywall();
+}
+
+async function rejectionWithNothingToRollBack(): Promise<void> {
+  console.log('\nGeri alınacak modül yoksa');
+  reset();
+
+  // Sunucunun son onayladığı hâlde galeri ZATEN açık (ör. aynı kayıt başka bir
+  // sekmede değişti) ve sunucu her PUT'u reddediyor. Editör neyi geri alacağını
+  // bilemez: tahmin etmemeli ve aynı 402'yi otomatik olarak tekrarlamamalı.
+  useInvitationStore.getState().loadRecord({ ...record('REC-Q', { showGallery: true }), status: 'published' });
+  server = paywallServer;
+
+  useInvitationStore.getState().updateField('title', 'Yeni Başlık');
+  const revisionBefore = useInvitationStore.getState().editRevision;
+  await useInvitationStore.getState().saveInvitation();
+
+  const state = useInvitationStore.getState();
+  check(
+    state.editRevision === revisionBefore && state.saveState === 'error' && state.invitation.showGallery === true,
+    'geri alınacak modül yoksa otomatik yeniden kaydetme döngüsü kurulmuyor',
+    `editRevision ${revisionBefore} → ${state.editRevision}, saveState=${state.saveState}, showGallery=${state.invitation.showGallery}`,
+  );
+
+  useSubscriptionStore.getState().closePaywall();
+}
+
+function draftWritesOnlyWhatTheFormChanged(): void {
+  console.log('\nForm taslağı (bekleyen yazım)');
+
+  // Kullanıcı Hediye anahtarını açtı ve IBAN alanlarına yazmaya başladı; yazım
+  // beklerken sunucu 402 döndü ve store anahtarı geri aldı. Taslakta anahtar
+  // hâlâ açık (bayat), banka adı ise gerçekten yeni.
+  const stored: Invitation = { ...INITIAL_INVITATION, showGift: false, bankName: '' };
+  const draft: Invitation = { ...INITIAL_INVITATION, showGift: true, bankName: 'Ziraat Bankası' };
+
+  const writes = pendingWrites(new Set(['bankName'] as const), draft, stored);
+  check(
+    writes.length === 1 && writes[0] === 'bankName',
+    'bekleyen yazım yalnızca formun değiştirdiği alanı yazıyor; store\'un geri aldığı anahtar geri yazılmıyor',
+    JSON.stringify(writes),
+  );
+
+  const untouched = pendingWrites(new Set(['bankName'] as const), { ...draft, bankName: '' }, stored);
+  check(untouched.length === 0, 'store\'dakiyle aynı olan alan yeniden yazılmıyor', JSON.stringify(untouched));
+}
+
 async function sessionBoundaries(): Promise<void> {
   console.log('\nOturum sınırları');
 
@@ -410,6 +523,9 @@ async function main(): Promise<void> {
   await newInvitationDoesNotOverwrite();
   await staleSaveResponseIsIgnored();
   await publishRequiresSuccessfulSave();
+  await publishedModuleRejection();
+  await rejectionWithNothingToRollBack();
+  draftWritesOnlyWhatTheFormChanged();
   await sessionBoundaries();
   await rsvpScopeRace();
   calendarDayAcrossZones();
