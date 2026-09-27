@@ -12,6 +12,7 @@ const LoginPage = React.lazy(() => import('./pages/LoginPage'));
 const RegisterPage = React.lazy(() => import('./pages/RegisterPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
+const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
 
 // Kurumsal sayfalar
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
@@ -44,6 +45,16 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        // Plan duvarının "Ödemeye Geç"i buraya gelir (utils/checkoutRoute.ts).
+        // Sipariş uçları oturum ister; girişten sonra aynı adrese dönülür.
+        path: '/odeme',
+        element: (
+          <ProtectedRoute>
+            <CheckoutPage />
           </ProtectedRoute>
         )
       }

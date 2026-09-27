@@ -214,6 +214,29 @@ export interface CheckoutResult {
   redirectUrl?: string;
 }
 
+/**
+ * Ödeme sayfasındaki (`/odeme`) iki yöntem.
+ *
+ * | Yöntem | Tahsilat | Onay |
+ * |---|---|---|
+ * | `card` | Ödeme sağlayıcısı (Shopier ya da muadili) | Sağlayıcının bildirimi (webhook) |
+ * | `bank_transfer` | Şirket hesabına Havale/EFT | Hesap hareketinin elle eşleştirilmesi |
+ */
+export type PaymentMethod = 'card' | 'bank_transfer';
+
+/**
+ * Havale/EFT için şirket hesabı — `services/bankTransfer.ts` doldurur.
+ *
+ * `iban` boşluksuz ve büyük harflidir (`TR…`, 26 karakter); gruplanmış
+ * gösterim `utils/iban.ts` → `formatIban()` ile yapılır. Kopyalanan değer bu
+ * ham hâlidir: bankaların IBAN alanları boşluk kabul etmeyebilir.
+ */
+export interface BankTransferAccount {
+  bankName: string;
+  accountHolder: string;
+  iban: string;
+}
+
 /** Lifecycle of an invitation stored on the Invitation microservice. */
 export type InvitationStatus = 'published' | 'saved';
 

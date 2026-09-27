@@ -12,12 +12,13 @@
     "check": "npm run lint && npm run build && npm run verify",
     "verify:errors": "node scripts/run-check.mjs scripts/verify-error-contract.ts",
     "verify:endpoints": "node scripts/run-check.mjs scripts/verify-endpoints.ts",
-    "verify": "npm run verify:errors && npm run verify:endpoints && npm run verify:etag && npm run verify:time && npm run verify:state && npm run verify:content && npm run verify:image",
+    "verify": "npm run verify:errors && npm run verify:endpoints && npm run verify:etag && npm run verify:time && npm run verify:state && npm run verify:content && npm run verify:image && npm run verify:payment",
     "verify:etag": "node scripts/run-check.mjs scripts/verify-conditional-get.ts",
     "verify:time": "node scripts/run-check.mjs scripts/verify-event-time.ts",
     "verify:state": "node scripts/run-check.mjs scripts/verify-editor-state.ts",
     "verify:content": "node scripts/run-check.mjs scripts/verify-invitation-content.ts",
-    "verify:image": "node scripts/run-check.mjs scripts/verify-image-compression.ts"
+    "verify:image": "node scripts/run-check.mjs scripts/verify-image-compression.ts",
+    "verify:payment": "node scripts/run-check.mjs scripts/verify-payment.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
