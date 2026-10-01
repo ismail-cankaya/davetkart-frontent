@@ -3,7 +3,7 @@
  *
  * İki soruyu yanıtlar:
  *
- * 1. **Kapsam:** `contracts/error-codes.json` içindeki 21 kodun her birinin
+ * 1. **Kapsam:** `contracts/error-codes.json` içindeki kodların her birinin
  *    yazılı her dilde bir metni var mı? Backend katalogu büyüttüğünde bu
  *    denetim kırmızıya döner — eksik anahtar kullanıcının ekranında ham kod
  *    olarak görünmeden önce burada yakalanır.
@@ -141,6 +141,25 @@ async function main(): Promise<void> {
     );
     assertRendered('VALIDATION_FAILED (tek alan)', single);
 
+    // 5b. Hesap silmenin parola onayı `current_password` kuralıyla döner
+    //     (Faz 10, FE 10.15). Metni yazılmasaydı kullanıcı genel "Parola
+    //     geçerli değil" cümlesini okurdu: okunur ama yanlış soruyu cevaplar.
+    //
+    //     1. adımdaki gerekçeyle anahtar düzeyinde: Türkçe metin eksikse
+    //     render İngilizce'ye düşer ve ekranda kusursuz (ama yabancı) bir
+    //     cümle görünür; render çıktısına bakan bir denetim bunu kaçırır.
+    const rules = (i18n.getResourceBundle(language, 'errors') as {
+      validation?: { rules?: Record<string, unknown> };
+    } | undefined)?.validation?.rules;
+
+    for (const rule of ['current_password']) {
+      if (typeof rules?.[rule] !== 'string') fail(`${rule} kuralı → [${language}] çevirisi yok`);
+    }
+    assertRendered(
+      'VALIDATION_FAILED.password (current_password)',
+      toFieldErrors(apiError('VALIDATION_FAILED', { fields: { password: [{ rule: 'current_password' }] } })).password ?? '',
+    );
+
     // 6. 🔴 Aynı HTTP durumunu paylaşan kodlar AYNI METNİ göstermemeli.
     //
     //    `ASSISTANT_QUOTA_EXCEEDED` ve `RATE_LIMITED` ikisi de 429'dur ama
@@ -152,6 +171,8 @@ async function main(): Promise<void> {
       ['ASSISTANT_QUOTA_EXCEEDED', 'RATE_LIMITED'],
       ['PAYMENT_REQUIRED', 'PAYWALL_TIER_INSUFFICIENT'],
       ['UNAUTHENTICATED', 'INVALID_CREDENTIALS'],
+      // İkisi de 422: biri "bağlantınız geçersiz", diğeri "formu düzeltin".
+      ['PASSWORD_RESET_INVALID', 'VALIDATION_FAILED'],
     ];
 
     for (const [left, right] of mustDiffer) {
@@ -177,7 +198,7 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  console.log('\n✓ Hata sözleşmesi eksiksiz: 21 kod, iki dil, tüm çözümleme yolları.');
+  console.log(`\n✓ Hata sözleşmesi eksiksiz: ${ERROR_CODES.length} kod, iki dil, tüm çözümleme yolları.`);
 }
 
 void main();

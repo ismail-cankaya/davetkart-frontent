@@ -31,6 +31,7 @@
       "base": "Yükleme hakkınız doldu. Yeni dosya eklemek için mevcutlardan birini silin.",
       "detailed": "Yükleme hakkınız doldu. Bu davetiyeye en fazla {{limit}} dosya ekleyebilirsiniz."
     },
+    "PASSWORD_RESET_INVALID": "Parola sıfırlama bağlantısı geçersiz ya da süresi dolmuş. Yeni bir bağlantı isteyin.",
     "PAYMENT_PROVIDER_ERROR": "Ödeme sağlayıcısına ulaşılamadı. Kartınızdan çekim yapılmadı; birkaç dakika sonra tekrar deneyin.",
     "PAYMENT_REQUIRED": {
       "base": "Bu davetiyeyi yayınlamak için bir plan satın almanız gerekiyor.",
@@ -65,6 +66,7 @@
     "last_name": "Soyad",
     "email": "E-posta adresi",
     "password": "Parola",
+    "token": "Sıfırlama bağlantısı",
     "name": "Ad Soyad",
     "subject": "Konu",
     "message": "Mesaj",
@@ -155,6 +157,7 @@
       "mimes": "{{field}} desteklenmeyen bir dosya biçiminde.",
       "mimetypes": "{{field}} desteklenmeyen bir dosya biçiminde.",
       "confirmed": "{{field}} tekrarıyla eşleşmiyor.",
+      "current_password": "{{field}} hatalı.",
       "same": "{{field}} eşleşmiyor.",
       "different": "{{field}} farklı olmalıdır.",
       "regex": "{{field}} beklenen biçimde değil.",

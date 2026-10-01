@@ -31,6 +31,7 @@
       "base": "You've reached your upload limit. Remove a file to add a new one.",
       "detailed": "You've reached your upload limit. This invitation holds up to {{limit}} files."
     },
+    "PASSWORD_RESET_INVALID": "This password reset link is invalid or has expired. Request a new one.",
     "PAYMENT_PROVIDER_ERROR": "We couldn't reach the payment provider. Your card was not charged; try again in a few minutes.",
     "PAYMENT_REQUIRED": {
       "base": "Publishing this invitation requires a plan.",
@@ -65,6 +66,7 @@
     "last_name": "Last name",
     "email": "Email address",
     "password": "Password",
+    "token": "Reset link",
     "name": "Full name",
     "subject": "Subject",
     "message": "Message",
@@ -155,6 +157,7 @@
       "mimes": "{{field}} is in an unsupported file format.",
       "mimetypes": "{{field}} is in an unsupported file format.",
       "confirmed": "{{field}} doesn't match its confirmation.",
+      "current_password": "{{field}} is incorrect.",
       "same": "{{field}} doesn't match.",
       "different": "{{field}} must be different.",
       "regex": "{{field}} isn't in the expected format.",
