@@ -440,6 +440,30 @@ async function sessionBoundaries(): Promise<void> {
     'açık çıkış editörü ve sihirbazı temizliyor',
     `recordId=${inv.recordId}, names="${inv.invitation.names}", stage=${useCreateWizardStore.getState().stage}`,
   );
+  await tick();
+  const revoke = requests.find((r) => r.url === '/auth/logout');
+  check(
+    revoke?.method === 'POST' && revoke.authorization === 'Bearer token-u1',
+    'açık çıkış token\'ı sunucuda iptal ediyor',
+    `${revoke?.method} ${revoke?.url} ${revoke?.authorization}`,
+  );
+
+  // Faz 10 (FE 10.16): şifre sıfırlandı ya da hesap silindi, token sunucuda
+  // ZATEN yok. Bellek yine temizlenmeli; iptal isteği gitmemeli.
+  reset();
+  useInvitationStore.getState().loadRecord(record('REC-U1', { names: 'Ayşe\'nin Davetiyesi' }));
+  signOut({ revoke: false });
+  await tick();
+  check(
+    !useAuthStore.getState().isAuthenticated && useInvitationStore.getState().recordId === null,
+    'sunucuda silinmiş oturum: bellek yine temizleniyor',
+    `isAuthenticated=${useAuthStore.getState().isAuthenticated}, recordId=${useInvitationStore.getState().recordId}`,
+  );
+  check(
+    !requests.some((r) => r.url === '/auth/logout'),
+    'sunucuda silinmiş oturum: iptal isteği gönderilmiyor',
+    requests.map((r) => `${r.method} ${r.url}`).join(', '),
+  );
 
   // 401 interceptor'ının yolu: yalnızca `logout()` — editör bilerek korunur.
   reset();

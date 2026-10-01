@@ -10,6 +10,8 @@ import HomePage from './pages/HomePage';
 const CreatePage = React.lazy(() => import('./pages/CreatePage'));
 const LoginPage = React.lazy(() => import('./pages/LoginPage'));
 const RegisterPage = React.lazy(() => import('./pages/RegisterPage'));
+const ForgotPasswordPage = React.lazy(() => import('./pages/ForgotPasswordPage'));
+const ResetPasswordPage = React.lazy(() => import('./pages/ResetPasswordPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
@@ -34,6 +36,11 @@ const router = createBrowserRouter([
       { path: '/create', element: <CreatePage /> },
       { path: '/login', element: <LoginPage /> },
       { path: '/register', element: <RegisterPage /> },
+      // Şifre sıfırlama (Faz 10, FE 10.16). `/sifre-sifirla` maildeki
+      // bağlantının hedefi: backend config/davetkart.php →
+      // frontend.password_reset_path. Yol değişirse iki taraf birlikte değişir.
+      { path: '/sifremi-unuttum', element: <ForgotPasswordPage /> },
+      { path: '/sifre-sifirla', element: <ResetPasswordPage /> },
       { path: '/about', element: <AboutPage /> },
       { path: '/pricing', element: <PricingPage /> },
       { path: '/sustainability', element: <SustainabilityPage /> },

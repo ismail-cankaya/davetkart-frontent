@@ -129,3 +129,39 @@ bakıyor. Ek olmasaydı *"geç 401"* senaryosu gerçek tarayıcıda farklı davr
 2. Sayfayı yenile → giriş ekranına düşmeli (Faz 9'da: panel açılırdı, ilk kayıtta düşerdi)
 3. Giriş yap → ağ sekmesinde "Offline" → sayfayı yenile → oturum KALMALI
 ```
+
+## 7. 🆕 `logout({ revoke })` — sunucuda zaten silinmiş oturum (Faz 10, FE 10.16)
+
+Faz 10'da token'ı **sunucu** silen iki olay geldi:
+
+| Olay | Backend | Frontend'deki çağrı |
+|---|---|---|
+| Şifre sıfırlandı | `ResetPasswordAction` hesabın **bütün** token'larını siler | `ResetPasswordPage` (yalnızca aynı hesap açıksa) |
+| Hesap silindi | `DeleteAccountAction` token'ları ve kullanıcıyı siler | Hesap sayfası (FE 10.17) |
+
+İkisinde de `logout()`'un sonundaki `revokeSession(token)` anlamsız: `POST /auth/logout`
+artık var olmayan bir token'la gider ve 401 döner. Zararsız (interceptor'ın ikinci
+`logout()`'u token `null` olduğu için bir şey yapmaz) ama sonucu belli bir istek.
+
+```ts
+logout: ({ revoke = true } = {}) => {
+  // …yerel durum önce temizlenir (değişmedi)…
+  if (token && revoke) authService.revokeSession(token);
+}
+```
+
+`sessionActions.signOut()` aynı seçeneği geçirir. İkisi de varsayılan olarak **iptal eder**:
+mevcut çağrı yerleri (`Header` çıkışı, `api.ts` interceptor'ı) değişmedi.
+
+**Neden `logout` değil `signOut({ revoke: false })` çağrılıyor?** Hesaba ait bellek
+(editördeki tasarım, LCV listesi, ETag önbelleği) yalnızca `signOut` ile temizlenir
+(`sessionActions.ts` yorumu). Silinmiş bir hesabın tasarımı bellekte kalmamalı.
+
+**Doğrulama** (`npm run verify:state` → *"Oturum sınırları"*):
+
+| Senaryo | Beklenen |
+|---|---|
+| `signOut()` | `POST /auth/logout`, eski token'la (önceden sınanmıyordu, eklendi) |
+| `signOut({ revoke: false })` | Oturum ve editör temizlenir · `/auth/logout` **gitmez** |
+
+Mutasyon: `if (token && revoke)` → `if (token)` iken *"iptal isteği gönderilmiyor"* kırılıyor.

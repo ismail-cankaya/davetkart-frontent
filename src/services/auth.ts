@@ -1,4 +1,4 @@
-import { AuthSession, AuthUser, LoginCredentials, RegisterPayload } from '../types';
+import { AuthSession, AuthUser, LoginCredentials, PasswordResetPayload, RegisterPayload } from '../types';
 import { api, unwrapEnvelope } from './api';
 
 /**
@@ -25,6 +25,20 @@ export interface AuthService {
    * başka cihazdan iptal edilmiş) api.ts'in interceptor'ı oturumu düşürür.
    */
   fetchCurrentUser(): Promise<AuthUser>;
+  /**
+   * Faz 10 (FE 10.16): şifre sıfırlama bağlantısı ister, `POST /auth/forgot-password`.
+   *
+   * 🔴 Dönüş değeri BİLEREK yok. Backend adres kayıtlı olsun olmasın aynı
+   * 202'yi döner; istemcinin "gönderildi" ya da "böyle bir hesap yok"
+   * diyebileceği bir bilgi yoktur (enumeration savunması).
+   */
+  requestPasswordReset(email: string): Promise<void>;
+  /**
+   * Maildeki bağlantının token'ıyla yeni şifreyi yazar, `POST /auth/reset-password` → 204.
+   * Oturum AÇMAZ; backend o hesabın bütün token'larını siler. Geçersiz ya da
+   * süresi dolmuş bağlantı: 422 `PASSWORD_RESET_INVALID`.
+   */
+  resetPassword(payload: PasswordResetPayload): Promise<void>;
   /** Re-hydrate a cached session (offline support only — JWTs stay server-issued). */
   restoreSession(): AuthSession | null;
   persistSession(session: AuthSession): void;
@@ -94,6 +108,14 @@ const httpAuthAdapter: AuthService = {
     }
 
     return user;
+  },
+
+  async requestPasswordReset(email) {
+    await api.post('/auth/forgot-password', { email });
+  },
+
+  async resetPassword(payload) {
+    await api.post('/auth/reset-password', payload);
   },
 
   restoreSession() {

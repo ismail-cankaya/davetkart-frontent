@@ -6,7 +6,7 @@ import { useAuthStore } from '../stores/useAuthStore';
 import { toast } from '../components/ui/Toast';
 import { toDisplayError } from '../utils/toDisplayError';
 import { fullName } from '../utils/user';
-import { AuthRedirectState } from '../types';
+import { AuthRedirectState, ForgotPasswordState } from '../types';
 
 /** Sign-in page; on success the visitor returns to where they left off. */
 export default function LoginPage() {
@@ -100,6 +100,18 @@ export default function LoginPage() {
             placeholder="••••••••"
             className={authInputClass}
           />
+          {/* Faz 10 (FE 10.16). Şifre alanının ALTINDA: üstünde dursaydı
+              klavyeyle e-postadan şifreye geçerken araya girerdi. Yazılmış
+              adres taşınır, kullanıcı yeniden yazmaz. */}
+          <div className="text-right">
+            <Link
+              to="/sifremi-unuttum"
+              state={{ email } satisfies ForgotPasswordState}
+              className="text-xs text-emerald-100/60 hover:text-gold transition-colors"
+            >
+              Şifremi unuttum
+            </Link>
+          </div>
         </div>
 
         <button

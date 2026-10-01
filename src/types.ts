@@ -46,6 +46,21 @@ export interface AuthRedirectState {
   from?: string;
 }
 
+/**
+ * POST /api/auth/reset-password gövdesi (Faz 10, FE 10.16) — backend
+ * ResetPasswordRequest ile birebir. `token` ve `email` maildeki bağlantıdan gelir.
+ */
+export interface PasswordResetPayload {
+  token: string;
+  email: string;
+  password: string;
+}
+
+/** `/sifremi-unuttum`'a giderken taşınan adres: giriş formunda yazılanı yeniden yazdırmamak için. */
+export interface ForgotPasswordState {
+  email?: string;
+}
+
 /** Color mood of the modular invitation: elite dark (slate) or elite pastel/stone. */
 export type PaletteId = 'midnight' | 'stone';
 

@@ -18,6 +18,7 @@ import { sendContactMessage } from '../src/services/contact';
 import { invitationService } from '../src/services/invitations';
 import { paymentService } from '../src/services/payments';
 import { assistantService } from '../src/services/assistant';
+import { authService } from '../src/services/auth';
 import { INITIAL_INVITATION } from '../src/data';
 import type { RsvpCreatePayload } from '../src/types';
 
@@ -375,6 +376,28 @@ async function main(): Promise<void> {
       }),
   );
   expectField('iletişim', contactBody, 'website', '');
+
+  console.log('\nŞifre sıfırlama uçları (Faz 10)');
+
+  const forgotBody = await check(
+    'sıfırlama bağlantısı',
+    { method: 'POST', url: '/auth/forgot-password' },
+    '',
+    () => authService.requestPasswordReset('ayse@example.com'),
+  );
+  expectField('sıfırlama bağlantısı', forgotBody, 'email', 'ayse@example.com');
+
+  // Üç alan da backend ResetPasswordRequest'in adlarıyla: `token` maildeki
+  // bağlantıdan, `email` onunla eşleşmesi gereken adres.
+  const resetBody = await check(
+    'yeni şifre',
+    { method: 'POST', url: '/auth/reset-password' },
+    '',
+    () => authService.resetPassword({ token: 'tok-1', email: 'ayse@example.com', password: 'yeni-sifre-1' }),
+  );
+  expectField('yeni şifre', resetBody, 'token', 'tok-1');
+  expectField('yeni şifre', resetBody, 'email', 'ayse@example.com');
+  expectField('yeni şifre', resetBody, 'password', 'yeni-sifre-1');
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);
