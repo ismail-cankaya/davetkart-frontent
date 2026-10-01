@@ -169,6 +169,11 @@ export function isNetworkError(error: unknown): boolean {
  *
  * Ayrım yapılmazsa kullanıcı yanlış parola girdiğinde `logout()` tetiklenir;
  * giriş sayfası yeniden kurulur ve kullanıcının yazdıkları kaybolur.
+ *
+ * 🔴 Faz 10 (10.29): ESKİ bir token'ın 401'i YENİ oturumu düşürmez. Açılıştaki
+ * `GET /auth/me` süresi dolmuş token'la yoldayken kullanıcı yeniden giriş
+ * yapabilir; 401 girişten SONRA gelirse, isteğin taşıdığı token artık güncel
+ * token değildir. O 401 eski oturum hakkındadır ve eski oturum zaten gitti.
  */
 api.interceptors.response.use(
   (response) => response,
@@ -176,10 +181,24 @@ api.interceptors.response.use(
     if (
       axios.isAxiosError(error) &&
       (error as AxiosError).response?.status === 401 &&
-      apiErrorCode(error) !== 'INVALID_CREDENTIALS'
+      apiErrorCode(error) !== 'INVALID_CREDENTIALS' &&
+      !isFromStaleSession(error as AxiosError)
     ) {
       useAuthStore.getState().logout();
     }
     return Promise.reject(error);
   }
 );
+
+/**
+ * İstek, şu anki oturumdan FARKLI bir token'la mı gönderildi?
+ *
+ * Token'sız istek ya da oturum zaten kapalıysa "bayat" sayılmaz: o durumda
+ * `logout()` zararsızdır (token null, sunucuya ikinci bir iptal gitmez).
+ */
+function isFromStaleSession(error: AxiosError): boolean {
+  const sentWith = error.config?.headers?.Authorization;
+  const current = useAuthStore.getState().token;
+
+  return typeof sentWith === 'string' && current !== null && sentWith !== `Bearer ${current}`;
+}

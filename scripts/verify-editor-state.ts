@@ -72,9 +72,13 @@ function check(condition: boolean, message: string, detail: string): void {
     const error = new Error(`Request failed with status code ${reply.status}`) as Error & {
       isAxiosError: boolean;
       response: unknown;
+      config: unknown;
     };
     error.isAxiosError = true;
     error.response = response;
+    // Gerçek axios hatası isteğin yapılandırmasını taşır; 401 interceptor'ı
+    // hangi token'la gönderildiğine oradan bakıyor (Faz 10, 10.29).
+    error.config = config;
     throw error;
   }
   return response;
@@ -472,6 +476,99 @@ async function sessionBoundaries(): Promise<void> {
   );
 }
 
+/**
+ * Faz 10 (10.29): açılışta `GET /auth/me`. Token 30 gün yaşıyor (K90);
+ * süresi dolmuş ya da başka cihazdan iptal edilmiş token açılışta düşmeli.
+ * Son iki senaryo sıralama hatası: eski oturumun GEÇ gelen cevabı.
+ */
+async function sessionRefresh(): Promise<void> {
+  console.log('\nOturum doğrulama (açılış)');
+
+  const UNAUTHENTICATED: Reply = { status: 401, data: { error: { code: 'UNAUTHENTICATED' } } };
+
+  reset();
+  server = (req) =>
+    req.url === '/auth/me'
+      ? { status: 200, data: { data: { ...USERS['ayse@ornek.com'], lastName: 'Yılmaz-Kaya' } } }
+      : defaultServer(req);
+  await useAuthStore.getState().refreshSession();
+  const me = requests.find((r) => r.url === '/auth/me');
+  check(
+    me?.method === 'GET' && me.authorization === 'Bearer token-u1',
+    'açılış isteği GET /auth/me, güncel token\'la',
+    `${me?.method} ${me?.url} ${me?.authorization}`,
+  );
+  check(
+    useAuthStore.getState().user?.lastName === 'Yılmaz-Kaya',
+    'geçerli token: kullanıcı sunucudan tazeleniyor (zarf açılıyor)',
+    `lastName="${useAuthStore.getState().user?.lastName}"`,
+  );
+
+  reset();
+  server = (req) => (req.url === '/auth/me' ? UNAUTHENTICATED : defaultServer(req));
+  await useAuthStore.getState().refreshSession();
+  check(
+    !useAuthStore.getState().isAuthenticated && useAuthStore.getState().token === null,
+    'süresi dolmuş token: oturum açılışta düşüyor',
+    `isAuthenticated=${useAuthStore.getState().isAuthenticated}`,
+  );
+
+  reset();
+  server = (req) => {
+    if (req.url === '/auth/me') throw new Error('Network Error');
+    return defaultServer(req);
+  };
+  await useAuthStore.getState().refreshSession();
+  check(
+    useAuthStore.getState().isAuthenticated && useAuthStore.getState().token === 'token-u1',
+    'ağ hatası: oturum korunuyor (çevrimdışı açılış çıkış yaptırmaz)',
+    `isAuthenticated=${useAuthStore.getState().isAuthenticated}, token=${useAuthStore.getState().token}`,
+  );
+
+  // 🔴 Eski token'la giden /me yoldayken kullanıcı başka hesapla giriyor;
+  // 401 girişten SONRA geliyor. O 401 eski oturum hakkında.
+  reset();
+  const late401 = deferred();
+  server = async (req) => {
+    if (req.url === '/auth/me') {
+      await late401.promise;
+      return UNAUTHENTICATED;
+    }
+    return defaultServer(req);
+  };
+  const refreshing = useAuthStore.getState().refreshSession();
+  await tick();
+  useAuthStore.getState().logout();
+  await useAuthStore.getState().login({ email: 'mehmet@ornek.com', password: 'x' });
+  late401.resolve();
+  await refreshing;
+  check(
+    useAuthStore.getState().isAuthenticated && useAuthStore.getState().user?.id === 'u2',
+    'eski token\'ın geç gelen 401\'i yeni oturumu düşürmüyor',
+    `isAuthenticated=${useAuthStore.getState().isAuthenticated}, user=${useAuthStore.getState().user?.id}`,
+  );
+
+  reset();
+  const lateOk = deferred();
+  server = async (req) => {
+    if (req.url === '/auth/me') {
+      await lateOk.promise;
+      return { status: 200, data: { data: USERS['ayse@ornek.com'] } };
+    }
+    return defaultServer(req);
+  };
+  const refreshingAgain = useAuthStore.getState().refreshSession();
+  await tick();
+  await useAuthStore.getState().login({ email: 'mehmet@ornek.com', password: 'x' });
+  lateOk.resolve();
+  await refreshingAgain;
+  check(
+    useAuthStore.getState().user?.id === 'u2',
+    'eski oturumun geç gelen cevabı yeni kullanıcının üstüne yazılmıyor',
+    `user=${useAuthStore.getState().user?.id}`,
+  );
+}
+
 async function rsvpScopeRace(): Promise<void> {
   console.log('\nLCV kapsamı');
   reset();
@@ -530,6 +627,7 @@ async function main(): Promise<void> {
   await rejectionWithNothingToRollBack();
   draftWritesOnlyWhatTheFormChanged();
   await sessionBoundaries();
+  await sessionRefresh();
   await rsvpScopeRace();
   calendarDayAcrossZones();
 

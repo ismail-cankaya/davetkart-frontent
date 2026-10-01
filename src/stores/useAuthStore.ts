@@ -10,6 +10,11 @@ interface AuthState {
   login: (credentials: LoginCredentials) => Promise<AuthUser>;
   register: (payload: RegisterPayload) => Promise<AuthUser>;
   logout: () => void;
+  /**
+   * Faz 10 (10.29): önbellekteki oturumu sunucuya doğrulatır ve kullanıcıyı
+   * tazeler. Uygulama açılışında bir kez çağrılır (App.tsx).
+   */
+  refreshSession: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
@@ -40,6 +45,27 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     set({ user: null, token: null, isAuthenticated: false });
     if (token) {
       authService.revokeSession(token);
+    }
+  },
+
+  refreshSession: async () => {
+    const { token } = get();
+    if (!token) return;
+
+    try {
+      const user = await authService.fetchCurrentUser();
+
+      // İstek yoldayken oturum değiştiyse (çıkış ya da başka hesapla giriş),
+      // eski oturumun cevabı yeni oturumun kullanıcısının üstüne yazılmaz.
+      if (get().token !== token) return;
+
+      authService.persistSession({ user, token });
+      set({ user });
+    } catch {
+      // 401: api.ts'in interceptor'ı logout() çağırdı (bayat değilse).
+      // Ağ hatası: çevrimdışı olabilir. Önbellekteki oturum kalır; bir sonraki
+      // kimlikli istek karar verir. Oturumu ağ yüzünden düşürmek, metroda
+      // uygulamayı açan kullanıcıyı her seferinde çıkarırdı.
     }
   }
 }));

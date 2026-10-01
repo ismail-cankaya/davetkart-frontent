@@ -1,5 +1,5 @@
 import { AuthSession, AuthUser, LoginCredentials, RegisterPayload } from '../types';
-import { api } from './api';
+import { api, unwrapEnvelope } from './api';
 
 /**
  * Frontend boundary of the dedicated Auth microservice.
@@ -19,6 +19,12 @@ export interface AuthService {
    * this — a rejected/expired token must not re-trigger the 401 logout loop.
    */
   revokeSession(token: string): void;
+  /**
+   * Faz 10 (10.29): önbellekteki token HÂLÂ geçerli mi? `GET /auth/me` —
+   * geçerliyse güncel kullanıcıyı döner. 401 (süresi dolmuş: 30 gün, K90;
+   * başka cihazdan iptal edilmiş) api.ts'in interceptor'ı oturumu düşürür.
+   */
+  fetchCurrentUser(): Promise<AuthUser>;
   /** Re-hydrate a cached session (offline support only — JWTs stay server-issued). */
   restoreSession(): AuthSession | null;
   persistSession(session: AuthSession): void;
@@ -39,9 +45,14 @@ function isAuthSession(value: unknown): value is AuthSession {
   if (typeof value !== 'object' || value === null) return false;
 
   const { user, token } = value as { user?: unknown; token?: unknown };
-  if (typeof token !== 'string' || typeof user !== 'object' || user === null) return false;
+  return typeof token === 'string' && isAuthUser(user);
+}
 
-  const candidate = user as Record<keyof AuthUser, unknown>;
+/** Aynı şekil denetimi `GET /auth/me` yanıtı için de kullanılır (10.29). */
+function isAuthUser(value: unknown): value is AuthUser {
+  if (typeof value !== 'object' || value === null) return false;
+
+  const candidate = value as Record<keyof AuthUser, unknown>;
 
   return (
     typeof candidate.id === 'string' &&
@@ -71,6 +82,18 @@ const httpAuthAdapter: AuthService = {
       .catch(() => {
         // Token already expired/revoked server-side — nothing to do.
       });
+  },
+
+  async fetchCurrentUser() {
+    // `me` ZARFLI döner ({ data: user }) — zarfsız olanlar yalnızca login/register (K11).
+    const { data } = await api.get<unknown>('/auth/me');
+    const user = unwrapEnvelope(data);
+
+    if (!isAuthUser(user)) {
+      throw new Error('Unexpected /auth/me response shape');
+    }
+
+    return user;
   },
 
   restoreSession() {
