@@ -13,6 +13,7 @@ const RegisterPage = React.lazy(() => import('./pages/RegisterPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
+const PaymentReturnPage = React.lazy(() => import('./pages/PaymentReturnPage'));
 
 // Kurumsal sayfalar
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
@@ -55,6 +56,24 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <CheckoutPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        // Sağlayıcının dönüş adresleri (backend config/payment.php → return_urls).
+        // Faz 10 (10.27) öncesinde yoktu: `*` kullanıcıyı ana sayfaya atıyordu.
+        path: '/odeme/basarili',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage kind="success" />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/odeme/hata',
+        element: (
+          <ProtectedRoute>
+            <PaymentReturnPage kind="failure" />
           </ProtectedRoute>
         )
       }

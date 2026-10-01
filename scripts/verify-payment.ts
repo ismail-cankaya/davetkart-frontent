@@ -19,6 +19,8 @@ import {
 } from '../src/utils/paymentCard';
 import { checkoutHref, parseCheckoutSearch } from '../src/utils/checkoutRoute';
 import { bankTransferReference, getBankTransferAccount } from '../src/services/bankTransfer';
+import { POLL_LIMIT, orderIdFrom, returnViewFor, shouldKeepPolling } from '../src/utils/paymentReturn';
+import type { OrderStatus } from '../src/types';
 
 let failures = 0;
 
@@ -102,12 +104,48 @@ function main(): void {
   check('kısa kimlik sıfırla doldurulur', bankTransferReference('ab'), 'DK-0000-00AB');
   check('yapılandırılmamış hesap Havale/EFT’yi kapatır', getBankTransferAccount(), null);
 
+  // Faz 10 (10.27): ödeme dönüş sayfası. Adres (başarı/hata) bir İPUCU;
+  // karar siparişin backend'deki durumuna göre verilir.
+  console.log('\nÖdeme dönüşü: yoklama');
+  check('başarı + pending: yoklamaya devam', shouldKeepPolling('pending', 'success', 1), true);
+  check('başarı + expired: devam (K89, geç ödeme paid yapabilir)', shouldKeepPolling('expired', 'success', 1), true);
+  check('başarı + paid: dur', shouldKeepPolling('paid', 'success', 1), false);
+  check('başarı + failed: dur', shouldKeepPolling('failed', 'success', 1), false);
+  check('hata adresi: tek okuma, yoklama yok', shouldKeepPolling('pending', 'failure', 1), false);
+  check(`sınır: ${POLL_LIMIT}. okumadan sonra dur`, shouldKeepPolling('pending', 'success', POLL_LIMIT), false);
+  check('sınırdan bir önce: devam', shouldKeepPolling('pending', 'success', POLL_LIMIT - 1), true);
+
+  console.log('\nÖdeme dönüşü: ekran');
+  const running = { kind: 'success' as const, settled: false };
+  const settled = { kind: 'success' as const, settled: true };
+  const failure = { kind: 'failure' as const, settled: true };
+  check('paid → onaylandı', returnViewFor('paid', running), 'confirmed');
+  check('pending, yoklama sürerken → doğrulanıyor', returnViewFor('pending', running), 'verifying');
+  check('pending, yoklama bitti → gecikti (ödendi DEMEZ)', returnViewFor('pending', settled), 'delayed');
+  check('pending, hata adresi → tamamlanamadı', returnViewFor('pending', failure), 'failed');
+  check('expired, yoklama sürerken → erken hüküm yok', returnViewFor('expired', running), 'verifying');
+  check('expired, yoklama bitti → süresi doldu', returnViewFor('expired', settled), 'expired');
+  check('failed → tamamlanamadı', returnViewFor('failed', running), 'failed');
+  check('refunded → iade edildi', returnViewFor('refunded', settled), 'refunded');
+
+  // 🔴 Hiçbir durum, adres ne olursa olsun, ödenmemişken "onaylandı" demez.
+  const unpaid: OrderStatus[] = ['pending', 'expired', 'failed', 'refunded'];
+  const falseConfirm = unpaid.filter((status) =>
+    [running, settled, failure].some((ctx) => returnViewFor(status, ctx) === 'confirmed'),
+  );
+  check('ödenmemiş hiçbir durum "onaylandı" göstermez', falseConfirm, []);
+
+  check('?order= okunur', orderIdFrom(new URLSearchParams('order=01j5abc')), '01j5abc');
+  check('boş ?order= → null', orderIdFrom(new URLSearchParams('order=%20')), null);
+  check('?order= yok → null', orderIdFrom(new URLSearchParams('tier=gold')), null);
+
+
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);
     process.exit(1);
   }
 
-  console.log('\n✓ Ödeme yardımcıları doğru: IBAN sağlama toplamı, kart biçimi, son kullanma ve ödeme adresi.');
+  console.log('\n✓ Ödeme yardımcıları doğru: IBAN sağlama toplamı, kart biçimi, son kullanma, ödeme adresi ve dönüş sayfası kararları.');
 }
 
 main();
