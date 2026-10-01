@@ -27,6 +27,7 @@ import { useDashboardData } from '../hooks/useDashboardData';
 import { fullName } from '../utils/user';
 import { displayNames } from '../utils/names';
 import { toDisplayError } from '../utils/toDisplayError';
+import { formatReleaseDeadline, releaseOutcome } from '../utils/releaseWindow';
 import { EVENT_CATEGORIES, TEMPLATE_PRESETS } from '../data';
 import { Invitation, InvitationRecord } from '../types';
 import { duration, ease, spring } from '../utils/motion';
@@ -240,16 +241,16 @@ export default function DashboardPage() {
    * yoktur. Bu bir sunum boşluğudur ve burada kapanır — kullanıcı parasının
    * ne olacağını öğrenmeden silmemeli.
    *
-   * ⚠️ Kesin tarih verilemiyor: `InvitationResource` `publishedAt`
-   * göndermiyor, dolayısıyla pencerenin dolup dolmadığını hesaplayamıyoruz.
-   * Uydurma bir hesap yapmaktansa (ör. `updatedAt`'i vekil saymak — yayından
-   * sonraki tek bir düzenleme onu tazeler ve kullanıcıya yanlış güvence
-   * verirdi) iki olasılığı da açıkça anlatıyoruz. Backend alanı eklediğinde
-   * burası kesin tarihe geçer.
+   * ✅ Faz 10 (10.28): kesin tarih. Backend kaydı `releasableUntil` taşıyor
+   * (10.21) — pencerenin sonu, silme kuralıyla AYNI satırdan türetilmiş.
+   * Burada yalnızca "şimdi"yle kıyaslanıyor (`utils/releaseWindow.ts`); "3 gün"
+   * frontend'de hesaplanmıyor. Tarih okunamazsa (`unknown`) eski, iki olasılığı
+   * birden anlatan metne düşülür: uydurma bir kesinlikten iyidir.
    */
   const handleDelete = async (card: DashboardCard) => {
     const ad = displayNames(card.invitation.names) || 'Bu davetiye';
     const isPublished = card.kind === 'published';
+    const outcome = releaseOutcome(card.record.releasableUntil, new Date());
 
     const approved = await confirmAction({
       title: `${ad} silinecek`,
@@ -262,7 +263,27 @@ export default function DashboardPage() {
             yanıtları da erişilemez olur.
           </p>
 
-          {isPublished && (
+          {isPublished && outcome === 'releases' && card.record.releasableUntil && (
+            <div className="rounded-2xl border border-emerald-300/60 bg-emerald-50 px-4 py-3 text-emerald-900">
+              <p className="font-semibold">Plan hakkınız serbest kalır</p>
+              <p className="mt-1.5 text-emerald-800/90">
+                <strong>{formatReleaseDeadline(card.record.releasableUntil)}</strong> tarihine kadar
+                silerseniz, bu davetiye için ödediğiniz planı yeni bir davetiyede kullanabilirsiniz.
+              </p>
+            </div>
+          )}
+
+          {isPublished && outcome === 'burns' && card.record.releasableUntil && (
+            <div className="rounded-2xl border border-rose-300/60 bg-rose-50 px-4 py-3 text-rose-900">
+              <p className="font-semibold">Plan hakkınız yanacak</p>
+              <p className="mt-1.5 text-rose-800/90">
+                Hakkı serbest bırakma süresi <strong>{formatReleaseDeadline(card.record.releasableUntil)}</strong>{' '}
+                tarihinde doldu. Silerseniz yeniden yayınlamak için yeni bir plan almanız gerekir.
+              </p>
+            </div>
+          )}
+
+          {isPublished && outcome === 'unknown' && (
             <div className="rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-amber-900">
               <p className="font-semibold">Ödediğiniz plan hakkı ne olacak?</p>
               <p className="mt-1.5 text-amber-800/90">

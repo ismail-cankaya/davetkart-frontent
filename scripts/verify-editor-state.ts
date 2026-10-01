@@ -123,6 +123,9 @@ function record(id: string, patch: Partial<Invitation>): InvitationRecord {
     id,
     status: 'saved',
     updatedAt: '2026-09-01T10:00:00Z',
+    // Taslak: hiç yayınlanmadı (Faz 10, backend 10.21).
+    publishedAt: null,
+    releasableUntil: null,
     invitation: {
       ...INITIAL_INVITATION,
       ...patch,

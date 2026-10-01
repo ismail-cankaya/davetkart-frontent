@@ -268,6 +268,21 @@ export interface InvitationRecord {
   status: InvitationStatus;
   /** ISO timestamp of the last server-side update. */
   updatedAt: string;
+  /**
+   * Yayın anı (ISO 8601). `null` = hiç yayınlanmadı. Faz 10, backend 10.21.
+   *
+   * `updatedAt` bunun vekili OLAMAZ: yayından sonraki tek bir düzenleme onu tazeler.
+   */
+  publishedAt: string | null;
+  /**
+   * Bu andan ÖNCE silinirse, davetiye için ödenen tekil siparişin hakkı serbest
+   * kalır; sonra silinirse yanar (K82). `null` = hiç yayınlanmadı, hak harcanmadı.
+   *
+   * 🔴 Pencerenin uzunluğu ("3 gün") BİLEREK burada hesaplanmıyor: backend config'ten
+   * geliyor ve silme kuralıyla aynı satırdan türetiliyor. Frontend'e ikinci bir `3`
+   * yazılsaydı config değiştiğinde uyarı ile gerçek davranış sessizce ayrışırdı.
+   */
+  releasableUntil: string | null;
   /** Full design payload; reloaded into the editor to continue editing. */
   invitation: Invitation;
 }

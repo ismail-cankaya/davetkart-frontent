@@ -1,7 +1,7 @@
 # `src/pages/DashboardPage.tsx` — Faz 3 değişikliği
 
 > **Kod dosyası:** `davetkart-frontent/src/pages/DashboardPage.tsx`
-> **Faz:** 3 — frontend uyarlaması, dosya F6/8
+> **Faz:** 3 — frontend uyarlaması, dosya F6/8 · 🆕 **Faz 10, adım 10.28** (§6: silme uyarısı kesin tarihe geçti)
 
 ---
 
@@ -136,3 +136,60 @@ mümkün kılıyor.
 
 **F7 — `components/create/TimelineEditor.tsx`** ve **F8 — `data.ts`.** K44'ün
 son iki durağı; ondan sonra `npm run lint` yeşile döner.
+
+---
+
+## 6. 🆕 Faz 10 (10.28): silme uyarısı kesin tarihe geçti
+
+> **Birlikte gelenler:** `utils/releaseWindow.ts` · `types.ts` → `InvitationRecord.publishedAt`, `releasableUntil` ·
+> `scripts/verify-payment.ts` → *"Silme uyarısı: plan hakkı"*
+> **Backend:** `InvitationResource` (backend 10.21) · `Invitation::releaseWindowEndsAt()`
+
+§2'deki onay penceresi artık `window.confirm` değil (`confirmAction`, tasarım
+sistemine uygun modal). Yayındaki bir davetiye için ek bir **ticari uyarı** taşıyor
+(K82: yayından belli bir süre içinde silinirse ödenen planın hakkı serbest kalır,
+sonra silinirse yanar).
+
+### Faz 9: iki olasılık birden
+
+Backend yayın tarihini göndermiyordu. Sayfa bu yüzden kullanıcıya iki olasılığı
+birden anlatıyordu (*"3 gün geçmediyse… geçtiyse…"*). `updatedAt`'i vekil saymak
+bilerek reddedilmişti: yayından sonraki tek bir düzenleme onu tazeler ve kullanıcıya
+**yanlış güvence** verirdi.
+
+### Faz 10: tek, kesin cümle
+
+```ts
+const outcome = releaseOutcome(card.record.releasableUntil, new Date());
+```
+
+| `outcome` | Kutu | Metin |
+|---|---|---|
+| `releases` | yeşil | *"**23 Eylül 2026 13:00** tarihine kadar silerseniz planı yeni bir davetiyede kullanabilirsiniz."* |
+| `burns` | kırmızı | *"Hakkı serbest bırakma süresi **…** tarihinde doldu. Silerseniz yeni bir plan almanız gerekir."* |
+| `unknown` | sarı | Faz 9'un iki olasılıklı metni (yedek) |
+
+### 🔴 "3 gün" neden frontend'de hesaplanmıyor?
+
+Backend `publishedAt`'in yanında `releasableUntil`'i de gönderiyor: pencerenin
+**sonu**, silme kuralıyla aynı satırdan türetilmiş (`Invitation::releaseWindowEndsAt()`).
+Frontend yalnızca *"şimdi o andan önce mi?"* diye soruyor. Frontend
+`publishedAt + 3 gün` hesaplasaydı, backend config'i (`orders.release_window_days`)
+değiştiğinde uyarı bir şey, silme başka bir şey yapardı. Hiçbir test bu ayrışmayı
+yakalamazdı, çünkü iki taraf ayrı ayrı *"doğru"* olurdu.
+
+`unknown` yedeğindeki metin *"3 gün"* diyor. Bu bilinçli bir istisna: alan yoksa
+(backend 10.21'den önceki bir sürüm) ya da okunamıyorsa, kesin bir tarih uydurmak
+yerine kuralın kendisi anlatılıyor.
+
+### Sınır anı
+
+Backend `isFuture()` soruyor: tam sınır anında pencere **kapalı**. `releaseOutcome`
+aynı şeyi `>` ile yapıyor. `verify:payment` bunu sınıyor; `>=` mutasyonu
+*"tam sınır → yanar"* kontrolünü kırıyor (10.28'de denendi).
+
+### Saat dilimi
+
+Tarih kullanıcının **yerel** saatiyle gösteriliyor (`Intl.DateTimeFormat('tr-TR')`).
+Backend UTC gönderiyor (`+00:00`); tarayıcı çeviriyor. Pencere bir **süre** olduğu
+için (72 saat) hangi saat diliminde gösterildiği sonucu değiştirmiyor.

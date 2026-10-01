@@ -20,6 +20,7 @@ import {
 import { checkoutHref, parseCheckoutSearch } from '../src/utils/checkoutRoute';
 import { bankTransferReference, getBankTransferAccount } from '../src/services/bankTransfer';
 import { POLL_LIMIT, orderIdFrom, returnViewFor, shouldKeepPolling } from '../src/utils/paymentReturn';
+import { releaseOutcome } from '../src/utils/releaseWindow';
 import type { OrderStatus } from '../src/types';
 
 let failures = 0;
@@ -139,6 +140,16 @@ function main(): void {
   check('boş ?order= → null', orderIdFrom(new URLSearchParams('order=%20')), null);
   check('?order= yok → null', orderIdFrom(new URLSearchParams('tier=gold')), null);
 
+  // Faz 10 (10.28): silme onayındaki plan hakkı uyarısı (K82). Pencerenin
+  // sonu backend'den gelir; burada yalnızca "şimdi"yle kıyaslanır.
+  console.log('\nSilme uyarısı: plan hakkı');
+  const DEADLINE = '2026-09-23T10:00:00+00:00';
+  check('pencere açık → serbest kalır', releaseOutcome(DEADLINE, new Date('2026-09-23T09:59:59Z')), 'releases');
+  check('tam sınır → yanar (backend isFuture() sorar)', releaseOutcome(DEADLINE, new Date('2026-09-23T10:00:00Z')), 'burns');
+  check('pencere kapandı → yanar', releaseOutcome(DEADLINE, new Date('2026-09-30T00:00:00Z')), 'burns');
+  check('alan yok (eski backend) → kesin konuşma', releaseOutcome(undefined, new Date()), 'unknown');
+  check('null → kesin konuşma', releaseOutcome(null, new Date()), 'unknown');
+  check('bozuk tarih → kesin konuşma', releaseOutcome('yarın', new Date()), 'unknown');
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);
