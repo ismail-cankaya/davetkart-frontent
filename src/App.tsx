@@ -12,6 +12,7 @@ const LoginPage = React.lazy(() => import('./pages/LoginPage'));
 const RegisterPage = React.lazy(() => import('./pages/RegisterPage'));
 const ForgotPasswordPage = React.lazy(() => import('./pages/ForgotPasswordPage'));
 const ResetPasswordPage = React.lazy(() => import('./pages/ResetPasswordPage'));
+const AccountPage = React.lazy(() => import('./pages/AccountPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
@@ -53,6 +54,15 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <DashboardPage />
+          </ProtectedRoute>
+        )
+      },
+      {
+        // Hesap bilgisi ve hesabı silme (Faz 10, FE 10.17).
+        path: '/hesap',
+        element: (
+          <ProtectedRoute>
+            <AccountPage />
           </ProtectedRoute>
         )
       },

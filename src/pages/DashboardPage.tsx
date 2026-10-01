@@ -13,7 +13,8 @@ import {
   Plus,
   RefreshCw,
   Sparkles,
-  Trash2
+  Trash2,
+  UserRound
 } from 'lucide-react';
 import { LiveRsvpPanel } from '../components/rsvp/LiveRsvpPanel';
 import { toast } from '../components/ui/Toast';
@@ -347,14 +348,24 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          <Link
-            to="/create"
-            onClick={startNewInvitation}
-            className="shrink-0 inline-flex items-center gap-2 bg-brand text-white px-6 py-3.5 rounded-full font-semibold text-xs hover:bg-brand-soft transition duration-300 shadow-md shadow-brand/15 hover:-translate-y-0.5"
-          >
-            <Plus size={15} />
-            Yeni Davetiye Oluştur
-          </Link>
+          <div className="shrink-0 flex flex-wrap items-center gap-3">
+            {/* Faz 10 (FE 10.17): hesap sayfasının tek girişi. */}
+            <Link
+              to="/hesap"
+              className="inline-flex items-center gap-2 text-brand px-5 py-3.5 rounded-full font-semibold text-xs border border-brand/20 hover:border-brand/50 bg-white transition duration-300"
+            >
+              <UserRound size={15} />
+              Hesap Ayarları
+            </Link>
+            <Link
+              to="/create"
+              onClick={startNewInvitation}
+              className="inline-flex items-center gap-2 bg-brand text-white px-6 py-3.5 rounded-full font-semibold text-xs hover:bg-brand-soft transition duration-300 shadow-md shadow-brand/15 hover:-translate-y-0.5"
+            >
+              <Plus size={15} />
+              Yeni Davetiye Oluştur
+            </Link>
+          </div>
         </motion.div>
       </section>
 

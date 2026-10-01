@@ -399,6 +399,19 @@ async function main(): Promise<void> {
   expectField('yeni şifre', resetBody, 'email', 'ayse@example.com');
   expectField('yeni şifre', resetBody, 'password', 'yeni-sifre-1');
 
+  console.log('\nHesap silme ucu (Faz 10)');
+
+  // 🔴 Parola GÖVDEDE gitmeli. axios'ta `delete(url, x)`in ikinci argümanı
+  // config'tir; `{ password }` doğrudan verilseydi gövde boş giderdi ve
+  // backend her denemeye "Parola zorunludur" derdi.
+  const deleteBody = await check(
+    'hesap silme',
+    { method: 'DELETE', url: '/auth/me' },
+    '',
+    () => authService.deleteAccount('mevcut-sifre'),
+  );
+  expectField('hesap silme', deleteBody, 'password', 'mevcut-sifre');
+
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);
     process.exit(1);

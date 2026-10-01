@@ -193,3 +193,13 @@ aynı şeyi `>` ile yapıyor. `verify:payment` bunu sınıyor; `>=` mutasyonu
 Tarih kullanıcının **yerel** saatiyle gösteriliyor (`Intl.DateTimeFormat('tr-TR')`).
 Backend UTC gönderiyor (`+00:00`); tarayıcı çeviriyor. Pencere bir **süre** olduğu
 için (72 saat) hangi saat diliminde gösterildiği sonucu değiştirmiyor.
+
+## 7. 🆕 Faz 10 (FE 10.17): *"Hesap Ayarları"* bağlantısı
+
+Başlıktaki *"Yeni Davetiye Oluştur"*un yanına ikincil bir bağlantı geldi: `/hesap`
+([`AccountPage.md`](AccountPage.md)). Hesap sayfasının tek girişi burası.
+
+| Seçim | Neden |
+|---|---|
+| Panelde, üst menüde değil | Üst menü (`Header`) metinlerini i18n'den okuyor, 10 dil; sayfalar ise Türkçe sabit metin kullanıyor. Menüye eklemek 10 dosyaya çeviri anahtarı demekti |
+| İkincil görünüm (çerçeveli, beyaz) | Birincil eylem davetiye oluşturmak. §2'deki ilkeyle aynı: hesabı silmeye götüren yol bulunabilir olmalı ama öne çıkmamalı |

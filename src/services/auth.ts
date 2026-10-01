@@ -39,6 +39,14 @@ export interface AuthService {
    * süresi dolmuş bağlantı: 422 `PASSWORD_RESET_INVALID`.
    */
   resetPassword(payload: PasswordResetPayload): Promise<void>;
+  /**
+   * Faz 10 (FE 10.17): hesabı kalıcı olarak siler, `DELETE /auth/me` → 204.
+   *
+   * Parola onayı backend'de (`current_password`): yanlışsa 422
+   * `VALIDATION_FAILED`, `password` alanında. Başarıda token sunucuda silinir;
+   * çağıran yerel oturumu `signOut({ revoke: false })` ile kapatır.
+   */
+  deleteAccount(password: string): Promise<void>;
   /** Re-hydrate a cached session (offline support only — JWTs stay server-issued). */
   restoreSession(): AuthSession | null;
   persistSession(session: AuthSession): void;
@@ -116,6 +124,11 @@ const httpAuthAdapter: AuthService = {
 
   async resetPassword(payload) {
     await api.post('/auth/reset-password', payload);
+  },
+
+  async deleteAccount(password) {
+    // DELETE gövdesi axios'ta `data` ile gönderilir; ikinci argüman config'tir.
+    await api.delete('/auth/me', { data: { password } });
   },
 
   restoreSession() {
