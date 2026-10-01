@@ -131,32 +131,32 @@ const TONE_CLASSES: Record<ViewCopy['tone'], string> = {
 const COPY: Record<ReturnView, ViewCopy> = {
   verifying: {
     icon: <Loader2 size={24} className="animate-spin" />,
-    title: <>Ödemen <span className="italic text-brand font-medium">doğrulanıyor</span></>,
-    body: 'Ödeme sağlayıcısından onay bekliyoruz. Bu genellikle birkaç saniye sürer; lütfen sayfayı kapatma.',
+    title: <>Ödemeniz <span className="italic text-brand font-medium">doğrulanıyor</span></>,
+    body: 'Ödeme sağlayıcısından onay bekliyoruz. Bu genellikle birkaç saniye sürer; lütfen sayfayı kapatmayın.',
     tone: 'brand',
   },
   confirmed: {
     icon: <CheckCircle2 size={24} />,
-    title: <>Ödemen <span className="italic text-brand font-medium">onaylandı</span></>,
-    body: 'Planın tanımlandı. Davetiyeni artık yayınlayabilirsin — ödeme davetiyeyi kendiliğinden yayınlamaz, son adım sende.',
+    title: <>Ödemeniz <span className="italic text-brand font-medium">onaylandı</span></>,
+    body: 'Planınız tanımlandı. Davetiyenizi artık yayınlayabilirsiniz; ödeme davetiyeyi kendiliğinden yayınlamaz, son adım sizde.',
     tone: 'success',
   },
   delayed: {
     icon: <Clock size={24} />,
     title: <>Onay biraz <span className="italic text-brand font-medium">gecikti</span></>,
-    body: 'Ödemen alındıysa birkaç dakika içinde onaylanır. Bu sayfayı kapatabilirsin: panelinden yayınlamayı denediğinde planın tanınır.',
+    body: 'Ödemeniz alındıysa birkaç dakika içinde onaylanır. Bu sayfayı kapatabilirsiniz: panelinizden yayınlamayı denediğinizde planınız tanınır.',
     tone: 'warning',
   },
   expired: {
     icon: <Clock size={24} />,
     title: <>Ödeme süresi <span className="italic text-brand font-medium">doldu</span></>,
-    body: 'Bu sipariş için ödeme penceresi kapandı. Ödemen alındıysa yine de onaylanır ve panelinde görünür; alınmadıysa yeniden deneyebilirsin.',
+    body: 'Bu sipariş için ödeme penceresi kapandı. Ödemeniz alındıysa yine de onaylanır ve panelinizde görünür; alınmadıysa yeniden deneyebilirsiniz.',
     tone: 'warning',
   },
   failed: {
     icon: <XCircle size={24} />,
     title: <>Ödeme <span className="italic text-brand font-medium">tamamlanamadı</span></>,
-    body: 'Ödeme sağlayıcısı işlemi onaylamadı. Tekrar deneyebilir ya da ödeme sayfasında Havale/EFT seçeneğini kullanabilirsin.',
+    body: 'Ödeme sağlayıcısı işlemi onaylamadı. Tekrar deneyebilir ya da ödeme sayfasında Havale/EFT seçeneğini kullanabilirsiniz.',
     tone: 'danger',
   },
   refunded: {
@@ -245,8 +245,8 @@ function MissingOrder() {
         Sipariş <span className="italic text-brand font-medium">bulunamadı</span>
       </h1>
       <p className="text-sm text-muted leading-relaxed">
-        Bu bağlantıdaki siparişi hesabında bulamadık. Ödemeni tamamladıysan, panelinden davetiyeni yayınlamayı
-        denediğinde planın tanınır.
+        Bu bağlantıdaki siparişi hesabınızda bulamadık. Ödemenizi tamamladıysanız, panelinizden davetiyenizi
+        yayınlamayı denediğinizde planınız tanınır.
       </p>
       <Link to="/dashboard" className={PRIMARY_BUTTON}>
         <LayoutDashboard size={15} />
