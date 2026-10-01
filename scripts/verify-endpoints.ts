@@ -302,6 +302,46 @@ async function main(): Promise<void> {
     fail('redirectUrl null olarak okundu; yokluğu `undefined` ile temsil edilmeli');
   }
 
+  console.log('\nSipariş okuma uçları (Faz 10)');
+
+  const ORDER = {
+    orderId: '01j5',
+    tier: 'gold',
+    status: 'pending',
+    invitationId: INVITATION_ID,
+    createdAt: '2026-09-30T14:02:11+00:00',
+    paidAt: null,
+  };
+
+  await check(
+    'sipariş (tek)',
+    { method: 'GET', url: '/orders/01j5' },
+    { data: ORDER },
+    () => paymentService.getOrder('01j5'),
+  );
+
+  // Zarf açılmalı ve `paidAt: null` KORUNMALI: "henüz ödenmedi" bilgisi (N4).
+  const order = await paymentService.getOrder('01j5');
+  if (order.orderId !== '01j5' || order.paidAt !== null || !('paidAt' in order)) {
+    fail(`sipariş zarftan doğru çıkarılamadı: ${JSON.stringify(order)}`);
+  }
+
+  // 🔴 Kimlik sorgu dizesinden (`?order=`) geliyor: yola kodlanmadan yazılsaydı
+  // `../auth/me` gibi bir değer başka bir uca giderdi.
+  await check(
+    'sipariş (kodlanmış kimlik)',
+    { method: 'GET', url: '/orders/..%2Fauth%2Fme' },
+    { data: ORDER },
+    () => paymentService.getOrder('../auth/me'),
+  );
+
+  await check(
+    'siparişlerim',
+    { method: 'GET', url: '/orders' },
+    { data: [ORDER] },
+    () => paymentService.listOrders(),
+  );
+
   console.log('\nAsistan ucu');
 
   const assistantBody = await check(

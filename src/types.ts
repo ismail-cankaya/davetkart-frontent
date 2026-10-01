@@ -215,6 +215,28 @@ export interface CheckoutResult {
 }
 
 /**
+ * `GET /orders` ve `GET /orders/{id}` — backend `OrderResource` (Faz 10, 10.24).
+ *
+ * Ödeme dönüş sayfası (`/odeme/basarili`) bu kaydı yoklayarak "ödendi mi?"
+ * sorusunu sorar. Sağlayıcı ve fiyat alanları BİLEREK yok (C1): fiyatın tek
+ * kaynağı katalogdur (`data.ts`).
+ *
+ * Nullable alanların anahtarı HER ZAMAN gelir; `null` bir bilgidir (N4).
+ * `CheckoutResult.redirectUrl`'den farkı bu: o bağlama göre var olan bir alan.
+ */
+export interface OrderRecord {
+  orderId: string;
+  tier: SubscriptionTier;
+  status: OrderStatus;
+  /** `null`: paket siparişi ya da silme penceresinde serbest bırakılmış tekil sipariş (K82). */
+  invitationId: string | null;
+  /** ISO 8601 (UTC). */
+  createdAt: string;
+  /** ISO 8601 (UTC). `null` = henüz ödenmedi (`pending`, `failed`, `expired`). */
+  paidAt: string | null;
+}
+
+/**
  * Ödeme sayfasındaki (`/odeme`) iki yöntem.
  *
  * | Yöntem | Tahsilat | Onay |

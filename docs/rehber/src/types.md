@@ -242,3 +242,40 @@ Bugün yeşil olması bir **bulgu**: `OrderStatus`'u kullanan tek yer
 `CheckoutResult.status` ve o değeri hiçbir yer `switch`'lemiyor. 10.27 yazılırken
 ilk iş, dönüş sayfasının durum eşlemesini `Record<OrderStatus, …>` olarak kurmak
 olmalı — o zaman `expired` unutulamaz.
+
+---
+
+## 11. 🆕 Faz 10 — `OrderRecord` (10.26)
+
+```ts
+export interface OrderRecord {
+  orderId: string;
+  tier: SubscriptionTier;
+  status: OrderStatus;
+  invitationId: string | null;
+  createdAt: string;
+  paidAt: string | null;
+}
+```
+
+Backend `GET /orders` ve `GET /orders/{id}` yanıtı (`OrderResource`, backend 10.24).
+
+### 11.1 Neden `CheckoutResult` değil?
+
+İki tip aynı Resource'tan geliyor ama **farklı soruları** cevaplıyor:
+
+| Tip | Soru | Özel alan |
+|---|---|---|
+| `CheckoutResult` | *"Ödemeye nereden devam edeyim?"* | `redirectUrl?`: yalnızca checkout yanıtında, bağlama göre var |
+| `OrderRecord` | *"Siparişim ne durumda?"* | `paidAt`, `invitationId`: her siparişte var, değeri `null` olabilir |
+
+Tek bir tipe birleştirilseydi `redirectUrl` sipariş listesinde de *"belki var"*
+görünürdü ve `paidAt` checkout'ta *"belki yok"* olurdu. İkisi de yanlış bir bilgi.
+
+### 11.2 `null` ile `?` farkı (N4 · C7)
+
+`paidAt: string | null` yazıldı, `paidAt?: string` değil. Backend anahtarı **her
+zaman** gönderiyor. `null`, *"henüz ödenmedi"* bilgisini taşıyor. `?:` yazılsaydı
+TypeScript `order.paidAt === undefined` kontrolüne izin verirdi ve o kontrol hiçbir
+zaman doğru olmazdı: sessiz bir hata. `redirectUrl?`'nin tersi, ve ikisi aynı
+dosyada bilerek yan yana duruyor.
