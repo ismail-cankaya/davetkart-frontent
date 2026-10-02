@@ -316,6 +316,83 @@ async function publishRequiresSuccessfulSave(): Promise<void> {
   );
 }
 
+/**
+ * Faz 10 (FE 10.21 · backend 10.66b): editör önizlemesi misafirin göreceği
+ * imzayı gösterir. Karar sunucunundur: kayıtla gelir, her kayıt ve yayın
+ * yanıtında tazelenir, istek gövdesine hiç girmez.
+ */
+async function brandingFollowsTheServer(): Promise<void> {
+  console.log('\nİmza (Elit\'te "DavetKart ile hazırlandı" yok)');
+  reset();
+
+  // Sunucu gibi davranır: kararı istekten değil "siparişten" verir.
+  let elit = false;
+  const brandingServer: Server = (req) => {
+    const reply = defaultServer(req) as Reply & { data: { data?: { invitation?: Invitation } } };
+    if (reply.data.data?.invitation) reply.data.data.invitation.showBranding = !elit;
+    return reply;
+  };
+  server = brandingServer;
+
+  useInvitationStore.getState().loadRecord(record('REC-E', { showBranding: false }));
+  check(
+    useInvitationStore.getState().invitation.showBranding === false,
+    'kayıt yüklenince önizleme sunucunun imza kararını alıyor',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+
+  elit = true;
+  useInvitationStore.getState().updateField('names', 'Deniz & Can');
+  await useInvitationStore.getState().saveInvitation();
+  const sent = invitationWrites().at(-1)?.body?.invitation;
+  check(
+    sent !== undefined && !('showBranding' in sent),
+    'imza kararı istek gövdesine girmiyor',
+    JSON.stringify(Object.keys(sent ?? {}).filter((key) => key.startsWith('show'))),
+  );
+  check(
+    useInvitationStore.getState().invitation.showBranding === false,
+    'kaydetme yanıtı kararı koruyor',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+
+  // Gold kayıt açık; Elit ödendi, sonraki otomatik kayıt kararı tazeler.
+  elit = false;
+  useInvitationStore.getState().loadRecord(record('REC-G', { showBranding: true }));
+  elit = true;
+  useInvitationStore.getState().updateField('names', 'Ece & Mert');
+  await useInvitationStore.getState().saveInvitation();
+  check(
+    useInvitationStore.getState().invitation.showBranding === false,
+    'ödemeden sonraki kayıt yanıtı imzayı kaldırıyor',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+
+  // Yayın bağsız Elit paketini bağlar (K99): karar yayın yanıtıyla gelir.
+  elit = false;
+  useInvitationStore.getState().loadRecord(record('REC-P', { showBranding: true }));
+  server = (req) => {
+    if (req.url === '/invitations/REC-P/publish') {
+      elit = true;
+      return brandingServer({ ...req, method: 'PUT', url: '/invitations/REC-P', body: { invitation: useInvitationStore.getState().invitation } });
+    }
+    return brandingServer(req);
+  };
+  await useInvitationStore.getState().publishInvitation();
+  check(
+    useInvitationStore.getState().invitation.showBranding === false,
+    'yayın yanıtı imza kararını tazeliyor (paket yayında bağlanır)',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+
+  useInvitationStore.getState().resetInvitation();
+  check(
+    useInvitationStore.getState().invitation.showBranding === undefined,
+    'yeni taslakta karar yok: imza çizilir',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+}
+
 /** Yayındaki davetiyede Elit modülü açan kaydı reddeden sunucu (K88). */
 const paywallServer: Server = (req) =>
   req.method === 'PUT' && req.body?.invitation?.showGallery === true
@@ -774,6 +851,7 @@ async function main(): Promise<void> {
   await newInvitationDoesNotOverwrite();
   await staleSaveResponseIsIgnored();
   await publishRequiresSuccessfulSave();
+  await brandingFollowsTheServer();
   await publishedModuleRejection();
   await rejectionWithNothingToRollBack();
   draftWritesOnlyWhatTheFormChanged();

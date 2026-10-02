@@ -220,7 +220,9 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
         saveState: 'saved',
         invitation: {
           ...state.invitation,
-          timelineEvents: adoptServerIds(state.invitation.timelineEvents, sentKeys, record)
+          timelineEvents: adoptServerIds(state.invitation.timelineEvents, sentKeys, record),
+          // FE 10.21: imza sunucunun kararı; ödeme sonrası ilk kayıtta tazelenir.
+          showBranding: record.invitation.showBranding
         }
       }));
       return { ok: true };
@@ -373,7 +375,11 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       // Sunucunun döndürdüğü durum ('published') editöre yazılır ki aynı
       // oturumda ikinci kez yayınlamaya çalışılmasın.
       confirmedModules = pickModules(record.invitation);
-      set({ recordId: record.id });
+      // FE 10.21: yayın bağsız bir Elit paketini bağlayabilir (K99); imza o an kalkar.
+      set((state) => ({
+        recordId: record.id,
+        invitation: { ...state.invitation, showBranding: record.invitation.showBranding }
+      }));
       return record;
     }
   };

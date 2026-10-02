@@ -436,3 +436,18 @@ Düzenle* → **Fotoğraf Galerisi** anahtarını aç. Beklenen: 1,5 sn sonra pl
 *"Planınızı Yükseltin"* başlığıyla **Elit** önerir, anahtar kendiliğinden kapanır,
 Network sekmesinde 402'yi bir 200 izler. Duvarı kapatıp başka bir alan düzenle:
 yeni bir duvar açılmamalı.
+
+---
+
+## 🆕 FE 10.21 — imza kararı sunucudan (backend 10.66b · K102)
+
+`invitation.showBranding` kullanıcının yazdığı bir alan değil, sunucunun kararı (Elit'te `false`).
+Store onu iki yanıtta **tazeliyor**:
+
+- **Kaydetme yanıtı** (`runSave`): ödeme sonrası ilk otomatik kayıtta imza kalkar. Program
+  kimliklerinin aksine bütün değer alınıyor; kullanıcı onu düzenleyemediği için ezilecek bir yerel
+  değişiklik yok.
+- **Yayın yanıtı**: yayın bağsız bir Elit paketini bağlayabilir (K99).
+
+İkisi de `editRevision`'ı artırmıyor: kararın gelmesi bir düzenleme değil, kaydetme döngüsü kurulmaz.
+Doğrulama: `verify:state` → *"İmza"* · ayrıntı `components/templates/shared/Branding.md` §4.

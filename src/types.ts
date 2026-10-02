@@ -138,7 +138,9 @@ export interface Invitation {
   showRSVP: boolean;
   /**
    * Faz 10 (FE 10.20 · K102): "DavetKart ile hazırlandı" imzası çizilsin mi?
-   * Yalnızca misafir yanıtında gelir (Elit'te `false`). Yoksa imza çizilir.
+   * Sunucunun kararı (Elit'te `false`): misafir yanıtında ve FE 10.21'den beri
+   * sahibin kaydında da gelir. Kullanıcı yazmaz, istek gövdesine girmez.
+   * Yoksa (kaydedilmemiş taslak) imza çizilir.
    */
   showBranding?: boolean;
 
