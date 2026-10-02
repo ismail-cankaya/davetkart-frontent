@@ -84,3 +84,18 @@ alanın karşılığı yok: kodu bilmeyen o uca gelemez. Servis alanı gövdeden
 
 **Elle:** yayındaki bir davetiyede formu gönder → sayfayı yenile → not ve *"Yanıtımı Güncelle"*
 görünmeli → kişi sayısını değiştirip gönder → panelde tek satır, yeni sayı.
+
+## 7. 🆕 FE 10.23 — çizim ve tarayıcı doğrulaması (2 Ekim 2026)
+
+**Çizim:** `npm run verify:render` → *"LCV: kendi yanıtını güncelleme"*: kod yokken form *"Katılımımı
+Bildir"*, kod tarayıcıda varken *"Yanıtımı Güncelle"* ve açıklama; önizleme penceresi (`RsvpModal`) ve
+misafir sayfasının tamamı (tembel bölümler dahil) aynı. Kod davetiyeye özgü. Ayrıntı:
+[`../../scripts/verify-render.md`](../../scripts/verify-render.md).
+
+**Tarayıcıda (Vite 3017 + geliştirme backend'i):** Elit davetiyede form gönderildi → kod tarayıcıya
+yazıldı → sayfa yenilendi → *"Yanıtımı Güncelle"* ve açıklama göründü → kişi sayısı 4 yapılıp
+gönderildi → sahibin listesinde **tek** satır, 4 kişi.
+
+> Sekme arka planda kaldığı için (`visibilityState: hidden`) tarayıcı animasyonları durdurdu ve
+> gönderim sonrası *"Yanıtınız güncellendi"* başlığı ekrana gelmedi (form çıkış animasyonu bitmedi).
+> Sunucu tarafı ve formun iki hâli doğrulandı; başlığın kendisi ön plandaki bir sekmede elle bakılacak.

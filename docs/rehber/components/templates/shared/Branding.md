@@ -31,10 +31,12 @@ Premium tema = arka planı video olan 13 tema.
 
 ### 2.1 İmza neden `!== false`?
 
-Alan yalnızca **misafir** yanıtında geliyor. Editör önizlemesinde ve eski bir backend'de alan yok;
-o zaman imza çizilir. Vaat edilmeyen bir şeyi yanlışlıkla vermek (imzasız) yerine, vaat edileni
-gecikmeli vermek (imza bir süre görünür) daha güvenli taraf. Sonuç: Elit sahibi editör önizlemesinde
-imzayı görüyor, misafir görmüyor.
+Alan yoksa (kaydedilmemiş yeni taslak, eski bir backend) imza çizilir. Vaat edilmeyen bir şeyi
+yanlışlıkla vermek (imzasız) yerine, vaat edileni gecikmeli vermek (imza bir süre görünür) daha
+güvenli taraf.
+
+~~Alan yalnızca misafir yanıtında geliyor; Elit sahibi editör önizlemesinde imzayı görüyor.~~ →
+FE 10.21'de kapandı (§4).
 
 ### 2.2 Rozet neden ekranda?
 
@@ -51,9 +53,31 @@ kullanıcı premium temayı seçer, davetiyesini hazırlar ve yayında 402 ile k
 | Premium liste = backend'in 13 kimliği | Bir temadan `minimumTier` silinsin → kırıldı |
 | Kartta *"video"* geçmiyor | Eski metin geri gelsin → kırıldı |
 
-**İmza** otomatik sınanmıyor: projede bileşen render eden bir doğrulama yok. Backend tarafı
-(`showBranding` plana göre) `PublicInvitationTest`'te 5 vakayla sınanıyor; frontend tarafı tek bir
-koşul. **Elle:** Elit siparişli bir davetiyenin misafir sayfasında alt bilgide yalnızca adlar
-görünmeli; Gold'da *"DavetKart ile hazırlandı"* da görünmeli.
+~~**İmza** otomatik sınanmıyor: projede bileşen render eden bir doğrulama yok.~~ → FE 10.23:
+`npm run verify:render` imzayı **251 şablonun hepsinde** ve editör önizlemesinde çizerek sınıyor
+([`../../../scripts/verify-render.md`](../../../scripts/verify-render.md)). Backend tarafı
+(`showBranding` plana göre) `PublicInvitationTest`'te 5, `InvitationTest`'te 3 vakayla sınanıyor.
 
 **Tarayıcıda görüldü (2 Ekim 2026):** *"Premium · Gold+"* rozeti yalnızca videolu temalarda.
+
+---
+
+## 4. 🆕 FE 10.21 — editör önizlemesi de sunucunun kararını kullanıyor
+
+Backend 10.66b'den beri sahibin kaydı da `invitation.showBranding` taşıyor (misafir yanıtıyla aynı
+yer). Frontend'de:
+
+| Yer | Ne yapıyor |
+|---|---|
+| `loadRecord` | Kaydın tamamını alıyor; karar da onunla geliyor (değişiklik yok) |
+| Kaydetme yanıtı (`runSave`) | Kararı **tazeliyor**: ödeme sonrası ilk otomatik kayıtta imza kalkar |
+| Yayın yanıtı | Kararı tazeliyor: yayın bağsız Elit paketini bağlayabilir (K99) |
+| `toPayload` | Kararı gövdeye **koymuyor** (galeri gibi sunucunun alanı) |
+| Yeni taslak | Karar yok → imza çizilir (henüz ödeme yok) |
+
+`verify:state` → *"İmza"*: altı kontrol. Mutasyonlar (2 Ekim 2026): kayıt yanıtı kararı almasın ·
+yayın yanıtı almasın · karar gövdeye girsin: üçü de kırıldı.
+
+**Tarayıcıda görüldü (2 Ekim 2026, Vite 3017 + geliştirme backend'i):** Elit davetiye: misafir
+sayfasında ve editör önizlemesinde alt bilgide yalnızca *"Deniz & Can"*. Gold davetiye: ikisinde de
+*"DavetKart ile hazırlandı"*.
