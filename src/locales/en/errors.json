@@ -158,6 +158,7 @@
       "mimetypes": "{{field}} is in an unsupported file format.",
       "confirmed": "{{field}} doesn't match its confirmation.",
       "current_password": "{{field}} is incorrect.",
+      "iban": "{{field}} isn't a valid IBAN. Check the account number.",
       "same": "{{field}} doesn't match.",
       "different": "{{field}} must be different.",
       "regex": "{{field}} isn't in the expected format.",

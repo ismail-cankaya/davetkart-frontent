@@ -152,12 +152,18 @@ async function main(): Promise<void> {
       validation?: { rules?: Record<string, unknown> };
     } | undefined)?.validation?.rules;
 
-    for (const rule of ['current_password']) {
+    //     Faz 10 (FE 10.19 · K105): `iban` backend'in kendi kuralı; adı
+    //     sözleşmenin parçası (D6).
+    for (const rule of ['current_password', 'iban']) {
       if (typeof rules?.[rule] !== 'string') fail(`${rule} kuralı → [${language}] çevirisi yok`);
     }
     assertRendered(
       'VALIDATION_FAILED.password (current_password)',
       toFieldErrors(apiError('VALIDATION_FAILED', { fields: { password: [{ rule: 'current_password' }] } })).password ?? '',
+    );
+    assertRendered(
+      'VALIDATION_FAILED.invitation.iban (iban)',
+      toFieldErrors(apiError('VALIDATION_FAILED', { fields: { 'invitation.iban': [{ rule: 'iban' }] } }))['invitation.iban'] ?? '',
     );
 
     // 6. 🔴 Aynı HTTP durumunu paylaşan kodlar AYNI METNİ göstermemeli.

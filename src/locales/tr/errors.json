@@ -158,6 +158,7 @@
       "mimetypes": "{{field}} desteklenmeyen bir dosya biçiminde.",
       "confirmed": "{{field}} tekrarıyla eşleşmiyor.",
       "current_password": "{{field}} hatalı.",
+      "iban": "{{field}} geçerli bir IBAN değil. Hesap numarasını kontrol edin.",
       "same": "{{field}} eşleşmiyor.",
       "different": "{{field}} farklı olmalıdır.",
       "regex": "{{field}} beklenen biçimde değil.",

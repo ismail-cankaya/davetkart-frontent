@@ -29,8 +29,27 @@ export function formatIban(value: string): string {
  */
 export function isValidTrIban(value: string): boolean {
   const iban = normalizeIban(value);
-  if (!TR_IBAN_PATTERN.test(iban)) return false;
+  return TR_IBAN_PATTERN.test(iban) && passesMod97(iban);
+}
 
+/** Herhangi bir ülkenin IBAN'ı: 2 harf + 2 rakam + 11–30 hane/harf. */
+const IBAN_PATTERN = /^[A-Z]{2}\d{2}[A-Z0-9]{11,30}$/;
+
+/**
+ * Faz 10 (FE 10.19 · K105): davetiyedeki hediye IBAN'ı geçerli mi?
+ *
+ * Backend `App\Support\Iban::isValid` ile BİREBİR aynı kural: biçim, TR ise
+ * 26 karakter, mod-97. Yurt dışındaki bir akrabanın IBAN'ı da kabul edilir;
+ * havale ödemesindeki `isValidTrIban`'dan farkı bu.
+ */
+export function isValidIban(value: string): boolean {
+  const iban = normalizeIban(value);
+  if (!IBAN_PATTERN.test(iban)) return false;
+  if (iban.startsWith('TR') && iban.length !== 26) return false;
+  return passesMod97(iban);
+}
+
+function passesMod97(iban: string): boolean {
   const rearranged = iban.slice(4) + iban.slice(0, 4);
   let remainder = 0;
   for (const char of rearranged) {

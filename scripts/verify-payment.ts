@@ -7,7 +7,7 @@
  * paket fiyatsız bir ödeme düğmesi çizer. Bu yüzden saf fonksiyonların
  * kendisi sınanır.
  */
-import { formatIban, isValidTrIban, normalizeIban } from '../src/utils/iban';
+import { formatIban, isValidIban, isValidTrIban, normalizeIban } from '../src/utils/iban';
 import {
   detectCardBrand,
   formatCardNumber,
@@ -51,6 +51,30 @@ function main(): void {
   check('başka ülke IBAN’ı reddediliyor', isValidTrIban('DE89370400440532013000'), false);
   check('normalize boşluk atar, büyütür', normalizeIban(' tr33 0006 '), 'TR330006');
   check('dörtlü gruplama', formatIban(iban), 'TR33 0006 1005 1978 6457 8413 26');
+
+  // Faz 10 (FE 10.19 · K105): davetiyedeki hediye IBAN'ı. Vakalar backend
+  // tests/Unit/IbanTest.php ile BİREBİR aynı; iki taraf ayrışırsa editör
+  // "geçerli" der, backend kaydı reddeder.
+  console.log('\nIBAN (davetiye, backend ile aynı kural)');
+  const sameAsBackend: Array<[string, string, boolean]> = [
+    ['TR, bitişik', 'TR330006100519786457841326', true],
+    ['TR, dörtlü gruplar', 'TR33 0006 1005 1978 6457 8413 26', true],
+    ['TR, küçük harf', 'tr330006100519786457841326', true],
+    ['Almanya', 'DE89370400440532013000', true],
+    ['Birleşik Krallık (harfli banka kodu)', 'GB82WEST12345698765432', true],
+    ['kontrol hanesi yanlış', 'TR340006100519786457841326', false],
+    ['tek hane yanlış yazılmış', 'TR330006100519786457841327', false],
+    ['yan yana iki hane yer değiştirmiş', 'TR330006100519786457841362', false],
+    ['TR ama 25 karakter (sağlama toplamı doğru)', 'TR23000610051978645784132', false],
+    ['ülke kodu yok', '330006100519786457841326', false],
+    ['çok kısa (sağlama toplamı doğru)', 'DE1312345', false],
+    ['yarım yazılmış', 'TR33 0006 1005', false],
+    ['boş', '', false],
+    ['rastgele metin', 'IBAN-YOK', false],
+  ];
+  for (const [label, value, expected] of sameAsBackend) {
+    check(label, isValidIban(value), expected);
+  }
 
   console.log('\nKart markası ve biçim');
   check('4 → Visa', detectCardBrand('4242'), 'visa');

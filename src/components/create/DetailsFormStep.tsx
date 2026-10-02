@@ -15,6 +15,7 @@ import { DateTimeInput } from '../ui/DateTimeInput';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { cn } from '../../utils/cn';
+import { isValidIban } from '../../utils/iban';
 import { formatTimeZoneLabel, timeZoneOptions } from '../../utils/timeZones';
 import { duration, ease } from '../../utils/motion';
 
@@ -87,6 +88,10 @@ export function DetailsFormStep() {
 
   // Local mirror keeps typing instant; the store is updated behind a debounce.
   const { draft: local, setField, commit, flush } = useInvitationDraft(FORM_FIELDS);
+
+  // FE 10.19 (K105): boş IBAN serbest; doluysa backend'le aynı kural.
+  const ibanInvalid = local.iban.trim() !== '' && !isValidIban(local.iban);
+  const ibanHintId = `${fieldId}-iban-hint`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setField(e.target.name as TextField, e.target.value);
@@ -334,8 +339,17 @@ export function DetailsFormStep() {
                     value={local.iban}
                     onChange={handleChange}
                     placeholder="TR__ ____ ____ ____ ____ ____ __"
+                    aria-invalid={ibanInvalid}
+                    aria-describedby={ibanInvalid ? ibanHintId : undefined}
                     className={cn(inputClass, 'font-mono tracking-wide')}
                   />
+                  {/* FE 10.19 (K105): backend her kayıtta IBAN'ı denetliyor;
+                      geçersizken davetiye kaydedilmez. Nedenini burada söylüyoruz. */}
+                  {ibanInvalid && (
+                    <p id={ibanHintId} role="alert" className="text-[11px] text-rose-300 leading-relaxed">
+                      IBAN geçerli görünmüyor. Lütfen kontrol edin; düzeltilene kadar değişiklikleriniz kaydedilmez.
+                    </p>
+                  )}
                 </div>
               </ToggleRow>
 
