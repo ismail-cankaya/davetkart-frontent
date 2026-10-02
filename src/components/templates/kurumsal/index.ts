@@ -23,3 +23,7 @@ export { KurumsalBrutal } from './KurumsalBrutal';
 export { KurumsalTerrazzo } from './KurumsalTerrazzo';
 export { KurumsalBlueprint } from './KurumsalBlueprint';
 export { KurumsalHerbaryum } from './KurumsalHerbaryum';
+export { KurumsalCini } from './KurumsalCini';
+export { KurumsalEbru } from './KurumsalEbru';
+export { KurumsalMonogram } from './KurumsalMonogram';
+export { KurumsalTakvim } from './KurumsalTakvim';

@@ -37,3 +37,7 @@ export { DugunBrutal } from './DugunBrutal';
 export { DugunTerrazzo } from './DugunTerrazzo';
 export { DugunBlueprint } from './DugunBlueprint';
 export { DugunHerbaryum } from './DugunHerbaryum';
+export { DugunCini } from './DugunCini';
+export { DugunEbru } from './DugunEbru';
+export { DugunMonogram } from './DugunMonogram';
+export { DugunTakvim } from './DugunTakvim';

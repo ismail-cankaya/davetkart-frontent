@@ -2658,6 +2658,370 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['kurumsal']
   },
+  // ——— Yeni konseptler: Çini (İznik karo duvarı, sivri kemerli niş, dört çiçek buketi) ———
+  {
+    id: 'dugun-cini',
+    name: 'Çini',
+    primaryColor: '#fbf9f3',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbf9f3] via-[#1f9aa5] to-[#1d3f8f]',
+    titleColor: 'text-[#13244f]',
+    btnColor: 'bg-[#1d3f8f] hover:brightness-125 text-[#fbf9f3]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-cini',
+    name: 'Çini',
+    primaryColor: '#fcf5ec',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcf5ec] via-[#c08a2e] to-[#7a1c2a]',
+    titleColor: 'text-[#4a1019]',
+    btnColor: 'bg-[#7a1c2a] hover:brightness-125 text-[#fcf5ec]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-cini',
+    name: 'Çini',
+    primaryColor: '#fcf9f7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcf9f7] via-[#7fb4ad] to-[#4b5d97]',
+    titleColor: 'text-[#2c3558]',
+    btnColor: 'bg-[#4b5d97] hover:brightness-125 text-[#fcf9f7]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-cini',
+    name: 'Çini',
+    primaryColor: '#f7fafc',
+    backgroundStyle: 'bg-gradient-to-br from-[#f7fafc] via-[#1d9fb4] to-[#14306c]',
+    titleColor: 'text-[#0f2350]',
+    btnColor: 'bg-[#14306c] hover:brightness-125 text-[#f7fafc]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-cini',
+    name: 'Çini',
+    primaryColor: '#fffaf1',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffaf1] via-[#23b0a0] to-[#2a50b5]',
+    titleColor: 'text-[#1d2c66]',
+    btnColor: 'bg-[#2a50b5] hover:brightness-125 text-[#fffaf1]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-cini',
+    name: 'Çini',
+    primaryColor: '#f7f6f1',
+    backgroundStyle: 'bg-gradient-to-br from-[#f7f6f1] via-[#2d7f8e] to-[#1b2b55]',
+    titleColor: 'text-[#141f40]',
+    btnColor: 'bg-[#1b2b55] hover:brightness-125 text-[#f7f6f1]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-cini',
+    name: 'Çini',
+    primaryColor: '#fbfcfd',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfd] via-[#8cc8c2] to-[#6a8cc4]',
+    titleColor: 'text-[#34466b]',
+    btnColor: 'bg-[#4f6fa8] hover:brightness-125 text-[#fbfcfd]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-cini',
+    name: 'Çini',
+    primaryColor: '#111a35',
+    backgroundStyle: 'bg-gradient-to-br from-[#111a35] via-[#35c4cb] to-[#e3b54f]',
+    titleColor: 'text-[#f3ecd9]',
+    btnColor: 'bg-[#e3b54f] hover:brightness-110 text-[#0d1429]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-cini',
+    name: 'Çini',
+    primaryColor: '#f6f7f8',
+    backgroundStyle: 'bg-gradient-to-br from-[#f6f7f8] via-[#5a93ab] to-[#20395c]',
+    titleColor: 'text-[#172a45]',
+    btnColor: 'bg-[#20395c] hover:brightness-125 text-[#f6f7f8]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Ebru (battal zemin, açılan taş damlaları, altın cetvelli koltuk) ———
+  {
+    id: 'dugun-ebru',
+    name: 'Ebru',
+    primaryColor: '#efe7d8',
+    backgroundStyle: 'bg-gradient-to-br from-[#efe7d8] via-[#6d88a8] to-[#2d3e5c]',
+    titleColor: 'text-[#28324a]',
+    btnColor: 'bg-[#28324a] hover:brightness-125 text-[#fbf6ea]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-ebru',
+    name: 'Ebru',
+    primaryColor: '#f2e2cf',
+    backgroundStyle: 'bg-gradient-to-br from-[#f2e2cf] via-[#d0902f] to-[#8e1f2a]',
+    titleColor: 'text-[#3f1219]',
+    btnColor: 'bg-[#6e1622] hover:brightness-125 text-[#fdf5e8]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-ebru',
+    name: 'Ebru',
+    primaryColor: '#f5ecec',
+    backgroundStyle: 'bg-gradient-to-br from-[#f5ecec] via-[#8f7fbf] to-[#c96f86]',
+    titleColor: 'text-[#3b3048]',
+    btnColor: 'bg-[#3b3048] hover:brightness-125 text-[#fefaf8]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-ebru',
+    name: 'Ebru',
+    primaryColor: '#e7eff4',
+    backgroundStyle: 'bg-gradient-to-br from-[#e7eff4] via-[#2aa0b4] to-[#17356b]',
+    titleColor: 'text-[#102a55]',
+    btnColor: 'bg-[#17356b] hover:brightness-125 text-[#fbfcfd]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-ebru',
+    name: 'Ebru',
+    primaryColor: '#fdf1e2',
+    backgroundStyle: 'bg-gradient-to-br from-[#fdf1e2] via-[#d24a7a] to-[#ef7b45]',
+    titleColor: 'text-[#3a2346]',
+    btnColor: 'bg-[#3a2346] hover:brightness-125 text-[#fffbf4]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-ebru',
+    name: 'Ebru',
+    primaryColor: '#e9e4da',
+    backgroundStyle: 'bg-gradient-to-br from-[#e9e4da] via-[#7a2738] to-[#1e2c52]',
+    titleColor: 'text-[#1a2545]',
+    btnColor: 'bg-[#1e2c52] hover:brightness-125 text-[#faf8f2]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-ebru',
+    name: 'Ebru',
+    primaryColor: '#f2f6f9',
+    backgroundStyle: 'bg-gradient-to-br from-[#f2f6f9] via-[#eba9b0] to-[#88b4dc]',
+    titleColor: 'text-[#33475f]',
+    btnColor: 'bg-[#33475f] hover:brightness-125 text-[#fdfeff]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-ebru',
+    name: 'Ebru',
+    primaryColor: '#120f1c',
+    backgroundStyle: 'bg-gradient-to-br from-[#120f1c] via-[#7b5cff] to-[#e0457b]',
+    titleColor: 'text-[#f4eefc]',
+    btnColor: 'bg-[#f4eefc] hover:brightness-110 text-[#0f0d18]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-ebru',
+    name: 'Ebru',
+    primaryColor: '#e6ebee',
+    backgroundStyle: 'bg-gradient-to-br from-[#e6ebee] via-[#5b7083] to-[#1f4e63]',
+    titleColor: 'text-[#18303d]',
+    btnColor: 'bg-[#18303d] hover:brightness-125 text-[#fbfcfc]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Varak Monogram (iç içe baş harf arması, kör kabartma, boyalı kenar) ———
+  {
+    id: 'dugun-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#faf7f0',
+    backgroundStyle: 'bg-gradient-to-br from-[#faf7f0] via-[#faf7f0] to-[#c9a35a]',
+    titleColor: 'text-[#2b2620]',
+    btnColor: 'bg-[#2b2620] hover:brightness-125 text-[#f8f4ea]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#5a1420',
+    backgroundStyle: 'bg-gradient-to-br from-[#5a1420] via-[#5a1420] to-[#c8a052]',
+    titleColor: 'text-[#f6e7cf]',
+    btnColor: 'bg-[#d4ad5c] hover:brightness-110 text-[#2a0910]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#fbf3f1',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbf3f1] via-[#fbf3f1] to-[#d9a3a7]',
+    titleColor: 'text-[#3d2b2e]',
+    btnColor: 'bg-[#3d2b2e] hover:brightness-125 text-[#fbf3f1]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#13254f',
+    backgroundStyle: 'bg-gradient-to-br from-[#13254f] via-[#13254f] to-[#d4ab55]',
+    titleColor: 'text-[#f2e8cf]',
+    btnColor: 'bg-[#d9b25c] hover:brightness-110 text-[#0a1634]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#fbf8f3',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbf8f3] via-[#fbf8f3] to-[#1f1f24]',
+    titleColor: 'text-[#1f1f24]',
+    btnColor: 'bg-[#1f1f24] hover:brightness-125 text-[#fbf8f3]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#f8f6ef',
+    backgroundStyle: 'bg-gradient-to-br from-[#f8f6ef] via-[#f8f6ef] to-[#1b2b55]',
+    titleColor: 'text-[#16234a]',
+    btnColor: 'bg-[#16234a] hover:brightness-125 text-[#f5f1e6]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#fbfcfd',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfcfd] via-[#fbfcfd] to-[#a8c4e0]',
+    titleColor: 'text-[#34465e]',
+    btnColor: 'bg-[#34465e] hover:brightness-125 text-[#fbfcfd]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#121116',
+    backgroundStyle: 'bg-gradient-to-br from-[#121116] via-[#121116] to-[#d8b45c]',
+    titleColor: 'text-[#f3ecdc]',
+    btnColor: 'bg-[#e0bd66] hover:brightness-110 text-[#0b0a0e]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-monogram',
+    name: 'Varak Monogram',
+    primaryColor: '#f7f8f9',
+    backgroundStyle: 'bg-gradient-to-br from-[#f7f8f9] via-[#f7f8f9] to-[#2a3642]',
+    titleColor: 'text-[#1e2833]',
+    btnColor: 'bg-[#1e2833] hover:brightness-125 text-[#f7f8f9]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Takvim (ay ızgarası, mürekkeple işaretlenen gün, yapışkan not) ———
+  {
+    id: 'dugun-takvim',
+    name: 'Takvim',
+    primaryColor: '#fbfaf7',
+    backgroundStyle: 'bg-gradient-to-br from-[#fbfaf7] via-[#e6e0d6] to-[#a8453f]',
+    titleColor: 'text-[#2f2a26]',
+    btnColor: 'bg-[#2f2a26] hover:brightness-125 text-[#fbfaf7]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-takvim',
+    name: 'Takvim',
+    primaryColor: '#fcf4ea',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcf4ea] via-[#e7d5c1] to-[#b02a32]',
+    titleColor: 'text-[#3a1d1d]',
+    btnColor: 'bg-[#6e1a22] hover:brightness-125 text-[#fcf4ea]',
+    imageUrl: '',
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-takvim',
+    name: 'Takvim',
+    primaryColor: '#fefaf9',
+    backgroundStyle: 'bg-gradient-to-br from-[#fefaf9] via-[#ecdfe0] to-[#c95c78]',
+    titleColor: 'text-[#3a3340]',
+    btnColor: 'bg-[#3a3340] hover:brightness-125 text-[#fefaf9]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-takvim',
+    name: 'Takvim',
+    primaryColor: '#f8fbfd',
+    backgroundStyle: 'bg-gradient-to-br from-[#f8fbfd] via-[#dbe5ee] to-[#b8861c]',
+    titleColor: 'text-[#142a4f]',
+    btnColor: 'bg-[#142a4f] hover:brightness-125 text-[#f8fbfd]',
+    imageUrl: '',
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-takvim',
+    name: 'Takvim',
+    primaryColor: '#fffaf1',
+    backgroundStyle: 'bg-gradient-to-br from-[#fffaf1] via-[#f6e2c8] to-[#e8532f]',
+    titleColor: 'text-[#2b2340]',
+    btnColor: 'bg-[#2b2340] hover:brightness-125 text-[#fffaf1]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-takvim',
+    name: 'Takvim',
+    primaryColor: '#f8f7f3',
+    backgroundStyle: 'bg-gradient-to-br from-[#f8f7f3] via-[#dedcd3] to-[#a87b25]',
+    titleColor: 'text-[#1b2541]',
+    btnColor: 'bg-[#1b2541] hover:brightness-125 text-[#f8f7f3]',
+    imageUrl: '',
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-takvim',
+    name: 'Takvim',
+    primaryColor: '#fcfdfd',
+    backgroundStyle: 'bg-gradient-to-br from-[#fcfdfd] via-[#e2eaf1] to-[#5f93cc]',
+    titleColor: 'text-[#3b4a5a]',
+    btnColor: 'bg-[#3b4a5a] hover:brightness-125 text-[#fcfdfd]',
+    imageUrl: '',
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-takvim',
+    name: 'Takvim',
+    primaryColor: '#17141f',
+    backgroundStyle: 'bg-gradient-to-br from-[#17141f] via-[#0b0910] to-[#ff4f8b]',
+    titleColor: 'text-[#f1ecff]',
+    btnColor: 'bg-[#f1ecff] hover:brightness-110 text-[#0d0b13]',
+    imageUrl: '',
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-takvim',
+    name: 'Takvim',
+    primaryColor: '#f8f9fa',
+    backgroundStyle: 'bg-gradient-to-br from-[#f8f9fa] via-[#dde3e8] to-[#1f6f8b]',
+    titleColor: 'text-[#1c2833]',
+    btnColor: 'bg-[#1c2833] hover:brightness-125 text-[#f8f9fa]',
+    imageUrl: '',
+    categories: ['kurumsal']
+  },
 ];
 
 /**

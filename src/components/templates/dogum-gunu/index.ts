@@ -25,3 +25,7 @@ export { DogumGunuBrutal } from './DogumGunuBrutal';
 export { DogumGunuTerrazzo } from './DogumGunuTerrazzo';
 export { DogumGunuBlueprint } from './DogumGunuBlueprint';
 export { DogumGunuHerbaryum } from './DogumGunuHerbaryum';
+export { DogumGunuCini } from './DogumGunuCini';
+export { DogumGunuEbru } from './DogumGunuEbru';
+export { DogumGunuMonogram } from './DogumGunuMonogram';
+export { DogumGunuTakvim } from './DogumGunuTakvim';

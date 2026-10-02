@@ -24,3 +24,7 @@ export { BrutalHero } from './BrutalHero';
 export { TerrazzoHero } from './TerrazzoHero';
 export { BlueprintHero } from './BlueprintHero';
 export { HerbaryumHero } from './HerbaryumHero';
+export { CiniHero } from './CiniHero';
+export { EbruHero } from './EbruHero';
+export { MonogramHero } from './MonogramHero';
+export { TakvimHero } from './TakvimHero';

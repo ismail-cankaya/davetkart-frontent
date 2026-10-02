@@ -29,3 +29,7 @@ export { NisanBrutal } from './NisanBrutal';
 export { NisanTerrazzo } from './NisanTerrazzo';
 export { NisanBlueprint } from './NisanBlueprint';
 export { NisanHerbaryum } from './NisanHerbaryum';
+export { NisanCini } from './NisanCini';
+export { NisanEbru } from './NisanEbru';
+export { NisanMonogram } from './NisanMonogram';
+export { NisanTakvim } from './NisanTakvim';
