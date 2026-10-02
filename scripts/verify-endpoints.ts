@@ -217,6 +217,18 @@ async function main(): Promise<void> {
   expectField('gönderim', rsvpBody, 'website', '');
   expectField('gönderim', rsvpBody, 'photoMediaId', MEDIA.data.id);
 
+  // Faz 10 (FE 10.18 · K101): aynı misafir yanıtını düzenleme koduyla günceller.
+  const rsvpUpdateBody = await check(
+    'güncelleme (misafir)',
+    { method: 'PUT', url: `/public/invitations/${INVITATION_ID}/rsvps/01J2` },
+    { data: { id: '01J2', guestName: 'Can Doğan', guestCount: 1, menuPreference: '', status: 'attending', createdAt: '2026-09-13T10:00:00+00:00', editCode: 'kod-1' } },
+    () => rsvpService.update(INVITATION_ID, { rsvpId: '01J2', editCode: 'kod-1' }, { ...payload, guestCount: 1 }),
+  );
+  expectField('güncelleme', rsvpUpdateBody, 'editCode', 'kod-1');
+  expectField('güncelleme', rsvpUpdateBody, 'guestCount', 1);
+  // Tuzak bu uçta yok: kodu bilmeyen gelemez, alanı göndermek anlamsız.
+  if ('website' in rsvpUpdateBody) fail('güncelleme → tuzak alanı (website) gövdede');
+
   await check(
     'silme (sahip)',
     { method: 'DELETE', url: '/rsvps/01J2' },

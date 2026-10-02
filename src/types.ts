@@ -312,6 +312,18 @@ export interface RSVPResponse {
   photoUrl?: string;
   videoUrl?: string;
   createdAt: string;
+  /**
+   * Faz 10 (FE 10.18 · K101): yalnızca misafirin KENDİ gönderim/güncelleme
+   * yanıtında gelir; sahibin listesinde yoktur. Aynı yanıtı sonradan
+   * güncellemenin anahtarı.
+   */
+  editCode?: string;
+}
+
+/** Bu cihazdan verilmiş yanıtın kimliği ve düzenleme kodu (FE 10.18 · K101). */
+export interface RsvpReceipt {
+  rsvpId: string;
+  editCode: string;
 }
 
 /**

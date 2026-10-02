@@ -1,6 +1,6 @@
 import { api, unwrapEnvelope } from './api';
 import { conditionalGet, invalidateConditionalCache } from './conditionalGet';
-import { RSVPResponse, RsvpCreatePayload } from '../types';
+import { RSVPResponse, RsvpCreatePayload, RsvpReceipt } from '../types';
 import { toRsvpStatus } from '../utils/rsvpStatus';
 
 /**
@@ -36,6 +36,7 @@ function toRsvpArray(payload: unknown): RSVPResponse[] {
  * |---|---|---|
  * | Listele | `GET /invitations/{id}/rsvps` | sahip (auth) |
  * | Gönder | `POST /public/invitations/{id}/rsvps` | misafir (anonim) |
+ * | Güncelle | `PUT /public/invitations/{id}/rsvps/{rsvpId}` | misafir (düzenleme koduyla) |
  * | Sil | `DELETE /rsvps/{id}` | sahip (auth) |
  *
  * Silmenin kimlik taşımaması tutarsızlık değil: LCV kimliği zaten tekildir
@@ -58,15 +59,35 @@ export const rsvpService = {
   /**
    * Misafirin yanıtını gönderir; sunucunun ürettiği kayıtla çözülür.
    *
-   * 🔴 Honeypot dolu gelirse backend **204 döner ve kaydetmez** — gövdesiz.
-   * Bu kasıtlıdır (L2: bot tespiti sessizdir) ve `toRsvp()` o durumda
-   * beklendiği gibi hata fırlatır; çağıran bunu normal bir başarısızlık
-   * gibi ele alır, bota "yakalandın" denmez.
+   * 🔴 Honeypot dolu gelirse backend gerçek bir yanıttan ayırt edilemeyen
+   * bir 201 döner ama kaydetmez (L2: bot tespiti sessizdir). Yanıt
+   * `editCode` da taşır (FE 10.18).
    */
   async create(invitationId: string, payload: RsvpCreatePayload): Promise<RSVPResponse> {
     const { data } = await api.post<unknown>(
       `/public/invitations/${invitationId}/rsvps`,
       payload,
+    );
+    return toRsvp(data);
+  },
+
+  /**
+   * Faz 10 (FE 10.18 · K101): aynı misafirin yanıtını düzenleme koduyla
+   * günceller; yeni satır açılmaz, kişi sayısı kotadan iki kez düşmez.
+   *
+   * Yanlış kod ya da silinmiş yanıt 404 `RESOURCE_NOT_FOUND` alır; çağıran
+   * bu durumda yeni bir gönderime düşer. Honeypot alanı gönderilmez: bu uca
+   * kodu bilmeyen gelemez.
+   */
+  async update(
+    invitationId: string,
+    receipt: RsvpReceipt,
+    payload: RsvpCreatePayload,
+  ): Promise<RSVPResponse> {
+    const { website: _honeypot, ...fields } = payload;
+    const { data } = await api.put<unknown>(
+      `/public/invitations/${invitationId}/rsvps/${encodeURIComponent(receipt.rsvpId)}`,
+      { ...fields, editCode: receipt.editCode },
     );
     return toRsvp(data);
   },

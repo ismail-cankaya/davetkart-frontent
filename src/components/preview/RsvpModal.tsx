@@ -14,6 +14,7 @@ export function RsvpModal() {
   const updateDraft = useRsvpStore(s => s.updateDraft);
   const attachDraftMedia = useRsvpStore(s => s.attachDraftMedia);
   const submitDraft = useRsvpStore(s => s.submitDraft);
+  const ownReply = useRsvpStore(s => s.ownReply);
   const setRsvpModalOpen = useUIStore(s => s.setRsvpModalOpen);
   const [submitting, setSubmitting] = React.useState(false);
 
@@ -21,11 +22,17 @@ export function RsvpModal() {
     e.preventDefault();
     if (submitting) return;
     setSubmitting(true);
+    // FE 10.18: gönderim anındaki durum; gönderimden sonra ownReply hep dolu.
+    const updating = ownReply !== null;
     try {
       const entry = await submitDraft();
       if (!entry) return;
       setRsvpModalOpen(false);
-      toast(`Teşekkürler, ${entry.guestName}! Katılım bildiriminiz kaydedildi ve canlı panele eklendi.`);
+      toast(
+        updating
+          ? `Teşekkürler, ${entry.guestName}! Yanıtınız güncellendi.`
+          : `Teşekkürler, ${entry.guestName}! Katılım bildiriminiz kaydedildi ve canlı panele eklendi.`,
+      );
     } catch (error) {
       // Kota dolması, son tarihin geçmesi ve kopuk bağlantı farklı şeylerdir;
       // hangisi olduğunu backend'in kodu söyler.
@@ -194,7 +201,7 @@ export function RsvpModal() {
           className="w-full bg-amber-400 hover:bg-amber-500 text-slate-950 py-3 rounded-xl text-xs font-semibold tracking-wider shadow-lg transition-colors mt-4 flex items-center justify-center gap-2 disabled:opacity-60 disabled:pointer-events-none"
         >
           <Send size={13} />
-          {submitting ? 'GÖNDERİLİYOR…' : 'YANITI GÖNDER'}
+          {submitting ? 'GÖNDERİLİYOR…' : ownReply ? 'YANITIMI GÜNCELLE' : 'YANITI GÖNDER'}
         </motion.button>
       </form>
     </motion.div>

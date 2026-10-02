@@ -1,4 +1,4 @@
-import { Invitation, InvitationRecord, RSVPResponse, RsvpCreatePayload } from '../types';
+import { Invitation, InvitationRecord, RSVPResponse, RsvpCreatePayload, RsvpReceipt } from '../types';
 import { invitationService } from './invitations';
 import { rsvpService } from './rsvps';
 
@@ -26,6 +26,8 @@ export interface PersistenceService {
    */
   listRsvps(invitationId: string): Promise<RSVPResponse[]>;
   createRsvp(invitationId: string, payload: RsvpCreatePayload): Promise<RSVPResponse>;
+  /** Faz 10 (FE 10.18): misafirin kendi yanıtını düzenleme koduyla günceller. */
+  updateRsvp(invitationId: string, receipt: RsvpReceipt, payload: RsvpCreatePayload): Promise<RSVPResponse>;
   deleteRsvp(id: string): Promise<void>;
 }
 
@@ -38,6 +40,7 @@ const httpAdapter: PersistenceService = {
 
   listRsvps: (invitationId) => rsvpService.list(invitationId),
   createRsvp: (invitationId, payload) => rsvpService.create(invitationId, payload),
+  updateRsvp: (invitationId, receipt, payload) => rsvpService.update(invitationId, receipt, payload),
   deleteRsvp: (id) => rsvpService.remove(id)
 };
 

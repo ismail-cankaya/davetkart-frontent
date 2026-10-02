@@ -28,7 +28,7 @@ import type { AuthUser, Invitation, InvitationRecord } from '../src/types';
 interface RecordedRequest {
   method: string;
   url: string;
-  body: { invitation?: Invitation; email?: string } | undefined;
+  body: { invitation?: Invitation; email?: string; editCode?: string; guestCount?: number; website?: string } | undefined;
   authorization: string | undefined;
 }
 
@@ -593,6 +593,133 @@ async function sessionRefresh(): Promise<void> {
   );
 }
 
+/** Node'da tarayıcı deposu yok; bellekte bir yedek (yalnızca bu betik için). */
+function installMemoryStorage(): Map<string, string> {
+  const store = new Map<string, string>();
+  (globalThis as { localStorage?: Storage }).localStorage = {
+    getItem: (key: string) => store.get(key) ?? null,
+    setItem: (key: string, value: string) => void store.set(key, String(value)),
+    removeItem: (key: string) => void store.delete(key),
+    clear: () => store.clear(),
+    key: (index: number) => [...store.keys()][index] ?? null,
+    get length() {
+      return store.size;
+    },
+  };
+  return store;
+}
+
+/**
+ * Faz 10 (FE 10.18 · K101): aynı misafirin ikinci gönderimi yeni satır açmaz,
+ * düzenleme koduyla eski yanıtı günceller.
+ */
+async function rsvpOwnReply(): Promise<void> {
+  console.log('\nLCV: kendi yanıtını güncelleme');
+
+  const storage = installMemoryStorage();
+  const INV = 'INV-G';
+  const collection = `/public/invitations/${INV}/rsvps`;
+  const reply = (id: string, guestCount: number, editCode: string): Reply => ({
+    status: 200,
+    data: { data: { id, guestName: 'Şeyma Şen', guestCount, menuPreference: '', status: 'attending', createdAt: '', editCode } },
+  });
+
+  let created = 0;
+  let putStatus = 200;
+  const rsvpServer: Server = (req) => {
+    if (req.method === 'POST' && req.url === collection) {
+      created += 1;
+      return { ...reply(`R${created}`, req.body?.guestCount ?? 0, `kod-${created}`), status: 201 };
+    }
+    if (req.method === 'PUT' && req.url.startsWith(`${collection}/`)) {
+      if (putStatus === 404) return { status: 404, data: { error: { code: 'RESOURCE_NOT_FOUND' } } };
+      if (putStatus === 403) return { status: 403, data: { error: { code: 'RSVP_DEADLINE_PASSED' } } };
+      const id = req.url.slice(collection.length + 1);
+      return reply(id, req.body?.guestCount ?? 0, req.body?.editCode ?? '');
+    }
+    return defaultServer(req);
+  };
+
+  const submit = async (guestCount: number) => {
+    useRsvpStore.getState().updateDraft({ guestName: 'Şeyma Şen', guestCount });
+    return useRsvpStore.getState().submitDraft();
+  };
+
+  reset();
+  server = rsvpServer;
+  useRsvpStore.getState().setInvitationScope(INV);
+  await submit(3);
+  check(
+    requests.some((r) => r.method === 'POST' && r.url === collection) && useRsvpStore.getState().ownReply?.editCode === 'kod-1',
+    'ilk gönderim POST; dönen kod bu davetiye için hatırlanıyor',
+    `ownReply=${JSON.stringify(useRsvpStore.getState().ownReply)}`,
+  );
+
+  requests = [];
+  await submit(2);
+  const put = requests.find((r) => r.method === 'PUT');
+  const list = useRsvpStore.getState().rsvpList;
+  check(
+    put?.url === `${collection}/R1` && put.body?.editCode === 'kod-1' && !requests.some((r) => r.method === 'POST'),
+    'ikinci gönderim yeni yanıt değil: aynı yanıta, kodla PUT',
+    requests.map((r) => `${r.method} ${r.url}`).join(', '),
+  );
+  check(
+    put !== undefined && !('website' in (put.body ?? {})),
+    'güncellemede tuzak alanı gönderilmiyor',
+    JSON.stringify(put?.body),
+  );
+  check(
+    list.filter((r) => r.id === 'R1').length === 1 && list[0]?.guestCount === 2,
+    'listede aynı yanıt bir kez, güncel haliyle',
+    JSON.stringify(list.map((r) => [r.id, r.guestCount])),
+  );
+
+  // Sayfa yenilendi: depo boş başlar, kod tarayıcıdan geri okunur.
+  useRsvpStore.setState({ ownReply: null });
+  useRsvpStore.getState().setInvitationScope(null);
+  useRsvpStore.getState().setInvitationScope(INV);
+  check(
+    useRsvpStore.getState().ownReply?.rsvpId === 'R1',
+    'sayfa yenilense de kod tarayıcıdan geri okunuyor',
+    `ownReply=${JSON.stringify(useRsvpStore.getState().ownReply)}`,
+  );
+
+  // Sahip yanıtı sildi: PUT 404 → kod unutulur, yeni yanıt gönderilir.
+  requests = [];
+  putStatus = 404;
+  let fresh: Awaited<ReturnType<typeof submit>> = null;
+  let freshError = '';
+  try {
+    fresh = await submit(4);
+  } catch (error) {
+    // Çökmek yerine kontrol olarak raporlansın; sonraki senaryolar da koşsun.
+    freshError = (error as Error).message;
+  }
+  check(
+    fresh?.id === 'R2' && requests.some((r) => r.method === 'POST') && useRsvpStore.getState().ownReply?.rsvpId === 'R2',
+    '404: kod unutulup yeni yanıt gönderiliyor, yeni kod hatırlanıyor',
+    `${requests.map((r) => `${r.method} ${r.url}`).join(', ')} → ${fresh?.id ?? freshError}`,
+  );
+
+  // Başka bir hata (son tarih geçti): yeni yanıta DÜŞÜLMEZ, kod korunur.
+  requests = [];
+  putStatus = 403;
+  let thrown = false;
+  try {
+    await submit(1);
+  } catch {
+    thrown = true;
+  }
+  check(
+    thrown && !requests.some((r) => r.method === 'POST') && storage.has(`davetkart_rsvp_receipt:${INV}`),
+    'son tarih hatası: yeni yanıt açılmıyor, kod korunuyor',
+    `thrown=${thrown}, ${requests.map((r) => `${r.method} ${r.url}`).join(', ')}`,
+  );
+
+  useRsvpStore.getState().setInvitationScope(null);
+}
+
 async function rsvpScopeRace(): Promise<void> {
   console.log('\nLCV kapsamı');
   reset();
@@ -652,6 +779,7 @@ async function main(): Promise<void> {
   draftWritesOnlyWhatTheFormChanged();
   await sessionBoundaries();
   await sessionRefresh();
+  await rsvpOwnReply();
   await rsvpScopeRace();
   calendarDayAcrossZones();
 
