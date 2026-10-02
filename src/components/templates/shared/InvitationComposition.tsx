@@ -168,7 +168,10 @@ export function InvitationComposition({
             <p className={cn('text-[10px] font-medium tracking-[0.3em] uppercase opacity-60', theme.body)}>
               {invitation.names || 'DavetKart'}
             </p>
-            <p className={cn('text-[9px] mt-1.5 opacity-40', theme.body)}>DavetKart ile hazırlandı</p>
+            {/* FE 10.20 (K102): Elit'te "Logosuz özel yayın"; alan yoksa imza çizilir. */}
+            {invitation.showBranding !== false && (
+              <p className={cn('text-[9px] mt-1.5 opacity-40', theme.body)}>DavetKart ile hazırlandı</p>
+            )}
           </footer>
         </div>
       </div>

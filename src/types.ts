@@ -136,6 +136,11 @@ export interface Invitation {
   showGallery: boolean;
   showGift: boolean;
   showRSVP: boolean;
+  /**
+   * Faz 10 (FE 10.20 · K102): "DavetKart ile hazırlandı" imzası çizilsin mi?
+   * Yalnızca misafir yanıtında gelir (Elit'te `false`). Yoksa imza çizilir.
+   */
+  showBranding?: boolean;
 
   // ——— Gift / IBAN details ———
   bankName: string;
@@ -406,6 +411,12 @@ export interface TemplatePreset {
   imageUrl: string;
   /** Event categories this preset can serve (drives category filtering). */
   categories: string[];
+  /**
+   * Faz 10 (FE 10.20 · K102): yayınlamak için gereken en düşük plan.
+   * Yalnızca premium (videolu) temalarda `'gold'`; yoksa her planda yayınlanır.
+   * Backend `config/davetkart.php` → `preset_tiers` ile AYNI liste.
+   */
+  minimumTier?: SubscriptionTier;
 }
 
 /** A curated homepage showcase slot: a preset pinned to a single category. */

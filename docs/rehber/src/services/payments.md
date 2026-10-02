@@ -61,3 +61,13 @@ Başkasının siparişi ile var olmayan sipariş backend'de **aynı 404**'ü dö
 Sayfa ikisini ayırt etmeye çalışmamalı: ikisi de *"bu siparişi bulamadık"*
 demek. Ayırt edebilseydi, backend'in saklamaya çalıştığı bilgiyi (*"bu kimlik
 var"*) frontend sızdırmış olurdu.
+
+---
+
+## 🆕 Faz 10 (backend 10.58 · K99): paket tek davetiyelik
+
+`checkoutForAccount()` ve `POST /payments/checkout` değişmedi; değişen siparişin **ne açtığı**.
+Davetiyesiz alınan sipariş artık hesabın bütün davetiyelerini açmıyor, ilk yayınlanan davetiyeye
+bağlanıyor (backend `PublishEntitlementResolver.md` → *Faz 10*). Frontend'de yalnızca açıklamalar
+güncellendi (`payments.ts`, `useCheckoutStore.ts`, `useSubscriptionStore.ts`). Fiyat sayfasında
+*"bütün davetiyeleriniz"* diyen bir metin yoktu; değiştirilecek bir vaat çıkmadı.

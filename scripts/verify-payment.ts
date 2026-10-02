@@ -21,6 +21,8 @@ import { checkoutHref, parseCheckoutSearch } from '../src/utils/checkoutRoute';
 import { bankTransferReference, getBankTransferAccount } from '../src/services/bankTransfer';
 import { POLL_LIMIT, orderIdFrom, returnViewFor, shouldKeepPolling } from '../src/utils/paymentReturn';
 import { releaseOutcome } from '../src/utils/releaseWindow';
+import { getRequiredTier } from '../src/stores/useSubscriptionStore';
+import { INITIAL_INVITATION, SUBSCRIPTION_PLANS, TEMPLATE_PRESETS } from '../src/data';
 import type { OrderStatus } from '../src/types';
 
 let failures = 0;
@@ -174,6 +176,29 @@ function main(): void {
   check('alan yok (eski backend) → kesin konuşma', releaseOutcome(undefined, new Date()), 'unknown');
   check('null → kesin konuşma', releaseOutcome(null, new Date()), 'unknown');
   check('bozuk tarih → kesin konuşma', releaseOutcome('yarın', new Date()), 'unknown');
+
+  // Faz 10 (FE 10.20 · K102): fiyat kartının vaatleri kodla tutarlı.
+  console.log('\nFiyat kartı vaatleri');
+  const premium = { ...INITIAL_INVITATION, imageTheme: 'dugun-gokyuzu', showGallery: false, showGift: false, showEnvelope: false, showTimeline: false };
+  check('premium tema → Gold', getRequiredTier(premium), 'gold');
+  check('premium tema + galeri → Elit (modül daha yüksek)', getRequiredTier({ ...premium, showGallery: true }), 'elit');
+  check('sıradan tema → Standart', getRequiredTier({ ...premium, imageTheme: 'sade' }), 'standart');
+
+  // Backend config/davetkart.php → preset_tiers ile AYNI liste (PaywallTest'te de sabit).
+  check(
+    'premium temalar = backend\'in 13 videolu teması',
+    TEMPLATE_PRESETS.filter((preset) => preset.minimumTier === 'gold').map((preset) => preset.id).sort(),
+    [
+      'baby-shower-kabarcik', 'dogum-gunu-konfeti', 'dugun-deniz-isiltisi', 'dugun-gokyuzu', 'dugun-gul-yapraklari',
+      'dugun-mum-isigi', 'dugun-onyx', 'dugun-sahil', 'kina-bordo', 'mezuniyet-lacivert', 'nisan-sampanya',
+      'parti-aurora', 'sunnet-yildiz',
+    ],
+  );
+  check(
+    'kart video galeri vaat etmiyor (galeri yalnızca fotoğraf)',
+    SUBSCRIPTION_PLANS.flatMap((plan) => plan.features.map((feature) => feature.label)).filter((label) => /video/i.test(label)),
+    [],
+  );
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);

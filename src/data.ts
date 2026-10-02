@@ -203,6 +203,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     // Videolu şablon ailesinin ilki: hero arka planı döngüsel gökyüzü videosu.
     id: 'dugun-gokyuzu',
     name: 'Gökyüzü Rüyası (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#eef3f9',
     backgroundStyle: 'bg-[#eef3f9]',
     titleColor: 'text-[#2b3a4f]',
@@ -213,6 +214,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'dugun-mum-isigi',
     name: 'Mum Işığı (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#0a0d14',
     backgroundStyle: 'bg-[#0a0d14]',
     titleColor: 'text-[#f7edd8]',
@@ -223,6 +225,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'dugun-gul-yapraklari',
     name: 'Gül Yaprakları (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#fdf4f2',
     backgroundStyle: 'bg-[#fdf4f2]',
     titleColor: 'text-[#48302f]',
@@ -233,6 +236,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'dugun-deniz-isiltisi',
     name: 'Deniz Işıltısı (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#eef7f6',
     backgroundStyle: 'bg-[#eef7f6]',
     titleColor: 'text-[#22403f]',
@@ -244,6 +248,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'kina-bordo',
     name: 'Bordo İpek (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#1d0710',
     backgroundStyle: 'bg-[#1d0710]',
     titleColor: 'text-[#f2ded3]',
@@ -254,6 +259,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'nisan-sampanya',
     name: 'Şampanya İpek (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#faf6ee',
     backgroundStyle: 'bg-[#faf6ee]',
     titleColor: 'text-[#3b342a]',
@@ -264,6 +270,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'sunnet-yildiz',
     name: 'Yıldız Tozu (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#060f26',
     backgroundStyle: 'bg-[#060f26]',
     titleColor: 'text-[#f2d79b]',
@@ -274,6 +281,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'dogum-gunu-konfeti',
     name: 'Konfeti (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#fffaf6',
     backgroundStyle: 'bg-[#fffaf6]',
     titleColor: 'text-[#37271f]',
@@ -284,6 +292,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'mezuniyet-lacivert',
     name: 'Tören Işığı (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#071328',
     backgroundStyle: 'bg-[#071328]',
     titleColor: 'text-[#f0c761]',
@@ -294,6 +303,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'baby-shower-kabarcik',
     name: 'Kabarcıklar (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#f4faf7',
     backgroundStyle: 'bg-[#f4faf7]',
     titleColor: 'text-[#38504b]',
@@ -304,6 +314,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'parti-aurora',
     name: 'Neon Aurora (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#06060c',
     backgroundStyle: 'bg-[#06060c]',
     titleColor: 'text-[#ece8fa]',
@@ -1978,6 +1989,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'dugun-sahil',
     name: 'Sinematik Sahil (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#171526',
     backgroundStyle: 'bg-[#171526]',
     titleColor: 'text-[#fbf2e4]',
@@ -1988,6 +2000,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   {
     id: 'dugun-onyx',
     name: 'Onyx & Altın (Videolu)',
+    minimumTier: 'gold',
     primaryColor: '#080807',
     backgroundStyle: 'bg-[#080807]',
     titleColor: 'text-[#f7edd6]',
@@ -2737,7 +2750,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       { label: 'LCV — maksimum 100 kişi', included: true },
       { label: 'Zarf açılış animasyonu', included: false },
       { label: 'Hikaye / Zaman çizelgesi', included: false },
-      { label: 'Fotoğraf & Video galerisi', included: false },
+      { label: 'Fotoğraf galerisi', included: false },
       { label: 'Hediye & IBAN modülü', included: false },
       { label: 'Logosuz özel yayın', included: false }
     ]
@@ -2754,7 +2767,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       { label: 'Sınırsız LCV', included: true },
       { label: 'Zarf açılış animasyonu', included: true },
       { label: 'Hikaye / Zaman çizelgesi', included: true },
-      { label: 'Fotoğraf & Video galerisi', included: false },
+      { label: 'Fotoğraf galerisi', included: false },
       { label: 'Hediye & IBAN modülü', included: false },
       { label: 'Logosuz özel yayın', included: false }
     ]
@@ -2771,7 +2784,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       { label: 'Sınırsız LCV', included: true },
       { label: 'Zarf açılış animasyonu', included: true },
       { label: 'Hikaye / Zaman çizelgesi', included: true },
-      { label: 'Fotoğraf & Video galerisi', included: true },
+      { label: 'Fotoğraf galerisi', included: true },
       { label: 'Hediye & IBAN modülü', included: true },
       { label: 'Logosuz özel yayın', included: true }
     ]

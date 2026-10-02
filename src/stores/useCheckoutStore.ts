@@ -16,7 +16,7 @@ import { paymentService } from '../services/payments';
  * alanları `CardPaymentForm`'un yerel state'inde doğar ve orada ölür.
  */
 
-/** Ödemenin kime yazılacağı: davetiye ya da (`invitationId: null`) hesap paketi (K42). */
+/** Ödemenin kime yazılacağı: davetiye ya da (`invitationId: null`) davetiyesiz paket; ilk yayında bağlanır (K42, K99). */
 export interface CheckoutContext {
   tier: SubscriptionTier;
   invitationId: string | null;
@@ -75,7 +75,7 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
     set({ isProcessing: true });
 
     try {
-      // Davetiye kimliği varsa o davetiyeye, yoksa hesaba yazılır (K42).
+      // Davetiye kimliği varsa o davetiyeye, yoksa davetiyesiz paket olur (K42, K99).
       const result = invitationId
         ? await paymentService.checkoutForInvitation(invitationId, tier)
         : await paymentService.checkoutForAccount(tier);

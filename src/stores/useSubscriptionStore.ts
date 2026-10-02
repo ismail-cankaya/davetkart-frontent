@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { Invitation, SubscriptionTier, isSubscriptionTier } from '../types';
 import { apiErrorCode, apiErrorParams } from '../services/api';
+import { TEMPLATE_PRESETS } from '../data';
 
 /** Planları sıralar ki "X planı Y gereksinimini karşılıyor mu" tek kıyas olsun. */
 export const TIER_RANK: Record<SubscriptionTier, number> = {
@@ -25,6 +26,10 @@ export const TIER_RANK: Record<SubscriptionTier, number> = {
 export function getRequiredTier(invitation: Invitation): SubscriptionTier {
   if (invitation.showGallery || invitation.showGift) return 'elit';
   if (invitation.showEnvelope || invitation.showTimeline) return 'gold';
+  // Faz 10 (FE 10.20 · K102): premium (videolu) tema en az Gold.
+  if (TEMPLATE_PRESETS.find((preset) => preset.id === invitation.imageTheme)?.minimumTier === 'gold') {
+    return 'gold';
+  }
   return 'standart';
 }
 
@@ -45,7 +50,7 @@ export interface OpenPaywallOptions {
   /** Sunucunun bildirdiği gereken plan (`error.params.requiredTier`). */
   requiredTier: SubscriptionTier;
   reason: PaywallReason;
-  /** Checkout'un yazılacağı davetiye; `null` = hesap paketi (K42). */
+  /** Checkout'un yazılacağı davetiye; `null` = davetiyesiz paket; ilk yayında bağlanır (K42, K99). */
   invitationId: string | null;
 }
 

@@ -18,7 +18,11 @@ import { CheckoutResult, OrderRecord, SubscriptionTier } from '../types';
  * | Ne alınıyor | Uç |
  * |---|---|
  * | Bu davetiye için | `POST /invitations/{id}/checkout` |
- * | Hesap için (paket) | `POST /payments/checkout` |
+ * | Davetiyesiz (paket) | `POST /payments/checkout` |
+ *
+ * Faz 10 (backend 10.58 · K99): paket de TEK davetiyelik. Davetiyesiz alınan
+ * sipariş ilk yayınlanan davetiyeye bağlanır; hesabın bütün davetiyelerini
+ * açmaz.
  *
  * Faz 10 (10.26): siparişi OKUYAN iki uç — `GET /orders/{id}` ve `GET /orders`.
  * Ayrıntılı açıklama: docs/rehber/src/services/payments.md
@@ -77,7 +81,7 @@ export const paymentService = {
     return toCheckoutResult(data);
   },
 
-  /** Hesabın tamamı için paket satın alır. */
+  /** Davetiyesiz paket alır; ilk yayınlanan davetiyeye bağlanır (K99). */
   async checkoutForAccount(tier: SubscriptionTier): Promise<CheckoutResult> {
     const { data } = await api.post<unknown>('/payments/checkout', { tier });
     return toCheckoutResult(data);

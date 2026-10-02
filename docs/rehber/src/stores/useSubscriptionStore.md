@@ -130,3 +130,15 @@ paywallFromError(new Error('x'), {}, null);   // null
 
 > Konsol denemesi `apiErrorCode()`'un hata zarfını nasıl okuduğuna bağlıdır
 > (`services/api.ts`); axios hatası taklidinde `response.data.error` yeterli.
+
+---
+
+## 7. 🆕 Faz 10 (FE 10.20 · K102): premium tema
+
+`getRequiredTier()` artık temayı da soruyor: `TEMPLATE_PRESETS[].minimumTier === 'gold'` ise en az
+Gold. Modül kuralı daha yüksekse o kazanır (galeri açık premium tema yine Elit).
+
+Bu hâlâ bir **sunum** kopyası (§1): sunucu `requiredTier`'ı 402'de söylüyor ve yedek yalnızca söylemediğinde
+kullanılıyor. Backend ikizi `TierResolver` → `preset_tiers`. Premium liste iki tarafta da sabit:
+backend `PaywallTest::the_premium_themes_are_the_thirteen_video_themes`, frontend `verify:payment` →
+*"Fiyat kartı vaatleri"*. Biri değişir de öbürü değişmezse bu iki testten biri kırılır.
