@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { TemplateFlavor } from '../shared/flavor';
 
 /**
- * Kurumsal etkinlik kimliği. Diğer kategorilerin süslemeleri organik
- * (yaprak, alyans, kalp); burada dil geometrik ve kesin — kurumsal davet
- * duygusal değil, güven verici olmalı.
+ * Kurumsal etkinlik kimliği — "Grafit & Sinyal". Diğer kategorilerin
+ * süslemeleri organik (yaprak, alyans, hilal); burada dil baskı provasından:
+ * kesim işareti, kayıt artısı, cetvel. Davet duygusal değil, ölçülüp
+ * biçilmiş ve güven verici görünmeli.
  */
 
-/** Birbirine bağlanan düğümlerden oluşan altıgen — ağ ve iş birliği. */
+/** Odak işareti: köşe kesim işaretleri arasında, artıyla ortalanmış bir daire. */
 function KurumsalOrnament({ size = 48, className }: { size?: number; className?: string }) {
   return (
     <svg
@@ -19,28 +20,35 @@ function KurumsalOrnament({ size = 48, className }: { size?: number; className?:
       className={className}
     >
       <path
-        d="M12 2.5 20 7v10l-8 4.5L4 17V7l8-4.5Z"
+        d="M3 7.5V3h4.5M16.5 3H21v4.5M21 16.5V21h-4.5M7.5 21H3v-4.5"
         stroke="currentColor"
-        strokeWidth="0.9"
-        strokeLinejoin="round"
+        strokeWidth="1.1"
+        strokeLinecap="square"
       />
-      <circle cx="12" cy="12" r="2.1" stroke="currentColor" strokeWidth="0.9" />
-      <path d="M12 2.5v7.4M20 7l-6 4M20 17l-6-4M12 21.5v-7.4M4 17l6-4M4 7l6 4" stroke="currentColor" strokeWidth="0.6" strokeOpacity="0.65" />
+      <circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M12 6v12M6 12h12" stroke="currentColor" strokeWidth="0.7" strokeOpacity="0.7" />
+      <circle cx="12" cy="12" r="1.2" fill="currentColor" />
     </svg>
   );
 }
 
-/** Seyrek düğüm ızgarası — teknoloji zemini, okunabilirliği bozmayacak yoğunlukta. */
+/**
+ * Kayıt artıları: kesim matının ızgarası — seyrek, metnin altında kaybolur.
+ * Desen kimliği örneğe özgü: galeride yan yana çizilen önizlemeler birbirinin
+ * desenini (ve `currentColor`'ını) ödünç almaz.
+ */
 function KurumsalPattern({ className }: { className?: string }) {
+  const patternId = `kurumsal-desen-${useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
+
   return (
     <svg className={className} width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="kurumsalPattern" x="0" y="0" width="96" height="96" patternUnits="userSpaceOnUse">
-          <circle cx="48" cy="48" r="1.4" fill="currentColor" fillOpacity="0.12" />
-          <path d="M48 48H96M48 48V96" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.06" />
+        <pattern id={patternId} x="0" y="0" width="88" height="88" patternUnits="userSpaceOnUse">
+          <path d="M44 39v10M39 44h10" stroke="currentColor" strokeWidth="0.8" strokeOpacity="0.2" />
+          <circle cx="0" cy="0" r="0.9" fill="currentColor" fillOpacity="0.14" />
         </pattern>
       </defs>
-      <rect x="0" y="0" width="100%" height="100%" fill="url(#kurumsalPattern)" />
+      <rect x="0" y="0" width="100%" height="100%" fill={`url(#${patternId})`} />
     </svg>
   );
 }
@@ -52,10 +60,10 @@ export const KURUMSAL_FLAVOR: TemplateFlavor = {
   envelopeLabel: 'Etkinlik Daveti',
   tagline: 'Birlikte Daha İleriye',
   headings: {
-    timeline: 'Program Akışı',
+    timeline: 'Gündem',
     details: 'Konum ve Ulaşım',
-    gallery: 'Galeri',
-    gift: 'Sponsorluk',
+    gallery: 'Görsel Arşiv',
+    gift: 'Bağış ve Katkı',
     rsvp: 'Kayıt Formu'
   }
 };
