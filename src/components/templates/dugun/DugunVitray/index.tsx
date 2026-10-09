@@ -1,9 +1,10 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { HeroStage, GodRays, Halo } from '../../shared/effects';
+import { HeroStage, GodRays } from '../../shared/effects';
 import { VitrayHero } from '../../shared/heroes';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
+import { Hale } from '../parts/Hale';
 import { TemplateProps } from '../../types';
 
 /**
@@ -32,7 +33,7 @@ export function DugunVitray({ invitation, mode = 'preview' }: TemplateProps) {
             <>
               {/* Huzmeler pencerenin ardındaki ışığı odanın içine taşır. */}
               <GodRays color="243,220,232" angle={14} count={6} origin={50} opacity={0.26} duration={16} />
-              <Halo color="235,176,201" size={58} x={50} y={30} opacity={0.2} duration={12} />
+              <Hale color="235,176,201" size={58} x={50} y={30} opacity={0.2} duration={12} />
             </>
           }
           particles={[

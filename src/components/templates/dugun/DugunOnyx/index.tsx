@@ -1,9 +1,10 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
 import { videoSet } from '../../shared/videoAssets';
-import { HeroStage, Halo, GoldSheen } from '../../shared/effects';
+import { HeroStage, GoldSheen } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
+import { Hale } from '../parts/Hale';
 import { KurdeleHero } from '../parts/KurdeleHero';
 import { TemplateProps } from '../../types';
 
@@ -37,7 +38,7 @@ export function DugunOnyx({ invitation, mode = 'preview' }: TemplateProps) {
           vignette={{ strength: 0.55 }}
           atmosphere={
             <>
-              <Halo color="228,219,233" size={70} x={50} y={42} opacity={0.2} duration={9} />
+              <Hale color="228,219,233" size={70} x={50} y={42} opacity={0.2} duration={9} />
               <GoldSheen color="239,232,243" opacity={0.14} duration={9} />
             </>
           }

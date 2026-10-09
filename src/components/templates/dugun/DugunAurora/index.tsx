@@ -1,8 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { HeroStage, AuroraMesh, Halo } from '../../shared/effects';
+import { HeroStage, AuroraMesh } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
+import { Hale } from '../parts/Hale';
 import { KurdeleHero } from '../parts/KurdeleHero';
 import { TemplateProps } from '../../types';
 
@@ -33,7 +34,7 @@ export function DugunAurora({ invitation, mode = 'preview' }: TemplateProps) {
           atmosphere={
             <>
               <AuroraMesh colors={['235,169,198', '199,184,226', '178,226,214']} opacity={0.55} duration={24} />
-              <Halo color="240,181,207" size={62} x={50} y={40} opacity={0.2} duration={11} />
+              <Hale color="240,181,207" size={62} x={50} y={40} opacity={0.2} duration={11} />
             </>
           }
           particles={[

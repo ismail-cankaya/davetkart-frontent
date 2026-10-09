@@ -1,9 +1,10 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { HeroStage, Halo } from '../../shared/effects';
+import { HeroStage } from '../../shared/effects';
 import { NoirHero } from '../../shared/heroes';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
+import { Hale } from '../parts/Hale';
 import { TemplateProps } from '../../types';
 
 /**
@@ -27,7 +28,7 @@ export function DugunNoir({ invitation, mode = 'preview' }: TemplateProps) {
           base="radial-gradient(ellipse 90% 80% at 50% 42%, #15121a 0%, #0b0a0e 55%, #050506 100%)"
           scrim={false}
           vignette={{ strength: 0.5 }}
-          atmosphere={<Halo color="217,208,226" size={54} x={50} y={42} opacity={0.12} duration={14} />}
+          atmosphere={<Hale color="217,208,226" size={54} x={50} y={42} opacity={0.12} duration={14} />}
           particles={[
             {
               preset: 'fairyDust',

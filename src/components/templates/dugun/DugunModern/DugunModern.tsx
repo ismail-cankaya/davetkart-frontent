@@ -1,8 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { HeroStage, Halo } from '../../shared/effects';
+import { HeroStage } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
+import { Hale } from '../parts/Hale';
 import { KurdeleHero } from '../parts/KurdeleHero';
 import { TulVeil } from '../parts/TulVeil';
 import { TemplateProps } from '../../types';
@@ -26,8 +27,8 @@ export function DugunModern({ invitation, mode = 'preview' }: TemplateProps) {
           vignette={{ strength: 0.5 }}
           atmosphere={
             <>
-              <Halo color="231,154,192" size={70} x={20} y={18} opacity={0.3} duration={12} />
-              <Halo color="185,167,224" size={80} x={84} y={80} opacity={0.24} duration={15} />
+              <Hale color="231,154,192" size={70} x={20} y={18} opacity={0.45} duration={12} />
+              <Hale color="185,167,224" size={80} x={84} y={80} opacity={0.36} duration={15} />
             </>
           }
           overlay={<TulVeil tone="dark" strength={0.8} />}

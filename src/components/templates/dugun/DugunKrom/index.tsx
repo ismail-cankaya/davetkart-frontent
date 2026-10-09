@@ -1,8 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { HeroStage, Iridescent, Halo } from '../../shared/effects';
+import { HeroStage, Iridescent } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
+import { Hale } from '../parts/Hale';
 import { KurdeleHero } from '../parts/KurdeleHero';
 import { TemplateProps } from '../../types';
 
@@ -30,7 +31,7 @@ export function DugunKrom({ invitation, mode = 'preview' }: TemplateProps) {
             <>
               {/* soft-light: iridesan katman zemini boyamaz, üstünde parlar. */}
               <Iridescent opacity={0.3} duration={16} className="mix-blend-soft-light" />
-              <Halo color="217,205,234" size={64} x={50} y={40} opacity={0.2} duration={10} />
+              <Hale color="217,205,234" size={64} x={50} y={40} opacity={0.2} duration={10} />
             </>
           }
           particles={[
