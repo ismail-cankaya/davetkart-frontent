@@ -24,3 +24,4 @@ export { PartiBrutal } from './PartiBrutal';
 export { PartiTerrazzo } from './PartiTerrazzo';
 export { PartiBlueprint } from './PartiBlueprint';
 export { PartiHerbaryum } from './PartiHerbaryum';
+export { PartiUfuk } from './PartiUfuk';

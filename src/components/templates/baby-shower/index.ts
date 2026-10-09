@@ -25,3 +25,4 @@ export { BabyBrutal } from './BabyBrutal';
 export { BabyTerrazzo } from './BabyTerrazzo';
 export { BabyBlueprint } from './BabyBlueprint';
 export { BabyHerbaryum } from './BabyHerbaryum';
+export { BabyUfuk } from './BabyUfuk';

@@ -25,3 +25,4 @@ export { MezuniyetBrutal } from './MezuniyetBrutal';
 export { MezuniyetTerrazzo } from './MezuniyetTerrazzo';
 export { MezuniyetBlueprint } from './MezuniyetBlueprint';
 export { MezuniyetHerbaryum } from './MezuniyetHerbaryum';
+export { MezuniyetUfuk } from './MezuniyetUfuk';

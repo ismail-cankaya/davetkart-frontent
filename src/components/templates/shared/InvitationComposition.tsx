@@ -1,5 +1,5 @@
 import React, { Suspense, useRef, useState } from 'react';
-import { AnimatePresence } from 'motion/react';
+import { AnimatePresence, MotionValue, useScroll, useTransform } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
 import { getSectionTheme } from './palette';
@@ -19,6 +19,26 @@ export interface HeroRenderProps {
   invitation: Invitation;
   theme: ReturnType<typeof getSectionTheme>;
   flavor: TemplateFlavor;
+  /**
+   * Davetiyenin kendi kaydırma kabı. Sayfa değil bu kap kaydığı için,
+   * kaydırmaya bağlı bir çıkış (Ufuk) `useScroll`'a bunu `container` olarak
+   * vermek zorundadır; vermezse pencereyi dinler ve hiç ilerlemez.
+   */
+  scrollContainer?: React.RefObject<HTMLDivElement | null>;
+}
+
+/**
+ * Tüm davetiyenin ARKASINDA sabit duran sahneye geçirilen durum.
+ *
+ * İki ilerleme ayrı tutulur, çünkü ikisi farklı soruları yanıtlar:
+ *  - `heroExit` piksel tabanlıdır: hero bir ekran boyu kaydığında 1 olur.
+ *    Hero'dan içeriğe geçiş her davetiyede aynı mesafede biter.
+ *  - `progress` belge oranıdır: davetiyenin sonunda 1 olur. Bölümleri az
+ *    olan bir davetiye "geceye" daha çabuk varır — sahne içeriğe göre akar.
+ */
+export interface BackdropState extends HeroBackgroundState {
+  heroExit: MotionValue<number>;
+  progress: MotionValue<number>;
 }
 
 /** Hero arka planına geçirilen giriş durumu. */
@@ -38,6 +58,15 @@ interface InvitationCompositionProps {
   mode: 'preview' | 'live';
   themeOverride?: ReturnType<typeof getSectionTheme>;
   renderHeroBackground?: (state: HeroBackgroundState) => React.ReactNode;
+  /**
+   * Hero'yla birlikte kayıp giden `renderHeroBackground`'un aksine, kaydırma
+   * kabının ARKASINDA sabit kalan ve tüm bölümleri taşıyan sahne.
+   *
+   * Sahne kaydırmayı izler (bkz. BackdropState); bölümler onun önünden akar.
+   * Verildiğinde kategori deseni (flavor.BackgroundPattern) çizilmez: opak
+   * bir sahnenin arkasında boyanması boşa iş olurdu.
+   */
+  renderBackdrop?: (state: BackdropState) => React.ReactNode;
   /**
    * Hero'nun ÖN PLANINI tamamen değiştirir (varsayılan: Summary).
    *
@@ -59,6 +88,37 @@ interface InvitationCompositionProps {
 }
 
 /**
+ * `renderBackdrop` sahnesini kaydırma kabına bağlar.
+ *
+ * Ayrı bileşen olmasının sebebi: `useScroll` bir dinleyici kurar ve kanca
+ * koşullu çağrılamaz. Composition'ın içinde çağrılsaydı sahnesi olmayan 200+
+ * şablonun her biri boşuna bir kaydırma dinleyicisi taşırdı.
+ */
+function ScrollBackdrop({
+  scrollRef,
+  revealed,
+  render
+}: {
+  scrollRef: React.RefObject<HTMLDivElement | null>;
+  revealed: boolean;
+  render: (state: BackdropState) => React.ReactNode;
+}) {
+  const { scrollY, scrollYProgress } = useScroll({ container: scrollRef });
+  // Kabın yüksekliği her karede okunur: önizleme cihazı değiştiğinde ya da
+  // telefon döndüğünde geçiş mesafesi yeni ekran boyuna kendiliğinden uyar.
+  const heroExit = useTransform(scrollY, (y) => {
+    const height = scrollRef.current?.clientHeight || 1;
+    return Math.min(1, Math.max(0, y / height));
+  });
+
+  return (
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      {render({ revealed, heroExit, progress: scrollYProgress })}
+    </div>
+  );
+}
+
+/**
  * Composition root of the modular invitation. Reads the wizard's visibility
  * flags off the invitation and renders only the enabled modules, themed by
  * the invitation's palette and flavored by its category template.
@@ -69,6 +129,7 @@ export function InvitationComposition({
   mode,
   themeOverride,
   renderHeroBackground,
+  renderBackdrop,
   renderHero,
   heroContentClassName,
   summaryDensity = 'default'
@@ -103,11 +164,16 @@ export function InvitationComposition({
     // tipografi/sayaç aynı şekilde ölçeklenir.
     <div data-mode={mode} className={cn('relative w-full h-full overflow-hidden @container', theme.base, theme.page)}>
       
-      {/* 1. Category-specific background pattern stays fixed behind all sections */}
-      {flavor.BackgroundPattern && (
-        <div className="absolute inset-0 pointer-events-none opacity-40 z-0">
-          <flavor.BackgroundPattern className={cn('w-full h-full', theme.accent)} />
-        </div>
+      {/* 1. Fixed layer behind all sections: the template's scroll-driven
+          scene if it has one, otherwise the category background pattern. */}
+      {renderBackdrop ? (
+        <ScrollBackdrop scrollRef={scrollRef} revealed={revealed} render={renderBackdrop} />
+      ) : (
+        flavor.BackgroundPattern && (
+          <div className="absolute inset-0 pointer-events-none opacity-40 z-0">
+            <flavor.BackgroundPattern className={cn('w-full h-full', theme.accent)} />
+          </div>
+        )
       )}
 
       {/* 2. Envelope layer */}
@@ -143,7 +209,7 @@ export function InvitationComposition({
           <div className={cn('relative z-10 w-full h-full flex flex-col grow', heroContentClassName)}>
             {revealed &&
               (renderHero
-                ? renderHero({ invitation, theme, flavor })
+                ? renderHero({ invitation, theme, flavor, scrollContainer: scrollRef })
                 : <Summary invitation={invitation} theme={theme} flavor={flavor} density={summaryDensity} />)}
           </div>
         </div>

@@ -25,3 +25,4 @@ export { SunnetBrutal } from './SunnetBrutal';
 export { SunnetTerrazzo } from './SunnetTerrazzo';
 export { SunnetBlueprint } from './SunnetBlueprint';
 export { SunnetHerbaryum } from './SunnetHerbaryum';
+export { SunnetUfuk } from './SunnetUfuk';

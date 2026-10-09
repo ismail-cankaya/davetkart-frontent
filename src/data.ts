@@ -15,6 +15,16 @@ import dogumGunuKonfetiPreview from './components/templates/dogum-gunu/DogumGunu
 import mezuniyetLacivertPreview from './components/templates/mezuniyet/MezuniyetLacivert/assets/mezuniyet-lacivert-kapak.jpg';
 import babyShowerKabarcikPreview from './components/templates/baby-shower/BabyShowerKabarcik/assets/baby-shower-kabarcik-kapak.jpg';
 import partiAuroraPreview from './components/templates/parti/PartiAurora/assets/parti-aurora-kapak.jpg';
+// Ufuk kapakları canlı sahneden basılır: scripts/temalar/ufuk-kapaklar.tsx
+import dugunUfukPreview from './components/templates/dugun/DugunUfuk/assets/dugun-ufuk-kapak.svg';
+import kinaUfukPreview from './components/templates/kina/KinaUfuk/assets/kina-ufuk-kapak.svg';
+import nisanUfukPreview from './components/templates/nisan/NisanUfuk/assets/nisan-ufuk-kapak.svg';
+import sunnetUfukPreview from './components/templates/sunnet/SunnetUfuk/assets/sunnet-ufuk-kapak.svg';
+import dogumGunuUfukPreview from './components/templates/dogum-gunu/DogumGunuUfuk/assets/dogum-gunu-ufuk-kapak.svg';
+import mezuniyetUfukPreview from './components/templates/mezuniyet/MezuniyetUfuk/assets/mezuniyet-ufuk-kapak.svg';
+import babyUfukPreview from './components/templates/baby-shower/BabyUfuk/assets/baby-ufuk-kapak.svg';
+import partiUfukPreview from './components/templates/parti/PartiUfuk/assets/parti-ufuk-kapak.svg';
+import kurumsalUfukPreview from './components/templates/kurumsal/KurumsalUfuk/assets/kurumsal-ufuk-kapak.svg';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -2643,6 +2653,98 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     titleColor: 'text-[#222824]',
     btnColor: 'bg-[#222824] hover:brightness-125 text-[#f3f5f2]',
     imageUrl: '',
+    categories: ['kurumsal']
+  },
+  // ——— Yeni konseptler: Ufuk (kaydırdıkça gün batımından geceye ilerleyen manzara) ———
+  // Yer tutucu degradeleri sahnenin gün batımı gökyüzüdür (scenes/ufuk/presets).
+  {
+    id: 'dugun-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#05070f',
+    backgroundStyle: 'bg-gradient-to-b from-[#141a36] via-[#5b4470] to-[#f5cf9f]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#f3cf9b] hover:brightness-110 text-[#1a1426]',
+    imageUrl: dugunUfukPreview,
+    categories: ['dugun']
+  },
+  {
+    id: 'kina-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#07040a',
+    backgroundStyle: 'bg-gradient-to-b from-[#1a0b1d] via-[#7a2338] to-[#f7bd72]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#ffb866] hover:brightness-110 text-[#2a0f17]',
+    imageUrl: kinaUfukPreview,
+    categories: ['kina']
+  },
+  {
+    id: 'nisan-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#06060f',
+    backgroundStyle: 'bg-gradient-to-b from-[#191630] via-[#77526f] to-[#f9d8c0]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#f7b9c4] hover:brightness-110 text-[#2a1626]',
+    imageUrl: nisanUfukPreview,
+    categories: ['nisan']
+  },
+  {
+    id: 'sunnet-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#03070f',
+    backgroundStyle: 'bg-gradient-to-b from-[#0b1a2f] via-[#2f6286] to-[#f3d38f]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#f2cf7a] hover:brightness-110 text-[#0b1a2f]',
+    imageUrl: sunnetUfukPreview,
+    categories: ['sunnet']
+  },
+  {
+    id: 'dogum-gunu-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#07061a',
+    backgroundStyle: 'bg-gradient-to-b from-[#1d1640] via-[#8c4577] to-[#ffcf8e]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#ffd27a] hover:brightness-110 text-[#1d1640]',
+    imageUrl: dogumGunuUfukPreview,
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'mezuniyet-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#04070f',
+    backgroundStyle: 'bg-gradient-to-b from-[#0f1832] via-[#4f6489] to-[#efcd95]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#e8c37e] hover:brightness-110 text-[#0f1832]',
+    imageUrl: mezuniyetUfukPreview,
+    categories: ['mezuniyet']
+  },
+  {
+    id: 'baby-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#070a1f',
+    backgroundStyle: 'bg-gradient-to-b from-[#1b2150] via-[#6d77b4] to-[#fadbd3]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#ffd6e0] hover:brightness-110 text-[#1b2150]',
+    imageUrl: babyUfukPreview,
+    categories: ['baby-shower']
+  },
+  {
+    id: 'parti-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#040208',
+    backgroundStyle: 'bg-gradient-to-b from-[#12081f] via-[#63186a] to-[#ffad7a]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#ff7ab6] hover:brightness-110 text-[#1a0620]',
+    imageUrl: partiUfukPreview,
+    categories: ['parti']
+  },
+  {
+    id: 'kurumsal-ufuk',
+    name: 'Ufuk',
+    primaryColor: '#03070d',
+    backgroundStyle: 'bg-gradient-to-b from-[#0a1526] via-[#345f7e] to-[#ebd5ad]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[#8fd8ea] hover:brightness-110 text-[#071120]',
+    imageUrl: kurumsalUfukPreview,
     categories: ['kurumsal']
   },
 ];

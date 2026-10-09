@@ -28,3 +28,4 @@ export { KinaBrutal } from './KinaBrutal';
 export { KinaTerrazzo } from './KinaTerrazzo';
 export { KinaBlueprint } from './KinaBlueprint';
 export { KinaHerbaryum } from './KinaHerbaryum';
+export { KinaUfuk } from './KinaUfuk';

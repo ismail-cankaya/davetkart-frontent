@@ -29,3 +29,4 @@ export { NisanBrutal } from './NisanBrutal';
 export { NisanTerrazzo } from './NisanTerrazzo';
 export { NisanBlueprint } from './NisanBlueprint';
 export { NisanHerbaryum } from './NisanHerbaryum';
+export { NisanUfuk } from './NisanUfuk';

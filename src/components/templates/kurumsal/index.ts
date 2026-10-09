@@ -23,3 +23,4 @@ export { KurumsalBrutal } from './KurumsalBrutal';
 export { KurumsalTerrazzo } from './KurumsalTerrazzo';
 export { KurumsalBlueprint } from './KurumsalBlueprint';
 export { KurumsalHerbaryum } from './KurumsalHerbaryum';
+export { KurumsalUfuk } from './KurumsalUfuk';

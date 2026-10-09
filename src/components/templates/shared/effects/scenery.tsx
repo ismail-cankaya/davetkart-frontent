@@ -16,8 +16,11 @@ import { cn } from '../../../../utils/cn';
  * aynı manzarayı gösterir, kullanıcı "değişen" bir arka plan görmez.
  */
 
-/** Küçük, tekrarlanabilir PRNG — silueti her render'da aynı üretmek için. */
-function rng(seed: number): () => number {
+/**
+ * Küçük, tekrarlanabilir PRNG — silueti her render'da aynı üretmek için.
+ * Ufuk sahnelerinin çizimleri de aynı üreteci kullanır (scenes/ufuk/art).
+ */
+export function rng(seed: number): () => number {
   let a = seed >>> 0;
   return () => {
     a = (a + 0x9e3779b9) >>> 0;
