@@ -61,6 +61,7 @@ export function SunnetKrom({ invitation, mode = 'preview' }: TemplateProps) {
       renderHero={(props) => (
         <SehzadeHero
           {...props}
+          halo="9,13,36"
           sash={{
             fill: 'linear-gradient(100deg, #e6eeff 0%, #b7c8f4 52%, #8fe3ec 100%)',
             ink: '#0a1018',
