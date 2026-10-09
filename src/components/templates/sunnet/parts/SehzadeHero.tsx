@@ -42,6 +42,8 @@ export function SehzadeHero({ invitation, theme, flavor, sash, ornament, halo, c
   const subtitle = displayText(invitation.subtitle);
   const venue = displayText(invitation.venue);
   const glow = halo ? { textShadow: `0 2px 22px rgba(${halo},0.6), 0 1px 2px rgba(${halo},0.45)` } : undefined;
+  // bg-clip-text başlıkta (Krom) gölge degradenin ÜSTÜNE boyanır ve adı karartır.
+  const headingGlow = theme.heading.includes('bg-clip-text') ? undefined : glow;
 
   return (
     <section
@@ -83,7 +85,7 @@ export function SehzadeHero({ invitation, theme, flavor, sash, ornament, halo, c
 
         <h1
           className="font-serif italic font-semibold leading-[1.04] tracking-[-0.01em] mt-6 break-words text-[2.6rem] @sm:text-6xl @2xl:text-7xl"
-          style={glow}
+          style={headingGlow}
         >
           {/* Maske: ad kendi satırının altından yükselir. İtalik taşmalar ve
               Türkçe büyük harf işaretleri (İ, Ğ) için dört yönde pay var. */}
@@ -134,7 +136,7 @@ export function SehzadeHero({ invitation, theme, flavor, sash, ornament, halo, c
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: ease.out, delay: 1.2 }}
             className="mt-8 flex flex-col items-center gap-2"
-            style={glow}
+            style={headingGlow}
           >
             <span
               aria-hidden="true"
@@ -156,11 +158,12 @@ export function SehzadeHero({ invitation, theme, flavor, sash, ornament, halo, c
             {venue && (
               <span
                 className={cn(
-                  'mt-1 inline-flex items-center gap-1.5 max-w-[19rem] text-[11px] @md:text-xs font-medium uppercase tracking-[0.16em] leading-snug',
+                  'mt-1 block max-w-[22rem] text-center text-[11px] @md:text-xs font-medium uppercase tracking-[0.16em] leading-snug',
                   theme.body
                 )}
               >
-                <MapPinIcon size={13} className={cn('shrink-0', theme.accent)} />
+                {/* Satır içi: uzun mekân kırılsa da iğne ilk kelimeye yapışık kalır. */}
+                <MapPinIcon size={13} className={cn('inline-block align-[-2px] mr-1.5', theme.accent)} />
                 {venue}
               </span>
             )}

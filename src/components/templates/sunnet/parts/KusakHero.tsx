@@ -156,11 +156,12 @@ export function KusakHero({ invitation, theme, flavor, band, thread }: KusakHero
             {venue && (
               <span
                 className={cn(
-                  'mt-1 inline-flex items-center gap-1.5 max-w-[19rem] text-[11px] @md:text-xs font-medium uppercase tracking-[0.16em] leading-snug',
+                  'mt-1 block max-w-[22rem] text-center text-[11px] @md:text-xs font-medium uppercase tracking-[0.16em] leading-snug',
                   theme.body
                 )}
               >
-                <MapPinIcon size={13} className={cn('shrink-0', theme.accent)} />
+                {/* Satır içi: uzun mekân kırılsa da iğne ilk kelimeye yapışık kalır. */}
+                <MapPinIcon size={13} className={cn('inline-block align-[-2px] mr-1.5', theme.accent)} />
                 {venue}
               </span>
             )}

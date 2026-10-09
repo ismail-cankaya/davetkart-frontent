@@ -19,7 +19,7 @@ export function SunnetModern({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={SUNNET_MODERN}
       renderHeroBackground={() => (
         <div className="absolute inset-0 overflow-hidden bg-gradient-to-b from-[#eaf4f8] via-[#f3f8fb] to-[#f3f8fb]">
-          <NazarRings className="w-[64%] @md:w-[46%] -top-[18%] -right-[24%] @md:-top-[22%] @md:-right-[12%]" />
+          <NazarRings className="w-[64%] @md:w-[46%] -top-[12%] -right-[22%] @md:-top-[22%] @md:-right-[12%]" />
           <NazarRings reverse className="w-[44%] @md:w-[30%] -bottom-[8%] -left-[20%] @md:-left-[8%] opacity-80" />
           <div
             aria-hidden="true"
