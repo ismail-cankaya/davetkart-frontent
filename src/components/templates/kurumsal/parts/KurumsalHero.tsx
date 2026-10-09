@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
-import { splitNames } from '../../../../utils/names';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../../shared/InvitationComposition';
 import { SectionTheme } from '../../shared/palette';
 import { useCountdown } from '../../shared/useCountdown';
 import { KURUMSAL_EASE } from './theme';
+import { splitHostAndEvent } from './eventName';
 
 export interface KurumsalHeroProps extends HeroRenderProps {
   /** start: sola yaslı editoryal künye; center: sahnenin ekseninde. */
@@ -115,10 +115,9 @@ export function KurumsalHero({ invitation, theme, flavor, align = 'start' }: Kur
   const center = align === 'center';
   const { Ornament } = flavor;
 
-  const [first, second] = splitNames(invitation.names);
   // Tek ad girildiyse o etkinliğin adıdır; kurum rayı kategori etiketine düşer.
-  const host = second ? first : '';
-  const event = second || first || 'Davetlisiniz';
+  const { host, event: eventName } = splitHostAndEvent(invitation.names);
+  const event = eventName || 'Davetlisiniz';
   const eyebrow = displayText(invitation.title) || flavor.tagline;
   const subtitle = displayText(invitation.subtitle);
   const venue = displayText(invitation.venue);

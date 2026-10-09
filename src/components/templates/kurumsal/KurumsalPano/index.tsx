@@ -5,12 +5,17 @@ import { PanoHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
 import { KurumsalFrame } from '../parts/KurumsalFrame';
 import { kurumsalTheme } from '../parts/theme';
+import { splitHostAndEvent } from '../parts/eventName';
 import { TemplateProps } from '../../types';
 
 /**
  * KurumsalPano — "Mekanik Pano" kurumsal yorumu: terminal kalkış panosu.
  * Grafit gövde, kâğıt beyazı paletler; vurgu işaret kırmızısı — panoda
  * "kalkış" satırını işaretleyen renk.
+ *
+ * Pano ad satırını 20 karakterde keser; "Kurum & Etkinlik" bu sınırı hemen
+ * her zaman aşar ("NOVA TEKNOLOJİ & GEL"). Panoya yalnızca etkinlik adı
+ * verilir; tam ad zarf ve alt imzada durur.
  */
 const KURUMSAL_PANO_THEME = kurumsalTheme({
   id: 'midnight',
@@ -38,7 +43,14 @@ export function KurumsalPano({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_PANO_THEME}
-      renderHero={(props) => <PanoHero {...props} flap="#16191F" ink="#F3F4F1" />}
+      renderHero={(props) => (
+        <PanoHero
+          {...props}
+          invitation={{ ...props.invitation, names: splitHostAndEvent(props.invitation.names).event }}
+          flap="#16191F"
+          ink="#F3F4F1"
+        />
+      )}
       renderHeroBackground={({ revealed }) => (
         <HeroStage
           base="linear-gradient(170deg, #171B22 0%, #0E1015 55%, #08090C 100%)"
