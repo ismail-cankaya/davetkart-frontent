@@ -125,7 +125,7 @@ eklenen kadraj ya da ızgara. Ortak hero kodu kopyalanmadı.
 | Kinetik | koyu | işaret | grotesk | kesin | kadraj |
 | Mermer | koyu | platin | Playfair | kesin | — |
 | Noir | koyu | platin | Cormorant | sert | kadraj (cetvelsiz) |
-| Pano | koyu | işaret | grotesk | kesin | kadraj |
+| Pano | koyu | işaret | grotesk | kesin | kadraj; panoya yalnızca etkinlik adı (20 karakter sınırı) |
 | Plak | koyu | kobalt etiket | grotesk | kesin | kadraj |
 | Posta | açık | kobalt + işaret şerit | grotesk | kesin | kadraj (cetvelsiz) |
 | Suluboya | açık | kobalt | grotesk | kesin | kadraj |

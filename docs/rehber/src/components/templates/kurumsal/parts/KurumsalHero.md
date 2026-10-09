@@ -17,8 +17,10 @@ romantik bir ikili gibi duruyordu. Bu bir düzen sorunudur, renkle çözülemez.
 
 ## 2. Ad ayrımı
 
-`splitNames(invitation.names)` (`utils/names`) adı ayraçtan ikiye böler.
-`TemplateRenderer` adı önceden `displayNames` ile temizlemiştir.
+`splitHostAndEvent(invitation.names)` ([parts/eventName](eventName.md),
+`utils/names` → `splitNames` üzerine) adı ayraçtan ikiye böler. Aynı yardımcıyı
+`KurumsalPano` da kullanır. `TemplateRenderer` adı önceden `displayNames` ile
+temizlemiştir.
 
 | `names` | Üst ray | Başlık |
 |---|---|---|
