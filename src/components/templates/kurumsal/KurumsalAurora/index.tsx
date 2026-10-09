@@ -21,7 +21,7 @@ const KURUMSAL_AURORA_THEME = kurumsalTheme({
   surface: 'bg-[#11131E]/85 backdrop-blur-xl',
   border: 'border-white/12',
   heading: 'text-[#F3F4F1]',
-  body: 'text-[#A1A6B8]',
+  body: 'text-[#B4B9C9]',
   accent: 'text-[#8F9CFF]',
   accentBg: 'bg-[#8F9CFF]',
   accentSoft: 'bg-[#8F9CFF]/12',
@@ -48,7 +48,7 @@ export function KurumsalAurora({ invitation, mode = 'preview' }: TemplateProps) 
           vignette={{ strength: 0.45 }}
           atmosphere={
             <>
-              <AuroraMesh colors={['43,63,224', '143,156,255', '197,203,211']} opacity={0.52} duration={26} />
+              <AuroraMesh colors={['43,63,224', '143,156,255', '197,203,211']} opacity={0.38} duration={26} />
               <Halo color="143,156,255" size={60} x={50} y={36} opacity={0.22} duration={11} />
             </>
           }

@@ -22,7 +22,7 @@ const ZIRVE_THEME = kurumsalTheme({
   surface: 'bg-[#141925]/85 backdrop-blur-xl',
   border: 'border-white/12',
   heading: 'text-[#F3F4F1]',
-  body: 'text-[#A3AAB6]',
+  body: 'text-[#BCC2CC]',
   accent: 'text-[#C5CBD3]',
   accentBg: 'bg-[#C5CBD3]',
   accentSoft: 'bg-[#C5CBD3]/12',
@@ -44,12 +44,12 @@ export function KurumsalZirve({ invitation, mode = 'preview' }: TemplateProps) {
       renderHero={(props) => <KurumsalHero {...props} align="center" />}
       renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="linear-gradient(to bottom, #182345 0%, #3B4566 38%, #1A2133 74%, #0C1018 100%)"
+          base="linear-gradient(to bottom, #182345 0%, #2E3754 38%, #1A2133 74%, #0C1018 100%)"
           scrim={{ from: 'both', strength: 0.46 }}
           vignette={{ strength: 0.5 }}
           atmosphere={
             <>
-              <GodRays angle={18} origin={54} count={7} color="226,232,255" opacity={0.32} duration={20} />
+              <GodRays angle={18} origin={54} count={7} color="226,232,255" opacity={0.26} duration={20} />
               <Halo color="143,156,255" size={64} x={54} y={42} opacity={0.24} duration={11} />
               {/* Güneş sırtların ARKASINDA: metnin ardında parlak leke kalmaz. */}
               <SunDisc color="255,236,214" size={5} x={57} y={60} opacity={0.7} />

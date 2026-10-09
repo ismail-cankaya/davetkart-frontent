@@ -23,7 +23,7 @@ const CAM_THEME = kurumsalTheme({
   surface: 'bg-white/75 backdrop-blur-xl',
   border: 'border-[#101216]/10',
   heading: 'text-[#101216]',
-  body: 'text-[#535862]',
+  body: 'text-[#4A4F58]',
   accent: 'text-[#2B3FE0]',
   accentBg: 'bg-[#2B3FE0]',
   accentSoft: 'bg-[#2B3FE0]/10',
@@ -45,13 +45,13 @@ export function KurumsalCam({ invitation, mode = 'preview' }: TemplateProps) {
       renderHero={(props) => <KurumsalHero {...props} align="start" />}
       renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="linear-gradient(150deg, #F6F7F9 0%, #E9ECF2 52%, #DCE1EC 100%)"
+          base="linear-gradient(150deg, #F6F7F9 0%, #ECEEF3 52%, #E2E6EE 100%)"
           scrim={false}
           vignette={false}
           atmosphere={
             <>
               {/* Sıvı degrade: ağır, sakin (36 s) — kurumsal ton telaş etmez. */}
-              <AuroraMesh colors={['43,63,224', '143,156,255', '197,203,211']} opacity={0.2} duration={36} />
+              <AuroraMesh colors={['43,63,224', '143,156,255', '197,203,211']} opacity={0.14} duration={36} />
               <Iridescent opacity={0.1} duration={24} className="mix-blend-soft-light" />
               <GlassPanes revealed={revealed} />
             </>
