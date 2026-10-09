@@ -141,7 +141,7 @@ export const DUGUN_THEMES = {
     accent: 'text-[#4f6b55]',
     accentBg: 'bg-[#4f6b55]',
     accentSoft: 'bg-[#4f6b55]/10',
-    input: 'border-[#c9d0c3] text-[#2c362e] placeholder:text-[#6f7a70] focus:border-[#4f6b55]',
+    input: 'border-[#c9d0c3] text-[#2c362e] placeholder:text-[#667168] focus:border-[#4f6b55]',
     buttonPrimary: 'bg-[#2f3d33] hover:bg-[#435447] text-[#f8f8f5] shadow-lg shadow-[#2f3d33]/15',
     buttonGhost: 'border-[#d3d8cc] text-[#424a42] hover:bg-white hover:border-[#b5bea9]',
     divider: 'bg-[#e2e5dc]',
@@ -175,15 +175,15 @@ export const DUGUN_THEMES = {
     surface: 'bg-white/80 backdrop-blur-md shadow-[0_24px_48px_-32px_rgba(74,37,55,0.3)]',
     border: 'border-[#f0dde4]',
     heading: 'text-[#4a2537]',
-    body: 'text-[#7f5c6d]',
-    accent: 'text-[#a3405f]',
-    accentBg: 'bg-[#a3405f]',
-    accentSoft: 'bg-[#a3405f]/10',
-    input: 'border-[#e3c6d1] text-[#4a2537] placeholder:text-[#87677a] focus:border-[#a3405f]',
+    body: 'text-[#6b4659]',
+    accent: 'text-[#923454]',
+    accentBg: 'bg-[#923454]',
+    accentSoft: 'bg-[#923454]/10',
+    input: 'border-[#e3c6d1] text-[#4a2537] placeholder:text-[#7d5b6d] focus:border-[#923454]',
     buttonPrimary: 'bg-[#8f3a5a] hover:bg-[#a34a6b] text-white shadow-lg shadow-[#8f3a5a]/20',
     buttonGhost: 'border-[#e8ccd6] text-[#6e4458] hover:bg-white hover:border-[#d4a8b8]',
     divider: 'bg-[#f0dde4]',
-    timelineLine: 'from-[#a3405f] via-[#e3c6d1]/70 to-transparent'
+    timelineLine: 'from-[#923454] via-[#e3c6d1]/70 to-transparent'
   }),
 
   /** Bahar Bahçesi: çayırın mersin yeşili, çiçeklerin şakayığı. */
@@ -213,15 +213,15 @@ export const DUGUN_THEMES = {
     surface: 'bg-white/75 backdrop-blur-md shadow-[0_24px_48px_-32px_rgba(33,45,67,0.3)]',
     border: 'border-[#dde4ee]',
     heading: 'text-[#212d43]',
-    body: 'text-[#56637a]',
-    accent: 'text-[#9e4466]',
-    accentBg: 'bg-[#9e4466]',
-    accentSoft: 'bg-[#9e4466]/10',
-    input: 'border-[#c5d0de] text-[#212d43] placeholder:text-[#66738a] focus:border-[#9e4466]',
+    body: 'text-[#4a566c]',
+    accent: 'text-[#8e3a5b]',
+    accentBg: 'bg-[#8e3a5b]',
+    accentSoft: 'bg-[#8e3a5b]/10',
+    input: 'border-[#c5d0de] text-[#212d43] placeholder:text-[#5f6b82] focus:border-[#8e3a5b]',
     buttonPrimary: 'bg-[#2c3a55] hover:bg-[#3d4e6e] text-[#f1f4f9] shadow-lg shadow-[#2c3a55]/15',
     buttonGhost: 'border-[#cbd5e2] text-[#3a4458] hover:bg-white hover:border-[#a9b8cc]',
     divider: 'bg-[#dde4ee]',
-    timelineLine: 'from-[#9e4466] via-[#c5d0de]/70 to-transparent'
+    timelineLine: 'from-[#8e3a5b] via-[#c5d0de]/70 to-transparent'
   }),
 
   /** Mum Işığı: gece nikâhı; ışık sıcak, vurgu inci pembesi. */
@@ -244,15 +244,15 @@ export const DUGUN_THEMES = {
     surface: 'bg-white/80 backdrop-blur-md shadow-[0_24px_48px_-32px_rgba(61,39,50,0.3)]',
     border: 'border-[#f0dfe5]',
     heading: 'text-[#3d2732]',
-    body: 'text-[#76606b]',
-    accent: 'text-[#a03c62]',
-    accentBg: 'bg-[#a03c62]',
-    accentSoft: 'bg-[#a03c62]/10',
-    input: 'border-[#e3cbd4] text-[#3d2732] placeholder:text-[#836c78] focus:border-[#a03c62]',
+    body: 'text-[#523b48]',
+    accent: 'text-[#7f2849]',
+    accentBg: 'bg-[#7f2849]',
+    accentSoft: 'bg-[#7f2849]/10',
+    input: 'border-[#e3cbd4] text-[#3d2732] placeholder:text-[#7a6370] focus:border-[#7f2849]',
     buttonPrimary: 'bg-[#3d2732] hover:bg-[#553a47] text-[#fbf3f5] shadow-lg shadow-[#3d2732]/15',
     buttonGhost: 'border-[#e6d1d9] text-[#53404a] hover:bg-white hover:border-[#cfaebb]',
     divider: 'bg-[#f0dfe5]',
-    timelineLine: 'from-[#a03c62] via-[#e3cbd4]/70 to-transparent'
+    timelineLine: 'from-[#7f2849] via-[#e3cbd4]/70 to-transparent'
   }),
 
   /** Deniz Işıltısı: akvamarin zemin, mercan-şakayık vurgu. */
@@ -310,7 +310,7 @@ export const DUGUN_THEMES = {
     surface: 'bg-white/[0.07] backdrop-blur-2xl backdrop-saturate-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]',
     border: 'border-white/14',
     heading: 'text-[#fbf8fc]',
-    body: 'text-[#ada4bd]',
+    body: 'text-[#c2bacc]',
     accent: 'text-[#f0b5cf]',
     accentBg: 'bg-[#f0b5cf]',
     accentSoft: 'bg-[#f0b5cf]/12',
@@ -670,7 +670,7 @@ export const DUGUN_THEMES = {
     accentBg: 'bg-[#f4b3cd]',
     accentSoft: 'bg-[#f4b3cd]/12',
     input:
-      'w-full bg-white/[0.04] border border-[#e3d9f2]/30 rounded-none px-3.5 py-2.5 text-sm text-[#e3d9f2] placeholder:text-[#e3d9f2]/55 focus:outline-none focus:border-[#f4b3cd] focus:ring-1 focus:ring-[#f4b3cd]/30 transition-colors duration-200',
+      'w-full bg-white/[0.04] border border-[#e3d9f2]/30 rounded-none px-3.5 py-2.5 text-sm text-[#e3d9f2] placeholder:text-[#e3d9f2]/65 focus:outline-none focus:border-[#f4b3cd] focus:ring-1 focus:ring-[#f4b3cd]/30 transition-colors duration-200',
     buttonPrimary:
       'bg-[#f4b3cd] hover:brightness-110 text-[#1e1832] rounded-none font-bold uppercase tracking-[0.12em] shadow-lg shadow-black/25',
     buttonGhost:

@@ -48,8 +48,9 @@ export function Dugun4({ invitation, mode = 'preview' }: TemplateProps) {
               className="w-full h-full object-cover object-bottom mix-blend-multiply select-none"
             />
           </div>
-          {/* Okunabilirlik perdesi: üst/alt uçlarda güçlü, ortada hafif. */}
-          <div className="absolute inset-0 z-20 bg-gradient-to-b from-white/80 via-white/45 to-white/85" />
+          {/* Okunabilirlik perdesi: üst/alt uçlarda güçlü, ortada daha hafif — isimler
+              kemerin yapraklı sütunlarına taşsa da AA kontrastı korunur. */}
+          <div className="absolute inset-0 z-20 bg-gradient-to-b from-white/80 via-white/60 to-white/85" />
         </div>
       )}
     />

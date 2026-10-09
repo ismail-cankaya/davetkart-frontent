@@ -28,12 +28,12 @@ export function DugunAurora({ invitation, mode = 'preview' }: TemplateProps) {
           // Mesh zaten yumuşak; scrim yalnızca metnin oturduğu banda iner.
           scrim={[
             { from: 'both', strength: 0.3 },
-            { from: 'center', strength: 0.4, tint: '15,12,22' }
+            { from: 'center', strength: 0.6, tint: '15,12,22' }
           ]}
           vignette={{ strength: 0.45 }}
           atmosphere={
             <>
-              <AuroraMesh colors={['235,169,198', '199,184,226', '178,226,214']} opacity={0.55} duration={24} />
+              <AuroraMesh colors={['235,169,198', '199,184,226', '178,226,214']} opacity={0.3} duration={24} />
               <Hale color="240,181,207" size={62} x={50} y={40} opacity={0.2} duration={11} />
             </>
           }

@@ -14,8 +14,12 @@ export type KurdeleDensity = 'default' | 'compact';
 export interface KurdeleHeroProps extends HeroRenderProps {
   /** 'compact': süslerin metin kolonunu daralttığı şablonlar (Dugun1, Dugun4, Dugun5). */
   density?: KurdeleDensity;
-  /** 'upper': alt kenarı görselle dolu hero'larda metin bloğu üstten başlar (Dugun5). */
-  placement?: 'center' | 'upper';
+  /**
+   * Metin bloğunun arkasına serilen tül panelin renk sınıfları. Parlaklığı
+   * metnin arkasında kontrol edilemeyen videolarda (Sahil) okunurluğu tüm
+   * kadrajı karartmadan, yalnızca metnin oturduğu yerde kurar.
+   */
+  panelClassName?: string;
 }
 
 /** Görünür olurken aşağıdan süzülen öğe — tüm hero aynı eğriyle konuşur. */
@@ -113,7 +117,7 @@ function CountdownRibbon({ invitation, theme, compact }: { invitation: HeroRende
  * `lang="tr"`: büyük harfe çevrilen satırlar (ay, mekân) arayüz dili ne olursa
  * olsun Türkçe kuralla yazılsın — "İstanbul" "ISTANBUL" olmasın.
  */
-export function KurdeleHero({ invitation, theme, flavor, density = 'default', placement = 'center' }: KurdeleHeroProps) {
+export function KurdeleHero({ invitation, theme, flavor, density = 'default', panelClassName }: KurdeleHeroProps) {
   const compact = density === 'compact';
   const couple = splitCouple(invitation.names);
   const title = displayText(invitation.title);
@@ -129,14 +133,19 @@ export function KurdeleHero({ invitation, theme, flavor, density = 'default', pl
     <section
       lang="tr"
       className={cn(
-        'relative flex-1 flex flex-col items-center text-center',
-        placement === 'upper' ? 'justify-start' : 'justify-center',
+        'relative flex-1 flex flex-col items-center justify-center text-center',
         compact ? 'px-3 @sm:px-4 pt-10 pb-16' : 'px-6 pt-16 pb-20 @sm:pt-20',
-        placement === 'upper' && 'pt-12 @sm:pt-16',
+        panelClassName && 'px-3 @sm:px-6',
         theme.page
       )}
     >
-      <div className={cn('relative z-10 flex flex-col items-center w-full', compact ? 'max-w-sm' : 'max-w-md')}>
+      <div
+        className={cn(
+          'relative z-10 flex flex-col items-center w-full',
+          compact ? 'max-w-sm' : 'max-w-md',
+          panelClassName && cn('rounded-[2rem] px-4 py-9 @sm:px-8 @sm:py-11', panelClassName)
+        )}
+      >
         <KurdeleCizim
           size={compact ? 44 : 58}
           lineClassName={compact ? 'w-10 @sm:w-16' : 'w-14 @sm:w-24'}

@@ -34,7 +34,7 @@ export function DugunGokyuzu({ invitation, mode = 'preview' }: TemplateProps) {
         <VideoBackdrop {...VIDEO.landscape} portrait={VIDEO.portrait}>
           {/* Tül perde: koyu mürekkebin açık gök üzerinde kontrastını kurar.
               Metin bloğunun durduğu orta bant da yıkanır; video kenarlardan görünür. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/35 to-white/60" />
+          <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-white/70" />
           <div
             className="absolute inset-0"
             style={{ background: 'radial-gradient(ellipse 60% 48% at 50% 50%, rgba(241,244,249,0.55), rgba(241,244,249,0) 75%)' }}

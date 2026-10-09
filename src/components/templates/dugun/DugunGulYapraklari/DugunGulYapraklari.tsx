@@ -31,8 +31,8 @@ export function DugunGulYapraklari({ invitation, mode = 'preview' }: TemplatePro
           base="linear-gradient(to bottom, #f7e3e8 0%, #fbf3f5 45%, #f1e1e8 100%)"
           // Açık zemin: scrim beyaz tonda — yıkama yapıyor, karartma değil.
           scrim={[
-            { from: 'both', strength: 0.45, tint: '255,255,255' },
-            { from: 'center', strength: 0.4, tint: '251,243,245' }
+            { from: 'both', strength: 0.5, tint: '255,255,255' },
+            { from: 'center', strength: 0.7, tint: '251,243,245' }
           ]}
           vignette={{ strength: 0.2, tint: '110,60,85' }}
           atmosphere={

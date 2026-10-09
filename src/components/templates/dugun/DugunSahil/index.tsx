@@ -27,7 +27,14 @@ export function DugunSahil({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN_THEMES.DugunSahil}
-      renderHero={(props) => <KurdeleHero {...props} />}
+      // Altın gök videonun üst yarısını kaplar; açık renk metin bir gece tülü
+      // panelin üstünde durur, gün batımı panelin çevresinde parlamaya devam eder.
+      renderHero={(props) => (
+        <KurdeleHero
+          {...props}
+          panelClassName="bg-[#171526]/70 backdrop-blur-md border border-white/10 shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]"
+        />
+      )}
       renderHeroBackground={() => (
         <HeroStage
           video={VIDEO}
@@ -42,8 +49,8 @@ export function DugunSahil({ invitation, mode = 'preview' }: TemplateProps) {
           atmosphere={
             <>
               {/* Huzmeler güneşin gerçek konumundan çıkar — ufkun merkezinden. */}
-              <GodRays angle={4} origin={50} count={9} color="255,214,206" opacity={0.36} duration={16} />
-              <LightLeak color="255,232,238" opacity={0.3} duration={15} />
+              <GodRays angle={4} origin={50} count={9} color="255,214,206" opacity={0.22} duration={16} />
+              <LightLeak color="255,232,238" opacity={0.18} duration={15} />
             </>
           }
           particles={[
@@ -70,6 +77,18 @@ export function DugunSahil({ invitation, mode = 'preview' }: TemplateProps) {
               seed: 27
             }
           ]}
+          // Ufuk bandı: güneşin parladığı orta şerit yatay bir gece perdesiyle
+          // kısılır; ufuk silinmez, panelin kenarında parlamaz.
+          overlay={
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background:
+                  'linear-gradient(to bottom, rgba(23,21,38,0) 22%, rgba(23,21,38,0.45) 42%, rgba(23,21,38,0.45) 72%, rgba(23,21,38,0) 90%)'
+              }}
+            />
+          }
           fadeTo="#171526"
         />
       )}
