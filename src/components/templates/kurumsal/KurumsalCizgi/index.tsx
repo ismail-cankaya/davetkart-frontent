@@ -1,36 +1,36 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage } from '../../shared/effects';
 import { HatHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { KurumsalFrame } from '../parts/KurumsalFrame';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
 /**
- * KurumsalCizgi — "Tek Çizgi" kurumsal yorumu: ofis beyazı, lacivert hat.
+ * KurumsalCizgi — "Tek Çizgi" kurumsal yorumu: kâğıt beyazı, kobalt hat.
  *
- * Kurumsal davetin en ölçülü sürümü: tek çizgi, tek renk, geniş boşluk.
+ * Kurumsal davetin en ölçülü sürümü: tek çizgi, tek sinyal, geniş boşluk.
+ * Kadrajın kesim işaretleri çizginin "ölçülmüş" olduğunu söyler.
  */
-const KURUMSAL_CIZGI_THEME: SectionTheme = {
+const KURUMSAL_CIZGI_THEME = kurumsalTheme({
   id: 'stone',
-  base: 'bg-[#f4f6f7]',
-  page: 'text-[#464d54]',
+  base: 'bg-[#F4F4F1]',
+  page: 'text-[#3E434B]',
   surface: 'bg-white/85',
-  border: 'border-[#dbe0e4]',
-  heading: 'text-[#101418]',
-  body: 'text-[#7a828a]',
-  accent: 'text-[#20386b]',
-  accentBg: 'bg-[#20386b]',
-  accentSoft: 'bg-[#20386b]/10',
+  border: 'border-[#101216]/12',
+  heading: 'text-[#101216]',
+  body: 'text-[#565B63]',
+  accent: 'text-[#2B3FE0]',
+  accentBg: 'bg-[#2B3FE0]',
+  accentSoft: 'bg-[#2B3FE0]/10',
   input:
-    'w-full bg-white border border-[#dbe0e4] rounded-lg px-3.5 py-2.5 text-sm text-[#464d54] placeholder:text-[#7a828a] focus:outline-none focus:border-[#20386b] focus:ring-2 focus:ring-[#20386b]/18 transition duration-300',
-  buttonPrimary:
-    'bg-[#101418] hover:bg-[#262c33] text-[#f4f6f7] shadow-lg shadow-black/10',
-  buttonGhost:
-    'border border-[#cfd5da] text-[#565d64] hover:bg-[#e9edef] hover:border-[#aab2b9]',
-  divider: 'bg-[#dbe0e4]',
-  timelineLine: 'from-[#20386b] via-[#adb8cd]/60 to-transparent'
-};
+    'w-full bg-white border border-[#101216]/14 px-3.5 py-2.5 text-sm text-[#101216] placeholder:text-[#6B7079] focus:outline-none focus:border-[#2B3FE0] focus:ring-2 focus:ring-[#2B3FE0]/18 transition duration-300',
+  buttonPrimary: 'bg-[#101216] hover:bg-[#2B3FE0] text-[#F4F4F1] shadow-lg shadow-black/10',
+  buttonGhost: 'border border-[#101216]/18 text-[#101216] hover:bg-[#E4E4DE] hover:border-[#101216]/30',
+  divider: 'bg-[#101216]/12',
+  timelineLine: 'from-[#2B3FE0] via-[#8F9CFF]/50 to-transparent'
+});
 
 export function KurumsalCizgi({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -39,15 +39,16 @@ export function KurumsalCizgi({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_CIZGI_THEME}
-      renderHero={(props) => <HatHero {...props} />}
-      renderHeroBackground={() => (
+      renderHero={(props) => <HatHero {...props} drawDuration={2.2} />}
+      renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="linear-gradient(180deg, #fbfcfc 0%, #eff2f4 100%)"
+          base="linear-gradient(180deg, #FAFAF8 0%, #EEEEEA 100%)"
           scrim={false}
           vignette={false}
+          overlay={<KurumsalFrame color="rgba(16,18,22,0.24)" revealed={revealed} />}
           parallax={4}
           grain={0.016}
-          fadeTo="#f4f6f7"
+          fadeTo="#F4F4F1"
         />
       )}
     />

@@ -1,38 +1,39 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage } from '../../shared/effects';
 import { PaperHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
 /**
- * KurumsalKagit — "Kağıt & Mühür" kurumsal yorumu: resmî davetiye. Fildişi kart, koyu yeşil mühür.
+ * KurumsalKagit — "Kağıt & Mühür" kurumsal yorumu: resmî davetiye.
  *
- * Gala yemeği, ödül töreni ve resmî açılış davetlerinin fiziksel karşılığı
- * budur: kabartma baskılı kart ve kurum mührü. Ekranda da aynı ciddiyeti
- * kuran tek dil.
+ * Gala yemeği, ödül töreni ve resmî açılışın fiziksel karşılığı: kabartma
+ * baskılı kart ve kurum mührü. Mühür kırmızı ya da altın değil koyu kobalt —
+ * kategorinin sinyali mumda da sürer. Serif başlık korunur (resmî kayıt).
  */
-const KURUMSAL_KAGIT_THEME: SectionTheme = {
-  id: 'stone',
-  base: 'bg-[#f2f1ec]',
-  page: 'text-[#4f4d45]',
-  surface: 'bg-white/80 backdrop-blur-sm',
-  border: 'border-[#dcd8cc]',
-  heading: 'text-[#1c1b18]',
-  body: 'text-[#7d7a70]',
-  accent: 'text-[#2c4a44]',
-  accentBg: 'bg-[#2c4a44]',
-  accentSoft: 'bg-[#2c4a44]/12',
-  input:
-    'w-full bg-white border border-[#dcd8cc] rounded-lg px-3.5 py-2.5 text-sm text-[#4f4d45] placeholder:text-[#7d7a70] focus:outline-none focus:border-[#2c4a44] focus:ring-2 focus:ring-[#2c4a44]/18 transition duration-300',
-  buttonPrimary:
-    'bg-[#1c1b18] hover:bg-[#33312b] text-[#f6f5f0] shadow-lg shadow-black/10',
-  buttonGhost:
-    'border border-[#d1ccbe] text-[#5e5c53] hover:bg-[#eae8e0] hover:border-[#b3ada0]',
-  divider: 'bg-[#dcd8cc]',
-  timelineLine: 'from-[#2c4a44] via-[#adbdb6]/60 to-transparent'
-};
+const KURUMSAL_KAGIT_THEME = kurumsalTheme(
+  {
+    id: 'stone',
+    base: 'bg-[#F1F1ED]',
+    page: 'text-[#3E434B]',
+    surface: 'bg-white/85 backdrop-blur-sm',
+    border: 'border-[#101216]/12',
+    heading: 'text-[#101216]',
+    body: 'text-[#565B63]',
+    accent: 'text-[#2233C2]',
+    accentBg: 'bg-[#2233C2]',
+    accentSoft: 'bg-[#2233C2]/10',
+    input:
+      'w-full bg-white border border-[#101216]/14 px-3.5 py-2.5 text-sm text-[#101216] placeholder:text-[#6B7079] focus:outline-none focus:border-[#2233C2] focus:ring-2 focus:ring-[#2233C2]/18 transition duration-300',
+    buttonPrimary: 'bg-[#101216] hover:bg-[#2233C2] text-[#F1F1ED] shadow-lg shadow-black/10',
+    buttonGhost: 'border border-[#101216]/18 text-[#101216] hover:bg-[#E4E4DE] hover:border-[#101216]/30',
+    divider: 'bg-[#101216]/12',
+    timelineLine: 'from-[#2233C2] via-[#C5CBD3]/60 to-transparent'
+  },
+  { type: 'serif' }
+);
 
 export function KurumsalKagit({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -41,15 +42,15 @@ export function KurumsalKagit({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_KAGIT_THEME}
-      renderHero={(props) => <PaperHero {...props} sealColor="#2c4a44" />}
+      renderHero={(props) => <PaperHero {...props} sealColor="#2233C2" />}
       renderHeroBackground={() => (
         <HeroStage
-          base="radial-gradient(ellipse 90% 80% at 50% 40%, #f5f4ef 0%, #eae8e0 55%, #dedbd0 100%)"
+          base="radial-gradient(ellipse 90% 80% at 50% 40%, #F5F5F2 0%, #E9E9E3 55%, #DCDCD5 100%)"
           scrim={false}
           vignette={false}
           parallax={6}
           grain={0.02}
-          fadeTo="#f2f1ec"
+          fadeTo="#F1F1ED"
         />
       )}
     />

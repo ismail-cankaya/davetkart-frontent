@@ -1,30 +1,34 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage } from '../../shared/effects';
 import { DokumaHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { KurumsalFrame } from '../parts/KurumsalFrame';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
-/** KurumsalDokuma — "Dokuma" kurumsal yorumu: keten kartvizit dokusu; petrol, kum ve haki iplikler. */
-const KURUMSAL_DOKUMA_THEME: SectionTheme = {
+/**
+ * KurumsalDokuma — "Dokuma" kurumsal yorumu: kartvizit kumaşı. Kobalt,
+ * grafit ve platin iplikler; atkı beton grisi.
+ */
+const KURUMSAL_DOKUMA_THEME = kurumsalTheme({
   id: 'stone',
-  base: 'bg-[#f4f3ef]',
-  page: 'text-[#4b4e50]',
-  surface: 'bg-[#faf9f6]/90',
-  border: 'border-[#dedcd4]',
-  heading: 'text-[#22262a]',
-  body: 'text-[#7e8184]',
-  accent: 'text-[#2f5f6f]',
-  accentBg: 'bg-[#2f5f6f]',
-  accentSoft: 'bg-[#2f5f6f]/12',
+  base: 'bg-[#F1F1ED]',
+  page: 'text-[#3E434B]',
+  surface: 'bg-[#FAFAF8]/90',
+  border: 'border-[#101216]/12',
+  heading: 'text-[#101216]',
+  body: 'text-[#565B63]',
+  accent: 'text-[#2B3FE0]',
+  accentBg: 'bg-[#2B3FE0]',
+  accentSoft: 'bg-[#2B3FE0]/10',
   input:
-    'w-full bg-white border border-[#dedcd4] rounded-lg px-3.5 py-2.5 text-sm text-[#4b4e50] placeholder:text-[#7e8184] focus:outline-none focus:border-[#2f5f6f] focus:ring-2 focus:ring-[#2f5f6f]/18 transition duration-300',
-  buttonPrimary: 'bg-[#22262a] hover:bg-[#383d42] text-[#f4f3ef] shadow-lg shadow-black/10',
-  buttonGhost: 'border border-[#d3d1c8] text-[#5a5d60] hover:bg-[#eceae4] hover:border-[#b0aea3]',
-  divider: 'bg-[#dedcd4]',
-  timelineLine: 'from-[#2f5f6f] via-[#8f7f5f]/50 to-transparent'
-};
+    'w-full bg-white border border-[#101216]/14 px-3.5 py-2.5 text-sm text-[#101216] placeholder:text-[#6B7079] focus:outline-none focus:border-[#2B3FE0] focus:ring-2 focus:ring-[#2B3FE0]/18 transition duration-300',
+  buttonPrimary: 'bg-[#101216] hover:bg-[#2B3FE0] text-[#F1F1ED] shadow-lg shadow-black/10',
+  buttonGhost: 'border border-[#101216]/18 text-[#101216] hover:bg-[#E4E4DE] hover:border-[#101216]/30',
+  divider: 'bg-[#101216]/12',
+  timelineLine: 'from-[#2B3FE0] via-[#C5CBD3]/60 to-transparent'
+});
 
 export function KurumsalDokuma({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -34,22 +38,17 @@ export function KurumsalDokuma({ invitation, mode = 'preview' }: TemplateProps) 
       mode={mode}
       themeOverride={KURUMSAL_DOKUMA_THEME}
       renderHero={(props) => (
-        <DokumaHero
-          {...props}
-          threads={['#2f4f5f', '#8f7f5f', '#5f6f5f']}
-          weave="#9a9a90"
-          stitch="#2f5f6f"
-          seed={83}
-        />
+        <DokumaHero {...props} threads={['#2B3FE0', '#3E434B', '#AEB4BD']} weave="#A3A6A0" stitch="#2B3FE0" seed={83} />
       )}
-      renderHeroBackground={() => (
+      renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="linear-gradient(180deg, #fafaf7 0%, #efeee9 100%)"
+          base="linear-gradient(180deg, #F8F8F5 0%, #ECECE7 100%)"
           scrim={false}
           vignette={false}
+          overlay={<KurumsalFrame color="rgba(16,18,22,0.24)" revealed={revealed} ruler={false} />}
           parallax={4}
           grain={0.026}
-          fadeTo="#f4f3ef"
+          fadeTo="#F1F1ED"
         />
       )}
     />

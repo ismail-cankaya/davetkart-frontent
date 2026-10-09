@@ -1,37 +1,37 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage, Halo } from '../../shared/effects';
 import { PlakHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { KurumsalFrame } from '../parts/KurumsalFrame';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
 /**
- * KurumsalPlak — "Vinil Plak" kurumsal yorumu: lansman/afterparty. Çelik mavisi etiket.
+ * KurumsalPlak — "Vinil Plak" kurumsal yorumu: lansman gecesinin müzik
+ * tarafı. Kobalt etiket, kâğıt beyazı baskı, yavaş dönüş (42 s).
  *
  * Kurumsal davetin gece yarısı tarafı: gala yemeğinden sonraki set,
  * yıldönümü kutlaması, marka partisi.
  */
-const KURUMSAL_PLAK_THEME: SectionTheme = {
+const KURUMSAL_PLAK_THEME = kurumsalTheme({
   id: 'midnight',
-  base: 'bg-[#0b0e12]',
-  page: 'text-[#d9dee4]',
-  surface: 'bg-white/[0.06] backdrop-blur-md',
+  base: 'bg-[#0D0F13]',
+  page: 'text-[#DADDE3]',
+  surface: 'bg-[#161A20]/85 backdrop-blur-md',
   border: 'border-white/12',
-  heading: 'text-[#f0f4f7]',
-  body: 'text-[#828b96]',
-  accent: 'text-[#5f9fd8]',
-  accentBg: 'bg-[#5f9fd8]',
-  accentSoft: 'bg-[#5f9fd8]/12',
+  heading: 'text-[#F3F4F1]',
+  body: 'text-[#A2A8B0]',
+  accent: 'text-[#8F9CFF]',
+  accentBg: 'bg-[#8F9CFF]',
+  accentSoft: 'bg-[#8F9CFF]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f0f4f7] placeholder:text-[#828b96] focus:outline-none focus:border-[#5f9fd8]/60 focus:ring-2 focus:ring-[#5f9fd8]/15 transition duration-300',
-  buttonPrimary:
-    'bg-[#5f9fd8] hover:bg-[#7cb3e4] text-[#08111a] shadow-lg shadow-[#5f9fd8]/25',
-  buttonGhost:
-    'border border-white/16 text-[#d9dee4] hover:bg-white/[0.08] hover:border-white/30',
+    'w-full bg-white/[0.05] border border-white/14 px-3.5 py-2.5 text-sm text-[#F3F4F1] placeholder:text-[#8A9099] focus:outline-none focus:border-[#8F9CFF] focus:ring-2 focus:ring-[#8F9CFF]/20 transition duration-300',
+  buttonPrimary: 'bg-[#8F9CFF] hover:bg-[#A9B3FF] text-[#0D0F13] shadow-[0_12px_30px_-14px_rgba(143,156,255,0.6)]',
+  buttonGhost: 'border border-white/16 text-[#DADDE3] hover:bg-white/[0.06] hover:border-white/30',
   divider: 'bg-white/12',
-  timelineLine: 'from-[#5f9fd8] via-[#1f5f8c]/45 to-transparent'
-};
+  timelineLine: 'from-[#8F9CFF] via-[#2B3FE0]/45 to-transparent'
+});
 
 export function KurumsalPlak({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -40,16 +40,17 @@ export function KurumsalPlak({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_PLAK_THEME}
-      renderHero={(props) => <PlakHero {...props} label="#1f5f8c" labelInk="#eef5fb" spinDuration={42} />}
-      renderHeroBackground={() => (
+      renderHero={(props) => <PlakHero {...props} label="#2B3FE0" labelInk="#F3F4F1" spinDuration={42} />}
+      renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="radial-gradient(ellipse 95% 85% at 50% 35%, #141c26 0%, #0d1219 55%, #06080b 100%)"
+          base="radial-gradient(ellipse 95% 85% at 50% 35%, #151A2A 0%, #0E1118 55%, #07080B 100%)"
           scrim={false}
           vignette={{ strength: 0.5 }}
-          atmosphere={<Halo color="95,159,216" size={56} x={50} y={38} opacity={0.16} duration={13} />}
+          atmosphere={<Halo color="43,63,224" size={58} x={50} y={38} opacity={0.22} duration={13} />}
+          overlay={<KurumsalFrame color="rgba(243,244,241,0.22)" revealed={revealed} />}
           parallax={6}
           grain={0.028}
-          fadeTo="#0b0e12"
+          fadeTo="#0D0F13"
         />
       )}
     />

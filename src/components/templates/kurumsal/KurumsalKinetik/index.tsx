@@ -1,37 +1,38 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage, Halo } from '../../shared/effects';
 import { KinetikHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { KurumsalFrame } from '../parts/KurumsalFrame';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
 /**
- * KurumsalKinetik — "Kinetik Tipografi" kurumsal yorumu: konferans afişi. Grafit zemin, sinyal turuncusu.
+ * KurumsalKinetik — "Kinetik Tipografi" kurumsal yorumu: konferans afişi.
+ * Grafit zemin, grotesk çekirdek, işaret kırmızısı şerit.
  *
  * Zirve ve lansman iletişiminin standart dili iri tipografidir; kayan
- * şerit bunu ekranda hareketli hale getirir.
+ * şerit bunu ekranda hareketli hale getirir. Üst şerit tek kelime
+ * ("ETKİNLİK") akıtır: uzun bir davet başlığı şeritte okunmaz.
  */
-const KURUMSAL_KINETIK_THEME: SectionTheme = {
+const KURUMSAL_KINETIK_THEME = kurumsalTheme({
   id: 'midnight',
-  base: 'bg-[#0e1116]',
-  page: 'text-[#dbe0e5]',
-  surface: 'bg-white/[0.06] backdrop-blur-md',
+  base: 'bg-[#0D0F13]',
+  page: 'text-[#DADDE3]',
+  surface: 'bg-[#161A20]/85 backdrop-blur-md',
   border: 'border-white/12',
-  heading: 'text-[#f2f5f7]',
-  body: 'text-[#828b96]',
-  accent: 'text-[#f2653a]',
-  accentBg: 'bg-[#f2653a]',
-  accentSoft: 'bg-[#f2653a]/12',
+  heading: 'text-[#F3F4F1]',
+  body: 'text-[#A2A8B0]',
+  accent: 'text-[#FF6A4D]',
+  accentBg: 'bg-[#FF6A4D]',
+  accentSoft: 'bg-[#FF6A4D]/12',
   input:
-    'w-full bg-white/[0.06] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#f2f5f7] placeholder:text-[#828b96] focus:outline-none focus:border-[#f2653a]/60 focus:ring-2 focus:ring-[#f2653a]/15 transition duration-300',
-  buttonPrimary:
-    'bg-[#f2653a] hover:bg-[#ff7d55] text-[#120704] shadow-lg shadow-[#f2653a]/25',
-  buttonGhost:
-    'border border-white/16 text-[#dbe0e5] hover:bg-white/[0.08] hover:border-white/30',
+    'w-full bg-white/[0.05] border border-white/14 px-3.5 py-2.5 text-sm text-[#F3F4F1] placeholder:text-[#8A9099] focus:outline-none focus:border-[#FF6A4D]/70 focus:ring-2 focus:ring-[#FF6A4D]/18 transition duration-300',
+  buttonPrimary: 'bg-[#FF6A4D] hover:bg-[#FF8468] text-[#0D0F13] shadow-[0_12px_30px_-14px_rgba(255,106,77,0.55)]',
+  buttonGhost: 'border border-white/16 text-[#DADDE3] hover:bg-white/[0.06] hover:border-white/30',
   divider: 'bg-white/12',
-  timelineLine: 'from-[#f2653a] via-[#6ea8ff]/40 to-transparent'
-};
+  timelineLine: 'from-[#FF6A4D] via-[#8F9CFF]/40 to-transparent'
+});
 
 export function KurumsalKinetik({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -40,16 +41,17 @@ export function KurumsalKinetik({ invitation, mode = 'preview' }: TemplateProps)
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_KINETIK_THEME}
-      renderHero={(props) => <KinetikHero {...props} topWord="DAVET" />}
-      renderHeroBackground={() => (
+      renderHero={(props) => <KinetikHero {...props} topWord="ETKİNLİK" />}
+      renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="linear-gradient(170deg, #182029 0%, #0f1319 55%, #080a0d 100%)"
+          base="linear-gradient(170deg, #1A1E26 0%, #0F1116 55%, #08090C 100%)"
           scrim={false}
           vignette={{ strength: 0.42 }}
-          atmosphere={<Halo color="242,101,58" size={56} x={50} y={45} opacity={0.13} duration={12} />}
+          atmosphere={<Halo color="255,106,77" size={56} x={50} y={45} opacity={0.12} duration={12} />}
+          overlay={<KurumsalFrame color="rgba(243,244,241,0.22)" revealed={revealed} />}
           parallax={5}
           grain={0.028}
-          fadeTo="#0e1116"
+          fadeTo="#0D0F13"
         />
       )}
     />

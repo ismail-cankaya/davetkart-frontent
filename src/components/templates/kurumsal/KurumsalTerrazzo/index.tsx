@@ -1,28 +1,36 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { TerrazzoHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
-/** KurumsalTerrazzo — "Terrazzo" yorumu: kurumsal maviyi taşın tesadüfi dokusuyla yumuşatan yorum. */
-const KURUMSAL_TERRAZZO_THEME: SectionTheme = {
-  id: 'stone',
-  base: 'bg-[#f1f4f5]',
-  page: 'text-[#67737a]',
-  surface: 'bg-[#fdfeff]/85 backdrop-blur-sm',
-  border: 'border-[#dde4e7]',
-  heading: 'text-[#1a2024]',
-  body: 'text-[#67737a]',
-  accent: 'text-[#2f6f8c]',
-  accentBg: 'bg-[#2f6f8c]',
-  accentSoft: 'bg-[#2f6f8c]/12',
-  input: 'w-full bg-[#fdfeff] border border-[#dde4e7] rounded-2xl px-4 py-2.5 text-sm text-[#1a2024] placeholder:text-[#67737a] focus:outline-none focus:border-[#2f6f8c] focus:ring-2 focus:ring-[#2f6f8c]/20 transition duration-300',
-  buttonPrimary: 'bg-[#1a2024] hover:brightness-125 text-[#f1f4f5] rounded-full shadow-lg shadow-black/10',
-  buttonGhost: 'border border-[#dde4e7] text-[#1a2024] hover:bg-[#2f6f8c]/10 hover:border-[#2f6f8c]/50 rounded-full',
-  divider: 'bg-[#dde4e7]',
-  timelineLine: 'from-[#2f6f8c] via-[#2f6f8c]/40 to-transparent',
-};
+/**
+ * KurumsalTerrazzo — "Terrazzo" yorumu: kurumsal paleti taşın tesadüfi
+ * dokusuna döken yorum. Çakıllar grafit, kobalt, platin ve tek tük işaret
+ * kırmızısı. Terrazzo'nun yuvarlak dili korunur (köşe: serbest).
+ */
+const KURUMSAL_TERRAZZO_THEME = kurumsalTheme(
+  {
+    id: 'stone',
+    base: 'bg-[#EFEFEB]',
+    page: 'text-[#3E434B]',
+    surface: 'bg-[#FCFCFA]/90 backdrop-blur-sm',
+    border: 'border-[#101216]/12',
+    heading: 'text-[#101216]',
+    body: 'text-[#565B63]',
+    accent: 'text-[#2B3FE0]',
+    accentBg: 'bg-[#2B3FE0]',
+    accentSoft: 'bg-[#2B3FE0]/10',
+    input:
+      'w-full bg-[#FCFCFA] border border-[#101216]/14 rounded-2xl px-4 py-2.5 text-sm text-[#101216] placeholder:text-[#6B7079] focus:outline-none focus:border-[#2B3FE0] focus:ring-2 focus:ring-[#2B3FE0]/20 transition duration-300',
+    buttonPrimary: 'bg-[#101216] hover:bg-[#2B3FE0] text-[#EFEFEB] rounded-full shadow-lg shadow-black/10',
+    buttonGhost: 'border border-[#101216]/18 text-[#101216] hover:bg-[#2B3FE0]/10 hover:border-[#2B3FE0]/50 rounded-full',
+    divider: 'bg-[#101216]/12',
+    timelineLine: 'from-[#2B3FE0] via-[#2B3FE0]/35 to-transparent'
+  },
+  { edge: 'serbest' }
+);
 
 export function KurumsalTerrazzo({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -34,8 +42,8 @@ export function KurumsalTerrazzo({ invitation, mode = 'preview' }: TemplateProps
       renderHero={(props) => (
         <TerrazzoHero
           {...props}
-          chips={['#2f6f8c', '#8fb3c4', '#c3ccd1', '#dfe5e7', '#1a2024']}
-          slab="#f1f4f5"
+          chips={['#2B3FE0', '#8F9CFF', '#C5CBD3', '#DCDCD5', '#101216', '#F0442A']}
+          slab="#EFEFEB"
           seed={97}
         />
       )}
