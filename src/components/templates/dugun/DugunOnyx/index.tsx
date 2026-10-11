@@ -5,6 +5,7 @@ import { HeroStage, Halo, GoldSheen } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
 import { KurdeleHero } from '../parts/KurdeleHero';
+import { KenarParcacik } from '../parts/KenarParcacik';
 import { TemplateProps } from '../../types';
 
 /** Sıvı metal hatlar kadrajın kenarlarında; merkez tipografi için temiz kalır. */
@@ -55,21 +56,26 @@ export function DugunOnyx({ invitation, mode = 'preview' }: TemplateProps) {
               <GoldSheen color="239,232,243" opacity={0.12} duration={9} />
             </>
           }
-          particles={[
-            // Sıvı metalin etrafında asılı kalan inci parıltılar.
-            {
-              preset: 'stardust',
-              colors: ['#efe8f3', '#d9cfe3', '#e8b9c9'],
-              blend: 'screen',
-              density: 0.7,
-              speed: 0.6,
-              opacity: 0.7,
-              pointerStrength: 1.3,
-              depth: 1,
-              seed: 5
-            }
-          ]}
-          overlay={<Stel />}
+          overlay={
+            <>
+              <KenarParcacik
+                fields={[
+                  // Sıvı metalin etrafında asılı kalan inci parıltılar.
+                  {
+                    preset: 'stardust',
+                    colors: ['#efe8f3', '#d9cfe3', '#e8b9c9'],
+                    blend: 'screen',
+                    density: 0.7,
+                    speed: 0.6,
+                    opacity: 0.7,
+                    pointerStrength: 1.3,
+                    seed: 5
+                  }
+                ]}
+              />
+              <Stel />
+            </>
+          }
           fadeTo="#070708"
         />
       )}

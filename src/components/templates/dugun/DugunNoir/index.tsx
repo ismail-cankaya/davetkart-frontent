@@ -4,6 +4,7 @@ import { HeroStage, Halo } from '../../shared/effects';
 import { NoirHero } from '../../shared/heroes';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
+import { KenarParcacik } from '../parts/KenarParcacik';
 import { TemplateProps } from '../../types';
 
 /**
@@ -28,21 +29,24 @@ export function DugunNoir({ invitation, mode = 'preview' }: TemplateProps) {
           scrim={false}
           vignette={{ strength: 0.5 }}
           atmosphere={<Halo color="217,208,226" size={54} x={50} y={42} opacity={0.12} duration={14} />}
-          particles={[
-            {
-              preset: 'fairyDust',
-              colors: ['#d9d0e2', '#f3eef6'],
-              blend: 'screen',
-              density: 0.3,
-              speed: 0.35,
-              opacity: 0.42,
-              pointerStrength: 0.6,
-              depth: 1,
-              seed: 103
-            }
-          ]}
           parallax={8}
           grain={0.038}
+          overlay={
+            <KenarParcacik
+              fields={[
+                {
+                  preset: 'fairyDust',
+                  colors: ['#d9d0e2', '#f3eef6'],
+                  blend: 'screen',
+                  density: 0.3,
+                  speed: 0.35,
+                  opacity: 0.42,
+                  pointerStrength: 0.6,
+                  seed: 103
+                }
+              ]}
+            />
+          }
           fadeTo="#0d0b10"
         />
       )}

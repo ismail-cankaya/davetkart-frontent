@@ -43,6 +43,16 @@ export function DugunModern({ invitation, mode = 'preview' }: TemplateProps) {
               <Halo color="231,154,192" size={55} x={92} y={8} opacity={0.32} duration={12} />
             </>
           }
+          // Geniş kaplarda metnin boş bıraktığı sağ yarıyı dev bir kontur `&` taşır.
+          overlay={
+            <span
+              aria-hidden="true"
+              className="hidden @3xl:block absolute right-[5%] top-1/2 -translate-y-1/2 font-serif italic leading-none select-none text-[26rem] text-transparent"
+              style={{ WebkitTextStroke: '1px rgba(231,154,192,0.3)' }}
+            >
+              &amp;
+            </span>
+          }
           parallax={8}
           grain={0.035}
           fadeTo="#0c0b0e"

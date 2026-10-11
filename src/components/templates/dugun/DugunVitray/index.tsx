@@ -4,6 +4,7 @@ import { HeroStage, GodRays, Halo } from '../../shared/effects';
 import { VitrayHero } from '../../shared/heroes';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
+import { KenarParcacik } from '../parts/KenarParcacik';
 import { TemplateProps } from '../../types';
 
 /**
@@ -35,21 +36,24 @@ export function DugunVitray({ invitation, mode = 'preview' }: TemplateProps) {
               <Halo color="235,176,201" size={58} x={50} y={30} opacity={0.2} duration={12} />
             </>
           }
-          particles={[
-            {
-              preset: 'stardust',
-              colors: ['#ffffff', '#f3dce8'],
-              blend: 'screen',
-              density: 0.45,
-              speed: 0.28,
-              opacity: 0.45,
-              pointerStrength: 1.1,
-              depth: 1,
-              seed: 331
-            }
-          ]}
           parallax={8}
           grain={0.03}
+          overlay={
+            <KenarParcacik
+              fields={[
+                {
+                  preset: 'stardust',
+                  colors: ['#ffffff', '#f3dce8'],
+                  blend: 'screen',
+                  density: 0.45,
+                  speed: 0.28,
+                  opacity: 0.45,
+                  pointerStrength: 1.1,
+                  seed: 331
+                }
+              ]}
+            />
+          }
           fadeTo="#110d16"
         />
       )}

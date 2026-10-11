@@ -381,7 +381,7 @@ export const DUGUN_THEMES = {
     page: 'text-[#353b46]',
     surface: 'bg-white/70 backdrop-blur-xl backdrop-saturate-150 shadow-[0_24px_48px_-32px_rgba(31,36,46,0.35)]',
     border: 'border-[#cdd3dc]',
-    heading: 'text-transparent bg-clip-text bg-gradient-to-br from-[#14171d] via-[#4a5261] to-[#1b1f27]',
+    heading: 'text-transparent bg-clip-text bg-gradient-to-br from-[#0d0f13] via-[#2e3440] to-[#14171d]',
     body: 'text-[#3f4652]',
     accent: 'text-[#4b3f6b]',
     accentBg: 'bg-[#4b3f6b]',

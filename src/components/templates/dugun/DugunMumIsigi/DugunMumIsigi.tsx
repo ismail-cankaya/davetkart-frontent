@@ -29,6 +29,11 @@ export function DugunMumIsigi({ invitation, mode = 'preview' }: TemplateProps) {
           <div className="absolute inset-0 bg-[#5a3220]/35 mix-blend-multiply" />
           {/* Alt yarı koyulaşır; metin orada durur, üstte bokeh nefes alır. */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#120d0b]/20 via-[#120d0b]/55 to-[#120d0b]/90" />
+          {/* Tepeden düşen mum ışığı: kadrajın üstü kehribar parlar. */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse 85% 42% at 50% 0%, rgba(242,170,120,0.38), rgba(242,170,120,0) 72%)' }}
+          />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#120d0b]" />
         </VideoBackdrop>
       )}

@@ -27,7 +27,7 @@ export function DugunAurora({ invitation, mode = 'preview' }: TemplateProps) {
           vignette={false}
           atmosphere={
             <>
-              <AuroraMesh colors={['243,196,216', '206,193,240', '190,226,214']} opacity={0.7} duration={24} />
+              <AuroraMesh colors={['243,196,216', '206,193,240', '190,226,214']} opacity={0.95} duration={24} />
               <Iridescent opacity={0.22} duration={18} className="mix-blend-soft-light" />
             </>
           }
@@ -35,7 +35,7 @@ export function DugunAurora({ invitation, mode = 'preview' }: TemplateProps) {
             <div
               aria-hidden="true"
               className="absolute inset-0 pointer-events-none"
-              style={{ background: 'radial-gradient(ellipse 62% 50% at 50% 50%, rgba(246,243,248,0.7), rgba(246,243,248,0) 78%)' }}
+              style={{ background: 'radial-gradient(ellipse 62% 50% at 50% 50%, rgba(246,243,248,0.45), rgba(246,243,248,0) 78%)' }}
             />
           }
           parallax={10}
