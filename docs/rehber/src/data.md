@@ -231,7 +231,7 @@ categoryOverrides?: Partial<Record<string, TemplatePresetLook>>;
 | `getTemplatesForCategory(id)` | Süzer **ve** her preset'i o kategorinin kaydıyla birleştirir; sonuç önbellekte |
 | `getPresetForCategory(presetId, categoryId)` | Önbellekteki listeden bulur → aynı (kategori, id) için **hep aynı nesne** |
 
-🔴 Referans kararlılığı §… ile aynı nedenle şarttır: `useActivePreset` bir zustand
+🔴 Referans kararlılığı, `templatesByCategory` önbelleğinin yorumundaki nedenle şarttır: `useActivePreset` bir zustand
 seçicisidir; her çağrıda yeni nesne dönseydi bileşen sonsuz yeniden çizilirdi.
 
 `minimumTier` (plan) bilerek `TemplatePresetLook`'ta yok: kart görünümü kategoriye göre
