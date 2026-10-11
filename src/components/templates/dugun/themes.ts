@@ -378,11 +378,11 @@ export const DUGUN_THEMES = {
   DugunKrom: kurdele({
     id: 'stone',
     base: 'bg-[#eceff3]',
-    page: 'text-[#3a414d]',
+    page: 'text-[#353b46]',
     surface: 'bg-white/70 backdrop-blur-xl backdrop-saturate-150 shadow-[0_24px_48px_-32px_rgba(31,36,46,0.35)]',
     border: 'border-[#cdd3dc]',
     heading: 'text-transparent bg-clip-text bg-gradient-to-br from-[#14171d] via-[#4a5261] to-[#1b1f27]',
-    body: 'text-[#4f5765]',
+    body: 'text-[#3f4652]',
     accent: 'text-[#4b3f6b]',
     accentBg: 'bg-[#4b3f6b]',
     accentSoft: 'bg-[#4b3f6b]/10',

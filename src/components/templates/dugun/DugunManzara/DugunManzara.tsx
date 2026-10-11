@@ -25,7 +25,7 @@ export function DugunManzara({ invitation, mode = 'preview' }: TemplateProps) {
             src={bgImage}
             alt=""
             draggable={false}
-            className="absolute inset-0 w-full h-full object-cover opacity-50 select-none"
+            className="absolute inset-0 w-full h-full object-cover opacity-40 select-none"
             style={{ filter: 'grayscale(1) invert(1) contrast(1.6)' }}
           />
           <div className="absolute inset-0 bg-[#e9e1ef] mix-blend-multiply" />
@@ -34,7 +34,7 @@ export function DugunManzara({ invitation, mode = 'preview' }: TemplateProps) {
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse 62% 50% at 50% 50%, rgba(246,243,247,0.9) 0%, rgba(246,243,247,0.62) 60%, rgba(246,243,247,0.12) 100%)'
+                'radial-gradient(ellipse 62% 50% at 50% 50%, rgba(246,243,247,0.92) 0%, rgba(246,243,247,0.75) 60%, rgba(246,243,247,0.45) 100%)'
             }}
           />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#f6f3f7]" />
