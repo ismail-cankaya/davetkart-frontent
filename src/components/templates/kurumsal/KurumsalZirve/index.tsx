@@ -1,38 +1,38 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage, GodRays, FogDrift, Halo, Ridges, SunDisc } from '../../shared/effects';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { KurumsalHero } from '../parts/KurumsalHero';
+import { KurumsalFrame } from '../parts/KurumsalFrame';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
 /**
- * KurumsalZirve — Konsept 3, "Zirve ve Liderlik": bulutların üzerine yükselen,
- * gün doğumuyla aydınlanan dağ zirveleri.
+ * KurumsalZirve — "Zirve ve Liderlik": kobalt şafakta bulut denizinin
+ * üzerine yükselen sırtlar; künye sahnenin ekseninde.
  *
- * Işık çizgileri (streaks) yukarı doğru ivmelenir ve zirve hattının
- * üzerinde yoğunlaşır — "yükseliş" teması dekoratif bir süs değil,
- * hareketin yönüyle anlatılıyor.
+ * Işık çizgileri yukarı ivmelenir — "yükseliş" süs değil, hareketin yönü.
+ * Şafak bilerek soğuk: sıcak altın gün doğumu kategorinin değil, düğün
+ * ailesinin dili. Vurgu platin.
  */
-const ZIRVE_THEME: SectionTheme = {
+const ZIRVE_THEME = kurumsalTheme({
   id: 'midnight',
-  base: 'bg-[#0a0f1a]',
-  page: 'text-[#dfe5ef]',
-  surface: 'bg-white/[0.06] backdrop-blur-xl',
-  border: 'border-[#e0a860]/22',
-  heading: 'text-[#f6f9ff]',
-  body: 'text-[#8794a6]',
-  accent: 'text-[#e8b06a]',
-  accentBg: 'bg-[#e8b06a]',
-  accentSoft: 'bg-[#e8b06a]/12',
+  base: 'bg-[#0C1018]',
+  page: 'text-[#DCE0E7]',
+  surface: 'bg-[#141925]/85 backdrop-blur-xl',
+  border: 'border-white/12',
+  heading: 'text-[#F3F4F1]',
+  body: 'text-[#BCC2CC]',
+  accent: 'text-[#C5CBD3]',
+  accentBg: 'bg-[#C5CBD3]',
+  accentSoft: 'bg-[#C5CBD3]/12',
   input:
-    'w-full bg-white/[0.06] border border-[#e0a860]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#eef2f9] placeholder:text-[#74808f] focus:outline-none focus:border-[#e8b06a]/60 focus:ring-2 focus:ring-[#e8b06a]/15 transition duration-300',
-  buttonPrimary:
-    'bg-[#e8b06a] hover:bg-[#f0c184] text-[#1a1206] shadow-lg shadow-[#e8b06a]/22',
-  buttonGhost:
-    'border border-[#e0a860]/26 text-[#dfe5ef] hover:bg-[#e0a860]/10 hover:border-[#e0a860]/46',
-  divider: 'bg-[#e0a860]/18',
-  timelineLine: 'from-[#e8b06a] via-[#6f8bb0]/50 to-transparent'
-};
+    'w-full bg-white/[0.05] border border-white/14 px-3.5 py-2.5 text-sm text-[#F3F4F1] placeholder:text-[#8B929E] focus:outline-none focus:border-[#C5CBD3] focus:ring-2 focus:ring-[#C5CBD3]/20 transition duration-300',
+  buttonPrimary: 'bg-[#E6E9EE] hover:bg-white text-[#0C1018] shadow-[0_12px_30px_-14px_rgba(197,203,211,0.5)]',
+  buttonGhost: 'border border-white/16 text-[#DCE0E7] hover:bg-white/[0.06] hover:border-white/30',
+  divider: 'bg-white/14',
+  timelineLine: 'from-[#C5CBD3] via-[#8F9CFF]/40 to-transparent'
+});
 
 export function KurumsalZirve({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -41,40 +41,36 @@ export function KurumsalZirve({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={ZIRVE_THEME}
-      renderHeroBackground={() => (
+      renderHero={(props) => <KurumsalHero {...props} align="center" />}
+      renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="linear-gradient(to bottom, #2a3b58 0%, #6b5a52 42%, #16202f 78%, #0a0f1a 100%)"
-          scrim={{ from: 'both', strength: 0.45 }}
+          base="linear-gradient(to bottom, #182345 0%, #2E3754 38%, #1A2133 74%, #0C1018 100%)"
+          scrim={{ from: 'both', strength: 0.46 }}
           vignette={{ strength: 0.5 }}
           atmosphere={
             <>
-              {/* Gün doğumu: yatık açı, tek yönden gelen güçlü ışık. */}
-              <GodRays angle={20} origin={56} count={7} color="255,214,160" opacity={0.5} duration={20} />
-              <Halo color="232,176,106" size={64} x={54} y={40} opacity={0.3} duration={11} />
-              {/* Güneş sırtların ARKASINA konumlanır: hem "dağın ardından
-                  doğuş" doğru okunur, hem de metnin arkasındaki parlak leke
-                  kalkar — alt satırlar okunabilir kalır. */}
-              <SunDisc color="255,196,120" size={6} x={58} y={60} opacity={0.85} />
-              {/* Zirveler: 4 katman, yüksek roughness — sivri ve heybetli.
-                  Bulut denizi zirvelerin ÜSTÜNE binerek onları yarı yarıya
-                  örter; "bulutların üzerine yükselme" teması budur. */}
-              <Ridges color="26,38,58" opacity={0.95} height={0.5} layers={4} roughness={1.35} seed={41} />
-              <FogDrift color="220,230,245" opacity={0.6} duration={50} />
+              <GodRays angle={18} origin={54} count={7} color="226,232,255" opacity={0.26} duration={20} />
+              <Halo color="143,156,255" size={64} x={54} y={42} opacity={0.24} duration={11} />
+              {/* Güneş sırtların ARKASINDA: metnin ardında parlak leke kalmaz. */}
+              <SunDisc color="255,236,214" size={5} x={57} y={60} opacity={0.7} />
+              <Ridges color="18,24,38" opacity={0.95} height={0.5} layers={4} roughness={1.35} seed={41} />
+              <FogDrift color="214,222,240" opacity={0.5} duration={50} />
             </>
           }
           particles={[
             {
               preset: 'streaks',
-              colors: ['#e8b06a', '#f2d5a8', '#9fc0e8'],
+              colors: ['#C5CBD3', '#8F9CFF', '#F3F4F1'],
               blend: 'screen',
-              density: 0.9,
-              speed: 0.9,
-              opacity: 0.42,
+              density: 0.8,
+              speed: 0.8,
+              opacity: 0.36,
               depth: 1,
               seed: 18
             }
           ]}
-          fadeTo="#0a0f1a"
+          overlay={<KurumsalFrame color="rgba(243,244,241,0.26)" revealed={revealed} />}
+          fadeTo="#0C1018"
         />
       )}
     />

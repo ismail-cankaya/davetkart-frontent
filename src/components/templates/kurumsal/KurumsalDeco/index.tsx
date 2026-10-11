@@ -1,34 +1,41 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage, Sunburst, GoldSheen } from '../../shared/effects';
 import { DecoHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
 /**
- * KurumsalDeco — "Art Deco Gala" kurumsal yorumu: zümrüt zemin, şampanya altını. Gala ve ödül töreni.
+ * KurumsalDeco — "Art Deco Gala" kurumsal yorumu: platin gala. Kobalt gece
+ * zemini, platin çerçeve ve yelpaze. Ödül töreni ve yıl sonu galası.
+ *
+ * Gala dilinin varsayılanı "koyu zemin + şampanya altını"; kategori onu
+ * bilerek platine çevirir. DecoHero çerçevesini altın sabitle çizdiği için
+ * hero'nun dekoratif (aria-hidden) katmanları gri tonlamayla platine
+ * indirilir; metin ve süs zaten temadan renk alır.
  */
-const KURUMSAL_DECO_THEME: SectionTheme = {
-  id: 'midnight',
-  base: 'theme-cormorant bg-[#061410]',
-  page: 'text-[#dae8e0]',
-  surface: 'bg-white/[0.05] backdrop-blur-md',
-  border: 'border-[#d8c07a]/22',
-  heading: 'text-[#f0f8f2]',
-  body: 'text-[#87a396]',
-  accent: 'text-[#d8c07a]',
-  accentBg: 'bg-[#d8c07a]',
-  accentSoft: 'bg-[#d8c07a]/10',
-  input:
-    'w-full bg-white/[0.05] border border-[#d8c07a]/22 rounded-lg px-3.5 py-2.5 text-sm text-[#eaf4ee] placeholder:text-[#6f8a7d] focus:outline-none focus:border-[#d8c07a] focus:ring-2 focus:ring-[#d8c07a]/20 transition duration-300',
-  buttonPrimary:
-    'bg-gradient-to-r from-[#d8c07a] to-[#f0e0aa] hover:brightness-110 text-[#0a1a14] shadow-lg shadow-[#d8c07a]/20',
-  buttonGhost:
-    'border border-[#d8c07a]/25 text-[#dae8e0] hover:bg-[#d8c07a]/10 hover:border-[#d8c07a]/45',
-  divider: 'bg-[#d8c07a]/22',
-  timelineLine: 'from-[#d8c07a] via-[#4e8c70]/45 to-transparent'
-};
+const KURUMSAL_DECO_THEME = kurumsalTheme(
+  {
+    id: 'midnight',
+    base: 'theme-cormorant bg-[#0A0C14]',
+    page: 'text-[#D9DCE4]',
+    surface: 'bg-[#121522]/85 backdrop-blur-md',
+    border: 'border-[#C5CBD3]/22',
+    heading: 'text-[#F3F4F1]',
+    body: 'text-[#A0A6B3]',
+    accent: 'text-[#C5CBD3]',
+    accentBg: 'bg-[#C5CBD3]',
+    accentSoft: 'bg-[#C5CBD3]/10',
+    input:
+      'w-full bg-white/[0.05] border border-[#C5CBD3]/24 px-3.5 py-2.5 text-sm text-[#F3F4F1] placeholder:text-[#8A90A0] focus:outline-none focus:border-[#C5CBD3] focus:ring-2 focus:ring-[#C5CBD3]/20 transition duration-300',
+    buttonPrimary: 'bg-gradient-to-r from-[#C5CBD3] to-[#EEF0F3] hover:brightness-105 text-[#0A0C14] shadow-[0_12px_30px_-14px_rgba(197,203,211,0.45)]',
+    buttonGhost: 'border border-[#C5CBD3]/28 text-[#D9DCE4] hover:bg-[#C5CBD3]/10 hover:border-[#C5CBD3]/50',
+    divider: 'bg-[#C5CBD3]/24',
+    timelineLine: 'from-[#C5CBD3] via-[#2B3FE0]/45 to-transparent'
+  },
+  { type: 'serif' }
+);
 
 export function KurumsalDeco({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -38,22 +45,23 @@ export function KurumsalDeco({ invitation, mode = 'preview' }: TemplateProps) {
       mode={mode}
       themeOverride={KURUMSAL_DECO_THEME}
       renderHero={(props) => <DecoHero {...props} />}
+      heroContentClassName="[&_[aria-hidden=true]]:grayscale"
       renderHeroBackground={() => (
         <HeroStage
-          base="radial-gradient(ellipse 95% 85% at 50% 35%, #0d2a20 0%, #071a14 55%, #04100c 100%)"
+          base="radial-gradient(ellipse 95% 85% at 50% 35%, #141A33 0%, #0B0E1C 55%, #05060B 100%)"
           scrim={false}
           vignette={{ strength: 0.55 }}
           atmosphere={
             <>
               {/* Dev yelpaze kadrajın merkezinden açılır; DecoHero kendi
                   küçük madalyonunu bunun üstüne bindirir. */}
-              <Sunburst color="216,192,122" rays={48} opacity={0.2} x={50} y={38} />
-              <GoldSheen color="240,224,170" opacity={0.14} duration={9} />
+              <Sunburst color="197,203,211" rays={48} opacity={0.16} x={50} y={38} />
+              <GoldSheen color="238,240,243" opacity={0.12} duration={9} />
             </>
           }
           parallax={9}
           grain={0.032}
-          fadeTo="#061410"
+          fadeTo="#0A0C14"
         />
       )}
     />

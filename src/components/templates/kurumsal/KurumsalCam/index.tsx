@@ -1,42 +1,39 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
-import { HeroStage, Halo, AuroraMesh, Iridescent } from '../../shared/effects';
+import { HeroStage, AuroraMesh, Iridescent } from '../../shared/effects';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { KurumsalHero } from '../parts/KurumsalHero';
+import { KurumsalFrame } from '../parts/KurumsalFrame';
+import { GlassPanes } from '../parts/GlassPanes';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
 /**
- * KurumsalCam — Konsept 2, "Sıvı Cam Şıklığı": buzlu cam ardından süzülen,
- * ağır hareket eden kurumsal renklerde sıvı degrade.
+ * KurumsalCam — "Sıvı Cam", gündüz sürümü: buz beyazı zeminde kobalt ve
+ * platin renk kütleleri, önlerinde iki buzlu cam levha.
  *
- * Buzlu cam etkisi tek bir blur katmanı değil, üç kaynaktan doğuyor:
- * AuroraMesh'in ağır renk kütleleri, üstüne binen ince iridesan tabaka ve
- * `haze` parçacıklarının dev, sönük lekeleri. Düz bir backdrop-blur tüm
- * hero'yu tek seferde bulanıklaştırır, sıvının hareketi kaybolurdu.
- *
- * Tipografi bilinçli olarak sans-serif (theme-cormorant yok): kurumsal
- * davette okunaklılık zarafetin önüne geçer.
+ * Kategorinin sinematik şablonlarının tek açık zeminlisi. Cam etkisi
+ * backdrop-blur'la değil (her karede yeniden örneklenirdi), bulanık renk
+ * kütlelerinin önüne konan yarı saydam levhalarla kurulur.
  */
-const CAM_THEME: SectionTheme = {
-  id: 'midnight',
-  base: 'bg-[#080a12]',
-  page: 'text-[#dde2ee]',
-  surface: 'bg-white/[0.07] backdrop-blur-2xl',
-  border: 'border-white/16',
-  heading: 'text-[#f4f7ff]',
-  body: 'text-[#8a93a8]',
-  accent: 'text-[#7ee0d0]',
-  accentBg: 'bg-[#7ee0d0]',
-  accentSoft: 'bg-[#7ee0d0]/12',
+const CAM_THEME = kurumsalTheme({
+  id: 'stone',
+  base: 'bg-[#EDEFF2]',
+  page: 'text-[#3E434B]',
+  surface: 'bg-white/75 backdrop-blur-xl',
+  border: 'border-[#101216]/10',
+  heading: 'text-[#101216]',
+  body: 'text-[#4A4F58]',
+  accent: 'text-[#2B3FE0]',
+  accentBg: 'bg-[#2B3FE0]',
+  accentSoft: 'bg-[#2B3FE0]/10',
   input:
-    'w-full bg-white/[0.07] border border-white/16 rounded-lg px-3.5 py-2.5 text-sm text-[#eaeef8] placeholder:text-[#727b90] focus:outline-none focus:border-[#7ee0d0]/60 focus:ring-2 focus:ring-[#7ee0d0]/15 transition duration-300',
-  buttonPrimary:
-    'bg-[#7ee0d0] hover:bg-[#95e8da] text-[#07231f] shadow-lg shadow-[#7ee0d0]/22',
-  buttonGhost:
-    'border border-white/18 text-[#dde2ee] hover:bg-white/8 hover:border-white/30',
-  divider: 'bg-white/12',
-  timelineLine: 'from-[#7ee0d0] via-[#7ee0d0]/40 to-transparent'
-};
+    'w-full bg-white/90 border border-[#101216]/14 px-3.5 py-2.5 text-sm text-[#101216] placeholder:text-[#6B7079] focus:outline-none focus:border-[#2B3FE0] focus:ring-2 focus:ring-[#2B3FE0]/18 transition duration-300',
+  buttonPrimary: 'bg-[#2B3FE0] hover:bg-[#2233C2] text-white shadow-[0_14px_30px_-16px_rgba(43,63,224,0.7)]',
+  buttonGhost: 'border border-[#101216]/18 text-[#101216] hover:bg-white/70 hover:border-[#101216]/30',
+  divider: 'bg-[#101216]/12',
+  timelineLine: 'from-[#2B3FE0] via-[#8F9CFF]/50 to-transparent'
+});
 
 export function KurumsalCam({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -45,38 +42,24 @@ export function KurumsalCam({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={CAM_THEME}
-      renderHeroBackground={() => (
+      renderHero={(props) => <KurumsalHero {...props} align="start" />}
+      renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="linear-gradient(135deg, #0e2a2e 0%, #101430 45%, #07080f 100%)"
-          scrim={{ from: 'both', strength: 0.44 }}
-          vignette={{ strength: 0.5 }}
+          base="linear-gradient(150deg, #F6F7F9 0%, #ECEEF3 52%, #E2E6EE 100%)"
+          scrim={false}
+          vignette={false}
           atmosphere={
             <>
-              {/* Sıvı degrade mesh: konseptin "ağır hareket eden renk
-                  dalgaları". Süre uzun (34s) — kurumsal ton sakin olmalı. */}
-              <AuroraMesh colors={['126,224,208', '108,140,240', '192,126,224']} opacity={0.5} duration={34} />
-              {/* Buzlu cam: mesh'in üstüne binen ince iridesan tabaka. */}
-              <Iridescent opacity={0.18} duration={20} className="mix-blend-soft-light" />
-              <Halo color="126,224,208" size={70} x={50} y={46} opacity={0.24} duration={12} />
+              {/* Sıvı degrade: ağır, sakin (36 s) — kurumsal ton telaş etmez. */}
+              <AuroraMesh colors={['43,63,224', '143,156,255', '197,203,211']} opacity={0.14} duration={36} />
+              <Iridescent opacity={0.1} duration={24} className="mix-blend-soft-light" />
+              <GlassPanes revealed={revealed} />
             </>
           }
-          particles={[
-            // Buzlu cam: dev, sönük, çok yavaş lekeler.
-            {
-              preset: 'haze',
-              colors: ['#7ee0d0', '#6c8cf0', '#c07ee0'],
-              blend: 'screen',
-              density: 1.2,
-              speed: 0.5,
-              opacity: 0.7,
-              pointerStrength: 0,
-              depth: 0.4,
-              seed: 7
-            }
-          ]}
+          overlay={<KurumsalFrame color="rgba(16,18,22,0.3)" revealed={revealed} />}
           parallax={9}
-          grain={0.028}
-          fadeTo="#080a12"
+          grain={0.02}
+          fadeTo="#EDEFF2"
         />
       )}
     />

@@ -1,30 +1,34 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage, Halo } from '../../shared/effects';
 import { YildizHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { RegistrationGrid } from '../parts/RegistrationGrid';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
-/** KurumsalYildizHaritasi — "Yıldız Haritası" kurumsal yorumu: veri haritası tonunda; çelik mavisi. */
-const KURUMSAL_YILDIZ_THEME: SectionTheme = {
+/**
+ * KurumsalYildizHaritasi — "Yıldız Haritası" kurumsal yorumu: veri haritası
+ * tonunda takımyıldız. Kobalt ışığı çizgiler, altta koordinat ızgarası.
+ */
+const KURUMSAL_YILDIZ_THEME = kurumsalTheme({
   id: 'midnight',
-  base: 'bg-[#06090e]',
-  page: 'text-[#d7dde3]',
-  surface: 'bg-white/[0.05] backdrop-blur-md',
+  base: 'bg-[#080A11]',
+  page: 'text-[#D9DCE4]',
+  surface: 'bg-[#11141D]/85 backdrop-blur-md',
   border: 'border-white/12',
-  heading: 'text-[#eff3f6]',
-  body: 'text-[#818a94]',
-  accent: 'text-[#8fb8d8]',
-  accentBg: 'bg-[#8fb8d8]',
-  accentSoft: 'bg-[#8fb8d8]/12',
+  heading: 'text-[#F3F4F1]',
+  body: 'text-[#A0A6B3]',
+  accent: 'text-[#8F9CFF]',
+  accentBg: 'bg-[#8F9CFF]',
+  accentSoft: 'bg-[#8F9CFF]/12',
   input:
-    'w-full bg-white/[0.05] border border-white/12 rounded-lg px-3.5 py-2.5 text-sm text-[#eff3f6] placeholder:text-[#818a94] focus:outline-none focus:border-[#8fb8d8]/60 focus:ring-2 focus:ring-[#8fb8d8]/15 transition duration-300',
-  buttonPrimary: 'bg-[#8fb8d8] hover:bg-[#a8cae4] text-[#06090e] shadow-lg shadow-[#8fb8d8]/20',
-  buttonGhost: 'border border-white/16 text-[#d7dde3] hover:bg-white/[0.08] hover:border-white/30',
+    'w-full bg-white/[0.05] border border-white/14 px-3.5 py-2.5 text-sm text-[#F3F4F1] placeholder:text-[#8A90A0] focus:outline-none focus:border-[#8F9CFF] focus:ring-2 focus:ring-[#8F9CFF]/20 transition duration-300',
+  buttonPrimary: 'bg-[#8F9CFF] hover:bg-[#A9B3FF] text-[#080A11] shadow-[0_12px_30px_-14px_rgba(143,156,255,0.6)]',
+  buttonGhost: 'border border-white/16 text-[#D9DCE4] hover:bg-white/[0.06] hover:border-white/30',
   divider: 'bg-white/12',
-  timelineLine: 'from-[#8fb8d8] via-[#4f6f8c]/45 to-transparent'
-};
+  timelineLine: 'from-[#8F9CFF] via-[#2B3FE0]/45 to-transparent'
+});
 
 export function KurumsalYildizHaritasi({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -33,16 +37,21 @@ export function KurumsalYildizHaritasi({ invitation, mode = 'preview' }: Templat
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_YILDIZ_THEME}
-      renderHero={(props) => <YildizHero {...props} star="#ffffff" line="#8fb8d8" />}
+      renderHero={(props) => <YildizHero {...props} star="#F3F4F1" line="#8F9CFF" />}
       renderHeroBackground={() => (
         <HeroStage
-          base="radial-gradient(ellipse 100% 85% at 50% 30%, #101c28 0%, #080f16 55%, #030507 100%)"
+          base="radial-gradient(ellipse 100% 85% at 50% 30%, #121A33 0%, #0A0E1A 55%, #040509 100%)"
           scrim={false}
           vignette={{ strength: 0.5 }}
-          atmosphere={<Halo color="143,184,216" size={54} x={50} y={34} opacity={0.13} duration={15} />}
+          atmosphere={
+            <>
+              <RegistrationGrid color="rgba(143,156,255,0.24)" />
+              <Halo color="43,63,224" size={56} x={50} y={34} opacity={0.18} duration={15} />
+            </>
+          }
           parallax={6}
           grain={0.026}
-          fadeTo="#06090e"
+          fadeTo="#080A11"
         />
       )}
     />

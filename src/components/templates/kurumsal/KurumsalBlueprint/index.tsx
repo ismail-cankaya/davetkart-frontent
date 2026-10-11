@@ -1,28 +1,36 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { BlueprintHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
-/** KurumsalBlueprint — "Teknik Çizim" yorumu: etkinliği bir mühendislik paftası gibi sunan yorum. */
-const KURUMSAL_BLUEPRINT_THEME: SectionTheme = {
-  id: 'midnight',
-  base: 'bg-[#0b1b26]',
-  page: 'text-[#d6ecf7]/70',
-  surface: 'bg-white/[0.04] backdrop-blur-sm',
-  border: 'border-[#d6ecf7]/25',
-  heading: 'text-[#d6ecf7]',
-  body: 'text-[#d6ecf7]/60',
-  accent: 'text-[#3fbfd8]',
-  accentBg: 'bg-[#3fbfd8]',
-  accentSoft: 'bg-[#3fbfd8]/12',
-  input: 'w-full bg-white/[0.04] border border-[#d6ecf7]/30 rounded-none px-3.5 py-2.5 text-sm text-[#d6ecf7] placeholder:text-[#d6ecf7]/40 focus:outline-none focus:border-[#3fbfd8] focus:ring-1 focus:ring-[#3fbfd8]/30 transition-colors duration-200',
-  buttonPrimary: 'bg-[#3fbfd8] hover:brightness-110 text-[#0b1b26] rounded-none font-bold uppercase tracking-[0.12em] shadow-lg shadow-black/25',
-  buttonGhost: 'border border-[#d6ecf7]/35 text-[#d6ecf7] rounded-none uppercase tracking-[0.12em] hover:bg-[#d6ecf7]/10 hover:border-[#d6ecf7]/60',
-  divider: 'bg-[#d6ecf7]/20',
-  timelineLine: 'from-[#3fbfd8] via-[#3fbfd8]/40 to-transparent',
-};
+/**
+ * KurumsalBlueprint — "Teknik Çizim" yorumu: etkinliği bir mühendislik
+ * paftası gibi sunan yorum. Pafta kobalt gecesi, çizgi buz beyazı; vurgular
+ * "kırmızı kalem" — revizyon işaretinin rengi. Köşe sıfır.
+ */
+const KURUMSAL_BLUEPRINT_THEME = kurumsalTheme(
+  {
+    id: 'midnight',
+    base: 'bg-[#0F1A5C]',
+    page: 'text-[#E8ECFF]/80',
+    surface: 'bg-white/[0.05] backdrop-blur-sm',
+    border: 'border-[#E8ECFF]/25',
+    heading: 'text-[#E8ECFF]',
+    body: 'text-[#E8ECFF]/72',
+    accent: 'text-[#FF8A6B]',
+    accentBg: 'bg-[#FF8A6B]',
+    accentSoft: 'bg-[#FF8A6B]/14',
+    input:
+      'w-full bg-white/[0.05] border border-[#E8ECFF]/30 px-3.5 py-2.5 text-sm text-[#E8ECFF] placeholder:text-[#E8ECFF]/60 focus:outline-none focus:border-[#FF8A6B] focus:ring-1 focus:ring-[#FF8A6B]/30 transition-colors duration-200',
+    buttonPrimary: 'bg-[#FF8A6B] hover:brightness-110 text-[#0F1A5C] font-bold shadow-lg shadow-black/25',
+    buttonGhost: 'border border-[#E8ECFF]/35 text-[#E8ECFF] hover:bg-[#E8ECFF]/10 hover:border-[#E8ECFF]/60',
+    divider: 'bg-[#E8ECFF]/20',
+    timelineLine: 'from-[#FF8A6B] via-[#E8ECFF]/35 to-transparent'
+  },
+  { edge: 'sert' }
+);
 
 export function KurumsalBlueprint({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -32,13 +40,7 @@ export function KurumsalBlueprint({ invitation, mode = 'preview' }: TemplateProp
       mode={mode}
       themeOverride={KURUMSAL_BLUEPRINT_THEME}
       renderHero={(props) => (
-        <BlueprintHero
-          {...props}
-          paper="#0b1b26"
-          line="#d6ecf7"
-          accent="#3fbfd8"
-          sheetCode="KR-09"
-        />
+        <BlueprintHero {...props} paper="#0F1A5C" line="#E8ECFF" accent="#FF8A6B" sheetCode="KR-09" />
       )}
     />
   );

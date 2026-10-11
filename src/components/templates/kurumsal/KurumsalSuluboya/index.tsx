@@ -1,30 +1,35 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { SectionTheme } from '../../shared/palette';
 import { HeroStage } from '../../shared/effects';
 import { SuluboyaHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { KurumsalFrame } from '../parts/KurumsalFrame';
+import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
 
-/** KurumsalSuluboya — "Suluboya" kurumsal yorumu: çelik mavisi, adaçayı ve kum lekeleri; ölçülü. */
-const KURUMSAL_SULUBOYA_THEME: SectionTheme = {
+/**
+ * KurumsalSuluboya — "Suluboya" kurumsal yorumu: kobalt ışığı, platin ve
+ * soluk çivit lekeleri. Leke serbest, kadraj ölçülü: kesim işaretleri
+ * boyanın bir prova kâğıdına sürüldüğünü söyler.
+ */
+const KURUMSAL_SULUBOYA_THEME = kurumsalTheme({
   id: 'stone',
-  base: 'bg-[#f7f8f9]',
-  page: 'text-[#474c52]',
-  surface: 'bg-white/80 backdrop-blur-sm',
-  border: 'border-[#dfe3e6]',
-  heading: 'text-[#1a1f24]',
-  body: 'text-[#7c8288]',
-  accent: 'text-[#4f7f9f]',
-  accentBg: 'bg-[#4f7f9f]',
-  accentSoft: 'bg-[#4f7f9f]/12',
+  base: 'bg-[#F4F4F1]',
+  page: 'text-[#3E434B]',
+  surface: 'bg-white/85 backdrop-blur-sm',
+  border: 'border-[#101216]/12',
+  heading: 'text-[#101216]',
+  body: 'text-[#565B63]',
+  accent: 'text-[#2B3FE0]',
+  accentBg: 'bg-[#2B3FE0]',
+  accentSoft: 'bg-[#2B3FE0]/10',
   input:
-    'w-full bg-white border border-[#dfe3e6] rounded-lg px-3.5 py-2.5 text-sm text-[#474c52] placeholder:text-[#7c8288] focus:outline-none focus:border-[#4f7f9f] focus:ring-2 focus:ring-[#4f7f9f]/18 transition duration-300',
-  buttonPrimary: 'bg-[#1a1f24] hover:bg-[#30363d] text-[#f7f8f9] shadow-lg shadow-black/10',
-  buttonGhost: 'border border-[#d4d9dd] text-[#575c62] hover:bg-[#edeff1] hover:border-[#b0b6bb]',
-  divider: 'bg-[#dfe3e6]',
-  timelineLine: 'from-[#4f7f9f] via-[#a8c0b8]/60 to-transparent'
-};
+    'w-full bg-white border border-[#101216]/14 px-3.5 py-2.5 text-sm text-[#101216] placeholder:text-[#6B7079] focus:outline-none focus:border-[#2B3FE0] focus:ring-2 focus:ring-[#2B3FE0]/18 transition duration-300',
+  buttonPrimary: 'bg-[#2B3FE0] hover:bg-[#2233C2] text-white shadow-[0_12px_28px_-16px_rgba(43,63,224,0.7)]',
+  buttonGhost: 'border border-[#101216]/18 text-[#101216] hover:bg-[#E4E4DE] hover:border-[#101216]/30',
+  divider: 'bg-[#101216]/12',
+  timelineLine: 'from-[#2B3FE0] via-[#8F9CFF]/50 to-transparent'
+});
 
 export function KurumsalSuluboya({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -33,17 +38,16 @@ export function KurumsalSuluboya({ invitation, mode = 'preview' }: TemplateProps
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_SULUBOYA_THEME}
-      renderHero={(props) => (
-        <SuluboyaHero {...props} washes={['#8fb0c8', '#a8c0b8', '#c8c0a8']} seed={83} />
-      )}
-      renderHeroBackground={() => (
+      renderHero={(props) => <SuluboyaHero {...props} washes={['#8F9CFF', '#C5CBD3', '#A9B7E8']} seed={83} />}
+      renderHeroBackground={({ revealed }) => (
         <HeroStage
-          base="linear-gradient(180deg, #fdfdfe 0%, #f2f4f5 100%)"
+          base="linear-gradient(180deg, #FCFCFB 0%, #F0F0EC 100%)"
           scrim={false}
           vignette={false}
+          overlay={<KurumsalFrame color="rgba(16,18,22,0.22)" revealed={revealed} />}
           parallax={4}
           grain={0.022}
-          fadeTo="#f7f8f9"
+          fadeTo="#F4F4F1"
         />
       )}
     />
