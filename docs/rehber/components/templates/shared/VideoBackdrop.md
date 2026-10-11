@@ -704,3 +704,15 @@ Mimari sınırları netleştirmek için:
 
 Bu kısıtlar bilinçlidir. Bileşen ne kadar az şey bilirse o kadar çok yerde
 kullanılabilir.
+
+## 10. 🆕 Node'da `window` koruması · 2026-10-11
+
+`usePrefersReducedMotion`'ın `useState` başlatıcısı doğrudan `window.matchMedia`
+çağırıyordu. Node'daki render testleri (`renderToString`) `window` olmadığı için bu
+şablonları çizemiyordu (sünnet ajanı taklit `window` ile geçebildi).
+
+```ts
+() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+```
+
+Tarayıcıda davranış aynıdır; efekt ilk karede gerçek değeri zaten yazar.
