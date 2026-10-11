@@ -213,3 +213,30 @@ saatle uyumludur.
 | `upcomingShowcaseDate(20 Kasım 2026)` → `2027-03-20T19:00` | Ay ve yıl geçişi, sıfır doldurma |
 
 Tarayıcıda ana sayfa "15 Ocak 2027 19:00" ve "119 GÜN" gösterdi.
+
+## 10. Güncelleme — ortak preset'e kategori görünümü (`categoryOverrides`) · 2026-10-11
+
+`sade`, `manzara`, `sekilli`, `modern` düğün, kına ve nişana **tek kartla** hizmet eder.
+Kategori tasarım yenilemesinde her kategori kendi kimliğini aldı; tek kart üçünden birine
+uyar, diğer ikisiyle çelişir.
+
+```ts
+// types.ts
+categoryOverrides?: Partial<Record<string, TemplatePresetLook>>;
+// TemplatePresetLook = name | primaryColor | backgroundStyle | titleColor | btnColor | imageUrl
+```
+
+| Fonksiyon | Davranış |
+|---|---|
+| `getTemplatesForCategory(id)` | Süzer **ve** her preset'i o kategorinin kaydıyla birleştirir; sonuç önbellekte |
+| `getPresetForCategory(presetId, categoryId)` | Önbellekteki listeden bulur → aynı (kategori, id) için **hep aynı nesne** |
+
+🔴 Referans kararlılığı, `templatesByCategory` önbelleğinin yorumundaki nedenle şarttır: `useActivePreset` bir zustand
+seçicisidir; her çağrıda yeni nesne dönseydi bileşen sonsuz yeniden çizilirdi.
+
+`minimumTier` (plan) bilerek `TemplatePresetLook`'ta yok: kart görünümü kategoriye göre
+değişir, yayın planı değişmez (P-1).
+
+Doğrulama (geçici betik, 11 denetim geçti): kına kartı kendi değerini alır, düğün kartı
+etkilenmez, `TEMPLATE_PRESETS` kaydı değişmez, referanslar kararlı, plan alanı korunur.
+Kategori değerleri henüz girilmedi; tüm kategoriler bitince tek seferde eklenecek.

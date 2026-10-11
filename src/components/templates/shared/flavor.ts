@@ -23,4 +23,18 @@ export interface TemplateFlavor {
     gift: string;
     rsvp: string;
   };
+  /**
+   * Bölüm başlıklarının üstündeki küçük etiketler. Verilmeyen her biri ortak
+   * varsayılanı kullanır ("Özel Anlarımız", "Hediye Takdiri"…); romantik
+   * okunan bu metinleri kurumsal gibi kategoriler değiştirebilir.
+   */
+  eyebrows?: Partial<{
+    timeline: string;
+    details: string;
+    gallery: string;
+    gift: string;
+    rsvp: string;
+  }>;
+  /** Hediye bölümünün açıklama cümlesi; verilmezse ortak varsayılan. */
+  giftNote?: string;
 }

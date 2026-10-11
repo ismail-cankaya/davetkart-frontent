@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
@@ -98,6 +98,7 @@ export function BlueprintHero({
   sheetCode = 'DK-01'
 }: BlueprintHeroProps) {
   const { Ornament } = flavor;
+  const reduced = useReducedMotion();
   const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
 
   const dateParts = formatDateStr(invitation.date).split(' ');
@@ -155,7 +156,7 @@ export function BlueprintHero({
             strokeWidth="0.35"
             strokeOpacity="0.75"
             vectorEffect="non-scaling-stroke"
-            initial={{ pathLength: 0 }}
+            initial={reduced ? { pathLength: 1 } : { pathLength: 0 }}
             animate={{ pathLength: 1 }}
             transition={{ duration: 1.6, ease: ease.out, delay: 0.15 }}
           />

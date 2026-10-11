@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { ArrowRight, Check, LayoutGrid, PenLine, WandSparkles } from 'lucide-react';
-import { FEATURED_TEMPLATES, TEMPLATE_PRESETS, getCategoryLabel } from '../../data';
+import { FEATURED_TEMPLATES, getCategoryLabel, getPresetForCategory } from '../../data';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useUIStore } from '../../stores/useUIStore';
 import { TemplateCover } from './TemplateCover';
@@ -48,7 +48,7 @@ export function TemplateGrid({ simulatorRef }: TemplateGridProps) {
 
   // Showcase slots — the 5 most popular designs, each pinned to one category.
   const featured = FEATURED_TEMPLATES.flatMap((slot) => {
-    const preset = TEMPLATE_PRESETS.find((p) => p.id === slot.presetId);
+    const preset = getPresetForCategory(slot.presetId, slot.categoryId);
     return preset ? [{ ...slot, preset }] : [];
   });
 

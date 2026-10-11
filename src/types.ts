@@ -419,7 +419,19 @@ export interface TemplatePreset {
    * Backend `config/davetkart.php` → `preset_tiers` ile AYNI liste.
    */
   minimumTier?: SubscriptionTier;
+  /**
+   * Kategoriye göre kart görünümü. Aynı preset birden çok kategoriye hizmet
+   * ettiğinde (sade/manzara/sekilli/modern) her kategori kartını kendi
+   * kimliğiyle gösterir; verilmeyen alanlar preset'in kendisinden gelir.
+   * Yalnızca görsel alanlar: plan (`minimumTier`) kategoriye göre değişmez.
+   */
+  categoryOverrides?: Partial<Record<string, TemplatePresetLook>>;
 }
+
+/** Bir preset kartının kategoriye göre değişebilen görsel alanları. */
+export type TemplatePresetLook = Partial<
+  Pick<TemplatePreset, 'name' | 'primaryColor' | 'backgroundStyle' | 'titleColor' | 'btnColor' | 'imageUrl'>
+>;
 
 /** A curated homepage showcase slot: a preset pinned to a single category. */
 export interface FeaturedTemplate {

@@ -18,7 +18,12 @@ import { TrackingReveal } from '../TrackingReveal';
  * Sayaç, kart yerine tek satırlık bir "künye" olarak dizilir — Deco
  * tipografisi bilgiyi kutulara değil, ayırıcılarla bölünmüş bantlara koyar.
  */
-export function DecoHero({ invitation, theme, flavor }: HeroRenderProps) {
+export interface DecoHeroProps extends HeroRenderProps {
+  /** Çerçeve ve yelpazenin metal rengi, `r,g,b` biçiminde; varsayılan altın. */
+  metal?: string;
+}
+
+export function DecoHero({ invitation, theme, flavor, metal = '212,175,95' }: DecoHeroProps) {
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
   const dateLabel = formatDateStr(invitation.date);
@@ -28,7 +33,7 @@ export function DecoHero({ invitation, theme, flavor }: HeroRenderProps) {
     <section className="relative flex-1 flex items-center justify-center px-6 @sm:px-10 py-12 @sm:py-16">
       {/* Çerçeve ve yelpaze hero'nun tamamını kapsar; metin onların içinde
           ikinci bir kutuya girmez — Deco'da çerçeve zaten kompozisyondur. */}
-      <DecoFrame color="212,175,95" opacity={0.55} />
+      <DecoFrame color={metal} opacity={0.55} />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.94 }}
@@ -38,7 +43,7 @@ export function DecoHero({ invitation, theme, flavor }: HeroRenderProps) {
       >
         {/* Üst madalyon: yelpaze + ornament, ikisi aynı merkezde. */}
         <div className="relative w-24 h-24 @sm:w-28 @sm:h-28 flex items-center justify-center">
-          <Sunburst color="212,175,95" rays={28} opacity={0.5} className="!absolute inset-0" />
+          <Sunburst color={metal} rays={28} opacity={0.5} className="!absolute inset-0" />
           <motion.div
             initial={{ opacity: 0, rotate: -25, scale: 0.6 }}
             animate={{ opacity: 1, rotate: 0, scale: 1 }}

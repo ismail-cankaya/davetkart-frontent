@@ -39,7 +39,7 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
         className="text-center mb-10"
       >
         <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
-          Ne Zaman &amp; Nerede
+          {flavor.eyebrows?.details ?? 'Ne Zaman & Nerede'}
         </span>
         <h2 className={cn('font-serif text-2xl md:text-3xl font-bold mt-2', theme.heading)}>
           {flavor.headings.details}
@@ -54,7 +54,7 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
         className={cn('max-w-md mx-auto rounded-3xl border overflow-hidden', theme.surface, theme.border)}
       >
         {/* Decorative abstract map header */}
-        <div className={cn('relative h-28 overflow-hidden', isDark ? 'bg-slate-900' : 'bg-stone-100')}>
+        <div className={cn('relative h-28 overflow-hidden', theme.mapHeader ?? (isDark ? 'bg-slate-900' : 'bg-stone-100'))}>
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
             <g stroke={isDark ? 'rgba(148,163,184,0.25)' : 'rgba(120,113,108,0.3)'} strokeWidth="1.5" fill="none">
               <path d="M-10 30 C 80 20, 140 70, 220 55 S 360 20, 410 45" />

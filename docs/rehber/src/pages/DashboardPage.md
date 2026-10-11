@@ -203,3 +203,10 @@ Başlıktaki *"Yeni Davetiye Oluştur"*un yanına ikincil bir bağlantı geldi: 
 |---|---|
 | Panelde, üst menüde değil | Üst menü (`Header`) metinlerini i18n'den okuyor, 10 dil; sayfalar ise Türkçe sabit metin kullanıyor. Menüye eklemek 10 dosyaya çeviri anahtarı demekti |
 | İkincil görünüm (çerçeveli, beyaz) | Birincil eylem davetiye oluşturmak. §2'deki ilkeyle aynı: hesabı silmeye götüren yol bulunabilir olmalı ama öne çıkmamalı |
+
+## 8. 🆕 Kart adı ve rengi davetiyenin kategorisinden · 2026-10-11
+
+`presetName` ve `InvitationCard` preset'i `TEMPLATE_PRESETS.find` yerine
+`getPresetForCategory(inv.imageTheme, inv.categoryId)` ile okur. Ortak bir preset
+(ör. `sade`) kına davetiyesinde kına'nın kart adını ve rengini gösterir.
+Mekanizma: `data.md` §10.

@@ -279,3 +279,11 @@ zaman** gönderiyor. `null`, *"henüz ödenmedi"* bilgisini taşıyor. `?:` yaz�
 TypeScript `order.paidAt === undefined` kontrolüne izin verirdi ve o kontrol hiçbir
 zaman doğru olmazdı: sessiz bir hata. `redirectUrl?`'nin tersi, ve ikisi aynı
 dosyada bilerek yan yana duruyor.
+
+## 12. 🆕 `TemplatePreset.categoryOverrides` ve `TemplatePresetLook` · 2026-10-11
+
+Bir preset kartının kategoriye göre değişebilen **görsel** alanları:
+`name`, `primaryColor`, `backgroundStyle`, `titleColor`, `btnColor`, `imageUrl`.
+
+`minimumTier` listede yok: plan kategoriye göre değişmez. Kullanım ve gerekçe:
+`data.md` §10.

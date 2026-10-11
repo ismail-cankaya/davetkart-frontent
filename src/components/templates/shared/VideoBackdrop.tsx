@@ -42,8 +42,9 @@ const TO_LANDSCAPE = 1.05;
 
 /** Kullanıcının işletim sistemi düzeyindeki "hareketi azalt" tercihini izler. */
 function usePrefersReducedMotion(): boolean {
+  // Node'da (render testleri) `window` yok; efekt ilk karede gerçek değeri yazar.
   const [reduced, setReduced] = useState(
-    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
   );
 
   useEffect(() => {

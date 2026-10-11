@@ -450,4 +450,11 @@ Store onu iki yanıtta **tazeliyor**:
 - **Yayın yanıtı**: yayın bağsız bir Elit paketini bağlayabilir (K99).
 
 İkisi de `editRevision`'ı artırmıyor: kararın gelmesi bir düzenleme değil, kaydetme döngüsü kurulmaz.
-Doğrulama: `verify:state` → *"İmza"* · ayrıntı `components/templates/shared/Branding.md` §4.
+Doğrulama: `verify:state` → *"İmza"* · ayrıntı `src/components/templates/shared/Branding.md` §4.
+
+## 🆕 `useActivePreset` kategoriyi hesaba katar · 2026-10-11
+
+Seçici `getPresetForCategory(activePresetId, invitation.categoryId || null)` döndürür.
+Fonksiyon önbellekten okuduğu için aynı girdide **aynı nesne** döner; zustand seçicisi
+olarak güvenlidir (yeni nesne her render'da yeniden çizim tetiklerdi). Bulunamazsa eskisi
+gibi `TEMPLATE_PRESETS[0]`. Mekanizma: `data.md` §10.

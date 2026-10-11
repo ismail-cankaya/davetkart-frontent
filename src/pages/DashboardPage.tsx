@@ -29,7 +29,7 @@ import { fullName } from '../utils/user';
 import { displayNames } from '../utils/names';
 import { toDisplayError } from '../utils/toDisplayError';
 import { formatReleaseDeadline, releaseOutcome } from '../utils/releaseWindow';
-import { EVENT_CATEGORIES, TEMPLATE_PRESETS } from '../data';
+import { EVENT_CATEGORIES, getPresetForCategory } from '../data';
 import { Invitation, InvitationRecord } from '../types';
 import { duration, ease, spring } from '../utils/motion';
 
@@ -69,8 +69,8 @@ function categoryLabel(categoryId: string): string {
   return EVENT_CATEGORIES.find((c) => c.id === categoryId)?.label ?? 'Etkinlik';
 }
 
-function presetName(imageTheme: string): string {
-  return TEMPLATE_PRESETS.find((p) => p.id === imageTheme)?.name ?? 'Özel Tasarım';
+function presetName(imageTheme: string, categoryId: string): string {
+  return getPresetForCategory(imageTheme, categoryId)?.name ?? 'Özel Tasarım';
 }
 
 function formatEventDate(value: string): string {
@@ -93,7 +93,7 @@ interface InvitationCardProps {
 function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCardProps) {
   const inv = card.invitation;
   const names = displayNames(inv.names);
-  const preset = TEMPLATE_PRESETS.find((p) => p.id === inv.imageTheme);
+  const preset = getPresetForCategory(inv.imageTheme, inv.categoryId);
   const meta = KIND_META[card.kind];
   const bannerBg = preset?.backgroundStyle ?? 'bg-slate-900';
   const bannerText = preset?.titleColor ?? 'text-white';
@@ -132,7 +132,7 @@ function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCard
           </div>
           <div className="flex items-center gap-2 text-xs text-muted">
             <LayoutTemplate size={13} className="text-brand shrink-0" />
-            {presetName(inv.imageTheme)} şablonu
+            {presetName(inv.imageTheme, inv.categoryId)} şablonu
           </div>
         </div>
 
