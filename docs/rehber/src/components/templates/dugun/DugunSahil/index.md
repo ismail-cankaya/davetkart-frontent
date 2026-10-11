@@ -54,3 +54,7 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 | 360 px | Panel neredeyse tam genişlik; gün batımı yalnız üst ve alt şeritte görünür. |
 | 768 px | Panel max-w-md, çevresinde ufuk parlar. |
 | 1280 px | Panel güneşin tam önünde; tasarımın bilinçli bedeli. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

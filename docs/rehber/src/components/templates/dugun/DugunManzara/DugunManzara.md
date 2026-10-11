@@ -1,4 +1,4 @@
-# `src/components/templates/dugun/DugunManzara/DugunManzara.tsx` — Süslü güllü çerçeve görseli `mix-blend-luminosity` ile gece zeminine basılır: yeşil-altın gravür inci-menekşe bir kabartmaya döner.
+# `src/components/templates/dugun/DugunManzara/DugunManzara.tsx` — İnci Gravür
 
 > **Kullananlar:** `TemplateRenderer.tsx` (`'dugun-manzara'`), `src/data.ts` (`manzara` kartı)
 > **Denetim:** `npm run lint`; duman testi ve kontrast betiği (bkz. [KIMLIK.md](../KIMLIK.md) §7)
@@ -7,7 +7,7 @@
 
 ## 1. Fikir
 
-Süslü güllü çerçeve görseli `mix-blend-luminosity` ile gece zeminine basılır: yeşil-altın gravür inci-menekşe bir kabartmaya döner.
+İnci Gravür — süslü güllü çerçeve görseli gri tona çekilip tersine çevrilir; koyu yeşil zemin tül beyazına, altın gravür gümüş bir kalem işine döner. Açık şablon.
 
 Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü bu şablon eskiden dokuz kategoride aynı görünen `Summary`'yi kullanıyordu.
 
@@ -16,8 +16,8 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 | Alan | Önce | Sonra |
 |---|---|---|
 | Hero | Summary | KurdeleHero |
-| Tema | `MANZARA_THEME` (zümrüt, ortak dosya) | `DUGUN_THEMES.DugunManzara` (Gece) |
-| Arka plan | `bg.png` + `bg-black/40`, harici Unsplash yedeği | `bg.png` luminosity %60 + radyal okuma perdesi; harici URL kaldırıldı |
+| Ton | Koyu (1. turda mor-siyah, öbür koyularla karışıyordu) | Açık: tül zemin, mor mürekkep vurgu `#5e3f6e` |
+| Arka plan | `bg.png` luminosity karışımı | `bg.png` `grayscale invert contrast(1.6)` %40 + lila çarpım + okuma tülü (kenarda %45) |
 
 `manzara` kart kaydı kına ve nişanla ortak: kapak hâlâ zümrüt fotoğraf.
 
@@ -25,8 +25,8 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 
 | Alan | En düşük oran | Çift |
 |---|---|---|
-| Bölümler | 5.27 | placeholder / alan |
-| Hero | 5.21 | body (mesaj/mekân) / zemin #38363f |
+| Bölümler | 4.95 | placeholder / alan |
+| Hero | 4.65 | body (mesaj/mekân) / zemin #d5d0d9 |
 
 Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md §6'da.
 
@@ -46,6 +46,10 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 
 | Genişlik | Risk |
 |---|---|
-| 360 px | Kare görsel dikeyde kırpılır; çerçevenin yalnız yan şeritleri görünür. |
-| 768 px | Sorun beklenmez. |
-| 1280 px | 1024 px görsel ~1.25× büyür, gravür yumuşar. |
+| 360 px | Gravürün yalnız orta şeridi görünür (kare görsel dikeyde kırpılır). |
+| 768 px | Madalyon ortada, metin içinde. |
+| 1280 px | Görsel ~1.25× büyür, çizgiler yumuşar. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

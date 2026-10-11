@@ -7,7 +7,7 @@
 
 ## 1. Fikir
 
-Onyx & İnci — videonun sıvı metali kalır; üstündeki hale, parlama ve toz inci-lilaya çevrildi.
+Onyx & İnci — saf siyah zeminde sıvı metal; metin kadrajı boydan boya taşıyan iki inci kıl çizginin (stel) arasında, kategorinin en iri isimleriyle.
 
 Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü bu şablon eskiden dokuz kategoride aynı görünen `Summary`'yi kullanıyordu.
 
@@ -15,10 +15,10 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 
 | Alan | Önce | Sonra |
 |---|---|---|
-| Hero | Summary | KurdeleHero |
-| Işık | Altın hale (animasyon yüzünden ~%64), altın parıltı | `Hale` (tepe .20), inci parıltı |
-| Scrim | bottom .35 | bottom .35 + merkez .35 |
-| Tema | Altın | `DUGUN_THEMES.DugunOnyx` (inci, gradyan inci buton) |
+| Hero | Summary | KurdeleHero `nameClassName` (en iri isimler) |
+| Zemin | Menekşe-siyah | Saf siyah `#070708` |
+| Süs | yok | `Stel`: iki inci kıl çizgi + ortalarında elmas |
+| Işık | `Hale` | Düzeltilmiş ortak `Halo` (tepe .14) |
 
 Video ve poster değişmedi; yalnızca üstündeki katmanlar.
 
@@ -26,8 +26,8 @@ Video ve poster değişmedi; yalnızca üstündeki katmanlar.
 
 | Alan | En düşük oran | Çift |
 |---|---|---|
-| Bölümler | 5.73 | placeholder / alan |
-| Hero | 5.69 | body (mesaj/mekân) / zemin #2c292e |
+| Bölümler | 5.79 | placeholder / alan |
+| Hero | 5.71 | body (mesaj/mekân) / zemin #2d2926 |
 
 Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md §6'da.
 
@@ -45,12 +45,16 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 
 ## 5. Duman testi
 
-`a:ok(29KB) b:ok(7KB) c:ok(26KB)` — a: dolu örnek, b: boş alanlar, c: zarflı.
+`a:ok(30KB) b:ok(8KB) c:ok(27KB)` — a: dolu örnek, b: boş alanlar, c: zarflı.
 
 ## 6. Bakılacak riskler
 
 | Genişlik | Risk |
 |---|---|
-| 360 px | Sorun beklenmez. |
+| 360 px | Stel çizgileri kenardan %3 içeride; tarih bandı çizgilere yaklaşır ama değmez. |
 | 768 px | Sorun beklenmez. |
-| 1280 px | Videonun altın hatları kenarlarda kalır; inci tipografiyle iki metal yan yana. |
+| 1280 px | Sorun beklenmez. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

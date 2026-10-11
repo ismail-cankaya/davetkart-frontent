@@ -50,3 +50,7 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 | 360 px | Girland ~120 px; üst padding 56 px — kısa ekranda düğüm yaprak ucuna değebilir. |
 | 768 px | Girland 430 px genişlikte sabitlenir. |
 | 1280 px | Sorun beklenmez. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.
