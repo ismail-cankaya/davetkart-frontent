@@ -55,7 +55,7 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
         className="text-center mb-12"
       >
         <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
-          Program Akışı
+          {flavor.eyebrows?.timeline ?? 'Program Akışı'}
         </span>
         <h2 className={cn('font-serif text-2xl md:text-3xl font-bold mt-2', theme.heading)}>
           {flavor.headings.timeline}

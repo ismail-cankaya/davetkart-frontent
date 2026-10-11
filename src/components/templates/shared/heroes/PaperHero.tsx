@@ -25,9 +25,11 @@ interface PaperHeroProps extends HeroRenderProps {
    * durur — o yüzden şablon kendi rengini geçebilir.
    */
   sealColor?: string;
+  /** Kağıt yüzeyinin rengi; verilmezse koyu temada isli, açık temada sıcak fildişi. */
+  paper?: string;
 }
 
-export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroProps) {
+export function PaperHero({ invitation, theme, flavor, sealColor, paper }: PaperHeroProps) {
   const { Ornament } = flavor;
   const names = invitation.names || 'Davetlisiniz';
   const dateLabel = formatDateStr(invitation.date);
@@ -56,7 +58,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
         style={{ filter: 'drop-shadow(0 18px 34px rgba(60,42,28,0.22))' }}
       >
         {/* Kartın kendisi — düzensiz kenarlı kağıt yüzeyi. */}
-        <DeckleEdge color={theme.id === 'midnight' ? '#16130f' : '#fdfaf3'} amplitude={5} seed={9} />
+        <DeckleEdge color={paper ?? (theme.id === 'midnight' ? '#16130f' : '#fdfaf3')} amplitude={5} seed={9} />
         <PaperGrain opacity={theme.id === 'midnight' ? 0.35 : 0.55} />
 
         {/* İnce çift kural çerçevesi — klasik gravür davetiyenin işareti. */}
@@ -87,7 +89,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor }: PaperHeroPro
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: ease.out, delay: 0.55 }}
-            className={cn('font-serif font-normal leading-[1.08] mt-4 text-3xl @sm:text-[2.6rem]', theme.heading)}
+            className={cn('font-serif font-normal leading-[1.08] mt-4 text-3xl @sm:text-[2.6rem] [overflow-wrap:anywhere]', theme.heading)}
             style={emboss}
           >
             {names}

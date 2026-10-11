@@ -42,6 +42,24 @@ export interface SectionTheme {
   divider: string;
   /** The vertical timeline spine color. */
   timelineLine: string;
+  /**
+   * Zarf renkleri (sınıf dizgeleri). Verilmeyen her alan `id`'ye göre
+   * varsayılanı alır; koyu temanın varsayılan mührü altındır.
+   */
+  envelope?: {
+    /** Zarf gövdesi. */
+    paper?: string;
+    /** Kapak ve yan katlar. */
+    flap?: string;
+    /** Mühür zemini + yazı rengi. */
+    seal?: string;
+    /** Zarfın arkasındaki ışıma. */
+    glow?: string;
+    /** Açılırken görünen iç kart (zemin + kenar). */
+    card?: string;
+  };
+  /** Detaylar kartının harita başlığı zemini; verilmezse `id`'ye göre slate/stone. */
+  mapHeader?: string;
 }
 
 const MIDNIGHT: SectionTheme = {

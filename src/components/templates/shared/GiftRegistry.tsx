@@ -49,13 +49,14 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
         className="text-center mb-10"
       >
         <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
-          Hediye Takdiri
+          {flavor.eyebrows?.gift ?? 'Hediye Takdiri'}
         </span>
         <h2 className={cn('font-serif text-2xl md:text-3xl font-bold mt-2', theme.heading)}>
           {flavor.headings.gift}
         </h2>
         <p className={cn('text-[13px] font-light mt-3 max-w-xs mx-auto leading-relaxed', theme.body)}>
-          Varlığınız en büyük hediyemiz; yine de takdirinizi iletmek isterseniz hesap bilgilerimizi aşağıda bulabilirsiniz.
+          {flavor.giftNote ??
+            'Varlığınız en büyük hediyemiz; yine de takdirinizi iletmek isterseniz hesap bilgilerimizi aşağıda bulabilirsiniz.'}
         </p>
       </motion.div>
 

@@ -52,11 +52,14 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
   const isDark = theme.id === 'midnight';
   const { Ornament } = flavor;
 
-  const paper = isDark
+  const custom = theme.envelope ?? {};
+  const paper = custom.paper ?? (isDark
     ? 'bg-gradient-to-b from-slate-800 to-slate-900'
-    : 'bg-gradient-to-b from-stone-100 to-stone-200';
-  const flap = isDark ? 'bg-slate-700' : 'bg-stone-300';
-  const seal = isDark ? 'bg-amber-300 text-slate-950' : 'bg-stone-800 text-stone-50';
+    : 'bg-gradient-to-b from-stone-100 to-stone-200');
+  const flap = custom.flap ?? (isDark ? 'bg-slate-700' : 'bg-stone-300');
+  const seal = custom.seal ?? (isDark ? 'bg-amber-300 text-slate-950' : 'bg-stone-800 text-stone-50');
+  const glow = custom.glow ?? (isDark ? 'bg-amber-300/10' : 'bg-rose-200/40');
+  const card = custom.card ?? (isDark ? 'bg-slate-950 border border-white/10' : 'bg-white border border-stone-200');
 
   const handleOpen = () => {
     if (!opening) setOpening(true);
@@ -87,7 +90,7 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
       <div
         className={cn(
           'absolute w-[420px] h-[420px] rounded-full blur-3xl pointer-events-none',
-          isDark ? 'bg-amber-300/10' : 'bg-rose-200/40'
+          glow
         )}
       />
 
@@ -104,7 +107,7 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
           <motion.div
             className={cn(
               'absolute left-[6%] right-[6%] top-[8%] bottom-[8%] rounded-lg flex flex-col items-center justify-center gap-1.5 px-4',
-              isDark ? 'bg-slate-950 border border-white/10' : 'bg-white border border-stone-200'
+              card
             )}
             initial={false}
             animate={opening ? { y: '-46%', scale: 1.02 } : { y: 0 }}
