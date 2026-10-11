@@ -78,7 +78,7 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
         {/* Dev serif başlık — sayfanın tek odağı. */}
         <h1
           className={cn(
-            'font-serif font-normal leading-[0.95] tracking-[-0.02em]',
+            'font-serif font-normal leading-[0.95] tracking-[-0.02em] [overflow-wrap:anywhere]',
             'text-[2.75rem] @sm:text-6xl @lg:text-7xl',
             theme.heading
           )}

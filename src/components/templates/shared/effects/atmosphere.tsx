@@ -174,7 +174,11 @@ export function LightLeak({
   );
 }
 
-/** Metnin arkasında duran, nefes alan yumuşak hale — kontrastı tabandan kurar. */
+/**
+ * Metnin arkasında duran, nefes alan yumuşak hale — kontrastı tabandan kurar.
+ * Konum, ortalama ve `opacity` dış kapta; `halo-breathe` iç katmanda göreli
+ * çalışır, bu yüzden tepe parlaklığı her zaman `opacity`'dir.
+ */
 export function Halo({
   color = '255,220,160',
   size = 62,
@@ -187,19 +191,25 @@ export function Halo({
   return (
     <div
       aria-hidden="true"
-      data-atmosphere=""
-      className={cn('absolute pointer-events-none rounded-full blur-3xl', className)}
+      className={cn('absolute pointer-events-none', className)}
       style={{
         left: `${x}%`,
         top: `${y}%`,
         width: `${size}%`,
         aspectRatio: '1 / 1',
         transform: 'translate(-50%, -50%)',
-        backgroundImage: `radial-gradient(circle, rgba(${color},0.85), rgba(${color},0) 70%)`,
-        opacity,
-        animation: `halo-breathe ${duration}s ease-in-out infinite`
+        opacity
       }}
-    />
+    >
+      <div
+        data-atmosphere=""
+        className="w-full h-full rounded-full blur-3xl"
+        style={{
+          backgroundImage: `radial-gradient(circle, rgba(${color},0.85), rgba(${color},0) 70%)`,
+          animation: `halo-breathe ${duration}s ease-in-out infinite`
+        }}
+      />
+    </div>
   );
 }
 

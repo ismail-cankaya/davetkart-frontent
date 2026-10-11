@@ -81,6 +81,10 @@ export function BrutalHero({
   // İsim kelimelere bölünüp alt alta yığılır: brutalizmde satır sonu bir
   // tipografi kararıdır, metnin kabına sığmasının yan etkisi değil.
   const words = (invitation.names || 'Davetlisiniz').split(' ').filter(Boolean);
+  // En uzun kelime kutuya tek satırda sığsın diye punto ona göre tavanlanır;
+  // 0.66em, büyük harfli siyah grotesk için güvenli harf genişliğidir.
+  const longest = Math.max(...words.map((word) => word.length));
+  const fitSize = `calc(min(80cqw, 25rem) / ${(0.66 * longest).toFixed(2)})`;
 
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');
@@ -150,7 +154,7 @@ export function BrutalHero({
             {/* İsim bloğu: ölçek hiyerarşinin tamamını taşır. */}
             <h1
               className={cn('font-sans font-black uppercase leading-[0.84] tracking-[-0.035em]', theme.heading)}
-              style={{ fontSize: 'clamp(2.1rem, 13cqw, 4rem)' }}
+              style={{ fontSize: `clamp(1.5rem, min(13cqw, ${fitSize}), 4rem)` }}
             >
               {words.map((word, i) => (
                 <motion.span

@@ -638,17 +638,18 @@ html.lenis body {
   }
 }
 
-/* Hale nefesi: merkezde duran ışığın canlılık kazanması. */
+/* Hale nefesi: merkezde duran ışığın canlılık kazanması. Opaklık göreli
+   (tepe 1); hale'nin asıl parlaklığı dış kaptaki `opacity`'dir. */
 @keyframes halo-breathe {
 
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.55;
     transform: scale(1);
   }
 
   50% {
-    opacity: 0.75;
+    opacity: 1;
     transform: scale(1.08);
   }
 }

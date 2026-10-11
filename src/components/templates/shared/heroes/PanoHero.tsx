@@ -99,7 +99,10 @@ function FlapRow({ text, size, flap, ink, delay = 0, max, className }: FlapRowPr
   }, [chars]);
 
   return (
-    <div className={cn('flex flex-wrap justify-center gap-x-1.5 gap-y-[3px] @sm:gap-x-2 @sm:gap-y-1', className)}>
+    <>
+    {/* Kanatlar harf harf ve kırpılmış; ekran okuyucu tam metni buradan alır. */}
+    <span className="sr-only">{text}</span>
+    <div aria-hidden="true" className={cn('flex flex-wrap justify-center gap-x-1.5 gap-y-[3px] @sm:gap-x-2 @sm:gap-y-1', className)}>
       {words.map((word, wordIndex) => (
         <span key={wordIndex} className="flex shrink-0 gap-[3px] @sm:gap-1">
           {word.map(({ char, index: i }) => {
@@ -144,6 +147,7 @@ function FlapRow({ text, size, flap, ink, delay = 0, max, className }: FlapRowPr
         </span>
       ))}
     </div>
+    </>
   );
 }
 
@@ -152,9 +156,11 @@ export interface PanoHeroProps extends HeroRenderProps {
   flap?: string;
   /** Kanat üzerindeki harf rengi. */
   ink?: string;
+  /** İsim satırının kanat üst sınırı; taşan harfler kırpılır. */
+  nameMax?: number;
 }
 
-export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#f3f4f2' }: PanoHeroProps) {
+export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#f3f4f2', nameMax = 20 }: PanoHeroProps) {
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
 
@@ -181,7 +187,7 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
           </span>
         </div>
 
-        <FlapRow text={invitation.names || 'Davetlisiniz'} size="lg" flap={flap} ink={ink} max={20} />
+        <FlapRow text={invitation.names || 'Davetlisiniz'} size="lg" flap={flap} ink={ink} max={nameMax} />
 
         {/* Girilmemiş bilgi için pano satırı açılmaz: boş kanat dizisi ya da
             tek başına bir "·", bilgi bekleniyormuş gibi okunur. */}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { PaperGrain } from '../effects';
@@ -53,6 +53,7 @@ function Tape({
 
 /** Preslenmiş dal: gövde + karşılıklı yapraklar, çizilerek belirir. */
 function Sprig({ color, flip }: { color: string; flip?: boolean }) {
+  const reduced = useReducedMotion();
   // Yaprakların gövde üzerindeki konumu ve boyu; aşağıdan yukarı küçülür,
   // gerçek bir dalın büyüme ritmi böyledir.
   const leaves = [
@@ -76,7 +77,7 @@ function Sprig({ color, flip }: { color: string; flip?: boolean }) {
         strokeWidth="1.4"
         strokeLinecap="round"
         strokeOpacity="0.85"
-        initial={{ pathLength: 0 }}
+        initial={reduced ? { pathLength: 1 } : { pathLength: 0 }}
         animate={{ pathLength: 1 }}
         transition={{ duration: 1.3, ease: ease.out, delay: 0.3 }}
       />
