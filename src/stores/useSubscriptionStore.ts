@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { CheckoutResult, Invitation, SubscriptionTier, isSubscriptionTier } from '../types';
-import { paymentService } from '../services/payments';
+import { Invitation, SubscriptionTier, isSubscriptionTier } from '../types';
 import { apiErrorCode, apiErrorParams } from '../services/api';
+import { TEMPLATE_PRESETS } from '../data';
 
 /** Planları sıralar ki "X planı Y gereksinimini karşılıyor mu" tek kıyas olsun. */
 export const TIER_RANK: Record<SubscriptionTier, number> = {
@@ -26,6 +26,10 @@ export const TIER_RANK: Record<SubscriptionTier, number> = {
 export function getRequiredTier(invitation: Invitation): SubscriptionTier {
   if (invitation.showGallery || invitation.showGift) return 'elit';
   if (invitation.showEnvelope || invitation.showTimeline) return 'gold';
+  // Faz 10 (FE 10.20 · K102): premium (videolu) tema en az Gold.
+  if (TEMPLATE_PRESETS.find((preset) => preset.id === invitation.imageTheme)?.minimumTier === 'gold') {
+    return 'gold';
+  }
   return 'standart';
 }
 
@@ -46,7 +50,7 @@ export interface OpenPaywallOptions {
   /** Sunucunun bildirdiği gereken plan (`error.params.requiredTier`). */
   requiredTier: SubscriptionTier;
   reason: PaywallReason;
-  /** Checkout'un yazılacağı davetiye; `null` = hesap paketi (K42). */
+  /** Checkout'un yazılacağı davetiye; `null` = davetiyesiz paket; ilk yayında bağlanır (K42, K99). */
   invitationId: string | null;
 }
 
@@ -86,33 +90,25 @@ interface SubscriptionState {
   reason: PaywallReason;
   selectedTier: SubscriptionTier;
   invitationId: string | null;
-  isProcessing: boolean;
-  /**
-   * Başlatılmış ama **tamamlanmamış** sipariş. Kullanıcı ödeme sayfasına
-   * yönlendirilemediğinde ekranda ne olduğunu anlatabilmek için tutulur.
-   */
-  pendingOrder: CheckoutResult | null;
   openPaywall: (options: OpenPaywallOptions) => void;
   closePaywall: () => void;
   selectTier: (tier: SubscriptionTier) => void;
-  /**
-   * Seçili plan için checkout **başlatır**.
-   *
-   * 🔴 Adı bilerek `purchase` değil: bu çağrı satın almayı bitirmez. 201 ile
-   * dönen sipariş `pending`'dir ve ödeme, kullanıcı `redirectUrl`'e gidip
-   * işlemi tamamladıktan sonra webhook ile `paid` olur.
-   */
-  startCheckout: (tier?: SubscriptionTier) => Promise<CheckoutResult | null>;
 }
 
+/**
+ * Plan duvarının durumu: hangi paket, hangi sebeple, hangi davetiye için.
+ *
+ * 🔴 Siparişi bu store AÇMAZ. Duvardaki "Ödemeye Geç" kullanıcıyı ödeme
+ * sayfasına (`/odeme`, bkz. `utils/checkoutRoute.ts`) gönderir; siparişin
+ * akışı orada, `useCheckoutStore`'da yaşar. Duvar bir modaldır, ödeme ise
+ * yenilendiğinde bağlamını URL'den geri kurabilen bir sayfa.
+ */
 export const useSubscriptionStore = create<SubscriptionState>()((set, get) => ({
   isPaywallOpen: false,
   requiredTier: 'standart',
   reason: 'purchase',
   selectedTier: 'standart',
   invitationId: null,
-  isProcessing: false,
-  pendingOrder: null,
 
   // Tavsiye edilen plan önceden seçili gelir ki tek tıkla ilerlenebilsin.
   openPaywall: ({ requiredTier, reason, invitationId }) =>
@@ -121,38 +117,13 @@ export const useSubscriptionStore = create<SubscriptionState>()((set, get) => ({
       requiredTier,
       reason,
       invitationId,
-      selectedTier: requiredTier,
-      pendingOrder: null
+      selectedTier: requiredTier
     }),
 
-  closePaywall: () => {
-    // Sipariş oluşturulurken kapatma: durum çözülmeden kapanmamalı.
-    if (!get().isProcessing) set({ isPaywallOpen: false });
-  },
+  closePaywall: () => set({ isPaywallOpen: false }),
 
   selectTier: (tier) => {
     // Gereksinimin altındaki planlar bu davetiyenin modüllerini taşıyamaz.
     if (TIER_RANK[tier] >= TIER_RANK[get().requiredTier]) set({ selectedTier: tier });
-  },
-
-  startCheckout: async (tier) => {
-    const { isProcessing, invitationId } = get();
-    if (isProcessing) return null;
-
-    const chosen = tier ?? get().selectedTier;
-    set({ isProcessing: true, selectedTier: chosen });
-
-    try {
-      // Davetiye kimliği varsa o davetiyeye, yoksa hesaba yazılır.
-      const result = invitationId
-        ? await paymentService.checkoutForInvitation(invitationId, chosen)
-        : await paymentService.checkoutForAccount(chosen);
-
-      set({ isProcessing: false, pendingOrder: result });
-      return result;
-    } catch (error) {
-      set({ isProcessing: false });
-      throw error;
-    }
   }
 }));

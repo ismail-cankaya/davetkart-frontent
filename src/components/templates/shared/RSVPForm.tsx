@@ -30,6 +30,9 @@ const MENU_OPTIONS = ['Et Menü', 'Tavuk Menü', 'Vejetaryen Menü'] as const;
 export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
   const updateDraft = useRsvpStore((s) => s.updateDraft);
   const submitDraft = useRsvpStore((s) => s.submitDraft);
+  const ownReply = useRsvpStore((s) => s.ownReply);
+  // Başarı başlığı gönderim ANINDAKİ duruma göre: gönderimden sonra ownReply hep dolu.
+  const [wasUpdate, setWasUpdate] = useState(false);
 
   const [guestName, setGuestName] = useState('');
   const [guestCount, setGuestCount] = useState(2);
@@ -61,6 +64,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
       website
     });
     setSubmitting(true);
+    setWasUpdate(ownReply !== null);
     try {
       if (await submitDraft()) setSubmitted(true);
     } catch (error) {
@@ -120,7 +124,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                 <CheckIcon size={26} strokeWidth={2.25} />
               </motion.span>
               <h3 className={cn('font-serif text-xl font-bold mt-4', theme.heading)}>
-                Başarıyla katılımınız oluşturuldu
+                {wasUpdate ? 'Yanıtınız güncellendi' : 'Başarıyla katılımınız oluşturuldu'}
               </h3>
               <p className={cn('text-[13px] font-light mt-2 leading-relaxed', theme.body)}>
                 Teşekkür ederiz!
@@ -260,6 +264,14 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                 </div>
               </div>
 
+              {/* FE 10.18: bu cihazdan daha önce yanıt verildiyse yeni satır
+                  açılmaz, aynı yanıt güncellenir. */}
+              {ownReply && (
+                <p className={cn('text-[12px] font-light text-center leading-relaxed', theme.body)}>
+                  Bu cihazdan daha önce yanıt verdiniz. Yeniden gönderirseniz yanıtınız güncellenir.
+                </p>
+              )}
+
               <motion.button
                 type="submit"
                 disabled={submitting}
@@ -271,7 +283,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                 )}
               >
                 <SendIcon size={14} />
-                {submitting ? 'Gönderiliyor…' : 'Katılımımı Bildir'}
+                {submitting ? 'Gönderiliyor…' : ownReply ? 'Yanıtımı Güncelle' : 'Katılımımı Bildir'}
               </motion.button>
             </motion.form>
           )}

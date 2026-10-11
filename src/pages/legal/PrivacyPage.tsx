@@ -66,13 +66,18 @@ const SECTIONS: LegalSection[] = [
     ],
     note: 'Kişisel verileriniz hiçbir koşulda üçüncü kişilere satılmaz veya pazarlama amacıyla kiralanmaz.'
   },
+  // FE 10.22: süreler backend'in uyguladığı kurallarla aynı (K97 hesap silme,
+  // K98 saklama süreleri). Biri değişirse öbürü de değişir: rehber/src/pages/legal/PrivacyPage.md
   {
     id: 'saklama-sureleri',
     title: 'Saklama Süreleri',
     bullets: [
-      'Hesap verileri: üyelik süresince ve hesabın silinmesinden itibaren yasal zamanaşımı süresi boyunca,',
-      'Davetiye ve davetli verileri: davetiyenin yayın süresi boyunca; yayın bitiminden itibaren 6 ay içinde anonimleştirilir veya silinir,',
-      'İşlem ve fatura kayıtları: ilgili mevzuat gereği 10 yıl,',
+      'Hesap verileri (ad-soyad, e-posta adresi, şifrenin özeti): üyelik süresince. Hesabınızı "Hesabım" sayfasından sildiğinizde hesabınız, davetiyeleriniz, davetli yanıtları ve yüklenen tüm fotoğraf ve videolar derhal silinir,',
+      'Davetiye içeriği (metinler, etkinlik bilgileri, sizin yüklediğiniz fotoğraflar): siz davetiyeyi veya hesabınızı silene kadar,',
+      'Silinen davetiyeler: 30 gün boyunca geri alınabilir; bu sürenin sonunda fotoğrafları ve davetli yanıtlarıyla birlikte kalıcı olarak silinir,',
+      'Davetli (misafir) verileri: LCV yanıtları (isim, katılım durumu, kişi sayısı, menü tercihi, mesaj) ile davetlilerin yüklediği fotoğraf ve videolar, etkinlik tarihinden 6 ay sonra silinir. Etkinlik tarihi girilmemiş davetiyelerde bu veriler davetiye veya hesap silinene kadar saklanır,',
+      'İletişim formu mesajları: gönderildikleri tarihten itibaren 12 ay,',
+      'İşlem ve fatura kayıtları: ilgili mevzuat gereği 10 yıl. Hesabınız silindiğinde bu kayıtların hesabınızla bağlantısı kaldırılır,',
       'Pazarlama izinleri: rızanın geri alınmasına kadar.'
     ]
   },
@@ -127,7 +132,7 @@ export default function PrivacyPage() {
       title="Gizlilik"
       accent="Sözleşmesi"
       intro="Kişisel verilerinizin güvenliği bizim için özel anlarınız kadar değerli. Bu metin, verilerinizi KVKK kapsamında hangi amaçlarla ve nasıl işlediğimizi şeffaf biçimde açıklar."
-      lastUpdated="1 Temmuz 2026"
+      lastUpdated="2 Ekim 2026"
       sections={SECTIONS}
       related={[
         {

@@ -1,30 +1,25 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { BadgeCheck, Check, Crown, Feather, Gem, Loader2, Lock, Minus, ShieldCheck, X } from 'lucide-react';
+import { ArrowRight, BadgeCheck, Check, Lock, Minus, ShieldCheck, X } from 'lucide-react';
 import { SUBSCRIPTION_PLANS } from '../../data';
 import { TIER_RANK, useSubscriptionStore } from '../../stores/useSubscriptionStore';
 import { SubscriptionTier } from '../../types';
-import { toast } from '../ui/Toast';
-import { toDisplayError } from '../../utils/toDisplayError';
+import { PLAN_ICONS, PLAN_ICON_TONES } from './planVisuals';
+import { checkoutHref } from '../../utils/checkoutRoute';
 import { backdropVariants, duration, ease, gesture, modalVariants } from '../../utils/motion';
-
-const PLAN_ICONS: Record<SubscriptionTier, typeof Crown> = {
-  standart: Feather,
-  gold: Crown,
-  elit: Gem
-};
 
 /**
  * Sunucu 402 ile bir plan istediğinde açılan plan duvarı: yayınlama reddi ya
  * da (Faz 10, K88) yayındaki davetiyede plan üstü bir modülün otomatik kaydı.
  * CreatePage'de tek kopya olarak durur; sihirbazın her aşamasında açılabilir.
  *
- * 🔴 Bu ekran bir ödeme ekranı DEĞİLDİR. Buradaki eylem bir sipariş başlatır
- * (`status: 'pending'`) ve kullanıcıyı sağlayıcının ödeme sayfasına
- * gönderir; tahsilat uygulamanın dışında, webhook ile tamamlanır. Bu yüzden
- * hiçbir metin "ödendi" ya da "yayınlandı" demez — eski "Satın Al ve Yayınla"
- * düğmesi tutamayacağı bir söz veriyordu.
+ * 🔴 Bu ekran bir ödeme ekranı DEĞİLDİR. Buradaki eylem yalnızca paketi seçer
+ * ve kullanıcıyı ödeme sayfasına (`/odeme`, bkz. `pages/CheckoutPage.tsx`)
+ * götürür; sipariş orada, seçilen yöntemle açılır. Bu yüzden hiçbir metin
+ * "ödendi" ya da "yayınlandı" demez — eski "Satın Al ve Yayınla" düğmesi
+ * tutamayacağı bir söz veriyordu.
  *
  * Duvarın açılma sebebi iki türlüdür ve metinler ona göre değişir:
  * *"önce bir plan al"* ile *"planını yükselt"* aynı cümle değildir.
@@ -41,12 +36,11 @@ export function PaywallModal() {
   const isOpen = useSubscriptionStore((s) => s.isPaywallOpen);
   const requiredTier = useSubscriptionStore((s) => s.requiredTier);
   const selectedTier = useSubscriptionStore((s) => s.selectedTier);
-  const isProcessing = useSubscriptionStore((s) => s.isProcessing);
   const reason = useSubscriptionStore((s) => s.reason);
-  const pendingOrder = useSubscriptionStore((s) => s.pendingOrder);
+  const invitationId = useSubscriptionStore((s) => s.invitationId);
   const closePaywall = useSubscriptionStore((s) => s.closePaywall);
   const selectTier = useSubscriptionStore((s) => s.selectTier);
-  const startCheckout = useSubscriptionStore((s) => s.startCheckout);
+  const navigate = useNavigate();
 
   const recommendedPlan = SUBSCRIPTION_PLANS.find((p) => p.id === requiredTier);
   const isUpgrade = reason === 'upgrade';
@@ -70,27 +64,15 @@ export function PaywallModal() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [isOpen, closePaywall]);
 
-  const handleCheckout = async (tier: SubscriptionTier) => {
+  /**
+   * Seçilen paketle ödeme sayfasına geçer. Sipariş burada AÇILMAZ: ödeme
+   * yöntemi (kart ya da havale) henüz seçilmedi ve siparişin nasıl açılacağı
+   * ona bağlı. Ayrılmadan önce bekleyen kaydetmeyi CreatePage boşaltır.
+   */
+  const handleContinue = (tier: SubscriptionTier) => {
     selectTier(tier);
-
-    try {
-      const result = await startCheckout(tier);
-      if (!result) return;
-
-      // 🔴 `redirectUrl` opsiyoneldir: yoksa anahtar HİÇ GELMEZ, `null`
-      // gelmez (C7). Bu yüzden kontrol `undefined` üzerinedir.
-      if (result.redirectUrl !== undefined) {
-        // Uygulamadan ayrılıyoruz; ödeme sağlayıcının sayfasında tamamlanır.
-        window.location.href = result.redirectUrl;
-        return;
-      }
-
-      // Sipariş oluştu ama ödeme sayfası gelmedi. Kullanıcıya "tamamlandı"
-      // demek yanlış olurdu — sipariş `pending` ve hiçbir hak doğmadı.
-      toast('Siparişiniz oluşturuldu, ancak ödeme sayfası açılamadı. Lütfen birazdan tekrar deneyin.', 'info');
-    } catch (error) {
-      toast(toDisplayError(error), 'error');
-    }
+    closePaywall();
+    navigate(checkoutHref({ tier, invitationId }));
   };
 
   return createPortal(
@@ -129,8 +111,8 @@ export function PaywallModal() {
               // Kapat düğmeleri tek dilde konuşur (bkz. ConfirmDialog): hover renk, basış küçülme.
               whileTap={{ scale: 0.92, transition: gesture.press }}
               onClick={closePaywall}
-              disabled={isProcessing}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white border border-ink/10 text-muted hover:text-ink shadow-sm transition-colors cursor-pointer disabled:opacity-40"
+              aria-label="Kapat"
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white border border-ink/10 text-muted hover:text-ink shadow-sm transition-colors cursor-pointer"
             >
               <X size={16} />
             </motion.button>
@@ -169,28 +151,11 @@ export function PaywallModal() {
                 </p>
 
                 {/* 🔴 Ödemenin nerede tamamlandığı ÖNCEDEN söylenir. Kullanıcı
-                    sağlayıcının sayfasına gittiğinde şaşırmamalı. */}
+                    ödeme sayfasına geçtiğinde şaşırmamalı. */}
                 <p className="text-[11px] text-muted/80 mt-4 max-w-md mx-auto leading-relaxed">
-                  Ödeme, güvenli ödeme sayfasında tamamlanır. Ödemeniz onaylandıktan sonra
-                  davetiyenizi yayınlayabilirsiniz.
+                  Sonraki adımda kartla ya da Havale/EFT ile ödeyebilirsiniz. Ödemeniz onaylandıktan
+                  sonra davetiyenizi yayınlayabilirsiniz.
                 </p>
-
-                {/* 🔴 Sipariş açıldı ama kullanıcı hâlâ burada: yönlendirme
-                    gerçekleşmedi. Geçici bir toast bu durumu taşıyamaz —
-                    ekranda duran bir uyarı gerekir, çünkü ortada ÖDENMEMİŞ bir
-                    sipariş var ve kullanıcının bunu bilmesi gerekiyor. */}
-                {pendingOrder && pendingOrder.status !== 'paid' && (
-                  <div className="mt-6 mx-auto max-w-md rounded-2xl border border-amber-300/60 bg-amber-50 px-4 py-3 text-left">
-                    <p className="text-xs font-semibold text-amber-900">
-                      Ödemeniz henüz tamamlanmadı
-                    </p>
-                    <p className="text-[11px] text-amber-800/80 mt-1 leading-relaxed">
-                      <span className="font-mono">{pendingOrder.orderId}</span> numaralı siparişiniz
-                      oluşturuldu. Ödeme sayfasına ulaşılamadığı için tahsilat yapılmadı; aşağıdan
-                      tekrar deneyebilirsiniz.
-                    </p>
-                  </div>
-                )}
               </div>
 
               {/* Plan cards */}
@@ -200,7 +165,6 @@ export function PaywallModal() {
                   const isRecommended = plan.id === requiredTier;
                   const isSelected = plan.id === selectedTier;
                   const isLocked = TIER_RANK[plan.id] < TIER_RANK[requiredTier];
-                  const isBuying = isProcessing && isSelected;
 
                   return (
                     <motion.div
@@ -208,7 +172,7 @@ export function PaywallModal() {
                       initial={{ opacity: 0, y: 24 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: duration.panel, ease: ease.out, delay: TIER_RANK[plan.id] * 0.05 }}
-                      onClick={() => !isLocked && !isProcessing && selectTier(plan.id)}
+                      onClick={() => !isLocked && selectTier(plan.id)}
                       className={`relative flex flex-col rounded-3xl border-2 p-5 md:p-6 pt-7 transition duration-300 ease-luxe ${
                         isLocked
                           ? 'bg-white/50 border-ink/[0.05] opacity-55'
@@ -226,15 +190,7 @@ export function PaywallModal() {
 
                       {/* Plan identity */}
                       <div className="flex items-center gap-3 mb-4">
-                        <span
-                          className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${
-                            plan.id === 'elit'
-                              ? 'bg-ink text-champagne'
-                              : plan.id === 'gold'
-                                ? 'bg-amber-100 text-amber-600'
-                                : 'bg-stone-100 text-stone-500'
-                          }`}
-                        >
+                        <span className={`w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 ${PLAN_ICON_TONES[plan.id]}`}>
                           <Icon size={18} />
                         </span>
                         <div>
@@ -274,29 +230,22 @@ export function PaywallModal() {
                           </div>
                         ) : (
                           <motion.button
-                            whileHover={isProcessing ? undefined : { y: -2 }}
-                            whileTap={isProcessing ? undefined : { scale: 0.98 }}
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={(e) => {
                               e.stopPropagation();
-                              void handleCheckout(plan.id);
+                              handleContinue(plan.id);
                             }}
-                            disabled={isProcessing}
-                            className={`w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-xs transition-colors duration-300 cursor-pointer disabled:cursor-wait ${
+                            className={`group w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-xs transition-colors duration-300 cursor-pointer ${
                               isSelected
                                 ? 'bg-brand text-white hover:bg-brand-soft shadow-lg shadow-brand/20'
                                 : 'bg-white text-brand border border-brand/25 hover:border-brand/60'
-                            } ${isProcessing && !isBuying ? 'opacity-50' : ''}`}
+                            }`}
                           >
-                            {isBuying ? (
-                              <>
-                                <Loader2 size={14} className="animate-spin" />
-                                Ödeme sayfası hazırlanıyor…
-                              </>
-                            ) : (
-                              /* "Satın Al ve Yayınla" DEĞİL: bu düğme ne satın
-                                 almayı bitirir ne de yayınlar. */
-                              isUpgrade ? 'Yükselt ve Ödemeye Geç' : 'Ödemeye Geç'
-                            )}
+                            {/* "Satın Al ve Yayınla" DEĞİL: bu düğme ne satın
+                                almayı bitirir ne de yayınlar. */}
+                            {isUpgrade ? 'Yükselt ve Ödemeye Geç' : 'Ödemeye Geç'}
+                            <ArrowRight size={14} className="transition-transform duration-300 ease-luxe group-hover:translate-x-0.5" />
                           </motion.button>
                         )}
                       </div>
@@ -307,7 +256,9 @@ export function PaywallModal() {
 
               <p className="text-muted text-[11px] flex items-center justify-center gap-1.5 mt-7">
                 <ShieldCheck size={13} className="text-brand" />
-                256-bit SSL ile güvenli ödeme — davetiyeniz ödeme sonrası anında yayına alınır.
+                {/* "Ödeme sonrası anında yayına alınır" DEĞİL: ödeme yayınlamaz
+                    (K67) ve havalede onay anında gelmez. */}
+                256-bit SSL ile güvenli ödeme — tüm paketler tek seferlik ödemedir.
               </p>
             </div>
           </motion.div>

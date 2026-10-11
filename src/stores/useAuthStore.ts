@@ -9,7 +9,19 @@ interface AuthState {
   /** Authenticate against the Auth service; resolves with the signed-in user. */
   login: (credentials: LoginCredentials) => Promise<AuthUser>;
   register: (payload: RegisterPayload) => Promise<AuthUser>;
-  logout: () => void;
+  /**
+   * Oturumu bu cihazda kapatır ve token'ı sunucuda iptal eder.
+   *
+   * `revoke: false` (Faz 10, FE 10.16): token sunucuda ZATEN silinmiş —
+   * şifre sıfırlandı ya da hesap silindi. İptal isteği yalnızca bir 401
+   * dönerdi.
+   */
+  logout: (options?: { revoke?: boolean }) => void;
+  /**
+   * Faz 10 (10.29): önbellekteki oturumu sunucuya doğrulatır ve kullanıcıyı
+   * tazeler. Uygulama açılışında bir kez çağrılır (App.tsx).
+   */
+  refreshSession: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
@@ -31,15 +43,36 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     return session.user;
   },
 
-  logout: () => {
+  logout: ({ revoke = true } = {}) => {
     const { token } = get();
     // Clear local state first: if the server-side revoke below comes back
     // 401, the response interceptor calls logout() again — token is already
     // null by then, so the revoke is not re-issued (no loop).
     authService.clearSession();
     set({ user: null, token: null, isAuthenticated: false });
-    if (token) {
+    if (token && revoke) {
       authService.revokeSession(token);
+    }
+  },
+
+  refreshSession: async () => {
+    const { token } = get();
+    if (!token) return;
+
+    try {
+      const user = await authService.fetchCurrentUser();
+
+      // İstek yoldayken oturum değiştiyse (çıkış ya da başka hesapla giriş),
+      // eski oturumun cevabı yeni oturumun kullanıcısının üstüne yazılmaz.
+      if (get().token !== token) return;
+
+      authService.persistSession({ user, token });
+      set({ user });
+    } catch {
+      // 401: api.ts'in interceptor'ı logout() çağırdı (bayat değilse).
+      // Ağ hatası: çevrimdışı olabilir. Önbellekteki oturum kalır; bir sonraki
+      // kimlikli istek karar verir. Oturumu ağ yüzünden düşürmek, metroda
+      // uygulamayı açan kullanıcıyı her seferinde çıkarırdı.
     }
   }
 }));

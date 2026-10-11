@@ -29,3 +29,7 @@ export { KinaTerrazzo } from './KinaTerrazzo';
 export { KinaBlueprint } from './KinaBlueprint';
 export { KinaHerbaryum } from './KinaHerbaryum';
 export { KinaUfuk } from './KinaUfuk';
+export { KinaCini } from './KinaCini';
+export { KinaEbru } from './KinaEbru';
+export { KinaMonogram } from './KinaMonogram';
+export { KinaTakvim } from './KinaTakvim';

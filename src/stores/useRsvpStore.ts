@@ -1,8 +1,10 @@
 import { create } from 'zustand';
-import { RSVPResponse, RsvpCreatePayload, RsvpDraft } from '../types';
+import { RSVPResponse, RsvpCreatePayload, RsvpDraft, RsvpReceipt } from '../types';
 import { INITIAL_RSVP_DRAFT } from '../data';
 import { persistenceService } from '../services/persistence';
 import { rsvpService } from '../services/rsvps';
+import { rsvpReceipts } from '../services/rsvpReceipts';
+import { apiErrorCode } from '../services/api';
 import { mediaService, type GuestMediaKind } from '../services/media';
 
 /**
@@ -26,6 +28,29 @@ function releaseObjectUrl(url: string): void {
   if (url.startsWith('blob:')) URL.revokeObjectURL(url);
 }
 
+/**
+ * Bu cihazın yanıtı varsa günceller, yoksa yeni yanıt gönderir (FE 10.18 · K101).
+ *
+ * Sunucu yanıtı bulamazsa (sahip sildi ya da kod geçersiz) eski kayıt
+ * unutulur ve yeni bir yanıt gönderilir: misafir hata değil, kaydedilmiş bir
+ * yanıt görür.
+ */
+async function sendOwnReply(
+  invitationId: string,
+  receipt: RsvpReceipt | null,
+  payload: RsvpCreatePayload,
+): Promise<RSVPResponse> {
+  if (!receipt) return persistenceService.createRsvp(invitationId, payload);
+
+  try {
+    return await persistenceService.updateRsvp(invitationId, receipt, payload);
+  } catch (error) {
+    if (apiErrorCode(error) !== 'RESOURCE_NOT_FOUND') throw error;
+    rsvpReceipts.forget(invitationId);
+    return persistenceService.createRsvp(invitationId, payload);
+  }
+}
+
 interface RsvpState {
   /**
    * 🔴 Hangi davetiyenin LCV'leri okunuyor/yazılıyor.
@@ -43,6 +68,11 @@ interface RsvpState {
   remoteError: boolean;
   /** Misafirin doldurmakta olduğu form. */
   draft: RsvpDraft;
+  /**
+   * Faz 10 (FE 10.18 · K101): bu cihazdan bu davetiyeye daha önce verilmiş
+   * yanıt. Doluysa gönderim yeni satır açmaz, o yanıtı günceller.
+   */
+  ownReply: RsvpReceipt | null;
   /**
    * Hangi davetiyeyle çalışıldığını bildirir. Kimlik değişince liste
    * sıfırlanır: önceki davetiyenin yanıtlarının bir an için yenisine aitmiş
@@ -68,9 +98,12 @@ interface RsvpState {
   /** Dosyayı misafir ucundan yükler ve dönen **kimliği** taslağa yazar. */
   attachDraftMedia: (field: DraftMediaField, file: File) => Promise<void>;
   /**
-   * Taslağı doğrulayıp yeni bir LCV olarak gönderir. Sunucunun ürettiği
-   * kayıtla çözülür; taslak geçersizse `null` döner. Ağ/API hataları
-   * fırlatılır — formu gösteren bileşen onları yüzeye çıkarır.
+   * Taslağı doğrulayıp gönderir. Sunucunun ürettiği kayıtla çözülür; taslak
+   * geçersizse `null` döner. Ağ/API hataları fırlatılır — formu gösteren
+   * bileşen onları yüzeye çıkarır.
+   *
+   * Faz 10 (FE 10.18): `ownReply` doluysa yeni yanıt değil GÜNCELLEME
+   * gönderilir. Sunucu yanıtı bulamazsa (sahip sildi) yeni yanıta düşülür.
    */
   submitDraft: () => Promise<RSVPResponse | null>;
   /**
@@ -86,6 +119,7 @@ export const useRsvpStore = create<RsvpState>()((set, get) => ({
   isLoading: false,
   remoteError: false,
   draft: INITIAL_RSVP_DRAFT,
+  ownReply: null,
 
   setInvitationScope: (invitationId) => {
     const previous = get().invitationId;
@@ -95,7 +129,13 @@ export const useRsvpStore = create<RsvpState>()((set, get) => ({
     // aradaki değişiklikleri kaçırmamak için tam gövde çekilsin.
     if (previous) rsvpService.forgetCachedList(previous);
 
-    set({ invitationId, rsvpList: [], remoteError: false, isLoading: false });
+    set({
+      invitationId,
+      rsvpList: [],
+      remoteError: false,
+      isLoading: false,
+      ownReply: invitationId ? rsvpReceipts.recall(invitationId) : null,
+    });
   },
 
   fetchRsvps: async ({ silent = false } = {}) => {
@@ -232,8 +272,18 @@ export const useRsvpStore = create<RsvpState>()((set, get) => ({
       return localEntry;
     }
 
-    const entry = await persistenceService.createRsvp(invitationId, payload);
-    set((state) => ({ rsvpList: [entry, ...state.rsvpList], draft: INITIAL_RSVP_DRAFT }));
+    const entry = await sendOwnReply(invitationId, get().ownReply, payload);
+
+    // Kod yalnızca bu yanıtta gelir; bir sonraki gönderimde aynı yanıt güncellenir.
+    const ownReply = entry.editCode ? { rsvpId: entry.id, editCode: entry.editCode } : null;
+    if (ownReply) rsvpReceipts.remember(invitationId, ownReply);
+
+    // Güncellenen yanıt listede ikinci kez görünmesin: eskisi çıkarılır.
+    set((state) => ({
+      rsvpList: [entry, ...state.rsvpList.filter((r) => r.id !== entry.id)],
+      draft: INITIAL_RSVP_DRAFT,
+      ownReply: ownReply ?? state.ownReply,
+    }));
     return entry;
   },
 

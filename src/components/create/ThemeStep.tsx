@@ -191,6 +191,13 @@ export function ThemeStep() {
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-luxe filter brightness-90 group-hover:brightness-95"
                 />
 
+                {/* FE 10.20 (K102): premium tema yayında en az Gold ister. */}
+                {preset.minimumTier === 'gold' && (
+                  <span className="absolute top-3 left-3 z-10 bg-black/55 backdrop-blur-sm text-gold border border-gold/40 text-[10px] font-semibold tracking-wide px-2.5 py-1 rounded-full">
+                    Premium · Gold+
+                  </span>
+                )}
+
                 <AnimatePresence>
                   {isActive && (
                     <motion.span

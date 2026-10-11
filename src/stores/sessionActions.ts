@@ -34,9 +34,13 @@ export function startNewInvitation(): void {
  * Oturum süresi dolduğunda (401) bu fonksiyon ÇAĞRILMAZ: aynı kullanıcı
  * yeniden girip kaldığı yerden devam edebilmeli. O yoldaki hesap değişimini
  * `useInvitationStore`'un sahiplik bekçisi karşılar.
+ *
+ * `revoke: false` (Faz 10, FE 10.16): token sunucuda zaten silinmişse (şifre
+ * sıfırlandı, hesap silindi). Hesaba ait bellek yine temizlenir; yalnızca
+ * sonucu belli bir iptal isteği gönderilmez.
  */
-export function signOut(): void {
-  useAuthStore.getState().logout();
+export function signOut({ revoke = true }: { revoke?: boolean } = {}): void {
+  useAuthStore.getState().logout({ revoke });
   useInvitationStore.getState().resetInvitation();
   useCreateWizardStore.getState().startNew();
   useRsvpStore.getState().setInvitationScope(null);

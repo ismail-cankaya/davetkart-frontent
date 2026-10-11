@@ -1,5 +1,5 @@
-import { AuthSession, AuthUser, LoginCredentials, RegisterPayload } from '../types';
-import { api } from './api';
+import { AuthSession, AuthUser, LoginCredentials, PasswordResetPayload, RegisterPayload } from '../types';
+import { api, unwrapEnvelope } from './api';
 
 /**
  * Frontend boundary of the dedicated Auth microservice.
@@ -19,6 +19,34 @@ export interface AuthService {
    * this — a rejected/expired token must not re-trigger the 401 logout loop.
    */
   revokeSession(token: string): void;
+  /**
+   * Faz 10 (10.29): önbellekteki token HÂLÂ geçerli mi? `GET /auth/me` —
+   * geçerliyse güncel kullanıcıyı döner. 401 (süresi dolmuş: 30 gün, K90;
+   * başka cihazdan iptal edilmiş) api.ts'in interceptor'ı oturumu düşürür.
+   */
+  fetchCurrentUser(): Promise<AuthUser>;
+  /**
+   * Faz 10 (FE 10.16): şifre sıfırlama bağlantısı ister, `POST /auth/forgot-password`.
+   *
+   * 🔴 Dönüş değeri BİLEREK yok. Backend adres kayıtlı olsun olmasın aynı
+   * 202'yi döner; istemcinin "gönderildi" ya da "böyle bir hesap yok"
+   * diyebileceği bir bilgi yoktur (enumeration savunması).
+   */
+  requestPasswordReset(email: string): Promise<void>;
+  /**
+   * Maildeki bağlantının token'ıyla yeni şifreyi yazar, `POST /auth/reset-password` → 204.
+   * Oturum AÇMAZ; backend o hesabın bütün token'larını siler. Geçersiz ya da
+   * süresi dolmuş bağlantı: 422 `PASSWORD_RESET_INVALID`.
+   */
+  resetPassword(payload: PasswordResetPayload): Promise<void>;
+  /**
+   * Faz 10 (FE 10.17): hesabı kalıcı olarak siler, `DELETE /auth/me` → 204.
+   *
+   * Parola onayı backend'de (`current_password`): yanlışsa 422
+   * `VALIDATION_FAILED`, `password` alanında. Başarıda token sunucuda silinir;
+   * çağıran yerel oturumu `signOut({ revoke: false })` ile kapatır.
+   */
+  deleteAccount(password: string): Promise<void>;
   /** Re-hydrate a cached session (offline support only — JWTs stay server-issued). */
   restoreSession(): AuthSession | null;
   persistSession(session: AuthSession): void;
@@ -39,9 +67,14 @@ function isAuthSession(value: unknown): value is AuthSession {
   if (typeof value !== 'object' || value === null) return false;
 
   const { user, token } = value as { user?: unknown; token?: unknown };
-  if (typeof token !== 'string' || typeof user !== 'object' || user === null) return false;
+  return typeof token === 'string' && isAuthUser(user);
+}
 
-  const candidate = user as Record<keyof AuthUser, unknown>;
+/** Aynı şekil denetimi `GET /auth/me` yanıtı için de kullanılır (10.29). */
+function isAuthUser(value: unknown): value is AuthUser {
+  if (typeof value !== 'object' || value === null) return false;
+
+  const candidate = value as Record<keyof AuthUser, unknown>;
 
   return (
     typeof candidate.id === 'string' &&
@@ -71,6 +104,31 @@ const httpAuthAdapter: AuthService = {
       .catch(() => {
         // Token already expired/revoked server-side — nothing to do.
       });
+  },
+
+  async fetchCurrentUser() {
+    // `me` ZARFLI döner ({ data: user }) — zarfsız olanlar yalnızca login/register (K11).
+    const { data } = await api.get<unknown>('/auth/me');
+    const user = unwrapEnvelope(data);
+
+    if (!isAuthUser(user)) {
+      throw new Error('Unexpected /auth/me response shape');
+    }
+
+    return user;
+  },
+
+  async requestPasswordReset(email) {
+    await api.post('/auth/forgot-password', { email });
+  },
+
+  async resetPassword(payload) {
+    await api.post('/auth/reset-password', payload);
+  },
+
+  async deleteAccount(password) {
+    // DELETE gövdesi axios'ta `data` ile gönderilir; ikinci argüman config'tir.
+    await api.delete('/auth/me', { data: { password } });
   },
 
   restoreSession() {

@@ -28,7 +28,7 @@ import type { AuthUser, Invitation, InvitationRecord } from '../src/types';
 interface RecordedRequest {
   method: string;
   url: string;
-  body: { invitation?: Invitation; email?: string } | undefined;
+  body: { invitation?: Invitation; email?: string; editCode?: string; guestCount?: number; website?: string } | undefined;
   authorization: string | undefined;
 }
 
@@ -72,9 +72,13 @@ function check(condition: boolean, message: string, detail: string): void {
     const error = new Error(`Request failed with status code ${reply.status}`) as Error & {
       isAxiosError: boolean;
       response: unknown;
+      config: unknown;
     };
     error.isAxiosError = true;
     error.response = response;
+    // Gerçek axios hatası isteğin yapılandırmasını taşır; 401 interceptor'ı
+    // hangi token'la gönderildiğine oradan bakıyor (Faz 10, 10.29).
+    error.config = config;
     throw error;
   }
   return response;
@@ -123,6 +127,9 @@ function record(id: string, patch: Partial<Invitation>): InvitationRecord {
     id,
     status: 'saved',
     updatedAt: '2026-09-01T10:00:00Z',
+    // Taslak: hiç yayınlanmadı (Faz 10, backend 10.21).
+    publishedAt: null,
+    releasableUntil: null,
     invitation: {
       ...INITIAL_INVITATION,
       ...patch,
@@ -309,6 +316,83 @@ async function publishRequiresSuccessfulSave(): Promise<void> {
   );
 }
 
+/**
+ * Faz 10 (FE 10.21 · backend 10.66b): editör önizlemesi misafirin göreceği
+ * imzayı gösterir. Karar sunucunundur: kayıtla gelir, her kayıt ve yayın
+ * yanıtında tazelenir, istek gövdesine hiç girmez.
+ */
+async function brandingFollowsTheServer(): Promise<void> {
+  console.log('\nİmza (Elit\'te "DavetKart ile hazırlandı" yok)');
+  reset();
+
+  // Sunucu gibi davranır: kararı istekten değil "siparişten" verir.
+  let elit = false;
+  const brandingServer: Server = (req) => {
+    const reply = defaultServer(req) as Reply & { data: { data?: { invitation?: Invitation } } };
+    if (reply.data.data?.invitation) reply.data.data.invitation.showBranding = !elit;
+    return reply;
+  };
+  server = brandingServer;
+
+  useInvitationStore.getState().loadRecord(record('REC-E', { showBranding: false }));
+  check(
+    useInvitationStore.getState().invitation.showBranding === false,
+    'kayıt yüklenince önizleme sunucunun imza kararını alıyor',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+
+  elit = true;
+  useInvitationStore.getState().updateField('names', 'Deniz & Can');
+  await useInvitationStore.getState().saveInvitation();
+  const sent = invitationWrites().at(-1)?.body?.invitation;
+  check(
+    sent !== undefined && !('showBranding' in sent),
+    'imza kararı istek gövdesine girmiyor',
+    JSON.stringify(Object.keys(sent ?? {}).filter((key) => key.startsWith('show'))),
+  );
+  check(
+    useInvitationStore.getState().invitation.showBranding === false,
+    'kaydetme yanıtı kararı koruyor',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+
+  // Gold kayıt açık; Elit ödendi, sonraki otomatik kayıt kararı tazeler.
+  elit = false;
+  useInvitationStore.getState().loadRecord(record('REC-G', { showBranding: true }));
+  elit = true;
+  useInvitationStore.getState().updateField('names', 'Ece & Mert');
+  await useInvitationStore.getState().saveInvitation();
+  check(
+    useInvitationStore.getState().invitation.showBranding === false,
+    'ödemeden sonraki kayıt yanıtı imzayı kaldırıyor',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+
+  // Yayın bağsız Elit paketini bağlar (K99): karar yayın yanıtıyla gelir.
+  elit = false;
+  useInvitationStore.getState().loadRecord(record('REC-P', { showBranding: true }));
+  server = (req) => {
+    if (req.url === '/invitations/REC-P/publish') {
+      elit = true;
+      return brandingServer({ ...req, method: 'PUT', url: '/invitations/REC-P', body: { invitation: useInvitationStore.getState().invitation } });
+    }
+    return brandingServer(req);
+  };
+  await useInvitationStore.getState().publishInvitation();
+  check(
+    useInvitationStore.getState().invitation.showBranding === false,
+    'yayın yanıtı imza kararını tazeliyor (paket yayında bağlanır)',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+
+  useInvitationStore.getState().resetInvitation();
+  check(
+    useInvitationStore.getState().invitation.showBranding === undefined,
+    'yeni taslakta karar yok: imza çizilir',
+    `showBranding=${useInvitationStore.getState().invitation.showBranding}`,
+  );
+}
+
 /** Yayındaki davetiyede Elit modülü açan kaydı reddeden sunucu (K88). */
 const paywallServer: Server = (req) =>
   req.method === 'PUT' && req.body?.invitation?.showGallery === true
@@ -433,6 +517,30 @@ async function sessionBoundaries(): Promise<void> {
     'açık çıkış editörü ve sihirbazı temizliyor',
     `recordId=${inv.recordId}, names="${inv.invitation.names}", stage=${useCreateWizardStore.getState().stage}`,
   );
+  await tick();
+  const revoke = requests.find((r) => r.url === '/auth/logout');
+  check(
+    revoke?.method === 'POST' && revoke.authorization === 'Bearer token-u1',
+    'açık çıkış token\'ı sunucuda iptal ediyor',
+    `${revoke?.method} ${revoke?.url} ${revoke?.authorization}`,
+  );
+
+  // Faz 10 (FE 10.16): şifre sıfırlandı ya da hesap silindi, token sunucuda
+  // ZATEN yok. Bellek yine temizlenmeli; iptal isteği gitmemeli.
+  reset();
+  useInvitationStore.getState().loadRecord(record('REC-U1', { names: 'Ayşe\'nin Davetiyesi' }));
+  signOut({ revoke: false });
+  await tick();
+  check(
+    !useAuthStore.getState().isAuthenticated && useInvitationStore.getState().recordId === null,
+    'sunucuda silinmiş oturum: bellek yine temizleniyor',
+    `isAuthenticated=${useAuthStore.getState().isAuthenticated}, recordId=${useInvitationStore.getState().recordId}`,
+  );
+  check(
+    !requests.some((r) => r.url === '/auth/logout'),
+    'sunucuda silinmiş oturum: iptal isteği gönderilmiyor',
+    requests.map((r) => `${r.method} ${r.url}`).join(', '),
+  );
 
   // 401 interceptor'ının yolu: yalnızca `logout()` — editör bilerek korunur.
   reset();
@@ -467,6 +575,226 @@ async function sessionBoundaries(): Promise<void> {
     'giriş yapmadan hazırlanan taslak girişten sonra korunuyor',
     `names="${useInvitationStore.getState().invitation.names}"`,
   );
+}
+
+/**
+ * Faz 10 (10.29): açılışta `GET /auth/me`. Token 30 gün yaşıyor (K90);
+ * süresi dolmuş ya da başka cihazdan iptal edilmiş token açılışta düşmeli.
+ * Son iki senaryo sıralama hatası: eski oturumun GEÇ gelen cevabı.
+ */
+async function sessionRefresh(): Promise<void> {
+  console.log('\nOturum doğrulama (açılış)');
+
+  const UNAUTHENTICATED: Reply = { status: 401, data: { error: { code: 'UNAUTHENTICATED' } } };
+
+  reset();
+  server = (req) =>
+    req.url === '/auth/me'
+      ? { status: 200, data: { data: { ...USERS['ayse@ornek.com'], lastName: 'Yılmaz-Kaya' } } }
+      : defaultServer(req);
+  await useAuthStore.getState().refreshSession();
+  const me = requests.find((r) => r.url === '/auth/me');
+  check(
+    me?.method === 'GET' && me.authorization === 'Bearer token-u1',
+    'açılış isteği GET /auth/me, güncel token\'la',
+    `${me?.method} ${me?.url} ${me?.authorization}`,
+  );
+  check(
+    useAuthStore.getState().user?.lastName === 'Yılmaz-Kaya',
+    'geçerli token: kullanıcı sunucudan tazeleniyor (zarf açılıyor)',
+    `lastName="${useAuthStore.getState().user?.lastName}"`,
+  );
+
+  reset();
+  server = (req) => (req.url === '/auth/me' ? UNAUTHENTICATED : defaultServer(req));
+  await useAuthStore.getState().refreshSession();
+  check(
+    !useAuthStore.getState().isAuthenticated && useAuthStore.getState().token === null,
+    'süresi dolmuş token: oturum açılışta düşüyor',
+    `isAuthenticated=${useAuthStore.getState().isAuthenticated}`,
+  );
+
+  reset();
+  server = (req) => {
+    if (req.url === '/auth/me') throw new Error('Network Error');
+    return defaultServer(req);
+  };
+  await useAuthStore.getState().refreshSession();
+  check(
+    useAuthStore.getState().isAuthenticated && useAuthStore.getState().token === 'token-u1',
+    'ağ hatası: oturum korunuyor (çevrimdışı açılış çıkış yaptırmaz)',
+    `isAuthenticated=${useAuthStore.getState().isAuthenticated}, token=${useAuthStore.getState().token}`,
+  );
+
+  // 🔴 Eski token'la giden /me yoldayken kullanıcı başka hesapla giriyor;
+  // 401 girişten SONRA geliyor. O 401 eski oturum hakkında.
+  reset();
+  const late401 = deferred();
+  server = async (req) => {
+    if (req.url === '/auth/me') {
+      await late401.promise;
+      return UNAUTHENTICATED;
+    }
+    return defaultServer(req);
+  };
+  const refreshing = useAuthStore.getState().refreshSession();
+  await tick();
+  useAuthStore.getState().logout();
+  await useAuthStore.getState().login({ email: 'mehmet@ornek.com', password: 'x' });
+  late401.resolve();
+  await refreshing;
+  check(
+    useAuthStore.getState().isAuthenticated && useAuthStore.getState().user?.id === 'u2',
+    'eski token\'ın geç gelen 401\'i yeni oturumu düşürmüyor',
+    `isAuthenticated=${useAuthStore.getState().isAuthenticated}, user=${useAuthStore.getState().user?.id}`,
+  );
+
+  reset();
+  const lateOk = deferred();
+  server = async (req) => {
+    if (req.url === '/auth/me') {
+      await lateOk.promise;
+      return { status: 200, data: { data: USERS['ayse@ornek.com'] } };
+    }
+    return defaultServer(req);
+  };
+  const refreshingAgain = useAuthStore.getState().refreshSession();
+  await tick();
+  await useAuthStore.getState().login({ email: 'mehmet@ornek.com', password: 'x' });
+  lateOk.resolve();
+  await refreshingAgain;
+  check(
+    useAuthStore.getState().user?.id === 'u2',
+    'eski oturumun geç gelen cevabı yeni kullanıcının üstüne yazılmıyor',
+    `user=${useAuthStore.getState().user?.id}`,
+  );
+}
+
+/** Node'da tarayıcı deposu yok; bellekte bir yedek (yalnızca bu betik için). */
+function installMemoryStorage(): Map<string, string> {
+  const store = new Map<string, string>();
+  (globalThis as { localStorage?: Storage }).localStorage = {
+    getItem: (key: string) => store.get(key) ?? null,
+    setItem: (key: string, value: string) => void store.set(key, String(value)),
+    removeItem: (key: string) => void store.delete(key),
+    clear: () => store.clear(),
+    key: (index: number) => [...store.keys()][index] ?? null,
+    get length() {
+      return store.size;
+    },
+  };
+  return store;
+}
+
+/**
+ * Faz 10 (FE 10.18 · K101): aynı misafirin ikinci gönderimi yeni satır açmaz,
+ * düzenleme koduyla eski yanıtı günceller.
+ */
+async function rsvpOwnReply(): Promise<void> {
+  console.log('\nLCV: kendi yanıtını güncelleme');
+
+  const storage = installMemoryStorage();
+  const INV = 'INV-G';
+  const collection = `/public/invitations/${INV}/rsvps`;
+  const reply = (id: string, guestCount: number, editCode: string): Reply => ({
+    status: 200,
+    data: { data: { id, guestName: 'Şeyma Şen', guestCount, menuPreference: '', status: 'attending', createdAt: '', editCode } },
+  });
+
+  let created = 0;
+  let putStatus = 200;
+  const rsvpServer: Server = (req) => {
+    if (req.method === 'POST' && req.url === collection) {
+      created += 1;
+      return { ...reply(`R${created}`, req.body?.guestCount ?? 0, `kod-${created}`), status: 201 };
+    }
+    if (req.method === 'PUT' && req.url.startsWith(`${collection}/`)) {
+      if (putStatus === 404) return { status: 404, data: { error: { code: 'RESOURCE_NOT_FOUND' } } };
+      if (putStatus === 403) return { status: 403, data: { error: { code: 'RSVP_DEADLINE_PASSED' } } };
+      const id = req.url.slice(collection.length + 1);
+      return reply(id, req.body?.guestCount ?? 0, req.body?.editCode ?? '');
+    }
+    return defaultServer(req);
+  };
+
+  const submit = async (guestCount: number) => {
+    useRsvpStore.getState().updateDraft({ guestName: 'Şeyma Şen', guestCount });
+    return useRsvpStore.getState().submitDraft();
+  };
+
+  reset();
+  server = rsvpServer;
+  useRsvpStore.getState().setInvitationScope(INV);
+  await submit(3);
+  check(
+    requests.some((r) => r.method === 'POST' && r.url === collection) && useRsvpStore.getState().ownReply?.editCode === 'kod-1',
+    'ilk gönderim POST; dönen kod bu davetiye için hatırlanıyor',
+    `ownReply=${JSON.stringify(useRsvpStore.getState().ownReply)}`,
+  );
+
+  requests = [];
+  await submit(2);
+  const put = requests.find((r) => r.method === 'PUT');
+  const list = useRsvpStore.getState().rsvpList;
+  check(
+    put?.url === `${collection}/R1` && put.body?.editCode === 'kod-1' && !requests.some((r) => r.method === 'POST'),
+    'ikinci gönderim yeni yanıt değil: aynı yanıta, kodla PUT',
+    requests.map((r) => `${r.method} ${r.url}`).join(', '),
+  );
+  check(
+    put !== undefined && !('website' in (put.body ?? {})),
+    'güncellemede tuzak alanı gönderilmiyor',
+    JSON.stringify(put?.body),
+  );
+  check(
+    list.filter((r) => r.id === 'R1').length === 1 && list[0]?.guestCount === 2,
+    'listede aynı yanıt bir kez, güncel haliyle',
+    JSON.stringify(list.map((r) => [r.id, r.guestCount])),
+  );
+
+  // Sayfa yenilendi: depo boş başlar, kod tarayıcıdan geri okunur.
+  useRsvpStore.setState({ ownReply: null });
+  useRsvpStore.getState().setInvitationScope(null);
+  useRsvpStore.getState().setInvitationScope(INV);
+  check(
+    useRsvpStore.getState().ownReply?.rsvpId === 'R1',
+    'sayfa yenilense de kod tarayıcıdan geri okunuyor',
+    `ownReply=${JSON.stringify(useRsvpStore.getState().ownReply)}`,
+  );
+
+  // Sahip yanıtı sildi: PUT 404 → kod unutulur, yeni yanıt gönderilir.
+  requests = [];
+  putStatus = 404;
+  let fresh: Awaited<ReturnType<typeof submit>> = null;
+  let freshError = '';
+  try {
+    fresh = await submit(4);
+  } catch (error) {
+    // Çökmek yerine kontrol olarak raporlansın; sonraki senaryolar da koşsun.
+    freshError = (error as Error).message;
+  }
+  check(
+    fresh?.id === 'R2' && requests.some((r) => r.method === 'POST') && useRsvpStore.getState().ownReply?.rsvpId === 'R2',
+    '404: kod unutulup yeni yanıt gönderiliyor, yeni kod hatırlanıyor',
+    `${requests.map((r) => `${r.method} ${r.url}`).join(', ')} → ${fresh?.id ?? freshError}`,
+  );
+
+  // Başka bir hata (son tarih geçti): yeni yanıta DÜŞÜLMEZ, kod korunur.
+  requests = [];
+  putStatus = 403;
+  let thrown = false;
+  try {
+    await submit(1);
+  } catch {
+    thrown = true;
+  }
+  check(
+    thrown && !requests.some((r) => r.method === 'POST') && storage.has(`davetkart_rsvp_receipt:${INV}`),
+    'son tarih hatası: yeni yanıt açılmıyor, kod korunuyor',
+    `thrown=${thrown}, ${requests.map((r) => `${r.method} ${r.url}`).join(', ')}`,
+  );
+
+  useRsvpStore.getState().setInvitationScope(null);
 }
 
 async function rsvpScopeRace(): Promise<void> {
@@ -523,10 +851,13 @@ async function main(): Promise<void> {
   await newInvitationDoesNotOverwrite();
   await staleSaveResponseIsIgnored();
   await publishRequiresSuccessfulSave();
+  await brandingFollowsTheServer();
   await publishedModuleRejection();
   await rejectionWithNothingToRollBack();
   draftWritesOnlyWhatTheFormChanged();
   await sessionBoundaries();
+  await sessionRefresh();
+  await rsvpOwnReply();
   await rsvpScopeRace();
   calendarDayAcrossZones();
 

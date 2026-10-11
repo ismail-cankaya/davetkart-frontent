@@ -46,6 +46,21 @@ export interface AuthRedirectState {
   from?: string;
 }
 
+/**
+ * POST /api/auth/reset-password gövdesi (Faz 10, FE 10.16) — backend
+ * ResetPasswordRequest ile birebir. `token` ve `email` maildeki bağlantıdan gelir.
+ */
+export interface PasswordResetPayload {
+  token: string;
+  email: string;
+  password: string;
+}
+
+/** `/sifremi-unuttum`'a giderken taşınan adres: giriş formunda yazılanı yeniden yazdırmamak için. */
+export interface ForgotPasswordState {
+  email?: string;
+}
+
 /** Color mood of the modular invitation: elite dark (slate) or elite pastel/stone. */
 export type PaletteId = 'midnight' | 'stone';
 
@@ -121,6 +136,13 @@ export interface Invitation {
   showGallery: boolean;
   showGift: boolean;
   showRSVP: boolean;
+  /**
+   * Faz 10 (FE 10.20 · K102): "DavetKart ile hazırlandı" imzası çizilsin mi?
+   * Sunucunun kararı (Elit'te `false`): misafir yanıtında ve FE 10.21'den beri
+   * sahibin kaydında da gelir. Kullanıcı yazmaz, istek gövdesine girmez.
+   * Yoksa (kaydedilmemiş taslak) imza çizilir.
+   */
+  showBranding?: boolean;
 
   // ——— Gift / IBAN details ———
   bankName: string;
@@ -214,6 +236,51 @@ export interface CheckoutResult {
   redirectUrl?: string;
 }
 
+/**
+ * `GET /orders` ve `GET /orders/{id}` — backend `OrderResource` (Faz 10, 10.24).
+ *
+ * Ödeme dönüş sayfası (`/odeme/basarili`) bu kaydı yoklayarak "ödendi mi?"
+ * sorusunu sorar. Sağlayıcı ve fiyat alanları BİLEREK yok (C1): fiyatın tek
+ * kaynağı katalogdur (`data.ts`).
+ *
+ * Nullable alanların anahtarı HER ZAMAN gelir; `null` bir bilgidir (N4).
+ * `CheckoutResult.redirectUrl`'den farkı bu: o bağlama göre var olan bir alan.
+ */
+export interface OrderRecord {
+  orderId: string;
+  tier: SubscriptionTier;
+  status: OrderStatus;
+  /** `null`: paket siparişi ya da silme penceresinde serbest bırakılmış tekil sipariş (K82). */
+  invitationId: string | null;
+  /** ISO 8601 (UTC). */
+  createdAt: string;
+  /** ISO 8601 (UTC). `null` = henüz ödenmedi (`pending`, `failed`, `expired`). */
+  paidAt: string | null;
+}
+
+/**
+ * Ödeme sayfasındaki (`/odeme`) iki yöntem.
+ *
+ * | Yöntem | Tahsilat | Onay |
+ * |---|---|---|
+ * | `card` | Ödeme sağlayıcısı (Shopier ya da muadili) | Sağlayıcının bildirimi (webhook) |
+ * | `bank_transfer` | Şirket hesabına Havale/EFT | Hesap hareketinin elle eşleştirilmesi |
+ */
+export type PaymentMethod = 'card' | 'bank_transfer';
+
+/**
+ * Havale/EFT için şirket hesabı — `services/bankTransfer.ts` doldurur.
+ *
+ * `iban` boşluksuz ve büyük harflidir (`TR…`, 26 karakter); gruplanmış
+ * gösterim `utils/iban.ts` → `formatIban()` ile yapılır. Kopyalanan değer bu
+ * ham hâlidir: bankaların IBAN alanları boşluk kabul etmeyebilir.
+ */
+export interface BankTransferAccount {
+  bankName: string;
+  accountHolder: string;
+  iban: string;
+}
+
 /** Lifecycle of an invitation stored on the Invitation microservice. */
 export type InvitationStatus = 'published' | 'saved';
 
@@ -223,6 +290,21 @@ export interface InvitationRecord {
   status: InvitationStatus;
   /** ISO timestamp of the last server-side update. */
   updatedAt: string;
+  /**
+   * Yayın anı (ISO 8601). `null` = hiç yayınlanmadı. Faz 10, backend 10.21.
+   *
+   * `updatedAt` bunun vekili OLAMAZ: yayından sonraki tek bir düzenleme onu tazeler.
+   */
+  publishedAt: string | null;
+  /**
+   * Bu andan ÖNCE silinirse, davetiye için ödenen tekil siparişin hakkı serbest
+   * kalır; sonra silinirse yanar (K82). `null` = hiç yayınlanmadı, hak harcanmadı.
+   *
+   * 🔴 Pencerenin uzunluğu ("3 gün") BİLEREK burada hesaplanmıyor: backend config'ten
+   * geliyor ve silme kuralıyla aynı satırdan türetiliyor. Frontend'e ikinci bir `3`
+   * yazılsaydı config değiştiğinde uyarı ile gerçek davranış sessizce ayrışırdı.
+   */
+  releasableUntil: string | null;
   /** Full design payload; reloaded into the editor to continue editing. */
   invitation: Invitation;
 }
@@ -237,6 +319,18 @@ export interface RSVPResponse {
   photoUrl?: string;
   videoUrl?: string;
   createdAt: string;
+  /**
+   * Faz 10 (FE 10.18 · K101): yalnızca misafirin KENDİ gönderim/güncelleme
+   * yanıtında gelir; sahibin listesinde yoktur. Aynı yanıtı sonradan
+   * güncellemenin anahtarı.
+   */
+  editCode?: string;
+}
+
+/** Bu cihazdan verilmiş yanıtın kimliği ve düzenleme kodu (FE 10.18 · K101). */
+export interface RsvpReceipt {
+  rsvpId: string;
+  editCode: string;
 }
 
 /**
@@ -319,6 +413,12 @@ export interface TemplatePreset {
   imageUrl: string;
   /** Event categories this preset can serve (drives category filtering). */
   categories: string[];
+  /**
+   * Faz 10 (FE 10.20 · K102): yayınlamak için gereken en düşük plan.
+   * Yalnızca premium (videolu) temalarda `'gold'`; yoksa her planda yayınlanır.
+   * Backend `config/davetkart.php` → `preset_tiers` ile AYNI liste.
+   */
+  minimumTier?: SubscriptionTier;
 }
 
 /** A curated homepage showcase slot: a preset pinned to a single category. */

@@ -25,3 +25,7 @@ export { PartiTerrazzo } from './PartiTerrazzo';
 export { PartiBlueprint } from './PartiBlueprint';
 export { PartiHerbaryum } from './PartiHerbaryum';
 export { PartiUfuk } from './PartiUfuk';
+export { PartiCini } from './PartiCini';
+export { PartiEbru } from './PartiEbru';
+export { PartiMonogram } from './PartiMonogram';
+export { PartiTakvim } from './PartiTakvim';

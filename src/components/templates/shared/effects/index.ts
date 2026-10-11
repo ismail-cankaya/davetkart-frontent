@@ -48,5 +48,8 @@ export {
   Barcode
 } from './textures';
 
+export { EbruSheet, ebruSeed } from './ebru';
+export type { EbruSheetProps } from './ebru';
+
 export { PRESETS } from './particleEngine';
 export type { PresetName, FieldOptions } from './particleEngine';

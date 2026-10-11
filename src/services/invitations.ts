@@ -15,13 +15,15 @@ type WireInvitation = Omit<Invitation, 'timelineEvents' | 'galleryImages'> & {
 type WireRecord = Omit<InvitationRecord, 'invitation'> & { invitation: WireInvitation };
 
 /**
- * Kayıt gövdesi — galeri YOK.
+ * Kayıt gövdesi — galeri ve imza kararı YOK.
  *
  * 🔴 Galerinin üyeliğini ve sırasını sunucu tutar: yükleme sona ekler, silme
  * ayrı uçtan çıkarır. Liste burada gönderilseydi otomatik kaydetme ile yükleme
  * yarışında yeni fotoğraf ezilirdi (backend zaten yok sayıyor; C5).
+ *
+ * `showBranding` de sunucunun kararıdır (FE 10.21): ödenen plandan türer.
  */
-type WireInvitationPayload = Omit<WireInvitation, 'galleryImages'>;
+type WireInvitationPayload = Omit<WireInvitation, 'galleryImages' | 'showBranding'>;
 
 /**
  * Ağ sınırı: buradan içerisi güvenilir, dışarısı değil. Yanlış yönlendirilmiş
@@ -81,8 +83,8 @@ function toRecordList(payload: unknown): InvitationRecord[] {
  * bağlanmasına davetiye çıkarır.
  */
 function toPayload(invitation: Invitation): { invitation: WireInvitationPayload } {
-  // Galeri gövdeye girmez (bkz. WireInvitationPayload).
-  const { timelineEvents, galleryImages: _serverOwnedGallery, ...design } = invitation;
+  // Galeri ve imza kararı gövdeye girmez (bkz. WireInvitationPayload).
+  const { timelineEvents, galleryImages: _serverOwnedGallery, showBranding: _serverOwnedBranding, ...design } = invitation;
 
   return {
     invitation: {

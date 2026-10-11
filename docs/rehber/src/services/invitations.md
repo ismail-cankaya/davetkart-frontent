@@ -294,3 +294,12 @@ medya ULID'sidir; silme ucu bunu kullanır.
 - `verify:endpoints` → "davetiye kaydı": gövdede `galleryImages` yok.
 
 Ayrıntı: `docs/rehber/src/services/media.md`.
+
+---
+
+## 13. 🆕 FE 10.21 — imza kararı da sunucuya ait
+
+`toPayload` artık `showBranding`'i de **göndermiyor** (`showBranding: _serverOwnedBranding`).
+Karar ödenen plandan türüyor (backend 10.66b); istekte gelse de backend yok sayardı, ama gövdeye giden
+her alan bir sözdür. `WireInvitationPayload` tipi de alanı dışarıda bırakıyor.
+`verify:state` → *"imza kararı istek gövdesine girmiyor"*.

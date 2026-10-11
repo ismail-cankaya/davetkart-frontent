@@ -16,7 +16,9 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const location = useLocation();
 
   if (!isAuthenticated) {
-    const state: AuthRedirectState = { from: location.pathname };
+    // Sorgu dizesi de taşınır: `/odeme?tier=gold&invitation=…` gibi bağlamını
+    // URL'de tutan bir sayfa, girişten sonra yarım adrese dönmemeli.
+    const state: AuthRedirectState = { from: location.pathname + location.search };
     return <Navigate to="/login" replace state={state} />;
   }
 

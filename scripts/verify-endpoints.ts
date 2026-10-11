@@ -18,6 +18,7 @@ import { sendContactMessage } from '../src/services/contact';
 import { invitationService } from '../src/services/invitations';
 import { paymentService } from '../src/services/payments';
 import { assistantService } from '../src/services/assistant';
+import { authService } from '../src/services/auth';
 import { INITIAL_INVITATION } from '../src/data';
 import type { RsvpCreatePayload } from '../src/types';
 
@@ -216,6 +217,18 @@ async function main(): Promise<void> {
   expectField('gönderim', rsvpBody, 'website', '');
   expectField('gönderim', rsvpBody, 'photoMediaId', MEDIA.data.id);
 
+  // Faz 10 (FE 10.18 · K101): aynı misafir yanıtını düzenleme koduyla günceller.
+  const rsvpUpdateBody = await check(
+    'güncelleme (misafir)',
+    { method: 'PUT', url: `/public/invitations/${INVITATION_ID}/rsvps/01J2` },
+    { data: { id: '01J2', guestName: 'Can Doğan', guestCount: 1, menuPreference: '', status: 'attending', createdAt: '2026-09-13T10:00:00+00:00', editCode: 'kod-1' } },
+    () => rsvpService.update(INVITATION_ID, { rsvpId: '01J2', editCode: 'kod-1' }, { ...payload, guestCount: 1 }),
+  );
+  expectField('güncelleme', rsvpUpdateBody, 'editCode', 'kod-1');
+  expectField('güncelleme', rsvpUpdateBody, 'guestCount', 1);
+  // Tuzak bu uçta yok: kodu bilmeyen gelemez, alanı göndermek anlamsız.
+  if ('website' in rsvpUpdateBody) fail('güncelleme → tuzak alanı (website) gövdede');
+
   await check(
     'silme (sahip)',
     { method: 'DELETE', url: '/rsvps/01J2' },
@@ -302,6 +315,46 @@ async function main(): Promise<void> {
     fail('redirectUrl null olarak okundu; yokluğu `undefined` ile temsil edilmeli');
   }
 
+  console.log('\nSipariş okuma uçları (Faz 10)');
+
+  const ORDER = {
+    orderId: '01j5',
+    tier: 'gold',
+    status: 'pending',
+    invitationId: INVITATION_ID,
+    createdAt: '2026-09-30T14:02:11+00:00',
+    paidAt: null,
+  };
+
+  await check(
+    'sipariş (tek)',
+    { method: 'GET', url: '/orders/01j5' },
+    { data: ORDER },
+    () => paymentService.getOrder('01j5'),
+  );
+
+  // Zarf açılmalı ve `paidAt: null` KORUNMALI: "henüz ödenmedi" bilgisi (N4).
+  const order = await paymentService.getOrder('01j5');
+  if (order.orderId !== '01j5' || order.paidAt !== null || !('paidAt' in order)) {
+    fail(`sipariş zarftan doğru çıkarılamadı: ${JSON.stringify(order)}`);
+  }
+
+  // 🔴 Kimlik sorgu dizesinden (`?order=`) geliyor: yola kodlanmadan yazılsaydı
+  // `../auth/me` gibi bir değer başka bir uca giderdi.
+  await check(
+    'sipariş (kodlanmış kimlik)',
+    { method: 'GET', url: '/orders/..%2Fauth%2Fme' },
+    { data: ORDER },
+    () => paymentService.getOrder('../auth/me'),
+  );
+
+  await check(
+    'siparişlerim',
+    { method: 'GET', url: '/orders' },
+    { data: [ORDER] },
+    () => paymentService.listOrders(),
+  );
+
   console.log('\nAsistan ucu');
 
   const assistantBody = await check(
@@ -335,6 +388,41 @@ async function main(): Promise<void> {
       }),
   );
   expectField('iletişim', contactBody, 'website', '');
+
+  console.log('\nŞifre sıfırlama uçları (Faz 10)');
+
+  const forgotBody = await check(
+    'sıfırlama bağlantısı',
+    { method: 'POST', url: '/auth/forgot-password' },
+    '',
+    () => authService.requestPasswordReset('ayse@example.com'),
+  );
+  expectField('sıfırlama bağlantısı', forgotBody, 'email', 'ayse@example.com');
+
+  // Üç alan da backend ResetPasswordRequest'in adlarıyla: `token` maildeki
+  // bağlantıdan, `email` onunla eşleşmesi gereken adres.
+  const resetBody = await check(
+    'yeni şifre',
+    { method: 'POST', url: '/auth/reset-password' },
+    '',
+    () => authService.resetPassword({ token: 'tok-1', email: 'ayse@example.com', password: 'yeni-sifre-1' }),
+  );
+  expectField('yeni şifre', resetBody, 'token', 'tok-1');
+  expectField('yeni şifre', resetBody, 'email', 'ayse@example.com');
+  expectField('yeni şifre', resetBody, 'password', 'yeni-sifre-1');
+
+  console.log('\nHesap silme ucu (Faz 10)');
+
+  // 🔴 Parola GÖVDEDE gitmeli. axios'ta `delete(url, x)`in ikinci argümanı
+  // config'tir; `{ password }` doğrudan verilseydi gövde boş giderdi ve
+  // backend her denemeye "Parola zorunludur" derdi.
+  const deleteBody = await check(
+    'hesap silme',
+    { method: 'DELETE', url: '/auth/me' },
+    '',
+    () => authService.deleteAccount('mevcut-sifre'),
+  );
+  expectField('hesap silme', deleteBody, 'password', 'mevcut-sifre');
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);
