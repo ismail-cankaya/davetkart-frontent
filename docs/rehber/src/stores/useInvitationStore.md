@@ -450,7 +450,7 @@ Store onu iki yanıtta **tazeliyor**:
 - **Yayın yanıtı**: yayın bağsız bir Elit paketini bağlayabilir (K99).
 
 İkisi de `editRevision`'ı artırmıyor: kararın gelmesi bir düzenleme değil, kaydetme döngüsü kurulmaz.
-Doğrulama: `verify:state` → *"İmza"* · ayrıntı `components/templates/shared/Branding.md` §4.
+Doğrulama: `verify:state` → *"İmza"* · ayrıntı `src/components/templates/shared/Branding.md` §4.
 
 ## 🆕 `useActivePreset` kategoriyi hesaba katar · 2026-10-11
 
