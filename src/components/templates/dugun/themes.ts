@@ -12,6 +12,25 @@ import { SectionTheme } from '../shared/palette';
  * her temada açıkça yazılı (şablon dizgisiyle üretilen sınıf derlenmez).
  */
 
+/**
+ * Zarf: açıkta tül kağıt + şakayık mum mührü, koyuda gece kağıdı + inci mühür.
+ * Ortak varsayılan koyu temada altın mühür ve ışıma basar; kimlikte altın yok.
+ */
+const ZARF_TUL: NonNullable<SectionTheme['envelope']> = {
+  paper: 'bg-gradient-to-b from-[#fbfafc] to-[#ece7f0]',
+  flap: 'bg-[#e1dae7]',
+  seal: 'bg-[#9b3a63] text-[#f8f6f9]',
+  glow: 'bg-[#f3dde7]/70',
+  card: 'bg-white border border-[#e4dee9]'
+};
+const ZARF_GECE: NonNullable<SectionTheme['envelope']> = {
+  paper: 'bg-gradient-to-b from-[#241d2e] to-[#16121d]',
+  flap: 'bg-[#2c2438]',
+  seal: 'bg-[#efe8f3] text-[#16121d]',
+  glow: 'bg-[#eba9c6]/10',
+  card: 'bg-[#16121d] border border-white/10'
+};
+
 /** "LCV kartı" alanı: kutu değil, üstüne yazılan bir satır. */
 const REPLY_INPUT =
   'w-full bg-transparent border-0 border-b rounded-none px-1 py-2.5 text-sm focus:outline-none focus:ring-0 transition-colors duration-300';
@@ -25,8 +44,11 @@ const PILL_GHOST = 'rounded-full border';
  * (Brutal, Teknik Çizim, Noir) bunu kullanmaz, yalnızca renk ailesini alır.
  */
 function kurdele(theme: SectionTheme): SectionTheme {
+  const dark = theme.id === 'midnight';
   return {
     ...theme,
+    envelope: theme.envelope ?? (dark ? ZARF_GECE : ZARF_TUL),
+    mapHeader: theme.mapHeader ?? (dark ? 'bg-[#1f1a28]' : 'bg-[#efebf2]'),
     base: cn('theme-cormorant', theme.base),
     input: cn(REPLY_INPUT, theme.input),
     buttonPrimary: cn(PILL_PRIMARY, theme.buttonPrimary),
@@ -83,13 +105,34 @@ export const DUGUN_THEMES = {
   /** Zarif Sadelik: ailenin açık çekirdeği, olduğu gibi. */
   DugunSade: TUL,
 
-  /** Zümrüt Vadisi: süslü çerçeve görseli inci tonuna çevrilir; zemin gece. */
-  DugunManzara: { ...GECE, base: 'theme-cormorant bg-[#121019]' },
+  /** İnci Gravür: süslü çerçeve görseli tersine çevrilip gümüş bir gravüre döner; tül zemin, mor mürekkep. */
+  DugunManzara: kurdele({
+    id: 'stone',
+    base: 'bg-[#f6f3f7]',
+    page: 'text-[#433b52]',
+    surface: TUL_SURFACE,
+    border: 'border-[#e2dbe7]',
+    heading: 'text-[#211b2d]',
+    body: 'text-[#5d5569]',
+    accent: 'text-[#5e3f6e]',
+    accentBg: 'bg-[#5e3f6e]',
+    accentSoft: 'bg-[#5e3f6e]/10',
+    input: 'border-[#cbc2d3] text-[#211b2d] placeholder:text-[#736b80] focus:border-[#5e3f6e]',
+    buttonPrimary: 'bg-[#2c2340] hover:bg-[#3f3456] text-[#f6f3f7] shadow-lg shadow-[#2c2340]/15',
+    buttonGhost: 'border-[#d6cfdc] text-[#433b52] hover:bg-white hover:border-[#b8aec2]',
+    divider: 'bg-[#e2dbe7]',
+    timelineLine: 'from-[#5e3f6e] via-[#cbc2d3]/70 to-transparent'
+  }),
 
-  /** İnci Motif: gece zeminde inci kafes; vurgu şakayık değil inci. */
+  /** İnci Motif: mersin gecesinde inci kafes ve kemer plaket; vurgu şakayık değil inci. */
   DugunSekilli: {
     ...GECE,
-    base: 'theme-cormorant bg-[#14111b]',
+    base: 'theme-cormorant bg-[#0f1714]',
+    page: 'text-[#e1e7e2]',
+    heading: 'text-[#f4f6f2]',
+    body: 'text-[#a8b6ad]',
+    envelope: { ...ZARF_GECE, paper: 'bg-gradient-to-b from-[#1a2620] to-[#0f1714]', flap: 'bg-[#22302a]', card: 'bg-[#0f1714] border border-white/10' },
+    mapHeader: 'bg-[#18231e]',
     accent: 'text-[#dcd2e6]',
     accentBg: 'bg-[#dcd2e6]',
     accentSoft: 'bg-[#dcd2e6]/12',
@@ -102,7 +145,11 @@ export const DUGUN_THEMES = {
   /** Gece Modası: koyu cam kartlar ve orkide ışığı. */
   DugunModern: {
     ...GECE,
-    base: 'theme-cormorant bg-[#0f0c15]',
+    base: 'theme-cormorant bg-[#0c0b0e]',
+    heading: 'text-[#f7f5f8]',
+    body: 'text-[#aaa6b0]',
+    envelope: { ...ZARF_GECE, paper: 'bg-gradient-to-b from-[#1b1a1f] to-[#0c0b0e]', flap: 'bg-[#232228]', glow: 'bg-[#e79ac0]/12' },
+    mapHeader: 'bg-[#18171c]',
     surface: 'bg-white/[0.06] backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]',
     accent: 'text-[#e79ac0]',
     accentBg: 'bg-[#e79ac0]',
@@ -227,13 +274,16 @@ export const DUGUN_THEMES = {
   /** Mum Işığı: gece nikâhı; ışık sıcak, vurgu inci pembesi. */
   DugunMumIsigi: {
     ...GECE,
-    base: 'theme-cormorant bg-[#0c0b12]',
-    heading: 'text-[#faf3f5]',
-    body: 'text-[#b4aab4]',
-    accent: 'text-[#f0b9cc]',
-    accentBg: 'bg-[#f0b9cc]',
-    accentSoft: 'bg-[#f0b9cc]/12',
-    timelineLine: 'from-[#f0b9cc] via-[#f0b9cc]/40 to-transparent'
+    base: 'theme-cormorant bg-[#120d0b]',
+    page: 'text-[#ece0d8]',
+    heading: 'text-[#fbf3ee]',
+    body: 'text-[#bcaea5]',
+    accent: 'text-[#f2c6b6]',
+    accentBg: 'bg-[#f2c6b6]',
+    accentSoft: 'bg-[#f2c6b6]/12',
+    envelope: { ...ZARF_GECE, paper: 'bg-gradient-to-b from-[#241a15] to-[#120d0b]', flap: 'bg-[#2c211b]', glow: 'bg-[#f2c6b6]/12', card: 'bg-[#120d0b] border border-white/10' },
+    mapHeader: 'bg-[#1e1612]',
+    timelineLine: 'from-[#f2c6b6] via-[#f2c6b6]/40 to-transparent'
   },
 
   /** Gül Yaprakları: pudra zeminde şakayık. */
@@ -290,7 +340,9 @@ export const DUGUN_THEMES = {
   /** Onyx & İnci: sıvı metal videonun önünde inci tipografi. */
   DugunOnyx: {
     ...GECE,
-    base: 'theme-cormorant bg-[#09080b]',
+    base: 'theme-cormorant bg-[#070708]',
+    envelope: { ...ZARF_GECE, paper: 'bg-gradient-to-b from-[#18171a] to-[#070708]', flap: 'bg-[#1f1e22]', glow: 'bg-white/[0.06]', card: 'bg-[#070708] border border-white/10' },
+    mapHeader: 'bg-[#141316]',
     surface: 'bg-white/[0.05] backdrop-blur-xl shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]',
     border: 'border-[#e4dbe9]/18',
     heading: 'text-[#f7f2f8]',
@@ -303,36 +355,51 @@ export const DUGUN_THEMES = {
     timelineLine: 'from-[#e4dbe9] via-[#e4dbe9]/35 to-transparent'
   },
 
-  /** Sedef: gece zeminde inci kabuğunun yanardöner ışığı. */
-  DugunAurora: {
-    ...GECE,
-    base: 'theme-cormorant bg-[#0f0c16]',
-    surface: 'bg-white/[0.07] backdrop-blur-2xl backdrop-saturate-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]',
-    border: 'border-white/14',
-    heading: 'text-[#fbf8fc]',
-    body: 'text-[#c2bacc]',
-    accent: 'text-[#f0b5cf]',
-    accentBg: 'bg-[#f0b5cf]',
-    accentSoft: 'bg-[#f0b5cf]/12',
-    buttonPrimary: cn(PILL_PRIMARY, 'bg-gradient-to-r from-[#f6dce8] to-[#d9cdf3] hover:brightness-105 text-[#16121d] shadow-lg shadow-[#d9cdf3]/20'),
-    timelineLine: 'from-[#f0b5cf] via-[#c7b8e2]/50 to-transparent'
-  },
+  /** Sedef: inci kabuğunun açık, yanardöner iç yüzeyi; üzerinde buzlu cam kartlar. */
+  DugunAurora: kurdele({
+    id: 'stone',
+    base: 'bg-[#f6f3f8]',
+    page: 'text-[#433b52]',
+    surface: 'bg-white/55 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_24px_48px_-32px_rgba(33,27,45,0.3)]',
+    border: 'border-white/80',
+    heading: 'text-[#211b2d]',
+    body: 'text-[#584f66]',
+    accent: 'text-[#87306a]',
+    accentBg: 'bg-[#87306a]',
+    accentSoft: 'bg-[#87306a]/10',
+    input: 'border-[#c9bfd4] text-[#211b2d] placeholder:text-[#6c6479] focus:border-[#87306a]',
+    buttonPrimary: 'bg-[#211b2d] hover:bg-[#3a3149] text-[#f6f3f8] shadow-lg shadow-[#211b2d]/15',
+    buttonGhost: 'border-[#d3c9de] text-[#433b52] hover:bg-white hover:border-[#b5a9c3]',
+    divider: 'bg-[#e0d8e8]',
+    timelineLine: 'from-[#87306a] via-[#c7b8e2]/60 to-transparent'
+  }),
 
-  /** Likit Krom: gümüş-inci metal; başlık metalin kendisinden kesilir. */
-  DugunKrom: {
-    ...GECE,
-    base: 'theme-cormorant bg-[#0b0b10]',
-    surface: 'bg-white/[0.07] backdrop-blur-2xl backdrop-saturate-150 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]',
-    border: 'border-white/16',
-    heading: 'text-transparent bg-clip-text bg-gradient-to-br from-[#ffffff] via-[#e6deef] to-[#b9aecb]',
-    body: 'text-[#a7a4b6]',
-    accent: 'text-[#d9cdea]',
-    accentBg: 'bg-[#d9cdea]',
-    accentSoft: 'bg-[#d9cdea]/12',
-    buttonPrimary: cn(PILL_PRIMARY, 'bg-gradient-to-r from-[#f5f2f8] via-[#dcd3e8] to-[#c3b8d4] hover:brightness-105 text-[#0d0b12] shadow-lg shadow-black/40'),
-    divider: 'bg-white/14',
-    timelineLine: 'from-[#d9cdea] via-[#b9aecb]/50 to-transparent'
-  },
+  /** Saten Gümüş: soğuk gümüş bantlı açık metal zemin; isimler koyu metal degradeden kesilir. */
+  DugunKrom: kurdele({
+    id: 'stone',
+    base: 'bg-[#eceff3]',
+    page: 'text-[#3a414d]',
+    surface: 'bg-white/70 backdrop-blur-xl backdrop-saturate-150 shadow-[0_24px_48px_-32px_rgba(31,36,46,0.35)]',
+    border: 'border-[#cdd3dc]',
+    heading: 'text-transparent bg-clip-text bg-gradient-to-br from-[#14171d] via-[#4a5261] to-[#1b1f27]',
+    body: 'text-[#4f5765]',
+    accent: 'text-[#4b3f6b]',
+    accentBg: 'bg-[#4b3f6b]',
+    accentSoft: 'bg-[#4b3f6b]/10',
+    input: 'border-[#b9c0cb] text-[#14171d] placeholder:text-[#5f6775] focus:border-[#4b3f6b]',
+    buttonPrimary: 'bg-[#1b1f27] hover:bg-[#2e3440] text-[#eceff3] shadow-lg shadow-black/15',
+    buttonGhost: 'border-[#c3cad4] text-[#3a414d] hover:bg-white hover:border-[#9aa3b1]',
+    divider: 'bg-[#d3d9e1]',
+    timelineLine: 'from-[#4b3f6b] via-[#b9c0cb]/70 to-transparent',
+    envelope: {
+      paper: 'bg-gradient-to-b from-[#f7f8fa] to-[#dfe3ea]',
+      flap: 'bg-[#d3d9e1]',
+      seal: 'bg-[#1b1f27] text-[#eceff3]',
+      glow: 'bg-white/60',
+      card: 'bg-white border border-[#cdd3dc]'
+    },
+    mapHeader: 'bg-[#e1e5eb]'
+  }),
 
   // ——— Ortak hero'lu tasarım dilleri ———
 
@@ -354,6 +421,8 @@ export const DUGUN_THEMES = {
     input:
       'w-full bg-white/[0.035] border border-[#d9d0e2]/16 rounded-none px-3.5 py-2.5 text-sm text-[#f0ebf3] placeholder:text-[#8c8497] focus:outline-none focus:border-[#d9d0e2]/55 focus:ring-0 transition duration-300',
     buttonPrimary: 'rounded-none bg-[#e9e3ee] hover:bg-white text-[#0d0b10] shadow-none',
+    envelope: { ...ZARF_GECE, paper: 'bg-gradient-to-b from-[#1a171e] to-[#0d0b10]', flap: 'bg-[#221e27]', glow: 'bg-white/[0.05]', card: 'bg-[#0d0b10] border border-[#d9d0e2]/16' },
+    mapHeader: 'bg-[#16131a]',
     buttonGhost: 'rounded-none border border-[#d9d0e2]/22 text-[#dcd6e0] hover:bg-[#d9d0e2]/8 hover:border-[#d9d0e2]/40',
     divider: 'bg-[#d9d0e2]/18',
     timelineLine: 'from-[#d9d0e2] via-[#d9d0e2]/30 to-transparent'
@@ -635,7 +704,9 @@ export const DUGUN_THEMES = {
     buttonGhost:
       'bg-[#fdfcfe] border-2 border-[#17131c] text-[#17131c] rounded-none font-black uppercase tracking-wide hover:bg-[#cfc3ee] hover:text-[#17131c]',
     divider: 'bg-[#17131c]/20',
-    timelineLine: 'from-[#b8245a] via-[#b8245a]/40 to-transparent'
+    timelineLine: 'from-[#b8245a] via-[#b8245a]/40 to-transparent',
+    envelope: { ...ZARF_TUL, paper: 'bg-[#fdfcfe]', flap: 'bg-[#e4dee9]', seal: 'bg-[#b8245a] text-[#fff5f8]', card: 'bg-[#fdfcfe] border-2 border-[#17131c]' },
+    mapHeader: 'bg-[#e9e4ee]'
   },
 
   /** Terrazzo: şakayık, mersin, lila ve mürekkep çakıllar; inci harç. */
@@ -676,7 +747,9 @@ export const DUGUN_THEMES = {
     buttonGhost:
       'border border-[#e3d9f2]/35 text-[#e3d9f2] rounded-none uppercase tracking-[0.12em] hover:bg-[#e3d9f2]/10 hover:border-[#e3d9f2]/60',
     divider: 'bg-[#e3d9f2]/20',
-    timelineLine: 'from-[#f4b3cd] via-[#f4b3cd]/40 to-transparent'
+    timelineLine: 'from-[#f4b3cd] via-[#f4b3cd]/40 to-transparent',
+    envelope: { paper: 'bg-gradient-to-b from-[#2a2245] to-[#1e1832]', flap: 'bg-[#2f2750]', seal: 'bg-[#f4b3cd] text-[#1e1832]', glow: 'bg-[#e3d9f2]/10', card: 'bg-[#1e1832] border border-[#e3d9f2]/25' },
+    mapHeader: 'bg-[#251e3d]'
   },
 
   /** Herbaryum: inci föy, mersin örnek, şakayık kayıt mürekkebi. */
@@ -717,6 +790,84 @@ export const DUGUN_THEMES = {
     buttonGhost: 'border-white/20 text-white hover:bg-white/10 hover:border-white/35',
     divider: 'bg-white/12',
     timelineLine: 'from-[#f3c3d2] via-[#f3c3d2]/40 to-transparent'
+  }),
+
+  // ——— 2. turda eklenen tasarım dilleri ———
+
+  /** Çini: inci sır üstünde mürekkep moru hat, şakayık çiçek ve mersin yaprak. */
+  DugunCini: kurdele({
+    id: 'stone',
+    base: 'bg-[#f5f3f7]',
+    page: 'text-[#433b52]',
+    surface: 'bg-[#fdfcfe]/90 backdrop-blur-sm',
+    border: 'border-[#2c2340]/20',
+    heading: 'text-[#211b2d]',
+    body: 'text-[#5d5569]',
+    accent: 'text-[#8f2f57]',
+    accentBg: 'bg-[#2c2340]',
+    accentSoft: 'bg-[#8f2f57]/10',
+    input: 'border-[#2c2340]/30 text-[#211b2d] placeholder:text-[#6e6679] focus:border-[#8f2f57]',
+    buttonPrimary: 'bg-[#2c2340] hover:bg-[#3f3456] text-[#fdfcfe] shadow-lg shadow-black/10',
+    buttonGhost: 'border-[#2c2340]/35 text-[#211b2d] hover:bg-[#2c2340]/8 hover:border-[#2c2340]/60',
+    divider: 'bg-[#2c2340]/15',
+    timelineLine: 'from-[#8f2f57] via-[#2c2340]/40 to-transparent'
+  }),
+
+  /** Ebru: inci su üstünde pudra şakayık, lila ve mersin damlaları. */
+  DugunEbru: kurdele({
+    id: 'stone',
+    base: 'bg-[#f3eff4]',
+    page: 'text-[#4a4254]',
+    surface: 'bg-[#fbf9fb]/90 backdrop-blur-sm',
+    border: 'border-[#b4a9c0]/35',
+    heading: 'text-[#211b2d]',
+    body: 'text-[#5f5769]',
+    accent: 'text-[#8f2f57]',
+    accentBg: 'bg-[#211b2d]',
+    accentSoft: 'bg-[#8f2f57]/10',
+    input: 'border-[#b4a9c0]/60 text-[#211b2d] placeholder:text-[#6e6679] focus:border-[#8f2f57]',
+    buttonPrimary: 'bg-[#211b2d] hover:bg-[#3a3149] text-[#fbf9fb] shadow-lg shadow-black/10',
+    buttonGhost: 'border-[#b4a9c0]/60 text-[#211b2d] hover:bg-[#b4a9c0]/15 hover:border-[#b4a9c0]',
+    divider: 'bg-[#b4a9c0]/30',
+    timelineLine: 'from-[#8f2f57] via-[#b4a9c0]/50 to-transparent'
+  }),
+
+  /** Monogram: altın varak yerine inci-gümüş varak, şakayık boyalı kenar. */
+  DugunMonogram: kurdele({
+    id: 'stone',
+    base: 'bg-[#f4f2f6]',
+    page: 'text-[#4a4254]',
+    surface: 'bg-[#fdfcfe]/90 backdrop-blur-sm',
+    border: 'border-[#b4a9c0]/35',
+    heading: 'text-[#211b2d]',
+    body: 'text-[#5f5769]',
+    accent: 'text-[#8f2f57]',
+    accentBg: 'bg-[#211b2d]',
+    accentSoft: 'bg-[#8f2f57]/10',
+    input: 'border-[#b4a9c0]/60 text-[#211b2d] placeholder:text-[#6e6679] focus:border-[#8f2f57]',
+    buttonPrimary: 'bg-[#211b2d] hover:bg-[#3a3149] text-[#fdfcfe] shadow-lg shadow-black/10',
+    buttonGhost: 'border-[#b4a9c0]/60 text-[#211b2d] hover:bg-[#b4a9c0]/15 hover:border-[#b4a9c0]',
+    divider: 'bg-[#b4a9c0]/30',
+    timelineLine: 'from-[#8f2f57] via-[#b4a9c0]/50 to-transparent'
+  }),
+
+  /** Takvim: tül yaprak, inci spiral, şakayık mürekkeple çizilmiş gün. */
+  DugunTakvim: kurdele({
+    id: 'stone',
+    base: 'bg-[#f2f0f4]',
+    page: 'text-[#4a4254]',
+    surface: 'bg-[#fdfcfe]/90 backdrop-blur-sm',
+    border: 'border-[#b4a9c0]/35',
+    heading: 'text-[#211b2d]',
+    body: 'text-[#5f5769]',
+    accent: 'text-[#8f2f57]',
+    accentBg: 'bg-[#211b2d]',
+    accentSoft: 'bg-[#8f2f57]/10',
+    input: 'border-[#b4a9c0]/60 text-[#211b2d] placeholder:text-[#6e6679] focus:border-[#8f2f57]',
+    buttonPrimary: 'bg-[#211b2d] hover:bg-[#3a3149] text-[#fdfcfe] shadow-lg shadow-black/10',
+    buttonGhost: 'border-[#b4a9c0]/60 text-[#211b2d] hover:bg-[#b4a9c0]/15 hover:border-[#b4a9c0]',
+    divider: 'bg-[#b4a9c0]/30',
+    timelineLine: 'from-[#8f2f57] via-[#b4a9c0]/50 to-transparent'
   })
 } satisfies Record<string, SectionTheme>;
 

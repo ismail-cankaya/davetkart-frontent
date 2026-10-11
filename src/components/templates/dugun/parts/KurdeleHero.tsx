@@ -15,11 +15,18 @@ export interface KurdeleHeroProps extends HeroRenderProps {
   /** 'compact': süslerin metin kolonunu daralttığı şablonlar (Dugun1, Dugun4, Dugun5). */
   density?: KurdeleDensity;
   /**
-   * Metin bloğunun arkasına serilen tül panelin renk sınıfları. Parlaklığı
-   * metnin arkasında kontrol edilemeyen videolarda (Sahil) okunurluğu tüm
-   * kadrajı karartmadan, yalnızca metnin oturduğu yerde kurar.
+   * Metin bloğunun arkasına serilen panelin sınıfları (renk, biçim, iç boşluk).
+   * Parlaklığı metnin arkasında kontrol edilemeyen zeminlerde (Sahil, Krom)
+   * okunurluğu yalnızca metnin oturduğu yerde kurar; kemer biçimli plaket (Şekilli)
+   * de bununla çizilir.
    */
   panelClassName?: string;
+  /** 'start': sola yaslı editoryal düzen (Modern). */
+  align?: 'center' | 'start';
+  /** 'end': metin bloğu hero'nun alt kısmına iner, üstte görsel nefes alır (Sahil). */
+  anchor?: 'center' | 'end';
+  /** İsim satırlarının boyut/biçim sınıfları; varsayılan italik serifin üzerine yazılır. */
+  nameClassName?: string;
 }
 
 /** Görünür olurken aşağıdan süzülen öğe — tüm hero aynı eğriyle konuşur. */
@@ -33,7 +40,7 @@ const rise = (delay: number) => ({
  * Düğün kartı tarih düzeni: ay üstte, gün iri rakamla ortada; saat ve yıl
  * iki yanda üst-alt kıl çizgiler arasında. Biçim tanınmazsa tek satır.
  */
-function DateBand({ label, theme, compact }: { label: string; theme: SectionTheme; compact: boolean }) {
+function DateBand({ label, theme, compact, start }: { label: string; theme: SectionTheme; compact: boolean; start: boolean }) {
   const parts = splitDateLabel(label);
   if (!parts) {
     return <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{label}</span>;
@@ -47,29 +54,55 @@ function DateBand({ label, theme, compact }: { label: string; theme: SectionThem
   );
 
   return (
-    <div className="flex flex-col items-center">
-      <span className={cn('text-[10px] @sm:text-[11px] font-semibold uppercase tracking-[0.42em] pl-[0.42em]', theme.accent)}>
+    <div className={cn('flex flex-col', start ? 'items-start' : 'items-center')}>
+      <span
+        className={cn(
+          'text-[10px] @sm:text-[11px] font-semibold uppercase tracking-[0.42em]',
+          !start && 'pl-[0.42em]',
+          theme.accent
+        )}
+      >
         {parts.month}
       </span>
       <div className={cn('mt-2 flex items-center', compact ? 'gap-3' : 'gap-4 @sm:gap-5')}>
-        <span className={side}>{parts.time}</span>
-        <span
-          className={cn(
-            'font-serif font-medium leading-none lining-nums tabular-nums',
-            compact ? 'text-4xl' : 'text-5xl @sm:text-6xl',
-            theme.heading
-          )}
-        >
-          {parts.day}
-        </span>
-        <span className={side}>{parts.year}</span>
+        {start ? (
+          <>
+            <span className={cn('font-serif font-medium leading-none lining-nums tabular-nums text-5xl @sm:text-6xl', theme.heading)}>
+              {parts.day}
+            </span>
+            <span className={side}>{parts.year}</span>
+            {parts.time && <span className={side}>{parts.time}</span>}
+          </>
+        ) : (
+          <>
+            <span className={side}>{parts.time}</span>
+            <span
+              className={cn(
+                'font-serif font-medium leading-none lining-nums tabular-nums',
+                compact ? 'text-4xl' : 'text-5xl @sm:text-6xl',
+                theme.heading
+              )}
+            >
+              {parts.day}
+            </span>
+            <span className={side}>{parts.year}</span>
+          </>
+        )}
       </div>
     </div>
   );
 }
 
 /** Kalan süre: karo yok; iki kıl çizgi arasında tek bir kurdele bandı. */
-function CountdownRibbon({ invitation, theme, compact }: { invitation: HeroRenderProps['invitation']; theme: SectionTheme; compact: boolean }) {
+function CountdownRibbon({
+  invitation,
+  theme,
+  compact
+}: {
+  invitation: HeroRenderProps['invitation'];
+  theme: SectionTheme;
+  compact: boolean;
+}) {
   const { valid, days, hours, minutes, seconds } = useCountdown(invitation.date, invitation.timezone);
   if (!valid) return null;
 
@@ -117,8 +150,18 @@ function CountdownRibbon({ invitation, theme, compact }: { invitation: HeroRende
  * `lang="tr"`: büyük harfe çevrilen satırlar (ay, mekân) arayüz dili ne olursa
  * olsun Türkçe kuralla yazılsın — "İstanbul" "ISTANBUL" olmasın.
  */
-export function KurdeleHero({ invitation, theme, flavor, density = 'default', panelClassName }: KurdeleHeroProps) {
+export function KurdeleHero({
+  invitation,
+  theme,
+  flavor,
+  density = 'default',
+  panelClassName,
+  align = 'center',
+  anchor = 'center',
+  nameClassName
+}: KurdeleHeroProps) {
   const compact = density === 'compact';
+  const start = align === 'start';
   const couple = splitCouple(invitation.names);
   const title = displayText(invitation.title);
   const subtitle = displayText(invitation.subtitle);
@@ -128,21 +171,27 @@ export function KurdeleHero({ invitation, theme, flavor, density = 'default', pa
   const nameSize = compact
     ? 'text-[2.1rem] @sm:text-4xl @2xl:text-5xl'
     : 'text-[2.6rem] @sm:text-5xl @lg:text-6xl';
+  const hairline = cn('h-px w-8 @sm:w-12', theme.divider);
 
   return (
     <section
       lang="tr"
       className={cn(
-        'relative flex-1 flex flex-col items-center justify-center text-center',
+        'relative flex-1 flex flex-col',
+        start ? 'items-start text-left' : 'items-center text-center',
+        anchor === 'end' ? 'justify-end' : 'justify-center',
         compact ? 'px-3 @sm:px-4 pt-10 pb-16' : 'px-6 pt-16 pb-20 @sm:pt-20',
-        panelClassName && 'px-3 @sm:px-6',
+        start && 'px-7 @sm:px-12 @3xl:px-24',
+        panelClassName && !start && 'px-3 @sm:px-6',
         theme.page
       )}
     >
       <div
         className={cn(
-          'relative z-10 flex flex-col items-center w-full',
+          'relative z-10 flex flex-col w-full',
+          start ? 'items-start' : 'items-center',
           compact ? 'max-w-sm' : 'max-w-md',
+          start && 'max-w-xl',
           panelClassName && cn('rounded-[2rem] px-4 py-9 @sm:px-8 @sm:py-11', panelClassName)
         )}
       >
@@ -151,13 +200,15 @@ export function KurdeleHero({ invitation, theme, flavor, density = 'default', pa
           lineClassName={compact ? 'w-10 @sm:w-16' : 'w-14 @sm:w-24'}
           className={theme.accent}
           delay={0.1}
+          align={align}
         />
 
         {title && (
           <motion.p
             {...rise(0.35)}
             className={cn(
-              'mt-4 text-[10px] @sm:text-[11px] font-semibold uppercase tracking-[0.42em] pl-[0.42em] leading-relaxed max-w-[19rem]',
+              'mt-4 text-[10px] @sm:text-[11px] font-semibold uppercase tracking-[0.42em] leading-relaxed max-w-[19rem]',
+              !start && 'pl-[0.42em]',
               theme.accent
             )}
           >
@@ -166,7 +217,14 @@ export function KurdeleHero({ invitation, theme, flavor, density = 'default', pa
         )}
 
         {/* İsimler: gelin soldan, damat sağdan gelir; `&` ortada buluştukları yerde belirir. */}
-        <h1 className={cn('font-serif italic font-medium leading-[1.04] break-words w-full', compact ? 'mt-4' : 'mt-6', nameSize)}>
+        <h1
+          className={cn(
+            'font-serif italic font-medium leading-[1.04] break-words w-full',
+            compact ? 'mt-4' : 'mt-6',
+            nameSize,
+            nameClassName
+          )}
+        >
           {couple.kind === 'pair' ? (
             <>
               <motion.span
@@ -177,16 +235,24 @@ export function KurdeleHero({ invitation, theme, flavor, density = 'default', pa
               >
                 {couple.first}
               </motion.span>
-              <span className={cn('flex items-center justify-center', compact ? 'gap-2.5 my-0.5' : 'gap-3 @sm:gap-4 my-1')}>
+              <span
+                className={cn(
+                  'flex items-center',
+                  start ? 'justify-start' : 'justify-center',
+                  compact ? 'gap-2.5 my-0.5' : 'gap-3 @sm:gap-4 my-1'
+                )}
+              >
+                {!start && (
+                  <motion.span
+                    aria-hidden="true"
+                    className={cn(hairline, 'origin-left')}
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 1, ease: ease.out, delay: 0.85 }}
+                  />
+                )}
                 <motion.span
-                  aria-hidden="true"
-                  className={cn('h-px w-8 @sm:w-12 origin-left', theme.divider)}
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 1, ease: ease.out, delay: 0.85 }}
-                />
-                <motion.span
-                  className={cn('font-normal text-[0.72em] leading-none', theme.accent)}
+                  className={cn('font-serif italic font-normal text-[0.72em] leading-none', theme.accent)}
                   initial={{ opacity: 0, scale: 0.7 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.9, ease: ease.out, delay: 1.05 }}
@@ -195,7 +261,7 @@ export function KurdeleHero({ invitation, theme, flavor, density = 'default', pa
                 </motion.span>
                 <motion.span
                   aria-hidden="true"
-                  className={cn('h-px w-8 @sm:w-12 origin-right', theme.divider)}
+                  className={cn(hairline, 'origin-right', start && 'w-16 @sm:w-24')}
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 1, ease: ease.out, delay: 0.85 }}
@@ -243,8 +309,11 @@ export function KurdeleHero({ invitation, theme, flavor, density = 'default', pa
         )}
 
         {(dateLabel || venue) && (
-          <motion.div {...rise(1.4)} className={cn('flex flex-col items-center', compact ? 'mt-6 gap-3' : 'mt-8 gap-4')}>
-            {dateLabel && <DateBand label={dateLabel} theme={theme} compact={compact} />}
+          <motion.div
+            {...rise(1.4)}
+            className={cn('flex flex-col', start ? 'items-start' : 'items-center', compact ? 'mt-6 gap-3' : 'mt-8 gap-4')}
+          >
+            {dateLabel && <DateBand label={dateLabel} theme={theme} compact={compact} start={start} />}
             {venue && (
               <span
                 className={cn(

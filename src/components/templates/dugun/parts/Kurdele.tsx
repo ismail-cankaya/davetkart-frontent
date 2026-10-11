@@ -60,6 +60,8 @@ interface KurdeleCizimProps {
   className?: string;
   /** Girişin başlama gecikmesi (s). */
   delay?: number;
+  /** 'start': sola yaslı düzenlerde düğüm solda durur, kurdele yalnızca sağdan gelir. */
+  align?: 'center' | 'start';
 }
 
 /**
@@ -70,7 +72,13 @@ interface KurdeleCizimProps {
  * "Hareketi azalt" açıksa düğüm baştan çizili gelir; `pathLength` bir
  * transform olmadığından MotionConfig onu kendiliğinden susturmaz.
  */
-export function KurdeleCizim({ size = 60, lineClassName = 'w-16 @sm:w-24', className, delay = 0 }: KurdeleCizimProps) {
+export function KurdeleCizim({
+  size = 60,
+  lineClassName = 'w-16 @sm:w-24',
+  className,
+  delay = 0,
+  align = 'center'
+}: KurdeleCizimProps) {
   const reduced = useReducedMotion();
   const draw = (at: number, length = 0.9) =>
     reduced
@@ -82,19 +90,21 @@ export function KurdeleCizim({ size = 60, lineClassName = 'w-16 @sm:w-24', class
         };
 
   return (
-    <div aria-hidden="true" className={cn('flex items-center justify-center', className)}>
-      <motion.span
-        className={cn('h-px origin-left bg-gradient-to-r from-transparent to-current opacity-70', lineClassName)}
-        initial={reduced ? false : { scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={{ duration: 1.1, ease: ease.out, delay }}
-      />
+    <div aria-hidden="true" className={cn('flex items-center', align === 'start' ? 'justify-start' : 'justify-center', className)}>
+      {align === 'center' && (
+        <motion.span
+          className={cn('h-px origin-left bg-gradient-to-r from-transparent to-current opacity-70', lineClassName)}
+          initial={reduced ? false : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.1, ease: ease.out, delay }}
+        />
+      )}
       <svg
         width={size}
         height={size}
         viewBox="0 0 24 24"
         fill="none"
-        className="shrink-0 -mx-1"
+        className={cn('shrink-0', align === 'start' ? '-ml-2 -mr-1' : '-mx-1')}
         stroke="currentColor"
         strokeWidth={0.7}
         strokeLinecap="round"

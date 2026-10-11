@@ -1,10 +1,9 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { HeroStage } from '../../shared/effects';
+import { HeroStage, Halo } from '../../shared/effects';
 import { PlakHero } from '../../shared/heroes';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
-import { Hale } from '../parts/Hale';
 import { DUGUN_RENK } from '../parts/palette';
 import { TemplateProps } from '../../types';
 
@@ -24,7 +23,7 @@ export function DugunPlak({ invitation, mode = 'preview' }: TemplateProps) {
           base="radial-gradient(ellipse 95% 85% at 50% 35%, #231c27 0%, #161219 55%, #0b090d 100%)"
           scrim={false}
           vignette={{ strength: 0.5 }}
-          atmosphere={<Hale color="231,163,192" size={58} x={50} y={38} opacity={0.14} duration={13} />}
+          atmosphere={<Halo color="231,163,192" size={58} x={50} y={38} opacity={0.14} duration={13} />}
           parallax={6}
           grain={0.03}
           fadeTo="#121016"

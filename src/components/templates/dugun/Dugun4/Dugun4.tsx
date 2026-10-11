@@ -26,7 +26,7 @@ export function Dugun4({ invitation, mode = 'preview' }: TemplateProps) {
       mode={mode}
       themeOverride={DUGUN_THEMES.Dugun4}
       renderHero={(props) => <KurdeleHero {...props} density="compact" />}
-      heroContentClassName="mx-auto w-full max-w-md"
+      heroContentClassName="mx-auto w-full max-w-[22rem] px-[11%] @md:px-0 @md:max-w-[21rem]"
       renderHeroBackground={({ revealed }) => (
         <div className="absolute inset-0">
           <img

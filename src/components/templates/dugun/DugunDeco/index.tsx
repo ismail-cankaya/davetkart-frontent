@@ -17,7 +17,7 @@ export function DugunDeco({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN_THEMES.DugunDeco}
-      renderHero={(props) => <DecoHero {...props} />}
+      renderHero={(props) => <DecoHero {...props} metal="217,208,226" />}
       renderHeroBackground={() => (
         <HeroStage
           base="radial-gradient(ellipse 95% 85% at 50% 35%, #1c1822 0%, #0f0d13 55%, #070609 100%)"
