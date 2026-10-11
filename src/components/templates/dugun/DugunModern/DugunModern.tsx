@@ -1,29 +1,41 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { MODERN_THEME } from '../../shared/themeTokens';
+import { HeroStage } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
+import { DUGUN_THEMES } from '../themes';
+import { Hale } from '../parts/Hale';
+import { KurdeleHero } from '../parts/KurdeleHero';
+import { TulVeil } from '../parts/TulVeil';
 import { TemplateProps } from '../../types';
-import bgImage from './assets/bg-desktop.svg';
 
+/**
+ * DugunModern — "Gece Modası": koyu cam yüzeyler, köşelerde nefes alan
+ * orkide ve lila ışık, kadrajı saran gece tülü.
+ */
 export function DugunModern({ invitation, mode = 'preview' }: TemplateProps) {
   return (
-    <InvitationComposition 
-      invitation={invitation} 
-      flavor={DUGUN_FLAVOR} 
-      mode={mode} 
-      themeOverride={MODERN_THEME} 
+    <InvitationComposition
+      invitation={invitation}
+      flavor={DUGUN_FLAVOR}
+      mode={mode}
+      themeOverride={DUGUN_THEMES.DugunModern}
+      renderHero={(props) => <KurdeleHero {...props} />}
       renderHeroBackground={() => (
-        <div className="absolute inset-0 bg-zinc-950 bg-gradient-to-br from-indigo-900/40 via-purple-900/30 to-zinc-900">
-          <div className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/20 rounded-full blur-3xl mix-blend-screen animate-pulse" />
-          </div>
-          {bgImage && (
-            <div 
-              className="absolute inset-0 bg-cover bg-center mix-blend-overlay opacity-30" 
-              style={{ backgroundImage: `url(${bgImage})` }} 
-            />
-          )}
-        </div>
+        <HeroStage
+          base="radial-gradient(ellipse 110% 85% at 50% 18%, #241a33 0%, #120e1a 55%, #0b0910 100%)"
+          scrim={false}
+          vignette={{ strength: 0.5 }}
+          atmosphere={
+            <>
+              <Hale color="231,154,192" size={70} x={20} y={18} opacity={0.45} duration={12} />
+              <Hale color="185,167,224" size={80} x={84} y={80} opacity={0.36} duration={15} />
+            </>
+          }
+          overlay={<TulVeil tone="dark" strength={0.8} />}
+          parallax={10}
+          grain={0.03}
+          fadeTo="#0f0c15"
+        />
       )}
     />
   );

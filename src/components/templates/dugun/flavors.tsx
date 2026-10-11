@@ -1,28 +1,34 @@
 import React from 'react';
 import { TemplateFlavor } from '../shared/flavor';
+import { KurdeleMark } from './parts/Kurdele';
 
-// A sophisticated intertwined rings / floral SVG
+/** Kurdele düğümü — zarf mührü ve ortak hero'ların kategori süsü. */
 function DugunOrnament({ size = 48, className }: { size?: number; className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <path d="M10 14C12.2091 14 14 12.2091 14 10C14 7.79086 12.2091 6 10 6C7.79086 6 6 7.79086 6 10C6 12.2091 7.79086 14 10 14Z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M14 18C16.2091 18 18 16.2091 18 14C18 11.7909 16.2091 10 14 10C11.7909 10 10 11.7909 10 14C10 16.2091 11.7909 18 14 18Z" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  );
+  return <KurdeleMark size={size} className={className} />;
 }
 
-// Subtle floral / wave background pattern
+/**
+ * Puantiyeli tül: bölümlerin arkasında sabit duran baklava ağ ve seyrek
+ * inci noktalar. Renk, kompozisyonun verdiği `theme.accent`'ten gelir.
+ */
 function DugunPattern({ className }: { className?: string }) {
+  const id = `dugun-tul-${React.useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
   return (
     <svg className={className} width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id="dugunPattern" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-          <path d="M0 100 Q 25 50 50 100 T 100 100" fill="none" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" />
-          <path d="M0 50 Q 25 0 50 50 T 100 50" fill="none" stroke="currentColor" strokeWidth="0.5" strokeOpacity="0.1" />
-          <circle cx="50" cy="50" r="2" fill="currentColor" fillOpacity="0.1" />
+        <pattern id={id} x="0" y="0" width="36" height="36" patternUnits="userSpaceOnUse">
+          <path
+            d="M0 9 L9 0 L18 9 L9 18 Z M18 9 L27 0 L36 9 L27 18 Z M0 27 L9 18 L18 27 L9 36 Z M18 27 L27 18 L36 27 L27 36 Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="0.5"
+            strokeOpacity="0.09"
+          />
+          <circle cx="9" cy="9" r="1.2" fill="currentColor" fillOpacity="0.16" />
+          <circle cx="27" cy="27" r="1.2" fill="currentColor" fillOpacity="0.16" />
         </pattern>
       </defs>
-      <rect x="0" y="0" width="100%" height="100%" fill="url(#dugunPattern)" />
+      <rect x="0" y="0" width="100%" height="100%" fill={`url(#${id})`} />
     </svg>
   );
 }
@@ -34,10 +40,10 @@ export const DUGUN_FLAVOR: TemplateFlavor = {
   envelopeLabel: 'Düğün Davetiyesi',
   tagline: 'Evleniyoruz',
   headings: {
-    timeline: 'Program',
-    details: 'Detaylar',
-    gallery: 'Galeri',
-    gift: 'Hediye & Takı',
-    rsvp: 'LCV (Lütfen Cevap Veriniz)'
+    timeline: 'Nikâhtan Düğüne',
+    details: 'Düğün Adresi',
+    gallery: 'Hikâyemizden Kareler',
+    gift: 'Takı & Hediye',
+    rsvp: 'Lütfen Cevap Veriniz'
   }
 };
