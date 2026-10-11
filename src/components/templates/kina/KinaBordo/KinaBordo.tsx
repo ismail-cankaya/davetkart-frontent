@@ -1,81 +1,71 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
 import { videoSet } from '../../shared/videoAssets';
-import { SectionTheme } from '../../shared/palette';
-import { HeroStage, SilkVeil, GoldSheen, Halo } from '../../shared/effects';
+import { HeroStage, SilkVeil, Halo } from '../../shared/effects';
+import { KINA_BORDO } from '../themes';
 import { KINA_FLAVOR } from '../flavors';
+import { KinaHero } from '../parts/KinaHero';
 import { TemplateProps } from '../../types';
 
 const VIDEO = videoSet('kina-bordo', { landscape: '50% 50%', portrait: '50% 50%' });
 
-/**
- * KinaBordo — "Bordo İpek": şarap kırmızısı ipek kıvrımları üzerinde süzülen altın ışık ve toz.
- * Palet doğrudan videonun renklerinden türetildi.
- */
-const KINA_BORDO_THEME: SectionTheme = {
-  id: 'midnight',
-  base: 'theme-cormorant bg-[#1d0710]',
-  page: 'text-[#f2ded3]',
-  surface: 'bg-white/[0.06] backdrop-blur-md',
-  border: 'border-white/10',
-  heading: 'text-[#f2ded3]',
-  body: 'text-[#c0a094]',
-  accent: 'text-[#e8c07a]',
-  accentBg: 'bg-[#e8c07a]',
-  accentSoft: 'bg-[#e8c07a]/10',
-  input:
-    'w-full bg-white/[0.05] border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-[#f2ded3] placeholder:text-[#c0a094] focus:outline-none focus:border-[#e8c07a]/50 focus:ring-2 focus:ring-[#e8c07a]/15 transition duration-300',
-  buttonPrimary:
-    'bg-[#e8c07a] hover:bg-[#f0cf95] text-[#2b0a15] shadow-lg shadow-[#e8c07a]/15',
-  buttonGhost:
-    'border border-white/15 text-[#f2ded3] hover:bg-white/5 hover:border-white/25',
-  divider: 'bg-white/10',
-  timelineLine: 'from-[#e8c07a] via-[#e8c07a]/40 to-transparent'
-};
+/** Duvak oyası: ipek kenarına iğneyle örülen kavisler ve altlarında çiçek pulları. */
+function OyaKenar({ className }: { className?: string }) {
+  const id = `kina-oya-${useId().replace(/:/g, '')}`;
+  return (
+    <svg aria-hidden="true" className={className} width="100%" height="18" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <pattern id={id} x="0" y="0" width="24" height="18" patternUnits="userSpaceOnUse">
+          <path d="M0 2Q6 13 12 2Q18 13 24 2" fill="none" stroke="currentColor" strokeWidth="0.9" />
+          <circle cx="6" cy="11.5" r="1.3" fill="currentColor" />
+          <circle cx="18" cy="11.5" r="1.3" fill="currentColor" />
+          <circle cx="6" cy="15.6" r="0.7" fill="currentColor" fillOpacity="0.7" />
+          <circle cx="18" cy="15.6" r="0.7" fill="currentColor" fillOpacity="0.7" />
+        </pattern>
+      </defs>
+      <rect x="0" y="0" width="100%" height="1" fill="currentColor" />
+      <rect x="0" y="0" width="100%" height="18" fill={`url(#${id})`} />
+    </svg>
+  );
+}
 
+/**
+ * KinaBordo — "Al Duvak": şarap ipeği videosunun üstünde duvağın oyalı kenarı,
+ * dalgalanan al tül ve sırma pullar. Metin okuma halesiyle videodan ayrılır.
+ */
 export function KinaBordo({ invitation, mode = 'preview' }: TemplateProps) {
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={KINA_FLAVOR}
       mode={mode}
-      themeOverride={KINA_BORDO_THEME}
+      themeOverride={KINA_BORDO}
+      renderHero={(props) => <KinaHero {...props} halo="24,5,12" flame="#ffd27f" className="pt-24" />}
       renderHeroBackground={() => (
         <HeroStage
           video={VIDEO}
           base="radial-gradient(ellipse 85% 70% at 50% 45%, #61121f 0%, #2c0810 55%, #150409 100%)"
-          scrim={{ from: 'both', strength: 0.44 }}
+          scrim={{ from: 'both', strength: 0.5 }}
           vignette={{ strength: 0.55 }}
           atmosphere={
             <>
-              {/* Uçuşan yakut/bordo ipek tüller — konseptin ön katmanı. */}
-              <SilkVeil color="150,25,52" opacity={0.5} duration={17} />
-              <Halo color="226,186,110" size={62} x={50} y={44} opacity={0.3} duration={10} />
-              {/* Altın varaklı mandala motifinin üzerinde gezen parlama. */}
-              <GoldSheen color="240,208,140" opacity={0.2} duration={9} />
+              <SilkVeil color="176,36,28" opacity={0.42} duration={17} />
+              <Halo color="242,160,102" size={62} x={50} y={44} opacity={0.16} duration={10} />
             </>
           }
           particles={[
             {
-              preset: 'petals',
-              colors: ['#8e1b2e', '#b8283f', '#e2ba6e'],
-              density: 0.85,
-              speed: 0.8,
-              opacity: 0.8,
-              depth: 1,
-              seed: 12
-            },
-            {
               preset: 'fairyDust',
-              colors: ['#e2ba6e', '#f5dda6'],
+              colors: ['#d8a24a', '#ffd27f', '#f2a066'],
               blend: 'screen',
-              density: 0.75,
-              speed: 0.55,
+              density: 0.7,
+              speed: 0.5,
               opacity: 0.6,
-              depth: 0.5,
+              depth: 0.6,
               seed: 58
             }
           ]}
+          overlay={<OyaKenar className="absolute top-0 inset-x-0 text-[#d8a24a]/75" />}
           fadeTo="#1d0710"
         />
       )}
