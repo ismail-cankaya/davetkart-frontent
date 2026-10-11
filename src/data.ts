@@ -3149,9 +3149,30 @@ export function getTemplatesForCategory(categoryId: string | null): TemplatePres
   const cached = templatesByCategory.get(categoryId);
   if (cached) return cached;
 
-  const filtered = TEMPLATE_PRESETS.filter((preset) => preset.categories.includes(categoryId));
+  const filtered = TEMPLATE_PRESETS
+    .filter((preset) => preset.categories.includes(categoryId))
+    .map((preset) => applyCategoryLook(preset, categoryId));
   templatesByCategory.set(categoryId, filtered);
   return filtered;
+}
+
+/** Preset'in kartını kategorinin `categoryOverrides` kaydıyla birleştirir. */
+function applyCategoryLook(preset: TemplatePreset, categoryId: string): TemplatePreset {
+  const look = preset.categoryOverrides?.[categoryId];
+  return look ? { ...preset, ...look } : preset;
+}
+
+/**
+ * Bir preset'in verilen kategorideki kartı. Önbellekten okunur, bu yüzden
+ * döndürdüğü nesne aynı (kategori, id) için hep aynıdır — store seçicilerinde
+ * güvenle kullanılır. Kategori bilinmiyorsa ya da preset o kategoride yoksa
+ * çıplak preset döner.
+ */
+export function getPresetForCategory(presetId: string, categoryId: string | null): TemplatePreset | undefined {
+  return (
+    getTemplatesForCategory(categoryId).find((preset) => preset.id === presetId) ??
+    TEMPLATE_PRESETS.find((preset) => preset.id === presetId)
+  );
 }
 
 /** Display label of a category (e.g. "dugun" → "Düğün"). */
