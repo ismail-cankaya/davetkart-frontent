@@ -5,6 +5,7 @@ import { HeroStage, GodRays, LightLeak } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
 import { KurdeleHero } from '../parts/KurdeleHero';
+import { KenarParcacik } from '../parts/KenarParcacik';
 import { TemplateProps } from '../../types';
 
 /**
@@ -53,41 +54,43 @@ export function DugunSahil({ invitation, mode = 'preview' }: TemplateProps) {
               <LightLeak color="255,232,238" opacity={0.18} duration={15} />
             </>
           }
-          particles={[
-            // İnci-pembe ışık tozu: videonun ışığını taşıyan ana efekt.
-            {
-              preset: 'fairyDust',
-              colors: ['#ffe3ec', '#f5c2cf', '#fff7f9'],
-              blend: 'screen',
-              density: 1.1,
-              speed: 0.85,
-              opacity: 0.85,
-              depth: 1,
-              seed: 11
-            },
-            // Uzak, çok yavaş ikinci katman — derinlik için parallax'ı düşük.
-            {
-              preset: 'fairyDust',
-              colors: ['#f6f0fa'],
-              blend: 'screen',
-              density: 0.45,
-              speed: 0.5,
-              opacity: 0.5,
-              depth: 0.35,
-              seed: 27
-            }
-          ]}
           // Ufuk bandı: güneşin parladığı orta şerit yatay bir gece perdesiyle
           // kısılır; ufuk silinmez, panelin kenarında parlamaz.
           overlay={
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  'linear-gradient(to bottom, rgba(23,21,38,0) 22%, rgba(23,21,38,0.45) 42%, rgba(23,21,38,0.45) 72%, rgba(23,21,38,0) 90%)'
-              }}
-            />
+            <>
+              <KenarParcacik
+                fields={[
+                  // İnci-pembe ışık tozu: videonun ışığını taşıyan ana efekt.
+                  {
+                    preset: 'fairyDust',
+                    colors: ['#ffe3ec', '#f5c2cf', '#fff7f9'],
+                    blend: 'screen',
+                    density: 1.1,
+                    speed: 0.85,
+                    opacity: 0.85,
+                    seed: 11
+                  },
+                  // Uzak, çok yavaş ikinci katman — daha seyrek ve soluk.
+                  {
+                    preset: 'fairyDust',
+                    colors: ['#f6f0fa'],
+                    blend: 'screen',
+                    density: 0.45,
+                    speed: 0.5,
+                    opacity: 0.5,
+                    seed: 27
+                  }
+                ]}
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background:
+                    'linear-gradient(to bottom, rgba(23,21,38,0) 22%, rgba(23,21,38,0.45) 42%, rgba(23,21,38,0.45) 72%, rgba(23,21,38,0) 90%)'
+                }}
+              />
+            </>
           }
           fadeTo="#171526"
         />

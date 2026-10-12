@@ -38,7 +38,45 @@ Kendi sert geometrisi olan diller (`DugunBrutal`, `DugunBlueprint`, `DugunNoir`)
 Şablon temaları bu iki çekirdekten türer; yalnızca zemin ve vurgu tonu şablonun
 görseline göre kayar (ör. Dugun2 mersin `#4f6b55`, Gökyüzü gök mavisi zemin).
 
-## 4. Tailwind notu
+**1. tur düzeltmesi — koyuların ayrışması.** Koyu şablonların hepsi `GECE`'nin menekşe-siyahını
+taşıyordu ve temas sayfasında birbirine karışıyordu. Şimdi her birinin zemin tonu farklı:
+
+| Şablon | Ton | Zemin |
+|---|---|---|
+| DugunManzara | **açık** (İnci Gravür) | `#f6f3f7`, vurgu mor mürekkep `#5e3f6e` |
+| DugunAurora | **açık** (Sedef) | `#f6f3f8`, vurgu orkide-şakayık `#87306a` |
+| DugunKrom | **açık** (Saten Gümüş) | `#eceff3`, koyu metal degrade başlık, vurgu `#4b3f6b` |
+| DugunSekilli | mersin gecesi | `#0f1714` |
+| DugunModern | nötr kömür | `#0c0b0e` |
+| DugunMumIsigi | sıcak toprak | `#120d0b`, vurgu şeftali-inci `#f2c6b6` |
+| DugunOnyx | saf siyah | `#070708` |
+| DugunSahil | gün batımı mor laciverti (video) | `#171526` |
+
+## 4. Zarf ve harita başlığı
+
+`kurdele()` her temaya, kendisi vermiyorsa, şunları ekler:
+
+| Alan | Açık (`ZARF_TUL`) | Koyu (`ZARF_GECE`) |
+|---|---|---|
+| `envelope.paper` | tül degrade `#fbfafc → #ece7f0` | gece degrade `#241d2e → #16121d` |
+| `envelope.flap` | `#e1dae7` | `#2c2438` |
+| `envelope.seal` | **şakayık mum mührü** `#9b3a63`, inci kurdele | **inci mühür** `#efe8f3`, gece kurdele |
+| `envelope.glow` | pudra şakayık `#f3dde7`/70 | şakayık ışığı `#eba9c6`/10 |
+| `envelope.card` | beyaz, inci kenar | gece, beyaz/10 kenar |
+| `mapHeader` | `#efebf2` | `#1f1a28` |
+
+Ortak varsayılan koyu temada altın mühür ve altın ışıma basardı; kimlikte altın yok.
+Zemini çekirdekten ayrılan koyular (Şekilli, Modern, Mum Işığı, Onyx, Krom) zarf kağıdını ve
+harita başlığını kendi tonlarıyla verir. Kendi geometrisi olan Noir, Brutal ve Teknik Çizim
+zarfı ayrıca tanımlar.
+
+## 5. 2. turda eklenen dört dil
+
+`DugunCini`, `DugunEbru`, `DugunMonogram`, `DugunTakvim` (`origin/main`'den geldi) artık
+yerel tema taşımıyor; hepsi `kurdele()` ile tül zemin, mürekkep, şakayık vurgu alır.
+Monogram'ın altın varağı inci-gümüşe döndü.
+
+## 6. Tailwind notu
 
 - Sınıflar literal yazılır; hex'i şablon dizgisiyle üretmek derlenmeyen sınıf demektir.
 - `DecoHero` sayaç ayırıcısını `theme.divider.replace('bg-', 'divide-')` ile üretir.

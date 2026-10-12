@@ -12,9 +12,10 @@ import { ease } from '../../../../utils/motion';
 /**
  * Dugun3 — "Bordo Zambak": dramatik zambakların koyu şakayığı, tül zemin.
  *
- * Asimetrik çerçeve: tek zambak sağ üst köşede, buket sol alt köşede —
- * ikisi de yalnızca hero ekranında. Ölçüler kapsayıcıya göre yüzdeliktir;
- * masaüstünde max-w-4xl sarmalayıcıya yaslanırlar.
+ * Asimetrik çerçeve: tek zambak sağ üst köşede, buket sol alt köşede. Buket
+ * yüzdelik değil sabit genişlikte (`w-40` / `@md:w-56`); hero içerikle
+ * uzadığında da yüksekliği değişmez. İçeriğin alt padding'i buketin
+ * yüksekliğini aşar, sayaç her genişlikte buketin üstünde biter.
  */
 export function Dugun3({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -24,10 +25,10 @@ export function Dugun3({ invitation, mode = 'preview' }: TemplateProps) {
       mode={mode}
       themeOverride={DUGUN_THEMES.Dugun3}
       renderHero={(props) => <KurdeleHero {...props} />}
-      heroContentClassName="pb-10 @md:pb-16"
+      heroContentClassName="pt-8 @md:pt-10 pb-14 @md:pb-24"
       renderHeroBackground={({ revealed }) => (
         <div className="relative h-full w-full max-w-4xl mx-auto">
-          <div className="absolute top-0 right-0 w-[36%] max-w-[240px]">
+          <div className="absolute top-0 right-0 w-[30%] max-w-[200px]">
             <motion.img
               src={topRightLily}
               alt=""
@@ -38,7 +39,7 @@ export function Dugun3({ invitation, mode = 'preview' }: TemplateProps) {
               className="w-full h-auto mix-blend-multiply select-none"
             />
           </div>
-          <div className="absolute bottom-0 left-0 w-[62%] max-w-[420px]">
+          <div className="absolute bottom-0 left-0 w-40 @md:w-56">
             <motion.img
               src={bottomBouquet}
               alt=""

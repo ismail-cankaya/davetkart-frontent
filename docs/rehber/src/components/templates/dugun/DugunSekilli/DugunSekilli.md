@@ -7,7 +7,7 @@
 
 ## 1. Fikir
 
-İnci Motif — gece zemininde çapraz kurdele bantları ve kesişimlerine dizili inciler (gelinlik kafesi). Yaldız yok.
+İnci Motif — mersin gecesi (yeşil-siyah) zeminde baştan sona inci kafes; metin üstü kemerli koyu bir plakette, çift kıl çizgili.
 
 Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü bu şablon eskiden dokuz kategoride aynı görünen `Summary`'yi kullanıyordu.
 
@@ -15,9 +15,9 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 
 | Alan | Önce | Sonra |
 |---|---|---|
-| Hero | Summary | KurdeleHero |
-| Tema | `SEKILLI_THEME` (altın, ortak dosya) | `DUGUN_THEMES.DugunSekilli` (Gece, inci vurgu) |
-| Arka plan | Altın çapraz çizgi (base64 SVG); `bg.png` içe aktarılıp kullanılmıyordu | SVG `InciKafes` deseni + radyal okuma perdesi; kullanılmayan içe aktarma kaldırıldı |
+| Hero | Summary | KurdeleHero + kemer plaket (`panelClassName`) |
+| Zemin | Menekşe-siyah | Mersin gecesi `#0f1714` |
+| Kafes | Merkezde sönük | Her yerde görünür; metin plakette |
 
 `sekilli` kart kaydı ortak ve adı "Altın Motif": düğünde görünüm artık inci.
 
@@ -25,8 +25,8 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 
 | Alan | En düşük oran | Çift |
 |---|---|---|
-| Bölümler | 5.20 | placeholder / alan |
-| Hero | 8.18 | body (mesaj/mekân) / zemin #14111b |
+| Bölümler | 5.04 | placeholder / alan |
+| Hero | 8.21 | body (mesaj/mekân) / zemin #151c1a |
 
 Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md §6'da.
 
@@ -47,6 +47,10 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 
 | Genişlik | Risk |
 |---|---|
-| 360 px | 1x ekranlarda 56 px desende hafif moiré olabilir. |
-| 768 px | Sorun beklenmez. |
-| 1280 px | Kafes kenarlarda yoğun, merkez koyu: geniş ekranda iki yan şerit belirgin. |
+| 360 px | Plaket neredeyse tam genişlik; kafes kenarlarda ve plaketin üstünde. |
+| 768 px | Plaket max-w-md; kemer yarıçapı ~224 px. |
+| 1280 px | Plaket ortada, kafes iki yanda geniş. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

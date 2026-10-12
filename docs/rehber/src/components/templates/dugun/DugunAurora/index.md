@@ -7,7 +7,7 @@
 
 ## 1. Fikir
 
-Sedef — inci kabuğunun yanardöner iç yüzeyi gibi akan şakayık, lila ve nane mesh.
+Sedef — inci kabuğunun açık, yanardöner iç yüzeyi; pastel şakayık, lila ve nane mesh; üstünde yumuşak iridesan parıltı. Açık şablon.
 
 Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü bu şablon eskiden dokuz kategoride aynı görünen `Summary`'yi kullanıyordu.
 
@@ -16,16 +16,15 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 | Alan | Önce | Sonra |
 |---|---|---|
 | Hero | Summary | KurdeleHero |
-| Mesh | gül–menekşe–turkuaz .62 | şakayık–lila–nane .30 |
-| Scrim | both .3 | both .3 + merkez .6 |
-| Tema | Yerel aurora | `DUGUN_THEMES.DugunAurora` |
+| Ton | Koyu mesh | Açık sedef: `#f6f3f8` zemin, pastel mesh %70, okuma tülü |
+| Tema | Koyu cam | Açık buzlu cam kartlar, orkide-şakayık vurgu `#87306a` |
 
 ## 3. Kontrast
 
 | Alan | En düşük oran | Çift |
 |---|---|---|
-| Bölümler | 5.20 | placeholder / alan |
-| Hero | 5.05 | body (mesaj/mekân) / zemin #553f4f |
+| Bölümler | 5.39 | placeholder / alan |
+| Hero | 5.24 | body (mesaj/mekân) / zemin #dad0f1 |
 
 Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md §6'da.
 
@@ -42,12 +41,16 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 
 ## 5. Duman testi
 
-`a:ok(29KB) b:ok(7KB) c:ok(26KB)` — a: dolu örnek, b: boş alanlar, c: zarflı.
+`a:ok(28KB) b:ok(6KB) c:ok(25KB)` — a: dolu örnek, b: boş alanlar, c: zarflı.
 
 ## 6. Bakılacak riskler
 
 | Genişlik | Risk |
 |---|---|
-| 360 px | Mesh lekesi metnin arkasından geçebilir; en kötü an hesaplandı (AA). |
+| 360 px | Mesh lekeleri metnin arkasından geçer; en koyu leke hesaplandı. |
 | 768 px | Sorun beklenmez. |
 | 1280 px | Sorun beklenmez. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

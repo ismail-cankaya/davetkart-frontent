@@ -51,3 +51,7 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 | 360 px | Çerçeve 12 px içeride; kaydırma işareti incisi alt çizgiye yakın. |
 | 768 px | Sorun beklenmez. |
 | 1280 px | Çerçeve tüm genişliğe yayılır; çok geniş ekranda yuvarlak köşeli uzun bir pano gibi görünebilir. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

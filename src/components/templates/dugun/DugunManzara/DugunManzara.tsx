@@ -7,9 +7,9 @@ import { TemplateProps } from '../../types';
 import bgImage from './assets/bg.png';
 
 /**
- * DugunManzara — süslü güllü çerçeve görseli, kategori kimliğine çevrilmiş
- * hâliyle: `mix-blend-luminosity` görselin yalnızca ışığını alır, rengini
- * gece zemininden. Yeşil-altın gravür böylece inci-menekşe bir kabartmaya döner.
+ * DugunManzara — "İnci Gravür": süslü güllü çerçeve görseli gri tona çekilip
+ * tersine çevrilir; koyu yeşil zemin tül beyazına, altın gravür gümüş bir
+ * kalem işine döner. Lila çarpım katmanı gravüre kategori morunu verir.
  */
 export function DugunManzara({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -20,22 +20,24 @@ export function DugunManzara({ invitation, mode = 'preview' }: TemplateProps) {
       themeOverride={DUGUN_THEMES.DugunManzara}
       renderHero={(props) => <KurdeleHero {...props} />}
       renderHeroBackground={() => (
-        <div className="absolute inset-0 bg-[#121019]">
+        <div className="absolute inset-0 bg-[#f6f3f7]">
           <img
             src={bgImage}
             alt=""
             draggable={false}
-            className="absolute inset-0 w-full h-full object-cover mix-blend-luminosity opacity-60 select-none"
+            className="absolute inset-0 w-full h-full object-cover opacity-40 select-none"
+            style={{ filter: 'grayscale(1) invert(1) contrast(1.6)' }}
           />
-          {/* Okuma perdesi: çerçevenin ortası koyulaşır, kenardaki gravür görünür kalır. */}
+          <div className="absolute inset-0 bg-[#e9e1ef] mix-blend-multiply" />
+          {/* Okuma tülü: metnin oturduğu orta alan açılır, gravür kenarlarda kalır. */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                'radial-gradient(ellipse 64% 50% at 50% 50%, rgba(18,16,25,0.9) 0%, rgba(18,16,25,0.62) 62%, rgba(18,16,25,0.38) 100%)'
+                'radial-gradient(ellipse 62% 50% at 50% 50%, rgba(246,243,247,0.92) 0%, rgba(246,243,247,0.75) 60%, rgba(246,243,247,0.45) 100%)'
             }}
           />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#121019]" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#f6f3f7]" />
         </div>
       )}
     />

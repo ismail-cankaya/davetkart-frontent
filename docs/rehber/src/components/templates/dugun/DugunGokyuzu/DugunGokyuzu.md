@@ -50,3 +50,7 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 | 360 px | Dikey video; perde videoyu belirgin soldurur. |
 | 768 px | Sorun beklenmez. |
 | 1280 px | Yatay video; güneş sol altta, perdeyle yumuşar. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

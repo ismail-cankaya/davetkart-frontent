@@ -5,6 +5,7 @@ import { HeroStage, GodRays, Halo } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
 import { KurdeleHero } from '../parts/KurdeleHero';
+import { KenarParcacik } from '../parts/KenarParcacik';
 import { TemplateProps } from '../../types';
 
 /** Işık kaynağı üst kısımda; dikeyde kırpma biraz yukarıyı korur. */
@@ -41,30 +42,32 @@ export function DugunGulYapraklari({ invitation, mode = 'preview' }: TemplatePro
               <Halo color="255,222,234" size={75} x={50} y={40} opacity={0.5} duration={10} />
             </>
           }
-          particles={[
-            // Ön düzlem: büyük, hızlı, işaretçiden kaçan şakayık yaprakları.
-            {
-              preset: 'petals',
-              colors: ['#f0bfd0', '#e3a2bb', '#f7dde6', '#d4a8d0'],
-              density: 1,
-              speed: 1,
-              opacity: 0.9,
-              depth: 1,
-              seed: 3
-            },
-            // Arka düzlem: küçük, yavaş, neredeyse sabit — mesafe hissi.
-            {
-              preset: 'petals',
-              colors: ['#f7dde6', '#e6d3ec'],
-              density: 0.55,
-              speed: 0.5,
-              opacity: 0.45,
-              pointerStrength: 0.3,
-              depth: 0.3,
-              seed: 64
-            }
-          ]}
           grain={0.02}
+          overlay={
+            <KenarParcacik
+              fields={[
+                // Ön düzlem: büyük, hızlı, işaretçiden kaçan şakayık yaprakları (yalnız kenarlarda).
+                {
+                  preset: 'petals',
+                  colors: ['#f0bfd0', '#e3a2bb', '#f7dde6', '#d4a8d0'],
+                  density: 1,
+                  speed: 1,
+                  opacity: 0.9,
+                  seed: 3
+                },
+                // Arka düzlem: küçük, yavaş, neredeyse sabit — mesafe hissi.
+                {
+                  preset: 'petals',
+                  colors: ['#f7dde6', '#e6d3ec'],
+                  density: 0.55,
+                  speed: 0.5,
+                  opacity: 0.45,
+                  pointerStrength: 0.3,
+                  seed: 64
+                }
+              ]}
+            />
+          }
           fadeTo="#fbf3f5"
         />
       )}

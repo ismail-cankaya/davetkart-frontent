@@ -7,7 +7,7 @@
 
 ## 1. Fikir
 
-Gece Modası — koyu cam kartlar, köşelerde nefes alan orkide ve lila ışık, kadrajı saran gece tülü.
+Gece Modası — nötr kömür zemin, sağ üstten çapraz düşen orkide-lila huzme, sola yaslı editoryal düzen, dik ince serif isimler.
 
 Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü bu şablon eskiden dokuz kategoride aynı görünen `Summary`'yi kullanıyordu.
 
@@ -15,9 +15,9 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 
 | Alan | Önce | Sonra |
 |---|---|---|
-| Hero | Summary | KurdeleHero |
-| Tema | `MODERN_THEME` (indigo, ortak dosya) | `DUGUN_THEMES.DugunModern` |
-| Arka plan | İndigo degrade + `animate-pulse` leke + `bg-desktop.svg` | HeroStage: gece degradesi, iki `Hale`, `TulVeil` (koyu) |
+| Hero | Summary | KurdeleHero `align="start"`, `nameClassName` (dik, ince, iri) |
+| Zemin | Menekşe-siyah + köşe haleleri | Kömür `#0c0b0e` + çapraz orkide huzme + köşe halesi |
+| Tül | Koyu `TulVeil` | Kaldırıldı (sade editoryal zemin) |
 
 `modern` kart kaydı ortak; kapak indigo.
 
@@ -25,8 +25,8 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 
 | Alan | En düşük oran | Çift |
 |---|---|---|
-| Bölümler | 5.34 | placeholder / alan |
-| Hero | 7.24 | body (mesaj/mekân) / zemin #241a33 |
+| Bölümler | 5.44 | placeholder / alan |
+| Hero | 4.78 | body (mesaj/mekân) / zemin #473440 |
 
 Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md §6'da.
 
@@ -43,12 +43,16 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 
 ## 5. Duman testi
 
-`a:ok(28KB) b:ok(7KB) c:ok(25KB)` — a: dolu örnek, b: boş alanlar, c: zarflı.
+`a:ok(27KB) b:ok(6KB) c:ok(24KB)` — a: dolu örnek, b: boş alanlar, c: zarflı.
 
 ## 6. Bakılacak riskler
 
 | Genişlik | Risk |
 |---|---|
-| 360 px | Köşe ışıkları dar kadrajda metne yaklaşır (kontrast en kötü an hesabında). |
-| 768 px | Sorun beklenmez. |
-| 1280 px | Işıklar yüzdelikle büyür, köşeler boş görünmez. |
+| 360 px | Sola yaslı; uzun isim iki satıra iner. |
+| 768 px | Metin solda max-w-xl; sağ yarıda huzme. |
+| 1280 px | Sol kenar boşluğu `@3xl:px-24`. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

@@ -11,8 +11,9 @@ import { TemplateProps } from '../../types';
 const VIDEO = videoSet('mum-isigi', { landscape: '50% 50%', portrait: '50% 50%' });
 
 /**
- * DugunMumIsigi — "Mum Işığı": gece nikâhı. Video sıcak bokeh taşır;
- * tipografi inci, vurgu mum ışığında pembeleşen inci.
+ * DugunMumIsigi — "Mum Işığı": gece nikâhı. Sıcak toprak tonunda bir gece;
+ * mum ışığı bokeh'i hero'nun üst yarısında serbest kalır, metin alttaki
+ * koyulaşan bölgeye iner (kategoride metni alta indiren tek şablon).
  */
 export function DugunMumIsigi({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -21,13 +22,19 @@ export function DugunMumIsigi({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN_THEMES.DugunMumIsigi}
-      renderHero={(props) => <KurdeleHero {...props} />}
+      renderHero={(props) => <KurdeleHero {...props} anchor="end" />}
       renderHeroBackground={() => (
         <VideoBackdrop {...VIDEO.landscape} portrait={VIDEO.portrait}>
-          {/* Açık renk metnin kontrastı için koyu scrim: kenarlarda yoğun,
-              ortada şeffaf — bokeh görünürken yazı okunaklı kalır. */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/60" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#0c0b12]" />
+          {/* Sıcak tint: mor gece değil, mumun düştüğü toprak tonu. */}
+          <div className="absolute inset-0 bg-[#5a3220]/35 mix-blend-multiply" />
+          {/* Alt yarı koyulaşır; metin orada durur, üstte bokeh nefes alır. */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#120d0b]/20 via-[#120d0b]/55 to-[#120d0b]/90" />
+          {/* Tepeden düşen mum ışığı: kadrajın üstü kehribar parlar. */}
+          <div
+            className="absolute inset-0"
+            style={{ background: 'radial-gradient(ellipse 85% 42% at 50% 0%, rgba(242,170,120,0.38), rgba(242,170,120,0) 72%)' }}
+          />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#120d0b]" />
         </VideoBackdrop>
       )}
     />

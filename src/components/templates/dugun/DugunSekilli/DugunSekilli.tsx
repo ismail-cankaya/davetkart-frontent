@@ -10,7 +10,7 @@ import { ease } from '../../../../utils/motion';
 /** Çapraz kurdele bantları ve kesişimlerine dizili inciler — gelinlik kafesi. */
 function InciKafes({ revealed }: { revealed: boolean }) {
   const id = `inci-kafes-${React.useId().replace(/[^a-zA-Z0-9_-]/g, '')}`;
-  const bead = 'rgba(239,232,243,0.42)';
+  const bead = 'rgba(239,232,243,0.5)';
   return (
     <motion.svg
       aria-hidden="true"
@@ -24,12 +24,12 @@ function InciKafes({ revealed }: { revealed: boolean }) {
           <path
             d="M3 0 L56 53 M0 53 L3 56 M0 3 L53 56 M53 0 L56 3 M53 0 L0 53 M56 53 L53 56 M56 3 L3 56 M3 0 L0 3"
             fill="none"
-            stroke="rgba(217,208,226,0.2)"
-            strokeWidth="0.6"
+            stroke="rgba(217,208,226,0.26)"
+            strokeWidth="0.7"
           />
-          <circle cx="28" cy="28" r="2.2" fill={bead} />
-          <circle cx="27.3" cy="27.3" r="0.7" fill="rgba(255,255,255,0.6)" />
-          {[0, 56].map((x) => [0, 56].map((y) => <circle key={`${x}-${y}`} cx={x} cy={y} r="1.6" fill={bead} />))}
+          <circle cx="28" cy="28" r="2.4" fill={bead} />
+          <circle cx="27.3" cy="27.3" r="0.8" fill="rgba(255,255,255,0.7)" />
+          {[0, 56].map((x) => [0, 56].map((y) => <circle key={`${x}-${y}`} cx={x} cy={y} r="1.7" fill={bead} />))}
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill={`url(#${id})`} />
@@ -38,8 +38,9 @@ function InciKafes({ revealed }: { revealed: boolean }) {
 }
 
 /**
- * DugunSekilli — "İnci Motif": gece zemininde inci kafes. Desenin yükünü
- * altın yaldız değil kurdele bantları ve inci boncuklar taşır.
+ * DugunSekilli — "İnci Motif": mersin gecesinde baştan sona inci kafes;
+ * metin kafesin önünde, üstü kemerli koyu bir plakette durur. Plaketin
+ * çift çizgisi (kenar + 6 px boşluk + ikinci kıl çizgi) gölgeyle çizilir.
  */
 export function DugunSekilli({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -48,19 +49,20 @@ export function DugunSekilli({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN_THEMES.DugunSekilli}
-      renderHero={(props) => <KurdeleHero {...props} />}
+      renderHero={(props) => (
+        <KurdeleHero
+          {...props}
+          panelClassName="rounded-t-[999px] rounded-b-[1.75rem] pt-24 @sm:pt-28 pb-10 bg-[#0f1714]/95 border border-[#dcd2e6]/30 shadow-[0_0_0_6px_rgba(15,23,20,0.95),0_0_0_7px_rgba(220,210,230,0.2)]"
+        />
+      )}
       renderHeroBackground={({ revealed }) => (
-        <div className="absolute inset-0 bg-[#14111b]">
+        <div className="absolute inset-0 bg-[#0f1714]">
           <InciKafes revealed={revealed} />
-          {/* Kafes metnin arkasında söner: ortası gece, kenarları desen. */}
           <div
             className="absolute inset-0"
-            style={{
-              background:
-                'radial-gradient(ellipse 60% 52% at 50% 48%, rgba(20,17,27,0.96) 0%, rgba(20,17,27,0.78) 55%, rgba(20,17,27,0.15) 100%)'
-            }}
+            style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 50%, rgba(15,23,20,0.35) 0%, rgba(15,23,20,0) 100%)' }}
           />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#14111b]" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-[#0f1714]" />
         </div>
       )}
     />

@@ -41,10 +41,20 @@ Tarih asla `new Date(invitation.date)` ile ayrıştırılmaz: `formatDateStr` ç
 
 ## 4. Seçenekler
 
-| Prop | Ne zaman |
-|---|---|
-| `density="compact"` | Süslerin metin kolonunu daralttığı şablonlar (Dugun1, Dugun4, Dugun5) |
-| `panelClassName` | Metnin arkasındaki parlaklığın kontrol edilemediği video (DugunSahil): metin bloğu tül panelde durur |
+Bir kategori hero'su 17 şablona hizmet ettiği için aynı görünmemeleri bu seçeneklere ve
+zemin kompozisyonuna bağlı (1. tur denetiminde 8 koyu şablon birbirinin kopyası gibiydi).
+
+| Prop | Ne yapar | Kullanan |
+|---|---|---|
+| `density="compact"` | Boşlukları ve yazı boylarını sıkılaştırır | Dugun1, Dugun4, Dugun5 |
+| `panelClassName` | Metin bloğunu bir panele koyar; varsayılan `rounded-[2rem] px-4 py-9`, verilen sınıflar üzerine yazılır (biçim de değişebilir) | DugunSahil (gece tülü panel), DugunSekilli (üstü kemerli plaket: `rounded-t-[999px] pt-24`) |
+| `align="start"` | Sola yaslı editoryal düzen: düğüm solda, kurdele yalnız sağdan gelir; `&` satırı, tarih bandı (gün · yıl · saat) ve sayaç sola yaslanır | DugunModern |
+| `anchor="end"` | Metin bloğu hero'nun altına iner, üstte görsel nefes alır | DugunMumIsigi |
+| `nameClassName` | İsim satırlarının boy/biçim sınıfları; varsayılan italik serifin üzerine yazılır | DugunModern (dik, ince, iri), DugunOnyx (en iri) |
+
+Kemerli plakette üst iç boşluk kemer yarıçapını karşılayacak kadar büyük tutulur: 360 px'te
+plaket ~336 px geniş, kemer yarıçapı ~168 px; düğüm 96 px aşağıda başladığında kemerin o
+derinlikteki genişliği (~304 px) kurdele satırını (~170 px) rahatça alır.
 
 ## 5. Erişilebilirlik
 

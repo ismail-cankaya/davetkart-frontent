@@ -16,8 +16,9 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 | Alan | Önce | Sonra |
 |---|---|---|
 | Hero | Summary compact | KurdeleHero compact |
-| Tema | Yerel pembe tema | `DUGUN_THEMES.Dugun4` (koyulaştırılmış gövde/vurgu) |
-| Perde | via-white/40 | via-white/60 (kontrast denetimi sonrası) |
+| Tema | Yerel pembe tema | `DUGUN_THEMES.Dugun4` |
+| Kolon | `max-w-md`: 360 px'te metin sarmaşık sütunlarına taşıyordu | `max-w-[22rem] px-[11%]`, `@md:max-w-[21rem]`: metin kemer açıklığında kalır |
+| Perde | via-white/40 | via-white/60 |
 
 Mevcut PNG süs görselleri olduğu gibi kaldı.
 
@@ -47,6 +48,10 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 
 | Genişlik | Risk |
 |---|---|
-| 360 px | İsimler kemerin yapraklı sütunlarına taşar; kontrast bu hücrelerle hesaplandı (AA). |
-| 768 px | Sorun beklenmez. |
+| 360 px | Metin ~250 px kolonda; alt başlık bir satır fazla kırılır. |
+| 768 px | Kolon 336 px, kemer açıklığı ~384 px. |
 | 1280 px | Kemer max-w-3xl kolonda. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

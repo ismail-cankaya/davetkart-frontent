@@ -20,7 +20,7 @@ Hero: FilmHero (ortak, `shared/heroes`).
 | Bölüm biçimi | kutu alan, köşeli/yuvarlak buton | Hap buton + LCV kartı alanı (`kurdele()`) |
 | Süs | iç içe halkalar (flavor) | kurdele düğümü (flavor) |
 
-Ortak hero'nun kodu değişmedi; yalnızca tema ve parametreler.
+Hale sarmalayıcısı kaldırıldı; düzeltilmiş ortak `Halo` aynı opaklıkla doğrudan kullanılıyor.
 
 ## 3. Kontrast
 
@@ -50,3 +50,7 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 | 360 px | Ortak hero'nun kendi dar ekran davranışı; renk değişikliği yerleşimi etkilemez. |
 | 768 px | Sorun beklenmez. |
 | 1280 px | Sorun beklenmez. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

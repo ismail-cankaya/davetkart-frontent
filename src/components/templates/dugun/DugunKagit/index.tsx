@@ -20,7 +20,7 @@ export function DugunKagit({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN_THEMES.DugunKagit}
-      renderHero={(props) => <PaperHero {...props} sealColor={DUGUN_RENK.sakayik} />}
+      renderHero={(props) => <PaperHero {...props} sealColor={DUGUN_RENK.sakayik} paper="#fbfafc" />}
       renderHeroBackground={() => (
         <HeroStage
           base="radial-gradient(ellipse 90% 80% at 50% 40%, #f1eef3 0%, #e6e1ea 55%, #d9d2df 100%)"

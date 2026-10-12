@@ -50,3 +50,7 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 | 360 px | Hero içerikle uzar; çayır bandı hep altta, metin gökte. |
 | 768 px | Sorun beklenmez. |
 | 1280 px | Çayır max-w-4xl kolonda; iki yanda gök görünür. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

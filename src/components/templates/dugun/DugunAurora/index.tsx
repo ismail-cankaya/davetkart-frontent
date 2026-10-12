@@ -1,18 +1,16 @@
 import React from 'react';
 import { InvitationComposition } from '../../shared/InvitationComposition';
-import { HeroStage, AuroraMesh } from '../../shared/effects';
+import { HeroStage, AuroraMesh, Iridescent } from '../../shared/effects';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
-import { Hale } from '../parts/Hale';
 import { KurdeleHero } from '../parts/KurdeleHero';
 import { TemplateProps } from '../../types';
 
 /**
- * DugunAurora — "Sedef": inci kabuğunun yanardöner iç yüzeyi gibi akan
- * şakayık, lila ve nane ışığı; üzerinde buzlu cam kartlar.
- *
- * Videosuz; tüm görsel yük CSS mesh + canvas parçacıklarında. Mesh üç
- * bağımsız lekeden oluştuğu için desen tekrar etmez.
+ * DugunAurora — "Sedef": inci kabuğunun açık, yanardöner iç yüzeyi.
+ * Pudra şakayık, lila ve nane lekeleri inci zeminde akar; üstünde yumuşak
+ * bir iridesan parıltı. Koyu değil açık — sedef ışığı karanlıkta değil
+ * gün ışığında okunur. Videosuz; yük CSS mesh'te.
  */
 export function DugunAurora({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -24,34 +22,25 @@ export function DugunAurora({ invitation, mode = 'preview' }: TemplateProps) {
       renderHero={(props) => <KurdeleHero {...props} />}
       renderHeroBackground={() => (
         <HeroStage
-          base="radial-gradient(ellipse 110% 90% at 50% 20%, #221a30 0%, #110d1a 55%, #09070e 100%)"
-          // Mesh zaten yumuşak; scrim yalnızca metnin oturduğu banda iner.
-          scrim={[
-            { from: 'both', strength: 0.3 },
-            { from: 'center', strength: 0.6, tint: '15,12,22' }
-          ]}
-          vignette={{ strength: 0.45 }}
+          base="linear-gradient(165deg, #fbf9fc 0%, #f1ecf6 50%, #ece6f2 100%)"
+          scrim={false}
+          vignette={false}
           atmosphere={
             <>
-              <AuroraMesh colors={['235,169,198', '199,184,226', '178,226,214']} opacity={0.3} duration={24} />
-              <Hale color="240,181,207" size={62} x={50} y={40} opacity={0.2} duration={11} />
+              <AuroraMesh colors={['243,196,216', '206,193,240', '190,226,214']} opacity={0.95} duration={24} />
+              <Iridescent opacity={0.22} duration={18} className="mix-blend-soft-light" />
             </>
           }
-          particles={[
-            {
-              preset: 'stardust',
-              colors: ['#ffffff', '#f0b5cf', '#d9cdf3'],
-              blend: 'screen',
-              density: 0.7,
-              speed: 0.45,
-              opacity: 0.7,
-              pointerStrength: 1.4,
-              depth: 1,
-              seed: 101
-            }
-          ]}
-          grain={0.03}
-          fadeTo="#0f0c16"
+          overlay={
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: 'radial-gradient(ellipse 62% 50% at 50% 50%, rgba(246,243,248,0.45), rgba(246,243,248,0) 78%)' }}
+            />
+          }
+          parallax={10}
+          grain={0.02}
+          fadeTo="#f6f3f8"
         />
       )}
     />

@@ -21,6 +21,9 @@ ortada düğüm, S kıvrımlı iki kuyruk ve ilmeklerde iki kıvrım çizgisi.
 
 Yol verisi (`KNOT`, `LOOPS`, `TAILS`, `CREASES`) dosyada tek yerde durur.
 
+`KurdeleCizim align="start"` (DugunModern'in sola yaslı düzeni): sol çizgi çizilmez,
+düğüm solda durur ve kurdele yalnızca sağ kenardan düğüme uzanır.
+
 ## 3. "Hareketi azalt"
 
 `pathLength` bir transform değildir; `MotionConfig` onu susturmaz. `KurdeleCizim`

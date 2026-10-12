@@ -7,7 +7,7 @@
 
 ## 1. Fikir
 
-Mum Işığı — gece nikâhı; sıcak bokeh videosu, inci tipografi, inci pembesi vurgu, inci buton.
+Mum Işığı — sıcak toprak tonunda gece; bokeh üst yarıda serbest, metin alttaki koyu bölgeye iner (`anchor="end"`).
 
 Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü bu şablon eskiden dokuz kategoride aynı görünen `Summary`'yi kullanıyordu.
 
@@ -15,9 +15,9 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 
 | Alan | Önce | Sonra |
 |---|---|---|
-| Hero | Summary | KurdeleHero |
-| Perde | black 45/15/55 | black 50/20/60 |
-| Tema | Şampanya vurgu | `DUGUN_THEMES.DugunMumIsigi` (inci) |
+| Hero | Summary | KurdeleHero `anchor="end"` |
+| Zemin | Menekşe-siyah perde | Toprak çarpımı `#5a3220`/35 + alta koyulaşan `#120d0b` perde |
+| Vurgu | İnci pembesi | Mum ışığında şeftali-inci `#f2c6b6` |
 
 Video ve poster değişmedi; yalnızca üstündeki katmanlar.
 
@@ -25,8 +25,8 @@ Video ve poster değişmedi; yalnızca üstündeki katmanlar.
 
 | Alan | En düşük oran | Çift |
 |---|---|---|
-| Bölümler | 5.56 | placeholder / alan |
-| Hero | 6.84 | body (mesaj/mekân) / zemin #2f2316 |
+| Bölümler | 5.44 | placeholder / alan |
+| Hero | 7.94 | body (mesaj/mekân) / zemin #241a12 |
 
 Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md §6'da.
 
@@ -47,6 +47,10 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 
 | Genişlik | Risk |
 |---|---|
-| 360 px | Sorun beklenmez. |
-| 768 px | Sorun beklenmez. |
+| 360 px | İçerik uzun olduğu için alta yaslama küçük ekranda ortalamaya yakın görünür. |
+| 768 px | Üst yarıda bokeh açıkça görünür. |
 | 1280 px | Sorun beklenmez. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

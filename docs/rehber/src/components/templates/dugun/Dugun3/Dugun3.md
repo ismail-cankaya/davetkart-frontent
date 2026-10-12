@@ -17,7 +17,8 @@ Hero: KurdeleHero (`dugun/parts/KurdeleHero.tsx`) — kategori hero'su, çünkü
 |---|---|---|
 | Hero | Summary | KurdeleHero |
 | Tema | Yerel bordo teması | `DUGUN_THEMES.Dugun3` |
-| Yerleşim | yok | Alt padding: sayaç sol alt buketten uzaklaşır |
+| Buket | Yüzdelik (%62, en çok 420 px): KurdeleHero uzayınca sayacın üstüne biniyordu | Sabit `w-40` / `@md:w-56`; içerik alt padding'i (`pb-14` / `@md:pb-24`) buket yüksekliğini aşar |
+| Zambak | %36, en çok 240 px | %30, en çok 200 px; içerik üst padding'i kurdele çizgisini zambaktan uzak tutar |
 
 Mevcut PNG süs görselleri olduğu gibi kaldı.
 
@@ -47,6 +48,10 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 
 | Genişlik | Risk |
 |---|---|
-| 360 px | Sol alt buket (%62) sayaç bandının sol ucuna yaklaşabilir. |
-| 768 px | Sorun beklenmez. |
-| 1280 px | Buket 420 px ile sınırlı. |
+| 360 px | Buket 160 px; sayaç bandı buketin üstünde biter. |
+| 768 px | Buket 224 px; hero içerikle uzar. |
+| 1280 px | Hero 800 px'ten uzun, kaydırılır; buket sayaçla örtüşmez. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.

@@ -49,3 +49,7 @@ Eşik: normal metin 4.5, büyük başlık 3. Yöntem ve varsayımlar KIMLIK.md �
 | 360 px | Metin kolonu %70: uzun isimler (>12 harf) iki satıra iner. |
 | 768 px | Kolonlar %21; sorun beklenmez. |
 | 1280 px | max-w-4xl sarmalayıcı; kenar boşluğu düz zemin. |
+
+## 7. Görsel öz-kontrol
+
+Bu turda ekran görüntüsüyle bakılmadı.
