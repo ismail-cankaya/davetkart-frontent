@@ -29,7 +29,7 @@ export function KinaKrom({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KINA_FLAVOR}
       mode={mode}
       themeOverride={KINA_KROM}
-      renderHero={(props) => <KinaHero {...props} align="start" damga={DAMGA_KINA} flame="#ffd9b0" />}
+      renderHero={(props) => <KinaHero {...props} align="start" timer="satir" damga={DAMGA_KINA} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(150deg, #33180e 0%, #1c0d08 55%, #0e0604 100%)"

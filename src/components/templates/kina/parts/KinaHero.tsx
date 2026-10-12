@@ -8,11 +8,18 @@ import { ChevronDownIcon, MapPinIcon } from '../../shared/icons';
 import { BindalliDal } from './BindalliDal';
 import { DAMGA_KINA, DamgaColors, KinaDamga } from './KinaDamga';
 import { MumSayac } from './MumSayac';
+import { SatirSayac } from './SatirSayac';
 import { kinaDateParts, splitKinaNames } from './heroText';
 
 export interface KinaHeroProps extends HeroRenderProps {
   /** Ortalı tören düzeni ya da sola yaslı afiş düzeni. */
   align?: 'center' | 'start';
+  /** Adlar alt alta (damga arada) ya da tek satırda; tek satır hero'yu ~130 px kısaltır. */
+  names?: 'stack' | 'line';
+  /** Geri sayım: dört mum ya da kıl çizgiler arasında tek satır. */
+  timer?: 'mum' | 'satir';
+  /** Tepedeki süs (kına tepsisi); sahnesi zaten tepsi olan şablonda kapatılır. */
+  ornament?: boolean;
   /** Metnin oturduğu yüzey: yok, kemer pencere ya da buzlu cam. */
   panel?: 'none' | 'kemer' | 'cam';
   /** Okuma halesi (rgb üçlüsü): video ya da yoğun zeminde metnin arkasını kısar. */
@@ -45,6 +52,9 @@ export function KinaHero({
   theme,
   flavor,
   align = 'center',
+  names = 'stack',
+  timer = 'mum',
+  ornament = true,
   panel = 'none',
   halo,
   damga = DAMGA_KINA,
@@ -59,6 +69,7 @@ export function KinaHero({
   const subtitle = displayText(invitation.subtitle);
   const venue = displayText(invitation.venue);
   const center = align === 'center';
+  const line = names === 'line';
   const when = [weekday, time && `Saat ${time}`].filter(Boolean).join(' · ');
   // bg-clip-text başlıkta (Krom) gölge degradenin üstüne boyanır; orada verilmez.
   const glow = halo && !theme.heading.includes('bg-clip-text')
@@ -104,19 +115,21 @@ export function KinaHero({
           />
         )}
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.7, filter: 'blur(6px)' }}
-          animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-          transition={{ duration: 1.4, ease: ease.out }}
-          className={theme.accent}
-        >
-          <Ornament size={46} />
-        </motion.div>
+        {ornament && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.7, filter: 'blur(6px)' }}
+            animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+            transition={{ duration: 1.4, ease: ease.out }}
+            className={theme.accent}
+          >
+            <Ornament size={46} />
+          </motion.div>
+        )}
 
         {title && (
           <motion.p
             {...rise(0.25)}
-            className={cn('mt-5 text-[10px] @sm:text-[11px] font-semibold uppercase tracking-[0.34em] leading-relaxed', center && 'mr-[-0.34em]', theme.accent)}
+            className={cn(ornament && 'mt-5', 'text-[10px] @sm:text-[11px] font-semibold uppercase tracking-[0.34em] leading-relaxed', center && 'mr-[-0.34em]', theme.accent)}
             style={glow}
           >
             {title}
@@ -126,32 +139,40 @@ export function KinaHero({
         <h1
           className={cn(
             'mt-4 font-serif font-medium leading-[1.04] tracking-[-0.01em] [overflow-wrap:anywhere] w-full',
-            center ? 'text-[2.6rem] @sm:text-6xl @2xl:text-7xl' : 'text-[2.9rem] @sm:text-7xl @2xl:text-8xl',
+            line
+              ? 'text-[2.3rem] @sm:text-[3.4rem] @2xl:text-6xl'
+              : center
+                ? 'text-[2.6rem] @sm:text-6xl @2xl:text-7xl'
+                : 'text-[2.9rem] @sm:text-7xl @2xl:text-8xl',
+            line && cn('flex flex-wrap items-center gap-x-3 @sm:gap-x-4 gap-y-1', center ? 'justify-center' : 'justify-start'),
             theme.heading
           )}
           style={glow}
         >
-          <motion.span {...rise(0.45)} className="block">
+          <motion.span {...rise(0.45)} className={line ? 'min-w-0' : 'block'}>
             {first}
           </motion.span>
           {second && (
-            <span className={cn('flex items-center', center ? 'flex-col' : 'flex-row gap-3 @sm:gap-4 mt-1')}>
+            <span className={cn('flex items-center', line ? 'contents' : center ? 'flex-col' : 'flex-row gap-3 @sm:gap-4 mt-1')}>
               <motion.span
                 initial={{ opacity: 0, scale: 0.4 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 1.3, ease: ease.out, delay: 0.7 }}
-                className={cn('inline-flex shrink-0', center && 'my-2.5')}
+                className={cn('inline-flex shrink-0', center && !line && 'my-2.5')}
               >
-                <KinaDamga colors={damga} className="w-12 h-12 @sm:w-14 @sm:h-14">
+                <KinaDamga colors={damga} className={line ? 'w-10 h-10 @sm:w-12 @sm:h-12' : 'w-12 h-12 @sm:w-14 @sm:h-14'}>
                   <span
-                    className="block font-cormorant italic font-semibold leading-none text-[1.9rem] @sm:text-[2.2rem] translate-y-[-0.04em]"
+                    className={cn(
+                      'block font-cormorant italic font-semibold leading-none translate-y-[-0.04em]',
+                      line ? 'text-[1.6rem] @sm:text-[1.9rem]' : 'text-[1.9rem] @sm:text-[2.2rem]'
+                    )}
                     style={{ color: damgaInk, textShadow: 'none' }}
                   >
                     &amp;
                   </span>
                 </KinaDamga>
               </motion.span>
-              <motion.span {...rise(0.85)} className="block min-w-0">
+              <motion.span {...rise(0.85)} className={line ? 'min-w-0' : 'block min-w-0'}>
                 {second}
               </motion.span>
             </span>
@@ -203,7 +224,10 @@ export function KinaHero({
           </motion.div>
         )}
 
-        {invitation.showTimer && (
+        {invitation.showTimer && timer === 'satir' && (
+          <SatirSayac date={invitation.date} timeZone={invitation.timezone} theme={theme} delay={1.35} className="mt-8" />
+        )}
+        {invitation.showTimer && timer === 'mum' && (
           <MumSayac
             date={invitation.date}
             timeZone={invitation.timezone}

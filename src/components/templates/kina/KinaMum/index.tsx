@@ -9,8 +9,8 @@ import { TepsiSahnesi } from './TepsiSahnesi';
 
 /**
  * KinaMum — "Kına Tepsisi": karanlık odada bakır tepsi, ortasında kına,
- * çevresinde mumlar. Tek yükselen efekt alevden kopan kor; metin tepsinin
- * üstündeki karanlıkta durur.
+ * çevresinde mumlar; tepsi ilk ekranın tepesinde, adlar tek satırda altında.
+ * Tek yükselen efekt alevden kopan kor.
  */
 export function KinaMum({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -19,7 +19,7 @@ export function KinaMum({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KINA_FLAVOR}
       mode={mode}
       themeOverride={KINA_MUM}
-      renderHero={(props) => <KinaHero {...props} flame="#ffc35f" className="pt-16 pb-56 @md:pb-72" />}
+      renderHero={(props) => <KinaHero {...props} names="line" ornament={false} flame="#ffc35f" className="pt-[210px] @md:pt-[280px] pb-24" />}
       renderHeroBackground={({ revealed }) => (
         <>
           <TepsiSahnesi revealed={revealed} />

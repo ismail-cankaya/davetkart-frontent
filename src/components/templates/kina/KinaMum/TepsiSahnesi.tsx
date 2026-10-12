@@ -43,7 +43,8 @@ function Mumlar({ list, glow }: { list: Mum[]; glow: string }) {
 
 /**
  * "Kına Tepsisi" — bakır tepside yoğrulmuş kına ve çevresinde yanan mumlar.
- * Tepsi altta sabit boyda durur (`meet`: genişlikle büyümez); alevler titrer.
+ * Tepsi tepede sabit boyda durur (`meet`: genişlikle büyümez), ilk ekranda
+ * görünür; metin altındaki karanlıkta. Alevler titrer.
  */
 export function TepsiSahnesi({ revealed }: { revealed: boolean }) {
   const uid = useId().replace(/:/g, '');
@@ -53,22 +54,22 @@ export function TepsiSahnesi({ revealed }: { revealed: boolean }) {
   return (
     <div
       className="absolute inset-0 overflow-hidden"
-      style={{ background: 'radial-gradient(90% 55% at 50% 100%, #4a1e0c 0%, #261008 45%, #170a05 100%)' }}
+      style={{ background: 'radial-gradient(110% 45% at 50% 12%, #4a1e0c 0%, #261008 50%, #170a05 100%)' }}
     >
       <KinaMotionStyles />
       {/* Mumların tavana vuran ışığı. */}
       <div
         data-atmosphere=""
-        className="kina-glow absolute left-1/2 bottom-[80px] w-[520px] h-[300px] -translate-x-1/2 translate-y-1/2 rounded-[50%]"
+        className="kina-glow absolute left-1/2 top-[130px] @md:top-[160px] w-[520px] h-[300px] -translate-x-1/2 -translate-y-1/2 rounded-[50%]"
         style={{ background: 'radial-gradient(closest-side, rgba(255,170,90,0.35), rgba(255,170,90,0))', animationDuration: '5s' }}
       />
       <motion.svg
         aria-hidden="true"
         viewBox="0 0 400 200"
-        preserveAspectRatio="xMidYMax meet"
-        className="absolute inset-x-0 bottom-0 w-full h-[190px] @md:h-[240px]"
-        initial={{ y: 30, opacity: 0 }}
-        animate={revealed ? { y: 0, opacity: 1 } : { y: 30, opacity: 0 }}
+        preserveAspectRatio="xMidYMid meet"
+        className="absolute inset-x-0 top-6 @md:top-10 w-full h-[170px] @md:h-[220px]"
+        initial={{ y: -20, opacity: 0 }}
+        animate={revealed ? { y: 0, opacity: 1 } : { y: -20, opacity: 0 }}
         transition={{ duration: 1.4, ease: ease.out }}
       >
         <defs>

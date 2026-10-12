@@ -8,7 +8,7 @@ import { TemplateProps } from '../../types';
 
 /**
  * KinaAurora — "Kına Ateşi": kına turuncusu, duvak alı ve sırma sarısından
- * akışkan bir renk kütlesi; metin önünde buzlu cam bir kartta durur.
+ * akışkan bir renk kütlesi; metin önünde buzlu cam bir kartta, adlar tek satırda.
  */
 export function KinaAurora({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -17,13 +17,13 @@ export function KinaAurora({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KINA_FLAVOR}
       mode={mode}
       themeOverride={KINA_AURORA}
-      renderHero={(props) => <KinaHero {...props} panel="cam" flame="#ffd27f" className="pt-14 pb-20" />}
+      renderHero={(props) => <KinaHero {...props} panel="cam" names="line" timer="satir" className="pt-14 pb-20" />}
       renderHeroBackground={() => (
         <HeroStage
           base="radial-gradient(ellipse 110% 90% at 50% 22%, #4a1a0c 0%, #2a0e08 55%, #140705 100%)"
           scrim={false}
           vignette={{ strength: 0.4 }}
-          atmosphere={<AuroraMesh colors={['226,110,50', '176,36,28', '232,170,80']} opacity={0.72} duration={24} />}
+          atmosphere={<AuroraMesh colors={['226,110,50', '176,36,28', '232,170,80']} opacity={1} duration={24} />}
           particles={[
             {
               preset: 'stardust',

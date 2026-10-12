@@ -9,29 +9,47 @@ import { TemplateProps } from '../../types';
 
 const VIDEO = videoSet('kina-bordo', { landscape: '50% 50%', portrait: '50% 50%' });
 
-/** Duvak oyası: ipek kenarına iğneyle örülen kavisler ve altlarında çiçek pulları. */
-function OyaKenar({ className }: { className?: string }) {
-  const id = `kina-oya-${useId().replace(/:/g, '')}`;
+/** Oya pullarının eğri üstündeki yerleri: `y = 46 + 200·t·(1−t)`, t = .1 … .9. */
+const PULLAR = [0.1, 0.3, 0.5, 0.7, 0.9].map((t) => [120 * t, 46 + 200 * t * (1 - t)] as const);
+
+/**
+ * Al duvak — tepeden sarkan yarı saydam al tül; her 120 px'te bir kavis,
+ * kenarında iğne oyası pulları. Desen yatayda tekrarlanır, boyu sabittir.
+ */
+function Duvak({ className }: { className?: string }) {
+  const uid = useId().replace(/:/g, '');
+  const tul = `kina-duvak-${uid}`;
+  const pattern = `kina-duvak-desen-${uid}`;
   return (
-    <svg aria-hidden="true" className={className} width="100%" height="18" xmlns="http://www.w3.org/2000/svg">
+    <svg aria-hidden="true" className={className} width="100%" height="112" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <pattern id={id} x="0" y="0" width="24" height="18" patternUnits="userSpaceOnUse">
-          <path d="M0 2Q6 13 12 2Q18 13 24 2" fill="none" stroke="currentColor" strokeWidth="0.9" />
-          <circle cx="6" cy="11.5" r="1.3" fill="currentColor" />
-          <circle cx="18" cy="11.5" r="1.3" fill="currentColor" />
-          <circle cx="6" cy="15.6" r="0.7" fill="currentColor" fillOpacity="0.7" />
-          <circle cx="18" cy="15.6" r="0.7" fill="currentColor" fillOpacity="0.7" />
+        <linearGradient id={tul} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#8f1a1a" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#b0241c" stopOpacity="0.5" />
+        </linearGradient>
+        <pattern id={pattern} x="0" y="0" width="120" height="112" patternUnits="userSpaceOnUse">
+          <path d="M0 0H120V46Q60 146 0 46Z" fill={`url(#${tul})`} />
+          {/* Tülün kıvrımları. */}
+          <path d="M30 0V64M60 0V88M90 0V64" stroke="#2a060b" strokeOpacity="0.28" strokeWidth="6" />
+          <path d="M0 46Q60 146 120 46" fill="none" stroke="#d8a24a" strokeOpacity="0.85" strokeWidth="1" />
+          {PULLAR.map(([x, y]) => (
+            <g key={x} fill="#d8a24a">
+              <path d={`M${x} ${y}v5`} stroke="#d8a24a" strokeOpacity="0.7" strokeWidth="0.7" />
+              <circle cx={x} cy={y + 7} r="1.8" />
+              <circle cx={x} cy={y + 11.5} r="0.9" fillOpacity="0.7" />
+            </g>
+          ))}
         </pattern>
       </defs>
-      <rect x="0" y="0" width="100%" height="1" fill="currentColor" />
-      <rect x="0" y="0" width="100%" height="18" fill={`url(#${id})`} />
+      <rect x="0" y="0" width="100%" height="112" fill={`url(#${pattern})`} />
     </svg>
   );
 }
 
 /**
- * KinaBordo — "Al Duvak": şarap ipeği videosunun üstünde duvağın oyalı kenarı,
- * dalgalanan al tül ve sırma pullar. Metin okuma halesiyle videodan ayrılır.
+ * KinaBordo — "Al Duvak": şarap ipeği videosunun tepesinden sarkan oyalı al
+ * duvak, dalgalanan tül ve sırma pullar. Metin okuma halesiyle videodan
+ * ayrılır; sayaç tek satır.
  */
 export function KinaBordo({ invitation, mode = 'preview' }: TemplateProps) {
   return (
@@ -40,7 +58,7 @@ export function KinaBordo({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KINA_FLAVOR}
       mode={mode}
       themeOverride={KINA_BORDO}
-      renderHero={(props) => <KinaHero {...props} halo="24,5,12" flame="#ffd27f" className="pt-24" />}
+      renderHero={(props) => <KinaHero {...props} halo="24,5,12" timer="satir" className="pt-36" />}
       renderHeroBackground={() => (
         <HeroStage
           video={VIDEO}
@@ -65,7 +83,7 @@ export function KinaBordo({ invitation, mode = 'preview' }: TemplateProps) {
               seed: 58
             }
           ]}
-          overlay={<OyaKenar className="absolute top-0 inset-x-0 text-[#d8a24a]/75" />}
+          overlay={<Duvak className="absolute top-0 inset-x-0" />}
           fadeTo="#1d0710"
         />
       )}
