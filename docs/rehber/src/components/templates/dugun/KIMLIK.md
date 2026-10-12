@@ -194,7 +194,7 @@ kağıdında ölçüldü. AA altında kalan dekoratif metin yok.
 | Sade çerçevesi, Sekilli kafesi | Sade, Sekilli | MotionConfig ölçeği atlar; opaklık solar |
 | Otomatik video | Gökyüzü, Mum Işığı, Deniz, Gül, Sahil, Onyx | `VideoBackdrop` video öğesini basmaz, poster kalır |
 | Atmosfer (`Halo`, `GodRays`, `LightLeak`, `AuroraMesh`, `GoldSheen`, `Iridescent`) | HeroStage'li şablonlar | `[data-atmosphere]` → `animation: none` |
-| Canvas parçacıkları | Gül, Sahil, Onyx, Noir, Vitray | `ParticleField` tek durağan kare |
+| Canvas parçacıkları (`parts/KenarParcacik.tsx`, yalnız kenar bantları, 448 px altında yok) | Gül, Sahil, Onyx, Noir, Vitray | `ParticleField` tek durağan kare |
 | İşaretçi parallax'ı | HeroStage'li şablonlar | `usePointerParallax` dinleyici kurmaz |
 | Ebru su salınımı | Ebru | `EbruSheet` `useReducedMotion` |
 | Ortak hero döngüleri (Plak, Film, Mermer, Vitray, Terrazzo, Çini, Monogram, Pano, Kinetik, Yıldız, Tek Çizgi, Ufuk) | İlgili şablonlar | Ortak dosyalarda; kendi reduce yolları |
@@ -227,6 +227,8 @@ değişmedi; yalnızca halelerin yeri değişti (eskiden yarım boy kayıktı) v
 | 1 | 8 koyu şablon | birbirinden ayırt edilemiyordu | §8'deki zemin/ışık/yerleşim ayrışması |
 | 1 | Koyu temalar | zarf mührü altındı | `envelope.seal` inci, açıkta şakayık |
 | 1 | Manzara, Krom | yeni açık zeminlerde gövde AA altı | gravür %40, okuma tülü; gövde koyulaştı |
+| 1 | Onyx, Gül, Sahil, Noir, Vitray | parçacıklar isim, tarih ve sayacın üstünden geçiyordu | `KenarParcacik`: yatay maske, dar kapta çizilmez |
+| 1 | Mum Işığı, Sedef, Saten Gümüş, Modern, Dugun4 | 360 px kontak sayfasında silik/boş kalan yerler | üstten amber ışık, belirgin ağ, koyu metal isim, 768+ dış hat `&`, daha dar kolon |
 
 ## 12. `data.ts` kart değerleri
 
