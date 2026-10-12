@@ -359,7 +359,7 @@ export const KINA_SULUBOYA: SectionTheme = {
   surface: 'bg-white/80 backdrop-blur-sm',
   border: 'border-[#ead3bf]',
   heading: 'text-[#2e120a]',
-  body: 'text-[#76412e]',
+  body: 'text-[#5e2f1f]',
   accent: 'text-[#a4451a]',
   accentBg: 'bg-[#a4451a]',
   accentSoft: 'bg-[#c4581d]/12',
