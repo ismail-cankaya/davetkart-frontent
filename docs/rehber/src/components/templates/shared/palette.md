@@ -28,3 +28,15 @@ eklendi.
 
 Değerler Tailwind sınıf dizgesidir (tema nesnesinin geri kalanı gibi). Varsayılanlar
 bugünkü görünümün aynısıdır: hiçbir şablon kendiliğinden değişmez.
+
+## 3. `footer` (2026-10-15 · dal `design/kagit`)
+
+| Alan | Ne boyar | Verilmezse |
+|---|---|---|
+| `footer.names` | Alt bilgideki adlar satırı | `body` + `opacity-60` |
+| `footer.branding` | "DavetKart ile hazırlandı" imzası | `body` + `opacity-40` |
+
+**Neden:** opaklıkla soluklaştırılan alt bilgi, zemini bilmeden kontrastı düşürür. Kâğıt
+setinde (pamuk kâğıt, `is` mürekkep) ölçüldü: ad **3.01**, imza **1.98** — 10 ve 9 px metin için
+AA (4.5) altında. Zemini bilen tema ölçülmüş renklerini verir; kâğıt teması tam gövde
+mürekkebini verir (en kötü 4.52). Alanı vermeyen 296 şablonun çıktısı birebir aynı kalır.

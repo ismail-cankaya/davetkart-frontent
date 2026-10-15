@@ -15,7 +15,8 @@ birer **ek karta** çevirir; bileşenlerin kendisine dokunmadan.
 | `surface` | Ek kart: dokulu, 3 px köşe, `--kg-golge` gölgesi, **düz kesim** |
 | `input` | Cevap kartı: saydam zemin, kesik alt çizgi (tam gövde mürekkebi), italik yer tutucu |
 | `buttonPrimary` | Mürekkeple doldurulmuş blok, 3 px köşe |
-| `envelope` | Ortak `Envelope` kâğıt renklerini alır (renderEnvelope kancası gelene kadar) |
+| `envelope` | Ortak `Envelope` kâğıt renklerini alır (preset `KagitZarf`'ı bağlamazsa) |
+| `footer` | Alt bilgi tam gövde mürekkebi (ortak varsayılan opaklıkla 3.01 / 1.98 idi) |
 
 ## 2. Neden düz kesim?
 

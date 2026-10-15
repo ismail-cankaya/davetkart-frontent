@@ -60,6 +60,18 @@ export interface SectionTheme {
   };
   /** Detaylar kartının harita başlığı zemini; verilmezse `id`'ye göre slate/stone. */
   mapHeader?: string;
+  /**
+   * Alt bilginin metin sınıfları. Verilmezse `body` rengi opaklıkla
+   * soluklaştırılır (ad %60, imza %40). Soluk hâl açık kâğıt zeminde AA'nın
+   * altına düşebilir (ölçülen 3.01 / 1.98); zemini bilen tema ölçülmüş
+   * renklerini buradan verir.
+   */
+  footer?: {
+    /** Adlar satırı. */
+    names?: string;
+    /** "DavetKart ile hazırlandı" imzası. */
+    branding?: string;
+  };
 }
 
 const MIDNIGHT: SectionTheme = {

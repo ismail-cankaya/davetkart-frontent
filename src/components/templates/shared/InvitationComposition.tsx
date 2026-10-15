@@ -41,6 +41,19 @@ export interface BackdropState extends HeroBackgroundState {
   progress: MotionValue<number>;
 }
 
+/**
+ * Özel zarf kapısına geçirilen bağlam — ortak `Envelope`'un aldığının aynısı.
+ * Kapı açılış koreografisini kendi yönetir; kompozisyona yalnızca iki anı
+ * bildirir: kaymaya başladığı an (hero girişi) ve bittiği an (kapı kalkar).
+ */
+export interface EnvelopeRenderProps {
+  invitation: Invitation;
+  theme: ReturnType<typeof getSectionTheme>;
+  flavor: TemplateFlavor;
+  onRevealStart: () => void;
+  onOpened: () => void;
+}
+
 /** Hero arka planına geçirilen giriş durumu. */
 export interface HeroBackgroundState {
   /**
@@ -76,6 +89,12 @@ interface InvitationCompositionProps {
    * kanca var. Verilmezse hiçbir şablon etkilenmez.
    */
   renderHero?: (props: HeroRenderProps) => React.ReactNode;
+  /**
+   * Zarf kapısını değiştirir (varsayılan: ortak `Envelope`). Yalnızca
+   * `invitation.showEnvelope` açıkken çağrılır — kapı bir modüldür, şablon
+   * onu bayraktan bağımsız gösteremez. Verilmezse hiçbir şablon etkilenmez.
+   */
+  renderEnvelope?: (props: EnvelopeRenderProps) => React.ReactNode;
   /**
    * Hero metin konteynerinin yerleşimini şablona göre özelleştirir; süslerin
    * kapladığı alanı padding'le güvenli bölgeye çevirmek (Dugun1) veya metni
@@ -131,6 +150,7 @@ export function InvitationComposition({
   renderHeroBackground,
   renderBackdrop,
   renderHero,
+  renderEnvelope,
   heroContentClassName,
   summaryDensity = 'default'
 }: InvitationCompositionProps) {
@@ -151,6 +171,14 @@ export function InvitationComposition({
    * metin ve SVG süs olduğundan geç mount ucuzdur.
    */
   const revealed = !envelopeVisible || revealStarted;
+
+  const envelopeProps: EnvelopeRenderProps = {
+    invitation,
+    theme,
+    flavor,
+    onRevealStart: () => setRevealStarted(true),
+    onOpened: () => setEnvelopeOpened(true)
+  };
 
   const sectionFallback = (
     <div className={cn('w-full h-24 flex items-center justify-center', theme.page)}>
@@ -178,15 +206,7 @@ export function InvitationComposition({
 
       {/* 2. Envelope layer */}
       <AnimatePresence>
-        {envelopeVisible && (
-          <Envelope
-            invitation={invitation}
-            theme={theme}
-            flavor={flavor}
-            onRevealStart={() => setRevealStarted(true)}
-            onOpened={() => setEnvelopeOpened(true)}
-          />
-        )}
+        {envelopeVisible && (renderEnvelope ? renderEnvelope(envelopeProps) : <Envelope {...envelopeProps} />)}
       </AnimatePresence>
 
       {/* 3. Scrollable content */}
@@ -230,14 +250,16 @@ export function InvitationComposition({
           </Suspense>
 
           {/* Footer signature */}
+          {/* Tema `footer` verirse kendi ölçülmüş renklerini kullanır; vermezse
+              bugünkü soluk hâl (opaklık) korunur. */}
           <footer className={cn('py-8 text-center')}>
-            <p className={cn('text-[10px] font-medium tracking-[0.3em] uppercase opacity-60', theme.body)}>
+            <p className={cn('text-[10px] font-medium tracking-[0.3em] uppercase', theme.footer?.names ?? ['opacity-60', theme.body])}>
               {invitation.names || 'DavetKart'}
             </p>
             {/* FE 10.20 (K102): Elit'te "Logosuz özel yayın". Karar sunucudan gelir
                 (misafir sayfası ve FE 10.21'den beri editör); alan yoksa imza çizilir. */}
             {invitation.showBranding !== false && (
-              <p className={cn('text-[9px] mt-1.5 opacity-40', theme.body)}>DavetKart ile hazırlandı</p>
+              <p className={cn('text-[9px] mt-1.5', theme.footer?.branding ?? ['opacity-40', theme.body])}>DavetKart ile hazırlandı</p>
             )}
           </footer>
         </div>

@@ -1,6 +1,6 @@
 # `shared/paper/KagitZarf.tsx` — zarf kapısı
 
-> **Tarih:** 2026-10-15 · dal `design/kagit` · Önerilen kanca: `InvitationComposition.renderEnvelope` (konsept §8)
+> **Tarih:** 2026-10-15 · dal `design/kagit` · Bağlantı: `InvitationComposition.renderEnvelope` (konsept §8)
 
 ---
 
@@ -40,6 +40,6 @@ Açılan kapak yukarı kalktığında adların önüne geçiyordu; ad bloğu `z-
 
 ## 5. Sınırlar
 
-- `renderEnvelope` kancası kabul edilene kadar preset'lere bağlanamaz; o zamana kadar ortak
+- Preset `renderEnvelope={(props) => <KagitZarf {...props} />}` ile bağlar; bağlamazsa ortak
   `Envelope` `KAGIT_TEMASI.envelope` renkleriyle çizilir.
 - Zarf `showEnvelope` modülüdür (Gold). Tasarım onu bayraktan bağımsız göstermez.

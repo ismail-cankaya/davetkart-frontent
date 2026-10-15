@@ -36,6 +36,6 @@ kurallarıyla durur.
 
 ## 3. Sınırlar
 
-- Kit henüz hiçbir preset'e bağlı değil; `npm run build` onu ağaçtan atar. Preset'ler bağlandığında
-  `scripts/run-check.mjs`'e `.webp` yükleyicisi gerekir (konsept §8).
+- Kit preset'e bağlanmadıkça `npm run build` onu ağaçtan atar. `verify:render`'ın kiti
+  yükleyebilmesi için `scripts/run-check.mjs`'e `.webp` yükleyicisi eklendi (konsept §8).
 - Kit değişikliği onay ister (Aşama 2 kuralı).

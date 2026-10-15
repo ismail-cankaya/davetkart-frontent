@@ -52,7 +52,10 @@ export const KAGIT_TEMASI: SectionTheme = {
     glow: 'bg-transparent',
     card: `${KAGIT_YUZEYI} border border-[var(--kg-cizgi)]`
   },
-  mapHeader: 'bg-[var(--kg-kart-koyu)]'
+  mapHeader: 'bg-[var(--kg-kart-koyu)]',
+  // Ortak alt bilgi opaklıkla soluklaşıyor (kâğıtta 3.01 / 1.98). Burada tam
+  // gövde mürekkebi: en kötü çift 4.52.
+  footer: { names: 'text-[var(--kg-govde)]', branding: 'text-[var(--kg-govde)]' }
 };
 
 /** Koyu karton seti. Renkler yine değişkenden; `id` paylaşılan bölümlerin koyu dallarını açar. */

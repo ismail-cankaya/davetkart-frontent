@@ -33,7 +33,8 @@ await build({
   packages: 'external',
   // Store'lar `data.ts` üzerinden şablon kapak görsellerini içeri alır; Node'da
   // bir görselin içeriğine ihtiyaç yok, yalnızca modülün yüklenebilmesine.
-  loader: { '.png': 'empty', '.jpg': 'empty', '.svg': 'empty' },
+  // `.webp`: kâğıt kitinin dokuları (shared/paper/doku).
+  loader: { '.png': 'empty', '.jpg': 'empty', '.svg': 'empty', '.webp': 'empty' },
   define: { 'import.meta.env': JSON.stringify({ VITE_API_BASE_URL: '/api' }) },
   outfile,
   logLevel: 'error',

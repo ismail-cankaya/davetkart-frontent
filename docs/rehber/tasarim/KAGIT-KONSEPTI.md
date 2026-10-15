@@ -268,7 +268,7 @@ export function NisanOrnek({ invitation, mode = 'preview' }: TemplateProps) {
         mode={mode}
         themeOverride={KAGIT_TEMASI}
         renderHero={(props) => <OrnekHero {...props} />}
-        renderEnvelope={(props) => <KagitZarf {...props} />}   // önerilen kanca, §8
+        renderEnvelope={(props) => <KagitZarf {...props} />}   // §8
       />
     </KagitKok>
   );
@@ -294,13 +294,13 @@ export function NisanOrnek({ invitation, mode = 'preview' }: TemplateProps) {
 
 ---
 
-## 8. Ortak dosyalara önerilen değişiklikler (uygulanmadı)
+## 8. Ortak dosyalardaki değişiklikler (Aşama 2'de önerildi, onaydan sonra uygulandı)
 
 | Dosya | Ne | Neden |
 |---|---|---|
-| `shared/InvitationComposition.tsx` | Opsiyonel `renderEnvelope?: (props) => ReactNode`; verilmezse bugünkü `Envelope` | Kâğıt zarfı (`KagitZarf`) kompozisyona takılabilsin. Bugün yalnızca `theme.envelope` renkleri değiştirilebiliyor. |
-| `shared/InvitationComposition.tsx` + `shared/palette.ts` | Opsiyonel `SectionTheme.footer` sınıfı; verilmezse bugünkü `opacity-60` / `opacity-40` | Alt bilgi kâğıt setinde ölçüldü: ad 3.01, imza 1.98 (pamuk, `is`) — AA altı. Yalnızca seçen preset etkilenir. |
-| `scripts/run-check.mjs` | `loader`'a `'.webp': 'empty'` | Kit WebP içe aktarıyor; preset'ler kiti kullandığında `verify:render` yükleyemez. |
+| `shared/InvitationComposition.tsx` | Opsiyonel `renderEnvelope?: (props: EnvelopeRenderProps) => ReactNode`; verilmezse bugünkü `Envelope` | Kâğıt zarfı (`KagitZarf`) kompozisyona takılabilsin. Önceden yalnızca `theme.envelope` renkleri değiştirilebiliyordu. |
+| `shared/InvitationComposition.tsx` + `shared/palette.ts` | Opsiyonel `SectionTheme.footer` sınıfı; verilmezse bugünkü `opacity-60` / `opacity-40` | Alt bilgi kâğıt setinde ölçüldü: ad 3.01, imza 1.98 (pamuk, `is`) — AA altı. `KAGIT_TEMASI` tam gövde mürekkebini verir (≥ 4.52). |
+| `scripts/run-check.mjs` | `loader`'a `'.webp': 'empty'` | Kit WebP içe aktarıyor; preset'ler kiti kullandığında `verify:render` yükleyebilsin. |
 | `src/types.ts`, `index.css` | — | Değişiklik gerekmiyor. |
 | `data.ts`, `TemplateRenderer.tsx`, kategori `index.ts` | Her kategori aşamasında 3 kayıt | Mevcut kayıt deseni; yapı değişmiyor. |
 
@@ -313,8 +313,8 @@ export function NisanOrnek({ invitation, mode = 'preview' }: TemplateProps) {
   küçük bir üslup farkı yaratır.
 - `surface` program akışının nokta işaretine de uygulanır; yuvarlak nokta 3 px köşeli küçük bir
   kâğıt sekmesine dönüşür. Bilinçli kabul edildi.
-- Ortak alt bilgi soluktur (§8 önerisi kabul edilene kadar AA altı).
-- Zarf kanca kabul edilene kadar preset'lerde ortak `Envelope` kâğıt renkleriyle çizilir.
+- Ortak `Envelope`'un ipucu metni sürekli nabız atar (opaklık %40'a iner). Kâğıt preset'leri
+  `renderEnvelope` ile `KagitZarf`'ı kullandığı için bu onları etkilemez.
 
 ---
 
