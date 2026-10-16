@@ -28,7 +28,8 @@ import {
   NisanSuluboya, NisanPano, NisanYildizHaritasi, NisanDokuma,
   NisanFilm, NisanMermer, NisanGazete, NisanPosta,
   NisanBrutal, NisanTerrazzo, NisanBlueprint, NisanHerbaryum, NisanUfuk,
-  NisanCini, NisanEbru, NisanMonogram, NisanTakvim
+  NisanCini, NisanEbru, NisanMonogram, NisanTakvim,
+  NisanSozMektubu, NisanGulKurusu, NisanSozSenedi
 } from './nisan';
 import {
   SunnetKlasik, SunnetModern, SunnetYildiz, SunnetMasallah, SunnetLunapark,
@@ -427,6 +428,10 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'baby-takvim': BabyTakvim,
   'parti-takvim': PartiTakvim,
   'kurumsal-takvim': KurumsalTakvim,
+  // Kâğıt / el yapımı — davetiye seti (docs/rehber/tasarim/KAGIT-KONSEPTI.md)
+  'nisan-soz-mektubu': NisanSozMektubu,
+  'nisan-gul-kurusu': NisanGulKurusu,
+  'nisan-soz-senedi': NisanSozSenedi,
 };
 
 export function TemplateRenderer({ templateId, invitation: stored, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {

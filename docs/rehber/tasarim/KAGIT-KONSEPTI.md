@@ -326,3 +326,26 @@ export function NisanOrnek({ invitation, mode = 'preview' }: TemplateProps) {
 | Kontrast | `kontrast.ts`, doku koyulaşması dahil | En düşük metin çifti 4.52 (§2.5) |
 | Zarf süresi | Gerçek zamanlı ölçüm, 360 × 780 | 956–969 ms; hareketi azalt 4–6 ms |
 | Görsel | 360 px ekran görüntüleri: kit, üç set (krem, gece, kraft + uzun ad), zarf kareleri | Aşama 2 raporu |
+
+---
+
+## 11. Pilotta (nişan) öğrenilenler — kalan kategoriler için kural
+
+| # | Ne görüldü | Kural |
+|---|---|---|
+| 1 | Cormorant'ın varsayılan eski stil rakamları geri sayımda "119"u "I I 9" gibi gösterdi | Sayılar `[font-variant-numeric:lining-nums_tabular-nums]`; tarihlerde eski stil rakam serbest |
+| 2 | Kat izi değişken içerikte bir satırın üstünden geçebilir | Katlı kart `grid-rows-2` ile iki eşit yarıdır; alt yarı boşsa kart katlanmaz |
+| 3 | Gül dalının sapı başlık satırına değdi | Süs (dal, leke, damga) metin satırına değmez; gerekirse kartın dolgusu süse göre artırılır |
+| 4 | Ekrana göre konumlanan süs 1280 px'te karttan kopar | Süs kartı saran kaba göre konumlanır (`relative` sarmalayıcı) |
+| 5 | Ad fontu geç gelince satır uzunluğu değişir | Adlar `useElYazisiHazir(el, 500)` ile en çok 500 ms bekler; bekleme + giriş ≤ 1 s |
+| 6 | Uzun veride (50 karakter ad, 255 karakter alt başlık, 180 karakter mekân) ana kart 780 px'i aşar | Kabul: içerik kesilmez; mühür/sayaç kaydırınca görünür |
+| 7 | Tek ad (`& Çağrı Öztürk`) | `displayNames` temizler; imza/mühür tek kişiye düşer (Söz Senedi tek çizgi, mühür "Ç") |
+| 8 | Her preset aynı geri sayımı ve tarih ayrıştırmasını yazacaktı | `KagitSayac`, `kagitTarih`, `kisiler` şimdilik `nisan/parts/`'ta; kite taşınması önerildi |
+
+Doğrulama düzeni (her kategoride aynı): 360 / 768 / 1280 px; bütün modüller kapalı; `showTimer`,
+`showTimeline`, `showGift`, `showRSVP` tek tek kapalı; uzun, boş ve tek ad verisi; zarf dokunma,
+klavye (Tab + Enter) ve hareketi azalt. DOM'da `undefined/NaN/Invalid Date/null` ve yatay taşma aranır.
+
+Paket: kit + nişanın üç preset'i ana JS'i **+36.6 kB** (gzip +13.9 kB), CSS'i +6.5 kB (gzip +1.0 kB)
+büyüttü; `lif` ve `keten` (< 4 KB) JS'e gömülü, `leke` ve `murekkep` ayrı dosya. Preset'lerin kendi
+görseli 0 KB (çizimler SVG).

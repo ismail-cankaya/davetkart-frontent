@@ -240,3 +240,17 @@ değişir, yayın planı değişmez (P-1).
 Doğrulama (geçici betik, 11 denetim geçti): kına kartı kendi değerini alır, düğün kartı
 etkilenmez, `TEMPLATE_PRESETS` kaydı değişmez, referanslar kararlı, plan alanı korunur.
 Kategori değerleri henüz girilmedi; tüm kategoriler bitince tek seferde eklenecek.
+
+---
+
+## Ek (2026-10-15 · dal `design/kagit`): Kâğıt / el yapımı kartları
+
+`TEMPLATE_PRESETS`'in sonuna, `// ——— Kâğıt / el yapımı` başlığı altında kategori başına üç kayıt
+eklenir. Kartlar şimdilik degradedir (`imageUrl: ''`); renkler setin kâğıt, pigment ve mürekkep
+değerlerinden (docs/rehber/tasarim/KAGIT-KONSEPTI.md §2). `minimumTier` yok: her planda yayınlanır.
+
+| ID | Ad | `primaryColor` | Degrade | Düğme |
+|---|---|---|---|---|
+| `nisan-soz-mektubu` | Söz Mektubu | `#F3ECDF` | fildişi → pamuk → gül mum | gül mürekkep |
+| `nisan-gul-kurusu` | Gül Kurusu | `#F1E1DA` | fildişi → gül kurusu → gül pigment | gül mürekkep |
+| `nisan-soz-senedi` | Söz Senedi | `#FAF6EE` | fildişi → pamuk → lacivert | lacivert mürekkep |

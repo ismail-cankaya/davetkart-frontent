@@ -3124,6 +3124,37 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['kurumsal']
   },
+  // ——— Kâğıt / el yapımı: davetiye seti (docs/rehber/tasarim/KAGIT-KONSEPTI.md) ———
+  {
+    id: 'nisan-soz-mektubu',
+    name: 'Söz Mektubu',
+    primaryColor: '#F3ECDF',
+    backgroundStyle: 'bg-gradient-to-br from-[#FAF6EE] via-[#F3ECDF] to-[#B0606F]',
+    titleColor: 'text-[#2A211B]',
+    btnColor: 'bg-[#6A2539] hover:bg-[#57202F] text-[#FAF6EE]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-gul-kurusu',
+    name: 'Gül Kurusu',
+    primaryColor: '#F1E1DA',
+    backgroundStyle: 'bg-gradient-to-br from-[#FAF6EE] via-[#F1E1DA] to-[#E8B0AA]',
+    titleColor: 'text-[#6A2539]',
+    btnColor: 'bg-[#6A2539] hover:bg-[#57202F] text-[#FAF6EE]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-soz-senedi',
+    name: 'Söz Senedi',
+    primaryColor: '#FAF6EE',
+    backgroundStyle: 'bg-gradient-to-br from-[#FAF6EE] via-[#F3ECDF] to-[#1C2A47]',
+    titleColor: 'text-[#1C2A47]',
+    btnColor: 'bg-[#1C2A47] hover:bg-[#2A3A5C] text-[#FAF6EE]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
 ];
 
 /**
