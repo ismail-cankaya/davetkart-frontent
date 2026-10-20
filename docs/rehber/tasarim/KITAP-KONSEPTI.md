@@ -2,7 +2,7 @@
 
 > **Kapsam:** 9 kategori × 2 preset. Mevcut preset'ler silinmez, değişmez.
 > **Dal:** `design/kitap` · **Kit:** `src/components/templates/konsept/kitap/` · **Tarih:** 2026-10-16
-> **Ortak kurallar:** [`KONSEPT-ORTAK.md`](./KONSEPT-ORTAK.md) · **Durum:** Aşama 3 — onaydan sonra sabittir.
+> **Ortak kurallar:** [`KONSEPT-ORTAK.md`](./KONSEPT-ORTAK.md) · **Durum:** Aşama 5 kararları işlendi (2026-10-20, §11).
 
 ---
 
@@ -69,7 +69,7 @@ Satır ve yöntem `SERGI-KONSEPTI.md §3.1` ile aynı. Ekran görüntüsü: `fon
 | Rol | Font | Kural |
 |---|---|---|
 | Kapak başlığı, bölüm başlığı, başharf | **Libre Caslon Display** 400 | **≥ 32 px** (kıl çizgileri ince; küçükte kontrast düşer) |
-| Gövde, adlar (iç sayfa), italik | **Libre Caslon Text** 400 / 700 / italik | Gövde 16 px, satır 1.6; iki yana yaslama yalnızca ≥ 320 px sütunda ve `hyphens: auto` ile |
+| Gövde, adlar (iç sayfa), italik | **Libre Caslon Text** 400 / 700 / italik | Gövde 16 px, satır 1.6; sola yaslı + `text-wrap: pretty` (iki yana yaslama kelime aralarını açtı, §11) |
 | Sayfa başı, bölüm no, etiketler | Libre Caslon Text 400, büyük harf | 10–12 px, `tracking-[0.2em]` (gerçek küçük büyük harf yok; aralıklı büyük harf kullanılır) |
 
 Kurallar:
@@ -100,11 +100,11 @@ Kurallar:
   sayfa kenarı hissi; ikinci sütun yok.
 - Bölüm başlıkları (flavor kopyası) kitap dilindedir ve **açık modüllerden numaralanır**:
   `I · Davet`, `II · Akış`, `III · Mekân`… Kapalı modül numara atlatmaz (`useMemo` ile hesap).
-- Sayfa başı (`BÖLÜM II · GÜLŞEN & ÇAĞRI`) ve sayfa numarası süs olarak yalnızca preset'in kendi
+- Sayfa başı (`BÖLÜM II · Gülşen & Çağrı`; adlar kullanıcının yazdığı gibi, büyük harfe çevrilmez) ve sayfa numarası süs olarak yalnızca preset'in kendi
   çizdiği alanlarda (hero, backdrop) bulunur; ortak bölümlerin içine girmez.
-- **İçindekiler:** programı noktalı satırlarla "içindekiler" gibi dizmek ortak `Timeline`'da değişiklik
-  ister. Ajan pilotta öneri olarak getirir; onaysız uygulanmaz. O zamana kadar başlık *İçindekiler* olur,
-  düzen ortak kalır.
+- **İçindekiler:** programı noktalı satırlarla "içindekiler" gibi dizmek **onaylandı** (K8). Ortak
+  `Timeline`'a tema üzerinden bir görünüm seçeneği eklenir (`design/konsept-ortak`); gelene kadar başlık
+  *İçindekiler* olur, düzen ortak kalır. Seçenek gelince düğün dahil bütün Kitap preset'leri kullanır.
 
 ### 4.3 Preset eksenleri (iki preset farklı eksenlerden)
 
@@ -131,7 +131,7 @@ Karakter: **kapak açılır, sayfa çevrilir**. Ağır, kâğıt gibi.
 
 | Hareket | Süre | Nasıl |
 |---|---|---|
-| Kapak açılır (zarf modülü) | 0.8 s, `ease.out` | `rotateY` 0 → −160°, `perspective`, sol menteşe; dokunuştan kapının kalkmasına ≤ 1 s |
+| Kapak açılır (zarf modülü) | 0.8 s, `ease.inOut` (`ease.out` kapağı ilk 150 ms'de ekrandan çıkarıyordu) | `rotateY` 0 → −160°, `perspective`, sol menteşe; dokunuştan kapının kalkmasına ≤ 1 s |
 | Kapak belirir (zarfsız) | 0.5 s | opaklık + ölçek 0.98 → 1 |
 | Ayraç sarkar | 0.4 s, 0.3 s gecikme | y −100% → 0 |
 | Bölüm girişi | 0.4 s | opaklık + y 10 → 0, bir kez |
@@ -172,3 +172,15 @@ Yalnızca `transform`/`opacity`. Hareket azaltıldığında kapak anında kalkar
 
 Önerilen: `palet.ts`, `fontlar.ts`, `tema.ts`, `BezKapak.tsx` (doku + başlık), `KapakKapisi.tsx`
 (zarf modülü), `bolumBasliklari.ts` (açık modüllerden numaralı başlıklar), `Fleuron.tsx`, `doku/bez.webp`.
+
+## 11. Pilot kararları (Aşama 5, 2026-10-20)
+
+Kullanıcı düğün pilotundaki bütün önerileri onayladı.
+
+| # | Karar |
+|---|---|
+| K7 | **İç Kapak'ın zarf kapağı `lacivert`.** `sarap` kınanın kapağıdır; aynı konseptte iki kategori aynı kapağı taşımaz. Düğün kimliğinin laciverti sünnete bırakması eski düğün ailesi içindir |
+| K8 | **İçindekiler** görünümü onaylandı (§4.2) |
+| — | Kapak açılış eğrisi `ease.inOut`, süre 0.8 s (§6) |
+| — | Alt metin sola yaslı + `text-wrap: pretty` (§3.2) |
+| — | Olduğu gibi kalır: kapakta "Birinci Bölüm", ilk sayfada "Bölüm I", süs sayfa numarası "1", bölüm adları *İçindekiler · Yer ve Zaman · Resimli Sayfalar · Armağan · Cevabınız*; zarf açıkken Birinci Bölüm'ün hero'su yalnızca ilk sayfadır (kapak zaten kapıdır) |

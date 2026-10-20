@@ -2,7 +2,7 @@
 
 > **Kapsam:** `SERGI-KONSEPTI.md`, `KITAP-KONSEPTI.md`, `HARITA-KONSEPTI.md`. Bu dosya üçünün de
 > ortak çerçevesidir; konsept rehberi bununla çelişirse **konsept rehberi** kazanır, çelişki raporda yazılır.
-> **Tarih:** 2026-10-16 · **Durum:** Aşama 3 — onaydan sonra sabittir.
+> **Tarih:** 2026-10-16 · **Durum:** Aşama 5 kararları işlendi (2026-10-20, §8).
 
 ---
 
@@ -17,9 +17,10 @@
 - Taban: `design/kagit` dalının `e93b24a` commit'i (Kâğıt nişan pilotu dahil; `main` tasarım işlerinin
   gerisinde). Rehberler bu tabanın üstüne ayrı bir commit olarak eklenir ve üç dal o commit'ten açılır.
   Denetimde fark **tabana göre** alınır: `git diff --name-only <taban>...design/<slug>`.
-- **Aynı anda en fazla 2 ajan çalışır.** Ajanlar her kategoriden sonra durup rapor verdiği için sıra
-  dönüşümlüdür: A ve B pilotu yapar → ikisi dururken C pilotu yapar → üç pilot yan yana gösterilir →
-  sonra kategoriler ikişer ikişer ilerler.
+- Üç ajan aynı anda çalışabilir (kullanıcı 2 ajan sınırını kaldırdı). Her ajan kategori sonunda durur;
+  üç konseptin aynı kategorisi yan yana denetlenir, onaydan sonra üçü birlikte sonraki kategoriye geçer.
+- Ortak bileşen düzeltmeleri ve tema kancaları `design/konsept-ortak` dalında hazırlanır, denetlenip
+  `design/konseptler`'e alınır. Ajan bu dalı kendi dalına ancak orkestratör bildirince birleştirir.
 - Her ajan kendi worktree'sinde çalışır. `git add -A` yasak; dosyalar tek tek eklenir. Çalışma ağacı
   CRLF'dir: betikle düzenlemede önce `\r\n` → `\n`, yazarken geri.
 
@@ -111,4 +112,23 @@ Rapor biçimi ajan prompt'undadır (8 madde).
 **Düğün (pilot)** → Nişan → Doğum günü → Mezuniyet → Baby shower → Kurumsal → Parti → Sünnet → Kına
 
 Kategori başına **2** preset. İki preset aynı konseptin farklı **düzen eksenleri**dir (her rehberin §4.3'ü);
-yalnızca renk değişimi ayrı preset sayılmaz. Konsept bir kategoriye oturmuyorsa ajan zorlamaz, söyler.
+yalnızca renk değişimi ayrı preset sayılmaz. Ayrışma **360 px'te de** görülmelidir: iki preset telefonda
+aynı yerleşimdeyse (yalnızca arka plan çizimi farklıysa) ayrı preset sayılmaz (Aşama 5, K2).
+Konsept bir kategoriye oturmuyorsa ajan zorlamaz, söyler.
+
+## 8. Aşama 5 kararları (2026-10-20)
+
+Üç düğün pilotu yan yana gösterildi; kullanıcı K1–K10 önerilerinin hepsini onayladı. Konsepte özgü
+kararlar her rehberin §11'inde. Ortak olanlar:
+
+| # | Karar |
+|---|---|
+| K1 | Üç konsept de sürer; üç ajan Nişan'a birlikte geçer |
+| K8 | Kitap'ın "içindekiler" programı için ortak `Timeline`'a tema seçeneği eklenir |
+| K10 | Ortak bileşen sorunları tek dalda (`design/konsept-ortak`) çözülür; temaya kancalar eklenir |
+
+K10 kapsamı: galeri sayacının kontrastı, ortak bölümlerde ≥ 44 px dokunma hedefleri, zarf açıkken arkadaki
+içeriğin `inert` olması, "Kopyalandı" ve LCV hata metninin tema rengine bağlanması, alt bilgideki adların
+büyük harfe çevrilmemesi, Timeline düğümlerinin temanın köşe yuvarlaklığından ayrılması, tekrarlanan
+yardımcıların (`kisiler`, tarih biçimi) ortak yere taşınması. Kancalar: bölüm başlık hizası, bölüm giriş
+süresi/mesafesi, Detaylar'ın soyut harita başlığını kapatma, Timeline görünümü (`kart` | `icindekiler`).

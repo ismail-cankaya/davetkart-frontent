@@ -2,7 +2,7 @@
 
 > **Kapsam:** 9 kategori × 2 preset. Mevcut preset'ler silinmez, değişmez.
 > **Dal:** `design/harita` · **Kit:** `src/components/templates/konsept/harita/` · **Tarih:** 2026-10-16
-> **Ortak kurallar:** [`KONSEPT-ORTAK.md`](./KONSEPT-ORTAK.md) · **Durum:** Aşama 3 — onaydan sonra sabittir.
+> **Ortak kurallar:** [`KONSEPT-ORTAK.md`](./KONSEPT-ORTAK.md) · **Durum:** Aşama 5 kararları işlendi (2026-10-20, §11).
 
 ---
 
@@ -42,6 +42,7 @@ Konseptin işi "nereye, ne zaman, hangi sırayla" sorusunu tek bakışta okutmak
 | `su` | `#9CC3D5` | Su | üstünde mürekkep 7.19 |
 | `rota` | `#A8321F` | Rota, iğne, üst etiket | arazide 5.81; üstünde beyaz 6.69 |
 | `rota-acik` | `#C8402F` | Yalnızca rota çizgisi ve iğne (yazı değil) | arazide 4.31 — yazı için yetmez |
+| `rotaKoyu` | `#8F2A1A` | Yalnızca düğmenin üzerine gelme hâli | üstünde beyaz 8.35 |
 
 ### 2.2 Kategori ayarları
 
@@ -70,7 +71,7 @@ Satır ve yöntem `SERGI-KONSEPTI.md §3.1` ile aynı. Ekran görüntüsü: `fon
 
 | Rol | Font | Kural |
 |---|---|---|
-| Harita etiketleri (yer, durak), üst etiket, lejant başlığı | **Barlow Condensed** 400 / 600 | Büyük harf, `tracking-[0.18em]`, ≥ 11 px |
+| Harita etiketleri (yer, durak), üst etiket, lejant başlığı | **Barlow Condensed** 400 / 600 | Üretilen etiketler büyük harf, `tracking-[0.18em]`, ≥ 11 px. Kullanıcı metni (mekân, durak adı) yazıldığı gibi kalır (K9) |
 | Gövde, lejant satırları, form, düğme | **Barlow Semi Condensed** 400 / 500 | 14–16 px; rakamlar `tabular-nums` |
 | Kartuştaki adlar, su adları, bölüm başlıkları | **Newsreader** italik (opsz) | Adlar ≥ 26 px; su adları italik ve geniş aralıklı (kartografik gelenek) |
 
@@ -105,6 +106,8 @@ Kurallar:
 - `renderBackdrop` ile harita **sabit** kalır ve kaydırdıkça yavaşça kayar (yalnızca `transform`);
   bölümler haritanın üstünde, `yol` renginde kartlarda (`surface`) okunur. Kart altında harita %100
   opak değildir; kontrast kartın kendisiyle ölçülür.
+- Kapağın altında haritayı **%80 perde** örter; perde kapağın alt kenarından başlar ve onunla kayar.
+  Perdenin altındaki süs çizgileri en çok %50 mürekkeptir (pilotta ölçülen en kötü zemin 4.62).
 - Bölüm başlıkları (flavor kopyası): Program → *Duraklar*, Detay → *Varış*, Galeri → *Yol üstünden*,
   Hediye → kategoriye göre, LCV → *Rotaya katılın*.
 
@@ -123,6 +126,9 @@ Kurallar:
 Piktogramlar özgün, tek renkli, 2 px konturlu ya da düz dolgu; tek bir ızgaraya (24 px) çizilir. Yemek,
 müzik, kadeh, yüzük, kep, çadır gibi **genel** simgeler. Lucide ikonları bölümlerde kullanılabilir;
 harita üstünde yalnızca kitin özgün simgeleri.
+
+Durak simgesi, kullanıcının yazdığı adım başlığından sözlükle seçilir; eşleşmezse sıra numarası çizilir
+(K9). Sözlük kategoriye göre genişler; ör. kınada "Kına töreni" yüzük değil kına simgesi alır.
 
 ## 5. Süsleme dili
 
@@ -145,7 +151,8 @@ Karakter: **iğne düşer, rota ilerler**.
 | Kartuş, lejant | 0.4 s | opaklık + y 8 → 0 |
 | Kaydırma | sürekli | `renderBackdrop` haritası `translateY` ile yavaş kayar (paralaks), hareket azaltıldığında sabit |
 
-Hero'da son öğe ≤ 1.0 s'de biter. Sonsuz döngü yok.
+Hero'da son öğe ≤ 1.0 s'de biter. Sonsuz döngü yok. Font geç gelince yeniden ölçülen öğe (rota, iğne)
+yerinden oynamaz; konum ilk ölçümde sabitlenir ya da değişim animasyonsuz ve görünmeden yapılır.
 
 ## 7. Kategori yorumları
 
@@ -181,3 +188,15 @@ Hero'da son öğe ≤ 1.0 s'de biter. Sonsuz döngü yok.
 
 Önerilen: `palet.ts`, `fontlar.ts`, `tema.ts`, `Kartus.tsx`, `Lejant.tsx` (veriden), `Igne.tsx`,
 `Rota.tsx` (opaklıkla açılan segmentler), `simgeler.tsx` (24 px ızgara), `araziler/` (eksen başına statik SVG).
+
+## 11. Pilot kararları (Aşama 5, 2026-10-20)
+
+Kullanıcı düğün pilotundaki bütün önerileri onayladı.
+
+| # | Karar |
+|---|---|
+| K2 | **İki preset telefonda da ayrışır.** Pilotta Kıyı Kenti ile Kır Yolu 360 px'te aynı yerleşimdeydi (kartuş üstte, rota ortada, lejant altta); fark yalnızca araziydi. Her eksen telefonda kendi yerleşimini kurar (ör. Kır Yolu'nda kartuş altta, iğne üstte, patika dikey) |
+| K3 | **Zarf kapısı masaüstünde büyür:** katlanmış harita kartı ekran yüksekliğinin yaklaşık %70'i kadardır; boş zeminin ortasında küçük kart kalmaz |
+| K9 | Kullanıcı metni (mekân, durak) yazıldığı gibi; durak simgesi sözlükle (§3.2, §4.4) |
+| — | Kartuşta tarih durur; program yokken lejant tarihi tekrar gösterir (§1 ve §4.1 birlikte geçerli) |
+| — | `imageUrl` kart görseli boş kalır; kart degradeyle çizilir |
