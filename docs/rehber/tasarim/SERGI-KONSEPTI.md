@@ -2,7 +2,7 @@
 
 > **Kapsam:** 9 kategori × 2 preset. Mevcut preset'ler silinmez, değişmez.
 > **Dal:** `design/sergi` · **Kit:** `src/components/templates/konsept/sergi/` · **Tarih:** 2026-10-16
-> **Ortak kurallar:** [`KONSEPT-ORTAK.md`](./KONSEPT-ORTAK.md) · **Durum:** Aşama 3 — onaydan sonra sabittir.
+> **Ortak kurallar:** [`KONSEPT-ORTAK.md`](./KONSEPT-ORTAK.md) · **Durum:** Aşama 5 kararları işlendi (2026-10-20, §11).
 
 ---
 
@@ -52,6 +52,7 @@ Kural:
 
 1. Bir preset **tek** eser rengi seçer. İkinci renk yoktur; düğme ve vurgu da bu renktir.
 2. Duvar her zaman `duvar`dır. Krem, fildişi, kâğıt tonu kullanılmaz (Kâğıt ve Kitap ile karışır).
+   Tek istisna zarf kapısıdır: "Işığı yakın" kapısı ışık yanana kadar `karanlik` duvarı gösterir (§11).
 3. Degrade yalnızca spot ışığındadır (beyazdan çok hafif sıcak beyaza, radyal). Başka degrade yok.
 4. Kırmızı-turuncu (vermilion) kullanılmaz: Günün Haritası'nın rota rengidir.
 
@@ -152,7 +153,7 @@ Hero'da son öğe ≤ 1.0 s'de biter. Sonsuz döngü yok. Hareket azaltıldığ�
 
 | Kategori | Uyum | Yorum |
 |---|---|---|
-| Düğün | ● | Müzede düğün: *tek eser*, sade etiket. Şaka yok |
+| Düğün | ● | Müzede düğün: *tek eser*, sade etiket. Şaka yok. Pilot: Beyaz Küp (kobalt), Duvar Yazısı (gece) |
 | Nişan | ● | *Önizleme* — "Yakında: Bir Ömür". Fuşya |
 | Doğum günü | ● | *Retrospektif*: salon asması, her çerçeve bir dönem (yıl yazılmaz; veride yok) |
 | Mezuniyet | ● | *Bitirme sergisi*; `gece` rengi, duvar yazısı |
@@ -188,3 +189,19 @@ flavor/preset içinde Türkçe yazılır; raporda i18n anahtarı önerilir.
 Önerilen içerik (ajan ilk kategoride kurar, sonrakilerde kullanır): `palet.ts` (§2), `fontlar.ts` (§3.3),
 `tema.ts` (ortak `SectionTheme` üreticisi; eser rengi parametre), `Cerceve.tsx`, `Etiket.tsx`,
 `Spot.tsx`, `soyutEserler.tsx`. Her dosyanın kılavuzu `docs/rehber/src/components/templates/konsept/sergi/`.
+
+## 11. Pilot kararları (Aşama 5, 2026-10-20)
+
+Kullanıcı düğün pilotundaki bütün önerileri onayladı.
+
+| # | Karar |
+|---|---|
+| K4 | Düğünde **kobalt** kalır. Düğün kimliği kobaltı kurumsala ayırıyor, ama Sergi'nin kurumsalı `gece` kullandığı için konsept içinde çakışma yok |
+| K5 | **"Işığı yakın" zarf kapısı** kalır: ışık yanana kadar `karanlik` duvar (`#222221`, yazı `#A8A8A3`), dokununca karanlık çekilir, spot yanar, eser asılır. §2 kural 2'nin tek istisnası |
+| K6 | **Kurgusal eser künyesi** serbesttir: eser adı (ör. *Eşik*) ve teknik satırı (ör. *Tuval üzerine akrilik*) süs esere aittir, etkinlik verisi değildir. Yaş, sıra no gibi etkinlik bilgisi yine uydurulmaz |
+| — | Bölüm üst etiketleri **"Salon 1…n"**: yalnızca görünen bölümler sayılır |
+
+Pilotta eklenen renkler (kit `palet.ts`): `duvarKoyu #EDEDEA` (ikincil yüzey), `kenarGuclu #8A8A86` (form sınırı,
+3:1), `karanlik #222221` / `#A8A8A3` (kapı), hover tonları (kobalt `#223E83`, gece `#373737`).
+
+Spot kuralı: spotun kabı yığın bağlamı kurmaz (`isolate` yok); kurarsa spot önündeki yazıyı soldurur.
