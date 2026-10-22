@@ -35,6 +35,7 @@ aralıklı büyük harf, bölüm numarası, ortalı başlık. İlk ekran koyu be
 | `sise` (şişe yeşili) | `#1F3A2E` | 5.21 | 10.27 |
 | `sarap` | `#5B1E24` | 5.36 | 10.56 |
 | `lacivert` | `#1C2541` | 6.38 | 12.58 |
+| `murdum` | `#3D2337` | 5.94 | 11.70 |
 
 ### 2.2 Sayfa
 
@@ -143,7 +144,7 @@ Yalnızca `transform`/`opacity`. Hareket azaltıldığında kapak anında kalkar
 | Kategori | Uyum | Yorum |
 |---|---|---|
 | Düğün | ● | *Birinci Bölüm* — bez cilt; *iç kapak* sade alternatif |
-| Nişan | ● | *Önsöz* — hikâyenin başı |
+| Nişan | ● | *Önsöz* — hikâyenin başı. Bez `murdum` (N4); bölüm etiketleri "Önsöz · II…" |
 | Doğum günü | ● | *Yeni Bölüm* (yaş veride yok, sayı yazılmaz); çocukta masal kitabı |
 | Mezuniyet | ● | *Bir cildin sonu*; `names` = Mezun & Okul — okul kapakta yayınevi yerine |
 | Baby shower | ● | *İlk Sayfa* — masal kitabı, açık bez renkleri yerine `lacivert` |
@@ -184,3 +185,12 @@ Kullanıcı düğün pilotundaki bütün önerileri onayladı.
 | — | Kapak açılış eğrisi `ease.inOut`, süre 0.8 s (§6) |
 | — | Alt metin sola yaslı + `text-wrap: pretty` (§3.2) |
 | — | Olduğu gibi kalır: kapakta "Birinci Bölüm", ilk sayfada "Bölüm I", süs sayfa numarası "1", bölüm adları *İçindekiler · Yer ve Zaman · Resimli Sayfalar · Armağan · Cevabınız*; zarf açıkken Birinci Bölüm'ün hero'su yalnızca ilk sayfadır (kapak zaten kapıdır) |
+
+### Nişan turu (2026-10-22)
+
+| # | Karar |
+|---|---|
+| N4 | Nişanın bezi **`murdum` `#3D2337`** (§2.1). Üç bez başka kategorilere ayrılmıştı; yaldız mürdümde çizilmiş ekranda en kötü 6.05 |
+| — | Nişanda bölüm etiketleri **"Önsöz · II, III…"** (birinci bölüm düğündür); ön sayfa numarası küçük Roma rakamı "i" |
+| — | Önsöz'ün pencereli kapağı zarf açıkken kapıyla birlikte döner (fiziksel yaklaşıklık, kabul) |
+| — | Kurdele: düz, kesik ayraç şeridi; fiyonk ve düğüm yok (düğün kimliğinin kurdele düğümüyle karışmasın) |

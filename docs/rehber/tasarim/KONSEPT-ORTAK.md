@@ -149,3 +149,18 @@ içeriğin `inert` olması, "Kopyalandı" ve LCV hata metninin tema rengine bağ
 büyük harfe çevrilmemesi, Timeline düğümlerinin temanın köşe yuvarlaklığından ayrılması, tekrarlanan
 yardımcıların (`kisiler`, tarih biçimi) ortak yere taşınması. Kancalar: bölüm başlık hizası, bölüm giriş
 süresi/mesafesi, Detaylar'ın soyut harita başlığını kapatma, Timeline görünümü (`kart` | `icindekiler`).
+
+### Nişan turu (2026-10-22)
+
+Üç konseptin Nişan'ı, Kitap ve Harita'nın düğün düzeltmeleri ve ortak dal (`386dbce`) yan yana gösterildi;
+kullanıcı N1–N6 önerilerini onayladı. Konsepte özgü olanlar her rehberin §11'inde.
+
+| # | Karar |
+|---|---|
+| N1 | Üç konsept Doğum günü'ne geçer. Turun ilk işi: `design/konseptler`'i almak, §3.1'deki tema kancalarını düğün ve Nişan preset'lerine uygulamak, kit yardımcılarını `splitPeople` / `eventDateParts`'a bağlamak |
+| N2 | Galeri noktaları 24 px adım (WCAG 2.2 AA hedef boyutu); oklar 44 px. §5'teki 44 px kuralının tek istisnası |
+| N3 | Ortak kapak özeti (`Summary`) kullanıcının başlığını ve mekânını büyük harfe çevirmez |
+
+Önizleme düzeneği (`ad76b0f`): kategoriye uygun program; `ad=`, `tarih=`, `mekan=`, `baslik=`,
+`altmetin=`, `harita=0` alan ezmeleri; `cek.ts --ek/--etiket` ve `--ac` (açılmış zarf). Tek ad ve boş
+alanlar artık geçici sayfa gerektirmez (`docs/rehber/scripts/onizleme.md` §3.1).

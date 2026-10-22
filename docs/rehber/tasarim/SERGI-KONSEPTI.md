@@ -154,7 +154,7 @@ Hero'da son öğe ≤ 1.0 s'de biter. Sonsuz döngü yok. Hareket azaltıldığ�
 | Kategori | Uyum | Yorum |
 |---|---|---|
 | Düğün | ● | Müzede düğün: *tek eser*, sade etiket. Şaka yok. Pilot: Beyaz Küp (kobalt), Duvar Yazısı (gece) |
-| Nişan | ● | *Önizleme* — "Yakında: Bir Ömür". Fuşya |
+| Nişan | ● | *Önizleme* — "Yakında: Bir Ömür". Fuşya. Program ve LCV başlıkları *Önizleme akışı* / *Önizleme listesi* |
 | Doğum günü | ● | *Retrospektif*: salon asması, her çerçeve bir dönem (yıl yazılmaz; veride yok) |
 | Mezuniyet | ● | *Bitirme sergisi*; `gece` rengi, duvar yazısı |
 | Baby shower | ● | *Yeni eser · Yakında*: kaide üstünde fanus |
@@ -205,3 +205,12 @@ Pilotta eklenen renkler (kit `palet.ts`): `duvarKoyu #EDEDEA` (ikincil yüzey), 
 3:1), `karanlik #222221` / `#A8A8A3` (kapı), hover tonları (kobalt `#223E83`, gece `#373737`).
 
 Spot kuralı: spotun kabı yığın bağlamı kurmaz (`isolate` yok); kurarsa spot önündeki yazıyı soldurur.
+
+### Nişan turu (2026-10-22)
+
+| # | Karar |
+|---|---|
+| N5 | Diptik'teki **"● Rezerve"** espri satırı kalır (galerideki "satıldı" noktası). Nişanda tek espri satırı serbest |
+| — | Nişanda bölüm başlıkları kategorinin dilinde: *Önizleme akışı*, *Önizleme listesi* (kitte `SergiMetinleri.basliklar`). Kapak "açılış yakında" dediği için "Açılış listesi" kullanılmaz |
+| — | "Bir Ömür" sabit sergi adıdır (§7 yorumu); kullanıcının başlığı üst etikette durur |
+| — | Dikey duvar yazısında `cqi` yalnızca yatay bir kapta çözülür; boy yatay kapta tanımlanır (360 px'te tavana çıkma hatası) |
