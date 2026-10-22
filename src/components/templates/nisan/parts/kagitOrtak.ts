@@ -1,6 +1,6 @@
 import { NISAN_FLAVOR } from '../flavors';
 import type { TemplateFlavor } from '../../shared/flavor';
-import { displayText, formatCalendarDay, formatDateStr } from '../../utils';
+import { eventDateParts } from '../../shared/eventDate';
 
 /**
  * Nişanın kâğıt preset'lerinin (Söz Mektubu, Gül Kurusu, Söz Senedi) ortak
@@ -20,30 +20,14 @@ export interface KagitTarih {
   saat: string;
 }
 
-const DUVAR_SAATI = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/;
-
 /**
- * Duvar saatini kartın satırlarına ayırır. Saat dilimine çevrilmez: davetiye
- * etkinliğin kendi saatini yazar. Tarih yoksa ya da okunamıyorsa üç alan da
- * boştur ve kart o satırları hiç çizmez.
+ * Duvar saatini kartın satırlarına ayırır (ortak `eventDateParts`). Tarih yoksa
+ * ya da okunamıyorsa üç alan da boştur ve kart o satırları hiç çizmez.
  */
 export function kagitTarih(date: string | null | undefined): KagitTarih {
-  const tam = formatDateStr(date);
-  if (!tam || !date) return { gun: '', haftaGunu: '', saat: '' };
-  const m = DUVAR_SAATI.exec(date.trim());
-  if (!m) return { gun: tam, haftaGunu: '', saat: '' };
-  const takvim = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-  return {
-    gun: formatCalendarDay(date) ?? tam,
-    haftaGunu: takvim.toLocaleDateString('tr-TR', { weekday: 'long' }),
-    saat: m[4] ? `${m[4]}:${m[5]}` : ''
-  };
+  const { day, weekday, time } = eventDateParts(date);
+  return { gun: day, haftaGunu: weekday, saat: time };
 }
 
 /** Adları kişi kişi ayırır (`&`); boşlar atılır. Hiç ad yoksa boş dizi. */
-export function kisiler(names: string | null | undefined): string[] {
-  return displayText(names)
-    .split('&')
-    .map((ad) => ad.trim())
-    .filter(Boolean);
-}
+export { splitPeople as kisiler } from '../../../../utils/names';

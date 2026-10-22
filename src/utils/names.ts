@@ -36,3 +36,15 @@ export function displayNames(names: string): string {
   if (shown.endsWith(SEPARATOR)) shown = shown.slice(0, -SEPARATOR.length).trim();
   return shown;
 }
+
+/**
+ * Adları kişi kişi ayırır (`A & B & C` → üç ad); boşlar atılır, saklama
+ * ayracı (`& Ali`) da böylece düşer. Hiç ad yoksa boş dizi. `splitNames`'in
+ * aksine ikiden fazla adı korur ve form alanı sırası taşımaz.
+ */
+export function splitPeople(names: string | null | undefined): string[] {
+  return (names ?? '')
+    .split(SEPARATOR)
+    .map((name) => name.trim())
+    .filter(Boolean);
+}

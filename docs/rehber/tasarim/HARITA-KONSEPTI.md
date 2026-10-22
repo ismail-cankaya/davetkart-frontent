@@ -159,7 +159,7 @@ yerinden oynamaz; konum ilk ölçümde sabitlenir ya da değişim animasyonsuz v
 | Kategori | Uyum | Yorum |
 |---|---|---|
 | Düğün | ● | Şehir planı ya da kır arazisi; karşılama → nikâh → yemek durakları |
-| Nişan | ● | *Rotamız belli* — arazi ya da mahalle krokisi |
+| Nişan | ● | *Rotamız belli* — arazi ya da mahalle krokisi. Pilot: Kroki, Kavuşak |
 | Doğum günü | ● | Çocukta hazine haritası, yetişkinde şehir planı (gece rotası) |
 | Mezuniyet | ● | Kampüs alan planı; `names` = Mezun & Okul — okul kartuşta |
 | Kurumsal | ● | Etkinlik alan planı; kayıt → oturum → kokteyl |
@@ -200,3 +200,18 @@ Kullanıcı düğün pilotundaki bütün önerileri onayladı.
 | K9 | Kullanıcı metni (mekân, durak) yazıldığı gibi; durak simgesi sözlükle (§3.2, §4.4) |
 | — | Kartuşta tarih durur; program yokken lejant tarihi tekrar gösterir (§1 ve §4.1 birlikte geçerli) |
 | — | `imageUrl` kart görseli boş kalır; kart degradeyle çizilir |
+
+### Nişan turu (2026-10-22)
+
+| # | Karar |
+|---|---|
+| N6 | **İki sapma onaylandı.** Kavuşak'ta rota iki koldan başlayıp birleşir: §5'teki "ekranda tek rota", "ana rotaya katılan kol" olarak okunur. Kroki'de kartuş ve lejant karşı köşelerde değil, tek kenarda üst üste bir başlık bloğudur (telefonda ayrışmak için) |
+| — | Durak sözlüğüne nişan simgeleri eklendi: halka (söz, nişan), kahve, çay, tatlı, kurdele, kamera |
+| — | Uzun adlarda Nişan'ın yol tarifi düğmesi ilk ekranın altına inebilir (kaydırınca görünür); dolu senaryoda ilk ekranda |
+| — | Font 0.5 s'den geç gelirse rota ve iğne animasyonsuz belirir; 6 s'yi aşarsa plan bir kez, animasyonsuz yeniden kurulur |
+
+**Telefonda iskelet çeşitliliği:** Kavuşak 360 px'te düğündeki Kıyı Kenti ile aynı iskelette (kartuş üstte,
+rota ortada, lejant altta). Kural kategori içinde sağlanıyor ama kütüphanede Harita'lar birbirine
+benzemeye başladı. Sonraki kategorilerde her preset telefonda **önceki kategorilerde kullanılmamış** bir
+iskelet kurar; kullanılanlar: üst kartuş + alt lejant (Kıyı Kenti, Kavuşak), üst lejant + alt kartuş
+(Kır Yolu), üstte harita + altta tek blok (Kroki).
