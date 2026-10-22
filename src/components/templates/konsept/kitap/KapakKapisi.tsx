@@ -23,16 +23,24 @@ import { YAN_KAGIDI, type BezAdi } from './palet';
  * Kapak izleyiciye doğru döner; perspektif kap genişliğinin 2.5 katıdır
  * (`250cqi`), geniş ekranda da kapak dönerken aşırı büyümez.
  * "Hareketi azalt": dokunuş kapıyı anında kaldırır; hiçbir şey dönmez.
+ *
+ * `yuz` verilirse kapağın ön yüzü odur (ör. nişanın pencereli kapağı);
+ * verilmezse `BezKapak`. Yüz "Kapağı açın" düğmesini kendi alt yuvasına koyar.
  */
 export interface KapakKapisiProps extends EnvelopeRenderProps {
   bez: BezAdi;
   etiket: string;
   altSatir?: string;
+  /**
+   * Kapağın ön yüzü. `dugme` "Kapağı açın"dır; `className` yüzü kapıya
+   * yerleştirir (tam kaplama, arka yüz gizli). Verilmezse `BezKapak`.
+   */
+  yuz?: (yuva: { dugme: React.ReactNode; className: string }) => React.ReactNode;
 }
 
 const YUZ_SINIFI = 'absolute inset-0 [backface-visibility:hidden]';
 
-export function KapakKapisi({ invitation, onRevealStart, onOpened, bez, etiket, altSatir }: KapakKapisiProps) {
+export function KapakKapisi({ invitation, onRevealStart, onOpened, bez, etiket, altSatir, yuz }: KapakKapisiProps) {
   const [aciliyor, setAciliyor] = useState(false);
   const reduced = useReducedMotion();
   const bitti = useRef(false);
@@ -100,15 +108,19 @@ export function KapakKapisi({ invitation, onRevealStart, onOpened, bez, etiket, 
           if (aciliyor) kaldir();
         }}
       >
-        <BezKapak
-          invitation={invitation}
-          bez={bez}
-          etiket={etiket}
-          altSatir={altSatir}
-          adlarEtiketi="p"
-          className={YUZ_SINIFI}
-          alt={dugme}
-        />
+        {yuz ? (
+          yuz({ dugme, className: YUZ_SINIFI })
+        ) : (
+          <BezKapak
+            invitation={invitation}
+            bez={bez}
+            etiket={etiket}
+            altSatir={altSatir}
+            adlarEtiketi="p"
+            className={YUZ_SINIFI}
+            alt={dugme}
+          />
+        )}
         {/* İç yüz: yan kâğıdı. Kapak 90°'yi geçince görünür. */}
         <div
           aria-hidden="true"

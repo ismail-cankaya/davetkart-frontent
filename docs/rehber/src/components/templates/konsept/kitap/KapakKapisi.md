@@ -11,7 +11,13 @@ Zarf modülü açıkken giriş kapısı kitabın kapağıdır: tam ekran `BezKap
 menteşeden izleyiciye doğru açılır (`rotateY` 0 → −160°) ve altından ilk sayfa (hero) görünür.
 Zarf modülü kapalıysa kompozisyon bu bileşeni hiç çağırmaz.
 
-Ortak `Envelope` ile aynı sözleşme (`EnvelopeRenderProps`) + `bez`, `etiket`, `altSatir`.
+Ortak `Envelope` ile aynı sözleşme (`EnvelopeRenderProps`) + `bez`, `etiket`, `altSatir`, `yuz`.
+
+`yuz?: ({ dugme, className }) => ReactNode` (2026-10-22): kapağın ön yüzünü değiştirir. Verilmezse
+`BezKapak`. Yüz `className`'i kendi köküne koyar (tam kaplama, `backface-visibility: hidden`) ve
+`dugme`yi ("Kapağı açın") alt yuvasına yerleştirir. Kullanan: nişanın pencereli kapağı
+([NisanKitapOnsoz](../../nisan/kitap/NisanKitapOnsoz/index.md)). Ölçüldü (2026-10-22): pencereli
+kapı 360 px'te 822 ms'de, 1280 px'te 828 ms'de kalkar; 90°'yi 429 ms'de geçer.
 
 ## 2. Zamanlama
 

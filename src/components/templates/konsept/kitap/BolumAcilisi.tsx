@@ -25,6 +25,9 @@ import { useSikiBlok } from './useSikiBlok';
  *
  * Zarf açıkken kapak kapıydı ve gitti: adlar burada başlık (`h1`) olur.
  * Zarfsızken adlar kapakta durur; bu sayfada tekrarlanmaz.
+ *
+ * `dizgi="italik"`: önsöz sayfası. Klasik kitapta önsöz italik dizilir ve
+ * başharf almaz — başharf bölüm açar (nişan: "Önsöz", sayfa "i").
  */
 interface BolumAcilisiProps {
   invitation: Invitation;
@@ -36,6 +39,8 @@ interface BolumAcilisiProps {
   giris: 'yuklenince' | 'gorununce';
   /** Sayfa numarası (süs). */
   sayfaNo?: string;
+  /** Alt metnin dizgisi: bölüm açılışı (başharf) ya da önsöz (italik, başharfsiz). */
+  dizgi?: 'basharf' | 'italik';
   className?: string;
 }
 
@@ -49,7 +54,7 @@ const BASHARF = [
   'first-letter:[font-family:var(--kt-baslik-font)]'
 ].join(' ');
 
-export function BolumAcilisi({ invitation, etiket, adlar, giris, sayfaNo, className }: BolumAcilisiProps) {
+export function BolumAcilisi({ invitation, etiket, adlar, giris, sayfaNo, dizgi = 'basharf', className }: BolumAcilisiProps) {
   const baslik = displayText(invitation.title);
   const altBaslik = displayText(invitation.subtitle);
   const mekan = displayText(invitation.venue);
@@ -78,7 +83,13 @@ export function BolumAcilisi({ invitation, etiket, adlar, giris, sayfaNo, classN
         <span aria-hidden="true" className="mt-6 block h-px w-12 bg-[#231F1A]/40" />
 
         {altBaslik && (
-          <p ref={altRef} className={cn('mt-9 w-fit max-w-[26em] text-left text-[17px] leading-[1.6] text-[#231F1A] [display:flow-root] [text-wrap:pretty]', BASHARF)}>
+          <p
+            ref={altRef}
+            className={cn(
+              'mt-9 w-fit max-w-[26em] text-left text-[17px] leading-[1.6] text-[#231F1A] [display:flow-root] [text-wrap:pretty]',
+              dizgi === 'italik' ? 'italic' : BASHARF
+            )}
+          >
             {altBaslik}
           </p>
         )}

@@ -1,6 +1,6 @@
 # `konsept/kitap/bolumBasliklari.ts` — numaralı bölümler
 
-> **Tarih:** 2026-10-17 · dal `design/kitap` · Kaynak: [KITAP-KONSEPTI §4.2](../../../../../tasarim/KITAP-KONSEPTI.md)
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (etiket biçimi) · dal `design/kitap` · Kaynak: [KITAP-KONSEPTI §4.2](../../../../../tasarim/KITAP-KONSEPTI.md)
 
 ---
 
@@ -28,12 +28,16 @@ değil, ortak bileşenin kendini gizlediği durumları da:
 | Galeri | `showGallery` **ve** en az bir fotoğraf |
 | Hediye / LCV | bayrak |
 
-## 3. `useKitapFlavor(temel, invitation, basliklar?)`
+## 3. `useKitapFlavor(temel, invitation, basliklar?, bicim?)`
 
 Kategori flavor'ının kopyasını döner: kategori deseni kapalı (`BackgroundPattern: undefined`),
 başlıklar kitap dilinde, `eyebrows` numaralı. Liste her çizimde hesaplanır (ucuz); flavor nesnesi
-yalnızca açık bölümlerin listesi değişince yenilenir (`useMemo`). `basliklar` çağıranın modül sabiti
-olmalıdır.
+yalnızca açık bölümlerin listesi değişince yenilenir (`useMemo`). `basliklar` ve `bicim` çağıranın
+modül sabiti olmalıdır.
+
+`bicim: EtiketBicimi` (`(sira) => string`) etiketin dilini verir; varsayılan `bolumEtiketi`
+("Bölüm II"). Nişan önsözdür, henüz bölüm yoktur: `ONSOZ_ETIKETI` → "Önsöz · II", "Önsöz · III"
+(`nisan/kitap/ortak.ts`). Numara yine açık bölümlerden, atlamasız.
 
 Duman testi (geçici, 2026-10-17): 2 preset × 4 senaryo × zarf açık/kapalı × modüller tek tek kapalı
 = 96 durum; her durumda etiketler `II…` sırasıyla, atlamasız.

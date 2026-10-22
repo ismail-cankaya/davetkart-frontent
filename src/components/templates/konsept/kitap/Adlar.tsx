@@ -25,12 +25,21 @@ interface KitapAdlarProps {
 }
 
 /** En uzun ada göre boy çarpanı. */
-function olcek(adlar: string[]): number {
+function olcek(adlar: readonly string[]): number {
   const uzun = Math.max(0, ...adlar.map((ad) => ad.length));
   if (uzun <= 12) return 1;
   if (uzun <= 18) return 0.86;
   if (uzun <= 26) return 0.74;
   return 0.64;
+}
+
+/**
+ * Adların yazı boyu (CSS değeri). Adlarla aynı ölçüde çizilmesi gereken bir
+ * süs (ör. adların arasındaki kurdele) `em` birimini buna bağlar.
+ */
+export function adlarBoyu(adlar: readonly string[], enCok = 64, akis = 12.5): string {
+  const o = olcek(adlar.length ? adlar : ['Davetlisiniz']);
+  return `max(32px, min(${(akis * o).toFixed(2)}cqi, ${Math.round(enCok * o)}px))`;
 }
 
 export function KitapAdlar({
@@ -43,11 +52,10 @@ export function KitapAdlar({
   baglacClassName
 }: KitapAdlarProps) {
   const parcalar = adlar.length ? adlar : [bos];
-  const o = olcek(parcalar);
   return (
     <Etiket
       className={cn('leading-[1.08] [text-wrap:balance] [overflow-wrap:break-word]', className)}
-      style={{ fontFamily: 'var(--kt-baslik-font)', fontSize: `max(32px, min(${(akis * o).toFixed(2)}cqi, ${Math.round(enCok * o)}px))` }}
+      style={{ fontFamily: 'var(--kt-baslik-font)', fontSize: adlarBoyu(parcalar, enCok, akis) }}
     >
       {parcalar.map((ad, i) => (
         <React.Fragment key={i}>

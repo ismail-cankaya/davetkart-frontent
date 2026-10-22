@@ -6,11 +6,17 @@
  * şamuadır. Yaldız düz renktir ve yalnızca bez üstünde kullanılır.
  */
 
-/** Bez ciltler: preset başına bir tane. Üstlerinde yalnızca yaldız yazılır. */
+/**
+ * Bez ciltler: preset başına bir tane. Üstlerinde yalnızca yaldız yazılır.
+ * Aynı konseptte iki kategori aynı kapağı taşımaz (KITAP-KONSEPTI §11, K7):
+ * düğün `sise` + `lacivert`, kına `sarap`, nişan `murdum`.
+ */
 export const BEZLER = {
   sise: '#1F3A2E',
   sarap: '#5B1E24',
-  lacivert: '#1C2541'
+  lacivert: '#1C2541',
+  /** Mürdüm eriği: mora çalan koyu erik. Yaldız 5.94, şamua 11.70 (hesaplandı). Nişan. */
+  murdum: '#3D2337'
 } as const;
 
 export type BezAdi = keyof typeof BEZLER;

@@ -58,14 +58,24 @@ export function cizilenBolumler(invitation: Invitation): BolumAdi[] {
   return SIRA.filter((ad) => gorunur[ad]);
 }
 
+/** Sıra numarasından üst etiket: "Bölüm II". Kategori kendi biçimini verebilir. */
+export type EtiketBicimi = (sira: number) => string;
+
+/** Varsayılan: kitap bölümleri ("Bölüm II"). */
+export const bolumEtiketi: EtiketBicimi = (sira) => `Bölüm ${romen(sira)}`;
+
 /**
  * Bölüm etiketleri: hero I. bölümdür, ilk çizilen bölüm II'den başlar.
  * Kapalı bölüm numara atlatmaz.
  */
-export function bolumEtiketleri(bolumler: readonly BolumAdi[], ilk = 2): Partial<Record<BolumAdi, string>> {
+export function bolumEtiketleri(
+  bolumler: readonly BolumAdi[],
+  ilk = 2,
+  bicim: EtiketBicimi = bolumEtiketi
+): Partial<Record<BolumAdi, string>> {
   const etiketler: Partial<Record<BolumAdi, string>> = {};
   bolumler.forEach((ad, i) => {
-    etiketler[ad] = `Bölüm ${romen(ilk + i)}`;
+    etiketler[ad] = bicim(ilk + i);
   });
   return etiketler;
 }
@@ -75,12 +85,15 @@ const BOS_BASLIK: Partial<TemplateFlavor['headings']> = {};
 /**
  * Kategori flavor'ının kitap kopyası: bölüm adları kitap dilinde, üst
  * etiketler açık bölümlerden numaralı. Kategori deseni kapatılır — sayfa
- * düz şamuadır. `basliklar` çağıranın modül sabiti olmalı (bağımlılık).
+ * düz şamuadır. `basliklar` ve `bicim` çağıranın modül sabiti olmalı
+ * (bağımlılık). `bicim` etiketin dilini verir: düğünde "Bölüm II", nişanda
+ * (önsöz, henüz bölüm yok) "Önsöz · II".
  */
 export function useKitapFlavor(
   temel: TemplateFlavor,
   invitation: Invitation,
-  basliklar: Partial<TemplateFlavor['headings']> = BOS_BASLIK
+  basliklar: Partial<TemplateFlavor['headings']> = BOS_BASLIK,
+  bicim: EtiketBicimi = bolumEtiketi
 ): TemplateFlavor {
   // Liste her çizimde ucuzca hesaplanır; flavor yalnızca liste değişince yenilenir.
   const anahtar = cizilenBolumler(invitation).join(',');
@@ -91,7 +104,7 @@ export function useKitapFlavor(
       ...temel,
       BackgroundPattern: undefined,
       headings: { ...KITAP_BASLIKLARI, ...basliklar },
-      eyebrows: { ...temel.eyebrows, ...bolumEtiketleri(bolumler) }
+      eyebrows: { ...temel.eyebrows, ...bolumEtiketleri(bolumler, 2, bicim) }
     };
-  }, [temel, anahtar, basliklar]);
+  }, [temel, anahtar, basliklar, bicim]);
 }

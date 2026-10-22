@@ -1,6 +1,6 @@
 # `konsept/kitap/Adlar.tsx` — `KitapAdlar`
 
-> **Tarih:** 2026-10-17 · dal `design/kitap`
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (`adlarBoyu`) · dal `design/kitap`
 
 ---
 
@@ -18,6 +18,8 @@ italik `&`'ı klasik kitap dizgisinin süsüdür. Satırlar arasında boşluk ka
 - `o`: en uzun adın uzunluğuna göre çarpan (≤ 12 → 1, ≤ 18 → 0.86, ≤ 26 → 0.74, üstü 0.64).
 - **32 px tabanı:** Display'in kıl çizgileri bunun altında kopar (KITAP-KONSEPTI §3.2).
 - Varsayılan `enCok` 64 px, `akis` 12.5 cqi (360 px'te 45 px).
+- `adlarBoyu(adlar, enCok, akis)` aynı değeri CSS dizgisi olarak verir: adlarla aynı ölçüde çizilmesi
+  gereken bir süs `em`'ini buna bağlar (nişanın kesik kurdelesi, `NisanKitapKurdele`).
 
 ## 3. Kurallar
 

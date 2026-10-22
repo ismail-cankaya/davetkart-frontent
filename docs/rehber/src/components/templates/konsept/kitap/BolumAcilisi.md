@@ -1,6 +1,6 @@
 # `konsept/kitap/BolumAcilisi.tsx` — başharfli ilk sayfa
 
-> **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (alt metin bloğu, §11) · dal `design/kitap`
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (alt metin bloğu, §11), 2026-10-22 (`dizgi`) · dal `design/kitap`
 
 ---
 
@@ -35,7 +35,17 @@ uzun satırına göre daralır ([`useSikiBlok`](useSikiBlok.md)) ve ortada durur
 `uzun`: 171–597 (orta 384). Tek satırlık alt metin ortalı görünür. Kalan asimetri yalnızca sağ
 kenarın dalgasıdır.
 
-## 3. İki kullanım
+## 3. `dizgi`
+
+| Değer | Alt metin | Kullanan |
+|---|---|---|
+| `basharf` (varsayılan) | Düz, başharfli — bölüm açılışı | Düğün · Birinci Bölüm ("Bölüm I", sayfa "1") |
+| `italik` | İtalik, başharfsiz — önsöz | Nişan · Önsöz ("Önsöz", sayfa "i") |
+
+Klasik kitapta önsöz italik dizilir ve başharf almaz; başharf bölüm açar. Nişanda konseptin tek
+başharfi böylece hiç kullanılmaz.
+
+## 4. İki kullanım
 
 | | `adlar` | `giris` |
 |---|---|---|

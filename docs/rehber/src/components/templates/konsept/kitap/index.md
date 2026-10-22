@@ -30,6 +30,7 @@ konseptidir. Kategoriler yalnızca `index.ts`'ten içe alır.
 | `SayfaBasi.tsx` | Geniş ekranda sayfa başları (`renderBackdrop`) | [SayfaBasi](SayfaBasi.md) |
 | `Ayrac.tsx` | Ayraç kurdelesi | [Ayrac](Ayrac.md) |
 | `Fleuron.tsx` | Sarmaşık yaprağı ve yatay matbaa süsü | [Fleuron](Fleuron.md) |
+| `SayfayiCevirin.tsx` | Bez kapağın en altındaki kaydırma ipucu | [SayfayiCevirin](SayfayiCevirin.md) |
 | `hareket.ts` | Süreler ve giriş kalıpları | [hareket](hareket.md) |
 | `tarih.ts` | Duvar saatinden tarih satırları, ad ayırma | [tarih](tarih.md) |
 | `useEkranBoyu.ts` | Kaydırma kabının yüksekliği | [useEkranBoyu](useEkranBoyu.md) |
@@ -51,7 +52,9 @@ const flavor = useKitapFlavor(KATEGORI_KITAP_FLAVOR, invitation);
 ```
 
 Örnekler: [`DugunKitapBirinciBolum`](../../dugun/kitap/DugunKitapBirinciBolum/index.md),
-[`DugunKitapIcKapak`](../../dugun/kitap/DugunKitapIcKapak/index.md).
+[`DugunKitapIcKapak`](../../dugun/kitap/DugunKitapIcKapak/index.md),
+[`NisanKitapOnsoz`](../../nisan/kitap/NisanKitapOnsoz/index.md),
+[`NisanKitapKurdele`](../../nisan/kitap/NisanKitapKurdele/index.md).
 
 ## 4. Kâğıt kitinden ayrım
 
