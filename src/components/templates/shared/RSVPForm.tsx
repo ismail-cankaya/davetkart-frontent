@@ -7,12 +7,13 @@ import { toast } from '../../ui/Toast';
 import { HoneypotField } from '../../ui/HoneypotField';
 import { toDisplayError } from '../../../utils/toDisplayError';
 import { RSVP_STATUS_CHOICES } from '../../../utils/rsvpStatus';
-import { SectionTheme } from './palette';
+import { SectionTheme, statusClasses } from './palette';
 import { TemplateFlavor } from './flavor';
 import { googleCalendarUrl, downloadIcsFile } from './calendar';
 import { formatCalendarDay } from '../utils';
 import { CheckIcon, SendIcon, UsersIcon, GoogleIcon, AppleIcon } from './icons';
 import { ease } from '../../../utils/motion';
+import { SectionHeading, sectionMotion } from './SectionHeading';
 
 interface RSVPFormProps {
   invitation: Invitation;
@@ -44,6 +45,8 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
   const [submitting, setSubmitting] = useState(false);
 
   const isDark = theme.id === 'midnight';
+  const feedback = statusClasses(theme);
+  const card = sectionMotion(theme, { duration: 0.95, distance: 30 });
   const calendarUrl = googleCalendarUrl(invitation);
 
   const deadlineLabel = formatCalendarDay(invitation.rsvpDeadline);
@@ -78,32 +81,26 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
 
   return (
     <section className={cn('relative px-6 py-16', theme.page)}>
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.4 }}
-        transition={{ duration: 0.9, ease: ease.out }}
-        className="text-center mb-10"
+      <SectionHeading
+        theme={theme}
+        eyebrow={flavor.eyebrows?.rsvp ?? 'LCV — Katılım Bildirimi'}
+        title={flavor.headings.rsvp}
+        amount={0.4}
+        className="mb-10"
       >
-        <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
-          {flavor.eyebrows?.rsvp ?? 'LCV — Katılım Bildirimi'}
-        </span>
-        <h2 className={cn('font-serif text-2xl md:text-3xl font-bold mt-2', theme.heading)}>
-          {flavor.headings.rsvp}
-        </h2>
         {deadlineLabel && (
           <p className={cn('text-[12px] font-light mt-3', theme.body)}>
             Lütfen katılım durumunuzu <span className={cn('font-semibold', theme.accent)}>{deadlineLabel}</span>{' '}
             tarihine kadar bildiriniz.
           </p>
         )}
-      </motion.div>
+      </SectionHeading>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: card.distance }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.95, ease: ease.out, delay: 0.1 }}
+        transition={{ duration: card.duration, ease: ease.out, delay: 0.1 }}
         className={cn('max-w-md mx-auto rounded-3xl border p-6', theme.surface, theme.border)}
       >
         <AnimatePresence mode="wait">
@@ -119,7 +116,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 16, delay: 0.15 }}
-                className="mx-auto w-14 h-14 rounded-full bg-emerald-500/15 text-emerald-500 flex items-center justify-center"
+                className={cn('mx-auto w-14 h-14 rounded-full flex items-center justify-center', feedback.success)}
               >
                 <CheckIcon size={26} strokeWidth={2.25} />
               </motion.span>
@@ -143,6 +140,8 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     whileTap={{ scale: 0.98 }}
                     className={cn(
                       'w-full flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold transition-colors duration-300',
+                      // Dokunma hedefi ≥ 44 px; görünen düğme aynı (40 px).
+                      'relative before:absolute before:inset-x-0 before:-inset-y-1',
                       theme.buttonPrimary
                     )}
                   >
@@ -156,6 +155,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     whileTap={{ scale: 0.98 }}
                     className={cn(
                       'w-full flex items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold transition-colors duration-300 cursor-pointer',
+                      'relative before:absolute before:inset-x-0 before:-inset-y-1',
                       theme.buttonGhost
                     )}
                   >
@@ -188,20 +188,21 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     if (error) setError(false);
                   }}
                   placeholder="Adınız ve soyadınız"
-                  className={cn(theme.input, error && 'border-rose-500/70 focus:border-rose-500/70 focus:ring-rose-500/15')}
+                  className={cn(theme.input, error && feedback.errorInput)}
                 />
-                {error && <p className="text-[11px] text-rose-500 mt-1.5">Lütfen adınızı yazın.</p>}
+                {error && <p className={cn('text-[11px] mt-1.5', feedback.error)}>Lütfen adınızı yazın.</p>}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className={labelClass}>Kişi Sayısı</label>
+                  {/* ± 28 px görünür, 44 px dokunulur (sözde öğe). */}
                   <div className={cn('flex items-center justify-between rounded-lg border px-2 py-1.5', theme.border)}>
                     <button
                       type="button"
                       aria-label="Kişi sayısını azalt"
                       onClick={() => setGuestCount((c) => Math.max(1, c - 1))}
-                      className={cn('w-7 h-7 rounded-md text-base font-bold cursor-pointer transition-colors', theme.buttonGhost, 'border-0')}
+                      className={cn('w-7 h-7 rounded-md text-base font-bold cursor-pointer transition-colors', theme.buttonGhost, 'border-0', 'relative before:absolute before:-inset-2')}
                     >
                       −
                     </button>
@@ -213,7 +214,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                       type="button"
                       aria-label="Kişi sayısını artır"
                       onClick={() => setGuestCount((c) => Math.min(12, c + 1))}
-                      className={cn('w-7 h-7 rounded-md text-base font-bold cursor-pointer transition-colors', theme.buttonGhost, 'border-0')}
+                      className={cn('w-7 h-7 rounded-md text-base font-bold cursor-pointer transition-colors', theme.buttonGhost, 'border-0', 'relative before:absolute before:-inset-2')}
                     >
                       +
                     </button>
@@ -253,6 +254,8 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                       onClick={() => setStatus(option)}
                       className={cn(
                         'rounded-md py-2 text-xs font-bold transition duration-300 cursor-pointer',
+                        // 32 px görünür, 44 px dokunulur.
+                        'relative before:absolute before:inset-x-0 before:-inset-y-1.5',
                         status === option
                           ? cn(theme.accentBg, isDark ? 'text-slate-950' : 'text-stone-50', 'shadow-sm')
                           : cn(theme.body, 'hover:opacity-75')

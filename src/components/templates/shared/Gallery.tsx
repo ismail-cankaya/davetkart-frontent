@@ -6,6 +6,7 @@ import { ease } from '../../../utils/motion';
 import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ChevronLeftIcon, ChevronRightIcon } from './icons';
+import { SectionHeading, sectionMotion } from './SectionHeading';
 
 interface GalleryProps {
   invitation: Invitation;
@@ -69,28 +70,24 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
     goTo((current) => (current + dir + images.length) % images.length, dir, dragX);
   };
 
+  // Galeri kartı kaymaz, ölçeklenir; temadan yalnızca süre alınır.
+  const card = sectionMotion(theme, { duration: 0.9, distance: 0 });
+
   return (
     <section className={cn('relative px-6 py-16 overflow-hidden', theme.page)}>
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.9, ease: ease.out }}
-        className="text-center mb-10"
-      >
-        <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
-          {flavor.eyebrows?.gallery ?? 'Özel Anlarımız'}
-        </span>
-        <h2 className={cn('font-serif text-2xl md:text-3xl font-bold mt-2', theme.heading)}>
-          {flavor.headings.gallery}
-        </h2>
-      </motion.div>
+      <SectionHeading
+        theme={theme}
+        eyebrow={flavor.eyebrows?.gallery ?? 'Özel Anlarımız'}
+        title={flavor.headings.gallery}
+        amount={0.5}
+        className="mb-10"
+      />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.9, ease: ease.out }}
+        transition={{ duration: card.duration, ease: ease.out }}
         className="max-w-md mx-auto"
       >
         <div ref={frameRef} className={cn('relative aspect-[4/5] rounded-3xl overflow-hidden border', theme.border)}>
@@ -118,37 +115,45 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
             />
           </AnimatePresence>
 
-          {/* Soft bottom vignette + counter */}
+          {/* Soft bottom vignette + counter. Sayaç düz koyu çipin üstünde:
+              fotoğraf bembeyaz olsa da AA geçer. */}
           <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/45 to-transparent pointer-events-none" />
-          <span className="absolute bottom-3.5 right-4 text-[10px] font-semibold tracking-widest text-white/85">
+          <span className="absolute bottom-3 right-3 rounded-full bg-black/70 px-2 py-0.5 text-[10px] font-semibold tracking-widest text-white">
             {index + 1} / {images.length}
           </span>
 
+          {/* Oklar: tıklama alanı 44 px, görünen daire 36 px. */}
           {images.length > 1 && (
             <>
               <button
                 type="button"
                 aria-label="Önceki fotoğraf"
                 onClick={() => paginate(-1)}
-                className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm flex items-center justify-center transition-colors duration-300 cursor-pointer"
+                className="group absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer"
               >
-                <ChevronLeftIcon size={17} />
+                <span className="w-9 h-9 rounded-full bg-black/30 group-hover:bg-black/50 text-white backdrop-blur-sm flex items-center justify-center transition-colors duration-300">
+                  <ChevronLeftIcon size={17} />
+                </span>
               </button>
               <button
                 type="button"
                 aria-label="Sonraki fotoğraf"
                 onClick={() => paginate(1)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/30 hover:bg-black/50 text-white backdrop-blur-sm flex items-center justify-center transition-colors duration-300 cursor-pointer"
+                className="group absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer"
               >
-                <ChevronRightIcon size={17} />
+                <span className="w-9 h-9 rounded-full bg-black/30 group-hover:bg-black/50 text-white backdrop-blur-sm flex items-center justify-center transition-colors duration-300">
+                  <ChevronRightIcon size={17} />
+                </span>
               </button>
             </>
           )}
         </div>
 
-        {/* Dot navigation */}
+        {/* Dot navigation — her nokta 44 × 44 düğme, görünen nokta aynı. Üst
+            boşluk düğmenin fazlası kadar kısalır, alttaki fazlalık geri alınır:
+            noktanın dikey yeri ve bölümün yüksekliği değişmez. */}
         {images.length > 1 && (
-          <div className="flex items-center justify-center gap-2 mt-5">
+          <div className="flex items-center justify-center mt-px -mb-[19px]">
             {images.map((image, dotIndex) => (
               <button
                 key={image.id ?? image.url}
@@ -157,11 +162,15 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
                 onClick={() => {
                   if (dotIndex !== index) goTo(() => dotIndex, dotIndex > index ? 1 : -1);
                 }}
-                className={cn(
-                  'h-1.5 rounded-full transition-[width,opacity] duration-300 ease-luxe cursor-pointer',
-                  dotIndex === index ? cn('w-6', theme.accentBg) : cn('w-1.5 opacity-40', theme.accentBg)
-                )}
-              />
+                className="min-w-11 h-11 flex items-center justify-center rounded-full cursor-pointer"
+              >
+                <span
+                  className={cn(
+                    'h-1.5 rounded-full transition-[width,opacity] duration-300 ease-luxe',
+                    dotIndex === index ? cn('w-6', theme.accentBg) : cn('w-1.5 opacity-40', theme.accentBg)
+                  )}
+                />
+              </button>
             ))}
           </div>
         )}
