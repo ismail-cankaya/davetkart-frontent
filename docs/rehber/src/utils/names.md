@@ -1,7 +1,7 @@
 # `src/utils/names.ts` — İki isim, tek metin
 
 > **Kullananlar:** `CoupleNameFields.tsx` (yazma), `TemplateRenderer.tsx` ve
-> `DashboardPage.tsx` (gösterme)
+> `DashboardPage.tsx` (gösterme); `splitPeople` → `nisan/parts/kagitOrtak.ts` ve konsept kitleri
 > **Denetim:** `npm run verify:content` ("İsim alanları")
 
 ---
@@ -47,3 +47,23 @@ metninde kullanmaz). Bu yüzden backend tarafında değişiklik gerekmedi.
 - Sihirbazdan Tasarım Stüdyosu'na geçildi, alanlar yeniden oluştu: `Ali` hâlâ
   "Damat Adı"nda.
 - Önizlemede `Ali` görünüyor, `& Ali` hiçbir yerde görünmüyor.
+
+## 5. `splitPeople` — adları kişi kişi ayırmak (2026-10-22, dal `design/konsept-ortak`)
+
+Kâğıt kiti (`kagitOrtak.kisiler`) ve üç konsept kiti (Sergi `metin.ts`, Kitap `tarih.ts`, Harita
+`veri.ts`) aynı dört satırı ayrı ayrı yazmıştı. Ortak hâli buradadır:
+
+| Girdi | `splitPeople` | `splitNames` |
+|---|---|---|
+| `Ayşe & Ali` | `['Ayşe', 'Ali']` | `['Ayşe', 'Ali']` |
+| `& Ali` (saklama biçimi) | `['Ali']` | `['', 'Ali']` |
+| `A & B & C` | `['A', 'B', 'C']` | `['A', 'B & C']` |
+| `''`, `null`, `undefined` | `[]` | — |
+
+`splitNames` form alanlarının sırasını korur (hangi alan boş); `splitPeople` yalnızca **çizilecek**
+adları verir. Davranış eski `kisiler` ile birebir aynıdır (12 tarih + 11 ad girdisiyle eski ve yeni
+uygulama karşılaştırıldı).
+
+Kitler kendi `kisiler`'lerini silip `export { splitPeople as kisiler } from '…/utils/names';` ile
+bağlanır; çağıran kod değişmez.
+

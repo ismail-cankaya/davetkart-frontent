@@ -1,4 +1,4 @@
-import React, { Suspense, useRef, useState } from 'react';
+import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, MotionValue, useScroll, useTransform } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
@@ -116,10 +116,12 @@ interface InvitationCompositionProps {
 function ScrollBackdrop({
   scrollRef,
   revealed,
+  inert,
   render
 }: {
   scrollRef: React.RefObject<HTMLDivElement | null>;
   revealed: boolean;
+  inert: boolean;
   render: (state: BackdropState) => React.ReactNode;
 }) {
   const { scrollY, scrollYProgress } = useScroll({ container: scrollRef });
@@ -131,7 +133,7 @@ function ScrollBackdrop({
   });
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" inert={inert}>
       {render({ revealed, heroExit, progress: scrollYProgress })}
     </div>
   );
@@ -158,8 +160,22 @@ export function InvitationComposition({
   const [envelopeOpened, setEnvelopeOpened] = useState(false);
   const [revealStarted, setRevealStarted] = useState(false);
   const scrollRef = useRef<HTMLDivElement | null>(null);
+  const gateRef = useRef<HTMLDivElement | null>(null);
 
   const envelopeVisible = invitation.showEnvelope && !envelopeOpened;
+
+  /**
+   * Kapı açıkken arkadaki her katman `inert`: Tab kapıdan içeriğe kaçmaz,
+   * ekran okuyucu görünmeyen bölümleri okumaz. Misafir sayfasında odak
+   * kapının ilk düğmesinde başlar; editör önizlemesinde (`preview`) odak
+   * çalınmaz, sihirbazın alanında kalır.
+   */
+  useEffect(() => {
+    if (!envelopeVisible || mode !== 'live') return;
+    gateRef.current
+      ?.querySelector<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      ?.focus({ preventScroll: true });
+  }, [envelopeVisible, mode]);
 
   /**
    * 🔴 Intro kapısı. Hero'nun ön planı zarf kaymaya BAŞLADIĞI anda mount
@@ -195,24 +211,31 @@ export function InvitationComposition({
       {/* 1. Fixed layer behind all sections: the template's scroll-driven
           scene if it has one, otherwise the category background pattern. */}
       {renderBackdrop ? (
-        <ScrollBackdrop scrollRef={scrollRef} revealed={revealed} render={renderBackdrop} />
+        <ScrollBackdrop scrollRef={scrollRef} revealed={revealed} inert={envelopeVisible} render={renderBackdrop} />
       ) : (
         flavor.BackgroundPattern && (
-          <div className="absolute inset-0 pointer-events-none opacity-40 z-0">
+          <div className="absolute inset-0 pointer-events-none opacity-40 z-0" inert={envelopeVisible}>
             <flavor.BackgroundPattern className={cn('w-full h-full', theme.accent)} />
           </div>
         )
       )}
 
-      {/* 2. Envelope layer */}
+      {/* 2. Envelope layer. Sarmalayıcı `contents`: kutu üretmez, kapının
+          konumu ve katmanı değişmez; odak için kapının düğmesini bulur. Kapı
+          içindeki `exit` animasyonları AnimatePresence'tan yine geçer. */}
       <AnimatePresence>
-        {envelopeVisible && (renderEnvelope ? renderEnvelope(envelopeProps) : <Envelope {...envelopeProps} />)}
+        {envelopeVisible && (
+          <div key="kapi" ref={gateRef} className="contents">
+            {renderEnvelope ? renderEnvelope(envelopeProps) : <Envelope {...envelopeProps} />}
+          </div>
+        )}
       </AnimatePresence>
 
       {/* 3. Scrollable content */}
       <div
         ref={scrollRef}
         data-lenis-prevent
+        inert={envelopeVisible}
         className={cn(
           'relative z-10 w-full h-full overflow-x-hidden',
           envelopeVisible ? 'overflow-y-hidden' : 'overflow-y-auto'
@@ -253,7 +276,9 @@ export function InvitationComposition({
           {/* Tema `footer` verirse kendi ölçülmüş renklerini kullanır; vermezse
               bugünkü soluk hâl (opaklık) korunur. */}
           <footer className={cn('py-8 text-center')}>
-            <p className={cn('text-[10px] font-medium tracking-[0.3em] uppercase', theme.footer?.names ?? ['opacity-60', theme.body])}>
+            {/* Adlar kullanıcı metnidir: harfi değiştirilmez (büyük harf yok);
+                aralıklı imza görünümü harf aralığıyla korunur. */}
+            <p className={cn('text-[11px] font-medium tracking-[0.2em]', theme.footer?.names ?? ['opacity-60', theme.body])}>
               {invitation.names || 'DavetKart'}
             </p>
             {/* FE 10.20 (K102): Elit'te "Logosuz özel yayın". Karar sunucudan gelir

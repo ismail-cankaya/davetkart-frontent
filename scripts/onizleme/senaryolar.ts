@@ -51,12 +51,72 @@ const ADLAR: Record<string, { kisa: string; uzun: string }> = {
 
 const adlar = (kategori: string) => ADLAR[kategori] ?? ADLAR.ciftler;
 
-const PROGRAM: TimelineEvent[] = [
-  { id: null, localKey: 'oz-1', time: '17:00', title: 'Karşılama', description: 'Misafirlerimizi bahçede karşılıyoruz.' },
-  { id: null, localKey: 'oz-2', time: '19:00', title: 'Tören', description: 'Günün en özel anına birlikte tanıklık edelim.' },
-  { id: null, localKey: 'oz-3', time: '20:30', title: 'Akşam yemeği', description: 'Özenle hazırlanan menü eşliğinde.' },
-  { id: null, localKey: 'oz-4', time: '22:00', title: 'Kutlama', description: 'Gece boyu müzik ve dans.' }
-];
+/** Kategoriye uygun dört adımlı program: `saat · başlık · açıklama`. Durak simgeleri gibi başlığa bakan parçalar bununla denenir. */
+const PROGRAMLAR: Record<string, [string, string, string][]> = {
+  dugun: [
+    ['17:00', 'Karşılama', 'Misafirlerimizi bahçede karşılıyoruz.'],
+    ['19:00', 'Tören', 'Günün en özel anına birlikte tanıklık edelim.'],
+    ['20:30', 'Akşam yemeği', 'Özenle hazırlanan menü eşliğinde.'],
+    ['22:00', 'Kutlama', 'Gece boyu müzik ve dans.']
+  ],
+  nisan: [
+    ['18:00', 'Karşılama', 'Ailelerimizle birlikte sizi kapıda karşılıyoruz.'],
+    ['18:30', 'Söz ve yüzük takma', 'Büyüklerimizin huzurunda sözümüzü veriyoruz.'],
+    ['19:30', 'Kahve ve tatlı ikramı', 'Türk kahvesi ve ev yapımı tatlılar.'],
+    ['20:30', 'Akşam yemeği', 'Sofrayı birlikte paylaşalım.']
+  ],
+  kina: [
+    ['19:00', 'Karşılama', 'Gelinin evinde misafirlerimizi ağırlıyoruz.'],
+    ['20:00', 'Gelin alma', 'Türküler eşliğinde gelinimiz aramıza katılıyor.'],
+    ['21:00', 'Kına yakma', 'Avuçlara kına, gönüllere dua.'],
+    ['22:00', 'Eğlence', 'Halaylar ve oyun havaları.']
+  ],
+  sunnet: [
+    ['11:00', 'Karşılama', 'Bahçede misafirlerimizi karşılıyoruz.'],
+    ['12:00', 'Mevlit', 'Küçük beyimiz için dualarımızı birlikte okuyalım.'],
+    ['13:00', 'Öğle yemeği', 'Geleneksel sünnet sofrası.'],
+    ['15:00', 'Çocuk şenliği', 'Sihirbaz, pamuk şeker ve oyunlar.']
+  ],
+  'dogum-gunu': [
+    ['15:00', 'Karşılama', 'Balonlar şişti, kapı açık.'],
+    ['15:30', 'Oyunlar', 'Saklambaçtan hazine avına.'],
+    ['17:00', 'Pasta kesimi', 'Mumları birlikte üfleyelim.'],
+    ['18:00', 'Hediye açılışı', 'Sürprizler paketlerinden çıkıyor.']
+  ],
+  mezuniyet: [
+    ['10:00', 'Mezuniyet töreni', 'Diplomalar sahnede veriliyor.'],
+    ['12:00', 'Kep atma', 'Hep birlikte, aynı anda.'],
+    ['13:00', 'Fotoğraf çekimi', 'Ailelerimizle kampüste.'],
+    ['19:00', 'Mezuniyet yemeği', 'Yeni başlangıçlara kadeh kaldıralım.']
+  ],
+  'baby-shower': [
+    ['14:00', 'Karşılama', 'Pastel balonlar ve limonata.'],
+    ['14:30', 'Oyunlar', 'Bebek tahmin oyunu ve dilek kartları.'],
+    ['15:30', 'Pasta ve ikram', 'Tatlı bir mola.'],
+    ['16:30', 'Hediye açılışı', 'Minik kıyafetler, büyük sevinçler.']
+  ],
+  parti: [
+    ['20:00', 'Kapılar açılıyor', 'Erken gelen ilk içeceği kapar.'],
+    ['21:00', 'Kokteyl', 'İmza kokteyller ve atıştırmalıklar.'],
+    ['22:00', 'DJ performansı', 'Pist açılıyor.'],
+    ['00:00', 'Gece yarısı sürprizi', 'Saat on ikide ışıklara dikkat.']
+  ],
+  kurumsal: [
+    ['09:00', 'Kayıt ve kahve', 'Yaka kartlarınızı girişten alabilirsiniz.'],
+    ['10:00', 'Açılış konuşması', 'Yılın değerlendirmesi ve hedefler.'],
+    ['11:00', 'Panel', 'İş ortaklarımızla yeni dönem.'],
+    ['13:00', 'Öğle yemeği', 'Teras katında.']
+  ]
+};
+
+const program = (kategori: string): TimelineEvent[] =>
+  (PROGRAMLAR[kategori] ?? PROGRAMLAR.dugun).map(([time, title, description], i) => ({
+    id: null,
+    localKey: `oz-${i + 1}`,
+    time,
+    title,
+    description
+  }));
 
 /** Depodaki herkese açık görseller; galeri boş kalmasın diye. */
 const GALERI = ['/images/emerald-640.webp', '/images/corporate-640.webp', '/images/moda-gece.svg'].map((url) => ({ id: null, url }));
@@ -76,13 +136,28 @@ export interface SenaryoGirdisi {
   zarf: boolean;
   /** Ayrıca kapatılacak modüller. */
   kapat: Modul[];
+  /** Adresten tek tek ezilen alanlar; senaryonun üstüne uygulanır. */
+  ezme?: Ezme;
+}
+
+/**
+ * `ad=`, `tarih=`, `mekan=`, `baslik=`, `altmetin=`: verilen alan senaryonun değerini ezer, boş değer
+ * alanı boşaltır (tek ad, boş tarih, silinmiş başlık). `harita=0` harita bağlantısını kaldırır.
+ */
+export interface Ezme {
+  ad?: string;
+  tarih?: string;
+  mekan?: string;
+  baslik?: string;
+  altmetin?: string;
+  harita?: false;
 }
 
 /**
  * Önizlemenin davetiyesi. Sihirbazın yaptığı gibi başlık kategorinin önerisinden gelir;
  * kişisel alanlar senaryoya göre dolar ya da boş kalır.
  */
-export function senaryoKur({ kategori, senaryo, zarf, kapat }: SenaryoGirdisi): Invitation {
+export function senaryoKur({ kategori, senaryo, zarf, kapat, ezme }: SenaryoGirdisi): Invitation {
   const kat = EVENT_CATEGORIES.find((c) => c.id === kategori);
   const tarih = upcomingShowcaseDate();
   const temel: Invitation = {
@@ -112,7 +187,7 @@ export function senaryoKur({ kategori, senaryo, zarf, kapat }: SenaryoGirdisi): 
       showGallery: true,
       showGift: true,
       showRSVP: true,
-      timelineEvents: PROGRAM,
+      timelineEvents: program(kategori),
       galleryImages: GALERI,
       bankName: 'Örnek Bankası',
       accountHolder: uzun ? adlar(kategori).uzun : adlar(kategori).kisa,
@@ -126,5 +201,12 @@ export function senaryoKur({ kategori, senaryo, zarf, kapat }: SenaryoGirdisi): 
 
   davet = { ...davet, showEnvelope: zarf };
   for (const modul of kapat) davet = { ...davet, [MODUL_ALANI[modul]]: false };
+
+  if (ezme?.ad !== undefined) davet = { ...davet, names: ezme.ad };
+  if (ezme?.tarih !== undefined) davet = { ...davet, date: ezme.tarih, rsvpDeadline: ezme.tarih ? lcvSonGun(ezme.tarih) : '' };
+  if (ezme?.mekan !== undefined) davet = { ...davet, venue: ezme.mekan };
+  if (ezme?.baslik !== undefined) davet = { ...davet, title: ezme.baslik };
+  if (ezme?.altmetin !== undefined) davet = { ...davet, subtitle: ezme.altmetin };
+  if (ezme?.harita === false) davet = { ...davet, mapUrl: '' };
   return davet;
 }

@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Invitation } from '../../../types';
 import { cn } from '../../../utils/cn';
-import { SectionTheme } from './palette';
+import { SectionTheme, statusClasses } from './palette';
 import { TemplateFlavor } from './flavor';
 import { GiftIcon, CopyIcon, CheckIcon } from './icons';
 import { ease } from '../../../utils/motion';
+import { SectionHeading, isStartAligned, sectionMotion } from './SectionHeading';
 
 interface GiftRegistryProps {
   invitation: Invitation;
@@ -39,32 +40,28 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
   const formatAmount = (amount: number) =>
     new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(amount);
 
+  const card = sectionMotion(theme, { duration: 0.95, distance: 30 });
+
   return (
     <section className={cn('relative px-6 py-16', theme.page)}>
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.5 }}
-        transition={{ duration: 0.9, ease: ease.out }}
-        className="text-center mb-10"
+      <SectionHeading
+        theme={theme}
+        eyebrow={flavor.eyebrows?.gift ?? 'Hediye Takdiri'}
+        title={flavor.headings.gift}
+        amount={0.5}
+        className="mb-10"
       >
-        <span className={cn('text-[10px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
-          {flavor.eyebrows?.gift ?? 'Hediye Takdiri'}
-        </span>
-        <h2 className={cn('font-serif text-2xl md:text-3xl font-bold mt-2', theme.heading)}>
-          {flavor.headings.gift}
-        </h2>
-        <p className={cn('text-[13px] font-light mt-3 max-w-xs mx-auto leading-relaxed', theme.body)}>
+        <p className={cn('text-[13px] font-light mt-3 max-w-xs mx-auto leading-relaxed', theme.body, isStartAligned(theme) && 'mx-0')}>
           {flavor.giftNote ??
             'Varlığınız en büyük hediyemiz; yine de takdirinizi iletmek isterseniz hesap bilgilerimizi aşağıda bulabilirsiniz.'}
         </p>
-      </motion.div>
+      </SectionHeading>
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: card.distance }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: 0.95, ease: ease.out, delay: 0.1 }}
+        transition={{ duration: card.duration, ease: ease.out, delay: 0.1 }}
         className={cn('max-w-md mx-auto rounded-3xl border p-6 space-y-5', theme.surface, theme.border)}
       >
         <div className="flex items-center gap-3">
@@ -102,7 +99,9 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
             aria-label="IBAN'ı kopyala"
             className={cn(
               'shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-2 text-[11px] font-bold transition-colors duration-300 cursor-pointer',
-              copied ? 'bg-emerald-500/15 text-emerald-500' : theme.buttonGhost
+              // Dokunma hedefi 44 px; görünen düğme aynı.
+              'relative before:absolute before:inset-x-0 before:-inset-y-2',
+              copied ? statusClasses(theme).success : theme.buttonGhost
             )}
           >
             {copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
@@ -116,7 +115,9 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
             <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase mb-2.5', theme.body)}>
               Hediye Miktarı Önerileri
             </p>
-            <div className="flex flex-wrap gap-2">
+            {/* Çipler 34 px görünür, 44 px dokunulur; satır arası tıklama
+                alanları çakışmasın diye 2 px açık. */}
+            <div className="flex flex-wrap gap-x-2 gap-y-2.5">
               {invitation.giftOptions.map((amount) => {
                 const isActive = selectedAmount === amount;
                 return (
@@ -127,6 +128,7 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
                     onClick={() => setSelectedAmount(isActive ? null : amount)}
                     className={cn(
                       'rounded-full border px-4 py-2 text-xs font-bold transition duration-300 cursor-pointer',
+                      'relative before:absolute before:inset-x-0 before:-inset-y-1.5',
                       isActive
                         ? cn(theme.accentBg, theme.id === 'midnight' ? 'text-slate-950 border-transparent' : 'text-stone-50 border-transparent')
                         : cn(theme.border, theme.heading, 'hover:opacity-80')
