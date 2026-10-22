@@ -1,6 +1,6 @@
 # `konsept/sergi/` — "Sergi Açılışı" konsept kiti
 
-> **Kullananlar:** sergi konseptinin preset'leri (9 kategori × 2; ilk: düğün pilotu)
+> **Kullananlar:** sergi konseptinin preset'leri (9 kategori × 2; düğün pilotu, nişan)
 > **Konsept:** [SERGI-KONSEPTI](../../../../../tasarim/SERGI-KONSEPTI.md) · **Ortak kurallar:** [KONSEPT-ORTAK](../../../../../tasarim/KONSEPT-ORTAK.md)
 > **Tarih:** 2026-10-17 · dal `design/sergi`
 
@@ -28,7 +28,7 @@ kendi düzenini (hangi eksen, nereye ne asılır) ve eser rengini seçer.
 | `Adlar.tsx` | Duvar yazısının adları | [Adlar](Adlar.md) |
 | `SergiSayac.tsx` | Etiket dilinde geri sayım | [SergiSayac](SergiSayac.md) |
 | `SergiKapi.tsx` | Zarf kapısı: "Işığı yakın" | [SergiKapi](SergiKapi.md) |
-| `soyutEserler.tsx` | Özgün soyut eserler | [soyutEserler](soyutEserler.md) |
+| `soyutEserler.tsx` | Özgün soyut eserler (Eşik, İki Yarım) | [soyutEserler](soyutEserler.md) |
 | `flavor.ts` | Bölüm başlıkları, salon numaraları | [flavor](flavor.md) |
 | `metin.ts` | Etiket satırları için tarih/ad yardımcıları | [metin](metin.md) |
 | `hareket.ts` | Hareket dili | [hareket](hareket.md) |

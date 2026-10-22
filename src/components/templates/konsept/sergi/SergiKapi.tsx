@@ -18,8 +18,12 @@ import type { EnvelopeRenderProps } from '../../shared/InvitationComposition';
 const ZAMAN = { acilis: 0.1, cikis: 0.1, cikisSure: 0.5 };
 
 interface SergiKapiProps extends EnvelopeRenderProps {
-  /** Karanlıkta seçilen çerçevenin silueti; çerçevesiz düzenlerde kapatılır. */
-  siluet?: boolean;
+  /**
+   * Karanlıkta seçilen eserin silueti: `true` tek çerçeve, `false` hiçbiri;
+   * bir öğe verilirse preset'in kendi silueti (diptik, vinil yazı) çizilir.
+   * Öğe süstür: `aria-hidden` taşımalıdır.
+   */
+  siluet?: boolean | React.ReactElement;
 }
 
 /** Işık anahtarı: düğmenin küçük işareti. */
@@ -74,11 +78,13 @@ export function SergiKapi({ invitation, flavor, onRevealStart, onOpened, siluet 
       }}
     >
       {/* Karanlıkta asılı bekleyen çerçeve: yalnızca kenarı seçilir. */}
-      {siluet && (
+      {siluet === true ? (
         <div
           aria-hidden="true"
           className="absolute right-[10%] top-[14%] w-[54%] max-w-[19rem] aspect-[4/5] border border-white/[0.09] bg-white/[0.025]"
         />
+      ) : (
+        siluet || null
       )}
 
       <motion.div

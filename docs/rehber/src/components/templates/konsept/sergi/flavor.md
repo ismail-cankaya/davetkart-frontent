@@ -8,10 +8,16 @@
 
 | Alan | Değer |
 |---|---|
-| `headings` | Program *Açılış akışı*, Detay *Ziyaret bilgileri*, Galeri *Eserler*, Hediye `metinler.hediye`, LCV *Açılış listesi* |
+| `headings` | Program *Açılış akışı*, Detay *Ziyaret bilgileri*, Galeri *Eserler*, Hediye `metinler.hediye`, LCV *Açılış listesi*; `metinler.basliklar` verilen başlıkları ezer (hediye hariç) |
 | `eyebrows` | Görünen bölümlere sırayla *Salon 1, Salon 2…* |
 | `giftNote` | `metinler.hediyeNotu` (yoksa tabanınki) |
 | `BackgroundPattern` | `undefined` — duvar düzdür |
+
+## Kategori başlıkları
+
+`SergiMetinleri.basliklar` kategori yorumunun dili rehberin başlıklarıyla çeliştiğinde kullanılır. Nişanda
+kapak "açılış yakında, bu akşam önizleme" der; program ve LCV *Önizleme akışı* / *Önizleme listesi* olur.
+Nesne modül düzeyinde sabit olmalıdır (`useMemo` bağımlılığı).
 
 ## Salon numarası
 

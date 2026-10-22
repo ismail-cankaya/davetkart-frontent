@@ -10,6 +10,11 @@ export interface SergiMetinleri {
   hediye: string;
   /** Hediye bölümünün açıklama cümlesi; bağış kutusu metaforu kullanılmaz. */
   hediyeNotu?: string;
+  /**
+   * Kategorinin dilindeki bölüm başlıkları (ör. nişanda "Önizleme akışı");
+   * verilmeyenler konseptin başlıklarıdır. Modül düzeyinde sabit olmalı.
+   */
+  basliklar?: Partial<Omit<TemplateFlavor['headings'], 'gift'>>;
 }
 
 type Bolum = keyof TemplateFlavor['headings'];
@@ -53,11 +58,12 @@ export function useSergiFlavor(taban: TemplateFlavor, invitation: Invitation, me
         timeline: 'Açılış akışı',
         details: 'Ziyaret bilgileri',
         gallery: 'Eserler',
-        gift: metinler.hediye,
-        rsvp: 'Açılış listesi'
+        rsvp: 'Açılış listesi',
+        ...metinler.basliklar,
+        gift: metinler.hediye
       },
       eyebrows,
       giftNote: metinler.hediyeNotu ?? taban.giftNote
     };
-  }, [taban, gorunen, metinler.hediye, metinler.hediyeNotu]);
+  }, [taban, gorunen, metinler.hediye, metinler.hediyeNotu, metinler.basliklar]);
 }

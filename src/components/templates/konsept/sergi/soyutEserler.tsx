@@ -29,6 +29,30 @@ export function EserEsik({ className }: EserProps) {
   );
 }
 
+/**
+ * "İki Yarım": iki panoluk diptik (her pano 300×450). Bir daire panoların
+ * arasındaki boşlukta ikiye bölünür; her yarı öbür panonun renklerini
+ * taşır, alttaki mürekkep çizgi iki panodan da geçer. İki kişi, tek eser.
+ *
+ * Daire iç kenara yaslıdır (kenar kuralının bilinçli istisnası): kırpılmasın
+ * diye sol pano sağ kenarına, sağ pano sol kenarına sabitlenir.
+ */
+export function EserIkiYarim({ className, pano = 'sol' }: EserProps & { pano?: 'sol' | 'sag' }) {
+  const sol = pano === 'sol';
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 300 450"
+      preserveAspectRatio={sol ? 'xMaxYMid slice' : 'xMinYMid slice'}
+      className={className}
+    >
+      <rect width="300" height="450" fill={sol ? 'var(--sg-eser)' : 'var(--sg-duvar)'} />
+      <circle cx={sol ? 300 : 0} cy="190" r="112" fill={sol ? 'var(--sg-duvar)' : 'var(--sg-eser)'} />
+      <rect x={sol ? 44 : 0} y="352" width={sol ? 256 : 214} height="6" fill="var(--sg-murekkep)" />
+    </svg>
+  );
+}
+
 export interface SoyutEserTanimi {
   Bilesen: React.ComponentType<EserProps>;
   /** Etiketteki eser adı. */
@@ -38,7 +62,8 @@ export interface SoyutEserTanimi {
 }
 
 export const SOYUT_ESERLER = {
-  esik: { Bilesen: EserEsik, ad: 'Eşik', teknik: 'Tuval üzerine akrilik' }
+  esik: { Bilesen: EserEsik, ad: 'Eşik', teknik: 'Tuval üzerine akrilik' },
+  ikiYarim: { Bilesen: EserIkiYarim, ad: 'İki Yarım', teknik: 'Diptik, tuval üzerine akrilik' }
 } as const satisfies Record<string, SoyutEserTanimi>;
 
 export type SoyutEserAdi = keyof typeof SOYUT_ESERLER;

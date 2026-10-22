@@ -36,8 +36,9 @@ açıkken çağırır.
 
 | Prop | Varsayılan | Ne |
 |---|---|---|
-| `siluet` | `true` | Karanlıktaki çerçeve silueti; çerçevesiz düzenlerde (`Duvar Yazısı`) kapatılır |
+| `siluet` | `true` | Karanlıkta seçilen eser: `true` tek 4:5 çerçeve, `false` hiçbiri (`Duvar Yazısı`), bir öğe verilirse preset'in kendi silueti — nişan Diptik'te iki pano, Bir Ömür'de `white/[0.06]` vinil yazı. Öğe `aria-hidden` olmalı; kapının `@container`'ı içinde çizildiği için `@md`/`cqi` kullanabilir |
 
 ## 5. Sınırlar
 
-- Siluetin konumu sabit (sağ üst); preset'in gerçek çerçeve konumuyla birebir eşleşmez.
+- Varsayılan siluetin konumu sabit (sağ üst); preset'in gerçek çerçeve konumuyla birebir eşleşmez. Öğe
+  veren preset'ler (nişan) siluetlerini gerçek eserin ölçülen yerine koyar: ışık yanınca eser aynı yerde belirir.

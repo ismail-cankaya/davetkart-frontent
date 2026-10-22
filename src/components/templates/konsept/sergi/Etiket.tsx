@@ -12,6 +12,11 @@ export interface EtiketProps {
   yil?: string;
   /** Teknik ya da alt satır; konseptin tek espri satırı da buraya yazılır (§7). */
   teknik?: string;
+  /**
+   * Galeri işareti: teknik satırının altında eser renginde nokta ve yanındaki
+   * söz (ör. "Rezerve"). Konseptin tek espri satırı da olabilir.
+   */
+  nokta?: string;
   /** Alt bölümün küçük başlığı ("Açılış"). Bilgi satırı yoksa çizilmez. */
   bilgiBasligi?: string;
   /** Tarih, mekân satırları; boşlar atılır. İlki koyu yazılır. */
@@ -27,9 +32,10 @@ export interface EtiketProps {
  * tarih, saat, mekân. Boş satır çizilmez; hiçbir satır yoksa etiket de yok.
  * Rakamlar `tabular-nums`; uzun ad kesilmez, satır dengelenir.
  */
-export function Etiket({ sanatci, eser, yil, teknik, bilgiBasligi, bilgi = [], levha = false, gecikme, className }: EtiketProps) {
+export function Etiket({ sanatci, eser, yil, teknik, nokta, bilgiBasligi, bilgi = [], levha = false, gecikme, className }: EtiketProps) {
   const satirlar = bilgi.filter(Boolean);
-  if (!sanatci && !eser && !teknik && satirlar.length === 0) return null;
+  const eserSatiri = Boolean(sanatci || eser || teknik || nokta);
+  if (!eserSatiri && satirlar.length === 0) return null;
 
   return (
     <motion.div
@@ -49,8 +55,14 @@ export function Etiket({ sanatci, eser, yil, teknik, bilgiBasligi, bilgi = [], l
         </p>
       )}
       {teknik && <p className="mt-0.5 text-[var(--sg-etiket)]">{teknik}</p>}
+      {nokta && (
+        <p className="mt-1.5 flex items-center gap-2 text-[var(--sg-etiket)]">
+          <span aria-hidden="true" className="size-2.5 shrink-0 rounded-full bg-[var(--sg-vurgu-zemin)]" />
+          {nokta}
+        </p>
+      )}
       {satirlar.length > 0 && (
-        <div className={cn((sanatci || eser || teknik) && 'mt-3 pt-3 border-t border-[var(--sg-kenar)]')}>
+        <div className={cn(eserSatiri && 'mt-3 pt-3 border-t border-[var(--sg-kenar)]')}>
           {bilgiBasligi && (
             <p lang="tr" className="mb-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--sg-etiket)]">
               {bilgiBasligi}
