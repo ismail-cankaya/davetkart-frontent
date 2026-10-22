@@ -1,6 +1,6 @@
 # `konsept/kitap/BolumAcilisi.tsx` — başharfli ilk sayfa
 
-> **Tarih:** 2026-10-17 · dal `design/kitap`
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (alt metin bloğu, §11) · dal `design/kitap`
 
 ---
 
@@ -25,9 +25,15 @@ KALAN SÜRE · geri sayım
 `display: flow-root` — tek satırlık metinde başharf altına taşmaz. Konseptin tek başharfi budur.
 `I`/`İ` veride nasılsa öyle (`Işıl` → `I`).
 
-Paragraf **sola yaslı** (`text-wrap: pretty`), en çok 26 em. İki yana yaslama denendi (≥ @sm,
-`hyphens: auto`): alt metin çoğu zaman iki satır olduğundan 768 / 1280 px'te ilk satırın kelime
-araları açıldı; kaldırıldı.
+Paragraf **sola yaslı** (`text-wrap: pretty`), en çok 26 em (KITAP-KONSEPTI §3.2, §11). İki yana
+yaslama denendi (≥ @sm, `hyphens: auto`): alt metin çoğu zaman iki satır olduğundan 768 / 1280 px'te
+ilk satırın kelime araları açıldı; kaldırıldı.
+
+**Simetri:** sayfa ortalıdır; sola yaslı blok ortalı başlıkların altında sola kaymasın diye kutu en
+uzun satırına göre daralır ([`useSikiBlok`](useSikiBlok.md)) ve ortada durur. Ölçüldü (1280 px,
+`dolu`): önce metin 420–771 px (orta 595, 45 px sola kayık), şimdi 465–816 px (orta 640). 768 px
+`uzun`: 171–597 (orta 384). Tek satırlık alt metin ortalı görünür. Kalan asimetri yalnızca sağ
+kenarın dalgasıdır.
 
 ## 3. İki kullanım
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'motion/react';
 import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
@@ -8,6 +8,7 @@ import { Fleuron } from './Fleuron';
 import { bolumGirisi, kapakBelirir } from './hareket';
 import { KitapSayac } from './KitapSayac';
 import { kisiler, kitapTarihi, tamTarih } from './tarih';
+import { useSikiBlok } from './useSikiBlok';
 
 /**
  * Bölüm açılışı: kapağın ardındaki ilk sayfa. Üstte bölüm etiketi, kullanıcının
@@ -17,7 +18,10 @@ import { kisiler, kitapTarihi, tamTarih } from './tarih';
  * Başharf (`::first-letter`) konseptin tek başharfidir: Caslon Display, kurdele
  * renginde, iki satır boyu. Paragraf sola yaslıdır (`text-wrap: pretty`):
  * alt metin çoğu zaman iki satırdır ve iki yana yaslanan iki satırda ilk
- * satırın kelime araları açılır (denendi, 768 / 1280 px).
+ * satırın kelime araları açılır (denendi, 768 / 1280 px; KITAP-KONSEPTI §3.2).
+ * Sayfa simetrik kalsın diye kutu ortadadır ve en uzun satırına göre daralır
+ * (`useSikiBlok`): tek satırlık alt metin ortalı görünür, uzun metin en çok
+ * 26 em'lik ortalı bir blokta sola yaslı akar.
  *
  * Zarf açıkken kapak kapıydı ve gitti: adlar burada başlık (`h1`) olur.
  * Zarfsızken adlar kapakta durur; bu sayfada tekrarlanmaz.
@@ -51,6 +55,8 @@ export function BolumAcilisi({ invitation, etiket, adlar, giris, sayfaNo, classN
   const mekan = displayText(invitation.venue);
   const tarih = tamTarih(kitapTarihi(invitation.date));
   const hareket = giris === 'yuklenince' ? kapakBelirir() : bolumGirisi;
+  const altRef = useRef<HTMLParagraphElement>(null);
+  useSikiBlok(altRef, altBaslik);
 
   return (
     <section className={cn('relative flex flex-col items-center px-6 py-16 text-center @3xl:py-24', className)}>
@@ -72,7 +78,7 @@ export function BolumAcilisi({ invitation, etiket, adlar, giris, sayfaNo, classN
         <span aria-hidden="true" className="mt-6 block h-px w-12 bg-[#231F1A]/40" />
 
         {altBaslik && (
-          <p className={cn('mt-9 w-full max-w-[26em] text-left text-[17px] leading-[1.6] text-[#231F1A] [display:flow-root] [text-wrap:pretty]', BASHARF)}>
+          <p ref={altRef} className={cn('mt-9 w-fit max-w-[26em] text-left text-[17px] leading-[1.6] text-[#231F1A] [display:flow-root] [text-wrap:pretty]', BASHARF)}>
             {altBaslik}
           </p>
         )}

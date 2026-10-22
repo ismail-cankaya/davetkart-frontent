@@ -7,7 +7,7 @@ import { ease } from '../../../../utils/motion';
  * transform'ları atlar; kapak kapısı kendi kısa yolunu kullanır.
  */
 export const KITAP_SURE = {
-  /** Kapağın sol menteşeden açılması (kapak kapısı). */
+  /** Kapağın sol menteşeden açılması (kapak kapısı); eğri `ease.inOut`. */
   kapak: 0.8,
   /** Zarfsız kapağın belirmesi. */
   belirme: 0.5,

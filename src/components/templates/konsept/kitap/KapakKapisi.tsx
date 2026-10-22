@@ -13,8 +13,12 @@ import { YAN_KAGIDI, type BezAdi } from './palet';
  *
  * Zamanlama (s) — dokunuştan kapının kalkmasına ≤ 1 s:
  *   0.00      `onRevealStart` — hero kapağın altında girişine başlar
- *   0.00–0.80 kapak açılır (`ease.out`); kapağın düşürdüğü gölge söner
+ *   0.00–0.80 kapak açılır (`ease.inOut`); kapağın düşürdüğü gölge söner
  *   0.80      `onOpened` — kapı kalkar
+ *
+ * Eğri `ease.inOut`: kapak yavaş kalkar, ortada hızlanır, yavaşça iner.
+ * `ease.out` hareketin çoğunu başa yığıyor, kapak ~130 ms'de 90°'yi geçip
+ * ekrandan çıkıyordu (KITAP-KONSEPTI §6, §11).
  *
  * Kapak izleyiciye doğru döner; perspektif kap genişliğinin 2.5 katıdır
  * (`250cqi`), geniş ekranda da kapak dönerken aşırı büyümez.
@@ -25,6 +29,8 @@ export interface KapakKapisiProps extends EnvelopeRenderProps {
   etiket: string;
   altSatir?: string;
 }
+
+const YUZ_SINIFI = 'absolute inset-0 [backface-visibility:hidden]';
 
 export function KapakKapisi({ invitation, onRevealStart, onOpened, bez, etiket, altSatir }: KapakKapisiProps) {
   const [aciliyor, setAciliyor] = useState(false);
@@ -55,6 +61,20 @@ export function KapakKapisi({ invitation, onRevealStart, onOpened, bez, etiket, 
   };
 
   const donuyor = aciliyor && !reduced;
+  const gecis = { duration: KITAP_SURE.kapak, ease: ease.inOut };
+
+  const dugme = (
+    <button
+      type="button"
+      onClick={(olay) => {
+        olay.stopPropagation();
+        ac();
+      }}
+      className="min-h-11 px-5 text-[12px] uppercase tracking-[0.26em] text-[#C9A35C] underline decoration-[#C9A35C]/60 underline-offset-[6px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A35C]"
+    >
+      Kapağı açın
+    </button>
+  );
 
   return (
     <div
@@ -68,14 +88,14 @@ export function KapakKapisi({ invitation, onRevealStart, onOpened, bez, etiket, 
         className="absolute inset-0 bg-black/25"
         initial={false}
         animate={{ opacity: donuyor ? 0 : 1 }}
-        transition={{ duration: KITAP_SURE.kapak, ease: ease.out }}
+        transition={gecis}
       />
 
       <motion.div
         className="absolute inset-0 origin-left [transform-style:preserve-3d]"
         initial={false}
         animate={{ rotateY: donuyor ? -160 : 0 }}
-        transition={{ duration: KITAP_SURE.kapak, ease: ease.out }}
+        transition={gecis}
         onAnimationComplete={() => {
           if (aciliyor) kaldir();
         }}
@@ -86,24 +106,13 @@ export function KapakKapisi({ invitation, onRevealStart, onOpened, bez, etiket, 
           etiket={etiket}
           altSatir={altSatir}
           adlarEtiketi="p"
-          className="absolute inset-0 [backface-visibility:hidden]"
-          alt={
-            <button
-              type="button"
-              onClick={(olay) => {
-                olay.stopPropagation();
-                ac();
-              }}
-              className="min-h-11 px-5 text-[12px] uppercase tracking-[0.26em] text-[#C9A35C] underline decoration-[#C9A35C]/60 underline-offset-[6px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A35C]"
-            >
-              Kapağı açın
-            </button>
-          }
+          className={YUZ_SINIFI}
+          alt={dugme}
         />
         {/* İç yüz: yan kâğıdı. Kapak 90°'yi geçince görünür. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 [backface-visibility:hidden]"
+          className={YUZ_SINIFI}
           style={{ backgroundColor: YAN_KAGIDI, transform: 'rotateY(180deg)' }}
         />
       </motion.div>

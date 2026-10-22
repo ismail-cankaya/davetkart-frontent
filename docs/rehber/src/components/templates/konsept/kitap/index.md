@@ -33,6 +33,7 @@ konseptidir. Kategoriler yalnızca `index.ts`'ten içe alır.
 | `hareket.ts` | Süreler ve giriş kalıpları | [hareket](hareket.md) |
 | `tarih.ts` | Duvar saatinden tarih satırları, ad ayırma | [tarih](tarih.md) |
 | `useEkranBoyu.ts` | Kaydırma kabının yüksekliği | [useEkranBoyu](useEkranBoyu.md) |
+| `useSikiBlok.ts` | Sola yaslı paragrafı en uzun satırına daraltır (ortalı sütunda simetri) | [useSikiBlok](useSikiBlok.md) |
 
 ## 3. Bir preset nasıl kurulur?
 

@@ -12,10 +12,11 @@ import { DUGUN_KITAP_FLAVOR } from '../ortak';
  * kullanıcının başlığı, ortada adlar (kitabın adı) ve matbaa süsü, altta
  * yayın yeri ve yılı yerine mekân ve tarih. Sağ üstten ayraç sarkar.
  *
- * Zarf modülü açıkken önce şarap rengi bez kapak gelir; kapak açılınca
- * başlık sayfası görünür. Zarfsızken bez hiç yoktur.
+ * Zarf modülü açıkken önce lacivert bez kapak gelir; kapak açılınca başlık
+ * sayfası görünür. Zarfsızken bez hiç yoktur. `sarap` kınanın kapağıdır:
+ * aynı konseptte iki kategori aynı kapağı taşımaz (KITAP-KONSEPTI §11, K7).
  */
-const BEZ: BezAdi = 'sarap';
+const BEZ: BezAdi = 'lacivert';
 
 export function DugunKitapIcKapak({ invitation, mode = 'preview' }: TemplateProps) {
   const flavor = useKitapFlavor(DUGUN_KITAP_FLAVOR, invitation);

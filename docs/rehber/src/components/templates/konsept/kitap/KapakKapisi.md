@@ -1,6 +1,7 @@
 # `konsept/kitap/KapakKapisi.tsx` — kapak kapısı (`renderEnvelope`)
 
-> **Tarih:** 2026-10-17 · dal `design/kitap` · Kaynak: [KITAP-KONSEPTI §4.1, §6](../../../../../tasarim/KITAP-KONSEPTI.md)
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (eğri `ease.inOut`, §11) · dal `design/kitap` ·
+> Kaynak: [KITAP-KONSEPTI §4.1, §6, §11](../../../../../tasarim/KITAP-KONSEPTI.md)
 
 ---
 
@@ -17,11 +18,21 @@ Ortak `Envelope` ile aynı sözleşme (`EnvelopeRenderProps`) + `bez`, `etiket`,
 | An | Olay |
 |---|---|
 | 0 ms | `onRevealStart` — hero kapağın altında mount olur, girişine başlar |
-| 0–800 ms | Kapak açılır (`ease.out`); kapağın sayfaya düşürdüğü gölge (siyah %25) söner |
+| 0–800 ms | Kapak açılır (`ease.inOut`, `utils/motion.ts`); kapağın sayfaya düşürdüğü gölge (siyah %25) aynı eğriyle söner |
 | 800 ms | `onOpened` — kapı kalkar |
 
-**Ölçüldü** (headless Chrome, `MutationObserver` ile dokunuştan kapının DOM'dan kalkmasına):
-360 px 828–833 ms, 1280 px 840–845 ms. "Hareketi azalt": 37–38 ms.
+**Ölçüldü** (2026-10-20, headless Chrome; her karede kapağın `rotateY` açısı ve ekranda kalan
+genişliği, `MutationObserver` ile kapının DOM'dan kalkması):
+
+| | `ease.out` (önce) | `ease.inOut` (şimdi) |
+|---|---|---|
+| Kapak 90°'yi geçer | ~130 ms | 427–433 ms |
+| Kapağın ekranda kalan genişliği ≥ %60 | ~75 ms'ye kadar | ~365 ms'ye kadar |
+| Dokunuş → kapı kalkar | 855 ms | 360 px 830–832 ms, 1280 px 835–845 ms |
+| "Hareketi azalt" | 37–38 ms | 75 ms (dönmez, kapı anında kalkar) |
+
+Kapak artık açılışın ilk yarısı boyunca görünür: önce yavaşça kalkar, 90°'yi süre ortasında geçer,
+sonra yan kâğıdı yavaşça iner.
 
 - Kap saydamdır; yalnızca kapak opaktır. Kapak dönerken altındaki sayfa görünür.
 - Perspektif `max(1400px, 250cqi)`: kapak izleyiciye döndüğü için perspektif kap genişliğine bağlı;
@@ -37,6 +48,5 @@ Ortak `Envelope` ile aynı sözleşme (`EnvelopeRenderProps`) + `bez`, `etiket`,
 
 ## 4. Sınırlar
 
-- `ease.out` hareketin çoğunu başa yığar: kapak ~150 ms'de 90°'yi geçip ekrandan çıkar, kalan
-  süre görünmez. Konsept `ease.out` dediği için uygulanmadı; daha yumuşak bir başlangıç
-  (`[0.4, 0, 0.2, 1]`) pilot raporunda öneri.
+- Kapak yüzü ölçekli bir giriş taşımaz; kapı açılırken hero altta 0.5 s'de belirir, kapak 90°'yi
+  geçene kadar (~430 ms) çoğu kapağın arkasında kalır.

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'motion/react';
 import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
@@ -10,6 +10,7 @@ import { useBaslikFontuHazir } from './fontlar';
 import { kapakBelirir } from './hareket';
 import { KitapSayac } from './KitapSayac';
 import { kisiler, kitapTarihi, tamTarih } from './tarih';
+import { useSikiBlok } from './useSikiBlok';
 
 /**
  * İç kapak (künye düzeni): kapak yok, şamua bir başlık sayfası. Üç kat:
@@ -20,6 +21,10 @@ import { kisiler, kitapTarihi, tamTarih } from './tarih';
  *
  * Kurdele metnin sütununa girmez: dar ekranda sayfanın sağ kenarında,
  * genişte metin sütununun 40 px dışında durur.
+ *
+ * Alt metin sola yaslı (`text-wrap: pretty`, KITAP-KONSEPTI §3.2) ama kutusu
+ * ortada ve en uzun satırına göre daralır (`useSikiBlok`): tek satır ortalı
+ * görünür, uzun metin ortalı bir blokta sola yaslı akar — simetri bozulmaz.
  */
 interface IcKapakProps {
   invitation: Invitation;
@@ -32,6 +37,8 @@ export function IcKapak({ invitation, className }: IcKapakProps) {
   const altBaslik = displayText(invitation.subtitle);
   const mekan = displayText(invitation.venue);
   const tarih = tamTarih(kitapTarihi(invitation.date));
+  const altRef = useRef<HTMLParagraphElement>(null);
+  useSikiBlok(altRef, altBaslik);
 
   return (
     <section className={cn('relative flex flex-1 flex-col items-center overflow-hidden px-10 pb-12 pt-16 text-center @3xl:pt-20', className)}>
@@ -46,7 +53,7 @@ export function IcKapak({ invitation, className }: IcKapakProps) {
         <div className="flex flex-col items-center">
           <KitapAdlar adlar={kisiler(invitation.names)} as="h1" className="text-[#231F1A]" baglacClassName="text-[#8C2F2F]" />
           {altBaslik && (
-            <p className="mt-8 max-w-[24em] text-[18px] italic leading-relaxed text-[#5E5446] [text-wrap:balance]">{altBaslik}</p>
+            <p ref={altRef} className="mt-8 w-fit max-w-[24em] text-left text-[18px] italic leading-relaxed text-[#5E5446] [text-wrap:pretty]">{altBaslik}</p>
           )}
           <Fleuron tur="cizgi" className="mt-10 text-[#8C2F2F]" />
         </div>

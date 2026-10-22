@@ -1,7 +1,7 @@
 # `dugun/kitap/DugunKitapBirinciBolum` — "Birinci Bölüm"
 
 > **ID:** `dugun-kitap-birinci-bolum` · **Konsept:** Hikâye Kitabı ([KITAP-KONSEPTI](../../../../../../tasarim/KITAP-KONSEPTI.md)) ·
-> **Eksen:** bez cilt · **Tarih:** 2026-10-17 · dal `design/kitap`
+> **Eksen:** bez cilt · **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (§11) · dal `design/kitap`
 
 ---
 
@@ -30,8 +30,13 @@ Zarf açıkken hero'yu da bez kapak yapmak, kapağı açınca yine aynı kapağ�
 ## 3. Hareket
 
 Zarfsız: kapak içeriği font beklemesi (≤ 0.4 s) + 0.5 s belirme; ilk sayfa görününce 0.4 s.
-Zarflı: dokunuş → kapak 0.8 s'de açılır, kapı 828–845 ms'de kalkar (ölçüldü); ilk sayfa kapağın
-altında 0.5 s'de belirir. Hareket azaltılmışken kapı 37–38 ms'de kalkar.
+Zarflı: dokunuş → kapak 0.8 s'de `ease.inOut` ile açılır (90°'yi ~433 ms'de geçer), kapı 830 ms'de
+kalkar (ölçüldü, 2026-10-20, 360 px); ilk sayfa kapağın altında 0.5 s'de belirir. Hareket
+azaltılmışken kapı anında kalkar.
+
+İlk sayfanın alt metni sola yaslı + `pretty`; blok en uzun satırına daralıp ortada durur
+([useSikiBlok](../../../konsept/kitap/useSikiBlok.md); 1280 px'te 45 px'lik sola kayma kalktı).
+Sayfa başındaki adlar kullanıcının yazdığı gibidir (büyük harfe çevrilmez; 1280 px'te görüldü).
 
 ## 4. Geniş ekran
 
