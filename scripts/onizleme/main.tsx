@@ -6,7 +6,7 @@ import { TemplateRenderer } from '../../src/components/templates/TemplateRendere
 import type { TemplateProps } from '../../src/components/templates/types';
 import { TEMPLATE_PRESETS } from '../../src/data';
 import { displayNames } from '../../src/utils/names';
-import { kimligiCoz, MODULLER, SENARYOLAR, senaryoKur, type Modul, type SenaryoAdi } from './senaryolar';
+import { kimligiCoz, MODULLER, SENARYOLAR, senaryoKur, type Ezme, type Modul, type SenaryoAdi } from './senaryolar';
 
 type Sablon = React.ComponentType<TemplateProps>;
 
@@ -16,7 +16,10 @@ type Sablon = React.ComponentType<TemplateProps>;
  * (`dugun/Dugun1/`) eski düzenin preset'leridir; onlar `TemplateRenderer` üzerinden çizilir.
  */
 const BARRELLER = import.meta.glob<Record<string, unknown>>('/src/components/templates/*/*/index.ts');
-const KONSEPT_BARRELLERI = Object.keys(BARRELLER).filter((yol) => /\/templates\/[^/]+\/[a-z][a-z0-9-]*\/index\.ts$/.test(yol));
+const KONSEPT_BARRELLERI = Object.keys(BARRELLER).filter(
+  // `konsept/<slug>/` kitlerin, `shared/<ad>/` ortak parçaların barrel'ıdır; preset değildir.
+  (yol) => /\/templates\/[^/]+\/[a-z][a-z0-9-]*\/index\.ts$/.test(yol) && !/\/templates\/(konsept|shared)\//.test(yol)
+);
 
 /** `dogum-gunu-sergi-beyaz-kup` → `DogumGunuSergiBeyazKup` (KONSEPT-ORTAK §3). */
 const pascal = (kimlik: string) =>
@@ -36,6 +39,16 @@ const SENARYO = (SENARYOLAR as readonly string[]).includes(q.get('senaryo') ?? '
 const ZARF = q.get('zarf') === '1';
 const KAPAT = (q.get('kapat') ?? '').split(',').filter((m): m is Modul => (MODULLER as readonly string[]).includes(m));
 const MOD = q.get('mod') === 'preview' ? 'preview' : 'live';
+/** Parametre yoksa `undefined` (senaryonun değeri kalır), boşsa `''` (alan boşalır). */
+const ezmeAl = (ad: string) => (q.has(ad) ? (q.get(ad) ?? '') : undefined);
+const EZME: Ezme = {
+  ad: ezmeAl('ad'),
+  tarih: ezmeAl('tarih'),
+  mekan: ezmeAl('mekan'),
+  baslik: ezmeAl('baslik'),
+  altmetin: ezmeAl('altmetin'),
+  harita: q.get('harita') === '0' ? false : undefined
+};
 
 function Hata({ mesaj }: { mesaj: string }) {
   useEffect(() => durum('hata', mesaj), [mesaj]);
@@ -68,7 +81,7 @@ function Onizleme() {
   }, [kategori, kimlik?.kalan]);
 
   const davet = useMemo(() => {
-    const ham = senaryoKur({ kategori, senaryo: SENARYO, zarf: ZARF, kapat: KAPAT });
+    const ham = senaryoKur({ kategori, senaryo: SENARYO, zarf: ZARF, kapat: KAPAT, ezme: EZME });
     // TemplateRenderer'ın tek giriş kapısındaki temizliğin aynısı (bkz. utils/names).
     return { ...ham, names: displayNames(ham.names) };
   }, [kategori]);

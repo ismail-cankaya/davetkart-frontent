@@ -61,6 +61,23 @@ Bir preset `TemplateProps` alır ve `InvitationComposition`'ı şu araçlarla ku
 - Alt bölümlerin (Program, Detay, Galeri, Hediye, LCV) **düzeni değiştirilemez**; yalnızca tema ve
   başlıklarla boyanır. Düzen değişikliği gerekiyorsa ortak dosya önerisi olarak rapora yazılır.
 
+### 3.1 Tema kancaları (`design/konsept-ortak`, K8 · K10)
+
+Hepsi isteğe bağlı `SectionTheme` alanıdır; vermeyen şablonun çıktısı değişmez. Ayrıntı:
+`docs/rehber/src/components/templates/shared/palette.md` §4.
+
+| Alan | Tür | Varsayılan | Örnek |
+|---|---|---|---|
+| `headingAlign` | `'center' \| 'start'` | `center` | Sergi: `'start'` — başlık içerik sütununun sol kenarında |
+| `sectionMotion` | `{ duration?: number; distance?: number }` | başlık 0.9 s / 24 px, kart 0.95 s / 30 px, adım 0.85 s / 36 px | Sergi `{ duration: 0.4, distance: 10 }`, Kitap `{ duration: 0.4, distance: 12 }` |
+| `hideMapHeader` | `boolean` | `false` | Kitap ("harita yok") ve Harita (ikinci harita olmasın): `true` |
+| `timelineLayout` | `'kart' \| 'icindekiler'` | `kart` | Kitap: `'icindekiler'` (`Karşılama ........ 17:00`) |
+| `timelineNode` | sınıf dizgesi | `surface` + `border`, her zaman yuvarlak | Harita: `'bg-[#EEF0E6] border-2 border-[#A8321F] rounded-none rotate-45 [&>span]:-rotate-45'` |
+| `status` | `{ success?, error?, errorInput? }` | `id`'ye göre ölçülmüş yeşil / kırmızı | Kitap: `{ success: 'bg-[#…]/15 text-[#…]', error: 'text-[#…]' }` (ölçerek) |
+
+Yardımcılar: adları ayırmak için `utils/names.ts` → `splitPeople`, tarih satırları için
+`shared/eventDate.ts` → `eventDateParts` (kitler kendi kopyalarını bunlara bağlar).
+
 ## 4. Veri sözleşmesi
 
 | Alan | Kural |
@@ -132,3 +149,18 @@ içeriğin `inert` olması, "Kopyalandı" ve LCV hata metninin tema rengine bağ
 büyük harfe çevrilmemesi, Timeline düğümlerinin temanın köşe yuvarlaklığından ayrılması, tekrarlanan
 yardımcıların (`kisiler`, tarih biçimi) ortak yere taşınması. Kancalar: bölüm başlık hizası, bölüm giriş
 süresi/mesafesi, Detaylar'ın soyut harita başlığını kapatma, Timeline görünümü (`kart` | `icindekiler`).
+
+### Nişan turu (2026-10-22)
+
+Üç konseptin Nişan'ı, Kitap ve Harita'nın düğün düzeltmeleri ve ortak dal (`386dbce`) yan yana gösterildi;
+kullanıcı N1–N6 önerilerini onayladı. Konsepte özgü olanlar her rehberin §11'inde.
+
+| # | Karar |
+|---|---|
+| N1 | Üç konsept Doğum günü'ne geçer. Turun ilk işi: `design/konseptler`'i almak, §3.1'deki tema kancalarını düğün ve Nişan preset'lerine uygulamak, kit yardımcılarını `splitPeople` / `eventDateParts`'a bağlamak |
+| N2 | Galeri noktaları 24 px adım (WCAG 2.2 AA hedef boyutu); oklar 44 px. §5'teki 44 px kuralının tek istisnası |
+| N3 | Ortak kapak özeti (`Summary`) kullanıcının başlığını ve mekânını büyük harfe çevirmez |
+
+Önizleme düzeneği (`ad76b0f`): kategoriye uygun program; `ad=`, `tarih=`, `mekan=`, `baslik=`,
+`altmetin=`, `harita=0` alan ezmeleri; `cek.ts --ek/--etiket` ve `--ac` (açılmış zarf). Tek ad ve boş
+alanlar artık geçici sayfa gerektirmez (`docs/rehber/scripts/onizleme.md` §3.1).
