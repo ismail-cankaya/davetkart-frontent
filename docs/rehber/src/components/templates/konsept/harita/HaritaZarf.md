@@ -1,6 +1,6 @@
 # `konsept/harita/HaritaZarf.tsx` — katlanmış harita (`renderEnvelope`)
 
-> **Tarih:** 2026-10-17 · dal `design/harita`
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (K3: masaüstünde büyür) · dal `design/harita`
 
 ---
 
@@ -12,7 +12,30 @@ Zarf modülünün haritadaki karşılığı: katlanmış bir harita. Kapak küç
 
 Kompozisyon bu bileşeni yalnızca `showEnvelope` açıkken çağırır; modül kapalıyken zarf hiç görünmez.
 
-## 2. Zamanlama
+## 2. Boyut (K3)
+
+Pilotta kart her genişlikte 17 rem'di; 1280 px'te boş zeminin ortasında küçük kalıyordu. Şimdi kapı
+bir **boyut kabıdır** (`container-type: size`) ve kart kapının kendisine göre ölçülür (pencereye göre
+değil: editörün önizleme çerçevesinde de doğru):
+
+| Kapının iç genişliği | Kart genişliği (en/boy 3:4) |
+|---|---|
+| < 42 rem (telefon) | `min(17rem, (100cqh − 8rem) × 0.75)` — dikey telefonda bugünkü 17 rem; yatay telefonda boya sığar |
+| ≥ 42 rem (`@2xl`; 768 px tablet dahil — kapının `px-6` dolgusu yüzünden `@3xl` 768'de tutmaz) | `min(70cqh × 0.75, 100cqw − 6rem)` — kart kapı boyunun %70'i |
+
+Geniş kartta yazı ve boşluklar da büyür: üst etiket 14 px, adlar 46 px, dolgu 36/40 px, gölge 6 px,
+pusula 56 px, penceredeki iğne ×1.25.
+
+**Ölçüm** (kart, `dugun-harita-kir-yolu` ve `dugun-harita-kiyi-kenti` aynı):
+
+| Ekran | Önce | Sonra | Kart boyu / ekran |
+|---|---|---|---|
+| 360 × 780 | 272 × 363 | 272 × 363 (değişmedi) | 0.46 |
+| 768 × 1024 | 272 × 363 | 538 × 717 | 0.70 |
+| 1280 × 800 | 272 × 363 | 420 × 560 | 0.70 |
+| 740 × 360 (yatay telefon) | 272 × 363 (taşıyordu) | 189 × 252, düğmenin altı 342 | 0.70 |
+
+## 3. Zamanlama
 
 | s | Olay |
 |---|---|
@@ -21,14 +44,16 @@ Kompozisyon bu bileşeni yalnızca `showEnvelope` açıkken çağırır; modül 
 | 0.45–0.85 | Kapı solar → `onOpened` |
 
 **Ölçüm** (Tab → Enter, kapının DOM'dan kalkışı): 902 ms. Hareket azaltıldığında 68 ms (dönme ve
-solma yok, kapı anında kalkar).
+solma yok, kapı anında kalkar). Zarf açılırken fontlar yüklenmiş olur; kapak rotayı beklemeden kurar
+(ölçüldü: 1280 px'te iğne kapakla birlikte, giriş 974 ms).
 
-## 3. Erişim
+## 4. Erişim
 
 "Haritayı açın" gerçek bir `<button>`: ilk Tab'da odaklanır (147 × 44 px, görünür odak çerçevesi),
 Enter ile açılır. Kapının herhangi bir yerine dokunmak da açar.
 
-## 4. Sınır
+## 5. Sınır
 
 Kapı açıkken arkadaki bölümler (ör. Detaylar'ın "Yol Tarifi Al" bağlantısı) Tab ile odaklanabiliyor:
-ortak kompozisyon kapı açıkken içeriği `inert` yapmıyor (Kâğıt zarfı da aynı). Ortak dosya önerisi.
+ortak kompozisyon kapı açıkken içeriği `inert` yapmıyor (Kâğıt zarfı da aynı). K10 kapsamında ortak
+dalda çözülecek.

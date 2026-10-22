@@ -1,7 +1,7 @@
 # `dugun/harita/DugunHaritaKiyiKenti` — "Kıyı Kenti"
 
 > **ID:** `dugun-harita-kiyi-kenti` · **Konsept:** Günün Haritası ([HARITA-KONSEPTI](../../../../../../tasarim/HARITA-KONSEPTI.md)) · **Eksen:** şehir planı
-> **Tarih:** 2026-10-17 · dal `design/harita`
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 · dal `design/harita`
 
 ---
 
@@ -21,14 +21,16 @@ konseptin tek esprisi: *1 cm = bir ömür*.
 
 ## 2. Düzen
 
-- 360 px: kartuş üstte (`100% − 3rem`), sağ üstte kuzey oku; rota S çizerek iner, iğne solda, etiket
-  sağında tek satır; lejant sağa yaslı, altında dipnot. Dolu senaryoda düğme ve dipnot ilk ekranda
-  (dipnotun altı 768 px).
+- 360 px: kartuş üstte (`100% − 3rem`), sağ üstte kuzey oku; cadde kartuşun altından aşağı çıkar, S
+  çizerek iner, iğne solda, etiket sağında tek satır; lejant sağa yaslı, altında dipnot. Dolu
+  senaryoda düğme ve dipnot ilk ekranda (dipnotun altı 768 px). Kır Yolu telefonda bunun tersidir
+  (lejant üstte, kartuş altta) — iki preset 360 px'te de ayrışır (K2).
 - 1280 px: kartuş sol üst, lejant sağ alt aynı satırda; rota üstten sağa, kıyıya kadar gider, kıvrılıp
   göbeğin yanından iğneye iner.
 
 ## 3. Doğrulama
 
 Ekran görüntüleri: `node_modules/.cache/onizleme/dugun-harita-kiyi-kenti/` (dolu, uzun, boş, kapalı,
-zarf, azalt, programsız × 360/768/1280). Giriş 928–951 ms; zarf 902 ms. Kontrast ve ölçümler kitin
-kılavuzlarında.
+zarf, azalt, programsız × 360/768/1280). Giriş 944–949 ms (sıcak ve soğuk önbellek; font geç gelince
+iğne artık kıpırdamıyor, bkz. [HaritaKapak §4.1](../../../konsept/harita/HaritaKapak.md)); zarf 902 ms,
+kart 1280 px'te 420 × 560 (ekranın %70'i, K3). Kontrast ve ölçümler kitin kılavuzlarında.

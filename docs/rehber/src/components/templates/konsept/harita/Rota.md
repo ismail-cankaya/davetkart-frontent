@@ -1,6 +1,6 @@
 # `konsept/harita/Rota.tsx` — noktalı rota ve duraklar
 
-> **Tarih:** 2026-10-17 · dal `design/harita`
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (`gizli`, `olcek`) · dal `design/harita`
 
 ---
 
@@ -18,8 +18,11 @@ Duraklar: beyaz daire (r 14), rota kontur, içinde 16 px [simge](simgeler.md) ya
 (Barlow Condensed 600). Yerleri yay uzunluğunun ilk üçte ikisinde eşit aralıklı
 ([`durakOranlari`](rotaPlani.md)); son parça iğneye ve etiketine kalır.
 
+`gizli` (px): rotanın başındaki, kartuşun altında kalan uzunluk ([gizli başlangıç](rotaPlani.md)).
+Duraklar yalnızca görünen kısma dağıtılır: oran `g + o × (1 − g)`, `g = gizli / uzunluk` (en çok 0.5).
+
 ## 2. Hareket
 
 Noktalar on parçaya bölünür; her parça yalnızca **opaklıkla** ve sırayla belirir (`pathLength` ya da
 `stroke-dashoffset` yok). Durak, içinde durduğu parçayla birlikte belirir. Zamanlar
-[hareket](hareket.md)'te.
+[hareket](hareket.md)'te; `olcek` (kapak fontları beklediyse `1 − k`) gecikme ve süreleri sıkıştırır.

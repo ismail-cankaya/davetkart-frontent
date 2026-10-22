@@ -18,31 +18,43 @@ const PARCA_SAYISI = 10;
 /**
  * Noktalı rota ve durakları. Rota parçalar hâlinde, yalnızca opaklıkla ve
  * sırayla belirir (`pathLength`/`stroke-dashoffset` yok). İlk parça
- * `baslangic`ta başlar, sonuncusu `baslangic + 0.73 s`'de biter.
+ * `baslangic`ta başlar, sonuncusu `baslangic + 0.73 s`'de biter (`olcek` ile
+ * sıkışır, bkz. `useHaritaHareketi`).
+ *
+ * `gizli`: rotanın başındaki, kartuşun altında kalan uzunluk (px). Duraklar
+ * görünen kısma dağıtılır; hiçbiri kartuşun altına düşmez.
  */
 export function Rota({
   noktalar,
   duraklar,
   stil,
+  gizli = 0,
   baslangic = 0.15,
-  girisBitti = false
+  girisBitti = false,
+  olcek = 1
 }: {
   noktalar: Nokta[];
   duraklar: Durak[];
   stil: RotaStili;
+  gizli?: number;
   baslangic?: number;
   girisBitti?: boolean;
+  olcek?: number;
 }) {
-  const h = useHaritaHareketi(girisBitti);
+  const h = useHaritaHareketi(girisBitti, olcek);
   const { parcalar, yol, gruplar, durakYerleri } = useMemo(() => {
     const egri = egriKur(noktalar);
     const ornek = ornekle(egri, stil === 'cadde' ? 11 : 10);
     const adim = Math.max(1, Math.ceil(ornek.noktalar.length / PARCA_SAYISI));
     const gruplar: Nokta[][] = [];
     for (let i = 0; i < ornek.noktalar.length; i += adim) gruplar.push(ornek.noktalar.slice(i, i + adim));
-    const durakYerleri = durakOranlari(duraklar.length).map((oran) => ({ oran, nokta: ornek.konum(oran) }));
+    const bas = ornek.uzunluk > 0 ? Math.min(0.5, gizli / ornek.uzunluk) : 0;
+    const durakYerleri = durakOranlari(duraklar.length).map((oran) => {
+      const gercek = bas + oran * (1 - bas);
+      return { oran: gercek, nokta: ornek.konum(gercek) };
+    });
     return { parcalar: egri, yol: yolDizgisi(egri), gruplar, durakYerleri };
-  }, [noktalar, duraklar.length, stil]);
+  }, [noktalar, duraklar.length, stil, gizli]);
 
   if (!parcalar.length) return null;
   const parcaGecikmesi = (i: number) => baslangic + i * 0.065;
