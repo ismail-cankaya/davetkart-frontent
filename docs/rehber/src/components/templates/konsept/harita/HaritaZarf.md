@@ -49,11 +49,11 @@ solma yok, kapı anında kalkar). Zarf açılırken fontlar yüklenmiş olur; ka
 
 ## 4. Erişim
 
-"Haritayı açın" gerçek bir `<button>`: ilk Tab'da odaklanır (147 × 44 px, görünür odak çerçevesi),
-Enter ile açılır. Kapının herhangi bir yerine dokunmak da açar.
+"Haritayı açın" gerçek bir `<button>` (147 × 44 px, görünür odak çerçevesi). Ortak dal sonrasında
+(2026-10-22) canlı modda kompozisyon odağı kapının ilk düğmesine **kendisi** koyar ve arkadaki içerik
+`inert`'tir: sayfa açılınca odak düğmededir, Tab kapıdan dışarı kaçmaz. Enter ile açılır (ölçüldü:
+Kır Yolu 908 ms, Kroki 899 ms kapının kalkışına kadar). Kapının herhangi bir yerine dokunmak da açar.
 
 ## 5. Sınır
 
-Kapı açıkken arkadaki bölümler (ör. Detaylar'ın "Yol Tarifi Al" bağlantısı) Tab ile odaklanabiliyor:
-ortak kompozisyon kapı açıkken içeriği `inert` yapmıyor (Kâğıt zarfı da aynı). K10 kapsamında ortak
-dalda çözülecek.
+Pilotta kapı açıkken arkadaki bölümler Tab ile odaklanabiliyordu; ortak dalda (`5fd5861`) çözüldü.

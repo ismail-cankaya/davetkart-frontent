@@ -1,6 +1,6 @@
 # `konsept/harita/veri.ts` — haritanın veriden kurulan parçaları
 
-> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (nişan sözlüğü, K9) · dal `design/harita` · Sözleşme: [KONSEPT-ORTAK §4](../../../../../tasarim/KONSEPT-ORTAK.md)
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (nişan sözlüğü, K9; ortak yardımcılar, K10) · dal `design/harita` · Sözleşme: [KONSEPT-ORTAK §4](../../../../../tasarim/KONSEPT-ORTAK.md)
 
 ---
 
@@ -10,13 +10,21 @@ Saf hesap; bileşenler yalnızca çizer. Veride olmayan hiçbir şey üretilmez:
 ## 1. `haritaTarihi(date)` → `{ gun, haftaGunu, saat }`
 
 Duvar saatini (`2027-02-14T19:00`) saat dilimine çevirmeden parçalar: "14 Şubat 2027", "Pazar",
-"19:00". Tarih boş ya da okunamıyorsa üçü de boş. Gün metni `formatCalendarDay`, okunamayan biçimde
-`formatDateStr` ile gelir (ortak `templates/utils`).
+"19:00". Tarih boş ya da okunamıyorsa üçü de boş. 2026-10-22'den beri gövde ortak ayrıştırıcıdır
+([`shared/eventDate`](../../shared/eventDate.md) §3, K10 / N1):
+`const { day, weekday, time } = eventDateParts(date); return { gun: day, haftaGunu: weekday, saat: time };`
 
 ## 2. `kisiler(names)`
 
 `"A & B"` → `['A', 'B']`; boşlar atılır. Tek ad tek eleman döner, `&` çizilmez (duman testi: tek adda
-`h1` = "Gülşen İrem").
+`h1` = "Gülşen İrem"). 2026-10-22'den beri ortak yardımcının yeniden adlandırılmış dışa aktarımıdır:
+`export { splitPeople as kisiler } from '…/utils/names'` ([names](../../../../utils/names.md) §5);
+çağıran kod değişmedi.
+
+**Davranış aynı mı?** Eski uygulama (git `4f6a5e8`) ile yenisi aynı girdilerle karşılaştırıldı
+(`npx tsx`): 14 tarih (`2027-02-19T19:00`, saatsiz, boşluklu, `abc`, `2027/02/19`, `Feb 19 2027 19:00`,
+`null`, `undefined`, `2027-02-30T10:00`…), 12 ad (`& Mehmet Çağrı`, `Ayşe &`, ` & `, `A & B & C`,
+`A&B`, fazla boşluklu, boş, `null`…) ve 4 `lejantKur` girdisi — **0 fark**.
 
 ## 3. `lejantKur(invitation, enCok = 3)`
 

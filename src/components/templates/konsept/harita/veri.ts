@@ -1,7 +1,11 @@
 import type { Invitation } from '../../../../types';
 import { hasTimelineEventContent } from '../../../../utils/timelineEvents';
-import { displayText, formatCalendarDay, formatDateStr } from '../../utils';
+import { displayText } from '../../utils';
+import { eventDateParts } from '../../shared/eventDate';
 import type { DurakSimgeAdi } from './simgeler';
+
+/** Adları kişi kişi ayırır (`&`); boşlar atılır. Ortak yardımcı (utils/names, K10). */
+export { splitPeople as kisiler } from '../../../../utils/names';
 
 /**
  * Haritanın veriden kurulan her parçası burada hesaplanır; bileşenler
@@ -18,31 +22,14 @@ export interface HaritaTarihi {
   saat: string;
 }
 
-const DUVAR_SAATI = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/;
-
 /**
  * Duvar saatini parçalarına ayırır. Saat dilimine çevrilmez: davetiye
  * etkinliğin kendi saatini yazar. Tarih yoksa ya da okunamıyorsa hepsi boş.
+ * Ortak ayrıştırıcıya bağlı (shared/eventDate §3, K10); davranış aynı.
  */
 export function haritaTarihi(date: string | null | undefined): HaritaTarihi {
-  const tam = formatDateStr(date);
-  if (!tam || !date) return { gun: '', haftaGunu: '', saat: '' };
-  const m = DUVAR_SAATI.exec(date.trim());
-  if (!m) return { gun: tam, haftaGunu: '', saat: '' };
-  const takvim = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-  return {
-    gun: formatCalendarDay(date) ?? tam,
-    haftaGunu: takvim.toLocaleDateString('tr-TR', { weekday: 'long' }),
-    saat: m[4] ? `${m[4]}:${m[5]}` : ''
-  };
-}
-
-/** Adları kişi kişi ayırır (`&`); boşlar atılır. */
-export function kisiler(names: string | null | undefined): string[] {
-  return displayText(names)
-    .split('&')
-    .map((ad) => ad.trim())
-    .filter(Boolean);
+  const { day, weekday, time } = eventDateParts(date);
+  return { gun: day, haftaGunu: weekday, saat: time };
 }
 
 /**

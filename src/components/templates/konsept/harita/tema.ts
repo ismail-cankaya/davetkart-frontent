@@ -33,5 +33,18 @@ export const HARITA_TEMASI: SectionTheme = {
   // Program çizgisi düz rota rengi: haritada degrade yok.
   timelineLine: 'from-[#A8321F] via-[#A8321F] to-[#A8321F]',
   mapHeader: 'bg-[#EEF0E6]',
-  footer: { names: 'text-[#4E5B63]', branding: 'text-[#4E5B63]' }
+  footer: { names: 'text-[#4E5B63]', branding: 'text-[#4E5B63]' },
+  // Ortak kancalar (KONSEPT-ORTAK §3.1, K10). Kapak zaten haritadır: Detaylar'ın
+  // soyut harita başlığı ikinci bir harita olurdu.
+  hideMapHeader: true,
+  // Program düğümü haritadaki durakla aynı: beyaz daire, 2 px rota kenar, içte rota nokta.
+  timelineNode: 'bg-white border-2 border-[#A8321F] rounded-full',
+  // Bölüm girişi kartuş/lejantla aynı dil (HARITA-KONSEPTI §6): 0.4 s, 8 px.
+  sectionMotion: { duration: 0.4, distance: 8 },
+  // Durum renkleri paletten: başarı park yeşili üstünde mürekkep, hata rotanın koyu tonu.
+  status: {
+    success: 'bg-[#B7C9A2] text-[#23303A]',
+    error: 'text-[#8F2A1A]',
+    errorInput: 'border-[#8F2A1A] focus:border-[#8F2A1A] focus:ring-[#8F2A1A]/25'
+  }
 };
