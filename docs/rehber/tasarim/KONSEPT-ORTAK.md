@@ -61,6 +61,23 @@ Bir preset `TemplateProps` alır ve `InvitationComposition`'ı şu araçlarla ku
 - Alt bölümlerin (Program, Detay, Galeri, Hediye, LCV) **düzeni değiştirilemez**; yalnızca tema ve
   başlıklarla boyanır. Düzen değişikliği gerekiyorsa ortak dosya önerisi olarak rapora yazılır.
 
+### 3.1 Tema kancaları (`design/konsept-ortak`, K8 · K10)
+
+Hepsi isteğe bağlı `SectionTheme` alanıdır; vermeyen şablonun çıktısı değişmez. Ayrıntı:
+`docs/rehber/src/components/templates/shared/palette.md` §4.
+
+| Alan | Tür | Varsayılan | Örnek |
+|---|---|---|---|
+| `headingAlign` | `'center' \| 'start'` | `center` | Sergi: `'start'` — başlık içerik sütununun sol kenarında |
+| `sectionMotion` | `{ duration?: number; distance?: number }` | başlık 0.9 s / 24 px, kart 0.95 s / 30 px, adım 0.85 s / 36 px | Sergi `{ duration: 0.4, distance: 10 }`, Kitap `{ duration: 0.4, distance: 12 }` |
+| `hideMapHeader` | `boolean` | `false` | Kitap ("harita yok") ve Harita (ikinci harita olmasın): `true` |
+| `timelineLayout` | `'kart' \| 'icindekiler'` | `kart` | Kitap: `'icindekiler'` (`Karşılama ........ 17:00`) |
+| `timelineNode` | sınıf dizgesi | `surface` + `border`, her zaman yuvarlak | Harita: `'bg-[#EEF0E6] border-2 border-[#A8321F] rounded-none rotate-45 [&>span]:-rotate-45'` |
+| `status` | `{ success?, error?, errorInput? }` | `id`'ye göre ölçülmüş yeşil / kırmızı | Kitap: `{ success: 'bg-[#…]/15 text-[#…]', error: 'text-[#…]' }` (ölçerek) |
+
+Yardımcılar: adları ayırmak için `utils/names.ts` → `splitPeople`, tarih satırları için
+`shared/eventDate.ts` → `eventDateParts` (kitler kendi kopyalarını bunlara bağlar).
+
 ## 4. Veri sözleşmesi
 
 | Alan | Kural |
