@@ -41,6 +41,21 @@ const EKRAN = Number(arg('ekran', '8'));
 const ZARF = bayrak('zarf');
 const AZALT = bayrak('azalt');
 const KAPAT = arg('kapat');
+/** Zarf modunda kapının düğmesine basıp açılmış hâli de çeker (`--2`). */
+const AC = bayrak('ac');
+/**
+ * Alan ezmeleri: `--ek "ad=Gülşen İrem;tarih="` → `&ad=Gülşen%20İrem&tarih=`. Boş değer alanı
+ * boşaltır (main.tsx). Dosya adına `--etiket` (yoksa `ek`) eklenir.
+ */
+const EK = arg('ek')
+  .split(';')
+  .filter(Boolean)
+  .map((parca) => {
+    const i = parca.indexOf('=');
+    return i < 0 ? encodeURIComponent(parca) : `${encodeURIComponent(parca.slice(0, i))}=${encodeURIComponent(parca.slice(i + 1))}`;
+  })
+  .join('&');
+const EK_ETIKET = arg('etiket', EK ? 'ek' : '');
 const CIKTI = path.resolve(ROOT, arg('cikti', 'node_modules/.cache/onizleme'));
 /** Her geliştirme sunucusunun kendi tarayıcı portu: iki ajan aynı anda çekebilir. */
 const CDP_PORT = Number(PORT) + 6000;
@@ -109,7 +124,8 @@ async function main() {
   if (!PRESETLER.length) {
     console.error(
       'Kullanım: npx tsx scripts/onizleme/cek.ts --port 3101 --preset <id>[,<id>] ' +
-        '[--senaryo dolu,uzun,bos,kapali] [--genislik 360,768,1280] [--ekran 8] [--zarf] [--azalt] [--kapat timer,gift] [--cikti klasör]'
+        '[--senaryo dolu,uzun,bos,kapali] [--genislik 360,768,1280] [--ekran 8] [--zarf [--ac]] [--azalt] [--kapat timer,gift] ' +
+        '[--ek "ad=…;tarih=;mekan=…;baslik=;altmetin=;harita=0" [--etiket tekad]] [--cikti klasör]'
     );
     process.exit(2);
   }
@@ -173,7 +189,8 @@ async function main() {
           const url =
             `http://localhost:${PORT}/onizleme.html?preset=${encodeURIComponent(preset)}&senaryo=${senaryo}` +
             (ZARF ? '&zarf=1' : '') +
-            (KAPAT ? `&kapat=${KAPAT}` : '');
+            (KAPAT ? `&kapat=${KAPAT}` : '') +
+            (EK ? `&${EK}` : '');
           const yuklendi = cdp.birKez('Page.loadEventFired');
           await cdp.gonder('Page.navigate', { url });
           await yuklendi;
@@ -198,14 +215,26 @@ async function main() {
             cdp,
             `(() => { const e = ${kab}; return e ? { yukseklik: e.scrollHeight, ekran: e.clientHeight } : { yukseklik: innerHeight, ekran: innerHeight }; })()`
           );
-          const adet = ZARF ? 1 : Math.min(EKRAN, Math.max(1, Math.ceil(olcu.yukseklik / olcu.ekran)));
+          const adet = ZARF ? (AC ? 2 : 1) : Math.min(EKRAN, Math.max(1, Math.ceil(olcu.yukseklik / olcu.ekran)));
           for (let i = 0; i < adet; i++) {
-            if (i > 0) {
+            if (i > 0 && ZARF) {
+              // Kapının düğmesi: içerik kapı açıkken `inert`, ilk etkin düğme kapınındır. Düğme yoksa ekranın ortasına dokunulur.
+              const basildi = await degerlendir<boolean>(
+                cdp,
+                `(() => { const b = [...document.querySelectorAll('#kok button')].find(x => !x.closest('[inert]')); if (b) b.click(); return !!b; })()`
+              );
+              if (!basildi)
+                for (const type of ['mousePressed', 'mouseReleased'])
+                  await cdp.gonder('Input.dispatchMouseEvent', { type, x: w / 2, y: h / 2, button: 'left', clickCount: 1 });
+              await bekle(3000);
+            } else if (i > 0) {
               await degerlendir(cdp, `(() => { const e = ${kab}; if (e) e.scrollTop = ${i} * e.clientHeight; })()`);
               await bekle(1000);
             }
             const { data } = (await cdp.gonder('Page.captureScreenshot', { format: 'png' })) as { data: string };
-            const etiket = [senaryo, ZARF && 'zarf', AZALT && 'azalt', KAPAT && 'k-' + KAPAT.replace(/,/g, '+')].filter(Boolean).join('-');
+            const etiket = [senaryo, ZARF && 'zarf', AZALT && 'azalt', KAPAT && 'k-' + KAPAT.replace(/,/g, '+'), EK_ETIKET]
+              .filter(Boolean)
+              .join('-');
             const dosya = path.join(klasor, `${preset}--${etiket}--${g}--${i + 1}.png`);
             fs.writeFileSync(dosya, Buffer.from(data, 'base64'));
             console.log(path.relative(ROOT, dosya));
