@@ -47,14 +47,22 @@ export function kisiler(names: string | null | undefined): string[] {
 
 /**
  * Durak başlığından piktogram. Eşleşme yoksa `null` — durak sıra numarasıyla
- * çizilir. Sözcükler Türkçe küçük harfe çevrilip aranır; ilk eşleşen kazanır.
+ * çizilir. Sözcükler Türkçe küçük harfe çevrilip aranır; SIRA önemlidir, ilk
+ * eşleşen kazanır: "Nişan" iki halka, "Yüzük takma" yüzük; "Kahve ikramı"
+ * kahve (kadehten önce), "Tatlı ikramı" tatlı.
  */
 const SIMGE_SOZLUGU: [DurakSimgeAdi, string[]][] = [
   ['pasta', ['pasta']],
-  ['yuzuk', ['nikâh', 'nikah', 'tören', 'toren', 'yüzük', 'evlilik', 'söz ', 'imza']],
+  ['halka', ['nişan', 'nisan', 'söz ']],
+  ['yuzuk', ['nikâh', 'nikah', 'tören', 'toren', 'yüzük', 'yüzüğ', 'evlilik', 'imza']],
+  ['kurdele', ['kurdele']],
+  ['kahve', ['kahve']],
+  ['cay', [' çay']],
+  ['tatli', ['tatlı', 'tatli', 'baklava', 'lokum', 'çikolata']],
   ['yemek', ['yemek', 'yemeğ', 'ziyafet', 'menü', 'sofra', 'kahvaltı', 'öğle']],
   ['kadeh', ['karşılama', 'kokteyl', 'hoş geldin', 'ikram', 'içecek']],
-  ['muzik', ['dans', 'müzik', 'eğlence', 'kutlama', 'parti', 'konser', 'sahne', 'halay', ' dj ']]
+  ['muzik', ['dans', 'müzik', 'eğlence', 'kutlama', 'parti', 'konser', 'sahne', 'halay', ' dj ']],
+  ['kamera', ['fotoğraf', 'fotograf', 'çekim']]
 ];
 
 export function durakSimgesi(baslik: string): DurakSimgeAdi | null {

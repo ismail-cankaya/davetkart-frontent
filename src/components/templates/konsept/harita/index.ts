@@ -24,3 +24,5 @@ export { rotaPlani, genisMi, durakOranlari, planGecerli } from './rotaPlani';
 export type { Duzen, Kutu, RotaPlani } from './rotaPlani';
 export { SehirPlani } from './araziler/SehirPlani';
 export { KirArazisi } from './araziler/KirArazisi';
+export { MahalleKrokisi } from './araziler/MahalleKrokisi';
+export { KavusakArazisi } from './araziler/KavusakArazisi';

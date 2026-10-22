@@ -25,6 +25,63 @@ export interface HaritaKapakProps extends HeroRenderProps {
   sus: KoseSusu;
   /** Dipnotta ölçek esprisi ("1 cm = bir ömür") — konsept başına en çok bir espri. */
   olcekEsprisi?: boolean;
+  /**
+   * Mekân etiketinin üstündeki küçük üretilen satır (ör. krokide "Buradayız").
+   * Yalnızca mekân varsa çizilir; mekân bilgisi yerine geçmez.
+   */
+  etiketUstu?: string;
+}
+
+/** Düzen × kadraj başına sınıflar. DOM sırası her düzende aynıdır: kartuş, ara, lejant. */
+interface Yerlesim {
+  kok: string;
+  kartus: string;
+  /** Dar kadrajda kutuların arasındaki (ya da önündeki) harita alanı. */
+  ara: string | null;
+  lejant: string;
+  /** Köşe süsünün yeri; `null` → ölçüden hesaplanır (dar `ayna`). */
+  sus: string | null;
+}
+
+const DAR_KARTUS = 'self-start w-[calc(100%-3rem)] max-w-[24rem] @3xl:max-w-[27rem]';
+const DAR_LEJANT = 'w-[calc(100%-2.5rem)] max-w-[22rem]';
+const GENIS_IZGARA = 'grid grid-cols-[minmax(0,27rem)_1fr_minmax(0,22rem)] grid-rows-[1fr] gap-x-8';
+
+function yerlesim(duzen: Duzen, genis: boolean, sus: KoseSusu): Yerlesim {
+  const kuzey = 'right-4 top-5 @3xl:right-10 @3xl:top-9';
+  const kose = sus === 'kuzey' ? kuzey : 'right-3 top-4 @3xl:right-9 @3xl:top-8';
+  if (!genis) {
+    if (duzen === 'ayna')
+      // Görsel sıra tersine döner — lejant üstte, kartuş altta.
+      return { kok: 'flex flex-col-reverse', kartus: DAR_KARTUS, ara: 'flex-1 min-h-[160px]', lejant: cn('self-end items-end', DAR_LEJANT), sus: null };
+    if (duzen === 'kenar')
+      // Harita üstte (ara önce çizilir), kartuş ve lejant altta üst üste: başlık bloğu.
+      return {
+        kok: 'flex flex-col',
+        kartus: 'self-start w-full max-w-[27rem]',
+        ara: 'order-first flex-1 min-h-[160px]',
+        lejant: 'mt-2.5 self-start items-end w-full max-w-[27rem]',
+        sus: kose
+      };
+    if (duzen === 'kavsak')
+      return { kok: 'flex flex-col', kartus: DAR_KARTUS, ara: 'flex-1 min-h-[168px]', lejant: cn('self-start items-start', DAR_LEJANT), sus: kose };
+    return { kok: 'flex flex-col', kartus: DAR_KARTUS, ara: 'flex-1 min-h-[160px]', lejant: cn('self-end items-end', DAR_LEJANT), sus: kose };
+  }
+  if (duzen === 'ayna')
+    return { kok: GENIS_IZGARA, kartus: 'col-start-1 row-start-1 self-end', ara: null, lejant: 'col-start-3 row-start-1 items-end self-start', sus: 'right-10 bottom-8' };
+  if (duzen === 'kenar')
+    // Sağ sütunda üst üste, dikeyde ortada; harita solda.
+    return {
+      kok: 'grid grid-cols-[minmax(0,1fr)_minmax(0,25rem)] grid-rows-[auto_auto] content-center gap-x-8 gap-y-3',
+      kartus: 'col-start-2 row-start-1',
+      ara: null,
+      lejant: 'col-start-2 row-start-2 items-end',
+      sus: sus === 'kuzey' ? 'left-10 top-9' : 'left-9 top-8'
+    };
+  if (duzen === 'kavsak')
+    // Kartuş ve lejant üst satırda karşı köşelerde; rota aşağıdaki araziye iner.
+    return { kok: GENIS_IZGARA, kartus: 'col-start-1 row-start-1 self-start', ara: null, lejant: 'col-start-3 row-start-1 items-end self-start', sus: 'left-10 bottom-8' };
+  return { kok: GENIS_IZGARA, kartus: 'col-start-1 row-start-1 self-start', ara: null, lejant: 'col-start-3 row-start-1 items-end self-end', sus: kose };
 }
 
 interface Olcu {
@@ -54,7 +111,8 @@ function HaritaKatmani({
   stil,
   genis,
   girisBitti,
-  kayma
+  kayma,
+  etiketUstu
 }: {
   plan: RotaPlani;
   olcu: Olcu;
@@ -65,6 +123,7 @@ function HaritaKatmani({
   girisBitti: boolean;
   /** Katman kapaktan kaç saniye sonra açıldı (fontlar beklendi). */
   kayma: number;
+  etiketUstu?: string;
 }) {
   // Geç açılan katmanın çizelgesi kalan pencereye sıkışır; pencere yetmiyorsa oynamaz.
   const statik = girisBitti || kayma > HARITA_SURE.esnek;
@@ -75,7 +134,16 @@ function HaritaKatmani({
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
       <svg width={olcu.w} height={olcu.h} viewBox={`0 0 ${olcu.w} ${olcu.h}`} className="absolute inset-0">
-        <Rota noktalar={plan.noktalar} duraklar={duraklar} stil={stil} gizli={plan.gizli} girisBitti={statik} olcek={olcek} />
+        <Rota
+          noktalar={plan.noktalar}
+          duraklar={duraklar}
+          stil={stil}
+          gizli={plan.gizli}
+          kol={plan.kol}
+          kavsak={plan.kavsak}
+          girisBitti={statik}
+          olcek={olcek}
+        />
       </svg>
 
       <div className="absolute" style={{ left: igne.x - IGNE_OLCU.uc.x, top: igne.y - IGNE_OLCU.uc.y }}>
@@ -101,6 +169,7 @@ function HaritaKatmani({
               etiket.yon === 'sol' && 'text-right'
             )}
           >
+            {etiketUstu && <span className="block text-[11px] leading-snug tracking-[0.18em] uppercase text-[#A8321F]">{etiketUstu}</span>}
             <span className={cn('block', genis ? 'line-clamp-2 break-words' : 'truncate')}>{mekan}</span>
           </motion.p>
         </div>
@@ -124,7 +193,7 @@ function HaritaKatmani({
  *     (font sınırdan da geç geldi) yalnızca plan bozulduysa yeniden kurulur
  *     (`planGecerli`). Kadraj değişince (döndürme) her zaman yeniden kurulur.
  */
-export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olcekEsprisi = false }: HaritaKapakProps) {
+export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olcekEsprisi = false, etiketUstu }: HaritaKapakProps) {
   const h = useHaritaHareketi();
   const kokRef = useRef<HTMLElement | null>(null);
   const kartusRef = useRef<HTMLDivElement | null>(null);
@@ -193,9 +262,11 @@ export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olc
   }, [baglam, scrollY, kapakBoyu]);
 
   const genis = olcu ? genisMi(olcu.w, olcu.h) : false;
-  const ters = duzen === 'ayna' && genis;
   /** Dar ekranda `ayna`: lejant üstte, kartuş altta (DOM sırası değişmez: önce adlar). */
   const aynaDar = duzen === 'ayna' && !genis;
+  const y = yerlesim(duzen, genis, sus);
+  const adlar = kisiler(invitation.names);
+  const ikiKol = adlar.length >= 2;
 
   // Dar `ayna`da üst köşeler lejantındır: köşe süsü lejantın altına, kartuşun
   // sol kenarı hizasına iner (temsilî harita notunun karşısı). Ölçü gelene dek çizilmez.
@@ -211,57 +282,37 @@ export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olc
   // İlk plan sabitlenir. Anahtar kadrajdır: dar ekranda yalnızca genişlik (kapak
   // içerikle uzar; boyu fonttan etkilenir), genişte genişlik + boy.
   const sabitPlan = useRef<{ anahtar: string; plan: RotaPlani } | null>(null);
+  const etiketYari = (genis ? 26 : 14) + (etiketUstu ? 9 : 0);
   const plan = useMemo(() => {
     if (!olcu || !fontlar.hazir) return null;
-    const anahtar = [duzen, genis ? `${olcu.w}x${olcu.h}` : olcu.w].join('|');
+    const anahtar = [duzen, genis ? `${olcu.w}x${olcu.h}` : olcu.w, ikiKol].join('|');
     const eski = sabitPlan.current;
-    if (eski && eski.anahtar === anahtar && planGecerli(eski.plan, { kartus: olcu.kartus, lejant: olcu.lejant, genis })) return eski.plan;
-    const yeni = rotaPlani({ w: olcu.w, h: olcu.h, kartus: olcu.kartus, lejant: olcu.lejant, duzen, genis });
+    if (eski && eski.anahtar === anahtar && planGecerli(eski.plan, { kartus: olcu.kartus, lejant: olcu.lejant, etiketYari })) return eski.plan;
+    const yeni = rotaPlani({ w: olcu.w, h: olcu.h, kartus: olcu.kartus, lejant: olcu.lejant, duzen, genis, ikiKol });
     sabitPlan.current = { anahtar, plan: yeni };
     return yeni;
-  }, [olcu, fontlar.hazir, duzen, genis]);
+  }, [olcu, fontlar.hazir, duzen, genis, ikiKol, etiketYari]);
 
   return (
     <section
       ref={kokRef}
-      className={cn(
-        'relative flex-1 px-4 pt-5 pb-5 @3xl:px-10 @3xl:pt-9 @3xl:pb-8',
-        // Geniş kadrajda kartuş ve lejant karşı köşelerde aynı satırı paylaşır:
-        // kapak ikisinin toplamı değil, büyüğü kadar uzar.
-        genis
-          ? 'grid grid-cols-[minmax(0,27rem)_1fr_minmax(0,22rem)] grid-rows-[1fr] gap-x-8'
-          : // Dar `ayna`: görsel sıra tersine döner — lejant üstte, kartuş altta.
-            aynaDar
-            ? 'flex flex-col-reverse'
-            : 'flex flex-col'
-      )}
+      // Geniş kadrajda kartuş ve lejant çoğu düzende aynı satırı paylaşır: kapak
+      // ikisinin toplamı değil, büyüğü kadar uzar. Sınıflar: `yerlesim()`.
+      className={cn('relative flex-1 px-4 pt-5 pb-5 @3xl:px-10 @3xl:pt-9 @3xl:pb-8', y.kok)}
     >
       <Kartus
         ref={kartusRef}
         giris={h.kutu(0)}
         baslik={displayText(invitation.title)}
-        adlar={kisiler(invitation.names)}
+        adlar={adlar}
         altBaslik={displayText(invitation.subtitle)}
         tarih={tarih}
-        className={cn(
-          'z-10',
-          genis
-            ? cn('col-start-1 row-start-1', ters ? 'self-end' : 'self-start')
-            : 'self-start w-[calc(100%-3rem)] max-w-[24rem] @3xl:max-w-[27rem]'
-        )}
+        className={cn('z-10', y.kartus)}
       />
 
-      {!genis && <div aria-hidden="true" className="flex-1 min-h-[160px]" />}
+      {y.ara && <div aria-hidden="true" className={y.ara} />}
 
-      <div
-        ref={lejantRef}
-        className={cn(
-          'relative z-10 flex flex-col gap-2',
-          genis
-            ? cn('col-start-3 row-start-1 items-end', ters ? 'self-start' : 'self-end')
-            : 'self-end items-end w-[calc(100%-2.5rem)] max-w-[22rem]'
-        )}
-      >
+      <div ref={lejantRef} className={cn('relative z-10 flex flex-col gap-2', y.lejant)}>
         <Lejant veri={veri} invitation={invitation} giris={h.kutu(0.12)} className="w-full" />
         <Dipnot olcek={olcekEsprisi} giris={h.belir(0.6)} />
       </div>
@@ -276,6 +327,7 @@ export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olc
           genis={genis}
           girisBitti={girisBitti}
           kayma={fontlar.kayma}
+          etiketUstu={etiketUstu}
         />
       )}
 
@@ -284,11 +336,7 @@ export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olc
           aria-hidden="true"
           {...h.belir(0.45)}
           style={susYeri}
-          className={cn(
-            'pointer-events-none absolute z-0 text-[#23303A]',
-            !aynaDar &&
-              (sus === 'kuzey' ? 'right-4 top-5 @3xl:right-10 @3xl:top-9' : ters ? 'right-10 bottom-8' : 'right-3 top-4 @3xl:right-9 @3xl:top-8')
-          )}
+          className={cn('pointer-events-none absolute z-0 text-[#23303A]', y.sus)}
         >
           {sus === 'kuzey' ? (
             <span className="flex flex-col items-center gap-0.5 rounded-full bg-white px-2 pt-2 pb-1.5">
@@ -296,7 +344,7 @@ export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olc
               <span className="[font-family:var(--hr-etiket)] text-[12px] font-semibold leading-none">K</span>
             </span>
           ) : (
-            <PusulaGulu boyut={aynaDar ? 44 : 52} />
+            <PusulaGulu boyut={genis ? 52 : 44} />
           )}
         </motion.div>
       )}

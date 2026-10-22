@@ -1,6 +1,6 @@
 # `konsept/harita/HaritaKapak.tsx` — harita kapağı (`renderHero`)
 
-> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (Aşama 5: K2, font sonrası sabit rota) · dal `design/harita` · Kaynak: [HARITA-KONSEPTI §4.1, §6, §11](../../../../../tasarim/HARITA-KONSEPTI.md)
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (Aşama 5: K2, font sonrası sabit rota; nişan: `kenar`, `kavsak`, `etiketUstu`) · dal `design/harita` · Kaynak: [HARITA-KONSEPTI §4.1, §6, §11](../../../../../tasarim/HARITA-KONSEPTI.md)
 
 ---
 
@@ -14,10 +14,11 @@ gider. Ortalı simetri yok.
 
 | Prop | Değerler | |
 |---|---|---|
-| `duzen` | `capraz` · `ayna` | Bkz. [rotaPlani](rotaPlani.md) |
-| `rota` | `cadde` · `patika` | Bkz. [Rota](Rota.md) |
+| `duzen` | `capraz` · `ayna` · `kenar` · `kavsak` | Bkz. §3 ve [rotaPlani](rotaPlani.md) |
+| `rota` | `cadde` · `patika` · `kroki` | Bkz. [Rota](Rota.md) |
 | `sus` | `kuzey` · `pusula` | Köşe süsü: kuzey oku (beyaz yuvarlakta "K") ya da pusula gülü |
-| `olcekEsprisi` | boolean | Dipnotta "1 cm = bir ömür" (konsept başına en çok bir espri) |
+| `olcekEsprisi` | boolean | Dipnotta "1 cm = bir ömür" (konsept başına en çok bir espri — Kıyı Kenti kullandı) |
+| `etiketUstu` | metin | Mekân etiketinin üstündeki küçük üretilen satır (krokide "Buradayız"; Barlow Condensed 11 px, büyük harf, rota rengi / beyaz 6.69). Yalnızca mekân varsa çizilir |
 
 ## 3. Yerleşim
 
@@ -28,8 +29,16 @@ gider. Ortalı simetri yok.
 | **Dar** (`genisMi` yanlış: telefon, 768 px dikey tablet) | Sütun: kartuş üstte solda (`100% − 3rem`, sağ üstte köşe süsü), arada ≥ 160 px rota alanı, lejant altta sağda; rota yukarıdan S çizerek iner, iğne solda | **Ters sütun** (`flex-col-reverse`): lejant + dipnot üstte sağda, kartuş altta solda; patika kartuşun üst kenarından çıkar, sağda bir kıvrımla **tepeye tırmanır**, iğne üstte (lejantın hemen altında); pusula gülü lejantın altında solda, temsilî harita notunun karşısında |
 | **Geniş** (≥ 880 px ve yatay) | Tek satırlık ızgara `27rem \| 1fr \| 22rem`: kartuş sol üst, lejant sağ alt | Aynı ızgara: kartuş sol alt, lejant sağ üst, iğne tepenin doruğunda; pusula sağ altta |
 
+| | `kenar` (Nişan Kroki) | `kavsak` (Nişan Kavuşak) |
+|---|---|---|
+| **Dar** | Harita **üstte** (ara alan `order-first`, ≥ 160 px), kartuş ve lejant altta tam genişlikte (en çok 27 rem) üst üste: tek bir başlık bloğu; rota kartuşun üst kenarından çıkıp sağ üstteki iğneye tırmanır; kuzey oku sağ üstte | Kartuş üst solda, lejant **alt solda**, iğne sağda; iki kol kartuşun altından çıkıp birleşir; ara alan ≥ 168 px; pusula sağ üstte |
+| **Geniş** | İki sütun `1fr \| 25rem`: kartuş ve lejant sağ sütunda üst üste, dikeyde ortada; harita ve iğne solda; kuzey oku sol üstte | Kartuş sol üst, lejant sağ üst — ikisi de **üst satırda**; rota aşağıdaki araziye iner; pusula sol altta |
+
+Sınıflar tek yerde: `yerlesim(duzen, genis, sus)` → kök, kartuş, ara alan, lejant grubu, köşe süsü.
+
 DOM sırası hiçbir düzende değişmez (önce adlar, sonra lejant): ekran okuyucu önce `h1`'i okur;
-kapakta odaklanabilen tek öğe lejanttaki "Yol tarifi" bağlantısıdır.
+kapakta odaklanabilen tek öğe lejanttaki "Yol tarifi" bağlantısıdır. `kenar`da görsel sıra
+(harita → kartuş → lejant) DOM sırasıyla aynıdır; yalnızca boş ara alan öne alınır.
 
 **Dar `ayna`, 360 × 780 ölçümleri** (2026-10-22, `dugun-harita-kir-yolu`, y px):
 
@@ -85,7 +94,7 @@ iğne 36 px yukarı atladı; fontlar 1.5 s geciktirilince 3.55 s'de). Çözüm i
 Rota, iğne ve mekân etiketi kutuların **altında** (z-0) tek katmandadır; bütünü `aria-hidden`
 (aynı bilgi lejantta gerçek metin). Mekân etiketi iğnenin yanında beyaz düz dikdörtgendir; dar
 ekranda tek satır (`truncate`), genişte en çok iki satır. Kalan genişlik 80 px'ten azsa etiket
-çizilmez. `venue` boşsa iğne kalır, etiket olmaz.
+çizilmez. `venue` boşsa iğne kalır, etiket olmaz (`etiketUstu` da çizilmez).
 
 ## 6. Sınırlar
 

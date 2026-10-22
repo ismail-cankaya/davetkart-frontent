@@ -1,7 +1,7 @@
 # `konsept/harita/` — "Günün Haritası" kiti
 
 > **Kılavuz:** [HARITA-KONSEPTI](../../../../../tasarim/HARITA-KONSEPTI.md) · [KONSEPT-ORTAK](../../../../../tasarim/KONSEPT-ORTAK.md)
-> **Tarih:** 2026-10-17 · dal `design/harita` · ilk kullanan: düğün (pilot)
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (nişan) · dal `design/harita` · kullananlar: düğün (pilot), nişan
 
 ---
 
@@ -28,7 +28,16 @@ yalnızca buradan alır.
 | [`Igne.tsx`](Igne.md), [`simgeler.tsx`](simgeler.md) | Toplu iğne, 24 px piktogramlar |
 | [`HaritaSahnesi.tsx`](HaritaSahnesi.md) | `renderBackdrop`: sabit harita + perde |
 | [`HaritaZarf.tsx`](HaritaZarf.md) | `renderEnvelope`: katlanmış harita |
-| [`araziler/`](araziler/cizim.md) | Eksen başına durağan SVG: [şehir planı](araziler/SehirPlani.md), [arazi](araziler/KirArazisi.md) |
+| [`araziler/`](araziler/cizim.md) | Eksen başına durağan SVG: [şehir planı](araziler/SehirPlani.md), [arazi — kır](araziler/KirArazisi.md), [arazi — kavuşak](araziler/KavusakArazisi.md), [mahalle krokisi](araziler/MahalleKrokisi.md) |
+
+### 2.1 Hangi preset neyi kullanır?
+
+| Preset | Arazi | `duzen` | `rota` | `sus` | Ek |
+|---|---|---|---|---|---|
+| Düğün · Kıyı Kenti | `SehirPlani` | `capraz` | `cadde` | `kuzey` | `olcekEsprisi` |
+| Düğün · Kır Yolu | `KirArazisi` | `ayna` | `patika` | `pusula` | |
+| Nişan · Kroki | `MahalleKrokisi` | `kenar` | `kroki` | `kuzey` | `etiketUstu="Buradayız"` |
+| Nişan · Kavuşak | `KavusakArazisi` | `kavsak` | `patika` | `pusula` | iki ad → iki kol |
 
 ## 3. Bir preset nasıl kurulur?
 
@@ -49,6 +58,7 @@ yalnızca buradan alır.
 
 ## 4. Henüz olmayanlar
 
-Mahalle krokisi, hazine haritası ve alan planı eksenlerinin arazileri ilgili kategoriler gelince
-`araziler/`e eklenecek. Kapak ve rota onlar için de aynı kalır; yalnızca arazi ve `duzen`/`rota`/`sus`
-seçimi değişir.
+Hazine haritası ve alan planı eksenlerinin arazileri ilgili kategoriler gelince `araziler/`e
+eklenecek. Kapak ve rota onlar için de aynı kalır; yalnızca arazi ve `duzen`/`rota`/`sus` seçimi
+değişir. Dört düzen (`capraz`, `ayna`, `kenar`, `kavsak`) telefonda dört ayrı yerleşimdir; sonraki
+kategoriler bir kategorinin iki preset'ini farklı düzenlere dağıtır (K2).

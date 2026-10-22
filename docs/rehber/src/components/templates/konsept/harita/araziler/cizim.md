@@ -1,6 +1,6 @@
 # `konsept/harita/araziler/cizim.ts` — arazi yardımcıları
 
-> **Tarih:** 2026-10-17 · dal `design/harita`
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-22 (`acikEgri`, `titrek`, `cizgiyeUzaklik`) · dal `design/harita`
 
 ---
 
@@ -13,6 +13,9 @@ bir kez çalışır; çıktı durağan SVG yol dizgisidir. Çalışma anında fi
 | `kapaliEgri(noktalar)` | Kapalı Catmull-Rom; koordinatlar tam sayıya yuvarlanır |
 | `lekeYolu(leke, olcek, kayma)` | Düzensiz elips: 28 nokta, yarıçap 2./3./5. harmoniklerle bozulur. Eş yükselti halkası (`olcek` < 1, merkez `kayma` kadar kayar) ve orman lekesi bununla çizilir |
 | `lekeIciNoktalar(leke, aralik)` | Lekenin içinde titreşimli ızgara: ağaç simgelerinin yeri |
+| `acikEgri(noktalar)` | Açık Catmull-Rom; uçlarda teğet komşuya bakar (mahalle krokisinin sokakları) |
+| `titrek(noktalar, tohum, genlik, adim, kayma)` | Elle çizilmiş görünen çizgi: kırık çizgi `adim` px'te bir örneklenir, her nokta dik yönde `kayma` + iki dalga (41 ve 13 px dalga boyu) + küçük sarsıntı kadar kayar. `kayma = ±genişlik/2` ile bir sokağın iki kenarı çizilir; iki kenar ayrı tohumla titrer, paralel durmaz |
+| `cizgiyeUzaklik(nokta, cizgi)` | Noktanın kırık çizgiye en kısa uzaklığı: evler ve ağaçlar sokağa binmesin diye |
 
 Aynı tohumlu biçim küçültülüp kaydırıldığı için iç içe halkalar birbirini kesmez.
 
