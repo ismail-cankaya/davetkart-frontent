@@ -179,7 +179,7 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
       >
         {/* Pano başlığı: gerçek panolardaki gibi sol etiket + sağ durum. */}
         <div className="flex items-center justify-between mb-5">
-          <span className={cn('text-[9px] font-semibold uppercase tracking-[0.28em]', theme.accent)}>
+          <span className={cn('text-[9px] font-semibold tracking-[0.28em]', theme.accent)}>
             {invitation.title}
           </span>
           <span className={theme.accent}>

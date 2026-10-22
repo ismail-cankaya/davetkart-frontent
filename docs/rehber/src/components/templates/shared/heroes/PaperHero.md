@@ -16,3 +16,8 @@ Kartın kendisi (`DeckleEdge`) sabit renkteydi: koyu temada `#16130f`, açıkta 
 
 İsim başlığına `[overflow-wrap:anywhere]` eklendi: uzun tek kelime 360 px'te kartın
 dışına taşmaz (gerekçe `NoirHero.md`'de).
+
+## Kullanıcı metninin harfi (2026-10-22 · dal `design/konsept-ortak`, N3)
+
+Başlık üst etiketi ve mekân satırından `uppercase` kaldırıldı (punto ve aralık aynı).
+Tablo: `../Summary.md` §3.

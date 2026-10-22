@@ -134,7 +134,7 @@ export function MermerHero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, ease: ease.out, delay: 0.45 }}
-            className={cn('mt-5 text-[9px] font-semibold uppercase tracking-[0.42em]', theme.body)}
+            className={cn('mt-5 text-[9px] font-semibold tracking-[0.42em]', theme.body)}
             style={carved}
           >
             {invitation.title}
@@ -189,7 +189,7 @@ export function MermerHero({
                 </span>
               )}
               {venue && (
-                <span className={cn('text-[10px] uppercase tracking-[0.26em]', theme.body)} style={carved}>
+                <span className={cn('text-[10px] tracking-[0.26em]', theme.body)} style={carved}>
                   {venue}
                 </span>
               )}

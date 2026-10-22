@@ -72,7 +72,7 @@ export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
         <div className="px-5 @sm:px-7 pt-6 @sm:pt-7 pb-5">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <span className={cn('text-[9px] font-semibold uppercase tracking-[0.3em]', theme.accent)}>
+              <span className={cn('text-[9px] font-semibold tracking-[0.3em]', theme.accent)}>
                 {invitation.title}
               </span>
               <h1

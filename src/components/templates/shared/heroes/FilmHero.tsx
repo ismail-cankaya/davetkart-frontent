@@ -89,7 +89,7 @@ export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame =
           {/* Kareler dişli bandının arasında kalır. */}
           <div className="relative mx-5 @sm:mx-6" style={{ background: frame }}>
             <Frame delay={0.25} border={theme.border}>
-              <span className={cn('text-[8.5px] font-semibold uppercase tracking-[0.34em]', theme.accent)}>
+              <span className={cn('text-[8.5px] font-semibold tracking-[0.34em]', theme.accent)}>
                 {invitation.title}
               </span>
               <h1
