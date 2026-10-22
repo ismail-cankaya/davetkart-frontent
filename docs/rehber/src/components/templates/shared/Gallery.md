@@ -31,8 +31,10 @@ beyaz yazıyla **8.4**.
 | Hedef | Görünen | Tıklama alanı önce → sonra | Nasıl |
 |---|---|---|---|
 | Önceki / sonraki ok | 36 px daire (aynı) | 36 → 44 × 44 | Düğme 44 px şeffaf kap, daire içteki `span`; kap `left-2`/`right-2` olduğu için daire yerinde kalır. Üzerine gelme `group-hover` ile |
-| Nokta | 6 px (etkin 24 px) — aynı | 6 → 44 × 44 (bitişik iki noktanın sınırında tarama 43.5 buluyor) | Her nokta 44 × 44 düğme, görünen nokta içteki `span` |
+| Nokta | 6 px (etkin 24 px) — aynı | 6 → **24 × 44** (bitişik iki noktanın sınırında tarama 23.5 buluyor) | Her nokta `w-6 h-11` düğme, görünen nokta içteki `span` |
 
-Noktalar arası adım 44 px'e çıktı (önce 8 px boşluk): bilinçli görünüm farkı, tıklama alanları
-çakışmasın diye. Dikey yer ve bölüm yüksekliği aynı: üst boşluk `mt-5` → `mt-px`, alttaki fazlalık
+Noktalar **ikincil gezinmedir** (asıl yol 44 px'lik oklar ve kaydırma): genişlikte WCAG 2.2 AA 2.5.8
+hedef boyutu (24 px) yeter, yükseklik 44 px. Adım 24 px (2026-10-22, N2; ilk sürümdeki 44 px adım
+noktaları fazla açıyordu). Görünür aralık: etkin nokta ile komşusu arası 9 px, iki sönük nokta arası
+18 px (özgün sürümde her yerde 8 px). Dikey yer ve bölüm yüksekliği aynı: üst boşluk `mt-5` → `mt-px`, alttaki fazlalık
 `-mb-[19px]` ile geri alındı (önce/sonra görüntülerinde nokta satırının altı kaymıyor).
