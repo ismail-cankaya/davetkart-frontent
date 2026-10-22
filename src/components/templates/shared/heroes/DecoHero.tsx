@@ -62,7 +62,7 @@ export function DecoHero({ invitation, theme, flavor, metal = '212,175,95' }: De
           className="w-full mt-4"
         >
           <span className={cn('block h-px w-full', theme.divider)} />
-          <span className={cn('block text-[9px] font-semibold uppercase tracking-[0.44em] py-2.5', theme.accent)}>
+          <span className={cn('block text-[9px] font-semibold tracking-[0.44em] py-2.5', theme.accent)}>
             {invitation.title}
           </span>
           <span className={cn('block h-px w-full', theme.divider)} />
@@ -103,7 +103,7 @@ export function DecoHero({ invitation, theme, flavor, metal = '212,175,95' }: De
             {venue && (
               <span className="flex items-center gap-3">
                 <span className={cn('w-1.5 h-1.5 rotate-45', theme.accentBg)} />
-                <span className={cn('text-[10px] uppercase tracking-[0.28em]', theme.body)}>{venue}</span>
+                <span className={cn('text-[10px] tracking-[0.28em]', theme.body)}>{venue}</span>
                 <span className={cn('w-1.5 h-1.5 rotate-45', theme.accentBg)} />
               </span>
             )}

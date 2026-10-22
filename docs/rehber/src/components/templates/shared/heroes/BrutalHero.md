@@ -32,3 +32,8 @@ Kısa isimlerde `13cqw` yine küçük olan değerdir: görünüm değişmez.
 
 Kına Brutal, boş isim: 360 ve 1280 px'te "DAVETLİSİNİZ" tek satır. Dolu isim
 ("SOPHİA & ELİAS") eskisiyle aynı boyutta.
+
+## Kullanıcı metninin harfi (2026-10-22 · dal `design/konsept-ortak`, N3)
+
+Başlık çipinden `uppercase` kaldırıldı; bilgi satırında yalnız "Mekan" değeri `normal-case`
+(kullanıcı metni). Adlar büyük harfli gösterim başlığı olarak kaldı (karar bekliyor). Tablo: `../Summary.md` §3.

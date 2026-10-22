@@ -279,7 +279,7 @@ export function VitrayHero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, ease: ease.out, delay: 0.5 }}
-            className={cn('text-[9px] font-semibold uppercase tracking-[0.4em]', theme.accent)}
+            className={cn('text-[9px] font-semibold tracking-[0.4em]', theme.accent)}
           >
             {invitation.title}
           </motion.span>

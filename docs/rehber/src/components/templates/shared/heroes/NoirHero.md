@@ -13,3 +13,8 @@ genişliği "içeriğe göre küçült" kuralıyla hesaplanır ve `break-word` e
 genişliğini etkilemez — kutu kelime kadar geniş kalır.
 `[overflow-wrap:anywhere]` ise en küçük genişliği de değiştirir; kutu satıra sığar,
 kelime gerekirse bölünür. Normal isimlerde hiçbir şey değişmez.
+
+## Kullanıcı metninin harfi (2026-10-22 · dal `design/konsept-ortak`, N3)
+
+Başlık üst etiketinden `uppercase` kaldırıldı; büyük harfli bilgi şeridinde mekân öğesi `normal-case`.
+Tablo: `../Summary.md` §3.

@@ -143,7 +143,7 @@ export function EbruHero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.9, ease: ease.out, delay: 1.1 }}
-            className={cn('text-[9px] font-semibold uppercase tracking-[0.36em]', theme.body)}
+            className={cn('text-[9px] font-semibold tracking-[0.36em]', theme.body)}
           >
             {invitation.title}
           </motion.span>
@@ -199,7 +199,7 @@ export function EbruHero({
               className="mt-7 flex flex-col items-center gap-1.5"
             >
               {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
-              {venue && <span className={cn('text-[10px] uppercase tracking-[0.24em]', theme.body)}>{venue}</span>}
+              {venue && <span className={cn('text-[10px] tracking-[0.24em]', theme.body)}>{venue}</span>}
             </motion.div>
           )}
 
