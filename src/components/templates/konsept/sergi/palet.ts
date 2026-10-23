@@ -24,7 +24,9 @@ export const DUVAR = {
   /** Zarf kapısı: ışığı kapalı duvar. */
   karanlik: '#222221',
   /** Karanlık duvarda ikincil yazı (6.67). */
-  karanlikEtiket: '#A8A8A3'
+  karanlikEtiket: '#A8A8A3',
+  /** LCV hata metni ve hatalı alan kenarı: duvarda 7.47, beyazda 8.0. Eser rengi değildir, durum rengidir. */
+  hata: '#9F1239'
 } as const;
 
 interface EserRengiTanimi {
@@ -58,6 +60,7 @@ export type SergiDegiskeni =
   | '--sg-kenar-guclu'
   | '--sg-karanlik'
   | '--sg-karanlik-etiket'
+  | '--sg-hata'
   | '--sg-eser'
   | '--sg-eser-hover'
   | '--sg-eser-ustu'
@@ -82,6 +85,7 @@ export function sergiDegiskenleri(eser: EserRengi): React.CSSProperties {
     '--sg-kenar-guclu': DUVAR.kenarGuclu,
     '--sg-karanlik': DUVAR.karanlik,
     '--sg-karanlik-etiket': DUVAR.karanlikEtiket,
+    '--sg-hata': DUVAR.hata,
     '--sg-eser': e.renk,
     '--sg-eser-hover': e.hover,
     '--sg-eser-ustu': e.ustu,
