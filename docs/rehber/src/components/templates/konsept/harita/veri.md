@@ -65,3 +65,10 @@ Bu bir eşleme, bilgi üretimi değil: simge kullanıcının yazdığı başlık
 "Kız isteme" gibi geleneği ima eden ama simgeyi adlandırmayan başlıklar bilerek eşlenmedi (kahve
 çıkarımı veri uydurmak olurdu). Kına, sünnet gibi kategorilerde sözlük genişleyecek ("Kına töreni"
 bugün yüzük alır — kına kategorisinde düzeltilmeli).
+
+## Doğum günü eki (2026-10-23)
+
+- Genel sözlüğün sonuna: *hediye* → `hediye`, *oyun, hazine av, saklambaç, yarışma* → `zar`. Sondadır:
+  önceki sözcüklerle çakışmaz; "oyun havaları" müzik simgesinden sonra gelir.
+- `durakSimgesi(baslik, ek?)` ve `lejantKur(invitation, enCok?, sozluk?)`: preset sözlüğü (`SimgeSozlugu`)
+  genel sözlükten **önce** aranır. Hazine Avı: *karşılama* → balon, *mum* → pasta.

@@ -33,8 +33,13 @@ export function HaritaZarf({
   flavor,
   onRevealStart,
   onOpened,
-  arazi
-}: EnvelopeRenderProps & { arazi: React.ReactNode }) {
+  arazi,
+  isaret = (olcek) => <Igne olcek={olcek} />
+}: EnvelopeRenderProps & {
+  arazi: React.ReactNode;
+  /** Mekânın işareti (varsayılan iğne; hazine haritasında X). `olcek` 0.75–0.9. */
+  isaret?: (olcek: number) => React.ReactNode;
+}) {
   const [aciliyor, setAciliyor] = useState(false);
   const azalt = useReducedMotion();
   const adlar = kisiler(invitation.names);
@@ -86,7 +91,7 @@ export function HaritaZarf({
           <div aria-hidden="true" className="absolute inset-y-0 left-1/3 w-px bg-[#23303A]/25" />
           <div aria-hidden="true" className="absolute inset-y-0 left-2/3 w-px bg-[#23303A]/25" />
           <div aria-hidden="true" className="absolute left-[58%] top-[46%]">
-            <Igne olcek={0.9} />
+            {isaret(0.9)}
           </div>
         </div>
 
@@ -123,7 +128,7 @@ export function HaritaZarf({
           <div aria-hidden="true" className="relative my-4 @2xl:my-6 min-h-[3.5rem] flex-1 overflow-hidden border border-[#23303A]/50">
             {arazi}
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-[85%] @2xl:scale-125">
-              <Igne olcek={0.75} />
+              {isaret(0.75)}
             </div>
           </div>
           <div className="flex items-end justify-between gap-3">

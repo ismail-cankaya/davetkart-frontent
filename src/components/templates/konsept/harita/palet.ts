@@ -7,6 +7,8 @@
  */
 export const HARITA_RENK = {
   arazi: '#EEF0E6',
+  /** Hazine haritası ekseninin sıcak arazisi (§2.2); mürekkep 10.85, gri 5.63, rota 5.37 (hesaplandı). */
+  araziSicak: '#F1E6C8',
   murekkep: '#23303A',
   gri: '#4E5B63',
   yol: '#FFFFFF',

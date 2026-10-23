@@ -30,3 +30,12 @@ Başlık (`h2`, mürekkep, büyük) en kötü 9.34.
 
 Bağlam yoksa (`HaritaKok` dışında kullanım) perde kapak çıkarken opaklıkla iner (heroExit 0.1–0.85).
 Bu yolda kaydırmanın ortasında başlıklar yarım perdeli kalabilir; preset'ler kökü kullanır.
+
+## Doğum günü eki (2026-10-23)
+
+İki isteğe bağlı prop; vermeyen preset değişmez:
+
+| Prop | Varsayılan | Ne |
+|---|---|---|
+| `zemin` | `HARITA_RENK.arazi` | Sayfa ve perde rengi; temanın `base` zeminiyle aynı olmalı (hazine: `araziSicak`) |
+| `perde` | `PERDE_OPAKLIGI` (0.8) | Perdenin opaklığı. Hazine adası 0.86: %80'de bölüm üst etiketi 4.44 ölçüldü |

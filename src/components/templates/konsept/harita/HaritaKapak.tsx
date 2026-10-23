@@ -1,5 +1,5 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { motion, useScroll } from 'motion/react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText } from '../../utils';
 import type { HeroRenderProps } from '../../shared/InvitationComposition';
@@ -11,10 +11,7 @@ import { KuzeyOku, PusulaGulu } from './simgeler';
 import { genisMi, planGecerli, rotaPlani, type Duzen, type Kutu, type RotaPlani } from './rotaPlani';
 import { haritaTarihi, kisiler, lejantKur, type Durak } from './veri';
 import { HARITA_SURE, useHaritaHareketi } from './hareket';
-import { haritaFontlari, haritaFontlariHazir } from './fontlar';
-import { PERDE_DISARIDA, useHaritaBaglami } from './baglam';
-
-const useOlcumEtkisi = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+import { useGirisPenceresi, useKapakAltiBildirimi, useKatmanFontu, useOlcumEtkisi } from './kapakOrtak';
 
 /** Haritanın köşe süsü: şehirde kuzey oku, kırda pusula gülü. */
 export type KoseSusu = 'kuzey' | 'pusula';
@@ -95,8 +92,6 @@ const kutu = (e: HTMLElement | null): Kutu | null =>
   e && e.offsetWidth ? { x: e.offsetLeft, y: e.offsetTop, w: e.offsetWidth, h: e.offsetHeight } : null;
 
 const ayni = (a: Kutu | null, b: Kutu | null) => a === b || (!!a && !!b && a.x === b.x && a.y === b.y && a.w === b.w && a.h === b.h);
-
-const simdi = () => (typeof performance === 'undefined' ? 0 : performance.now());
 
 /**
  * Rota, iğne ve mekân etiketi: kartuşla lejantın ARASINDAKİ katman.
@@ -199,28 +194,8 @@ export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olc
   const kartusRef = useRef<HTMLDivElement | null>(null);
   const lejantRef = useRef<HTMLDivElement | null>(null);
   const [olcu, setOlcu] = useState<Olcu | null>(null);
-  const [girisBitti, setGirisBitti] = useState(false);
-  const [t0] = useState(simdi);
-  const [fontlar, setFontlar] = useState<{ hazir: boolean; kayma: number }>(() => ({ hazir: haritaFontlariHazir(), kayma: 0 }));
-  useEffect(() => {
-    const id = window.setTimeout(() => setGirisBitti(true), HARITA_SURE.ust * 1000);
-    return () => window.clearTimeout(id);
-  }, []);
-  useEffect(() => {
-    if (fontlar.hazir) return;
-    let bitti = false;
-    const ac = () => {
-      if (bitti) return;
-      bitti = true;
-      setFontlar({ hazir: true, kayma: (simdi() - t0) / 1000 });
-    };
-    const id = window.setTimeout(ac, HARITA_SURE.fontBekleme * 1000);
-    haritaFontlari().then(ac);
-    return () => {
-      bitti = true;
-      window.clearTimeout(id);
-    };
-  }, [fontlar.hazir, t0]);
+  const girisBitti = useGirisPenceresi();
+  const fontlar = useKatmanFontu();
 
   const olc = () => {
     const kok = kokRef.current;
@@ -244,22 +219,7 @@ export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olc
   }, []);
 
   // Kapağın alt kenarını sahneye bildirir: perde tam oradan başlar.
-  const baglam = useHaritaBaglami();
-  const { scrollY } = useScroll({ container: scrollContainer });
-  const kapakBoyu = olcu?.h ?? 0;
-  useEffect(() => {
-    if (!baglam) return;
-    const yaz = () => {
-      const kok = kokRef.current;
-      baglam.kapakAlti.set(Math.max(0, (kok ? kok.offsetTop + kok.offsetHeight : 0) - scrollY.get()));
-    };
-    yaz();
-    const birak = scrollY.on('change', yaz);
-    return () => {
-      birak();
-      baglam.kapakAlti.set(PERDE_DISARIDA);
-    };
-  }, [baglam, scrollY, kapakBoyu]);
+  useKapakAltiBildirimi(kokRef, scrollContainer, olcu?.h ?? 0);
 
   const genis = olcu ? genisMi(olcu.w, olcu.h) : false;
   /** Dar ekranda `ayna`: lejant üstte, kartuş altta (DOM sırası değişmez: önce adlar). */

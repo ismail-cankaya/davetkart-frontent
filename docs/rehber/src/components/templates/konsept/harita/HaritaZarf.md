@@ -57,3 +57,8 @@ Kır Yolu 908 ms, Kroki 899 ms kapının kalkışına kadar). Kapının herhangi
 ## 5. Sınır
 
 Pilotta kapı açıkken arkadaki bölümler Tab ile odaklanabiliyordu; ortak dalda (`5fd5861`) çözüldü.
+
+## Doğum günü eki (2026-10-23)
+
+`isaret?: (olcek) => ReactNode` — kapak penceresindeki ve iç paneldeki mekân işareti. Varsayılan iğne; Hazine
+Avı `Carpi` (X) verir. Ölçek iç panelde 0.9, kapakta 0.75.

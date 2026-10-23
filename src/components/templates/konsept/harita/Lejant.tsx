@@ -17,7 +17,8 @@ import type { Durak, LejantVerisi } from './veri';
 
 const ETIKET = '[font-family:var(--hr-etiket)] font-semibold uppercase tracking-[0.18em]';
 
-function Rozet({ durak }: { durak: Durak }) {
+/** Durağın rozeti: simgesi ya da sıra numarası, beyaz daire, rota kenarı (26 px). */
+export function Rozet({ durak }: { durak: Durak }) {
   return (
     <span className="mt-[1px] flex size-[26px] shrink-0 items-center justify-center rounded-full border-[1.75px] border-[#A8321F] bg-white text-[#A8321F]">
       {durak.simge ? (
@@ -30,7 +31,7 @@ function Rozet({ durak }: { durak: Durak }) {
 }
 
 /** "Varışa 120 gün 04 saat 12 dakika": geri sayım haritanın diliyle. Saniye yok. */
-function Varisa({ invitation }: { invitation: Invitation }) {
+export function Varisa({ invitation }: { invitation: Invitation }) {
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   if (!invitation.showTimer || !valid) return null;
   const birimler = [

@@ -17,7 +17,10 @@ export type DurakSimgeAdi =
   | 'cay'
   | 'tatli'
   | 'kurdele'
-  | 'kamera';
+  | 'kamera'
+  | 'balon'
+  | 'hediye'
+  | 'zar';
 export type SimgeAdi = DurakSimgeAdi | 'takvim' | 'ok' | 'agac' | 'fener';
 
 const CIZGI = {
@@ -95,6 +98,28 @@ const CIZIMLER: Record<SimgeAdi, React.ReactNode> = {
     <>
       <path d="M4 8h3.5L9 5.5h6L16.5 8H20a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" {...CIZGI} />
       <circle cx="12" cy="13.5" r="3.5" {...CIZGI} />
+    </>
+  ),
+  // Doğum günü sözlüğü (2026-10-23): balon (çocuk karşılaması), hediye, oyun (zar).
+  balon: (
+    <>
+      <ellipse cx="12" cy="9" rx="6" ry="6.8" {...CIZGI} />
+      <path d="M10.7 17.6h2.6L12 15.8z" fill="currentColor" />
+      <path d="M12 17.6c-1.3 1.4 1.3 2.3 0 4" {...CIZGI} />
+    </>
+  ),
+  hediye: (
+    <>
+      <path d="M4.5 11h15v9.5h-15zM3.5 7.5h17V11h-17zM12 7.5v13" {...CIZGI} />
+      <path d="M12 7.5C10.6 4.6 7 4.2 7 6s3 1.5 5 1.5zM12 7.5c1.4-2.9 5-3.3 5-1.5s-3 1.5-5 1.5z" {...CIZGI} />
+    </>
+  ),
+  zar: (
+    <>
+      <rect x="4" y="4" width="16" height="16" rx="3" {...CIZGI} />
+      <circle cx="8.6" cy="8.6" r="1.5" fill="currentColor" />
+      <circle cx="12" cy="12" r="1.5" fill="currentColor" />
+      <circle cx="15.4" cy="15.4" r="1.5" fill="currentColor" />
     </>
   ),
   takvim: (

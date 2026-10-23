@@ -52,16 +52,16 @@ const ETIKET_EN_COK = 220;
  * kartuş (z-10, opak) başlangıcı örter. Font geç gelip kartuş biraz küçülse de
  * rota kenardan kopmaz (bkz. `planGecerli`).
  */
-const GIZLI = 20;
+export const GIZLI = 20;
 const CIKIS = 6;
 /** İğne başının ucun ne kadar üstünde olduğu (Igne: uç 46, baş merkezi 15, r 11). */
 const BAS_USTU = 31;
 const BAS_YARICAP = 13;
 
-type Yon = 'asagi' | 'yukari' | 'saga' | 'sola';
+export type Yon = 'asagi' | 'yukari' | 'saga' | 'sola';
 
 /** Kenarın içinden kenara dik çıkan iki başlangıç noktası. */
-function cikis(kenar: Nokta, yon: Yon): Nokta[] {
+export function cikis(kenar: Nokta, yon: Yon): Nokta[] {
   if (yon === 'asagi') return [{ x: kenar.x, y: kenar.y - GIZLI }, { x: kenar.x, y: kenar.y + CIKIS }];
   if (yon === 'yukari') return [{ x: kenar.x, y: kenar.y + GIZLI }, { x: kenar.x, y: kenar.y - CIKIS }];
   if (yon === 'sola') return [{ x: kenar.x + GIZLI, y: kenar.y }, { x: kenar.x - CIKIS, y: kenar.y }];

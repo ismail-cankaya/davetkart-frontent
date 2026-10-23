@@ -17,3 +17,8 @@ kaynaktan okur.
 `blok` paletin içinde ama düğün preset'lerinde kullanılmadı: iki arazi de dört tonla yetiniyor
 (şehir: arazi + yol + su + rota; kır: arazi + park + su + rota). `murekkep` ve `gri` çizgi ve yazı
 rengidir; şeffaf çizgiler (sokak kenarı, eş yükselti) ton sayılmadı.
+
+## Doğum günü eki (2026-10-23)
+
+`araziSicak: '#F1E6C8'` — hazine ekseninin sıcak arazisi (§2.2). Hesaplanan: mürekkep 10.85, gri 5.63, rota
+5.37. Bir preset yine en çok dört ton kullanır (Hazine Avı: sıcak arazi, su, park + rota).

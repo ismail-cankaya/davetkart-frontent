@@ -105,3 +105,9 @@ ekranda tek satır (`truncate`), genişte en çok iki satır. Kalan genişlik 80
   (iğne lejantın altına girer) rota bir kez, animasyonsuz yeniden kurulur — bilinen tek sıçrama yolu.
 - Dar `ayna`da `uzun` senaryoda kartuşun alt yarısı ilk ekranın altına taşar (adlar başlar, tarih
   kaydırınca görünür); lejant, düğme ve not her zaman ilk ekrandadır.
+
+## Doğum günü eki (2026-10-23)
+
+Font bekleme, giriş penceresi ve perde bildirimi [`kapakOrtak.ts`](kapakOrtak.md)'ye taşındı; davranış aynı.
+`rotaPlani.ts`'teki `cikis`, `GIZLI`, `Yon` dışa açıldı ([izPlani](izPlani.md) kullanır). Lejantsız kapak:
+[`IzKapak`](IzKapak.md).

@@ -27,3 +27,20 @@ export function Igne({ olcek = 1, className }: { olcek?: number; className?: str
     </svg>
   );
 }
+
+/**
+ * Hazine haritasının "X"i: mekânı iğne yerine işaretler (HARITA-KONSEPTI §4.3).
+ * İki kalın rota çizgisi, altlarında arazinin üstünde okunsun diye beyaz bir
+ * iz; gölge yok. Ölçü 40 × 40, `merkez` işaretin haritaya değdiği nokta.
+ */
+export const CARPI_OLCU = { boyut: 40, merkez: 20 } as const;
+
+export function Carpi({ olcek = 1, className }: { olcek?: number; className?: string }) {
+  const d = 'M9 9l22 22M31 9 9 31';
+  return (
+    <svg aria-hidden="true" viewBox="0 0 40 40" width={CARPI_OLCU.boyut * olcek} height={CARPI_OLCU.boyut * olcek} className={className}>
+      <path d={d} stroke={HARITA_RENK.yol} strokeWidth="11" strokeLinecap="round" />
+      <path d={d} stroke={HARITA_RENK.rota} strokeWidth="6" strokeLinecap="round" />
+    </svg>
+  );
+}

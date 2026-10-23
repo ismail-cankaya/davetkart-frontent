@@ -32,3 +32,13 @@ Kâğıt'ın Söz Senedi'ndeki kabartma halkalardan ayrıdır: düz 2 px kontur,
 
 `x`, `y` prop'ları simgeyi iç içe SVG olarak (rota durakları) konumlar. Hangi başlığın hangi simgeyi
 aldığı [`veri.ts` → `durakSimgesi`](veri.md)'dedir.
+
+## Doğum günü eki (2026-10-23)
+
+| Simge | Çizim |
+|---|---|
+| `balon` | Elips gövde, dolu düğüm, dalgalı ip |
+| `hediye` | Kutu + kapak + dikey kurdele + iki fiyonk ilmeği |
+| `zar` | Yuvarlak köşeli kare, çaprazda üç nokta (oyun) |
+
+24 px ızgara, 2 px kontur, `currentColor`.

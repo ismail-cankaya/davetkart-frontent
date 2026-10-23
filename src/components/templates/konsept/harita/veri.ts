@@ -38,7 +38,9 @@ export function haritaTarihi(date: string | null | undefined): HaritaTarihi {
  * eşleşen kazanır: "Nişan" iki halka, "Yüzük takma" yüzük; "Kahve ikramı"
  * kahve (kadehten önce), "Tatlı ikramı" tatlı.
  */
-const SIMGE_SOZLUGU: [DurakSimgeAdi, string[]][] = [
+export type SimgeSozlugu = [DurakSimgeAdi, string[]][];
+
+const SIMGE_SOZLUGU: SimgeSozlugu = [
   ['pasta', ['pasta']],
   ['halka', ['nişan', 'nisan', 'söz ']],
   ['yuzuk', ['nikâh', 'nikah', 'tören', 'toren', 'yüzük', 'yüzüğ', 'evlilik', 'imza']],
@@ -49,12 +51,20 @@ const SIMGE_SOZLUGU: [DurakSimgeAdi, string[]][] = [
   ['yemek', ['yemek', 'yemeğ', 'ziyafet', 'menü', 'sofra', 'kahvaltı', 'öğle']],
   ['kadeh', ['karşılama', 'kokteyl', 'hoş geldin', 'ikram', 'içecek']],
   ['muzik', ['dans', 'müzik', 'eğlence', 'kutlama', 'parti', 'konser', 'sahne', 'halay', ' dj ']],
-  ['kamera', ['fotoğraf', 'fotograf', 'çekim']]
+  ['kamera', ['fotoğraf', 'fotograf', 'çekim']],
+  // Doğum günü (2026-10-23). Sonda: önceki sözcüklerle çakışmaz. "Oyun" müzikten
+  // sonradır: "Eğlence ve oyun havaları" müzik simgesini alır.
+  ['hediye', ['hediye']],
+  ['zar', ['oyun', 'hazine av', 'saklambaç', 'yarışma']]
 ];
 
-export function durakSimgesi(baslik: string): DurakSimgeAdi | null {
+/**
+ * Bir kategorinin ya da preset'in sözlüğü genel sözlükten ÖNCE aranır:
+ * çocuk doğum gününde "Karşılama" kadeh değil balondur (`ek`).
+ */
+export function durakSimgesi(baslik: string, ek: SimgeSozlugu = []): DurakSimgeAdi | null {
   const metin = ` ${baslik.toLocaleLowerCase('tr')} `;
-  for (const [simge, sozcukler] of SIMGE_SOZLUGU) {
+  for (const [simge, sozcukler] of [...ek, ...SIMGE_SOZLUGU]) {
     if (sozcukler.some((s) => metin.includes(s))) return simge;
   }
   return null;
@@ -85,11 +95,11 @@ export interface LejantVerisi {
  * Lejant: açık program adımları (en çok üç) + mekân. Program kapalıysa ya da
  * boşsa tarih ve mekân; ikisi de yoksa lejant boştur ve çizilmez.
  */
-export function lejantKur(invitation: Invitation, enCok = 3): LejantVerisi {
+export function lejantKur(invitation: Invitation, enCok = 3, sozluk: SimgeSozlugu = []): LejantVerisi {
   const adimlar = invitation.showTimeline ? (invitation.timelineEvents ?? []).filter(hasTimelineEventContent) : [];
   const duraklar: Durak[] = adimlar.slice(0, enCok).map((adim, i) => {
     const ad = displayText(adim.title) || displayText(adim.description);
-    return { anahtar: adim.localKey, sira: i + 1, saat: displayText(adim.time), ad, simge: durakSimgesi(ad) };
+    return { anahtar: adim.localKey, sira: i + 1, saat: displayText(adim.time), ad, simge: durakSimgesi(ad, sozluk) };
   });
 
   const { gun, haftaGunu, saat } = haritaTarihi(invitation.date);

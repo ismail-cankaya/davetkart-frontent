@@ -31,3 +31,8 @@ genişlikte), rota zemin / beyaz yazı 6.69, klavye odağında mürekkep çerçe
 
 Lejantın altındaki not: **TEMSİLÎ HARİTA** (zorunlu, rehber §4.1) ve isteğe bağlı ölçek çubuğu +
 "1 cm = bir ömür". Beyaz zemin, gri yazı 7.00.
+
+## Doğum günü eki (2026-10-23)
+
+`Rozet` ve `Varisa` dışa açıldı: [`IzKapak`](IzKapak.md)'ın durak kutuları ve varış kartı lejantla aynı
+parçaları kullanır.

@@ -71,3 +71,7 @@ yayın %10–%66'sında eşit aralıklı (gizli başlangıç çıkarıldıktan s
 kavşaktan +%7'de başlar, `min(0.86, 1 − 60 px / uzunluk)`'ta biter: duraklar ortak yoldadır ve son
 durak iğnenin başının altında kalmaz (iğneye yukarıdan inen rotada baş, rotanın son ~45 px'inin
 üstündedir).
+
+## Doğum günü eki (2026-10-23)
+
+`cikis`, `GIZLI` ve `Yon` dışa açıldı; [`izPlani`](izPlani.md) kartuştan çıkışı aynı kuralla kurar.

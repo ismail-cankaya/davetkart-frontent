@@ -62,3 +62,9 @@ Hazine haritası ve alan planı eksenlerinin arazileri ilgili kategoriler gelinc
 eklenecek. Kapak ve rota onlar için de aynı kalır; yalnızca arazi ve `duzen`/`rota`/`sus` seçimi
 değişir. Dört düzen (`capraz`, `ayna`, `kenar`, `kavsak`) telefonda dört ayrı yerleşimdir; sonraki
 kategoriler bir kategorinin iki preset'ini farklı düzenlere dağıtır (K2).
+
+## Doğum günü eki (2026-10-23)
+
+Yeni: [`IzKapak`](IzKapak.md) (lejantsız kapak), [`izPlani`](izPlani.md), [`kapakOrtak`](kapakOrtak.md),
+[`HazineAdasi`](araziler/HazineAdasi.md), [`CarsiPlani`](araziler/CarsiPlani.md), `HARITA_TEMASI_SICAK`,
+`Carpi`, `Rozet`/`Varisa` dışa açıldı. Kullanan: [doğum günü](../../dogum-gunu/harita/index.md).

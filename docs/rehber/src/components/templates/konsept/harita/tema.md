@@ -58,3 +58,8 @@ Durum renkleri **kartta ölçüldü** (çizilmiş ekran, metin saydam, en kötü
 - Zarf açıkken arkadaki içerik artık `inert`; canlı modda odak kapının düğmesinde başlar
   ([HaritaZarf](HaritaZarf.md)).
 - Alt bilgi adları artık büyük harfe çevrilmiyor (ortak dal, K10).
+
+## Doğum günü eki (2026-10-23) — `HARITA_TEMASI_SICAK`
+
+`HARITA_TEMASI`'nın kopyası; yalnızca `base` zemini ve `mapHeader` `#F1E6C8`. Kartlar beyaz kalır.
+Sahne aynı zeminle çizilmelidir (`HaritaSahnesi zemin`).

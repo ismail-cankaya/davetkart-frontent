@@ -48,3 +48,15 @@ export const HARITA_TEMASI: SectionTheme = {
     errorInput: 'border-[#8F2A1A] focus:border-[#8F2A1A] focus:ring-[#8F2A1A]/25'
   }
 };
+
+/**
+ * Hazine haritası ekseninin teması (HARITA-KONSEPTI §2.2): sayfa zemini sıcak
+ * arazi `#F1E6C8`; geri kalan her şey `HARITA_TEMASI`. Kartlar yine beyaz,
+ * kontrastlar kartın kendisinde ölçülür; zemindeki başlık ve gövde mürekkep
+ * 10.85, gri 5.63 (hesaplandı; çizilmiş ekran ölçümü preset kılavuzunda).
+ */
+export const HARITA_TEMASI_SICAK: SectionTheme = {
+  ...HARITA_TEMASI,
+  base: KOK.replace('bg-[#EEF0E6]', 'bg-[#F1E6C8]'),
+  mapHeader: 'bg-[#F1E6C8]'
+};

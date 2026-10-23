@@ -23,3 +23,10 @@ okuyucu "İrem & Mehmet" okur, "İrem&Mehmet" değil).
 
 **Tuzak:** `cn()` (twMerge) yazı boyu sınıfını `leading-*`'tan sonra görürse `leading`'i siler. Satır
 yüksekliği bu yüzden boy sınıflarından **sonra** verilir.
+
+## Doğum günü eki (2026-10-23)
+
+| Prop | Varsayılan | Ne |
+|---|---|---|
+| `hizala` | `'sol'` | `'orta'`: metin, rota süsü ve alt başlık ortalı (hazine başlık bandı) |
+| `vurgu` | `'esit'` | `'ilk'`: ilk ad tam boy, sonrakiler 0.6 em ikinci satır; boy yalnızca ilk addan hesaplanır. Doğum gününde *Sahibi & Ev sahibi*; ikinci ad etiketlenmez |
