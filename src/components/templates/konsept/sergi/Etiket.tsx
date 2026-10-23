@@ -17,6 +17,11 @@ export interface EtiketProps {
    * söz (ör. "Rezerve"). Konseptin tek espri satırı da olabilir.
    */
   nokta?: string;
+  /**
+   * Künyenin son satırı: serginin küratörü (ör. doğum gününde ev sahibi).
+   * "Küratör" sözü etiketin dilidir; ad veriden gelir, boşsa satır yok.
+   */
+  kurator?: string;
   /** Alt bölümün küçük başlığı ("Açılış"). Bilgi satırı yoksa çizilmez. */
   bilgiBasligi?: string;
   /** Tarih, mekân satırları; boşlar atılır. İlki koyu yazılır. */
@@ -32,9 +37,9 @@ export interface EtiketProps {
  * tarih, saat, mekân. Boş satır çizilmez; hiçbir satır yoksa etiket de yok.
  * Rakamlar `tabular-nums`; uzun ad kesilmez, satır dengelenir.
  */
-export function Etiket({ sanatci, eser, yil, teknik, nokta, bilgiBasligi, bilgi = [], levha = false, gecikme, className }: EtiketProps) {
+export function Etiket({ sanatci, eser, yil, teknik, nokta, kurator, bilgiBasligi, bilgi = [], levha = false, gecikme, className }: EtiketProps) {
   const satirlar = bilgi.filter(Boolean);
-  const eserSatiri = Boolean(sanatci || eser || teknik || nokta);
+  const eserSatiri = Boolean(sanatci || eser || teknik || nokta || kurator);
   if (!eserSatiri && satirlar.length === 0) return null;
 
   return (
@@ -59,6 +64,11 @@ export function Etiket({ sanatci, eser, yil, teknik, nokta, bilgiBasligi, bilgi 
         <p className="mt-1.5 flex items-center gap-2 text-[var(--sg-etiket)]">
           <span aria-hidden="true" className="size-2.5 shrink-0 rounded-full bg-[var(--sg-vurgu-zemin)]" />
           {nokta}
+        </p>
+      )}
+      {kurator && (
+        <p className={cn('text-[var(--sg-etiket)]', (sanatci || eser || yil || teknik || nokta) && 'mt-1.5')}>
+          Küratör: <span className="text-[var(--sg-murekkep)]">{kurator}</span>
         </p>
       )}
       {satirlar.length > 0 && (

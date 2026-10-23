@@ -14,7 +14,7 @@ export { Etiket } from './Etiket';
 export type { EtiketProps } from './Etiket';
 export { SergiSayac } from './SergiSayac';
 export { SergiKapi } from './SergiKapi';
-export { EserEsik, EserIkiYarim, SOYUT_ESERLER } from './soyutEserler';
+export { EserEsik, EserIkiYarim, EserIlkIsler, EserOyunDonemi, EserKesifDonemi, EserBugun, EserYeniYas, SOYUT_ESERLER } from './soyutEserler';
 export type { SoyutEserAdi, SoyutEserTanimi } from './soyutEserler';
 export { useSergiFlavor } from './flavor';
 export type { SergiMetinleri } from './flavor';

@@ -53,6 +53,74 @@ export function EserIkiYarim({ className, pano = 'sol' }: EserProps & { pano?: '
   );
 }
 
+/*
+ * Retrospektif (doğum günü, salon asması): dört küçük eser, her biri bir dönem.
+ * Tuvalleri çerçeve oranıyla aynıdır; yıl yazılmaz (veride yok). Hepsi aynı
+ * eser rengini paylaşır: tek renk kuralı salonda da geçerlidir.
+ */
+
+/** "İlk işler": duvar zeminde tek dolu daire ve bir yer çizgisi — ilk resim. 1 / 1. */
+export function EserIlkIsler({ className }: EserProps) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 300 300" preserveAspectRatio="xMidYMid slice" className={className}>
+      <rect width="300" height="300" fill="var(--sg-duvar)" />
+      <circle cx="150" cy="128" r="62" fill="var(--sg-eser)" />
+      <rect x="58" y="226" width="184" height="7" fill="var(--sg-murekkep)" />
+    </svg>
+  );
+}
+
+/** "Oyun dönemi": üst üste üç blok, en üstteki hafif eğik. 3 / 4. */
+export function EserOyunDonemi({ className }: EserProps) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid slice" className={className}>
+      <rect width="300" height="400" fill="var(--sg-duvar)" />
+      <rect x="62" y="270" width="176" height="62" fill="var(--sg-murekkep)" />
+      <rect x="92" y="196" width="116" height="74" fill="var(--sg-eser)" />
+      <rect x="122" y="140" width="52" height="52" fill="var(--sg-murekkep)" transform="rotate(9 148 166)" />
+    </svg>
+  );
+}
+
+/** "Keşif dönemi": eser renginde alan, köşeden köşeye bir yörünge ve ucunda duvar beyazı nokta. 4 / 3. */
+export function EserKesifDonemi({ className }: EserProps) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className={className}>
+      <rect width="400" height="300" fill="var(--sg-eser)" />
+      <path d="M64 236 C 150 236, 220 120, 318 92" fill="none" stroke="var(--sg-murekkep)" strokeWidth="6" />
+      <circle cx="318" cy="92" r="16" fill="var(--sg-duvar)" />
+    </svg>
+  );
+}
+
+/** "Bugün": tek mum — mürekkep gövde, eser renginde alev, altta yer çizgisi. 2 / 3. */
+export function EserBugun({ className }: EserProps) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 200 300" preserveAspectRatio="xMidYMid slice" className={className}>
+      <rect width="200" height="300" fill="var(--sg-duvar)" />
+      <path d="M100 74 C 120 104, 122 124, 100 136 C 78 124, 80 104, 100 74 Z" fill="var(--sg-eser)" />
+      <rect x="90" y="146" width="20" height="98" fill="var(--sg-murekkep)" />
+      <rect x="44" y="244" width="112" height="6" fill="var(--sg-murekkep)" />
+    </svg>
+  );
+}
+
+/**
+ * "Yeni Yaş" (doğum günü, tek eser): yarım kalmış bir tuval. Kalın eser
+ * renginde bir yay tuvalin ortasında kesilir; devamı ve bir daire yalnızca
+ * kesik kurşun kalem çizgisiyle eskizdir — yeni yaş henüz çiziliyor. 5 / 4.
+ */
+export function EserYeniYas({ className }: EserProps) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 500 400" preserveAspectRatio="xMidYMid slice" className={className}>
+      <rect width="500" height="400" fill="var(--sg-duvar)" />
+      <path d="M262 186 C 300 240, 350 300, 420 262" fill="none" stroke="var(--sg-murekkep)" strokeOpacity="0.5" strokeWidth="2" strokeDasharray="7 9" />
+      <circle cx="372" cy="118" r="44" fill="none" stroke="var(--sg-murekkep)" strokeOpacity="0.5" strokeWidth="2" strokeDasharray="7 9" />
+      <path d="M80 318 C 128 170, 210 128, 262 186" fill="none" stroke="var(--sg-eser)" strokeWidth="34" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export interface SoyutEserTanimi {
   Bilesen: React.ComponentType<EserProps>;
   /** Etiketteki eser adı. */
@@ -63,7 +131,12 @@ export interface SoyutEserTanimi {
 
 export const SOYUT_ESERLER = {
   esik: { Bilesen: EserEsik, ad: 'Eşik', teknik: 'Tuval üzerine akrilik' },
-  ikiYarim: { Bilesen: EserIkiYarim, ad: 'İki Yarım', teknik: 'Diptik, tuval üzerine akrilik' }
+  ikiYarim: { Bilesen: EserIkiYarim, ad: 'İki Yarım', teknik: 'Diptik, tuval üzerine akrilik' },
+  ilkIsler: { Bilesen: EserIlkIsler, ad: 'İlk işler', teknik: 'Kâğıt üzerine guaj' },
+  oyunDonemi: { Bilesen: EserOyunDonemi, ad: 'Oyun dönemi', teknik: 'Ahşap üzerine boya' },
+  kesifDonemi: { Bilesen: EserKesifDonemi, ad: 'Keşif dönemi', teknik: 'Tuval üzerine akrilik' },
+  bugun: { Bilesen: EserBugun, ad: 'Bugün', teknik: 'Tuval üzerine akrilik' },
+  yeniYas: { Bilesen: EserYeniYas, ad: 'Yeni Yaş', teknik: 'Tuval üzerine akrilik ve kurşun kalem' }
 } as const satisfies Record<string, SoyutEserTanimi>;
 
 export type SoyutEserAdi = keyof typeof SOYUT_ESERLER;
