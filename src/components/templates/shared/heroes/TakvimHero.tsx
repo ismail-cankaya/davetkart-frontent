@@ -196,7 +196,7 @@ export function TakvimHero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, ease: ease.out, delay: 0.3 }}
-              className={cn('block text-center text-[9px] font-semibold uppercase tracking-[0.36em]', theme.body)}
+              className={cn('block text-center text-[9px] font-semibold tracking-[0.36em]', theme.body)}
             >
               {invitation.title}
             </motion.span>
@@ -304,7 +304,7 @@ export function TakvimHero({
                       Saat {grid.time}
                     </span>
                   )}
-                  {venue && <span className={cn('text-[10px] uppercase tracking-[0.24em] max-w-[16rem]', theme.body)}>{venue}</span>}
+                  {venue && <span className={cn('text-[10px] tracking-[0.24em] max-w-[16rem]', theme.body)}>{venue}</span>}
                 </div>
               )}
             </motion.div>
