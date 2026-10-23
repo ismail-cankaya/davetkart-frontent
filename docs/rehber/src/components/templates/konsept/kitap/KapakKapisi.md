@@ -1,6 +1,6 @@
 # `konsept/kitap/KapakKapisi.tsx` — kapak kapısı (`renderEnvelope`)
 
-> **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (eğri `ease.inOut`, §11) · dal `design/kitap` ·
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (eğri `ease.inOut`, §11), 2026-10-23 (`bez`/`etiket` isteğe bağlı) · dal `design/kitap` ·
 > Kaynak: [KITAP-KONSEPTI §4.1, §6, §11](../../../../../tasarim/KITAP-KONSEPTI.md)
 
 ---
@@ -18,6 +18,10 @@ Ortak `Envelope` ile aynı sözleşme (`EnvelopeRenderProps`) + `bez`, `etiket`,
 `dugme`yi ("Kapağı açın") alt yuvasına yerleştirir. Kullanan: nişanın pencereli kapağı
 ([NisanKitapOnsoz](../../nisan/kitap/NisanKitapOnsoz/index.md)). Ölçüldü (2026-10-22): pencereli
 kapı 360 px'te 822 ms'de, 1280 px'te 828 ms'de kalkar; 90°'yi 429 ms'de geçer.
+
+2026-10-23: `bez` ve `etiket` yalnızca varsayılan yüz (`BezKapak`) içindir; `yuz` verilince
+gerekmez (doğum gününün defter ve masal kapakları). Verilmezse `sise` / boş. Ölçüldü: defter ve masal
+kapısı 360 px'te 832 / 831 ms, 1280 px'te 829 / 836 ms'de kalkar; azaltılmışken 34 / 35 ms.
 
 ## 2. Zamanlama
 

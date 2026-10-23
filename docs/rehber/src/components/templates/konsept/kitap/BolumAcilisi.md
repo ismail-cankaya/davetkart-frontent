@@ -1,6 +1,6 @@
 # `konsept/kitap/BolumAcilisi.tsx` — başharfli ilk sayfa
 
-> **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (alt metin bloğu, §11), 2026-10-22 (`dizgi`) · dal `design/kitap`
+> **Tarih:** 2026-10-17 · güncelleme 2026-10-20 (alt metin bloğu, §11), 2026-10-22 (`dizgi`), 2026-10-23 (`adlarDizgisi`) · dal `design/kitap`
 
 ---
 
@@ -53,3 +53,10 @@ başharfi böylece hiç kullanılmaz.
 | Zarfsız — kapak hemen üstünde | `false` (tekrar yok) | `gorununce` (0.4 s, bir kez) |
 
 Boş alanlar çizilmez: başlık, alt metin, tarih, mekân, sayaç tek tek.
+
+## 5. `adlarDizgisi` (2026-10-23)
+
+`adlar` açıkken `KitapAdlar`'ın (`A & B` eşit dizgi) yerine çağıranın düğümü dizilir. Doğum günü
+`names`'i *Sahibi & Ev sahibi* olarak okur: sahibi büyük başlık, ev sahibi künye satırı
+([`dogum-gunu/kitap/ortak`](../../dogum-gunu/kitap/ortak.md) → `SahipAdi`). Düğüm `h1`'i kendisi
+taşımalıdır. Verilmezse çıktı değişmez.

@@ -24,6 +24,8 @@ konseptidir. Kategoriler yalnızca `index.ts`'ten içe alır.
 | `KapakKapisi.tsx` | Zarf modülünün kitap karşılığı (`renderEnvelope`) | [KapakKapisi](KapakKapisi.md) |
 | `BolumAcilisi.tsx` | Başharfli ilk sayfa (bez cilt ekseni) | [BolumAcilisi](BolumAcilisi.md) |
 | `IcKapak.tsx` | Künye düzenli başlık sayfası (iç kapak ekseni) | [IcKapak](IcKapak.md) |
+| `DefterKapak.tsx` | Anı defteri kapağı (lastik, etiket kâğıdı) + çizgili sayfa | [DefterKapak](DefterKapak.md) |
+| `MasalKapak.tsx` | Masal kitabı kapağı (çift çizgi çerçeve, figür yuvası) + çerçeveli sayfa | [MasalKapak](MasalKapak.md) |
 | `Adlar.tsx` | Adlar alt alta, Caslon italik `&` | [Adlar](Adlar.md) |
 | `KitapSayac.tsx` | Dizgi satırı geri sayım | [KitapSayac](KitapSayac.md) |
 | `bolumBasliklari.ts` | Kitap dilinde başlıklar, açık bölümlerden Roma rakamı | [bolumBasliklari](bolumBasliklari.md) |

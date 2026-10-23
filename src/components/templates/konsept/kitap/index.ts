@@ -13,6 +13,8 @@ export { KapakKapisi } from './KapakKapisi';
 export type { KapakKapisiProps } from './KapakKapisi';
 export { BolumAcilisi } from './BolumAcilisi';
 export { IcKapak } from './IcKapak';
+export { DefterKapak, CizgiliSayfa } from './DefterKapak';
+export { MasalKapak, MasalCercevesi, MasalSayfasi } from './MasalKapak';
 export { KitapAdlar, adlarBoyu } from './Adlar';
 export { KitapSayac } from './KitapSayac';
 export { SayfaBasi } from './SayfaBasi';

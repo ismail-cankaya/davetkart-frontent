@@ -28,8 +28,10 @@ import { YAN_KAGIDI, type BezAdi } from './palet';
  * verilmezse `BezKapak`. Yüz "Kapağı açın" düğmesini kendi alt yuvasına koyar.
  */
 export interface KapakKapisiProps extends EnvelopeRenderProps {
-  bez: BezAdi;
-  etiket: string;
+  /** Varsayılan yüzün (`BezKapak`) bezi; `yuz` verilince kullanılmaz. */
+  bez?: BezAdi;
+  /** Varsayılan yüzün etiketi; `yuz` verilince kullanılmaz. */
+  etiket?: string;
   altSatir?: string;
   /**
    * Kapağın ön yüzü. `dugme` "Kapağı açın"dır; `className` yüzü kapıya
@@ -40,7 +42,7 @@ export interface KapakKapisiProps extends EnvelopeRenderProps {
 
 const YUZ_SINIFI = 'absolute inset-0 [backface-visibility:hidden]';
 
-export function KapakKapisi({ invitation, onRevealStart, onOpened, bez, etiket, altSatir, yuz }: KapakKapisiProps) {
+export function KapakKapisi({ invitation, onRevealStart, onOpened, bez = 'sise', etiket = '', altSatir, yuz }: KapakKapisiProps) {
   const [aciliyor, setAciliyor] = useState(false);
   const reduced = useReducedMotion();
   const bitti = useRef(false);

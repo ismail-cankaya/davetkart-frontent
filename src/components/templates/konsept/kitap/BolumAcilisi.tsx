@@ -35,6 +35,11 @@ interface BolumAcilisiProps {
   etiket: string;
   /** Adlar bu sayfada başlık olarak dizilsin mi? */
   adlar: boolean;
+  /**
+   * `adlar` açıkken adların yerine dizilecek başlık (ör. doğum gününde
+   * sahibi büyük, ev sahibi künye satırı). Verilmezse `KitapAdlar`.
+   */
+  adlarDizgisi?: React.ReactNode;
   /** İlk ekransa yüklenince, kapağın altındaysa görününce girer. */
   giris: 'yuklenince' | 'gorununce';
   /** Sayfa numarası (süs). */
@@ -54,7 +59,7 @@ const BASHARF = [
   'first-letter:[font-family:var(--kt-baslik-font)]'
 ].join(' ');
 
-export function BolumAcilisi({ invitation, etiket, adlar, giris, sayfaNo, dizgi = 'basharf', className }: BolumAcilisiProps) {
+export function BolumAcilisi({ invitation, etiket, adlar, adlarDizgisi, giris, sayfaNo, dizgi = 'basharf', className }: BolumAcilisiProps) {
   const baslik = displayText(invitation.title);
   const altBaslik = displayText(invitation.subtitle);
   const mekan = displayText(invitation.venue);
@@ -68,7 +73,8 @@ export function BolumAcilisi({ invitation, etiket, adlar, giris, sayfaNo, dizgi 
       <motion.div {...hareket} className="flex w-full max-w-[34em] flex-col items-center">
         <p className="text-[11px] uppercase tracking-[0.32em] text-[#8C2F2F]">{etiket}</p>
 
-        {adlar && (
+        {adlar && adlarDizgisi && <div className="mt-8">{adlarDizgisi}</div>}
+        {adlar && !adlarDizgisi && (
           <KitapAdlar
             adlar={kisiler(invitation.names)}
             as="h1"
