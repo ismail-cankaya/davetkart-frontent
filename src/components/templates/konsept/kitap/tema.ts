@@ -12,6 +12,14 @@ import type { SectionTheme } from '../../shared/palette';
  * 32 px altında kopar (KITAP-KONSEPTI §3.2). Öbür `font-serif`'ler (program
  * adımı, mekân satırı) Caslon Text kalır. Varyantlar iki sınıflı seçicidir;
  * bileşenlerin `text-2xl`/`font-bold`'unu sıradan bağımsız yener.
+ *
+ * Ortak kancalar (KONSEPT-ORTAK §3.1, K8 · K10):
+ * - `timelineLayout: 'icindekiler'` — program noktalı satırlarla dizilir.
+ * - `hideMapHeader` — kitapta harita yok; Detaylar kartı soyut harita
+ *   başlığı olmadan başlar.
+ * - `sectionMotion` 0.4 s / 12 px — kitabın kısa "bölüm girişi" (§6).
+ * - `status` — kitabın kendi mürekkepleri: onay şişe yeşili, hata koyu
+ *   kurdele (şamuada ölçüldü, tema.md).
  */
 const KOK = [
   'bg-[#F2EAD3]',
@@ -21,7 +29,10 @@ const KOK = [
   '[&_h2.font-serif]:font-normal',
   '[&_h2.font-serif]:text-[2.125rem]',
   '[&_h2.font-serif]:leading-[1.12]',
-  '[&_h2.font-serif]:[text-wrap:balance]'
+  '[&_h2.font-serif]:[text-wrap:balance]',
+  // İçindekiler noktaları: ortak %60 opaklık şamuada 2.63 kalıyordu; %80 ile
+  // 3.95 (çizilmiş ekranda ölçüldü). Noktalar süstür ama gözü saate taşır.
+  '[&_.border-dotted]:opacity-80'
 ].join(' ');
 
 export const KITAP_TEMASI: SectionTheme = {
@@ -41,7 +52,14 @@ export const KITAP_TEMASI: SectionTheme = {
   buttonGhost: 'border border-[#8C2F2F] text-[#8C2F2F] hover:bg-[#8C2F2F]/[0.06] rounded-[2px]',
   divider: 'bg-[#231F1A]/15',
   timelineLine: 'from-[#8C2F2F] via-[#8C2F2F]/40 to-transparent',
-  mapHeader: 'bg-[#E8DDC0]',
+  timelineLayout: 'icindekiler',
+  hideMapHeader: true,
+  sectionMotion: { duration: 0.4, distance: 12 },
+  status: {
+    success: 'bg-[#1F3A2E]/10 text-[#1F3A2E]',
+    error: 'text-[#74262A]',
+    errorInput: 'border-[#74262A] focus:border-[#74262A] focus:ring-[#74262A]/25'
+  },
   // Ortak alt bilgi opaklıkla soluklaşır; şamuada tam `soluk` 6.17.
   footer: { names: 'text-[#5E5446]', branding: 'text-[#5E5446]' }
 };

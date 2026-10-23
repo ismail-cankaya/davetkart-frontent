@@ -1,4 +1,12 @@
-import { displayText, formatCalendarDay } from '../../utils';
+import { eventDateParts } from '../../shared/eventDate';
+import { displayText } from '../../utils';
+
+/**
+ * Kitabın tarih ve ad yardımcıları. Ayrıştırma ortaktır (K10):
+ * tarih `shared/eventDate.ts` → `eventDateParts`, adlar `utils/names.ts` →
+ * `splitPeople`. Burada yalnızca kitabın dili kalır (`tamTarih`).
+ */
+export { splitPeople as kisiler } from '../../../../utils/names';
 
 export interface KitapTarihi {
   /** "13 Şubat 2027" */
@@ -9,36 +17,22 @@ export interface KitapTarihi {
   saat: string;
 }
 
-const BOS: KitapTarihi = { gun: '', haftaGunu: '', saat: '' };
-const DUVAR_SAATI = /^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2}))?/;
-
 /**
- * Duvar saatini satırlarına ayırır. Saat dilimine çevrilmez: davetiye
- * etkinliğin kendi saatini yazar (utils/eventTime.ts). Tarih yoksa ya da
- * okunamıyorsa alanlar boştur ve sayfa o satırı hiç çizmez.
+ * Duvar saatini satırlarına ayırır (`eventDateParts`). Saat dilimine
+ * çevrilmez: davetiye etkinliğin kendi saatini yazar (utils/eventTime.ts).
+ * Tarih yoksa ya da okunamıyorsa alanlar boştur ve sayfa o satırı hiç çizmez.
+ *
+ * Değer önce kırpılır: ortak ayrıştırıcı baştaki/sondaki boşlukla gelen
+ * duvar saatini okuyamıyor (`new Date(' 2027-02-19T09:05 ')`), eski kit
+ * okuyordu. Eski uygulamayla karşılaştırma: tarih.md.
  */
 export function kitapTarihi(date: string | null | undefined): KitapTarihi {
-  const m = DUVAR_SAATI.exec(displayText(date));
-  if (!m) return BOS;
-  const takvim = new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
-  if (Number.isNaN(takvim.getTime())) return BOS;
-  return {
-    gun: formatCalendarDay(m[0]) ?? '',
-    haftaGunu: takvim.toLocaleDateString('tr-TR', { weekday: 'long' }),
-    saat: m[4] ? `${m[4]}:${m[5]}` : ''
-  };
+  const { day, weekday, time } = eventDateParts(displayText(date));
+  return { gun: day, haftaGunu: weekday, saat: time };
 }
 
 /** "Cumartesi, 13 Şubat 2027 · 19:00" — boş parçalar atılır. */
 export function tamTarih(t: KitapTarihi): string {
   const gun = t.haftaGunu && t.gun ? `${t.haftaGunu}, ${t.gun}` : t.gun;
   return [gun, t.saat].filter(Boolean).join(' · ');
-}
-
-/** Adları kişi kişi ayırır (`&`); boşlar atılır. Hiç ad yoksa boş dizi. */
-export function kisiler(names: string | null | undefined): string[] {
-  return displayText(names)
-    .split('&')
-    .map((ad) => ad.trim())
-    .filter(Boolean);
 }
