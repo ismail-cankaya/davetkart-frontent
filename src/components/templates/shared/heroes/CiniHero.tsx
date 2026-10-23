@@ -422,7 +422,7 @@ export function CiniHero({
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, ease: ease.out, delay: 0.9 }}
-              className="text-[9px] font-semibold uppercase tracking-[0.38em]"
+              className="text-[9px] font-semibold tracking-[0.38em]"
               style={{ color: cobalt }}
             >
               {invitation.title}
@@ -485,7 +485,7 @@ export function CiniHero({
               >
                 {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
                 {venue && (
-                  <span className="text-[10px] font-medium uppercase tracking-[0.24em]" style={{ color: cobalt }}>
+                  <span className="text-[10px] font-medium tracking-[0.24em]" style={{ color: cobalt }}>
                     {venue}
                   </span>
                 )}

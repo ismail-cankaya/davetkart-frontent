@@ -151,7 +151,7 @@ export function UfukHero({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, ease: ease.out, delay: t0 }}
-          className={cn('text-[10px] @sm:text-[11px] font-semibold uppercase tracking-[0.34em] leading-relaxed', theme.accent)}
+          className={cn('text-[10px] @sm:text-[11px] font-semibold tracking-[0.34em] leading-relaxed', theme.accent)}
           style={glowText}
         >
           <TrackingReveal text={title} spread={0.18} duration={1.4} delay={t0} />

@@ -108,7 +108,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, ease: ease.out, delay: textDelay + 0.1 }}
-            className={cn('text-[9px] font-semibold uppercase tracking-[0.44em]', theme.accent)}
+            className={cn('text-[9px] font-semibold tracking-[0.44em]', theme.accent)}
           >
             {invitation.title}
           </motion.span>
@@ -150,7 +150,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
               className="mt-8 flex flex-col items-center gap-2"
             >
               {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
-              {venue && <span className={cn('text-[9.5px] uppercase tracking-[0.3em]', theme.body)}>{venue}</span>}
+              {venue && <span className={cn('text-[9.5px] tracking-[0.3em]', theme.body)}>{venue}</span>}
             </motion.div>
           )}
 
