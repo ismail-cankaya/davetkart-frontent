@@ -1,0 +1,313 @@
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { motion } from 'motion/react';
+import { cn } from '../../../../utils/cn';
+import { displayText } from '../../utils';
+import type { HeroRenderProps } from '../../shared/InvitationComposition';
+import { Kartus } from './Kartus';
+import { Dipnot, Lejant } from './Lejant';
+import { Igne, IGNE_OLCU } from './Igne';
+import { Rota, type RotaStili } from './Rota';
+import { KuzeyOku, PusulaGulu } from './simgeler';
+import { genisMi, planGecerli, rotaPlani, type Duzen, type Kutu, type RotaPlani } from './rotaPlani';
+import { haritaTarihi, kisiler, lejantKur, type Durak } from './veri';
+import { HARITA_SURE, useHaritaHareketi } from './hareket';
+import { useGirisPenceresi, useKapakAltiBildirimi, useKatmanFontu, useOlcumEtkisi } from './kapakOrtak';
+
+/** Haritanın köşe süsü: şehirde kuzey oku, kırda pusula gülü. */
+export type KoseSusu = 'kuzey' | 'pusula';
+
+export interface HaritaKapakProps extends HeroRenderProps {
+  duzen: Duzen;
+  rota: RotaStili;
+  sus: KoseSusu;
+  /** Dipnotta ölçek esprisi ("1 cm = bir ömür") — konsept başına en çok bir espri. */
+  olcekEsprisi?: boolean;
+  /**
+   * Mekân etiketinin üstündeki küçük üretilen satır (ör. krokide "Buradayız").
+   * Yalnızca mekân varsa çizilir; mekân bilgisi yerine geçmez.
+   */
+  etiketUstu?: string;
+}
+
+/** Düzen × kadraj başına sınıflar. DOM sırası her düzende aynıdır: kartuş, ara, lejant. */
+interface Yerlesim {
+  kok: string;
+  kartus: string;
+  /** Dar kadrajda kutuların arasındaki (ya da önündeki) harita alanı. */
+  ara: string | null;
+  lejant: string;
+  /** Köşe süsünün yeri; `null` → ölçüden hesaplanır (dar `ayna`). */
+  sus: string | null;
+}
+
+const DAR_KARTUS = 'self-start w-[calc(100%-3rem)] max-w-[24rem] @3xl:max-w-[27rem]';
+const DAR_LEJANT = 'w-[calc(100%-2.5rem)] max-w-[22rem]';
+const GENIS_IZGARA = 'grid grid-cols-[minmax(0,27rem)_1fr_minmax(0,22rem)] grid-rows-[1fr] gap-x-8';
+
+function yerlesim(duzen: Duzen, genis: boolean, sus: KoseSusu): Yerlesim {
+  const kuzey = 'right-4 top-5 @3xl:right-10 @3xl:top-9';
+  const kose = sus === 'kuzey' ? kuzey : 'right-3 top-4 @3xl:right-9 @3xl:top-8';
+  if (!genis) {
+    if (duzen === 'ayna')
+      // Görsel sıra tersine döner — lejant üstte, kartuş altta.
+      return { kok: 'flex flex-col-reverse', kartus: DAR_KARTUS, ara: 'flex-1 min-h-[160px]', lejant: cn('self-end items-end', DAR_LEJANT), sus: null };
+    if (duzen === 'kenar')
+      // Harita üstte (ara önce çizilir), kartuş ve lejant altta üst üste: başlık bloğu.
+      return {
+        kok: 'flex flex-col',
+        kartus: 'self-start w-full max-w-[27rem]',
+        ara: 'order-first flex-1 min-h-[160px]',
+        lejant: 'mt-2.5 self-start items-end w-full max-w-[27rem]',
+        sus: kose
+      };
+    if (duzen === 'kavsak')
+      return { kok: 'flex flex-col', kartus: DAR_KARTUS, ara: 'flex-1 min-h-[168px]', lejant: cn('self-start items-start', DAR_LEJANT), sus: kose };
+    return { kok: 'flex flex-col', kartus: DAR_KARTUS, ara: 'flex-1 min-h-[160px]', lejant: cn('self-end items-end', DAR_LEJANT), sus: kose };
+  }
+  if (duzen === 'ayna')
+    return { kok: GENIS_IZGARA, kartus: 'col-start-1 row-start-1 self-end', ara: null, lejant: 'col-start-3 row-start-1 items-end self-start', sus: 'right-10 bottom-8' };
+  if (duzen === 'kenar')
+    // Sağ sütunda üst üste, dikeyde ortada; harita solda.
+    return {
+      kok: 'grid grid-cols-[minmax(0,1fr)_minmax(0,25rem)] grid-rows-[auto_auto] content-center gap-x-8 gap-y-3',
+      kartus: 'col-start-2 row-start-1',
+      ara: null,
+      lejant: 'col-start-2 row-start-2 items-end',
+      sus: sus === 'kuzey' ? 'left-10 top-9' : 'left-9 top-8'
+    };
+  if (duzen === 'kavsak')
+    // Kartuş ve lejant üst satırda karşı köşelerde; rota aşağıdaki araziye iner.
+    return { kok: GENIS_IZGARA, kartus: 'col-start-1 row-start-1 self-start', ara: null, lejant: 'col-start-3 row-start-1 items-end self-start', sus: 'left-10 bottom-8' };
+  return { kok: GENIS_IZGARA, kartus: 'col-start-1 row-start-1 self-start', ara: null, lejant: 'col-start-3 row-start-1 items-end self-end', sus: kose };
+}
+
+interface Olcu {
+  w: number;
+  h: number;
+  kartus: Kutu;
+  lejant: Kutu | null;
+}
+
+const kutu = (e: HTMLElement | null): Kutu | null =>
+  e && e.offsetWidth ? { x: e.offsetLeft, y: e.offsetTop, w: e.offsetWidth, h: e.offsetHeight } : null;
+
+const ayni = (a: Kutu | null, b: Kutu | null) => a === b || (!!a && !!b && a.x === b.x && a.y === b.y && a.w === b.w && a.h === b.h);
+
+/**
+ * Rota, iğne ve mekân etiketi: kartuşla lejantın ARASINDAKİ katman.
+ * Kutuların altında kalır (rota kartuşun kenarından çıkıyor görünür).
+ * Bütünü süstür; aynı bilgi lejantta gerçek metindir (`aria-hidden`).
+ */
+function HaritaKatmani({
+  plan,
+  olcu,
+  duraklar,
+  mekan,
+  stil,
+  genis,
+  girisBitti,
+  kayma,
+  etiketUstu
+}: {
+  plan: RotaPlani;
+  olcu: Olcu;
+  duraklar: Durak[];
+  mekan: string;
+  stil: RotaStili;
+  genis: boolean;
+  girisBitti: boolean;
+  /** Katman kapaktan kaç saniye sonra açıldı (fontlar beklendi). */
+  kayma: number;
+  etiketUstu?: string;
+}) {
+  // Geç açılan katmanın çizelgesi kalan pencereye sıkışır; pencere yetmiyorsa oynamaz.
+  const statik = girisBitti || kayma > HARITA_SURE.esnek;
+  const olcek = statik ? 1 : 1 - kayma;
+  const h = useHaritaHareketi(statik, olcek);
+  const { igne, etiket } = plan;
+  const basY = igne.y - (IGNE_OLCU.uc.y - IGNE_OLCU.bas.y);
+  return (
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+      <svg width={olcu.w} height={olcu.h} viewBox={`0 0 ${olcu.w} ${olcu.h}`} className="absolute inset-0">
+        <Rota
+          noktalar={plan.noktalar}
+          duraklar={duraklar}
+          stil={stil}
+          gizli={plan.gizli}
+          kol={plan.kol}
+          kavsak={plan.kavsak}
+          girisBitti={statik}
+          olcek={olcek}
+        />
+      </svg>
+
+      <div className="absolute" style={{ left: igne.x - IGNE_OLCU.uc.x, top: igne.y - IGNE_OLCU.uc.y }}>
+        <motion.div {...h.igne(0.55)} style={{ transformOrigin: '50% 100%' }}>
+          <Igne />
+        </motion.div>
+      </div>
+
+      {mekan && etiket.genislik >= 80 && (
+        <div
+          className="absolute -translate-y-1/2"
+          style={
+            etiket.yon === 'sag'
+              ? { left: igne.x + 22, top: basY, maxWidth: etiket.genislik }
+              : { right: olcu.w - igne.x + 22, top: basY, maxWidth: etiket.genislik }
+          }
+        >
+          {/* Dar kadrajda tek satır: etiket rotanın S kıvrımına binmesin. Tam ad lejantta. */}
+          <motion.p
+            {...h.belir(0.72, 0.25)}
+            className={cn(
+              'bg-white px-2 py-1 [font-family:var(--hr-etiket)] text-[15px] font-semibold leading-tight tracking-[0.03em] text-[#23303A]',
+              etiket.yon === 'sol' && 'text-right'
+            )}
+          >
+            {etiketUstu && <span className="block text-[11px] leading-snug tracking-[0.18em] uppercase text-[#A8321F]">{etiketUstu}</span>}
+            <span className={cn('block', genis ? 'line-clamp-2 break-words' : 'truncate')}>{mekan}</span>
+          </motion.p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Harita kapağı: tam ekran harita (arka plan `renderBackdrop`'ta), bir köşede
+ * kartuş, karşı köşede lejant, arada veriden kurulan rota.
+ *
+ * Kartuşla lejantın yeri ve boyu ölçülür (ResizeObserver + her çizimden sonra
+ * konum okuması); rota ve iğne bu ölçüden kurulur. Ölçü gelmeden rota
+ * çizilmez — sunucu çiziminde de çizilmez, bilgi yine eksiksizdir.
+ *
+ * Font geç gelince oynamama (HARITA-KONSEPTI §6):
+ *  1. Harita katmanı fontları bekler (en çok `fontBekleme`); kutular o sırada
+ *     yedek fontla girer. Katman geç açılırsa çizelgesi kalan pencereye sıkışır.
+ *  2. Plan ilk kurulduğunda sabitlenir; kutuların boyu sonradan değişse de
+ *     (font sınırdan da geç geldi) yalnızca plan bozulduysa yeniden kurulur
+ *     (`planGecerli`). Kadraj değişince (döndürme) her zaman yeniden kurulur.
+ */
+export function HaritaKapak({ invitation, scrollContainer, duzen, rota, sus, olcekEsprisi = false, etiketUstu }: HaritaKapakProps) {
+  const h = useHaritaHareketi();
+  const kokRef = useRef<HTMLElement | null>(null);
+  const kartusRef = useRef<HTMLDivElement | null>(null);
+  const lejantRef = useRef<HTMLDivElement | null>(null);
+  const [olcu, setOlcu] = useState<Olcu | null>(null);
+  const girisBitti = useGirisPenceresi();
+  const fontlar = useKatmanFontu();
+
+  const olc = () => {
+    const kok = kokRef.current;
+    const kartus = kutu(kartusRef.current);
+    if (!kok || !kartus) return;
+    const yeni: Olcu = { w: kok.clientWidth, h: kok.clientHeight, kartus, lejant: kutu(lejantRef.current) };
+    setOlcu((eski) =>
+      eski && eski.w === yeni.w && eski.h === yeni.h && ayni(eski.kartus, yeni.kartus) && ayni(eski.lejant, yeni.lejant) ? eski : yeni
+    );
+  };
+
+  // Konum boyuttan bağımsız değişebilir (yerleşim genişe geçince kutular yer
+  // değiştirir); bu yüzden her çizimden sonra bir kez okunur. Değişmediyse
+  // durum aynı nesne kalır ve yeniden çizim olmaz.
+  useOlcumEtkisi(olc);
+  useEffect(() => {
+    if (typeof ResizeObserver === 'undefined') return;
+    const ro = new ResizeObserver(() => olc());
+    for (const e of [kokRef.current, kartusRef.current, lejantRef.current]) if (e) ro.observe(e);
+    return () => ro.disconnect();
+  }, []);
+
+  // Kapağın alt kenarını sahneye bildirir: perde tam oradan başlar.
+  useKapakAltiBildirimi(kokRef, scrollContainer, olcu?.h ?? 0);
+
+  const genis = olcu ? genisMi(olcu.w, olcu.h) : false;
+  /** Dar ekranda `ayna`: lejant üstte, kartuş altta (DOM sırası değişmez: önce adlar). */
+  const aynaDar = duzen === 'ayna' && !genis;
+  const y = yerlesim(duzen, genis, sus);
+  const adlar = kisiler(invitation.names);
+  const ikiKol = adlar.length >= 2;
+
+  // Dar `ayna`da üst köşeler lejantındır: köşe süsü lejantın altına, kartuşun
+  // sol kenarı hizasına iner (temsilî harita notunun karşısı). Ölçü gelene dek çizilmez.
+  const susYeri: React.CSSProperties | null | undefined = aynaDar
+    ? olcu?.lejant
+      ? { left: olcu.kartus.x, top: olcu.lejant.y + olcu.lejant.h + 10 }
+      : null
+    : undefined;
+
+  const veri = useMemo(() => lejantKur(invitation), [invitation]);
+  const { gun, haftaGunu } = haritaTarihi(invitation.date);
+  const tarih = [gun, haftaGunu].filter(Boolean).join(' · ');
+  // İlk plan sabitlenir. Anahtar kadrajdır: dar ekranda yalnızca genişlik (kapak
+  // içerikle uzar; boyu fonttan etkilenir), genişte genişlik + boy.
+  const sabitPlan = useRef<{ anahtar: string; plan: RotaPlani } | null>(null);
+  const etiketYari = (genis ? 26 : 14) + (etiketUstu ? 9 : 0);
+  const plan = useMemo(() => {
+    if (!olcu || !fontlar.hazir) return null;
+    const anahtar = [duzen, genis ? `${olcu.w}x${olcu.h}` : olcu.w, ikiKol].join('|');
+    const eski = sabitPlan.current;
+    if (eski && eski.anahtar === anahtar && planGecerli(eski.plan, { kartus: olcu.kartus, lejant: olcu.lejant, etiketYari })) return eski.plan;
+    const yeni = rotaPlani({ w: olcu.w, h: olcu.h, kartus: olcu.kartus, lejant: olcu.lejant, duzen, genis, ikiKol });
+    sabitPlan.current = { anahtar, plan: yeni };
+    return yeni;
+  }, [olcu, fontlar.hazir, duzen, genis, ikiKol, etiketYari]);
+
+  return (
+    <section
+      ref={kokRef}
+      // Geniş kadrajda kartuş ve lejant çoğu düzende aynı satırı paylaşır: kapak
+      // ikisinin toplamı değil, büyüğü kadar uzar. Sınıflar: `yerlesim()`.
+      className={cn('relative flex-1 px-4 pt-5 pb-5 @3xl:px-10 @3xl:pt-9 @3xl:pb-8', y.kok)}
+    >
+      <Kartus
+        ref={kartusRef}
+        giris={h.kutu(0)}
+        baslik={displayText(invitation.title)}
+        adlar={adlar}
+        altBaslik={displayText(invitation.subtitle)}
+        tarih={tarih}
+        className={cn('z-10', y.kartus)}
+      />
+
+      {y.ara && <div aria-hidden="true" className={y.ara} />}
+
+      <div ref={lejantRef} className={cn('relative z-10 flex flex-col gap-2', y.lejant)}>
+        <Lejant veri={veri} invitation={invitation} giris={h.kutu(0.12)} className="w-full" />
+        <Dipnot olcek={olcekEsprisi} giris={h.belir(0.6)} />
+      </div>
+
+      {plan && olcu && (
+        <HaritaKatmani
+          plan={plan}
+          olcu={olcu}
+          duraklar={veri.duraklar}
+          mekan={veri.mekan}
+          stil={rota}
+          genis={genis}
+          girisBitti={girisBitti}
+          kayma={fontlar.kayma}
+          etiketUstu={etiketUstu}
+        />
+      )}
+
+      {susYeri !== null && (
+        <motion.div
+          aria-hidden="true"
+          {...h.belir(0.45)}
+          style={susYeri}
+          className={cn('pointer-events-none absolute z-0 text-[#23303A]', y.sus)}
+        >
+          {sus === 'kuzey' ? (
+            <span className="flex flex-col items-center gap-0.5 rounded-full bg-white px-2 pt-2 pb-1.5">
+              <KuzeyOku boyut={22} />
+              <span className="[font-family:var(--hr-etiket)] text-[12px] font-semibold leading-none">K</span>
+            </span>
+          ) : (
+            <PusulaGulu boyut={genis ? 52 : 44} />
+          )}
+        </motion.div>
+      )}
+    </section>
+  );
+}
