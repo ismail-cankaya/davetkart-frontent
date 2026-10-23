@@ -149,9 +149,10 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
           )}
         </div>
 
-        {/* Dot navigation — her nokta 44 × 44 düğme, görünen nokta aynı. Üst
-            boşluk düğmenin fazlası kadar kısalır, alttaki fazlalık geri alınır:
-            noktanın dikey yeri ve bölümün yüksekliği değişmez. */}
+        {/* Dot navigation — ikincil gezinme (asıl yol oklar, 44 px): her nokta
+            24 × 44 düğme (WCAG 2.5.8), görünen nokta aynı. Üst boşluk düğmenin
+            fazlası kadar kısalır, alttaki fazlalık geri alınır: noktanın dikey
+            yeri ve bölümün yüksekliği değişmez. */}
         {images.length > 1 && (
           <div className="flex items-center justify-center mt-px -mb-[19px]">
             {images.map((image, dotIndex) => (
@@ -162,7 +163,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
                 onClick={() => {
                   if (dotIndex !== index) goTo(() => dotIndex, dotIndex > index ? 1 : -1);
                 }}
-                className="min-w-11 h-11 flex items-center justify-center rounded-full cursor-pointer"
+                className="w-6 h-11 flex items-center justify-center rounded-full cursor-pointer"
               >
                 <span
                   className={cn(

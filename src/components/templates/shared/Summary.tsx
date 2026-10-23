@@ -151,7 +151,7 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2, ease: ease.out, delay: 0.3 }}
-          className={cn('text-[10px] font-semibold uppercase tracking-[0.35em]', theme.accent)}
+          className={cn('text-[10px] font-semibold tracking-[0.35em]', theme.accent)}
         >
           <TrackingReveal text={invitation.title} spread={-0.25} duration={1.2} delay={0.3} />
         </motion.span>
@@ -214,8 +214,10 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
                 {dateLabel}
               </span>
             )}
+            {/* Mekân kullanıcı metnidir: harfi değiştirilmez. Küçük harf aynı
+                puntoda büyük harften küçük durduğu için 1 px büyük. */}
             {venue && (
-              <span className={cn('font-medium tracking-[0.15em] uppercase', compact ? 'text-[11px]' : 'text-[11px] @md:text-xs', theme.body)}>
+              <span className={cn('font-medium tracking-[0.12em]', compact ? 'text-[12px]' : 'text-[12px] @md:text-[13px]', theme.body)}>
                 {venue}
               </span>
             )}

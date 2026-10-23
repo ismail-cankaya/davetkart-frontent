@@ -39,7 +39,8 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
     });
   }
   if (venue) {
-    infoItems.push({ key: 'venue', node: <span>{venue}</span> });
+    // Şerit büyük harftir; mekân kullanıcı metni olduğu için harfi korunur.
+    infoItems.push({ key: 'venue', node: <span className="normal-case">{venue}</span> });
   }
   if (invitation.showTimer && valid) {
     infoItems.push({
@@ -69,7 +70,7 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
           className="flex items-center justify-center gap-4 mb-8 @sm:mb-12"
         >
           <span className={cn('h-px w-8 @sm:w-14', theme.divider)} />
-          <span className={cn('text-[9px] font-medium uppercase tracking-[0.4em]', theme.accent)}>
+          <span className={cn('text-[9px] font-medium tracking-[0.4em]', theme.accent)}>
             {invitation.title}
           </span>
           <span className={cn('h-px w-8 @sm:w-14', theme.divider)} />

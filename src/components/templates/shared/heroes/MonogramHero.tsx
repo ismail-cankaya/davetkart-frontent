@@ -356,7 +356,7 @@ export function MonogramHero({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, ease: ease.out, delay: 0.75 }}
-            className={cn('mt-6 text-[9px] font-semibold uppercase tracking-[0.4em]', theme.body)}
+            className={cn('mt-6 text-[9px] font-semibold tracking-[0.4em]', theme.body)}
           >
             {invitation.title}
           </motion.span>
@@ -404,7 +404,7 @@ export function MonogramHero({
                 </>
               )}
               {venue && (
-                <span className={cn('mt-3 text-[10px] uppercase tracking-[0.26em] max-w-[16rem]', theme.body)}>{venue}</span>
+                <span className={cn('mt-3 text-[10px] tracking-[0.26em] max-w-[16rem]', theme.body)}>{venue}</span>
               )}
             </motion.div>
           )}

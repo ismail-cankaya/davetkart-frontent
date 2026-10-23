@@ -165,7 +165,7 @@ export function TerrazzoHero({
           <Ornament size={26} />
         </motion.span>
 
-        <span className={cn('block mt-5 text-[9.5px] font-semibold uppercase tracking-[0.28em]', theme.body)}>
+        <span className={cn('block mt-5 text-[9.5px] font-semibold tracking-[0.28em]', theme.body)}>
           {invitation.title || flavor.envelopeLabel}
         </span>
 

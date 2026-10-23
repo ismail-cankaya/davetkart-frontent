@@ -116,7 +116,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
             className="mt-5 flex flex-wrap items-baseline gap-x-6 gap-y-2"
           >
             {dateLabel && <span className={cn('font-serif font-bold text-xl @sm:text-2xl', theme.heading)}>{dateLabel}</span>}
-            {venue && <span className={cn('text-[11px] font-bold uppercase tracking-[0.18em]', theme.body)}>{venue}</span>}
+            {venue && <span className={cn('text-[11px] font-bold tracking-[0.18em]', theme.body)}>{venue}</span>}
           </motion.div>
         )}
 

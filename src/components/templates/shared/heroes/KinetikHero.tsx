@@ -165,7 +165,7 @@ export function KinetikHero({ invitation, theme, flavor, topWord }: KinetikHeroP
           >
             {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-2xl', theme.heading)}>{dateLabel}</span>}
             {venue && (
-              <span className={cn('text-[10px] font-semibold uppercase tracking-[0.28em]', theme.accent)}>{venue}</span>
+              <span className={cn('text-[10px] font-semibold tracking-[0.28em]', theme.accent)}>{venue}</span>
             )}
           </motion.div>
         )}

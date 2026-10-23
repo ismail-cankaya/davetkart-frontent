@@ -172,7 +172,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, ease: ease.out, delay: 0.4 }}
-          className={cn('text-[9px] font-semibold uppercase tracking-[0.4em]', theme.accent)}
+          className={cn('text-[9px] font-semibold tracking-[0.4em]', theme.accent)}
         >
           {invitation.title}
         </motion.span>
@@ -206,7 +206,7 @@ export function YildizHero({ invitation, theme, flavor, star = '#ffffff', line }
             className={cn('mt-6 flex flex-col items-center gap-1.5 pt-5 border-t w-full max-w-[15rem]', theme.border)}
           >
             {dateLabel && <span className={cn('font-serif italic text-lg @sm:text-xl', theme.heading)}>{dateLabel}</span>}
-            {venue && <span className={cn('text-[10px] uppercase tracking-[0.24em]', theme.body)}>{venue}</span>}
+            {venue && <span className={cn('text-[10px] tracking-[0.24em]', theme.body)}>{venue}</span>}
           </motion.div>
         )}
 

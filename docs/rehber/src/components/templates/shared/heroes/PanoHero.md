@@ -27,3 +27,7 @@ Tarih ve mekân satırları da aynı `FlapRow`'u kullandığı için onlar da d�
 İsim satırının kanat sınırı artık prop: `nameMax` (varsayılan 20 — davranış aynı).
 Kanat genişliği sabit olduğundan sınırı büyütmek 360 px'te satır sayısını artırır;
 şablon bunu bilerek seçmelidir.
+
+## Kullanıcı metninin harfi (2026-10-22 · dal `design/konsept-ortak`, N3)
+
+Başlık üst etiketinden `uppercase` kaldırıldı (punto ve aralık aynı). Tablo: `../Summary.md` §3.

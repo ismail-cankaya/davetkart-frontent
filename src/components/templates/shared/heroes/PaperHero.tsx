@@ -79,7 +79,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor, paper }: Paper
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, ease: ease.out, delay: 0.4 }}
-            className={cn('mt-5 text-[9px] font-semibold uppercase tracking-[0.42em]', theme.body)}
+            className={cn('mt-5 text-[9px] font-semibold tracking-[0.42em]', theme.body)}
             style={emboss}
           >
             {invitation.title}
@@ -125,7 +125,7 @@ export function PaperHero({ invitation, theme, flavor, sealColor, paper }: Paper
                 </span>
               )}
               {venue && (
-                <span className={cn('text-[10px] uppercase tracking-[0.26em]', theme.body)} style={emboss}>
+                <span className={cn('text-[10px] tracking-[0.26em]', theme.body)} style={emboss}>
                   {venue}
                 </span>
               )}

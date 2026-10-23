@@ -99,6 +99,8 @@ tek tek kapalı, hepsi kapalı.
   değerler formülle **hesaplandı**; ajan çizilmiş ekranda **ölçer**. Doku ya da görsel üstündeki yazı en
   kötü noktasında ölçülür.
 - **Erişim:** `alt` metinleri; süs görselleri `aria-hidden`; klavye ile gezilir; dokunma hedefi ≥ 44 px.
+  **Tek istisna:** galeri noktaları ikincil gezinmedir — 24 px genişlik × 44 px yükseklik (WCAG 2.2 AA
+  2.5.8); oklar 44 × 44 kalır (N2, 2026-10-22).
 - **Hareket:** yalnızca `transform` ve `opacity`; `prefers-reduced-motion`'da atlanır (App'teki
   `MotionConfig reducedMotion="user"` + CSS'te `motion-safe:`); hero'da son öğenin gecikme + süresi ≤ 1.0 s.
 - **Görsel:** WebP/AVIF; kapak öncelikli, diğerleri `loading="lazy"`; preset başına ≤ **60 KB**; kitin

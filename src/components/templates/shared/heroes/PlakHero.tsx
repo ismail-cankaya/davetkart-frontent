@@ -115,7 +115,7 @@ export function PlakHero({
           <text
             fill={labelInk}
             fillOpacity={0.75}
-            style={{ fontSize: '4.4px', letterSpacing: '1.2px', textTransform: 'uppercase' }}
+            style={{ fontSize: '4.4px', letterSpacing: '1.2px' }}
           >
             <textPath href={`#${arcId}`} startOffset="50%" textAnchor="middle">
               {invitation.title.length > 30 ? `${invitation.title.slice(0, 29).trimEnd()}…` : invitation.title}

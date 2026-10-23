@@ -79,7 +79,7 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
           transition={{ duration: 0.7, ease: ease.out }}
           className="flex items-center justify-between mb-3 @sm:mb-4"
         >
-          <span className={cn('text-[10px] font-semibold uppercase tracking-[0.3em]', theme.accent)}>
+          <span className={cn('text-[10px] font-semibold tracking-[0.3em]', theme.accent)}>
             {invitation.title}
           </span>
           <span className={theme.accent}>

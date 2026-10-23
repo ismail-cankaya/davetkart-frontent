@@ -126,7 +126,7 @@ export function BrutalHero({
                   {[0, 1, 2, 3].map((i) => (
                     <span
                       key={i}
-                      className="text-[9px] font-black uppercase tracking-[0.18em]"
+                      className="text-[9px] font-black tracking-[0.18em]"
                       style={{ color: onAccent }}
                     >
                       {invitation.title || flavor.envelopeLabel} <span className="opacity-50">/</span>
@@ -204,7 +204,8 @@ export function BrutalHero({
                     >
                       {label}
                     </dt>
-                    <dd className={cn('text-[12px] font-bold uppercase leading-tight break-words', theme.heading)}>
+                    {/* Mekân kullanıcı metnidir: harfi değiştirilmez. */}
+                    <dd className={cn('text-[12px] font-bold uppercase leading-tight break-words', label === 'Mekan' && 'normal-case', theme.heading)}>
                       {value}
                     </dd>
                   </div>
