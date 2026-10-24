@@ -106,3 +106,39 @@ bilgisini yanıttaki `status`'tan okur.
 `isGiftCodePreview()` dört para alanının **tam sayı** olduğunu denetler. Bir gün backend TL
 göndermeye başlasa (`299.25`) yanıt reddedilir; ekranda 100 kat yanlış tutar görünmez.
 `verify:endpoints` → "önizleme: kesirli kuruş alanı reddediliyor".
+
+---
+
+## 🆕 Faz 12 (12.10): `checkout` alanı ve `checkoutActionOf()`
+
+Backend checkout yanıtına `checkout` alanı ekledi (K119):
+
+```ts
+type CheckoutAction =
+  | { type: 'redirect'; url: string }                                  // Fake, hediye siparişi
+  | { type: 'form'; url: string; fields: Record<string, string> };     // Shopier
+```
+
+İki yeni dışa açık fonksiyon:
+
+| Fonksiyon | Ne yapar |
+|---|---|
+| `isCheckoutAction(value)` | Biçim bekçisi. `form`'da en az bir alan olmalı ve **her değer metin** olmalı |
+| `checkoutActionOf(result)` | Önce `checkout`, yoksa eski `redirectUrl`, ikisi de yoksa `null` |
+
+### Neden `toCheckoutResult` artık `checkout`'u da sınıyor?
+
+Bu fonksiyon zaten "yanıt beklenen biçimde mi" sorusunu soruyordu (`orderId` metin
+mi). Yeni alan **geldiyse** aynı soruya tabi: yarım bir form (alanı eksik ya da değeri
+sayı) sağlayıcıya gönderilirse kullanıcı Shopier'de anlamsız bir "imza hatası" görür.
+Hata kaynağına yakın yakalansın: istek atıldığı anda, açık bir mesajla.
+
+### Neden eski `redirectUrl` hâlâ okunuyor?
+
+İki depo ayrı yayınlanıyor. Backend Faz 12'ye geçmeden frontend yayınlanırsa yanıtta
+`checkout` olmaz; `redirectUrl` geri dönüşü sayesinde Fake akışı çalışmaya devam eder.
+Ters yön de güvenli: backend `redirectUrl`'i `type=redirect` iken hâlâ gönderiyor.
+Sözleşme değişikliğinde **iki yönlü uyumluluk** penceresi bırakmak, iki deponun aynı
+dakikada yayınlanması zorunluluğunu kaldırır.
+
+`verify:payment`'a 10 kontrol eklendi (`Ödeme sayfasına gidiş (Faz 12)` bölümü, 12.11 commit'inde: betik iki adımın kodunu birlikte sınıyor).

@@ -254,10 +254,34 @@ export type OrderStatus = 'pending' | 'paid' | 'failed' | 'expired' | 'refunded'
  * sayfasını gösterir. Bunu bilmenin yolu yanıttaki `status`'tur; istemci
  * kendi hesabıyla "bedava oldu" varsaymaz.
  */
+/**
+ * Faz 12 (backend K118 · K119): ödeme sayfasına NASIL gidileceği.
+ *
+ * | `type` | Ne yapılır |
+ * |---|---|
+ * | `redirect` | Tarayıcı `url`'e gider (Fake, hediye siparişi) |
+ * | `form` | Tarayıcı `fields`'ı `url`'e POST eder (Shopier'in imzalı formu) |
+ *
+ * Birleşik tip (tagged union): `type` okunmadan `fields`'a erişilemez. "İkisi
+ * de dolu" gibi anlamsız durumlar yazılamaz.
+ *
+ * 🔴 `fields` imzalıdır (tutar, sipariş kimliği). Değiştirilmeden gönderilir;
+ * bir alan değişirse Shopier ödemeyi reddeder.
+ */
+export type CheckoutAction =
+  | { type: 'redirect'; url: string }
+  | { type: 'form'; url: string; fields: Record<string, string> };
+
 export interface CheckoutResult {
   orderId: string;
   tier: SubscriptionTier;
   status: OrderStatus;
+  /**
+   * Faz 12: ödeme sayfasına gidiş. Yalnızca checkout yanıtında gelir (C7).
+   * `type: 'redirect'` iken eski `redirectUrl` de aynı adresle gelir; `form`'da
+   * `redirectUrl` YOKTUR. Okumak için `checkoutActionOf()` (services/payments).
+   */
+  checkout?: CheckoutAction;
   /**
    * Sağlayıcının ödeme sayfası. Kullanıcı buraya **gitmeli**; ödeme
    * uygulamanın dışında tamamlanır.

@@ -305,3 +305,15 @@ yerinde söyler. Gösterim: `formatTryMinor()`.
 
 `CheckoutResult` belgesindeki "status her zaman pending doğar" cümlesine tek istisna yazıldı:
 toplam 0 olunca sipariş `paid` doğar (backend K107).
+
+---
+
+## 🆕 Faz 12 (12.10): `CheckoutAction`
+
+`CheckoutResult.checkout?: CheckoutAction` — backend `OrderResource`'un (K119) birebir
+karşılığı. Birleşik tip (discriminated union): TypeScript `action.type === 'form'`
+kontrolünden sonra `action.fields`'a erişime izin verir, öncesinde vermez. Yani "form
+değilken alanları okumak" bir **derleme hatası**dır, çalışma anı hatası değil.
+
+Backend'deki karşılığı PHP'de bir arayüz + iki `final` sınıf (`RedirectAction`,
+`FormPostAction`). İki dil, aynı fikir: geçersiz durum yazılamasın.

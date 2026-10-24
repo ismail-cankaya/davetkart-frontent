@@ -1,5 +1,5 @@
 import { api, unwrapEnvelope } from './api';
-import { CheckoutPayload, CheckoutResult, GiftCodePreview, OrderRecord, SubscriptionTier } from '../types';
+import { CheckoutAction, CheckoutPayload, CheckoutResult, GiftCodePreview, OrderRecord, SubscriptionTier } from '../types';
 
 /**
  * Ödeme servisi.
@@ -29,6 +29,9 @@ import { CheckoutPayload, CheckoutResult, GiftCodePreview, OrderRecord, Subscrip
  * Faz 11: checkout'a isteğe bağlı `giftCode` ve hediye kodu önizleme ucu
  * (`POST /gift-codes/preview`). İstisna: kod tutarı 0'a indirirse checkout
  * `paid` döner (backend K107).
+ *
+ * Faz 12 (backend K119): checkout yanıtında `checkout` alanı — bir adres ya
+ * da Shopier'in imzalı formu. Eski `redirectUrl` geri dönüş olarak okunur.
  * Ayrıntılı açıklama: docs/rehber/src/services/payments.md
  */
 
@@ -54,6 +57,26 @@ function isGiftCodePreview(body: unknown): body is GiftCodePreview {
     typeof b.currency === 'string'
   );
 }
+/**
+ * Faz 12: `checkout` alanının biçimi. `form`'da her alan adı ve değeri METİN
+ * olmalı; tarayıcı formu da öyle gönderir ve imza metin üzerinden hesaplandı.
+ */
+export function isCheckoutAction(value: unknown): value is CheckoutAction {
+  if (typeof value !== 'object' || value === null) return false;
+  const v = value as Record<string, unknown>;
+  if (typeof v.url !== 'string' || v.url === '') return false;
+  if (v.type === 'redirect') return true;
+  if (v.type !== 'form') return false;
+  const fields = v.fields;
+  return (
+    typeof fields === 'object' &&
+    fields !== null &&
+    !Array.isArray(fields) &&
+    Object.keys(fields).length > 0 &&
+    Object.values(fields).every((field) => typeof field === 'string')
+  );
+}
+
 function toCheckoutResult(payload: unknown): CheckoutResult {
   const body = unwrapEnvelope(payload);
 
@@ -65,7 +88,23 @@ function toCheckoutResult(payload: unknown): CheckoutResult {
     throw new Error('Unexpected checkout response shape');
   }
 
+  // Alan GELDİYSE biçimi doğru olmalı: yarım bir form sağlayıcıya gönderilmez.
+  if ('checkout' in body && !isCheckoutAction((body as { checkout?: unknown }).checkout)) {
+    throw new Error('Unexpected checkout action shape');
+  }
+
   return body as CheckoutResult;
+}
+
+/**
+ * Ödeme sayfasına nasıl gidileceği. Önce `checkout` (Faz 12), yoksa eski
+ * `redirectUrl` (Faz 7 sözleşmesi); ikisi de yoksa `null` — sağlayıcı sayfası
+ * gelmedi, çağıran "ödeme başlatılamadı" der.
+ */
+export function checkoutActionOf(result: CheckoutResult): CheckoutAction | null {
+  if (result.checkout) return result.checkout;
+  if (result.redirectUrl !== undefined) return { type: 'redirect', url: result.redirectUrl };
+  return null;
 }
 
 function isOrderRecord(body: unknown): body is OrderRecord {
