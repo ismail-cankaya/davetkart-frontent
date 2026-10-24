@@ -71,3 +71,38 @@ Davetiyesiz alınan sipariş artık hesabın bütün davetiyelerini açmıyor, i
 bağlanıyor (backend `PublishEntitlementResolver.md` → *Faz 10*). Frontend'de yalnızca açıklamalar
 güncellendi (`payments.ts`, `useCheckoutStore.ts`, `useSubscriptionStore.ts`). Fiyat sayfasında
 *"bütün davetiyeleriniz"* diyen bir metin yoktu; değiştirilecek bir vaat çıkmadı.
+
+---
+
+## 🆕 Faz 11: hediye kodu
+
+| Metot | Uç | Gövde |
+|---|---|---|
+| `checkoutForInvitation(id, tier, giftCode?)` | `POST /invitations/{id}/checkout` | `{tier}` ya da `{tier, giftCode}` |
+| `checkoutForAccount(tier, giftCode?)` | `POST /payments/checkout` | aynı |
+| 🆕 `previewGiftCode(code, tier)` | `POST /gift-codes/preview` | `{code, tier}` |
+
+### `checkoutBody()`
+
+```ts
+checkoutBody('gold', '  DUGUN2026 ')  // { tier: 'gold', giftCode: 'DUGUN2026' }
+checkoutBody('gold', '   ')           // { tier: 'gold' }   ← anahtar HİÇ yok
+```
+
+Kod yoksa ya da yalnızca boşluksa anahtar gönderilmez; gövde kodsuz ödemeyle bayt bayt aynı
+kalır. 🔴 İndirim, tutar ve toplam **asla** gövdeye girmez: fiyat gibi indirimi de backend
+hesaplar (M6). `verify:endpoints` gövdede `discount`, `discountMinor`, `amount`,
+`totalMinor`… arar.
+
+### 🔴 Checkout artık her zaman `pending` dönmüyor
+
+Kod tutarı **0**'a indirirse backend siparişi sağlayıcıya gitmeden `paid` açar (backend K107)
+ve `redirectUrl` doğrudan `/odeme/basarili?order=…` olur. Dosyanın başındaki "checkout ödeme
+değildir" kuralının **tek** istisnası bu. İstemci yine kendi hesabına güvenmez; "bedava oldu"
+bilgisini yanıttaki `status`'tan okur.
+
+### Önizleme yanıtı doğrulanır
+
+`isGiftCodePreview()` dört para alanının **tam sayı** olduğunu denetler. Bir gün backend TL
+göndermeye başlasa (`299.25`) yanıt reddedilir; ekranda 100 kat yanlış tutar görünmez.
+`verify:endpoints` → "önizleme: kesirli kuruş alanı reddediliyor".

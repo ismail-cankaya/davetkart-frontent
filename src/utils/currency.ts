@@ -19,3 +19,14 @@ const TRY_WITH_CENTS = new Intl.NumberFormat('tr-TR', {
 export function formatTry(amount: number, withCents = false): string {
   return (withCents ? TRY_WITH_CENTS : TRY_WHOLE).format(amount);
 }
+
+/**
+ * Kuruş cinsinden tutarı (backend `…Minor` alanları) gösterir — Faz 11.
+ *
+ * Kuruşu varsa kuruşlu (`₺199,50`), yoksa tam (`₺199`) yazar. Hep tam yazmak
+ * `199,50`'yi `200`'e yuvarlardı: kullanıcı ödeyeceğinden fazlasını görürdü.
+ * Bölme yalnızca GÖSTERİM içindir; hesap backend'de tam sayıyla yapılır.
+ */
+export function formatTryMinor(amountMinor: number): string {
+  return formatTry(amountMinor / 100, amountMinor % 100 !== 0);
+}

@@ -287,3 +287,21 @@ Bir preset kartının kategoriye göre değişebilen **görsel** alanları:
 
 `minimumTier` listede yok: plan kategoriye göre değişmez. Kullanım ve gerekçe:
 `data.md` §10.
+
+---
+
+## 🆕 Faz 11: hediye kodu tipleri
+
+| Tip | Ne |
+|---|---|
+| `GiftCodeBenefit` | `'free' \| 'percent' \| 'fixed'` (backend enum'ı) |
+| `GiftCodePreview` | `POST /gift-codes/preview` yanıtı: `benefit`, `tier`, `priceMinor`, `discountMinor`, `totalMinor`, `currency` |
+| `CheckoutPayload.giftCode?` | Checkout gövdesinde isteğe bağlı kod |
+| `CheckoutResult.discountMinor?` · `OrderRecord.discountMinor?` | Yalnızca indirim varsa gelir (C7) |
+
+🔴 **`…Minor` alanları kuruştur**, `SubscriptionPlan.price` ise TL. İkisi aynı ekranda
+kullanılıyor (sipariş özeti); adın sonundaki `Minor` hangisinin hangisi olduğunu her çağrı
+yerinde söyler. Gösterim: `formatTryMinor()`.
+
+`CheckoutResult` belgesindeki "status her zaman pending doğar" cümlesine tek istisna yazıldı:
+toplam 0 olunca sipariş `paid` doğar (backend K107).

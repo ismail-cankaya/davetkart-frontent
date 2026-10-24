@@ -24,6 +24,8 @@ import { releaseOutcome } from '../src/utils/releaseWindow';
 import { getRequiredTier } from '../src/stores/useSubscriptionStore';
 import { INITIAL_INVITATION, SUBSCRIPTION_PLANS, TEMPLATE_PRESETS } from '../src/data';
 import type { OrderStatus } from '../src/types';
+import { formatTry, formatTryMinor } from '../src/utils/currency';
+import { checkoutBody } from '../src/services/payments';
 
 let failures = 0;
 
@@ -199,6 +201,16 @@ function main(): void {
     SUBSCRIPTION_PLANS.flatMap((plan) => plan.features.map((feature) => feature.label)).filter((label) => /video/i.test(label)),
     [],
   );
+
+  // Faz 11: hediye kodu. Tutarlar kuruştur; gösterim yuvarlamamalı.
+  console.log('\nHediye kodu (Faz 11)');
+  const tl = (text: string) => text.replace(/\s/g, ' ');
+  check('tam lira kuruşsuz yazılır', tl(formatTryMinor(39900)), tl(formatTry(399)));
+  check('kuruşlu tutar yuvarlanmaz (199,50 ≠ 200)', tl(formatTryMinor(19950)), tl(formatTry(199.5, true)));
+  check('sıfır', tl(formatTryMinor(0)), tl(formatTry(0)));
+  check('gövde: kod kırpılır', checkoutBody('gold', '  DUGUN2026 '), { tier: 'gold', giftCode: 'DUGUN2026' });
+  check('gövde: boş kod hiç gitmez', checkoutBody('gold', '   '), { tier: 'gold' });
+  check('gövde: null kod hiç gitmez', checkoutBody('elit', null), { tier: 'elit' });
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);

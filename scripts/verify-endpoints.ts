@@ -315,6 +315,58 @@ async function main(): Promise<void> {
     fail('redirectUrl null olarak okundu; yokluğu `undefined` ile temsil edilmeli');
   }
 
+  // Faz 11: hediye kodu. Kod gövdeye girer, indirim ve tutar GİRMEZ.
+  console.log('\nHediye kodu (Faz 11)');
+
+  const codedBody = await check(
+    'checkout + hediye kodu',
+    { method: 'POST', url: `/invitations/${INVITATION_ID}/checkout` },
+    { data: { orderId: '01J6', tier: 'gold', status: 'paid', redirectUrl: '/odeme/basarili?order=01J6', discountMinor: 39900 } },
+    () => paymentService.checkoutForInvitation(INVITATION_ID, 'gold', '  DUGUN2026 '),
+  );
+  expectField('checkout + hediye kodu', codedBody, 'giftCode', 'DUGUN2026');
+  for (const forbidden of ['discount', 'discountMinor', 'amount', 'amountMinor', 'price', 'totalMinor']) {
+    if (forbidden in codedBody) {
+      fail(`checkout + hediye kodu → gövdede '${forbidden}' var; indirim istemciden GÖNDERİLMEZ`);
+    }
+  }
+
+  // Boş kod alanı: anahtar hiç gitmez (kodsuz ödeme ile aynı gövde).
+  const blankBody = await check(
+    'checkout + boş kod',
+    { method: 'POST', url: '/payments/checkout' },
+    { data: { orderId: '01J7', tier: 'gold', status: 'pending' } },
+    () => paymentService.checkoutForAccount('gold', '   '),
+  );
+  if ('giftCode' in blankBody) {
+    fail('checkout + boş kod → gövdede giftCode var; boş kod hiç gönderilmemeli');
+  }
+
+  const PREVIEW = { benefit: 'percent', tier: 'gold', priceMinor: 39900, discountMinor: 9975, totalMinor: 29925, currency: 'TRY' };
+  const previewBody = await check(
+    'hediye kodu önizleme',
+    { method: 'POST', url: '/gift-codes/preview' },
+    { data: PREVIEW },
+    () => paymentService.previewGiftCode(' dugun-2026 ', 'gold'),
+  );
+  expectField('hediye kodu önizleme', previewBody, 'code', 'dugun-2026');
+  expectField('hediye kodu önizleme', previewBody, 'tier', 'gold');
+
+  const preview = await paymentService.previewGiftCode('X', 'gold');
+  if (preview.totalMinor !== 29925 || preview.discountMinor !== 9975) {
+    fail(`önizleme yanıtı yanlış okundu: ${JSON.stringify(preview)}`);
+  }
+
+  // Kuruş alanı TL sanılırsa (ya da float gelirse) yanıt reddedilmeli.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (api.defaults as any).adapter = mockAdapter({ data: { ...PREVIEW, totalMinor: 299.25 } });
+  try {
+    await paymentService.previewGiftCode('X', 'gold');
+    fail('önizleme: kesirli totalMinor kabul edildi; kuruş alanları tam sayıdır');
+  } catch {
+    console.log('  ✓ önizleme: kesirli kuruş alanı reddediliyor');
+  }
+
   console.log('\nSipariş okuma uçları (Faz 10)');
 
   const ORDER = {

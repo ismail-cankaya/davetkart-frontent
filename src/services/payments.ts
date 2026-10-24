@@ -1,5 +1,5 @@
 import { api, unwrapEnvelope } from './api';
-import { CheckoutResult, OrderRecord, SubscriptionTier } from '../types';
+import { CheckoutPayload, CheckoutResult, GiftCodePreview, OrderRecord, SubscriptionTier } from '../types';
 
 /**
  * Ödeme servisi.
@@ -25,8 +25,35 @@ import { CheckoutResult, OrderRecord, SubscriptionTier } from '../types';
  * açmaz.
  *
  * Faz 10 (10.26): siparişi OKUYAN iki uç — `GET /orders/{id}` ve `GET /orders`.
+ *
+ * Faz 11: checkout'a isteğe bağlı `giftCode` ve hediye kodu önizleme ucu
+ * (`POST /gift-codes/preview`). İstisna: kod tutarı 0'a indirirse checkout
+ * `paid` döner (backend K107).
  * Ayrıntılı açıklama: docs/rehber/src/services/payments.md
  */
+
+/**
+ * Checkout gövdesi. Kod yoksa ya da yalnızca boşluksa anahtar HİÇ konmaz:
+ * boş bir `giftCode` alanı backend'de anlamsız bir durum doğururdu.
+ * Fiyat, tutar ve indirim ASLA gövdeye girmez (M6).
+ */
+export function checkoutBody(tier: SubscriptionTier, giftCode?: string | null): CheckoutPayload {
+  const code = giftCode?.trim();
+  return code ? { tier, giftCode: code } : { tier };
+}
+
+function isGiftCodePreview(body: unknown): body is GiftCodePreview {
+  if (typeof body !== 'object' || body === null) return false;
+  const b = body as Record<string, unknown>;
+  return (
+    typeof b.benefit === 'string' &&
+    typeof b.tier === 'string' &&
+    Number.isInteger(b.priceMinor) &&
+    Number.isInteger(b.discountMinor) &&
+    Number.isInteger(b.totalMinor) &&
+    typeof b.currency === 'string'
+  );
+}
 function toCheckoutResult(payload: unknown): CheckoutResult {
   const body = unwrapEnvelope(payload);
 
@@ -75,16 +102,33 @@ export const paymentService = {
   async checkoutForInvitation(
     invitationId: string,
     tier: SubscriptionTier,
+    giftCode?: string | null,
   ): Promise<CheckoutResult> {
-    // Gövdede YALNIZCA tier: fiyatı backend config'ten okur (M6).
-    const { data } = await api.post<unknown>(`/invitations/${invitationId}/checkout`, { tier });
+    // Gövdede tier ve (varsa) giftCode: fiyatı ve indirimi backend hesaplar (M6).
+    const { data } = await api.post<unknown>(`/invitations/${invitationId}/checkout`, checkoutBody(tier, giftCode));
     return toCheckoutResult(data);
   },
 
   /** Davetiyesiz paket alır; ilk yayınlanan davetiyeye bağlanır (K99). */
-  async checkoutForAccount(tier: SubscriptionTier): Promise<CheckoutResult> {
-    const { data } = await api.post<unknown>('/payments/checkout', { tier });
+  async checkoutForAccount(tier: SubscriptionTier, giftCode?: string | null): Promise<CheckoutResult> {
+    const { data } = await api.post<unknown>('/payments/checkout', checkoutBody(tier, giftCode));
     return toCheckoutResult(data);
+  },
+
+  /**
+   * Hediye kodunun bu plan için ne kazandıracağı (Faz 11). Hiçbir şey AYIRMAZ:
+   * kod arada tükenebilir, karar checkout'ta verilir. Hatalar 422
+   * `GIFT_CODE_*` olarak gelir ve `toDisplayError` ile çizilir.
+   */
+  async previewGiftCode(code: string, tier: SubscriptionTier): Promise<GiftCodePreview> {
+    const { data } = await api.post<unknown>('/gift-codes/preview', { code: code.trim(), tier });
+    const body = unwrapEnvelope(data);
+
+    if (!isGiftCodePreview(body)) {
+      throw new Error('Unexpected /gift-codes/preview response shape');
+    }
+
+    return body;
   },
 
   /**

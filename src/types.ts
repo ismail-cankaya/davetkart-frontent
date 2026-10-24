@@ -201,6 +201,33 @@ export interface SubscriptionPlan {
  */
 export interface CheckoutPayload {
   tier: SubscriptionTier;
+  /**
+   * Faz 11: isteğe bağlı hediye kodu. Kodsuz ödemede anahtar HİÇ gönderilmez.
+   * İndirim de fiyat gibi sunucuda hesaplanır; gövdede tutar ya da indirim yok.
+   */
+  giftCode?: string;
+}
+
+/** Hediye kodunun faydası — backend `GiftCodeBenefit` enum'ı (Faz 11). */
+export type GiftCodeBenefit = 'free' | 'percent' | 'fixed';
+
+/**
+ * `POST /gift-codes/preview` yanıtı (Faz 11).
+ *
+ * 🔴 Para alanları **kuruş** (tam sayı), adları bu yüzden `…Minor` ile biter:
+ * `data.ts`'teki katalog fiyatı TL'dir, ikisi karıştırılırsa ekranda 100 kat
+ * yanlış tutar görünür. Gösterim için `formatTryMinor()`.
+ *
+ * Önizleme bir söz değildir: kod arada tükenebilir, karar checkout'ta verilir.
+ */
+export interface GiftCodePreview {
+  benefit: GiftCodeBenefit;
+  tier: SubscriptionTier;
+  priceMinor: number;
+  discountMinor: number;
+  /** 0 ise sipariş sağlayıcıya gitmeden ödenmiş açılır (backend K107). */
+  totalMinor: number;
+  currency: string;
 }
 
 /**
@@ -217,10 +244,15 @@ export type OrderStatus = 'pending' | 'paid' | 'failed' | 'expired' | 'refunded'
 /**
  * `POST /invitations/{id}/checkout` ve `POST /payments/checkout` yanıtı (201).
  *
- * 🔴 **`status` her zaman `pending` doğar.** `paid`'e geçişi sağlayıcının
- * **webhook**'u yapar; yani checkout bir ödeme değil, bir ödeme *niyetidir*.
- * Bunu `paid` sanmak, kullanıcıya "ödendi" deyip hemen ardından yayınlamada
- * 402 göstermek demektir — planın en pahalı maddesi buydu.
+ * 🔴 **Kodsuz ödemede `status` her zaman `pending` doğar.** `paid`'e geçişi
+ * sağlayıcının **webhook**'u yapar; yani checkout bir ödeme değil, bir ödeme
+ * *niyetidir*. Bunu `paid` sanmak, kullanıcıya "ödendi" deyip hemen ardından
+ * yayınlamada 402 göstermek demektir — planın en pahalı maddesi buydu.
+ *
+ * Faz 11 (backend K107) — TEK istisna: hediye kodu tutarı **0**'a indirirse
+ * sipariş sağlayıcıya gitmeden `paid` doğar ve `redirectUrl` doğrudan başarı
+ * sayfasını gösterir. Bunu bilmenin yolu yanıttaki `status`'tur; istemci
+ * kendi hesabıyla "bedava oldu" varsaymaz.
  */
 export interface CheckoutResult {
   orderId: string;
@@ -234,6 +266,8 @@ export interface CheckoutResult {
    * `redirectUrl === undefined` kontrolü doğru olandır.
    */
   redirectUrl?: string;
+  /** Faz 11: hediye kodunun düştüğü tutar (kuruş). Yalnızca indirim varsa gelir (C7). */
+  discountMinor?: number;
 }
 
 /**
@@ -256,6 +290,11 @@ export interface OrderRecord {
   createdAt: string;
   /** ISO 8601 (UTC). `null` = henüz ödenmedi (`pending`, `failed`, `expired`). */
   paidAt: string | null;
+  /**
+   * Faz 11: hediye kodunun düştüğü tutar (kuruş). Yalnızca indirim varsa gelir
+   * (C7); tutar alanları hâlâ yok (C1). Ödenen = katalog fiyatı − bu değer.
+   */
+  discountMinor?: number;
 }
 
 /**
