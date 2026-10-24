@@ -46,5 +46,18 @@
       "processing": "Wird aktiviert…",
       "changed": "Ihr Geschenkcode deckt das Paket nicht mehr vollständig ab. Prüfen Sie den neuen Betrag und versuchen Sie es erneut."
     }
+  },
+  "providerCheckout": {
+    "amountLabel": "Zu zahlender Betrag",
+    "explainer": "Im nächsten Schritt geben Sie Ihre Kartendaten auf der sicheren Zahlungsseite von Shopier ein.",
+    "button": "Weiter zur sicheren Zahlungsseite",
+    "processing": "Zahlungsseite wird vorbereitet…",
+    "note": "Ihre Zahlung wird über Shopier abgewickelt. Ihre Kartendaten erreichen die Server von Davetkart nie.",
+    "notStarted": "Ihre Bestellung wurde erstellt, aber die Zahlungsseite konnte nicht geöffnet werden. Bitte versuchen Sie es gleich noch einmal.",
+    "pendingTitle": "Ihre Zahlung ist noch nicht abgeschlossen",
+    "pendingBody": "Bestellung {{orderId}} wurde erstellt, aber nicht belastet, weil die Zahlungsseite nicht geöffnet werden konnte. Sie können es erneut versuchen."
+  },
+  "paymentReturn": {
+    "delayedBody": "Wir prüfen Ihre Zahlung. Sie wird in wenigen Minuten bestätigt und erscheint in Ihrem Dashboard; Sie können diese Seite schließen."
   }
 }

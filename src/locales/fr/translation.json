@@ -46,5 +46,18 @@
       "processing": "Activation…",
       "changed": "Votre code cadeau ne couvre plus toute la formule. Vérifiez le nouveau total et réessayez."
     }
+  },
+  "providerCheckout": {
+    "amountLabel": "Montant à payer",
+    "explainer": "À l'étape suivante, vous saisirez votre carte sur la page de paiement sécurisée de Shopier.",
+    "button": "Accéder à la page de paiement sécurisée",
+    "processing": "Préparation de la page de paiement…",
+    "note": "Votre paiement est traité par Shopier. Vos données de carte n'arrivent jamais sur les serveurs de Davetkart.",
+    "notStarted": "Votre commande a été créée, mais la page de paiement n'a pas pu s'ouvrir. Veuillez réessayer dans un instant.",
+    "pendingTitle": "Votre paiement n'est pas encore finalisé",
+    "pendingBody": "La commande {{orderId}} a été créée, mais aucun débit n'a eu lieu car la page de paiement n'a pas pu s'ouvrir. Vous pouvez réessayer."
+  },
+  "paymentReturn": {
+    "delayedBody": "Nous vérifions votre paiement. Il sera confirmé d'ici quelques minutes et apparaîtra dans votre tableau de bord ; vous pouvez fermer cette page."
   }
 }

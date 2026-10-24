@@ -46,5 +46,18 @@
       "processing": "Etkinleştiriliyor…",
       "changed": "Hediye kodunuz artık paketin tamamını karşılamıyor. Güncel tutarı kontrol edip tekrar deneyin."
     }
+  },
+  "providerCheckout": {
+    "amountLabel": "Ödenecek tutar",
+    "explainer": "Kart bilgilerinizi bir sonraki adımda Shopier'in güvenli ödeme sayfasında gireceksiniz.",
+    "button": "Güvenli ödeme sayfasına geç",
+    "processing": "Ödeme sayfası hazırlanıyor…",
+    "note": "Ödemeniz Shopier altyapısıyla alınır. Kart bilgileriniz Davetkart sunucularına hiç gelmez.",
+    "notStarted": "Siparişiniz oluşturuldu, ancak ödeme sayfası açılamadı. Lütfen birazdan tekrar deneyin.",
+    "pendingTitle": "Ödemeniz henüz tamamlanmadı",
+    "pendingBody": "{{orderId}} numaralı siparişiniz oluşturuldu, ancak ödeme sayfasına geçilemediği için tahsilat yapılmadı. Tekrar deneyebilirsiniz."
+  },
+  "paymentReturn": {
+    "delayedBody": "Ödemeniz doğrulanıyor. Birkaç dakika içinde onaylanır ve panelinizde görünür; bu sayfayı kapatabilirsiniz."
   }
 }

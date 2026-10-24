@@ -46,5 +46,18 @@
       "processing": "Activating…",
       "changed": "Your gift code no longer covers the whole plan. Check the updated total and try again."
     }
+  },
+  "providerCheckout": {
+    "amountLabel": "Amount due",
+    "explainer": "You will enter your card details on Shopier's secure payment page in the next step.",
+    "button": "Continue to secure payment page",
+    "processing": "Preparing the payment page…",
+    "note": "Your payment is processed by Shopier. Your card details never reach Davetkart's servers.",
+    "notStarted": "Your order was created, but the payment page could not be opened. Please try again in a moment.",
+    "pendingTitle": "Your payment is not complete yet",
+    "pendingBody": "Order {{orderId}} was created, but you were not charged because the payment page could not be opened. You can try again."
+  },
+  "paymentReturn": {
+    "delayedBody": "We are verifying your payment. It will be confirmed within a few minutes and appear in your dashboard; you can close this page."
   }
 }

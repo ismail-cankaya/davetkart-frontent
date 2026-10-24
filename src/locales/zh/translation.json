@@ -46,5 +46,18 @@
       "processing": "正在激活…",
       "changed": "您的礼品码已无法抵扣整个套餐，请查看更新后的金额后重试。"
     }
+  },
+  "providerCheckout": {
+    "amountLabel": "应付金额",
+    "explainer": "下一步您将在 Shopier 的安全支付页面输入银行卡信息。",
+    "button": "前往安全支付页面",
+    "processing": "正在准备支付页面…",
+    "note": "您的付款由 Shopier 处理。您的银行卡信息不会传到 Davetkart 的服务器。",
+    "notStarted": "订单已创建，但无法打开支付页面。请稍后重试。",
+    "pendingTitle": "您的付款尚未完成",
+    "pendingBody": "订单 {{orderId}} 已创建，但由于无法打开支付页面，未进行扣款。您可以重试。"
+  },
+  "paymentReturn": {
+    "delayedBody": "我们正在确认您的付款。几分钟内将完成确认并显示在您的控制面板中；您可以关闭此页面。"
   }
 }

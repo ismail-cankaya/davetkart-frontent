@@ -46,5 +46,18 @@
       "processing": "Ativando…",
       "changed": "Seu código de presente não cobre mais o plano inteiro. Confira o novo total e tente novamente."
     }
+  },
+  "providerCheckout": {
+    "amountLabel": "Valor a pagar",
+    "explainer": "Na próxima etapa você vai digitar os dados do cartão na página de pagamento segura da Shopier.",
+    "button": "Ir para a página de pagamento segura",
+    "processing": "Preparando a página de pagamento…",
+    "note": "Seu pagamento é processado pela Shopier. Os dados do seu cartão nunca chegam aos servidores da Davetkart.",
+    "notStarted": "Seu pedido foi criado, mas não foi possível abrir a página de pagamento. Tente novamente em instantes.",
+    "pendingTitle": "Seu pagamento ainda não foi concluído",
+    "pendingBody": "O pedido {{orderId}} foi criado, mas nada foi cobrado porque a página de pagamento não abriu. Você pode tentar novamente."
+  },
+  "paymentReturn": {
+    "delayedBody": "Estamos verificando seu pagamento. Ele será confirmado em alguns minutos e aparecerá no seu painel; você pode fechar esta página."
   }
 }
