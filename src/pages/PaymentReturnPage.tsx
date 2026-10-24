@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'motion/react';
+import { useTranslation } from 'react-i18next';
 import {
   CheckCircle2,
   Clock,
@@ -58,6 +59,10 @@ interface PollState {
  * onayını bekler. Paket siparişinde (`invitationId: null`) yayınlanacak bir şey yoktur.
  *
  * Neyin gösterileceği `utils/paymentReturn.ts`'te (saf, `verify:payment` sınar).
+ *
+ * Faz 12 (Shopier): ödemeyi sunucu bildirimi (OSB) onaylar; tarayıcı dönüşü
+ * yalnızca yönlendirir ve OSB dönüşten SONRA gelebilir. Yoklama 60 sn'ye çıktı,
+ * süre dolunca "doğrulanıyor, birkaç dakika içinde görünecek" denir.
  */
 export default function PaymentReturnPage({ kind }: PaymentReturnPageProps) {
   const [searchParams] = useSearchParams();
@@ -155,6 +160,8 @@ interface ViewCopy {
   icon: React.ReactNode;
   title: React.ReactNode;
   body: string;
+  /** Faz 12: metin çeviri dosyasındaysa anahtarı; varsa `body` yerine o çizilir. */
+  bodyKey?: string;
   tone: 'brand' | 'success' | 'warning' | 'danger';
 }
 
@@ -199,8 +206,9 @@ const COPY: Record<CardView, ViewCopy> = {
   },
   delayed: {
     icon: <Clock size={24} />,
-    title: <>Onay biraz <span className="italic text-brand font-medium">gecikti</span></>,
-    body: 'Ödemeniz alındıysa birkaç dakika içinde onaylanır. Bu sayfayı kapatabilirsiniz: panelinizden yayınlamayı denediğinizde planınız tanınır.',
+    title: <>Ödemeniz <span className="italic text-brand font-medium">doğrulanıyor</span></>,
+    body: 'Ödemeniz doğrulanıyor; birkaç dakika içinde onaylanır.',
+    bodyKey: 'paymentReturn.delayedBody',
     tone: 'warning',
   },
   expired: {
@@ -248,7 +256,9 @@ const PAID_VIEWS: ReadonlySet<CardView> = new Set(['confirmed', 'published', 'pu
 const BUSY_VIEWS: ReadonlySet<CardView> = new Set(['verifying', 'publishing']);
 
 function ReturnCard({ view, order, onRecheck, onRetryPublish, publishError }: ReturnCardProps) {
+  const { t } = useTranslation();
   const copy = COPY[view];
+  const body = copy.bodyKey ? t(copy.bodyKey) : copy.body;
   const paidAt = PAID_VIEWS.has(view) ? formatPaidAt(order?.paidAt ?? null) : null;
   const canRetryCheckout = order !== null && (view === 'failed' || view === 'expired');
 
@@ -261,7 +271,7 @@ function ReturnCard({ view, order, onRecheck, onRetryPublish, publishError }: Re
       {/* Ekran okuyucu durum değişimini duyurur: yoklama sessizce sonuçlanmasın. */}
       <div role="status" aria-live="polite" className="space-y-3">
         <h1 className="font-serif text-2xl md:text-3xl font-bold text-ink">{copy.title}</h1>
-        <p className="text-sm text-muted leading-relaxed">{copy.body}</p>
+        <p className="text-sm text-muted leading-relaxed">{body}</p>
         {view === 'publishFailed' && publishError && (
           <p className="text-xs text-rose-700 leading-relaxed">{publishError}</p>
         )}

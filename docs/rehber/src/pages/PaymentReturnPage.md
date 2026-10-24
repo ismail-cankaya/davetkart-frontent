@@ -148,3 +148,32 @@ uygulamada iki hitap, kullanıcıya iki ayrı ürün izlenimi verir. Bütün met
 
 Backend'in parola sıfırlama maili de aynı hitapla yazıldı (*"Hesabınız için bir parola
 sıfırlama isteği aldık"*).
+
+---
+
+## 🆕 Faz 12 (12.13): Shopier'de onay dönüşten SONRA gelebilir
+
+Shopier'de siparişi `paid` yapan, Shopier sunucusunun **OSB** bildirimi (backend K117).
+Tarayıcı callback'i yalnızca bu sayfaya yönlendiriyor. İkisi yarışıyor: kullanıcı
+çoğu zaman OSB'den önce buraya varır.
+
+| | Faz 10–11 | Faz 12 |
+|---|---|---|
+| Yoklama | 15 × 2 sn = 30 sn | **20 × 3 sn = 60 sn** (`utils/paymentReturn.ts`) |
+| Süre dolunca (`delayed`) | "Onay biraz gecikti" | "Ödemeniz **doğrulanıyor**; birkaç dakika içinde onaylanır ve panelinizde görünür" |
+
+`paid` olunca §4'teki otomatik yayın (11.6, `useAutoPublish`) aynen çalışır; Faz 12
+ona dokunmadı. OSB 60 saniyeden geç gelirse kullanıcı `delayed` görür ve otomatik yayın
+bu sayfada **tetiklenmez**: davetiye panelden yayınlanır (ya da "Tekrar Kontrol Et").
+
+**Neden istek sayısı aynı kaldı?** 30 → 60 sn uzatılırken aralık da 2 → 3 sn oldu: 15
+yerine 20 istek. Süre iki katına çıktı, sunucu yükü üçte bir arttı.
+
+**Neden "gecikti" değil "doğrulanıyor"?** OSB'nin birkaç dakika sürmesi Shopier'de
+normal. "Gecikti" kullanıcıya bir sorun olduğunu düşündürür ve tekrar ödemeye iter
+(çifte tahsilat, K89'un uyardığı durum).
+
+`utils/paymentReturn.ts` bu adıma eklendi (prompt'un dosya listesinde yoktu): sabitler
+orada, sayfa yalnızca onları kullanıyor. Yeni metin çeviri anahtarında:
+`paymentReturn.delayedBody` (12.14). Sayfanın geri kalan metinleri hâlâ Türkçe sabit
+(önceden var olan borç).

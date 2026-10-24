@@ -12,9 +12,15 @@ import type { OrderStatus } from '../types';
  */
 export type ReturnKind = 'success' | 'failure';
 
-/** Yoklama aralığı ve üst sınırı: 15 × 2 sn = 30 sn. */
-export const POLL_INTERVAL_MS = 2000;
-export const POLL_LIMIT = 15;
+/**
+ * Yoklama aralığı ve üst sınırı: 20 × 3 sn = 60 sn.
+ *
+ * Faz 12: 'paid' kararını Shopier'in sunucu bildirimi (OSB) veriyor ve tarayıcı
+ * dönüşünden SONRA gelebilir. 30 sn kısa kalabiliyordu; istek sayısı aynı
+ * kalsın diye aralık da 2 sn'den 3 sn'ye çıktı.
+ */
+export const POLL_INTERVAL_MS = 3000;
+export const POLL_LIMIT = 20;
 
 export type ReturnView =
   | 'verifying' // yoklama sürüyor
