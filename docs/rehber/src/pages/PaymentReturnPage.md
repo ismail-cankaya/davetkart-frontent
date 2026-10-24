@@ -87,12 +87,23 @@ yarın ekleyeceği bir durum sessizce `default`'a düşerdi. `Record` eksik bir 
 demez. `verify:payment` bunu genel bir kuralla da sınıyor: ödenmemiş hiçbir durum,
 hiçbir bağlamda *"onaylandı"* göstermez.
 
-## 4. 🔴 Ödeme yayınlamaz (K67)
+## 4. Onaylanan ödeme davetiyeyi yayına alır
 
-*"Onaylandı"* ekranının metni: *"Davetiyenizi artık yayınlayabilirsiniz; ödeme davetiyeyi
-kendiliğinden yayınlamaz, son adım sizde."* Düğme *"Panele Git ve Yayınla"*. Ekran
-*"yayınlandı"* demez, çünkü backend yayını ayrı bir istekle (`POST …/publish`) yapar ve
-o isteğin plan kontrolünü (402) ödemeden bağımsız olarak kendisi yapar.
+Sipariş `paid` olduğunda ve bir davetiyeye bağlıysa sayfa onu kendiliğinden yayınlar
+(`hooks/useAutoPublish.ts`). Kart, Shopier ve hediye kodu (toplam 0) aynı dönüş
+adresine düştüğü için üçü de aynı davranır; kullanıcıdan ikinci bir "Yayınla"
+tıklaması beklenmez.
+
+| Durum | Ekran |
+|---|---|
+| Yayın isteği sürüyor | *"Davetiyeniz yayına alınıyor"* (düğme yok) |
+| 200 ya da 409 `INVITATION_ALREADY_PUBLISHED` | *"Davetiyeniz yayında"* + *"Davetiyeyi Görüntüle"* |
+| Diğer hata (402, ağ…) | *"Ödemeniz onaylandı"* + sebep + *"Tekrar Dene"* |
+| Paket siparişi (`invitationId: null`) | *"Ödemeniz onaylandı"*, yayınlanacak davetiye yok |
+
+Yayın hâlâ ayrı bir istektir (`POST …/publish`) ve plan kontrolünü (402) sunucu yapar;
+ekran sunucu onaylamadan *"yayında"* demez. İstek sipariş başına bir kez atılır.
+Havale/EFT bu sayfaya dönmez: elle onaylanan havalede yayın panelden yapılır.
 
 ## 5. 404: "bulamadık"
 

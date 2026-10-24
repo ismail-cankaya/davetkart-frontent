@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import {
   CheckCircle2,
   Clock,
+  ExternalLink,
   LayoutDashboard,
   Loader2,
   RefreshCw,
@@ -13,6 +14,7 @@ import {
   XCircle,
 } from 'lucide-react';
 import { paymentService } from '../services/payments';
+import { AutoPublishState, useAutoPublish } from '../hooks/useAutoPublish';
 import { apiErrorCode } from '../services/api';
 import { OrderRecord } from '../types';
 import { checkoutHref } from '../utils/checkoutRoute';
@@ -50,8 +52,10 @@ interface PollState {
  * durumu sağlayıcının webhook'u yazar — dönüşten önce de sonra da gelebilir.
  * Sayfa bu yüzden `GET /orders/{id}`'yi birkaç saniye yoklar.
  *
- * 🔴 Ödeme davetiyeyi YAYINLAMAZ (K67). "Onaylandı" ekranı kullanıcıyı
- * yayınlamaya yönlendirir, yayınlandı demez.
+ * Sipariş `paid` olunca bağlı davetiye bu sayfadan kendiliğinden yayına alınır
+ * (`useAutoPublish`): kart, Shopier ve hediye kodu aynı yoldan geçer. Yayın yine
+ * ayrı bir istektir (`POST …/publish`); ekran "yayında" demeden önce sunucunun
+ * onayını bekler. Paket siparişinde (`invitationId: null`) yayınlanacak bir şey yoktur.
  *
  * Neyin gösterileceği `utils/paymentReturn.ts`'te (saf, `verify:payment` sınar).
  */
@@ -97,6 +101,9 @@ export default function PaymentReturnPage({ kind }: PaymentReturnPageProps) {
 
   const retry = () => setRun((n) => n + 1);
 
+  // Erken dönüşlerden ÖNCE: hook sırası her çizimde aynı kalmalı.
+  const autoPublish = useAutoPublish(poll.order);
+
   if (!orderId) return <MissingOrder />;
 
   if (poll.error) {
@@ -107,8 +114,39 @@ export default function PaymentReturnPage({ kind }: PaymentReturnPageProps) {
 
   if (!poll.order) return <ReturnCard view="verifying" order={null} onRecheck={retry} />;
 
-  const view = returnViewFor(poll.order.status, { kind, settled: poll.settled });
-  return <ReturnCard view={view} order={poll.order} onRecheck={retry} />;
+  const view = cardViewFor(
+    returnViewFor(poll.order.status, { kind, settled: poll.settled }),
+    poll.order,
+    autoPublish.state
+  );
+  return (
+    <ReturnCard
+      view={view}
+      order={poll.order}
+      onRecheck={retry}
+      onRetryPublish={autoPublish.retry}
+      publishError={autoPublish.state.status === 'error' ? autoPublish.state.message : null}
+    />
+  );
+}
+
+/**
+ * Ekranda çizilen görünüm. Ödeme onaylandıysa (`confirmed`) sonucu artık
+ * yayın belirler: davetiyeli siparişte "yayınlanıyor → yayında / yayınlanamadı",
+ * paket siparişinde "plan tanımlandı".
+ */
+type CardView = ReturnView | 'publishing' | 'published' | 'publishFailed';
+
+function cardViewFor(view: ReturnView, order: OrderRecord, publish: AutoPublishState): CardView {
+  if (view !== 'confirmed' || !order.invitationId) return view;
+  switch (publish.status) {
+    case 'published':
+      return 'published';
+    case 'error':
+      return 'publishFailed';
+    default:
+      return 'publishing';
+  }
 }
 
 // --------------------------------------------------------------- görünümler
@@ -128,7 +166,7 @@ const TONE_CLASSES: Record<ViewCopy['tone'], string> = {
 };
 
 /** Her görünümün metni. `Record` eksik bir görünümü derleme hatasına çevirir. */
-const COPY: Record<ReturnView, ViewCopy> = {
+const COPY: Record<CardView, ViewCopy> = {
   verifying: {
     icon: <Loader2 size={24} className="animate-spin" />,
     title: <>Ödemeniz <span className="italic text-brand font-medium">doğrulanıyor</span></>,
@@ -138,8 +176,26 @@ const COPY: Record<ReturnView, ViewCopy> = {
   confirmed: {
     icon: <CheckCircle2 size={24} />,
     title: <>Ödemeniz <span className="italic text-brand font-medium">onaylandı</span></>,
-    body: 'Planınız tanımlandı. Davetiyenizi artık yayınlayabilirsiniz; ödeme davetiyeyi kendiliğinden yayınlamaz, son adım sizde.',
+    body: 'Planınız tanımlandı. Davetiyelerinizi panelinizden yayınlayabilirsiniz.',
     tone: 'success',
+  },
+  publishing: {
+    icon: <Loader2 size={24} className="animate-spin" />,
+    title: <>Davetiyeniz <span className="italic text-brand font-medium">yayına alınıyor</span></>,
+    body: 'Ödemeniz onaylandı. Davetiyenizi şimdi yayına alıyoruz; lütfen sayfayı kapatmayın.',
+    tone: 'brand',
+  },
+  published: {
+    icon: <CheckCircle2 size={24} />,
+    title: <>Davetiyeniz <span className="italic text-brand font-medium">yayında</span></>,
+    body: 'Ödemeniz onaylandı ve davetiyeniz yayına alındı. Katılım yanıtlarını panelinizden takip edebilirsiniz.',
+    tone: 'success',
+  },
+  publishFailed: {
+    icon: <CheckCircle2 size={24} />,
+    title: <>Ödemeniz <span className="italic text-brand font-medium">onaylandı</span></>,
+    body: 'Planınız tanımlandı ancak davetiyeniz yayına alınamadı. Tekrar deneyebilir ya da panelinizden yayınlayabilirsiniz.',
+    tone: 'warning',
   },
   delayed: {
     icon: <Clock size={24} />,
@@ -180,14 +236,20 @@ function formatPaidAt(iso: string | null): string | null {
 }
 
 interface ReturnCardProps {
-  view: ReturnView;
+  view: CardView;
   order: OrderRecord | null;
   onRecheck: () => void;
+  onRetryPublish?: () => void;
+  /** `publishFailed` görünümünde sunucunun bildirdiği sebep. */
+  publishError?: string | null;
 }
 
-function ReturnCard({ view, order, onRecheck }: ReturnCardProps) {
+const PAID_VIEWS: ReadonlySet<CardView> = new Set(['confirmed', 'published', 'publishFailed']);
+const BUSY_VIEWS: ReadonlySet<CardView> = new Set(['verifying', 'publishing']);
+
+function ReturnCard({ view, order, onRecheck, onRetryPublish, publishError }: ReturnCardProps) {
   const copy = COPY[view];
-  const paidAt = view === 'confirmed' ? formatPaidAt(order?.paidAt ?? null) : null;
+  const paidAt = PAID_VIEWS.has(view) ? formatPaidAt(order?.paidAt ?? null) : null;
   const canRetryCheckout = order !== null && (view === 'failed' || view === 'expired');
 
   return (
@@ -200,11 +262,28 @@ function ReturnCard({ view, order, onRecheck }: ReturnCardProps) {
       <div role="status" aria-live="polite" className="space-y-3">
         <h1 className="font-serif text-2xl md:text-3xl font-bold text-ink">{copy.title}</h1>
         <p className="text-sm text-muted leading-relaxed">{copy.body}</p>
+        {view === 'publishFailed' && publishError && (
+          <p className="text-xs text-rose-700 leading-relaxed">{publishError}</p>
+        )}
         {paidAt && <p className="text-xs text-muted">Ödeme zamanı: {paidAt}</p>}
       </div>
 
-      {view !== 'verifying' && (
+      {!BUSY_VIEWS.has(view) && (
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          {view === 'published' && order?.invitationId && (
+            <Link to={`/invite/${order.invitationId}`} className={PRIMARY_BUTTON}>
+              <ExternalLink size={15} />
+              Davetiyeyi Görüntüle
+            </Link>
+          )}
+
+          {view === 'publishFailed' && onRetryPublish && (
+            <button type="button" onClick={onRetryPublish} className={PRIMARY_BUTTON}>
+              <RotateCcw size={15} />
+              Tekrar Dene
+            </button>
+          )}
+
           {canRetryCheckout && order && (
             <Link to={checkoutHref({ tier: order.tier, invitationId: order.invitationId })} className={PRIMARY_BUTTON}>
               <RotateCcw size={15} />
@@ -212,9 +291,12 @@ function ReturnCard({ view, order, onRecheck }: ReturnCardProps) {
             </Link>
           )}
 
-          <Link to="/dashboard" className={canRetryCheckout ? SECONDARY_BUTTON : PRIMARY_BUTTON}>
+          <Link
+            to="/dashboard"
+            className={canRetryCheckout || view === 'published' || view === 'publishFailed' ? SECONDARY_BUTTON : PRIMARY_BUTTON}
+          >
             <LayoutDashboard size={15} />
-            {view === 'confirmed' ? 'Panele Git ve Yayınla' : 'Panelime Git'}
+            Panelime Git
           </Link>
 
           {view === 'delayed' && (

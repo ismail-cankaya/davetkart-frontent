@@ -256,8 +256,8 @@ export function PaywallModal() {
 
               <p className="text-muted text-[11px] flex items-center justify-center gap-1.5 mt-7">
                 <ShieldCheck size={13} className="text-brand" />
-                {/* "Ödeme sonrası anında yayına alınır" DEĞİL: ödeme yayınlamaz
-                    (K67) ve havalede onay anında gelmez. */}
+                {/* "Ödeme sonrası anında yayına alınır" DEĞİL: kartta yayın
+                    onaydan sonra gelir, havalede onay anında gelmez. */}
                 256-bit SSL ile güvenli ödeme — tüm paketler tek seferlik ödemedir.
               </p>
             </div>
