@@ -12,6 +12,8 @@ import { CardPaymentForm } from '../components/payment/checkout/CardPaymentForm'
 import { BankTransferPanel } from '../components/payment/checkout/BankTransferPanel';
 import { BankTransferPending } from '../components/payment/checkout/BankTransferPending';
 import { InvitationSummary, OrderSummary } from '../components/payment/checkout/OrderSummary';
+import { GiftCodeField } from '../components/payment/checkout/GiftCodeField';
+import { FreeActivationPanel } from '../components/payment/checkout/FreeActivationPanel';
 import { parseCheckoutSearch } from '../utils/checkoutRoute';
 import { displayNames } from '../utils/names';
 import { cn } from '../utils/cn';
@@ -32,6 +34,11 @@ const CURRENT_STEP = 1;
  * Bağlam (paket, davetiye) URL'dedir, store'da değil: yenileme ya da yeni
  * sekme aynı ekranı geri kurar. Fiyat URL'den OKUNMAZ; gösterim `data.ts`'ten,
  * tahsilat backend config'inden (M6).
+ *
+ * Faz 11: "Hediye kodum var" alanı. Geçerli bir önizleme varken tutarlar
+ * önizlemeden (kuruş) çizilir; toplam 0 ise kart ve havale yerine "Ücretsiz
+ * etkinleştir" paneli gelir. Hediye kodu yalnızca kartla geçerli: havalede
+ * sipariş açılmadığı için kod ayrılamaz.
  */
 export default function CheckoutPage() {
   const [searchParams] = useSearchParams();
@@ -39,6 +46,7 @@ export default function CheckoutPage() {
 
   const method = useCheckoutStore((s) => s.method);
   const bankTransferConfirmed = useCheckoutStore((s) => s.bankTransferConfirmed);
+  const giftPreview = useCheckoutStore((s) => s.giftPreview);
   const userId = useAuthStore((s) => s.user?.id ?? null);
   const recordId = useInvitationStore((s) => s.recordId);
   const invitation = useInvitationStore((s) => s.invitation);
@@ -46,13 +54,17 @@ export default function CheckoutPage() {
   // Ortam değişkenleri derlemede sabitlenir; her çizimde yeniden okumaya gerek yok.
   const bankAccount = useMemo(getBankTransferAccount, []);
 
+  // Sayfadan çıkınca her şey (hediye kodu dahil) sıfırlanır.
+  useEffect(() => () => useCheckoutStore.getState().reset(), []);
+
   // Başka bir paket/davetiye için açılan sayfa, öncekinin durumunu taşımasın.
+  // Faz 11: uygulanan hediye kodu KALIR ve yeni plan için yeniden hesaplanır.
   const tier = context?.tier;
   const invitationId = context?.invitationId;
   useEffect(() => {
-    const { reset } = useCheckoutStore.getState();
-    reset();
-    return reset;
+    const { reset, refreshGiftCode } = useCheckoutStore.getState();
+    reset({ keepGiftCode: true });
+    if (tier) void refreshGiftCode(tier);
   }, [tier, invitationId]);
 
   if (!context) return <InvalidCheckout />;
@@ -69,6 +81,11 @@ export default function CheckoutPage() {
         categoryLabel: EVENT_CATEGORIES.find((c) => c.id === invitation.categoryId)?.label ?? null
       }
     : null;
+
+  // Önizleme bu plan içinse tutarlar ondan (kuruş); yoksa katalogdan.
+  const preview = giftPreview && giftPreview.tier === plan.id ? giftPreview : null;
+  const totalMinor = preview ? preview.totalMinor : plan.price * 100;
+  const isFree = preview !== null && preview.totalMinor === 0;
 
   const reference = bankTransferReference(context.invitationId ?? userId ?? '');
   const back = knownInvitation
@@ -121,7 +138,7 @@ export default function CheckoutPage() {
         <div className="grid lg:grid-cols-12 gap-6 lg:gap-10 items-start">
           {/* Sipariş özeti — mobilde üstte, masaüstünde sağda ve yapışkan */}
           <div className="lg:col-span-5 lg:order-2 lg:sticky lg:top-28">
-            <OrderSummary plan={plan} invitation={invitationSummary} />
+            <OrderSummary plan={plan} invitation={invitationSummary} giftPreview={preview} />
           </div>
 
           <motion.div
@@ -141,27 +158,35 @@ export default function CheckoutPage() {
                   exit={{ opacity: 0, transition: { duration: duration.fast, ease: ease.in } }}
                   className="space-y-7"
                 >
-                  <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted mb-3">Ödeme Yöntemi</p>
-                    <PaymentMethodSelector bankTransferAvailable={bankAccount !== null} />
-                  </div>
+                  <GiftCodeField tier={context.tier} />
 
-                  <div className="h-px bg-gradient-to-r from-transparent via-ink/10 to-transparent" />
+                  {isFree ? (
+                    <FreeActivationPanel context={context} />
+                  ) : (
+                    <>
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-muted mb-3">Ödeme Yöntemi</p>
+                        <PaymentMethodSelector bankTransferAvailable={bankAccount !== null} />
+                      </div>
 
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                      key={method}
-                      initial={{ opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0, transition: { duration: duration.panel, ease: ease.out } }}
-                      exit={{ opacity: 0, y: -8, transition: { duration: duration.fast, ease: ease.in } }}
-                    >
-                      {method === 'bank_transfer' && bankAccount ? (
-                        <BankTransferPanel account={bankAccount} amount={plan.price} reference={reference} />
-                      ) : (
-                        <CardPaymentForm context={context} amount={plan.price} />
-                      )}
-                    </motion.div>
-                  </AnimatePresence>
+                      <div className="h-px bg-gradient-to-r from-transparent via-ink/10 to-transparent" />
+
+                      <AnimatePresence mode="wait" initial={false}>
+                        <motion.div
+                          key={method}
+                          initial={{ opacity: 0, y: 14 }}
+                          animate={{ opacity: 1, y: 0, transition: { duration: duration.panel, ease: ease.out } }}
+                          exit={{ opacity: 0, y: -8, transition: { duration: duration.fast, ease: ease.in } }}
+                        >
+                          {method === 'bank_transfer' && bankAccount ? (
+                            <BankTransferPanel account={bankAccount} amount={plan.price} reference={reference} />
+                          ) : (
+                            <CardPaymentForm context={context} amountMinor={totalMinor} />
+                          )}
+                        </motion.div>
+                      </AnimatePresence>
+                    </>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>

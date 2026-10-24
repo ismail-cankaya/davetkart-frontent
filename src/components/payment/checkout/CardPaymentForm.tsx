@@ -18,15 +18,18 @@ import {
   isCardNumberComplete,
   validateCard
 } from '../../../utils/paymentCard';
-import { formatTry } from '../../../utils/currency';
+import { formatTryMinor } from '../../../utils/currency';
 import { toDisplayError } from '../../../utils/toDisplayError';
 import { cn } from '../../../utils/cn';
 import { duration, ease, gesture } from '../../../utils/motion';
 
 interface CardPaymentFormProps {
   context: CheckoutContext;
-  /** Gösterim tutarı (düğme metni). Tahsil edilen tutarı backend belirler. */
-  amount: number;
+  /**
+   * Gösterim tutarı, **kuruş** (düğme metni). Faz 11: hediye kodu varsa
+   * indirimli toplam. Tahsil edilen tutarı backend belirler.
+   */
+  amountMinor: number;
 }
 
 const EMPTY_CARD: CardDetails = { holderName: '', number: '', expiry: '', cvc: '' };
@@ -55,7 +58,7 @@ const INPUT_ERROR_CLASS = 'border-rose-300 bg-rose-50/40 focus:border-rose-400 f
  * | Barındırılan sayfa (Shopier klasik form) | Kart, sağlayıcının sayfasında yazılır. Buradaki alanlar kalkar; düğme "Güvenli ödeme sayfasına geç" olur (10.74: imzalı form otomatik POST edilir) |
  * | Doğrudan gönderim / tokenizasyon | Alanlar kalır; `handleSubmit` kartı tarayıcıdan **doğrudan sağlayıcıya** gönderir, API'mize yalnızca dönen jeton gider |
  */
-export function CardPaymentForm({ context, amount }: CardPaymentFormProps) {
+export function CardPaymentForm({ context, amountMinor }: CardPaymentFormProps) {
   const [card, setCard] = useState<CardDetails>(EMPTY_CARD);
   const [touched, setTouched] = useState<Partial<Record<CardField, boolean>>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -288,7 +291,7 @@ export function CardPaymentForm({ context, amount }: CardPaymentFormProps) {
           ) : (
             <>
               <Lock size={15} />
-              {formatTry(amount)} Öde
+              {formatTryMinor(amountMinor)} Öde
             </>
           )}
         </motion.button>

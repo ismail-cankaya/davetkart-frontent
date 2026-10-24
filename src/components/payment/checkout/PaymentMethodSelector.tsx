@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'motion/react';
 import { CreditCard, Landmark } from 'lucide-react';
 import { PaymentMethod } from '../../../types';
@@ -43,12 +44,16 @@ export function PaymentMethodSelector({ bankTransferAvailable }: PaymentMethodSe
   const method = useCheckoutStore((s) => s.method);
   const isProcessing = useCheckoutStore((s) => s.isProcessing);
   const selectMethod = useCheckoutStore((s) => s.selectMethod);
+  // Faz 11: hediye kodu yalnızca kartla geçerli (havalede sipariş açılmıyor).
+  const giftApplied = useCheckoutStore((s) => s.giftPreview !== null);
+  const { t } = useTranslation();
 
   return (
     <div role="radiogroup" aria-label="Ödeme yöntemi" className="grid sm:grid-cols-2 gap-3 md:gap-4">
       {OPTIONS.map((option) => {
         const active = method === option.id;
         const unavailable = option.id === 'bank_transfer' && !bankTransferAvailable;
+        const blockedByGift = option.id === 'bank_transfer' && !unavailable && giftApplied;
         const Icon = option.icon;
 
         return (
@@ -57,13 +62,13 @@ export function PaymentMethodSelector({ bankTransferAvailable }: PaymentMethodSe
             type="button"
             role="radio"
             aria-checked={active}
-            disabled={unavailable || isProcessing}
+            disabled={unavailable || blockedByGift || isProcessing}
             onClick={() => selectMethod(option.id)}
             className={cn(
               'group relative text-left rounded-3xl border bg-white p-5 transition duration-300 ease-luxe',
               active ? 'border-transparent shadow-xl shadow-brand/10' : 'border-ink/[0.07] shadow-sm',
-              !active && !unavailable && 'hover:-translate-y-0.5 hover:shadow-lg hover:shadow-ink/[0.06] hover:border-brand/25 cursor-pointer',
-              unavailable && 'opacity-55 cursor-not-allowed',
+              !active && !unavailable && !blockedByGift && 'hover:-translate-y-0.5 hover:shadow-lg hover:shadow-ink/[0.06] hover:border-brand/25 cursor-pointer',
+              (unavailable || blockedByGift) && 'opacity-55 cursor-not-allowed',
               isProcessing && !active && 'opacity-50'
             )}
           >
@@ -105,7 +110,7 @@ export function PaymentMethodSelector({ bankTransferAvailable }: PaymentMethodSe
                   </span>
                 </div>
                 <p className="text-xs text-muted mt-1 leading-relaxed">
-                  {unavailable ? 'Şu an kullanılamıyor' : option.description}
+                  {unavailable ? 'Şu an kullanılamıyor' : blockedByGift ? t('giftCode.bankTransferBlocked') : option.description}
                 </p>
 
                 {option.id === 'card' && (
@@ -115,7 +120,7 @@ export function PaymentMethodSelector({ bankTransferAvailable }: PaymentMethodSe
                     <CardBrandMark brand="troy" />
                   </div>
                 )}
-                {option.id === 'bank_transfer' && !unavailable && (
+                {option.id === 'bank_transfer' && !unavailable && !blockedByGift && (
                   <p className="inline-flex items-center mt-3 text-[10px] font-semibold tracking-wide text-brand bg-brand/[0.05] border border-brand/10 rounded-full px-2.5 py-1 whitespace-nowrap">
                     Tüm bankalardan
                   </p>

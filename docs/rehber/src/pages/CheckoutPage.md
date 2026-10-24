@@ -90,3 +90,52 @@ npm run verify:payment   # IBAN mod-97, Luhn, marka, son kullanma, ödeme adresi
 ```
 
 `verify:payment` `npm run verify`'a eklendi.
+
+---
+
+## 🆕 Faz 11: hediye kodu
+
+```
+┌ GiftCodeField ──────────────────┐   ┌ OrderSummary ─────────────┐
+│ "Hediye kodum var" ▾            │   │ Paket bedeli     ₺399,00  │
+│ [DUGUN2026      ] [Uygula]      │   │ Hediye kodu      −₺199,50 │  ← yalnızca önizleme varken
+└─────────────────────────────────┘   │ Toplam           ₺199,50  │
+toplam > 0 → yöntem seçici + kart    └───────────────────────────┘
+toplam = 0 → FreeActivationPanel ("Ücretsiz etkinleştir")
+```
+
+| Durum | Sol sütun | Sağ sütun |
+|---|---|---|
+| Kod yok | Eskisi gibi | Katalog fiyatı |
+| Kısmi indirim | Kart formu, düğme "₺199,50 Öde"; havale **kapalı** | İndirim satırı + yeni toplam |
+| Toplam 0 | Kart ve havale yok; "Ücretsiz etkinleştir" | Toplam `₺0` |
+
+### Plan değişince kod kalır
+
+Eskiden tek bir effect hem bağlam değişiminde hem çıkışta `reset()` çağırıyordu. Artık ikiye
+ayrıldı:
+
+```ts
+useEffect(() => () => useCheckoutStore.getState().reset(), []);    // çıkış: her şey gider
+useEffect(() => {                                                   // plan/davetiye değişti
+  reset({ keepGiftCode: true });
+  if (tier) void refreshGiftCode(tier);                             // aynı kod, yeni plan
+}, [tier, invitationId]);
+```
+
+Önizleme yalnızca **bu plan için** ise kullanılır (`giftPreview.tier === plan.id`). Plan
+değişip yeni önizleme gelene kadar ekranda eski planın indirimi görünmez.
+
+### Neden havale kapalı?
+
+Havalede backend'de sipariş açılmıyor (`confirmBankTransfer` sunucuya bir şey göndermiyor).
+Kod hiçbir siparişe ayrılamaz. Ekranda indirimli tutar gösterip havale istemek, kullanıcının
+indirimli tutarı yatırıp sonra eşleştirmede eksik ödemiş görünmesi demekti. Havale düğmesi
+"Hediye kodu yalnızca kartla ödemede geçerli" der; kod kaldırılınca geri açılır.
+
+### Elle denendi (23 Ekim 2026, bulut çalışma alanı, gerçek backend + Chromium)
+
+Yanlış kod → alanın altında `GIFT_CODE_INVALID` metni · `dugun 2026` (%50) → `₺199,50`, düğme
+"₺199,50 Öde", havale kapalı · `HEDIYEGOLD` (free/gold) → `₺0`, "Ücretsiz etkinleştir" · onaysız
+basış → onay kutusu kırmızı · onaylı basış → `/odeme/basarili?order=…`, "Ödemeniz onaylandı" ·
+390 px genişlikte aynı kodu Standart'ta tekrar deneme → `ALREADY_USED` metni.

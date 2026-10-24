@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { Check, LifeBuoy, Lock, MailOpen, ShieldCheck } from 'lucide-react';
-import { SubscriptionPlan } from '../../../types';
+import { AnimatePresence, motion } from 'motion/react';
+import { Check, Gift, LifeBuoy, Lock, MailOpen, ShieldCheck } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { GiftCodePreview, SubscriptionPlan } from '../../../types';
 import { PLAN_ICONS, PLAN_ICON_TONES } from '../planVisuals';
-import { formatTry } from '../../../utils/currency';
+import { formatTry, formatTryMinor } from '../../../utils/currency';
 import { cn } from '../../../utils/cn';
 import { duration, ease } from '../../../utils/motion';
 
@@ -18,6 +19,8 @@ interface OrderSummaryProps {
   plan: SubscriptionPlan;
   /** Davetiye tanınıyorsa gösterilir; hesap paketinde ya da bilinmiyorsa `null`. */
   invitation: InvitationSummary | null;
+  /** Faz 11: bu plan için geçerli hediye kodu önizlemesi; yoksa `null`. */
+  giftPreview?: GiftCodePreview | null;
 }
 
 /**
@@ -25,9 +28,15 @@ interface OrderSummaryProps {
  *
  * 🔴 Fiyat buradan **gösterilir**, tahsil edilmez. Tahsil edilen tutarı
  * backend kendi config'inden okur (M6); `data.ts` kataloğu yalnızca vitrin.
+ *
+ * Faz 11: önizleme varsa bedel, indirim ve toplam ÖNİZLEMEDEN (kuruş) gelir —
+ * katalog ile backend fiyatı ayrışsa bile indirim satırı kendi bedeliyle tutarlı.
  */
-export function OrderSummary({ plan, invitation }: OrderSummaryProps) {
+export function OrderSummary({ plan, invitation, giftPreview = null }: OrderSummaryProps) {
+  const { t } = useTranslation();
   const Icon = PLAN_ICONS[plan.id];
+  const priceMinor = giftPreview ? giftPreview.priceMinor : plan.price * 100;
+  const totalMinor = giftPreview ? giftPreview.totalMinor : priceMinor;
   const included = plan.features.filter((f) => f.included);
 
   return (
@@ -87,15 +96,39 @@ export function OrderSummary({ plan, invitation }: OrderSummaryProps) {
       <div className="border-t border-dashed border-ink/10 bg-cream/50 px-6 md:px-7 py-5 space-y-2.5">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted">Paket bedeli</span>
-          <span className="font-semibold text-ink">{formatTry(plan.price, true)}</span>
+          <span className="font-semibold text-ink">{formatTry(priceMinor / 100, true)}</span>
         </div>
+        <AnimatePresence initial={false}>
+          {giftPreview && (
+            <motion.div
+              key="gift-discount"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto', transition: { duration: duration.base, ease: ease.out } }}
+              exit={{ opacity: 0, height: 0, transition: { duration: duration.fast, ease: ease.in } }}
+              className="flex items-center justify-between text-sm overflow-hidden"
+            >
+              <span className="inline-flex items-center gap-1.5 text-emerald-700">
+                <Gift size={13} />
+                {t('giftCode.discountLine')}
+              </span>
+              <span className="font-semibold text-emerald-700">−{formatTryMinor(giftPreview.discountMinor)}</span>
+            </motion.div>
+          )}
+        </AnimatePresence>
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted">Ödeme türü</span>
           <span className="font-semibold text-ink">Tek seferlik</span>
         </div>
         <div className="flex items-end justify-between pt-3 mt-1 border-t border-ink/[0.06]">
           <span className="text-sm font-bold text-ink">Toplam</span>
-          <span className="font-serif text-3xl font-bold text-brand leading-none">{formatTry(plan.price)}</span>
+          <motion.span
+            key={totalMinor}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0, transition: { duration: duration.base, ease: ease.out } }}
+            className="font-serif text-3xl font-bold text-brand leading-none"
+          >
+            {formatTryMinor(totalMinor)}
+          </motion.span>
         </div>
       </div>
 
