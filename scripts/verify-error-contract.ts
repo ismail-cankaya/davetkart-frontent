@@ -88,6 +88,8 @@ async function main(): Promise<void> {
       PROVIDER_UNAVAILABLE: { retryAfter: 90 },
       MEDIA_QUOTA_EXCEEDED: { limit: 20 },
       FILE_TOO_LARGE: { max: 5_120 },
+      // Faz 11: hediye kodu başka bir plan için.
+      GIFT_CODE_NOT_APPLICABLE: { tier: 'gold' },
     };
 
     for (const [code, params] of Object.entries(withParams)) {
@@ -104,8 +106,10 @@ async function main(): Promise<void> {
       if (retryAfter >= 60 && text.includes(String(retryAfter))) {
         fail(`${code} → ham saniye sızdı: ${text}`);
       }
-      if (params.requiredTier !== undefined && text.includes(String(params.requiredTier))) {
-        fail(`${code} → ham plan değeri sızdı: ${text}`);
+      for (const tierParam of [params.requiredTier, params.tier]) {
+        if (tierParam !== undefined && text.includes(String(tierParam))) {
+          fail(`${code} → ham plan değeri sızdı: ${text}`);
+        }
       }
     }
 

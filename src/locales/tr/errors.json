@@ -23,6 +23,12 @@
       "base": "Dosya çok büyük. Daha küçük bir dosya seçip tekrar deneyin.",
       "detailed": "Dosya çok büyük. En fazla {{max}} KB yükleyebilirsiniz."
     },
+    "GIFT_CODE_ALREADY_USED": "Bu hediye kodunu daha önce kullandınız. Kodla başlattığınız bir ödeme yarım kaldıysa birkaç dakika sonra tekrar deneyebilirsiniz.",
+    "GIFT_CODE_INVALID": "Bu hediye kodu geçerli değil. Kodu kontrol edip tekrar deneyin.",
+    "GIFT_CODE_NOT_APPLICABLE": {
+      "base": "Bu hediye kodu seçtiğiniz paket için geçerli değil.",
+      "detailed": "Bu hediye kodu yalnızca {{tier}} paketinde geçerli."
+    },
     "INVALID_CREDENTIALS": "E-posta veya parola hatalı. Kontrol edip tekrar deneyin.",
     "INVITATION_ALREADY_PUBLISHED": "Bu davetiye zaten yayında.",
     "INVITATION_LOCKED": "Bu davetiye kilitli olduğu için şu anda düzenlenemiyor.",
@@ -125,7 +131,9 @@
     "invitation/timelineEvents/*/title": "Program başlığı",
     "invitation/timelineEvents/*/time": "Program saati",
     "invitation/timelineEvents/*/description": "Program açıklaması",
-    "invitation/timelineEvents/*/id": "Program adımı"
+    "invitation/timelineEvents/*/id": "Program adımı",
+    "giftCode": "Hediye kodu",
+    "code": "Hediye kodu"
   },
   "validation": {
     "fallback": "{{field}} geçerli değil.",

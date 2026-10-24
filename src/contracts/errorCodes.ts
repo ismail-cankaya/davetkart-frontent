@@ -22,7 +22,7 @@ export interface ErrorCodeMeta {
 const CODES = catalogue.codes as Record<string, ErrorCodeMeta>;
 
 /**
- * Katalogdaki 21 kodun birleşimi. `error-codes.json` yenilendiğinde bu tip de
+ * Katalogdaki kodların birleşimi (Faz 11: 25). `error-codes.json` yenilendiğinde bu tip de
  * kendiliğinden yenilenir — elle güncellenecek ikinci bir liste yoktur.
  */
 export type ErrorCode = keyof typeof catalogue.codes;

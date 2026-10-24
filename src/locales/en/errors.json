@@ -23,6 +23,12 @@
       "base": "That file is too large. Pick a smaller one and try again.",
       "detailed": "That file is too large. The limit is {{max}} KB."
     },
+    "GIFT_CODE_ALREADY_USED": "You've already used this gift code. If a payment you started with it was left unfinished, try again in a few minutes.",
+    "GIFT_CODE_INVALID": "This gift code isn't valid. Check it and try again.",
+    "GIFT_CODE_NOT_APPLICABLE": {
+      "base": "This gift code doesn't apply to the plan you chose.",
+      "detailed": "This gift code only applies to the {{tier}} plan."
+    },
     "INVALID_CREDENTIALS": "That email or password isn't right. Check them and try again.",
     "INVITATION_ALREADY_PUBLISHED": "This invitation is already published.",
     "INVITATION_LOCKED": "This invitation is locked and can't be edited right now.",
@@ -125,7 +131,9 @@
     "invitation/timelineEvents/*/title": "Schedule title",
     "invitation/timelineEvents/*/time": "Schedule time",
     "invitation/timelineEvents/*/description": "Schedule description",
-    "invitation/timelineEvents/*/id": "Schedule step"
+    "invitation/timelineEvents/*/id": "Schedule step",
+    "giftCode": "Gift code",
+    "code": "Gift code"
   },
   "validation": {
     "fallback": "{{field}} isn't valid.",

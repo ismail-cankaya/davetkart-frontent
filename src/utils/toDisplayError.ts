@@ -48,9 +48,9 @@ function formatDuration(seconds: number): string {
 /**
  * Ham parametreleri metne gömülmeye hazır hâle getirir.
  *
- * İki değer ham hâliyle gösterilemez: `retryAfter` bir saniye sayısıdır
- * (günlük kotada 80.000'i bulur) ve `requiredTier` bir sistem değeridir
- * (`elit`), kullanıcıya gösterilecek bir etiket değil.
+ * Üç değer ham hâliyle gösterilemez: `retryAfter` bir saniye sayısıdır
+ * (günlük kotada 80.000'i bulur); `requiredTier` ve `tier` sistem
+ * değerleridir (`elit`), kullanıcıya gösterilecek bir etiket değil.
  */
 function presentParams(params: Record<string, unknown>): Record<string, unknown> {
   const out: Record<string, unknown> = { ...params };
@@ -58,11 +58,13 @@ function presentParams(params: Record<string, unknown>): Record<string, unknown>
   if (typeof out.retryAfter === 'number') {
     out.retryAfter = formatDuration(out.retryAfter);
   }
-  if (typeof out.requiredTier === 'string') {
-    out.requiredTier = i18n.t(`tiers.${out.requiredTier}`, {
-      ns: NS,
-      defaultValue: out.requiredTier,
-    });
+  // `requiredTier` (402) ve `tier` (Faz 11, GIFT_CODE_NOT_APPLICABLE) aynı
+  // türden değer: bir plan kimliği. İkisi de etikete çevrilir.
+  for (const key of ['requiredTier', 'tier'] as const) {
+    const value = out[key];
+    if (typeof value === 'string') {
+      out[key] = i18n.t(`tiers.${value}`, { ns: NS, defaultValue: value });
+    }
   }
 
   return out;
