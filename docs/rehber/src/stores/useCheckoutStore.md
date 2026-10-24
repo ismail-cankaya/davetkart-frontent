@@ -49,3 +49,26 @@ düştü.
 Kod hatası beklenen bir kullanıcı hatası (yanlış yazım), olağanüstü bir durum değil. Metin
 toast'ta değil alanın altında durmalı: kullanıcı kodu düzeltirken neyin yanlış olduğunu görmeye
 devam eder. Dönüş değeri (`true`/`false`) çağırana yeter.
+
+---
+
+## 🆕 Faz 12 (12.11): `goToProvider(result)`
+
+```ts
+goToProvider: (result) => {
+  const action = checkoutActionOf(result);      // checkout alanı, yoksa eski redirectUrl
+  if (!action) return false;                     // sipariş açıldı, sağlayıcı sayfası yok
+  if (action.type === 'form') submitProviderForm(action);   // Shopier: imzalı form POST
+  else window.location.assign(action.url);                  // Fake: adrese git
+  return true;
+}
+```
+
+**Neden store'da, bileşende değil?** "Adres mi, form mu?" kararı bir **akış** kararı;
+kart formu bunu bilmek zorunda değil. Karar tek yerde durunca yeni bir gidiş türü
+(ileride bir iframe, bir mobil uygulama yönlendirmesi) tek dosyada eklenir.
+
+**`assign`, `href =` değil:** davranış aynı; `assign` bir **eylem** olduğunu çağrı
+yerinde belli ediyor ve testte taklit edilebilir bir metot.
+
+🔴 Kart bilgisi yine store'a girmiyor: Faz 12'de kart alanları tamamen kalktı (12.12).

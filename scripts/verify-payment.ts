@@ -25,7 +25,8 @@ import { getRequiredTier } from '../src/stores/useSubscriptionStore';
 import { INITIAL_INVITATION, SUBSCRIPTION_PLANS, TEMPLATE_PRESETS } from '../src/data';
 import type { OrderStatus } from '../src/types';
 import { formatTry, formatTryMinor } from '../src/utils/currency';
-import { checkoutBody } from '../src/services/payments';
+import { checkoutActionOf, checkoutBody, isCheckoutAction } from '../src/services/payments';
+import { isSafeFormTarget, submitProviderForm } from '../src/utils/submitProviderForm';
 
 let failures = 0;
 
@@ -211,6 +212,56 @@ function main(): void {
   check('gövde: kod kırpılır', checkoutBody('gold', '  DUGUN2026 '), { tier: 'gold', giftCode: 'DUGUN2026' });
   check('gövde: boş kod hiç gitmez', checkoutBody('gold', '   '), { tier: 'gold' });
   check('gövde: null kod hiç gitmez', checkoutBody('elit', null), { tier: 'elit' });
+
+  // Faz 12: ödeme sayfasına gidiş (backend K119). `checkout` önce, eski `redirectUrl` geri dönüş.
+  console.log('\nÖdeme sayfasına gidiş (Faz 12)');
+  const base = { orderId: '01J9', tier: 'gold' as const, status: 'pending' as const };
+  const form = { type: 'form' as const, url: 'https://pay.example/api_pay4.php', fields: { platform_order_id: '01J9', signature: 'abc=' } };
+  check('form alanı okunur', checkoutActionOf({ ...base, checkout: form }), form);
+  check('redirect: checkout alanı önce', checkoutActionOf({ ...base, redirectUrl: '/eski', checkout: { type: 'redirect', url: '/yeni' } }), { type: 'redirect', url: '/yeni' });
+  check('eski yanıt: redirectUrl geri dönüşü', checkoutActionOf({ ...base, redirectUrl: '/odeme/basarili?order=01J9' }), { type: 'redirect', url: '/odeme/basarili?order=01J9' });
+  check('ikisi de yok: null', checkoutActionOf(base), null);
+  check('biçim: geçerli form', isCheckoutAction(form), true);
+  check('biçim: sayısal alan değeri reddedilir', isCheckoutAction({ ...form, fields: { total_order_value: 399 } }), false);
+  check('biçim: boş form reddedilir', isCheckoutAction({ ...form, fields: {} }), false);
+  check('biçim: dizi alanlar reddedilir', isCheckoutAction({ ...form, fields: ['a'] }), false);
+  check('biçim: adressiz reddedilir', isCheckoutAction({ type: 'redirect', url: '' }), false);
+  check('biçim: bilinmeyen tür reddedilir', isCheckoutAction({ type: 'iframe', url: 'https://x' }), false);
+
+  // Faz 12: imzalı formun gönderimi. Gerçek DOM yok; kayıt tutan sahte bir belge.
+  console.log('\nSağlayıcı formu (Faz 12)');
+  const here = { hostname: 'davetkart.com' };
+  check('https hedef güvenli', isSafeFormTarget('https://www.shopier.com/ShowProduct/api_pay4.php', here), true);
+  check('http hedef reddedilir', isSafeFormTarget('http://www.shopier.com/x', here), false);
+  check('javascript: reddedilir', isSafeFormTarget('javascript:alert(1)', here), false);
+  check('göreli adres reddedilir', isSafeFormTarget('/odeme', here), false);
+  check('yerelde localhost http kabul', isSafeFormTarget('http://localhost:8000/x', { hostname: 'localhost' }), true);
+
+  type FakeEl = { tag: string; children: FakeEl[]; style: Record<string, string>; submitted?: boolean; [k: string]: unknown };
+  const body: FakeEl[] = [];
+  const fakeDoc = {
+    createElement: (tag: string): FakeEl => {
+      const el: FakeEl = { tag, children: [], style: {} };
+      el.appendChild = (child: FakeEl) => el.children.push(child);
+      el.submit = () => { el.submitted = true; };
+      return el;
+    },
+    body: { appendChild: (el: FakeEl) => body.push(el) },
+    location: here,
+  } as unknown as Document;
+  const hostile = '"><script>alert(1)</script>';
+  submitProviderForm({ type: 'form', url: 'https://pay.example/api_pay4.php', fields: { buyer_name: hostile, signature: 'abc=' } }, fakeDoc);
+  const posted = body[0];
+  check('form gövdeye eklendi ve gönderildi', [posted?.tag, posted?.method, posted?.submitted], ['form', 'post', true]);
+  check('her alan gizli bir input', posted?.children.map((c) => [c.type, c.name]), [['hidden', 'buyer_name'], ['hidden', 'signature']]);
+  check('değer metin olarak atanır (HTML değil)', posted?.children[0]?.value, hostile);
+  let refused = false;
+  try {
+    submitProviderForm({ type: 'form', url: 'javascript:alert(1)', fields: { a: 'b' } }, fakeDoc);
+  } catch {
+    refused = true;
+  }
+  check('güvensiz hedefe hiçbir şey gönderilmez', [refused, body.length], [true, 1]);
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);

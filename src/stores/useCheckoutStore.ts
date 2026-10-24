@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { CheckoutResult, GiftCodePreview, PaymentMethod, SubscriptionTier } from '../types';
-import { paymentService } from '../services/payments';
+import { checkoutActionOf, paymentService } from '../services/payments';
+import { submitProviderForm } from '../utils/submitProviderForm';
 import { apiErrorCode } from '../services/api';
 import { toDisplayError } from '../utils/toDisplayError';
 
@@ -14,12 +15,15 @@ import { toDisplayError } from '../utils/toDisplayError';
  * URL'den okunur, burada tutulmaz.
  *
  * 🔴 **Kart bilgisi bu store'a GİRMEZ.** Store küreseldir; geliştirici
- * araçlarından okunabilir, bir gün kalıcı hâle getirilebilir. Kart
- * alanları `CardPaymentForm`'un yerel state'inde doğar ve orada ölür.
+ * araçlarından okunabilir, bir gün kalıcı hâle getirilebilir. Faz 12'den beri
+ * kart alanı uygulamada hiç yok: kart Shopier'in sayfasında yazılır.
  *
  * Faz 11: hediye kodu da burada. Kod bir sır değil (kullanıcı onu zaten
  * yazdı) ve kart formu ile ücretsiz etkinleştirme düğmesi aynı kodu okumalı.
  * Önizleme yalnızca GÖSTERİMDİR; indirimi checkout yanıtı kesinleştirir.
+ *
+ * Faz 12: sağlayıcıya gidiş (`goToProvider`) burada — adres mi, imzalı form
+ * mu, karar tek yerde. Kart formu ve ücretsiz etkinleştirme aynı kapıdan geçer.
  * Ayrıntılı açıklama: docs/rehber/src/stores/useCheckoutStore.md
  */
 
@@ -71,6 +75,12 @@ interface CheckoutState {
    * yere gitmez, bağlandığında da tarayıcıdan doğrudan sağlayıcıya gider.
    */
   startCardCheckout: (context: CheckoutContext) => Promise<CheckoutResult | null>;
+  /**
+   * Faz 12: checkout yanıtına göre sağlayıcıya gider. `form` -> imzalı formu
+   * POST eder (Shopier), `redirect` -> adrese gider. `false` = gidilecek bir
+   * yer yok (sipariş açıldı ama sağlayıcı sayfası gelmedi).
+   */
+  goToProvider: (result: CheckoutResult) => boolean;
   confirmBankTransfer: () => void;
   /** "Kontrol bekliyor" ekranından hesap bilgilerine geri döner. */
   reviewBankTransfer: () => void;
@@ -147,6 +157,18 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
       }
       throw error;
     }
+  },
+
+  goToProvider: (result) => {
+    const action = checkoutActionOf(result);
+    if (!action) return false;
+
+    if (action.type === 'form') {
+      submitProviderForm(action);
+    } else {
+      window.location.assign(action.url);
+    }
+    return true;
   },
 
   /**
