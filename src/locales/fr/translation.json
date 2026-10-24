@@ -27,5 +27,24 @@
       "templates": "Modèles exclusifs",
       "eco": "Écologique"
     }
+  },
+  "giftCode": {
+    "toggle": "J'ai un code cadeau",
+    "appliedBadge": "Appliqué",
+    "label": "Code cadeau",
+    "placeholder": "ex. DK-7KQ2-M9XA-P4TR",
+    "apply": "Appliquer",
+    "applying": "Vérification…",
+    "remove": "Retirer",
+    "appliedDiscount": "Réduction de {{amount}} appliquée",
+    "discountLine": "Réduction du code cadeau",
+    "bankTransferBlocked": "Les codes cadeaux ne s'appliquent qu'aux paiements par carte",
+    "free": {
+      "title": "Cette formule vous est offerte",
+      "body": "Votre code cadeau couvre toute la formule. Ni carte ni virement nécessaire : vous pourrez publier votre invitation dès l'activation.",
+      "button": "Activer gratuitement",
+      "processing": "Activation…",
+      "changed": "Votre code cadeau ne couvre plus toute la formule. Vérifiez le nouveau total et réessayez."
+    }
   }
 }

@@ -27,5 +27,24 @@
       "templates": "Exklusive Vorlagen",
       "eco": "Umweltfreundlich"
     }
+  },
+  "giftCode": {
+    "toggle": "Ich habe einen Geschenkcode",
+    "appliedBadge": "Angewendet",
+    "label": "Geschenkcode",
+    "placeholder": "z. B. DK-7KQ2-M9XA-P4TR",
+    "apply": "Anwenden",
+    "applying": "Wird geprüft…",
+    "remove": "Entfernen",
+    "appliedDiscount": "{{amount}} Rabatt angewendet",
+    "discountLine": "Rabatt durch Geschenkcode",
+    "bankTransferBlocked": "Geschenkcodes gelten nur für Kartenzahlungen",
+    "free": {
+      "title": "Dieses Paket ist ein Geschenk",
+      "body": "Ihr Geschenkcode deckt das gesamte Paket ab. Keine Karte oder Überweisung nötig – Sie können Ihre Einladung direkt nach der Aktivierung veröffentlichen.",
+      "button": "Kostenlos aktivieren",
+      "processing": "Wird aktiviert…",
+      "changed": "Ihr Geschenkcode deckt das Paket nicht mehr vollständig ab. Prüfen Sie den neuen Betrag und versuchen Sie es erneut."
+    }
   }
 }

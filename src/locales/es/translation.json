@@ -27,5 +27,24 @@
       "templates": "Plantillas exclusivas",
       "eco": "Ecológico"
     }
+  },
+  "giftCode": {
+    "toggle": "Tengo un código de regalo",
+    "appliedBadge": "Aplicado",
+    "label": "Código de regalo",
+    "placeholder": "p. ej. DK-7KQ2-M9XA-P4TR",
+    "apply": "Aplicar",
+    "applying": "Comprobando…",
+    "remove": "Quitar",
+    "appliedDiscount": "Descuento de {{amount}} aplicado",
+    "discountLine": "Descuento del código de regalo",
+    "bankTransferBlocked": "Los códigos de regalo solo valen para pagos con tarjeta",
+    "free": {
+      "title": "Este plan es un regalo",
+      "body": "Tu código de regalo cubre el plan completo. No necesitas tarjeta ni transferencia: podrás publicar tu invitación en cuanto lo actives.",
+      "button": "Activar gratis",
+      "processing": "Activando…",
+      "changed": "Tu código de regalo ya no cubre el plan completo. Revisa el total actualizado e inténtalo de nuevo."
+    }
   }
 }

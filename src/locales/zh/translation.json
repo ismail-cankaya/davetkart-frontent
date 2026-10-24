@@ -27,5 +27,24 @@
       "templates": "专属模板",
       "eco": "环保"
     }
+  },
+  "giftCode": {
+    "toggle": "我有礼品码",
+    "appliedBadge": "已使用",
+    "label": "礼品码",
+    "placeholder": "例如 DK-7KQ2-M9XA-P4TR",
+    "apply": "使用",
+    "applying": "正在验证…",
+    "remove": "移除",
+    "appliedDiscount": "已减免 {{amount}}",
+    "discountLine": "礼品码优惠",
+    "bankTransferBlocked": "礼品码仅适用于银行卡支付",
+    "free": {
+      "title": "此套餐由我们赠送",
+      "body": "您的礼品码可抵扣整个套餐，无需银行卡或转账。激活后即可发布您的邀请函。",
+      "button": "免费激活",
+      "processing": "正在激活…",
+      "changed": "您的礼品码已无法抵扣整个套餐，请查看更新后的金额后重试。"
+    }
   }
 }

@@ -27,5 +27,24 @@
       "templates": "Modelos exclusivos",
       "eco": "Ecológico"
     }
+  },
+  "giftCode": {
+    "toggle": "Tenho um código de presente",
+    "appliedBadge": "Aplicado",
+    "label": "Código de presente",
+    "placeholder": "ex.: DK-7KQ2-M9XA-P4TR",
+    "apply": "Aplicar",
+    "applying": "Verificando…",
+    "remove": "Remover",
+    "appliedDiscount": "Desconto de {{amount}} aplicado",
+    "discountLine": "Desconto do código de presente",
+    "bankTransferBlocked": "Códigos de presente valem apenas para pagamento com cartão",
+    "free": {
+      "title": "Este plano é um presente",
+      "body": "Seu código de presente cobre o plano inteiro. Não precisa de cartão nem transferência — você pode publicar o convite assim que ativar.",
+      "button": "Ativar grátis",
+      "processing": "Ativando…",
+      "changed": "Seu código de presente não cobre mais o plano inteiro. Confira o novo total e tente novamente."
+    }
   }
 }

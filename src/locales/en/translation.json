@@ -27,5 +27,24 @@
       "templates": "Unique Templates",
       "eco": "Eco-Friendly"
     }
+  },
+  "giftCode": {
+    "toggle": "I have a gift code",
+    "appliedBadge": "Applied",
+    "label": "Gift code",
+    "placeholder": "e.g. DK-7KQ2-M9XA-P4TR",
+    "apply": "Apply",
+    "applying": "Checking…",
+    "remove": "Remove",
+    "appliedDiscount": "{{amount}} off applied",
+    "discountLine": "Gift code discount",
+    "bankTransferBlocked": "Gift codes apply to card payments only",
+    "free": {
+      "title": "This plan is on us",
+      "body": "Your gift code covers the whole plan. No card or bank transfer needed — you can publish your invitation as soon as you activate it.",
+      "button": "Activate for free",
+      "processing": "Activating…",
+      "changed": "Your gift code no longer covers the whole plan. Check the updated total and try again."
+    }
   }
 }

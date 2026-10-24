@@ -27,5 +27,24 @@
       "templates": "Özel Şablon",
       "eco": "Çevre Dostu"
     }
+  },
+  "giftCode": {
+    "toggle": "Hediye kodum var",
+    "appliedBadge": "Uygulandı",
+    "label": "Hediye kodu",
+    "placeholder": "Örn. DK-7KQ2-M9XA-P4TR",
+    "apply": "Uygula",
+    "applying": "Kontrol ediliyor…",
+    "remove": "Kaldır",
+    "appliedDiscount": "{{amount}} indirim uygulandı",
+    "discountLine": "Hediye kodu indirimi",
+    "bankTransferBlocked": "Hediye kodu yalnızca kartla ödemede geçerli",
+    "free": {
+      "title": "Bu paket size hediye",
+      "body": "Hediye kodunuz paketin tamamını karşılıyor. Kart ya da havale gerekmiyor; etkinleştirdiğiniz anda davetiyenizi yayınlayabilirsiniz.",
+      "button": "Ücretsiz etkinleştir",
+      "processing": "Etkinleştiriliyor…",
+      "changed": "Hediye kodunuz artık paketin tamamını karşılamıyor. Güncel tutarı kontrol edip tekrar deneyin."
+    }
   }
 }
