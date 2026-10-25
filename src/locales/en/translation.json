@@ -59,5 +59,48 @@
   },
   "paymentReturn": {
     "delayedBody": "We are verifying your payment. It will be confirmed within a few minutes and appear in your dashboard; you can close this page."
+  },
+  "pricing": {
+    "oneTime": "/ one-time",
+    "loading": "Loading prices…",
+    "unavailable": "Prices can't be shown right now.",
+    "retry": "Try again",
+    "listPrice": "List price",
+    "badge": {
+      "first_publish": "{{percent}}% off your first publish",
+      "campaign": "{{percent}}% campaign discount"
+    },
+    "until": "until {{date}}",
+    "line": {
+      "first_publish": "First-publish discount ({{percent}}%)",
+      "campaign": "Campaign discount ({{percent}}%)"
+    },
+    "firstPublishBanner": "New members only: {{percent}}% off every package on your first invitation — applied automatically at checkout.",
+    "firstPublishHint": "{{percent}}% off your first invitation",
+    "faqFirstPublish": {
+      "q": "How does the first-invitation discount work?",
+      "a": "New members get {{percent}}% off every package on their first invitation. The discount is applied automatically at checkout; no coupon code is needed. If a campaign offers a bigger discount, the bigger one applies."
+    },
+    "methods": {
+      "cardBank": "Pay by card or bank transfer",
+      "card": "Pay by card",
+      "bank": "Pay by bank transfer",
+      "giftOnly": "Currently activation with a gift code only",
+      "none": "Online payments are unavailable right now"
+    },
+    "paywallNote": {
+      "cardBank": "In the next step you can pay by card or bank transfer. Once your payment is confirmed you can publish your invitation.",
+      "card": "In the next step you can pay by card. Once your payment is confirmed you can publish your invitation.",
+      "bank": "In the next step you can pay by bank transfer. Once your payment is confirmed you can publish your invitation.",
+      "giftOnly": "Right now payments can only be made with a gift code. You can enter your code in the next step.",
+      "none": "Online payments are unavailable right now. Please try again later."
+    },
+    "checkout": {
+      "giftOnlyTitle": "Gift codes only for now",
+      "giftOnlyBody": "Card and bank transfer payments are temporarily closed. Enter your gift code above; if it covers the whole package you can activate your invitation right away.",
+      "remainderBlocked": "Your gift code gave you a discount, but there is no open payment method for the remaining {{amount}} right now. You can use a code that covers the whole package.",
+      "noneTitle": "Payments are unavailable",
+      "noneBody": "Online payment is temporarily closed. Please try again later or contact us."
+    }
   }
 }

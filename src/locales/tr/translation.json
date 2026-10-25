@@ -59,5 +59,48 @@
   },
   "paymentReturn": {
     "delayedBody": "Ödemeniz doğrulanıyor. Birkaç dakika içinde onaylanır ve panelinizde görünür; bu sayfayı kapatabilirsiniz."
+  },
+  "pricing": {
+    "oneTime": "/ tek seferlik",
+    "loading": "Fiyatlar yükleniyor…",
+    "unavailable": "Fiyat şu an gösterilemiyor.",
+    "retry": "Tekrar dene",
+    "listPrice": "Liste fiyatı",
+    "badge": {
+      "first_publish": "İlk yayına %{{percent}} indirim",
+      "campaign": "%{{percent}} kampanya indirimi"
+    },
+    "until": "{{date}} tarihine kadar",
+    "line": {
+      "first_publish": "İlk yayın indirimi (%{{percent}})",
+      "campaign": "Kampanya indirimi (%{{percent}})"
+    },
+    "firstPublishBanner": "Yeni üyelere özel: ilk davetiyenizde tüm paketlerde %{{percent}} indirim — ödeme adımında otomatik uygulanır.",
+    "firstPublishHint": "İlk davetiyenizde %{{percent}} indirim",
+    "faqFirstPublish": {
+      "q": "İlk davetiye indirimi nasıl çalışır?",
+      "a": "Yeni üyelerimizin ilk davetiyesinde tüm paketlerde %{{percent}} indirim uygulanır. İndirim ödeme adımında otomatik olarak yansıtılır; kupon kodu gerekmez. Bir kampanya daha büyük bir indirim sunuyorsa büyük olan uygulanır."
+    },
+    "methods": {
+      "cardBank": "Kartla ya da Havale/EFT ile ödeme",
+      "card": "Kartla ödeme",
+      "bank": "Havale/EFT ile ödeme",
+      "giftOnly": "Şu an yalnızca hediye koduyla etkinleştirme",
+      "none": "Şu an çevrim içi ödeme alınamıyor"
+    },
+    "paywallNote": {
+      "cardBank": "Sonraki adımda kartla ya da Havale/EFT ile ödeyebilirsiniz. Ödemeniz onaylandıktan sonra davetiyenizi yayınlayabilirsiniz.",
+      "card": "Sonraki adımda kartla ödeyebilirsiniz. Ödemeniz onaylandıktan sonra davetiyenizi yayınlayabilirsiniz.",
+      "bank": "Sonraki adımda Havale/EFT ile ödeyebilirsiniz. Ödemeniz onaylandıktan sonra davetiyenizi yayınlayabilirsiniz.",
+      "giftOnly": "Şu an ödemeler yalnızca hediye koduyla yapılabiliyor. Sonraki adımda kodunuzu girebilirsiniz.",
+      "none": "Şu an çevrim içi ödeme alınamıyor. Lütfen daha sonra tekrar deneyin."
+    },
+    "checkout": {
+      "giftOnlyTitle": "Şu an yalnızca hediye kodu",
+      "giftOnlyBody": "Kart ve havale ile ödeme geçici olarak kapalı. Hediye kodunuzu yukarıdaki alana girin; kod paketin tamamını karşılıyorsa davetiyenizi hemen etkinleştirebilirsiniz.",
+      "remainderBlocked": "Hediye kodunuz indirim sağladı ama kalan {{amount}} için şu an açık bir ödeme yöntemi yok. Paketin tamamını karşılayan bir kod kullanabilirsiniz.",
+      "noneTitle": "Şu an ödeme alınamıyor",
+      "noneBody": "Çevrim içi ödeme geçici olarak kapalı. Lütfen daha sonra tekrar deneyin ya da bize yazın."
+    }
   }
 }

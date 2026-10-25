@@ -59,5 +59,48 @@
   },
   "paymentReturn": {
     "delayedBody": "Estamos verificando seu pagamento. Ele será confirmado em alguns minutos e aparecerá no seu painel; você pode fechar esta página."
+  },
+  "pricing": {
+    "oneTime": "/ pagamento único",
+    "loading": "Carregando preços…",
+    "unavailable": "Não é possível mostrar os preços agora.",
+    "retry": "Tentar novamente",
+    "listPrice": "Preço de tabela",
+    "badge": {
+      "first_publish": "{{percent}}% de desconto na primeira publicação",
+      "campaign": "{{percent}}% de desconto da campanha"
+    },
+    "until": "até {{date}}",
+    "line": {
+      "first_publish": "Desconto da primeira publicação ({{percent}}%)",
+      "campaign": "Desconto da campanha ({{percent}}%)"
+    },
+    "firstPublishBanner": "Exclusivo para novos membros: {{percent}}% de desconto em todos os pacotes no seu primeiro convite — aplicado automaticamente no pagamento.",
+    "firstPublishHint": "{{percent}}% de desconto no seu primeiro convite",
+    "faqFirstPublish": {
+      "q": "Como funciona o desconto do primeiro convite?",
+      "a": "Novos membros recebem {{percent}}% de desconto em todos os pacotes no primeiro convite. O desconto é aplicado automaticamente no pagamento; não é preciso cupom. Se uma campanha oferecer um desconto maior, vale o maior."
+    },
+    "methods": {
+      "cardBank": "Pagamento com cartão ou transferência bancária",
+      "card": "Pagamento com cartão",
+      "bank": "Pagamento por transferência bancária",
+      "giftOnly": "No momento, ativação apenas com código-presente",
+      "none": "Pagamentos online indisponíveis no momento"
+    },
+    "paywallNote": {
+      "cardBank": "Na próxima etapa você pode pagar com cartão ou transferência bancária. Depois que o pagamento for confirmado, você poderá publicar seu convite.",
+      "card": "Na próxima etapa você pode pagar com cartão. Depois que o pagamento for confirmado, você poderá publicar seu convite.",
+      "bank": "Na próxima etapa você pode pagar por transferência bancária. Depois que o pagamento for confirmado, você poderá publicar seu convite.",
+      "giftOnly": "No momento os pagamentos só podem ser feitos com um código-presente. Você pode digitar o código na próxima etapa.",
+      "none": "Pagamentos online estão indisponíveis no momento. Tente novamente mais tarde."
+    },
+    "checkout": {
+      "giftOnlyTitle": "No momento, apenas códigos-presente",
+      "giftOnlyBody": "Os pagamentos com cartão e transferência estão temporariamente fechados. Digite seu código-presente acima; se ele cobrir o pacote inteiro, você poderá ativar seu convite na hora.",
+      "remainderBlocked": "Seu código-presente deu um desconto, mas não há nenhum meio de pagamento aberto para os {{amount}} restantes. Você pode usar um código que cubra o pacote inteiro.",
+      "noneTitle": "Pagamentos indisponíveis",
+      "noneBody": "O pagamento online está temporariamente fechado. Tente novamente mais tarde ou fale conosco."
+    }
   }
 }

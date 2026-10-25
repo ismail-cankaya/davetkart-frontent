@@ -59,5 +59,48 @@
   },
   "paymentReturn": {
     "delayedBody": "Estamos verificando tu pago. Se confirmará en unos minutos y aparecerá en tu panel; puedes cerrar esta página."
+  },
+  "pricing": {
+    "oneTime": "/ pago único",
+    "loading": "Cargando precios…",
+    "unavailable": "Ahora no se pueden mostrar los precios.",
+    "retry": "Reintentar",
+    "listPrice": "Precio de lista",
+    "badge": {
+      "first_publish": "{{percent}} % de descuento en tu primera publicación",
+      "campaign": "{{percent}} % de descuento por campaña"
+    },
+    "until": "hasta el {{date}}",
+    "line": {
+      "first_publish": "Descuento de primera publicación ({{percent}} %)",
+      "campaign": "Descuento de campaña ({{percent}} %)"
+    },
+    "firstPublishBanner": "Solo para nuevos miembros: {{percent}} % de descuento en todos los paquetes en tu primera invitación — se aplica automáticamente al pagar.",
+    "firstPublishHint": "{{percent}} % de descuento en tu primera invitación",
+    "faqFirstPublish": {
+      "q": "¿Cómo funciona el descuento de la primera invitación?",
+      "a": "Los nuevos miembros obtienen un {{percent}} % de descuento en todos los paquetes en su primera invitación. El descuento se aplica automáticamente al pagar; no hace falta código de cupón. Si una campaña ofrece un descuento mayor, se aplica el mayor."
+    },
+    "methods": {
+      "cardBank": "Pago con tarjeta o transferencia bancaria",
+      "card": "Pago con tarjeta",
+      "bank": "Pago por transferencia bancaria",
+      "giftOnly": "Por ahora solo activación con código de regalo",
+      "none": "Ahora no se aceptan pagos en línea"
+    },
+    "paywallNote": {
+      "cardBank": "En el siguiente paso podrás pagar con tarjeta o transferencia bancaria. Cuando se confirme el pago podrás publicar tu invitación.",
+      "card": "En el siguiente paso podrás pagar con tarjeta. Cuando se confirme el pago podrás publicar tu invitación.",
+      "bank": "En el siguiente paso podrás pagar por transferencia bancaria. Cuando se confirme el pago podrás publicar tu invitación.",
+      "giftOnly": "Por ahora los pagos solo pueden hacerse con un código de regalo. Podrás introducirlo en el siguiente paso.",
+      "none": "Ahora no se aceptan pagos en línea. Inténtalo de nuevo más tarde."
+    },
+    "checkout": {
+      "giftOnlyTitle": "Por ahora solo códigos de regalo",
+      "giftOnlyBody": "Los pagos con tarjeta y transferencia están cerrados temporalmente. Introduce tu código de regalo arriba; si cubre todo el paquete podrás activar tu invitación al instante.",
+      "remainderBlocked": "Tu código de regalo te dio un descuento, pero ahora no hay ningún método de pago abierto para los {{amount}} restantes. Puedes usar un código que cubra todo el paquete.",
+      "noneTitle": "Ahora no se aceptan pagos",
+      "noneBody": "El pago en línea está cerrado temporalmente. Inténtalo más tarde o escríbenos."
+    }
   }
 }

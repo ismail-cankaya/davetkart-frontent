@@ -59,5 +59,48 @@
   },
   "paymentReturn": {
     "delayedBody": "Nous vérifions votre paiement. Il sera confirmé d'ici quelques minutes et apparaîtra dans votre tableau de bord ; vous pouvez fermer cette page."
+  },
+  "pricing": {
+    "oneTime": "/ paiement unique",
+    "loading": "Chargement des prix…",
+    "unavailable": "Les prix ne peuvent pas être affichés pour le moment.",
+    "retry": "Réessayer",
+    "listPrice": "Prix catalogue",
+    "badge": {
+      "first_publish": "{{percent}} % de réduction sur votre première publication",
+      "campaign": "{{percent}} % de réduction promotionnelle"
+    },
+    "until": "jusqu’au {{date}}",
+    "line": {
+      "first_publish": "Réduction première publication ({{percent}} %)",
+      "campaign": "Réduction promotionnelle ({{percent}} %)"
+    },
+    "firstPublishBanner": "Réservé aux nouveaux membres : {{percent}} % de réduction sur toutes les formules pour votre première invitation — appliquée automatiquement au paiement.",
+    "firstPublishHint": "{{percent}} % de réduction sur votre première invitation",
+    "faqFirstPublish": {
+      "q": "Comment fonctionne la réduction sur la première invitation ?",
+      "a": "Les nouveaux membres bénéficient de {{percent}} % de réduction sur toutes les formules pour leur première invitation. La réduction est appliquée automatiquement au paiement ; aucun code promo n’est nécessaire. Si une promotion offre une réduction plus importante, c’est la plus importante qui s’applique."
+    },
+    "methods": {
+      "cardBank": "Paiement par carte ou virement",
+      "card": "Paiement par carte",
+      "bank": "Paiement par virement",
+      "giftOnly": "Pour l’instant, activation uniquement avec un code cadeau",
+      "none": "Les paiements en ligne sont indisponibles pour le moment"
+    },
+    "paywallNote": {
+      "cardBank": "À l’étape suivante, vous pourrez payer par carte ou par virement. Une fois le paiement confirmé, vous pourrez publier votre invitation.",
+      "card": "À l’étape suivante, vous pourrez payer par carte. Une fois le paiement confirmé, vous pourrez publier votre invitation.",
+      "bank": "À l’étape suivante, vous pourrez payer par virement. Une fois le paiement confirmé, vous pourrez publier votre invitation.",
+      "giftOnly": "Pour l’instant, les paiements ne sont possibles qu’avec un code cadeau. Vous pourrez le saisir à l’étape suivante.",
+      "none": "Les paiements en ligne sont indisponibles pour le moment. Veuillez réessayer plus tard."
+    },
+    "checkout": {
+      "giftOnlyTitle": "Codes cadeaux uniquement pour l’instant",
+      "giftOnlyBody": "Les paiements par carte et par virement sont temporairement fermés. Saisissez votre code cadeau ci-dessus ; s’il couvre toute la formule, vous pourrez activer votre invitation immédiatement.",
+      "remainderBlocked": "Votre code cadeau vous a accordé une réduction, mais aucun moyen de paiement n’est ouvert pour les {{amount}} restants. Vous pouvez utiliser un code qui couvre toute la formule.",
+      "noneTitle": "Paiements indisponibles",
+      "noneBody": "Le paiement en ligne est temporairement fermé. Veuillez réessayer plus tard ou nous écrire."
+    }
   }
 }

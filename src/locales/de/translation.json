@@ -59,5 +59,48 @@
   },
   "paymentReturn": {
     "delayedBody": "Wir prüfen Ihre Zahlung. Sie wird in wenigen Minuten bestätigt und erscheint in Ihrem Dashboard; Sie können diese Seite schließen."
+  },
+  "pricing": {
+    "oneTime": "/ einmalig",
+    "loading": "Preise werden geladen…",
+    "unavailable": "Preise können gerade nicht angezeigt werden.",
+    "retry": "Erneut versuchen",
+    "listPrice": "Listenpreis",
+    "badge": {
+      "first_publish": "{{percent}} % Rabatt auf die erste Veröffentlichung",
+      "campaign": "{{percent}} % Aktionsrabatt"
+    },
+    "until": "bis {{date}}",
+    "line": {
+      "first_publish": "Rabatt für die erste Veröffentlichung ({{percent}} %)",
+      "campaign": "Aktionsrabatt ({{percent}} %)"
+    },
+    "firstPublishBanner": "Nur für neue Mitglieder: {{percent}} % Rabatt auf alle Pakete bei Ihrer ersten Einladung — wird an der Kasse automatisch abgezogen.",
+    "firstPublishHint": "{{percent}} % Rabatt auf Ihre erste Einladung",
+    "faqFirstPublish": {
+      "q": "Wie funktioniert der Rabatt auf die erste Einladung?",
+      "a": "Neue Mitglieder erhalten bei ihrer ersten Einladung {{percent}} % Rabatt auf alle Pakete. Der Rabatt wird an der Kasse automatisch abgezogen; ein Gutscheincode ist nicht nötig. Bietet eine Aktion einen höheren Rabatt, gilt der höhere."
+    },
+    "methods": {
+      "cardBank": "Zahlung per Karte oder Überweisung",
+      "card": "Zahlung per Karte",
+      "bank": "Zahlung per Überweisung",
+      "giftOnly": "Derzeit nur Aktivierung mit Geschenkcode",
+      "none": "Online-Zahlungen sind derzeit nicht möglich"
+    },
+    "paywallNote": {
+      "cardBank": "Im nächsten Schritt können Sie per Karte oder Überweisung zahlen. Sobald Ihre Zahlung bestätigt ist, können Sie Ihre Einladung veröffentlichen.",
+      "card": "Im nächsten Schritt können Sie per Karte zahlen. Sobald Ihre Zahlung bestätigt ist, können Sie Ihre Einladung veröffentlichen.",
+      "bank": "Im nächsten Schritt können Sie per Überweisung zahlen. Sobald Ihre Zahlung bestätigt ist, können Sie Ihre Einladung veröffentlichen.",
+      "giftOnly": "Derzeit sind Zahlungen nur mit einem Geschenkcode möglich. Den Code geben Sie im nächsten Schritt ein.",
+      "none": "Online-Zahlungen sind derzeit nicht möglich. Bitte versuchen Sie es später erneut."
+    },
+    "checkout": {
+      "giftOnlyTitle": "Derzeit nur Geschenkcodes",
+      "giftOnlyBody": "Karten- und Überweisungszahlungen sind vorübergehend geschlossen. Geben Sie oben Ihren Geschenkcode ein; deckt er das ganze Paket ab, können Sie Ihre Einladung sofort aktivieren.",
+      "remainderBlocked": "Ihr Geschenkcode hat einen Rabatt gewährt, aber für die restlichen {{amount}} gibt es derzeit keine offene Zahlungsart. Sie können einen Code verwenden, der das ganze Paket abdeckt.",
+      "noneTitle": "Zahlungen derzeit nicht möglich",
+      "noneBody": "Die Online-Zahlung ist vorübergehend geschlossen. Bitte versuchen Sie es später erneut oder schreiben Sie uns."
+    }
   }
 }

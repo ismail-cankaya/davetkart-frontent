@@ -59,5 +59,48 @@
   },
   "paymentReturn": {
     "delayedBody": "我们正在确认您的付款。几分钟内将完成确认并显示在您的控制面板中；您可以关闭此页面。"
+  },
+  "pricing": {
+    "oneTime": "/ 一次性",
+    "loading": "正在加载价格…",
+    "unavailable": "暂时无法显示价格。",
+    "retry": "重试",
+    "listPrice": "原价",
+    "badge": {
+      "first_publish": "首次发布立减 {{percent}}%",
+      "campaign": "活动优惠 {{percent}}%"
+    },
+    "until": "截至 {{date}}",
+    "line": {
+      "first_publish": "首次发布优惠（{{percent}}%）",
+      "campaign": "活动优惠（{{percent}}%）"
+    },
+    "firstPublishBanner": "新会员专享：首张邀请函所有套餐立减 {{percent}}%——结账时自动抵扣。",
+    "firstPublishHint": "首张邀请函立减 {{percent}}%",
+    "faqFirstPublish": {
+      "q": "首张邀请函优惠如何使用？",
+      "a": "新会员的首张邀请函所有套餐均可享受 {{percent}}% 优惠。优惠在结账时自动抵扣，无需优惠码。如果有活动提供更大的折扣，则按更大的折扣计算。"
+    },
+    "methods": {
+      "cardBank": "支持银行卡或银行转账付款",
+      "card": "支持银行卡付款",
+      "bank": "支持银行转账付款",
+      "giftOnly": "目前仅支持礼品码激活",
+      "none": "目前暂停在线付款"
+    },
+    "paywallNote": {
+      "cardBank": "下一步可使用银行卡或银行转账付款。付款确认后即可发布邀请函。",
+      "card": "下一步可使用银行卡付款。付款确认后即可发布邀请函。",
+      "bank": "下一步可使用银行转账付款。付款确认后即可发布邀请函。",
+      "giftOnly": "目前仅支持使用礼品码付款。您可以在下一步输入礼品码。",
+      "none": "目前暂停在线付款，请稍后再试。"
+    },
+    "checkout": {
+      "giftOnlyTitle": "目前仅支持礼品码",
+      "giftOnlyBody": "银行卡和转账付款暂时关闭。请在上方输入礼品码；如果礼品码可抵扣整个套餐，即可立即激活邀请函。",
+      "remainderBlocked": "您的礼品码已抵扣部分金额，但剩余的 {{amount}} 目前没有可用的付款方式。您可以使用能抵扣整个套餐的礼品码。",
+      "noneTitle": "目前无法付款",
+      "noneBody": "在线付款暂时关闭，请稍后再试或联系我们。"
+    }
   }
 }
