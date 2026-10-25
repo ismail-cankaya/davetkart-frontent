@@ -1,4 +1,5 @@
 import { api, unwrapEnvelope } from './api';
+import { isPlanPrice } from './pricing';
 import { CheckoutAction, CheckoutPayload, CheckoutResult, GiftCodePreview, OrderRecord, SubscriptionTier } from '../types';
 
 /**
@@ -32,6 +33,10 @@ import { CheckoutAction, CheckoutPayload, CheckoutResult, GiftCodePreview, Order
  *
  * Faz 12 (backend K119): checkout yanıtında `checkout` alanı — bir adres ya
  * da Shopier'in imzalı formu. Eski `redirectUrl` geri dönüş olarak okunur.
+ *
+ * Faz 13: önizleme tam fiyat dökümü taşır (ilk yayın / kampanya + kod).
+ * Kapalı yöntem 403 `PAYMENT_METHOD_DISABLED` döner; düğmeleri fiyat
+ * kataloğundaki `paymentMethods` belirler (`services/pricing.ts`).
  * Ayrıntılı açıklama: docs/rehber/src/services/payments.md
  */
 
@@ -45,15 +50,16 @@ export function checkoutBody(tier: SubscriptionTier, giftCode?: string | null): 
   return code ? { tier, giftCode: code } : { tier };
 }
 
+/**
+ * Faz 13: önizleme bir `PlanPrice`'tır (liste, otomatik indirim, toplam) +
+ * kodun kendi alanları. Döküm tutarlılığı `isPlanPrice` içinde sınanır.
+ */
 function isGiftCodePreview(body: unknown): body is GiftCodePreview {
-  if (typeof body !== 'object' || body === null) return false;
-  const b = body as Record<string, unknown>;
+  if (!isPlanPrice(body)) return false;
+  const b = body as unknown as Record<string, unknown>;
   return (
     typeof b.benefit === 'string' &&
-    typeof b.tier === 'string' &&
-    Number.isInteger(b.priceMinor) &&
-    Number.isInteger(b.discountMinor) &&
-    Number.isInteger(b.totalMinor) &&
+    Number.isInteger(b.giftDiscountMinor) &&
     typeof b.currency === 'string'
   );
 }

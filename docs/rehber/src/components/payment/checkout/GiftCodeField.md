@@ -68,3 +68,11 @@ Toplam **0** olduğunda yöntem seçici ve kart formu yerine çizilir.
 
 `PaymentReturnPage.tsx` değişmedi: hediye siparişi `paid` olduğu için "Ödemeniz onaylandı"
 ekranı çiziliyor. Hediyeye özel bir metin ("Planınız hediye olarak tanımlandı") açık soru.
+
+---
+
+## 🆕 Faz 13
+
+"₺X indirim uygulandı" satırı artık `giftDiscountMinor` gösteriyor, yani kodun **kendi**
+payını. `discountMinor` toplam indirim oldu (ilk yayın + kod). Onu göstermek, %50'lik bir
+kodu ₺319,20 indirim yapmış gibi gösterirdi.

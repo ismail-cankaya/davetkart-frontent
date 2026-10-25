@@ -94,7 +94,8 @@ export function GiftCodeField({ tier }: GiftCodeFieldProps) {
           >
             <div className="px-4 pb-4">
               {preview && appliedCode ? (
-                <AppliedCode code={appliedCode} discountMinor={preview.discountMinor} onRemove={handleRemove} disabled={busy} />
+                // Faz 13: kodun KENDİ payı; discountMinor artık toplam indirim (ilk yayın + kod).
+                <AppliedCode code={appliedCode} discountMinor={preview.giftDiscountMinor} onRemove={handleRemove} disabled={busy} />
               ) : (
                 <form onSubmit={(e) => void handleApply(e)} noValidate className="space-y-2">
                   <label htmlFor={inputId} className="sr-only">

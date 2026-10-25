@@ -17,6 +17,7 @@ import { rsvpService } from '../src/services/rsvps';
 import { sendContactMessage } from '../src/services/contact';
 import { invitationService } from '../src/services/invitations';
 import { paymentService } from '../src/services/payments';
+import { pricingService } from '../src/services/pricing';
 import { assistantService } from '../src/services/assistant';
 import { authService } from '../src/services/auth';
 import { INITIAL_INVITATION } from '../src/data';
@@ -342,7 +343,17 @@ async function main(): Promise<void> {
     fail('checkout + boş kod → gövdede giftCode var; boş kod hiç gönderilmemeli');
   }
 
-  const PREVIEW = { benefit: 'percent', tier: 'gold', priceMinor: 39900, discountMinor: 9975, totalMinor: 29925, currency: 'TRY' };
+  // Faz 13: önizleme bir PlanPrice + kodun alanları.
+  const PREVIEW = {
+    benefit: 'percent',
+    tier: 'gold',
+    priceMinor: 39900,
+    promotion: null,
+    discountMinor: 9975,
+    totalMinor: 29925,
+    giftDiscountMinor: 9975,
+    currency: 'TRY',
+  };
   const previewBody = await check(
     'hediye kodu önizleme',
     { method: 'POST', url: '/gift-codes/preview' },
@@ -365,6 +376,72 @@ async function main(): Promise<void> {
     fail('önizleme: kesirli totalMinor kabul edildi; kuruş alanları tam sayıdır');
   } catch {
     console.log('  ✓ önizleme: kesirli kuruş alanı reddediliyor');
+  }
+
+  // Faz 13: döküm tutarsızsa (liste − indirim ≠ toplam) yanıt reddedilmeli.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (api.defaults as any).adapter = mockAdapter({ data: { ...PREVIEW, totalMinor: 9900 } });
+  try {
+    await paymentService.previewGiftCode('X', 'gold');
+    fail('önizleme: tutarsız döküm kabul edildi');
+  } catch {
+    console.log('  ✓ önizleme: tutarsız döküm reddediliyor');
+  }
+
+  console.log('\nFiyat kataloğu uçları (Faz 13)');
+
+  const CATALOG = {
+    currency: 'TRY',
+    personalized: false,
+    firstPublishPercent: 60,
+    plans: [
+      { tier: 'standart', priceMinor: 24900, promotion: null, discountMinor: 0, totalMinor: 24900 },
+      {
+        tier: 'gold',
+        priceMinor: 39900,
+        promotion: { kind: 'campaign', percent: 20, discountMinor: 7980, endsAt: '2027-01-07T20:59:59+00:00' },
+        discountMinor: 7980,
+        totalMinor: 31920,
+      },
+      { tier: 'elit', priceMinor: 54900, promotion: null, discountMinor: 0, totalMinor: 54900 },
+    ],
+    paymentMethods: ['gift_code', 'wallet'],
+    bankTransfer: null,
+  };
+
+  await check('fiyat kataloğu (misafir)', { method: 'GET', url: '/public/plans' }, { data: CATALOG }, () =>
+    pricingService.publicCatalog(),
+  );
+  await check('fiyat kataloğu (oturumlu)', { method: 'GET', url: '/pricing' }, { data: { ...CATALOG, personalized: true } }, () =>
+    pricingService.myCatalog(),
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (api.defaults as any).adapter = mockAdapter({ data: CATALOG });
+  const catalog = await pricingService.publicCatalog();
+  if (catalog.plans[1]?.totalMinor !== 31920) {
+    fail(`katalog yanlış okundu: ${JSON.stringify(catalog.plans[1])}`);
+  }
+  // Tanınmayan yöntem ('wallet') düğme olarak çizilemez: listeden düşmeli.
+  if (JSON.stringify(catalog.paymentMethods) !== JSON.stringify(['gift_code'])) {
+    fail(`bilinmeyen yöntem süzülmedi: ${JSON.stringify(catalog.paymentMethods)}`);
+  } else {
+    console.log('  ✓ katalog: bilinmeyen ödeme yöntemi süzülüyor');
+  }
+
+  for (const [label, broken] of [
+    ['kesirli fiyat', { ...CATALOG, plans: [{ ...CATALOG.plans[0], priceMinor: 249.9, totalMinor: 249.9 }] }],
+    ['tutarsız döküm', { ...CATALOG, plans: [{ ...CATALOG.plans[1], totalMinor: 39900 }] }],
+    ['boş plan listesi', { ...CATALOG, plans: [] }],
+  ] as const) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (api.defaults as any).adapter = mockAdapter({ data: broken });
+    try {
+      await pricingService.publicCatalog();
+      fail(`katalog: ${label} kabul edildi`);
+    } catch {
+      console.log(`  ✓ katalog: ${label} reddediliyor`);
+    }
   }
 
   console.log('\nSipariş okuma uçları (Faz 10)');

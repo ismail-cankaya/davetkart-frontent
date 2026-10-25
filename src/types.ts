@@ -193,11 +193,75 @@ export interface SubscriptionPlan {
 }
 
 /**
+ * Otomatik indirimin kaynağı — backend `PromotionKind` (Faz 13).
+ *
+ * | Değer | Anlamı |
+ * |---|---|
+ * | `first_publish` | Kullanıcının ilk yayını (hiç ödenmiş siparişi yok) |
+ * | `campaign` | İşletmenin açtığı süreli kampanya |
+ */
+export type PromotionKind = 'first_publish' | 'campaign';
+
+/** Bir fiyata uygulanmış otomatik indirim (Faz 13). */
+export interface PlanPromotion {
+  kind: PromotionKind;
+  /** Gösterim için yüzde (60 → "%60"). Hesap için KULLANILMAZ: tutar `discountMinor`. */
+  percent: number;
+  /** Bu indirimin düştüğü tutar (kuruş). */
+  discountMinor: number;
+  /** Kampanyanın bitişi (ISO 8601, UTC); ilk yayın indiriminde ve süresiz kampanyada `null`. */
+  endsAt: string | null;
+}
+
+/**
+ * Bir paketin fiyat dökümü — backend `PriceQuoteResource` (Faz 13).
+ *
+ * 🔴 Frontend HİÇBİR sayıyı hesaplamaz. Üstü çizili fiyat `priceMinor`, büyük
+ * yazılan fiyat `totalMinor`; ikisi de backend'in tahsil edeceği hesaptan.
+ * `priceMinor × (1 − percent)` gibi bir hesap yuvarlamada kartla ayrışırdı.
+ */
+export interface PlanPrice {
+  tier: SubscriptionTier;
+  /** Liste fiyatı (kuruş). */
+  priceMinor: number;
+  promotion: PlanPromotion | null;
+  /** Toplam indirim (kuruş). */
+  discountMinor: number;
+  /** Ödenecek (kuruş). */
+  totalMinor: number;
+}
+
+/** Fiyat kataloğunda adı geçebilen ödeme yöntemleri — backend `PaymentMethod` (Faz 13, K134). */
+export type CatalogPaymentMethod = 'card' | 'bank_transfer' | 'gift_code';
+
+/**
+ * `GET /public/plans` (misafir) ve `GET /pricing` (oturumlu) — backend `PricingResource` (Faz 13).
+ *
+ * `paymentMethods` backend `.env`'indeki `PAYMENT_METHODS` satırıdır: hangi
+ * ödeme düğmelerinin çizileceğine bu liste karar verir. Backend kapalı yöntemi
+ * zaten reddeder (403 `PAYMENT_METHOD_DISABLED`); liste kullanıcıyı o
+ * hataya hiç götürmemek için.
+ */
+export interface PricingCatalog {
+  currency: string;
+  /** `true`: kullanıcıya özel (ilk yayın indirimi hesaba katıldı). */
+  personalized: boolean;
+  /** İlk yayın indirimi yüzdesi; `0` = kapalı. Misafire "ilk yayınınıza %60" yazmak için. */
+  firstPublishPercent: number;
+  /** Üç paket, rank sırasında (standart → gold → elit). */
+  plans: PlanPrice[];
+  /** Açık yöntemler, sabit sırada (kart → havale → kod). */
+  paymentMethods: CatalogPaymentMethod[];
+  /** Havale açıkken hesap bilgisi; kapalıyken `null` (K135). */
+  bankTransfer: BankTransferAccount | null;
+}
+
+/**
  * Checkout gövdesi.
  *
  * 🔴 **Fiyat gövdeye KONULMAZ.** Backend onu `config`'ten okur (M6): fiyatı
  * istemciden almak, istemcinin kendi fiyatını yazmasına izin vermek olurdu.
- * `data.ts`'teki fiyat katalogu yalnızca **gösterim** içindir.
+ * Faz 13: frontend fiyatı yalnızca GÖSTERİR ve onu da backend'den okur.
  */
 export interface CheckoutPayload {
   tier: SubscriptionTier;
@@ -212,21 +276,21 @@ export interface CheckoutPayload {
 export type GiftCodeBenefit = 'free' | 'percent' | 'fixed';
 
 /**
- * `POST /gift-codes/preview` yanıtı (Faz 11).
+ * `POST /gift-codes/preview` yanıtı (Faz 11; Faz 13'te `PlanPrice` alanları eklendi).
  *
- * 🔴 Para alanları **kuruş** (tam sayı), adları bu yüzden `…Minor` ile biter:
- * `data.ts`'teki katalog fiyatı TL'dir, ikisi karıştırılırsa ekranda 100 kat
- * yanlış tutar görünür. Gösterim için `formatTryMinor()`.
+ * 🔴 Para alanları **kuruş** (tam sayı), adları bu yüzden `…Minor` ile biter.
+ * Gösterim için `formatTryMinor()`.
+ *
+ * Faz 13 (backend K133): kod, otomatik indirimden (ilk yayın / kampanya) SONRA
+ * kalan fiyata uygulanır. `discountMinor` TOPLAM indirimdir; kodun kendi payı
+ * `giftDiscountMinor`. `priceMinor − discountMinor = totalMinor` her zaman doğru.
  *
  * Önizleme bir söz değildir: kod arada tükenebilir, karar checkout'ta verilir.
  */
-export interface GiftCodePreview {
+export interface GiftCodePreview extends PlanPrice {
   benefit: GiftCodeBenefit;
-  tier: SubscriptionTier;
-  priceMinor: number;
-  discountMinor: number;
-  /** 0 ise sipariş sağlayıcıya gitmeden ödenmiş açılır (backend K107). */
-  totalMinor: number;
+  /** Hediye kodunun payı (kuruş). */
+  giftDiscountMinor: number;
   currency: string;
 }
 
@@ -298,8 +362,12 @@ export interface CheckoutResult {
  * `GET /orders` ve `GET /orders/{id}` — backend `OrderResource` (Faz 10, 10.24).
  *
  * Ödeme dönüş sayfası (`/odeme/basarili`) bu kaydı yoklayarak "ödendi mi?"
- * sorusunu sorar. Sağlayıcı ve fiyat alanları BİLEREK yok (C1): fiyatın tek
- * kaynağı katalogdur (`data.ts`).
+ * sorusunu sorar. Sağlayıcı alanları BİLEREK yok (C1).
+ *
+ * Faz 13 (backend 13.7): siparişe DONDURULMUŞ fiyat dökümü geliyor
+ * (`priceMinor`, `totalMinor`, `currency`, `promotion`). Katalog bugün başka
+ * bir şey söyleyebilir; bu siparişin gerçek tutarı budur. Eski bir backend'e
+ * karşı da çalışılabilsin diye alanlar isteğe bağlı.
  *
  * Nullable alanların anahtarı HER ZAMAN gelir; `null` bir bilgidir (N4).
  * `CheckoutResult.redirectUrl`'den farkı bu: o bağlama göre var olan bir alan.
@@ -314,11 +382,16 @@ export interface OrderRecord {
   createdAt: string;
   /** ISO 8601 (UTC). `null` = henüz ödenmedi (`pending`, `failed`, `expired`). */
   paidAt: string | null;
-  /**
-   * Faz 11: hediye kodunun düştüğü tutar (kuruş). Yalnızca indirim varsa gelir
-   * (C7); tutar alanları hâlâ yok (C1). Ödenen = katalog fiyatı − bu değer.
-   */
+  /** Faz 11: toplam indirim (kuruş). Yalnızca indirim varsa gelir (C7). */
   discountMinor?: number;
+  /** Faz 13: sipariş anındaki liste fiyatı (kuruş). */
+  priceMinor?: number;
+  /** Faz 13: ödenen / ödenecek (kuruş). */
+  totalMinor?: number;
+  /** Faz 13: ISO 4217. */
+  currency?: string;
+  /** Faz 13: otomatik indirim; yüzde yok, sipariş tutarı dondurur. */
+  promotion?: { kind: PromotionKind; discountMinor: number } | null;
 }
 
 /**
@@ -332,7 +405,8 @@ export interface OrderRecord {
 export type PaymentMethod = 'card' | 'bank_transfer';
 
 /**
- * Havale/EFT için şirket hesabı — `services/bankTransfer.ts` doldurur.
+ * Havale/EFT için şirket hesabı — Faz 13'ten beri backend'in fiyat
+ * kataloğundan gelir (`PricingCatalog.bankTransfer`, K135).
  *
  * `iban` boşluksuz ve büyük harflidir (`TR…`, 26 karakter); gruplanmış
  * gösterim `utils/iban.ts` → `formatIban()` ile yapılır. Kopyalanan değer bu

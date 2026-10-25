@@ -38,6 +38,7 @@
       "detailed": "You've reached your upload limit. This invitation holds up to {{limit}} files."
     },
     "PASSWORD_RESET_INVALID": "This password reset link is invalid or has expired. Request a new one.",
+    "PAYMENT_METHOD_DISABLED": "This payment method isn't available right now. Refresh the page and try again with one of the available methods.",
     "PAYMENT_PROVIDER_ERROR": "We couldn't reach the payment provider. Your card was not charged; try again in a few minutes.",
     "PAYMENT_REQUIRED": {
       "base": "Publishing this invitation requires a plan.",

@@ -55,13 +55,16 @@ function serve(route: (url: string, body: Record<string, unknown>) => Reply): vo
   };
 }
 
+// Faz 13: önizleme bir PlanPrice'tır (otomatik indirim yok → promotion: null).
 const preview = (tier: string, discountMinor: number, priceMinor = 39900) => ({
   data: {
     benefit: 'percent',
     tier,
     priceMinor,
+    promotion: null,
     discountMinor,
     totalMinor: priceMinor - discountMinor,
+    giftDiscountMinor: discountMinor,
     currency: 'TRY',
   },
 });

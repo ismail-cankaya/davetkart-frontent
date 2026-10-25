@@ -317,3 +317,20 @@ değilken alanları okumak" bir **derleme hatası**dır, çalışma anı hatası
 
 Backend'deki karşılığı PHP'de bir arayüz + iki `final` sınıf (`RedirectAction`,
 `FormPostAction`). İki dil, aynı fikir: geçersiz durum yazılamasın.
+
+---
+
+## 🆕 Faz 13 — fiyat tipleri
+
+| Tip | Backend karşılığı |
+|---|---|
+| `PromotionKind` | `App\Enums\PromotionKind` |
+| `PlanPromotion` · `PlanPrice` | `PriceQuoteResource` |
+| `PricingCatalog` | `PricingResource` |
+| `CatalogPaymentMethod` | `App\Enums\PaymentMethod` |
+
+- `SubscriptionPlan.price` **silindi**.
+- `GiftCodePreview` artık bir `PlanPrice` ve buna ek olarak `giftDiscountMinor` taşıyor.
+  `discountMinor` **toplam** indirim.
+- `OrderRecord`'a dondurulmuş döküm eklendi: `priceMinor`, `totalMinor`, `currency`,
+  `promotion`.

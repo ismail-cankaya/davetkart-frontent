@@ -142,3 +142,12 @@ Sözleşme değişikliğinde **iki yönlü uyumluluk** penceresi bırakmak, iki 
 dakikada yayınlanması zorunluluğunu kaldırır.
 
 `verify:payment`'a 10 kontrol eklendi (`Ödeme sayfasına gidiş (Faz 12)` bölümü, 12.11 commit'inde: betik iki adımın kodunu birlikte sınıyor).
+
+---
+
+## 🆕 Faz 13
+
+- `isGiftCodePreview` = `isPlanPrice` (döküm tutarlılığı dahil) + `benefit`,
+  `giftDiscountMinor`, `currency`.
+- Kapalı yöntem 403 `PAYMENT_METHOD_DISABLED` döner. `useCheckoutStore` bunu görünce fiyat
+  kataloğunu tazeler.
