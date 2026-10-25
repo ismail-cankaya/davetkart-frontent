@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Sparkles, Laptop, Send, ArrowRight, WandSparkles, Palette, Zap, Layers } from 'lucide-react';
 import { ease } from '../../utils/motion';
+import { useFirstPublishPercent } from '../../hooks/usePricing';
 
 const STEPS = [
   {
@@ -26,6 +27,7 @@ const STEPS = [
 ];
 
 export const Features = React.memo(function Features() {
+  const firstPublishPercent = useFirstPublishPercent();
   return (
     <section id="neden-dijital" className="py-20 md:py-32 bg-cream relative overflow-hidden scroll-mt-20">
       {/* Subtle background decoration */}
@@ -175,7 +177,10 @@ export const Features = React.memo(function Features() {
             Hemen Başlayın
             <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform duration-300" />
           </Link>
-          <p className="text-muted text-xs mt-4">Kredi kartı gerektirmez · İlk davetiye %60 indirimli</p>
+          {/* Faz 13: oran backend'den; indirim kapalıysa vaat edilmez. */}
+          <p className="text-muted text-xs mt-4">
+            Kredi kartı gerektirmez{firstPublishPercent > 0 && <> · İlk davetiye %{firstPublishPercent} indirimli</>}
+          </p>
         </motion.div>
       </div>
     </section>

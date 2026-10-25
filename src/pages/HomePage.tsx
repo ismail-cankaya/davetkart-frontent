@@ -6,6 +6,7 @@ import { Hero } from '../components/home/Hero';
 import { PreviewSection } from '../components/preview/PreviewSection';
 import { DeferredSection } from '../components/ui/DeferredSection';
 import { ease } from '../utils/motion';
+import { useFirstPublishPercent } from '../hooks/usePricing';
 
 const Features = React.lazy(() => import('../components/home/Features').then(m => ({ default: m.Features })));
 const LiveRsvpPanel = React.lazy(() => import('../components/rsvp/LiveRsvpPanel').then(m => ({ default: m.LiveRsvpPanel })));
@@ -17,6 +18,7 @@ const Testimonials = React.lazy(() => import('../components/home/Testimonials').
  */
 function CreateCtaBanner() {
   const reduceMotion = useReducedMotion();
+  const firstPublishPercent = useFirstPublishPercent();
   return (
     <section className="pb-16 md:pb-24 bg-cream">
       <motion.div
@@ -40,7 +42,9 @@ function CreateCtaBanner() {
           Kendi Davetiyeni Oluştur
           <ArrowRight size={17} className="group-hover:translate-x-1.5 transition-transform duration-300" />
         </Link>
-        <p className="text-muted text-[11px]">Giriş gerekmez · İlk davetiye %60 indirimli</p>
+        <p className="text-muted text-[11px]">
+          Giriş gerekmez{firstPublishPercent > 0 && <> · İlk davetiye %{firstPublishPercent} indirimli</>}
+        </p>
       </motion.div>
     </section>
   );

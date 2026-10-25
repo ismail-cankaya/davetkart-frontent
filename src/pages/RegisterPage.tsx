@@ -6,11 +6,13 @@ import { useAuthStore } from '../stores/useAuthStore';
 import { toast } from '../components/ui/Toast';
 import { toDisplayError } from '../utils/toDisplayError';
 import { fullName } from '../utils/user';
+import { useFirstPublishPercent } from '../hooks/usePricing';
 import { AuthRedirectState } from '../types';
 
 /** Sign-up page; new members also return to the flow they came from. */
 export default function RegisterPage() {
   const register = useAuthStore(s => s.register);
+  const firstPublishPercent = useFirstPublishPercent();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -47,7 +49,11 @@ export default function RegisterPage() {
   return (
     <AuthShell
       title={<>DavetKart'a <span className="italic text-champagne font-medium">Katılın</span></>}
-      subtitle="Ücretsiz hesabınızı oluşturun; ilk davetiyeniz %60 indirimli, katılım takibi ilk 102 misafir için hediye."
+      subtitle={
+        firstPublishPercent > 0
+          ? `Ücretsiz hesabınızı oluşturun; ilk davetiyeniz %${firstPublishPercent} indirimli, katılım takibi ilk 102 misafir için hediye.`
+          : 'Ücretsiz hesabınızı oluşturun; katılım takibi ilk 102 misafir için hediye.'
+      }
       footer={
         <>
           Zaten üye misiniz?{' '}
