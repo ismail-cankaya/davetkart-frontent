@@ -18,7 +18,7 @@ import {
   validateCard,
 } from '../src/utils/paymentCard';
 import { checkoutHref, parseCheckoutSearch } from '../src/utils/checkoutRoute';
-import { bankTransferReference, getBankTransferAccount } from '../src/services/bankTransfer';
+import { bankTransferReference } from '../src/services/bankTransfer';
 import { POLL_LIMIT, orderIdFrom, returnViewFor, shouldKeepPolling } from '../src/utils/paymentReturn';
 import { releaseOutcome } from '../src/utils/releaseWindow';
 import { getRequiredTier } from '../src/stores/useSubscriptionStore';
@@ -132,7 +132,7 @@ function main(): void {
   console.log('\nHavale');
   check('referans kodu biçimi', bankTransferReference('01J9ZK3F9QK2MZ7XK2M9QA'), 'DK-7XK2-M9QA');
   check('kısa kimlik sıfırla doldurulur', bankTransferReference('ab'), 'DK-0000-00AB');
-  check('yapılandırılmamış hesap Havale/EFT’yi kapatır', getBankTransferAccount(), null);
+  // Faz 13 (K135): hesap artık backend'in fiyat kataloğundan; denetim verify-endpoints'te.
 
   // Faz 10 (10.27): ödeme dönüş sayfası. Adres (başarı/hata) bir İPUCU;
   // karar siparişin backend'deki durumuna göre verilir.

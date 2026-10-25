@@ -254,3 +254,11 @@ değerlerinden (docs/rehber/tasarim/KAGIT-KONSEPTI.md §2). `minimumTier` yok: h
 | `nisan-soz-mektubu` | Söz Mektubu | `#F3ECDF` | fildişi → pamuk → gül mum | gül mürekkep |
 | `nisan-gul-kurusu` | Gül Kurusu | `#F1E1DA` | fildişi → gül kurusu → gül pigment | gül mürekkep |
 | `nisan-soz-senedi` | Söz Senedi | `#FAF6EE` | fildişi → pamuk → lacivert | lacivert mürekkep |
+
+---
+
+## 🆕 Faz 13 — `SUBSCRIPTION_PLANS` fiyat taşımıyor
+
+`price` alanı silindi. Paketlerin vitrini (ad, slogan, özellikler) burada, fiyat backend'in
+fiyat kataloğunda (`services/pricing.ts`). `npm run verify:pricing` bu dosyaya bir fiyat
+geri eklenirse kırmızı yanar.

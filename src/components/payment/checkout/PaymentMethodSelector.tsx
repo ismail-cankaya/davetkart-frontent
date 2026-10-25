@@ -9,7 +9,9 @@ import { cn } from '../../../utils/cn';
 import { spring } from '../../../utils/motion';
 
 interface PaymentMethodSelectorProps {
-  /** Havale hesabı yapılandırılmamışsa seçenek kapalı görünür. */
+  /** Faz 13: kart backend'de kapalıysa (`PAYMENT_METHODS`) seçenek kapalı görünür. */
+  cardAvailable: boolean;
+  /** Havale kapalıysa ya da hesap yapılandırılmamışsa seçenek kapalı görünür. */
   bankTransferAvailable: boolean;
 }
 
@@ -40,7 +42,7 @@ const OPTIONS: MethodOption[] = [
  * `layoutId` ile kartlar arasında kayar — iki ayrı çerçevenin söner/yanar
  * geçişi yerine seçimin "yer değiştirdiği" hissedilir.
  */
-export function PaymentMethodSelector({ bankTransferAvailable }: PaymentMethodSelectorProps) {
+export function PaymentMethodSelector({ cardAvailable, bankTransferAvailable }: PaymentMethodSelectorProps) {
   const method = useCheckoutStore((s) => s.method);
   const isProcessing = useCheckoutStore((s) => s.isProcessing);
   const selectMethod = useCheckoutStore((s) => s.selectMethod);
@@ -52,7 +54,7 @@ export function PaymentMethodSelector({ bankTransferAvailable }: PaymentMethodSe
     <div role="radiogroup" aria-label="Ödeme yöntemi" className="grid sm:grid-cols-2 gap-3 md:gap-4">
       {OPTIONS.map((option) => {
         const active = method === option.id;
-        const unavailable = option.id === 'bank_transfer' && !bankTransferAvailable;
+        const unavailable = option.id === 'bank_transfer' ? !bankTransferAvailable : !cardAvailable;
         const blockedByGift = option.id === 'bank_transfer' && !unavailable && giftApplied;
         const Icon = option.icon;
 

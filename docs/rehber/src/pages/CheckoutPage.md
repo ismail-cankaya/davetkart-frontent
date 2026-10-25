@@ -139,3 +139,19 @@ Yanlış kod → alanın altında `GIFT_CODE_INVALID` metni · `dugun 2026` (%50
 "₺199,50 Öde", havale kapalı · `HEDIYEGOLD` (free/gold) → `₺0`, "Ücretsiz etkinleştir" · onaysız
 basış → onay kutusu kırmızı · onaylı basış → `/odeme/basarili?order=…`, "Ödemeniz onaylandı" ·
 390 px genişlikte aynı kodu Standart'ta tekrar deneme → `ALREADY_USED` metni.
+
+---
+
+## 🆕 Faz 13 (frontend 13.10–13.12)
+
+- **Fiyat backend'den:** `usePricing({ force: true })` her açılışta kataloğu tazeler.
+  `OrderSummary` dökümü gösterir: paket bedeli, **ilk yayın / kampanya indirimi**, hediye
+  kodu, toplam. Hediye kodu varsa döküm önizlemeden gelir (kod kalan fiyata uygulanır, K133).
+- **Yöntemler backend'den:** düğmeler `catalog.paymentMethods`'a göre çizilir. Seçili
+  yöntem kapalıysa açık olana geçilir.
+- **Kart ve havale kapalıyken** (`PAYMENT_METHODS=gift_code`): yalnızca hediye kodu alanı
+  ve bir açıklama görünür. Kısmi bir kod uygulandıysa açıklama "kalan ₺79,80 için açık bir
+  yöntem yok" der. Kullanıcı indirimi görüp neden ilerleyemediğini merak etmesin.
+- **Havale tutarı** kodsuz dökümün toplamı (havalede kod geçmez). İlk yayın indirimi
+  dahil, yani müşteri doğru tutarı yatırır.
+- Katalog gelmeden ödeme düğmesi **çizilmez**. Tutarı bilinmeyen bir "Öde" düğmesi olmaz.

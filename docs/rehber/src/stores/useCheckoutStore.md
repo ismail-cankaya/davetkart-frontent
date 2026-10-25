@@ -72,3 +72,11 @@ kart formu bunu bilmek zorunda değil. Karar tek yerde durunca yeni bir gidiş t
 yerinde belli ediyor ve testte taklit edilebilir bir metot.
 
 🔴 Kart bilgisi yine store'a girmiyor: Faz 12'de kart alanları tamamen kalktı (12.12).
+
+---
+
+## 🆕 Faz 13
+
+`startCardCheckout` ya da `applyGiftCode` 403 `PAYMENT_METHOD_DISABLED` alırsa
+`usePricingStore.load({ force: true })` çağrılır. Yöntem sayfa açıkken kapatılmış;
+düğmeler katalogla yeniden çizilir.

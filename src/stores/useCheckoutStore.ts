@@ -4,6 +4,7 @@ import { checkoutActionOf, paymentService } from '../services/payments';
 import { submitProviderForm } from '../utils/submitProviderForm';
 import { apiErrorCode } from '../services/api';
 import { toDisplayError } from '../utils/toDisplayError';
+import { usePricingStore } from './usePricingStore';
 
 /**
  * Ödeme sayfasının (`/odeme`) akış durumu.
@@ -26,6 +27,17 @@ import { toDisplayError } from '../utils/toDisplayError';
  * mu, karar tek yerde. Kart formu ve ücretsiz etkinleştirme aynı kapıdan geçer.
  * Ayrıntılı açıklama: docs/rehber/src/stores/useCheckoutStore.md
  */
+
+/**
+ * Faz 13 (backend K134): yöntem sayfa açıkken kapatıldıysa backend 403
+ * `PAYMENT_METHOD_DISABLED` döner. Ekrandaki düğmeler artık yanlış: katalog
+ * tazelenir ve sayfa açık yöntemlere göre yeniden çizilir.
+ */
+function refreshCatalogIfMethodClosed(error: unknown): void {
+  if (apiErrorCode(error) === 'PAYMENT_METHOD_DISABLED') {
+    void usePricingStore.getState().load({ force: true });
+  }
+}
 
 /** Hediye kodu hatası mı? (`GIFT_CODE_INVALID` · `_ALREADY_USED` · `_NOT_APPLICABLE`) */
 function isGiftCodeError(error: unknown): boolean {
@@ -155,6 +167,7 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
       } else {
         set({ isProcessing: false });
       }
+      refreshCatalogIfMethodClosed(error);
       throw error;
     }
   },
@@ -200,6 +213,7 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
       if (request !== latestPreview) return false;
 
       set({ giftCode: code, giftPreview: null, isCheckingGiftCode: false, giftCodeError: toDisplayError(error) });
+      refreshCatalogIfMethodClosed(error);
       return false;
     }
   },

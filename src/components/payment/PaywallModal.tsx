@@ -3,10 +3,15 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, BadgeCheck, Check, Lock, Minus, ShieldCheck, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { SUBSCRIPTION_PLANS } from '../../data';
 import { TIER_RANK, useSubscriptionStore } from '../../stores/useSubscriptionStore';
 import { SubscriptionTier } from '../../types';
 import { PLAN_ICONS, PLAN_ICON_TONES } from './planVisuals';
+import { PlanPriceTag } from './PlanPriceTag';
+import { usePricing } from '../../hooks/usePricing';
+import { planPriceOf } from '../../stores/usePricingStore';
+import { paymentMethodsMode } from '../../utils/paymentMethods';
 import { checkoutHref } from '../../utils/checkoutRoute';
 import { backdropVariants, duration, ease, gesture, modalVariants } from '../../utils/motion';
 
@@ -31,6 +36,9 @@ import { backdropVariants, duration, ease, gesture, modalVariants } from '../../
  * ThemePickerModal / MapPickerModal'daki aynı ders). Duvar Faz 10'da sayfa
  * seviyesine taşındı; portal yine de kalır, çünkü nerede çizileceğine
  * çağıranın ağacı değil duvarın kendisi karar vermeli.
+ *
+ * Faz 13: fiyatlar ve "sonraki adımda nasıl ödersiniz" notu backend'in fiyat
+ * kataloğundan (`usePricing`). İlk yayın indirimi ve kampanya burada da görünür.
  */
 export function PaywallModal() {
   const isOpen = useSubscriptionStore((s) => s.isPaywallOpen);
@@ -41,6 +49,8 @@ export function PaywallModal() {
   const closePaywall = useSubscriptionStore((s) => s.closePaywall);
   const selectTier = useSubscriptionStore((s) => s.selectTier);
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const { catalog, status, reload } = usePricing();
 
   const recommendedPlan = SUBSCRIPTION_PLANS.find((p) => p.id === requiredTier);
   const isUpgrade = reason === 'upgrade';
@@ -152,10 +162,11 @@ export function PaywallModal() {
 
                 {/* 🔴 Ödemenin nerede tamamlandığı ÖNCEDEN söylenir. Kullanıcı
                     ödeme sayfasına geçtiğinde şaşırmamalı. */}
-                <p className="text-[11px] text-muted/80 mt-4 max-w-md mx-auto leading-relaxed">
-                  Sonraki adımda kartla ya da Havale/EFT ile ödeyebilirsiniz. Ödemeniz onaylandıktan
-                  sonra davetiyenizi yayınlayabilirsiniz.
-                </p>
+                {catalog && (
+                  <p className="text-[11px] text-muted/80 mt-4 max-w-md mx-auto leading-relaxed">
+                    {t(`pricing.paywallNote.${paymentMethodsMode(catalog.paymentMethods)}`)}
+                  </p>
+                )}
               </div>
 
               {/* Plan cards */}
@@ -199,10 +210,14 @@ export function PaywallModal() {
                         </div>
                       </div>
 
-                      {/* Price */}
-                      <div className="flex items-baseline gap-1.5 mb-5">
-                        <span className="font-serif text-3xl font-bold text-ink">₺{plan.price}</span>
-                        <span className="text-[11px] text-muted">/ tek seferlik</span>
+                      {/* Price — backend kataloğundan (Faz 13) */}
+                      <div className="mb-5 min-h-[4.5rem]">
+                        <PlanPriceTag
+                          price={planPriceOf(catalog, plan.id)}
+                          status={status}
+                          suffix={t('pricing.oneTime')}
+                          onRetry={reload}
+                        />
                       </div>
 
                       {/* Feature list */}

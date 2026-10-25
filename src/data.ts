@@ -3254,12 +3254,16 @@ export const DEFAULT_GIFT_OPTIONS: number[] = [1000, 2500, 5000];
  * Paid publishing plans (paywall). Feature rows are kept parallel across the
  * three plans so the pricing cards read as a comparison table; `included`
  * drives the check vs struck-through rendering.
+ *
+ * 🔴 Faz 13 (backend K128): FİYAT YOK. Burası paketlerin vitrini (ad,
+ * slogan, özellikler); fiyat, indirim ve ödenecek tutar backend'in fiyat
+ * kataloğundan gelir (`usePricingStore`). `scripts/verify-pricing.ts` bu
+ * dosyada bir fiyat alanı bulursa kırmızı yanar.
  */
 export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     id: 'standart',
     name: 'Standart',
-    price: 249,
     tagline: 'Zarif bir başlangıç için temel modüller',
     features: [
       { label: 'Temel şablon koleksiyonu', included: true },
@@ -3276,7 +3280,6 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     id: 'gold',
     name: 'Gold',
-    price: 399,
     tagline: 'Premium temalar ve etkileyici anlatım',
     features: [
       { label: 'Premium tema koleksiyonu', included: true },
@@ -3293,7 +3296,6 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     id: 'elit',
     name: 'Elit',
-    price: 549,
     tagline: 'Sitedeki tüm özellikler, sınırsız deneyim',
     features: [
       { label: 'Premium tema koleksiyonu', included: true },

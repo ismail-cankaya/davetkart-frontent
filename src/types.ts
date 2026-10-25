@@ -183,11 +183,17 @@ export interface PlanFeature {
   included: boolean;
 }
 
+/**
+ * Bir paketin VİTRİNİ: ad, slogan, özellik listesi.
+ *
+ * 🔴 Faz 13 (backend K128): **fiyat burada YOK.** Fiyat, indirim ve ödenecek
+ * tutar backend'in fiyat kataloğundan gelir (`PlanPrice`, `usePricingStore`).
+ * Eskiden burada duran `price` alanı, backend'deki tahsilat fiyatının elle
+ * tutulan bir kopyasıydı; indirim geldiği gün iki sayı ayrışırdı.
+ */
 export interface SubscriptionPlan {
   id: SubscriptionTier;
   name: string;
-  /** One-time price in TL. */
-  price: number;
   tagline: string;
   features: PlanFeature[];
 }

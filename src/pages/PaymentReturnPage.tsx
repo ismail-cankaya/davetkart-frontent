@@ -28,6 +28,8 @@ import {
   shouldKeepPolling,
 } from '../utils/paymentReturn';
 import { toDisplayError } from '../utils/toDisplayError';
+import { formatTryMinor } from '../utils/currency';
+import { usePricingStore } from '../stores/usePricingStore';
 import { duration, ease } from '../utils/motion';
 
 interface PaymentReturnPageProps {
@@ -108,6 +110,13 @@ export default function PaymentReturnPage({ kind }: PaymentReturnPageProps) {
 
   // Erken dönüşlerden ÖNCE: hook sırası her çizimde aynı kalmalı.
   const autoPublish = useAutoPublish(poll.order);
+
+  // Faz 13: ödenmiş ilk sipariş ilk yayın indirimini bitirir; fiyat kataloğu
+  // (fiyat sayfası, paywall) bundan sonra yeni fiyatı göstermeli.
+  const paid = poll.order?.paidAt != null;
+  useEffect(() => {
+    if (paid) void usePricingStore.getState().load({ force: true });
+  }, [paid]);
 
   if (!orderId) return <MissingOrder />;
 
@@ -276,6 +285,10 @@ function ReturnCard({ view, order, onRecheck, onRetryPublish, publishError }: Re
           <p className="text-xs text-rose-700 leading-relaxed">{publishError}</p>
         )}
         {paidAt && <p className="text-xs text-muted">Ödeme zamanı: {paidAt}</p>}
+        {/* Faz 13: siparişe dondurulmuş tutar (katalog bugün başka bir şey diyebilir). */}
+        {PAID_VIEWS.has(view) && order?.totalMinor !== undefined && (
+          <p className="text-xs text-muted">Ödenen tutar: {formatTryMinor(order.totalMinor)}</p>
+        )}
       </div>
 
       {!BUSY_VIEWS.has(view) && (
