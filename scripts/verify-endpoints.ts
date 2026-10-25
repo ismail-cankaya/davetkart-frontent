@@ -20,6 +20,7 @@ import { paymentService } from '../src/services/payments';
 import { pricingService } from '../src/services/pricing';
 import { assistantService } from '../src/services/assistant';
 import { authService } from '../src/services/auth';
+import { accountService } from '../src/services/account';
 import { INITIAL_INVITATION } from '../src/data';
 import type { RsvpCreatePayload } from '../src/types';
 
@@ -552,6 +553,70 @@ async function main(): Promise<void> {
     () => authService.deleteAccount('mevcut-sifre'),
   );
   expectField('hesap silme', deleteBody, 'password', 'mevcut-sifre');
+
+  console.log('\nHesap ayarları uçları (Faz 14)');
+
+  await check(
+    'planlarım',
+    { method: 'GET', url: '/account/entitlements' },
+    { data: { tiers: [], totalAvailable: 0, rights: [] } },
+    () => accountService.getEntitlements(),
+  );
+
+  const refundBody = await check(
+    'hakkı iptal et',
+    { method: 'POST', url: '/orders/01jabc/refund-request' },
+    '',
+    () => accountService.requestRefund('01jabc', 'Düğün ertelendi'),
+  );
+  expectField('hakkı iptal et', refundBody, 'reason', 'Düğün ertelendi');
+
+  await check(
+    'iptal talebini geri çek',
+    { method: 'DELETE', url: '/orders/01jabc/refund-request' },
+    '',
+    () => accountService.withdrawRefund('01jabc'),
+  );
+
+  const profileBody = await check(
+    'profil',
+    { method: 'PATCH', url: '/auth/me' },
+    { data: { id: '1', firstName: 'Ayşe', lastName: 'Yılmaz', email: 'ayse@example.com' } },
+    () => accountService.updateProfile({ firstName: 'Ayşe', lastName: 'Yılmaz' }),
+  );
+  expectField('profil', profileBody, 'firstName', 'Ayşe');
+  expectField('profil', profileBody, 'lastName', 'Yılmaz');
+
+  const passwordBody = await check(
+    'parola değiştir',
+    { method: 'PUT', url: '/auth/password' },
+    '',
+    () => accountService.changePassword({ currentPassword: 'eski-sifre', password: 'yeni-sifre-1' }),
+  );
+  expectField('parola değiştir', passwordBody, 'currentPassword', 'eski-sifre');
+  expectField('parola değiştir', passwordBody, 'password', 'yeni-sifre-1');
+
+  const emailBody = await check(
+    'e-posta değişikliği',
+    { method: 'POST', url: '/auth/email-change' },
+    '',
+    () => accountService.requestEmailChange({ email: 'yeni@example.com', currentPassword: 'sifre' }),
+  );
+  expectField('e-posta değişikliği', emailBody, 'email', 'yeni@example.com');
+  expectField('e-posta değişikliği', emailBody, 'currentPassword', 'sifre');
+
+  // 🔴 Sorgu AYNEN gider: imza kodlamayı kapsıyor (%2B boşluğa dönmemeli).
+  const signedQuery = '?email=yeni%2Bdavet%40example.com&expires=1&old=ab&user=7&signature=cd';
+  await check(
+    'e-posta onayı',
+    { method: 'POST', url: `/public/email-change/confirm${signedQuery}` },
+    '',
+    () => accountService.confirmEmailChange(signedQuery),
+  );
+
+  await check('oturumlar', { method: 'GET', url: '/auth/sessions' }, { data: [] }, () => accountService.listSessions());
+  await check('oturumu kapat', { method: 'DELETE', url: '/auth/sessions/42' }, '', () => accountService.revokeSession('42'));
+  await check('diğer oturumları kapat', { method: 'DELETE', url: '/auth/sessions' }, '', () => accountService.revokeOtherSessions());
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);

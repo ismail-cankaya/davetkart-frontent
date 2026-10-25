@@ -6,6 +6,13 @@
     "gold": "Gold",
     "elit": "Elite"
   },
+  "refundReasons": {
+    "already_requested": "you already have a cancellation request for it.",
+    "not_paid": "its payment isn't complete or it was already refunded.",
+    "in_use": "it's being used by an invitation.",
+    "free": "it was free with a gift code, so there is nothing to refund.",
+    "window_closed": "the cancellation period (14 days from payment) has passed."
+  },
   "duration": {
     "seconds_one": "{{count}} second",
     "seconds_other": "{{count}} seconds",
@@ -19,6 +26,7 @@
       "base": "You've used up today's assistant messages. We'll see you tomorrow.",
       "detailed": "You've used all {{limit}} of today's assistant messages. Try again in {{retryAfter}}."
     },
+    "EMAIL_CHANGE_INVALID": "This email confirmation link is invalid or has expired. Request a new one from your account settings.",
     "FILE_TOO_LARGE": {
       "base": "That file is too large. Pick a smaller one and try again.",
       "detailed": "That file is too large. The limit is {{max}} KB."
@@ -55,6 +63,10 @@
     "RATE_LIMITED": {
       "base": "You're moving a little fast. Wait a moment and try again.",
       "detailed": "You're moving a little fast. Try again in {{retryAfter}}."
+    },
+    "REFUND_NOT_ALLOWED": {
+      "base": "This right can't be cancelled right now.",
+      "detailed": "This right can't be cancelled: {{reason}}"
     },
     "REGISTRATION_FAILED": "We couldn't complete your registration. Check your details and try again.",
     "RESOURCE_NOT_FOUND": "We couldn't find what you're looking for. The link may have changed or been removed.",
@@ -134,7 +146,9 @@
     "invitation/timelineEvents/*/description": "Schedule description",
     "invitation/timelineEvents/*/id": "Schedule step",
     "giftCode": "Gift code",
-    "code": "Gift code"
+    "code": "Gift code",
+    "currentPassword": "Current password",
+    "reason": "Reason"
   },
   "validation": {
     "fallback": "{{field}} isn't valid.",
@@ -205,6 +219,9 @@
       "file": {
         "max": "That file is too large. Please pick a smaller photo and try again.",
         "dimensions": "That photo's resolution is too high. Please pick a smaller photo."
+      },
+      "email": {
+        "not_in": "That's already your email address."
       }
     }
   }

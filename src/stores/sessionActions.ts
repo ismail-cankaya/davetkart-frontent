@@ -1,4 +1,5 @@
 import { invalidateConditionalCache } from '../services/conditionalGet';
+import { useAccountStore } from './useAccountStore';
 import { useAuthStore } from './useAuthStore';
 import { useCreateWizardStore } from './useCreateWizardStore';
 import { useInvitationStore } from './useInvitationStore';
@@ -44,5 +45,7 @@ export function signOut({ revoke = true }: { revoke?: boolean } = {}): void {
   useInvitationStore.getState().resetInvitation();
   useCreateWizardStore.getState().startNew();
   useRsvpStore.getState().setInvitationScope(null);
+  // Faz 14: plan hakları ve oturum listesi bir sonraki hesaba sızmasın.
+  useAccountStore.getState().reset();
   invalidateConditionalCache();
 }

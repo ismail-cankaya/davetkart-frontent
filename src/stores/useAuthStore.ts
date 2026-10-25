@@ -22,6 +22,11 @@ interface AuthState {
    * tazeler. Uygulama açılışında bir kez çağrılır (App.tsx).
    */
   refreshSession: () => Promise<void>;
+  /**
+   * Faz 14: profil güncellendi — sunucunun döndürdüğü kullanıcı oturuma ve
+   * önbelleğe yazılır. Token değişmez.
+   */
+  setUser: (user: AuthUser) => void;
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
@@ -53,6 +58,13 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     if (token && revoke) {
       authService.revokeSession(token);
     }
+  },
+
+  setUser: (user) => {
+    const { token } = get();
+    if (!token) return;
+    authService.persistSession({ user, token });
+    set({ user });
   },
 
   refreshSession: async () => {

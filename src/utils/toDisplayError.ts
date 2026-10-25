@@ -67,6 +67,12 @@ function presentParams(params: Record<string, unknown>): Record<string, unknown>
     }
   }
 
+  // Faz 14 (REFUND_NOT_ALLOWED): iade engelinin sebebi bir sistem değeri
+  // (`window_closed`); cümlenin devamına çevrilir.
+  if (typeof out.reason === 'string') {
+    out.reason = i18n.t(`refundReasons.${out.reason}`, { ns: NS, defaultValue: out.reason });
+  }
+
   return out;
 }
 

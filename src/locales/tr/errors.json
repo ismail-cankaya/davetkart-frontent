@@ -6,6 +6,13 @@
     "gold": "Gold",
     "elit": "Elit"
   },
+  "refundReasons": {
+    "already_requested": "bu hak için zaten bir iptal talebiniz var.",
+    "not_paid": "ödemesi tamamlanmamış ya da zaten iade edilmiş.",
+    "in_use": "hak bir davetiyede kullanılıyor.",
+    "free": "hediye koduyla ücretsiz alınmış; iade edilecek tutar yok.",
+    "window_closed": "iptal süresi (ödemeden itibaren 14 gün) geçti."
+  },
   "duration": {
     "seconds_one": "{{count}} saniye",
     "seconds_other": "{{count}} saniye",
@@ -19,6 +26,7 @@
       "base": "Günlük asistan sohbet hakkınızı kullandınız. Yarın tekrar bekleriz.",
       "detailed": "Günlük {{limit}} mesaj hakkınızın tamamını kullandınız. {{retryAfter}} sonra tekrar deneyebilirsiniz."
     },
+    "EMAIL_CHANGE_INVALID": "E-posta onay bağlantısı geçersiz ya da süresi dolmuş. Hesap ayarlarından yeni bir bağlantı isteyin.",
     "FILE_TOO_LARGE": {
       "base": "Dosya çok büyük. Daha küçük bir dosya seçip tekrar deneyin.",
       "detailed": "Dosya çok büyük. En fazla {{max}} KB yükleyebilirsiniz."
@@ -55,6 +63,10 @@
     "RATE_LIMITED": {
       "base": "Çok hızlı ilerliyorsunuz. Biraz bekleyip tekrar deneyin.",
       "detailed": "Çok hızlı ilerliyorsunuz. {{retryAfter}} sonra tekrar deneyin."
+    },
+    "REFUND_NOT_ALLOWED": {
+      "base": "Bu hak şu anda iptal edilemiyor.",
+      "detailed": "Bu hak iptal edilemiyor: {{reason}}"
     },
     "REGISTRATION_FAILED": "Kayıt tamamlanamadı. Bilgilerinizi kontrol edip tekrar deneyin.",
     "RESOURCE_NOT_FOUND": "Aradığınız içerik bulunamadı. Bağlantı değişmiş veya kaldırılmış olabilir.",
@@ -134,7 +146,9 @@
     "invitation/timelineEvents/*/description": "Program açıklaması",
     "invitation/timelineEvents/*/id": "Program adımı",
     "giftCode": "Hediye kodu",
-    "code": "Hediye kodu"
+    "code": "Hediye kodu",
+    "currentPassword": "Mevcut parola",
+    "reason": "Açıklama"
   },
   "validation": {
     "fallback": "{{field}} geçerli değil.",
@@ -205,6 +219,9 @@
       "file": {
         "max": "Dosya çok büyük. Daha küçük bir fotoğraf seçip tekrar deneyin.",
         "dimensions": "Fotoğrafın çözünürlüğü çok yüksek. Daha küçük bir fotoğraf seçin."
+      },
+      "email": {
+        "not_in": "Bu zaten kullandığınız e-posta adresi."
       }
     }
   }

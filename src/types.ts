@@ -606,3 +606,96 @@ export interface PlaceSuggestion {
   address: string;
   location: GeoPoint;
 }
+
+// ─────────────────────────────────────────────── Hesap ayarları (Faz 14)
+
+/**
+ * Bir siparişin hakkı ŞU AN nerede — backend `EntitlementState` (Faz 14, K140).
+ *
+ * | Değer | Anlamı | Sayaçta |
+ * |---|---|---|
+ * | `available` | Ödendi, hiçbir davetiyeye bağlı değil | **asıl sayı** |
+ * | `in_use` | Bir davetiyede (yayında ya da taslakta) | bilgi |
+ * | `refund_requested` | İptal istendi, karar bekleniyor; hak donmuş | bilgi |
+ * | `pending` | Ödeme onayı bekleniyor (ör. havale) | hak değil |
+ * | `consumed` | Davetiye 3 gün sonra silindi, hak yandı | geçmiş |
+ * | `refunded` | Para iade edildi | geçmiş |
+ */
+export type EntitlementState = 'available' | 'in_use' | 'refund_requested' | 'pending' | 'consumed' | 'refunded';
+
+/** Bir hakkın neden iptal edilemediği — backend `RefundBlocker` (K139). */
+export type RefundBlocker = 'already_requested' | 'not_paid' | 'in_use' | 'free' | 'window_closed';
+
+export type RefundRequestStatus = 'requested' | 'approved' | 'rejected' | 'withdrawn';
+
+/** Bir planın kova sayıları. Üç plan her zaman gelir, sıfır olsa da. */
+export interface TierEntitlementCounts {
+  tier: SubscriptionTier;
+  available: number;
+  inUse: number;
+  refundRequested: number;
+  pending: number;
+  consumed: number;
+  refunded: number;
+}
+
+/** Hak listesinin bir satırı — bir sipariş. */
+export interface EntitlementRight {
+  orderId: string;
+  tier: SubscriptionTier;
+  state: EntitlementState;
+  createdAt: string | null;
+  paidAt: string | null;
+  totalMinor: number;
+  currency: string;
+  /** Bağsız hakta `null`. Yanmış hakta `deleted: true` (çöpte) ya da `null` (kalıcı silindi). */
+  invitation: {
+    id: string;
+    title: string;
+    publishedAt: string | null;
+    releasableUntil: string | null;
+    deleted: boolean;
+  } | null;
+  refund: {
+    /** İptal düğmesi bu alana göre gösterilir; kararı yine sunucu verir. */
+    eligible: boolean;
+    blocker: RefundBlocker | null;
+    /** İade penceresinin sonu (ödemeden itibaren 14 gün). */
+    windowEndsAt: string | null;
+    request: { id: string; status: RefundRequestStatus; createdAt: string | null } | null;
+  };
+}
+
+/** `GET /api/account/entitlements` — "Planlarım". */
+export interface AccountEntitlements {
+  tiers: TierEntitlementCounts[];
+  totalAvailable: number;
+  rights: EntitlementRight[];
+}
+
+/** `GET /api/auth/sessions` satırı — bir cihazdaki oturum (K143). IP yok. */
+export interface AccountSession {
+  id: string;
+  /** `null`: tanınmayan tarayıcı. */
+  browser: string | null;
+  system: string | null;
+  createdAt: string | null;
+  lastUsedAt: string | null;
+  /** İsteği yapan oturum: "bu cihaz". */
+  current: boolean;
+}
+
+export interface ProfilePayload {
+  firstName: string;
+  lastName: string;
+}
+
+export interface PasswordChangePayload {
+  currentPassword: string;
+  password: string;
+}
+
+export interface EmailChangePayload {
+  email: string;
+  currentPassword: string;
+}
