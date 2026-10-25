@@ -13,6 +13,12 @@ const RegisterPage = React.lazy(() => import('./pages/RegisterPage'));
 const ForgotPasswordPage = React.lazy(() => import('./pages/ForgotPasswordPage'));
 const ResetPasswordPage = React.lazy(() => import('./pages/ResetPasswordPage'));
 const AccountPage = React.lazy(() => import('./pages/AccountPage'));
+const AccountOverviewSection = React.lazy(() => import('./pages/account/AccountOverviewSection'));
+const AccountPlansSection = React.lazy(() => import('./pages/account/AccountPlansSection'));
+const AccountOrdersSection = React.lazy(() => import('./pages/account/AccountOrdersSection'));
+const AccountSecuritySection = React.lazy(() => import('./pages/account/AccountSecuritySection'));
+const AccountPrivacySection = React.lazy(() => import('./pages/account/AccountPrivacySection'));
+const EmailChangeConfirmPage = React.lazy(() => import('./pages/EmailChangeConfirmPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
@@ -57,14 +63,26 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         )
       },
+      // Faz 14: e-posta değişikliği onayı. Oturum İSTEMEZ (bağlantı başka
+      // cihazda açılabilir). Yol backend config/davetkart.php →
+      // frontend.email_change_path ile aynı; biri değişirse ikisi birlikte.
+      { path: '/eposta-onay', element: <EmailChangeConfirmPage /> },
       {
-        // Hesap bilgisi ve hesabı silme (Faz 10, FE 10.17).
+        // Hesap ayarları (Faz 10'da tek sayfa, Faz 14'te bölümlü).
         path: '/hesap',
         element: (
           <ProtectedRoute>
             <AccountPage />
           </ProtectedRoute>
-        )
+        ),
+        children: [
+          { index: true, element: <AccountOverviewSection /> },
+          { path: 'planlarim', element: <AccountPlansSection /> },
+          { path: 'siparisler', element: <AccountOrdersSection /> },
+          { path: 'guvenlik', element: <AccountSecuritySection /> },
+          { path: 'gizlilik', element: <AccountPrivacySection /> },
+          { path: '*', element: <Navigate to="/hesap" replace /> }
+        ]
       },
       {
         // Plan duvarının "Ödemeye Geç"i buraya gelir (utils/checkoutRoute.ts).

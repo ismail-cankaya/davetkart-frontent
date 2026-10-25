@@ -13,6 +13,7 @@ import {
   Plus,
   RefreshCw,
   Sparkles,
+  Ticket,
   Trash2,
   UserRound
 } from 'lucide-react';
@@ -24,6 +25,7 @@ import { useInvitationStore } from '../stores/useInvitationStore';
 import { useCreateWizardStore } from '../stores/useCreateWizardStore';
 import { startNewInvitation } from '../stores/sessionActions';
 import { useRsvpStore } from '../stores/useRsvpStore';
+import { useAccountStore } from '../stores/useAccountStore';
 import { useDashboardData } from '../hooks/useDashboardData';
 import { fullName } from '../utils/user';
 import { displayNames } from '../utils/names';
@@ -192,6 +194,13 @@ function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCard
  */
 export default function DashboardPage() {
   const user = useAuthStore((s) => s.user);
+  // Faz 14: "N kullanılabilir hak" rozeti. Hata sessiz: rozet bir kısayol,
+  // panelin asıl işi değil; Planlarım sayfası hatayı kendisi söyler.
+  const availableRights = useAccountStore((s) => s.entitlements?.totalAvailable ?? 0);
+  const loadEntitlements = useAccountStore((s) => s.loadEntitlements);
+  useEffect(() => {
+    loadEntitlements().catch(() => undefined);
+  }, [loadEntitlements]);
   const loadRecord = useInvitationStore((s) => s.loadRecord);
   const resumeEditor = useCreateWizardStore((s) => s.resumeEditor);
   const navigate = useNavigate();
@@ -349,6 +358,16 @@ export default function DashboardPage() {
           </div>
 
           <div className="shrink-0 flex flex-wrap items-center gap-3">
+            {/* Faz 14: kullanılabilir hak varsa sayısıyla söylenir. */}
+            {availableRights > 0 && (
+              <Link
+                to="/hesap/planlarim"
+                className="inline-flex items-center gap-2 text-emerald-900 px-5 py-3.5 rounded-full font-semibold text-xs border border-emerald-200 bg-emerald-50 hover:border-emerald-400 transition duration-300"
+              >
+                <Ticket size={15} />
+                {availableRights} kullanılabilir hak
+              </Link>
+            )}
             {/* Faz 10 (FE 10.17): hesap sayfasının tek girişi. */}
             <Link
               to="/hesap"

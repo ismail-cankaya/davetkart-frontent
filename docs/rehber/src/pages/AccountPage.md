@@ -107,3 +107,32 @@ config'tir; bu hata derlenir, istek gider ve backend her denemeye *"Parola zorun
 5. Backend: SELECT user_id FROM orders WHERE … → NULL (sipariş duruyor)
 6. Davetiyenin public bağlantısı → 404
 ```
+
+---
+
+## 🆕 Faz 14 — tek sayfadan bölümlü hesap ayarlarına
+
+`AccountPage` artık bir **kabuk**: başlık + sol menü (`AccountNav`) + `<Outlet />`. Bölümler
+alt yollar ve ayrı parçalar (lazy):
+
+| Yol | Bölüm | Ne var |
+|---|---|---|
+| `/hesap` | `AccountOverviewSection` | Profil (ad/soyad) + plan hakları özeti |
+| `/hesap/planlarim` | `AccountPlansSection` | Plan başına sayılar, haklar, iptal/geri çek, geçmiş |
+| `/hesap/siparisler` | `AccountOrdersSection` | Sipariş geçmişi (`GET /orders`) |
+| `/hesap/guvenlik` | `AccountSecuritySection` | Parola, e-posta değişikliği, aktif oturumlar |
+| `/hesap/gizlilik` | `AccountPrivacySection` | Kişisel veri bağlantıları + hesabı sil |
+
+**Neden alt yol, neden sekme durumu değil?** Paylaşılabilir ("Planlarım'a bak"), geri tuşu
+çalışır, dashboard rozeti doğrudan `/hesap/planlarim`'a gider. Bilinmeyen alt yol `/hesap`'a döner.
+
+**Neden kabukta `Suspense`?** Bölümler ayrı parça; üstteki (AppLayout) Suspense'e düşseydi
+her sekme değişiminde bütün sayfa dönen bir yükleyiciye dönerdi. Kabuk yerinde kalır,
+yalnızca içerik alanı iskelet gösterir.
+
+**Neden `AnimatePresence` yok?** Çıkış animasyonu sırasında `<Outlet />` zaten **yeni**
+bölümü çizer: eski bölüm "çıkarken" yeni içerikle görünürdü. Anahtarlı (`key={pathname}`) tek
+bir giriş animasyonu yeterli.
+
+Hesabı silme bloğu `components/account/DeleteAccountCard.tsx`'e taşındı (davranış aynı) ve
+kullanılmamış hakları **sayıyla** söylüyor. Ayrıntı: [`account/README.md`](account/README.md).

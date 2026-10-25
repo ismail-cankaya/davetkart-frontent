@@ -50,7 +50,8 @@ const STATIC_FAQS: Faq[] = [
   },
   {
     q: 'İade alabilir miyim?',
-    a: 'Davetiyeniz henüz yayınlanmamışsa 14 gün içinde koşulsuz iade talep edebilirsiniz. Ayrıntılar için Kullanım Şartları sayfamızın "Cayma Hakkı ve İade Koşulları" bölümüne göz atabilirsiniz.'
+    // Faz 14 (K139): iptal, Hesap Ayarları → Planlarım'dan; kural backend'de.
+    a: 'Kullanılmamış bir plan hakkını ödemeden itibaren 14 gün içinde Hesap Ayarları → Planlarım sayfasından iptal edip iade isteyebilirsiniz. Davetiyeniz yayındaysa, yayından sonraki 3 gün içinde silerek hakkı serbest bırakabilirsiniz. Ayrıntılar için Kullanım Şartları sayfamızın "Cayma Hakkı ve İade Koşulları" bölümüne göz atabilirsiniz.'
   }
 ];
 
