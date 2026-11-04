@@ -3357,6 +3357,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['dugun']
   },
+  {
+    id: 'dugun-holografik',
+    name: 'Holografik Cam',
+    primaryColor: '#07070C',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_30%_25%,#7A5CFF_0%,#1A1430_45%,#07070C_100%)]',
+    titleColor: 'text-white',
+    btnColor: 'bg-[linear-gradient(110deg,#FFC4E6,#C4E1FF_35%,#D2FFE4_65%,#FFF4C4)] hover:brightness-110 text-[#141420]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
 ];
 
 /**

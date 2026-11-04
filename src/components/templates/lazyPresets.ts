@@ -48,6 +48,7 @@ export const LAZY_KONSEPT_PRESETS: Record<string, Preset> = {
 export const LAZY_YEDI_PRESETS: Record<string, Preset> = {
   'dugun-kitap-sayfa': fromBarrel(() => import('./dugun/DugunKitapSayfa'), 'DugunKitapSayfa'),
   'dugun-gul-3d': fromBarrel(() => import('./dugun/DugunGul3d'), 'DugunGul3d'),
+  'dugun-holografik': fromBarrel(() => import('./dugun/DugunHolografik'), 'DugunHolografik'),
 };
 
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
