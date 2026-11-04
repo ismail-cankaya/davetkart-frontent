@@ -115,8 +115,8 @@ function InkHero({ invitation }: HeroRenderProps) {
           {[d.date.day, d.date.time, d.venue].filter(Boolean).join(' · ')}
         </motion.div>
       )}
-      <motion.div {...fade(2.7)} className="mt-7 rounded-2xl bg-[#F4F2ED]/80 backdrop-blur-md px-4 py-3">
-        <HeroCountdown invitation={invitation} numberClassName="font-cormorant font-semibold text-[#0E1022]" labelClassName="text-[#4A4F6A]" />
+      <motion.div {...fade(2.7)} className="mt-7">
+        <HeroCountdown invitation={invitation} className="rounded-2xl bg-[#F4F2ED]/80 backdrop-blur-md px-4 py-3" numberClassName="font-cormorant font-semibold text-[#0E1022]" labelClassName="text-[#4A4F6A]" />
       </motion.div>
       {d.subtitle && (
         <motion.p {...fade(3)} className="mt-6 max-w-md font-cormorant italic text-xl text-[#F7F5F0] [text-shadow:0_1px_14px_rgba(10,12,30,0.7)]">

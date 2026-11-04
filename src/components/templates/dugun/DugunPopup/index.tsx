@@ -151,8 +151,11 @@ function PopupHero({ invitation, scrollContainer }: HeroRenderProps) {
           {d.venue && <span className="block mt-1 font-medium text-[#3B3245]">{d.venue}</span>}
         </motion.p>
       )}
-      <motion.div {...fade(2.4)} className="mt-6 rounded-2xl bg-[#FFFBF5] px-4 py-3 shadow-[0_10px_24px_-16px_rgba(59,50,69,0.5),0_2px_0_#E8DCCB]">
-        <HeroCountdown invitation={invitation} numberClassName="font-cormorant font-semibold text-[#2B2433]" labelClassName="text-[#8C8294]" />
+      <motion.div {...fade(2.4)} className="mt-6">
+        <HeroCountdown
+          invitation={invitation}
+          className="rounded-2xl bg-[#FFFBF5] px-4 py-3 shadow-[0_10px_24px_-16px_rgba(59,50,69,0.5),0_2px_0_#E8DCCB]"
+          numberClassName="font-cormorant font-semibold text-[#2B2433]" labelClassName="text-[#8C8294]" />
       </motion.div>
       {d.subtitle && (
         <motion.p {...fade(2.6)} className="mt-6 max-w-md font-cormorant italic text-lg text-[#5E5466]">
