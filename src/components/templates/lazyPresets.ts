@@ -61,6 +61,7 @@ export const LAZY_YEDI_PRESETS: Record<string, Preset> = {
  */
 export const LAZY_PREMIUM_PRESETS: Record<string, Preset> = {
   'kina-al-duvak': fromBarrel(() => import('./kina/KinaAlDuvak'), 'KinaAlDuvak'),
+  'baby-ay-besigi': fromBarrel(() => import('./baby-shower/BabyAyBesigi'), 'BabyAyBesigi'),
 };
 
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */

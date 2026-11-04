@@ -3419,6 +3419,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: videoCover('kina-al-duvak'),
     categories: ['kina']
   },
+  {
+    id: 'baby-ay-besigi',
+    name: 'Ay Beşiği (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#F6E6F0',
+    backgroundStyle: 'bg-gradient-to-b from-[#A9A3E2] via-[#F2D3EA] to-[#F6E6F0]',
+    titleColor: 'text-[#3E2F5B]',
+    btnColor: 'bg-[linear-gradient(135deg,#B79CE6,#F2A9C4)] hover:brightness-105 text-white',
+    imageUrl: videoCover('baby-ay-besigi'),
+    categories: ['baby-shower']
+  },
 ];
 
 /**
