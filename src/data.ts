@@ -3442,6 +3442,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['nisan']
   },
   {
+    id: 'dugun-yasemin',
+    name: 'Gece Yasemini (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#041012',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_65%_25%,#1D3B40_0%,#0C2226_45%,#030A0C_100%)]',
+    titleColor: 'text-[#FBFAF2]',
+    btnColor: 'bg-[#F4F1E6] hover:bg-white text-[#0A1F22]',
+    imageUrl: videoCover('dugun-yasemin'),
+    categories: ['dugun']
+  },
+  {
     id: 'sunnet-sehzade',
     name: 'Şehzade Çadırı (Sinematik)',
     minimumTier: 'gold',
