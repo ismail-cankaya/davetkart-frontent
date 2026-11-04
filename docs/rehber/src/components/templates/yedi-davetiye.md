@@ -183,9 +183,4 @@ Koyu cam kart üstünde: `conic-gradient` (`screen`), folyo şeritleri (`overlay
 
 ### B.5 Bilinen sınırlar ve açık işler
 
-- **Backend:** şablon id'leri bir izin listesinde/seeder'da tutuluyorsa 25 yeni id (`dugun-kitap-*`, `nisan-*-*`, `dogum-gunu-*-*` konseptleri ve 7 `dugun-*`) oraya eklenmeli. Frontend tarafında başka kayıt yok.
-- Bloom/alan derinliği gerçek post-processing değil (ek paket istemedim); sis + ışık ile yaklaşıldı.
-- iOS'ta jiroskop için izin akışı yok (izin isteği bir kullanıcı hareketi ister; davetiye sayfasında ayrı bir düğme gerektirir).
-- Kitap'ta RTL kitap yönü yok; sayfa içi uzun bölümler (LCV formu) sayfa içinde kaydırılır.
-- Altın Toz'da yazı oturmadan çok hızlı kaydırılırsa bir sonraki aşamanın zerreleri önceki yazının HTML'i solarken bir an üst üste görünebilir.
-- `npm install` sonrası `npm audit` 13 bildirim veriyor (çoğu önceden var olan geliştirme bağımlılıkları); bu dalda ele alınmadı.
+Hepsi ayrı dosyada, işaretlenebilir liste olarak: [yedi-davetiye-acik-isler.md](yedi-davetiye-acik-isler.md).
