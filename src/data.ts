@@ -3387,6 +3387,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['dugun']
   },
+  {
+    id: 'dugun-fener',
+    name: 'Dilek Fenerleri',
+    primaryColor: '#0B1026',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#05071A_0%,#0B1026_45%,#5A2E3A_100%)]',
+    titleColor: 'text-[#FFF1DC]',
+    btnColor: 'bg-[linear-gradient(180deg,#FFD08A,#F29A45)] hover:brightness-110 text-[#1B1206]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
 ];
 
 /**
