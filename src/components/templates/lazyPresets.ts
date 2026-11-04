@@ -1,0 +1,45 @@
+import { lazy, type ComponentType } from 'react';
+import type { TemplateProps } from './types';
+
+type Preset = ComponentType<TemplateProps>;
+
+/**
+ * Konsept barrel'ındaki adlandırılmış bir dışa aktarımı `React.lazy` bileşenine çevirir.
+ * Barrel'lar kategori barrel'ına (`dugun/index.ts`) bağlanmaz: bağlansaydı modül ana
+ * pakete statik olarak girer, tembel yükleme boşa giderdi.
+ */
+function fromBarrel<K extends string>(load: () => Promise<Record<K, Preset>>, name: K): Preset {
+  return lazy(() => load().then((m) => ({ default: m[name] })));
+}
+
+const dugunKitap = () => import('./dugun/kitap');
+const dugunHarita = () => import('./dugun/harita');
+const dugunSergi = () => import('./dugun/sergi');
+const nisanKitap = () => import('./nisan/kitap');
+const nisanHarita = () => import('./nisan/harita');
+const nisanSergi = () => import('./nisan/sergi');
+const dogumGunuKitap = () => import('./dogum-gunu/kitap');
+const dogumGunuHarita = () => import('./dogum-gunu/harita');
+const dogumGunuSergi = () => import('./dogum-gunu/sergi');
+
+/** Konsept şablonları (Kitap · Harita · Sergi) — her konsept kendi chunk'ında. */
+export const LAZY_KONSEPT_PRESETS: Record<string, Preset> = {
+  'dugun-kitap-birinci-bolum': fromBarrel(dugunKitap, 'DugunKitapBirinciBolum'),
+  'dugun-kitap-ic-kapak': fromBarrel(dugunKitap, 'DugunKitapIcKapak'),
+  'dugun-harita-kir-yolu': fromBarrel(dugunHarita, 'DugunHaritaKirYolu'),
+  'dugun-harita-kiyi-kenti': fromBarrel(dugunHarita, 'DugunHaritaKiyiKenti'),
+  'dugun-sergi-beyaz-kup': fromBarrel(dugunSergi, 'DugunSergiBeyazKup'),
+  'dugun-sergi-duvar-yazisi': fromBarrel(dugunSergi, 'DugunSergiDuvarYazisi'),
+  'nisan-kitap-kurdele': fromBarrel(nisanKitap, 'NisanKitapKurdele'),
+  'nisan-kitap-onsoz': fromBarrel(nisanKitap, 'NisanKitapOnsoz'),
+  'nisan-harita-kavusak': fromBarrel(nisanHarita, 'NisanHaritaKavusak'),
+  'nisan-harita-kroki': fromBarrel(nisanHarita, 'NisanHaritaKroki'),
+  'nisan-sergi-bir-omur': fromBarrel(nisanSergi, 'NisanSergiBirOmur'),
+  'nisan-sergi-diptik': fromBarrel(nisanSergi, 'NisanSergiDiptik'),
+  'dogum-gunu-kitap-masal': fromBarrel(dogumGunuKitap, 'DogumGunuKitapMasal'),
+  'dogum-gunu-kitap-yeni-bolum': fromBarrel(dogumGunuKitap, 'DogumGunuKitapYeniBolum'),
+  'dogum-gunu-harita-hazine-avi': fromBarrel(dogumGunuHarita, 'DogumGunuHaritaHazineAvi'),
+  'dogum-gunu-harita-kutlama-hatti': fromBarrel(dogumGunuHarita, 'DogumGunuHaritaKutlamaHatti'),
+  'dogum-gunu-sergi-devam-eden': fromBarrel(dogumGunuSergi, 'DogumGunuSergiDevamEden'),
+  'dogum-gunu-sergi-retrospektif': fromBarrel(dogumGunuSergi, 'DogumGunuSergiRetrospektif'),
+};

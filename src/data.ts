@@ -3155,6 +3155,187 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['nisan']
   },
+  // ——— Konsept şablonları (Kitap · Harita · Sergi) — tembel yüklenir, bkz. templates/lazyPresets.ts ———
+  {
+    id: 'dugun-kitap-birinci-bolum',
+    name: 'Kitap — Birinci Bölüm',
+    primaryColor: '#1F3A2E',
+    backgroundStyle: 'bg-gradient-to-br from-[#1F3A2E] via-[#2C4A3B] to-[#F2EAD3]',
+    titleColor: 'text-[#F2EAD3]',
+    btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-kitap-ic-kapak',
+    name: 'Kitap — İç Kapak',
+    primaryColor: '#F2EAD3',
+    backgroundStyle: 'bg-gradient-to-br from-[#F2EAD3] via-[#E4D8B8] to-[#1C2541]',
+    titleColor: 'text-[#231F1A]',
+    btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-harita-kir-yolu',
+    name: 'Harita — Kır Yolu',
+    primaryColor: '#EEF0E6',
+    backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#B7C9A2] to-[#9CC3D5]',
+    titleColor: 'text-[#23303A]',
+    btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-harita-kiyi-kenti',
+    name: 'Harita — Kıyı Kenti',
+    primaryColor: '#EEF0E6',
+    backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#DDD6C6] to-[#9CC3D5]',
+    titleColor: 'text-[#23303A]',
+    btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-sergi-beyaz-kup',
+    name: 'Sergi — Beyaz Küp',
+    primaryColor: '#F7F7F5',
+    backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#2A4BA0]',
+    titleColor: 'text-[#1C1C1C]',
+    btnColor: 'bg-[#2A4BA0] hover:bg-[#223E83] text-white',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'dugun-sergi-duvar-yazisi',
+    name: 'Sergi — Duvar Yazısı',
+    primaryColor: '#F7F7F5',
+    backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#1C1C1C]',
+    titleColor: 'text-[#1C1C1C]',
+    btnColor: 'bg-[#1C1C1C] hover:bg-[#373737] text-white',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
+    id: 'nisan-kitap-kurdele',
+    name: 'Kitap — Kesik Kurdele',
+    primaryColor: '#F2EAD3',
+    backgroundStyle: 'bg-gradient-to-br from-[#F2EAD3] via-[#E4D8B8] to-[#3D2337]',
+    titleColor: 'text-[#231F1A]',
+    btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-kitap-onsoz',
+    name: 'Kitap — Önsöz',
+    primaryColor: '#3D2337',
+    backgroundStyle: 'bg-gradient-to-br from-[#3D2337] via-[#5A3A52] to-[#F2EAD3]',
+    titleColor: 'text-[#F2EAD3]',
+    btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-harita-kavusak',
+    name: 'Harita — Kavuşak',
+    primaryColor: '#EEF0E6',
+    backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#B7C9A2] to-[#A8321F]',
+    titleColor: 'text-[#23303A]',
+    btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-harita-kroki',
+    name: 'Harita — Mahalle Krokisi',
+    primaryColor: '#EEF0E6',
+    backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#DDD6C6] to-[#A8321F]',
+    titleColor: 'text-[#23303A]',
+    btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-sergi-bir-omur',
+    name: 'Sergi — Bir Ömür',
+    primaryColor: '#F7F7F5',
+    backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#A72D63]',
+    titleColor: 'text-[#1C1C1C]',
+    btnColor: 'bg-[#A72D63] hover:bg-[#892551] text-white',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'nisan-sergi-diptik',
+    name: 'Sergi — Diptik',
+    primaryColor: '#F7F7F5',
+    backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#A72D63] to-[#EDEDEA]',
+    titleColor: 'text-[#1C1C1C]',
+    btnColor: 'bg-[#A72D63] hover:bg-[#892551] text-white',
+    imageUrl: '',
+    categories: ['nisan']
+  },
+  {
+    id: 'dogum-gunu-kitap-masal',
+    name: 'Kitap — Masal',
+    primaryColor: '#3B2A1E',
+    backgroundStyle: 'bg-gradient-to-br from-[#3B2A1E] via-[#5A4330] to-[#C9A35C]',
+    titleColor: 'text-[#F2EAD3]',
+    btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'dogum-gunu-kitap-yeni-bolum',
+    name: 'Kitap — Yeni Bölüm',
+    primaryColor: '#1E1E1E',
+    backgroundStyle: 'bg-gradient-to-br from-[#1E1E1E] via-[#2E2B27] to-[#F2EAD3]',
+    titleColor: 'text-[#F2EAD3]',
+    btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'dogum-gunu-harita-hazine-avi',
+    name: 'Harita — Hazine Avı',
+    primaryColor: '#F1E6C8',
+    backgroundStyle: 'bg-gradient-to-br from-[#F1E6C8] via-[#E4D2A4] to-[#A8321F]',
+    titleColor: 'text-[#23303A]',
+    btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'dogum-gunu-harita-kutlama-hatti',
+    name: 'Harita — Kutlama Hattı',
+    primaryColor: '#EEF0E6',
+    backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#DDD6C6] to-[#2A4BA0]',
+    titleColor: 'text-[#23303A]',
+    btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'dogum-gunu-sergi-devam-eden',
+    name: 'Sergi — Devam Eden',
+    primaryColor: '#F7F7F5',
+    backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#2A4BA0]',
+    titleColor: 'text-[#1C1C1C]',
+    btnColor: 'bg-[#2A4BA0] hover:bg-[#223E83] text-white',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
+  {
+    id: 'dogum-gunu-sergi-retrospektif',
+    name: 'Sergi — Retrospektif',
+    primaryColor: '#F7F7F5',
+    backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#E0A526]',
+    titleColor: 'text-[#1C1C1C]',
+    btnColor: 'bg-[#1C1C1C] hover:bg-[#373737] text-white',
+    imageUrl: '',
+    categories: ['dogum-gunu']
+  },
 ];
 
 /**

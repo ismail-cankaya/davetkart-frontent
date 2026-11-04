@@ -29,6 +29,7 @@ import { useInvitationStore } from '../src/stores/useInvitationStore';
 import { useRsvpStore } from '../src/stores/useRsvpStore';
 import { rsvpReceipts } from '../src/services/rsvpReceipts';
 import { INITIAL_INVITATION, TEMPLATE_PRESETS } from '../src/data';
+import { LAZY_KONSEPT_PRESETS } from '../src/components/templates/lazyPresets';
 import type { Invitation, InvitationRecord } from '../src/types';
 
 const SIGNATURE = 'DavetKart ile hazırlandı';
@@ -47,7 +48,11 @@ function check(condition: boolean, message: string, detail: string): void {
 /** Kısa liste: hata mesajında ilk birkaç şablon yeter. */
 const sample = (ids: string[]) => `${ids.length} şablon: ${ids.slice(0, 5).join(', ')}${ids.length > 5 ? '…' : ''}`;
 
-function guestPage(presetId: string, patch: Partial<Invitation>): string {
+/**
+ * Misafir sayfası. Konsept ve 3B şablonlar `React.lazy` ile yüklenir; `prerender`
+ * Suspense'in çözülmesini beklediği için tembel şablonlar da tam çizilir.
+ */
+async function guestPage(presetId: string, patch: Partial<Invitation>): Promise<string> {
   const preset = TEMPLATE_PRESETS.find((p) => p.id === presetId);
   const invitation: Invitation = {
     ...INITIAL_INVITATION,
@@ -56,9 +61,12 @@ function guestPage(presetId: string, patch: Partial<Invitation>): string {
     categoryId: preset?.categories[0] ?? INITIAL_INVITATION.categoryId,
     ...patch,
   };
-  return renderToStaticMarkup(
+  const { prelude } = await prerenderToNodeStream(
     <TemplateRenderer templateId={presetId} invitation={invitation} onRsvpClick={() => {}} mode="live" />,
   );
+  let html = '';
+  for await (const chunk of prelude) html += String(chunk);
+  return html;
 }
 
 function record(showBranding: boolean): InvitationRecord {
@@ -95,7 +103,7 @@ function editorPreview(): string {
 
 // ——— 1. İmza ——————————————————————————————————————————————————————————
 
-function signatureOnTheGuestPage(): void {
+async function signatureOnTheGuestPage(): Promise<void> {
   console.log('\nİmza: misafir sayfası (bütün şablonlar)');
 
   const missing: string[] = [];
@@ -103,9 +111,9 @@ function signatureOnTheGuestPage(): void {
   const missingWithoutDecision: string[] = [];
 
   for (const { id } of TEMPLATE_PRESETS) {
-    if (!guestPage(id, { showBranding: true }).includes(SIGNATURE)) missing.push(id);
-    if (guestPage(id, { showBranding: false }).includes(SIGNATURE)) leaked.push(id);
-    if (!guestPage(id, {}).includes(SIGNATURE)) missingWithoutDecision.push(id);
+    if (!(await guestPage(id, { showBranding: true })).includes(SIGNATURE)) missing.push(id);
+    if ((await guestPage(id, { showBranding: false })).includes(SIGNATURE)) leaked.push(id);
+    if (!(await guestPage(id, {})).includes(SIGNATURE)) missingWithoutDecision.push(id);
   }
 
   const total = TEMPLATE_PRESETS.length;
@@ -116,6 +124,50 @@ function signatureOnTheGuestPage(): void {
     `karar yoksa (eski yanıt, taslak) ${total} şablonun hepsinde imza var`,
     sample(missingWithoutDecision),
   );
+}
+
+// ——— 1b. Tembel şablonlar: kayıt ve veri ——————————————————————————————————————
+
+/** Konsept şablonları (A) ve tembel yüklenen yeni şablonlar. */
+const LAZY_IDS = Object.keys(LAZY_KONSEPT_PRESETS);
+
+async function lazyPresetsRender(): Promise<void> {
+  console.log(`\nTembel şablonlar: kayıt ve veri (${LAZY_IDS.length} şablon)`);
+
+  const unlisted = LAZY_IDS.filter((id) => !TEMPLATE_PRESETS.some((p) => p.id === id));
+  check(unlisted.length === 0, 'hepsi data.ts kataloğunda', sample(unlisted));
+
+  const full: Partial<Invitation> = {
+    names: 'Deniz & Can',
+    date: '2027-06-12T19:00',
+    venue: 'Kuzguncuk Bahçe',
+    showGallery: true,
+    galleryImages: [{ id: null, url: '/x/1.webp' }, { id: null, url: '/x/2.webp' }],
+  };
+  const noNames: string[] = [];
+  const noVenue: string[] = [];
+  for (const id of LAZY_IDS) {
+    const html = await guestPage(id, full);
+    if (!html.includes('Deniz')) noNames.push(id);
+    if (!html.includes('Kuzguncuk Bahçe')) noVenue.push(id);
+  }
+  check(noNames.length === 0, 'dolu veride adlar çiziliyor', sample(noNames));
+  check(noVenue.length === 0, 'dolu veride mekân çiziliyor', sample(noVenue));
+
+  // Boş veri: fotoğraf yok, program yok, ad/tarih/mekân yok — hiçbiri kırılmamalı.
+  const empty: Partial<Invitation> = {
+    names: '', date: '', venue: '', showGallery: true, galleryImages: [], timelineEvents: [], showGift: true,
+  };
+  const broken: string[] = [];
+  for (const id of LAZY_IDS) {
+    try {
+      const html = await guestPage(id, empty);
+      if (html.length < 500) broken.push(id);
+    } catch (e) {
+      broken.push(`${id} (${String(e).slice(0, 80)})`);
+    }
+  }
+  check(broken.length === 0, 'boş veride (fotoğraf/program/ad yok) çizim kırılmıyor', sample(broken));
 }
 
 function signatureInTheEditorPreview(): void {
@@ -225,7 +277,8 @@ function privacyRetention(): void {
 }
 
 async function main(): Promise<void> {
-  signatureOnTheGuestPage();
+  await signatureOnTheGuestPage();
+  await lazyPresetsRender();
   signatureInTheEditorPreview();
   await ownReplyForm();
   privacyRetention();

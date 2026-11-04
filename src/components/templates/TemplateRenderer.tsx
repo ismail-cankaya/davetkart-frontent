@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { Suspense, useMemo } from 'react';
 import {
   DugunSade, DugunManzara, DugunSekilli, DugunModern,
   Dugun1, Dugun2, Dugun3, Dugun4, Dugun5,
@@ -89,6 +89,7 @@ import {
 import { Invitation } from '../../types';
 import { displayNames } from '../../utils/names';
 import { TemplateProps } from './types';
+import { LAZY_KONSEPT_PRESETS } from './lazyPresets';
 
 interface TemplateRendererProps {
   templateId: string;
@@ -432,7 +433,14 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'nisan-soz-mektubu': NisanSozMektubu,
   'nisan-gul-kurusu': NisanGulKurusu,
   'nisan-soz-senedi': NisanSozSenedi,
+  // Konsept şablonları (Kitap · Harita · Sergi) — tembel yüklenir, bkz. lazyPresets.ts
+  ...LAZY_KONSEPT_PRESETS,
 };
+
+/** Tembel şablonun chunk'ı inerken: boş, tam ekran ve sessiz bir zemin. */
+function TemplateFallback() {
+  return <div className="min-h-[100svh] w-full bg-[#F4F1EA]" aria-busy="true" />;
+}
 
 export function TemplateRenderer({ templateId, invitation: stored, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {
   // Şablonların tek giriş kapısı: saklama biçimindeki isim ayracı (`& Ali`,
@@ -454,7 +462,11 @@ export function TemplateRenderer({ templateId, invitation: stored, onRsvpClick, 
   // Tema ID'si eşleniyorsa o temayı render et.
   const ThemePreset = THEME_PRESETS[presetKey] || THEME_PRESETS[`dugun-${templateId}`];
   if (ThemePreset) {
-    return <ThemePreset invitation={invitation} onRsvpClick={onRsvpClick} mode={mode} />;
+    return (
+      <Suspense fallback={<TemplateFallback />}>
+        <ThemePreset invitation={invitation} onRsvpClick={onRsvpClick} mode={mode} />
+      </Suspense>
+    );
   }
 
   // Varsayılan olarak DugunSade kullan
