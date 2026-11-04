@@ -3377,6 +3377,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['dugun']
   },
+  {
+    id: 'dugun-murekkep',
+    name: 'Mürekkep & Su',
+    primaryColor: '#1B1F3B',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_45%_40%,#0E1022_0%,#2A3473_40%,#F4F2ED_85%)]',
+    titleColor: 'text-[#F7F5F0]',
+    btnColor: 'bg-[#1B1F3B] hover:bg-[#2A3473] text-[#F4F2ED]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
 ];
 
 /**
