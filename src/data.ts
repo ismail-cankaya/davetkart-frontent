@@ -3407,6 +3407,18 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/dugun-popup.webp',
     categories: ['dugun']
   },
+  // ——— Premium sinematik koleksiyon (Gold): kodla üretilmiş videolar, scripts/video/<id>/ ———
+  {
+    id: 'kina-al-duvak',
+    name: 'Al Duvak (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#12030A',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#5E0A16_0%,#1A050C_55%,#070104_100%)]',
+    titleColor: 'text-[#F2C877]',
+    btnColor: 'bg-[linear-gradient(180deg,#E3473F,#9E1420)] hover:brightness-110 text-[#FFF1E4]',
+    imageUrl: videoCover('kina-al-duvak'),
+    categories: ['kina']
+  },
 ];
 
 /**

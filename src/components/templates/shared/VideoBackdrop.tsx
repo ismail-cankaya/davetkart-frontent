@@ -29,9 +29,15 @@ interface VideoBackdropProps extends VideoVariant {
   /** Video üstüne binen okunabilirlik katmanları (scrim, süsleme vb.). */
   children?: React.ReactNode;
   className?: string;
+  /**
+   * Yalnızca poster: galeri/editör küçük önizlemesinde (`mode === 'preview'`)
+   * onlarca video aynı anda inip oynamasın. Varsayılan `false` — mevcut
+   * şablonların davranışı değişmez.
+   */
+  still?: boolean;
 }
 
-type Orientation = 'portrait' | 'landscape';
+export type Orientation = 'portrait' | 'landscape';
 
 /**
  * Yön değiştirme eşikleri. Tek eşik yerine iki eşik (histerezis) kullanılır:
@@ -41,7 +47,7 @@ const TO_PORTRAIT = 0.95;
 const TO_LANDSCAPE = 1.05;
 
 /** Kullanıcının işletim sistemi düzeyindeki "hareketi azalt" tercihini izler. */
-function usePrefersReducedMotion(): boolean {
+export function usePrefersReducedMotion(): boolean {
   // Node'da (render testleri) `window` yok; efekt ilk karede gerçek değeri yazar.
   const [reduced, setReduced] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -62,7 +68,7 @@ function usePrefersReducedMotion(): boolean {
  * telefon simülatörü masaüstü viewport'unda çalışır; medya sorgusu orada
  * yanlış cevap verirdi.
  */
-function useContainerOrientation(ref: React.RefObject<HTMLDivElement | null>): Orientation {
+export function useContainerOrientation(ref: React.RefObject<HTMLDivElement | null>): Orientation {
   const [orientation, setOrientation] = useState<Orientation>('landscape');
 
   // useLayoutEffect: ölçüm boyamadan ÖNCE yapılır. useEffect olsaydı ilk kare
@@ -108,11 +114,12 @@ export function VideoBackdrop({
   objectPosition,
   portrait,
   children,
-  className
+  className,
+  still = false
 }: VideoBackdropProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const prefersReducedMotion = usePrefersReducedMotion() || still;
   const orientation = useContainerOrientation(containerRef);
 
   const usePortrait = orientation === 'portrait' && Boolean(portrait);

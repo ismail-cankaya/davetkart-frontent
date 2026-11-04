@@ -49,3 +49,19 @@ export function videoSet(
     portrait: variantOf(slug, 'mobile', focus.portrait)
   };
 }
+
+/**
+ * Aynı şablonun ikinci klibi (ör. giriş klibi): `<slug>/<slug>-<clip>-<variant>`.
+ * Ana klip `videoSet(slug)` olarak kalır; kesmeli şablonlar bunu ekler.
+ */
+export function clipSet(
+  slug: string,
+  clip: string,
+  focus: { landscape?: string; portrait?: string } = {}
+): VideoSet {
+  const base = (variant: 'desktop' | 'mobile') => `${ROOT}/${slug}/${slug}-${clip}-${variant}`;
+  return {
+    landscape: { sources: sourcesOf(base('desktop')), poster: `${base('desktop')}-poster.jpg`, objectPosition: focus.landscape },
+    portrait: { sources: sourcesOf(base('mobile')), poster: `${base('mobile')}-poster.jpg`, objectPosition: focus.portrait }
+  };
+}

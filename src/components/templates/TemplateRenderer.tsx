@@ -90,6 +90,7 @@ import { Invitation } from '../../types';
 import { displayNames } from '../../utils/names';
 import { TemplateProps } from './types';
 import { LAZY_PRESETS } from './lazyPresets';
+import { TEMPLATE_PRESETS } from '../../data';
 
 interface TemplateRendererProps {
   templateId: string;
@@ -437,9 +438,12 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   ...LAZY_PRESETS,
 };
 
-/** Tembel şablonun chunk'ı inerken: boş, tam ekran ve sessiz bir zemin. */
-function TemplateFallback() {
-  return <div className="min-h-[100svh] w-full bg-[#F4F1EA]" aria-busy="true" />;
+/** Şablon kimliği → katalog zemin rengi (yedek zeminin koyu şablonda bej parlamaması için). */
+const PRESET_COLORS = new Map(TEMPLATE_PRESETS.map((p) => [p.id, p.primaryColor]));
+
+/** Tembel şablonun chunk'ı inerken: boş, tam ekran ve sessiz bir zemin — şablonun kendi renginde. */
+function TemplateFallback({ color }: { color?: string }) {
+  return <div className="min-h-[100svh] w-full bg-[#F4F1EA]" style={color ? { background: color } : undefined} aria-busy="true" />;
 }
 
 export function TemplateRenderer({ templateId, invitation: stored, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {
@@ -463,7 +467,7 @@ export function TemplateRenderer({ templateId, invitation: stored, onRsvpClick, 
   const ThemePreset = THEME_PRESETS[presetKey] || THEME_PRESETS[`dugun-${templateId}`];
   if (ThemePreset) {
     return (
-      <Suspense fallback={<TemplateFallback />}>
+      <Suspense fallback={<TemplateFallback color={PRESET_COLORS.get(presetKey)} />}>
         <ThemePreset invitation={invitation} onRsvpClick={onRsvpClick} mode={mode} />
       </Suspense>
     );

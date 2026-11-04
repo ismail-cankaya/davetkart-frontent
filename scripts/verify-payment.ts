@@ -181,6 +181,7 @@ function main(): void {
   check('bozuk tarih → kesin konuşma', releaseOutcome('yarın', new Date()), 'unknown');
 
   // Faz 10 (FE 10.20 · K102): fiyat kartının vaatleri kodla tutarlı.
+  const PREMIUM_SINEMATIK = ['kina-al-duvak'];
   console.log('\nFiyat kartı vaatleri');
   const premium = { ...INITIAL_INVITATION, imageTheme: 'dugun-gokyuzu', showGallery: false, showGift: false, showEnvelope: false, showTimeline: false };
   check('premium tema → Gold', getRequiredTier(premium), 'gold');
@@ -189,13 +190,15 @@ function main(): void {
 
   // Backend config/davetkart.php → preset_tiers ile AYNI liste (PaywallTest'te de sabit).
   check(
-    'premium temalar = backend\'in 13 videolu teması',
+    'premium temalar = backend\'in videolu temaları (13 + Faz 16 sinematik)',
     TEMPLATE_PRESETS.filter((preset) => preset.minimumTier === 'gold').map((preset) => preset.id).sort(),
     [
       'baby-shower-kabarcik', 'dogum-gunu-konfeti', 'dugun-deniz-isiltisi', 'dugun-gokyuzu', 'dugun-gul-yapraklari',
       'dugun-mum-isigi', 'dugun-onyx', 'dugun-sahil', 'kina-bordo', 'mezuniyet-lacivert', 'nisan-sampanya',
       'parti-aurora', 'sunnet-yildiz',
-    ],
+      // Faz 16 — premium sinematik koleksiyon
+      ...PREMIUM_SINEMATIK,
+    ].sort(),
   );
   check(
     'kart video galeri vaat etmiyor (galeri yalnızca fotoğraf)',

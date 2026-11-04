@@ -55,5 +55,13 @@ export const LAZY_YEDI_PRESETS: Record<string, Preset> = {
   'dugun-holografik': fromBarrel(() => import('./dugun/DugunHolografik'), 'DugunHolografik'),
 };
 
+/**
+ * Premium sinematik şablonlar (Gold): her biri kodla üretilmiş kendi videosuyla
+ * (scripts/video/<id>/) ve kendi chunk'ında. Rehber: premium-videolu.md.
+ */
+export const LAZY_PREMIUM_PRESETS: Record<string, Preset> = {
+  'kina-al-duvak': fromBarrel(() => import('./kina/KinaAlDuvak'), 'KinaAlDuvak'),
+};
+
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
-export const LAZY_PRESETS: Record<string, Preset> = { ...LAZY_KONSEPT_PRESETS, ...LAZY_YEDI_PRESETS };
+export const LAZY_PRESETS: Record<string, Preset> = { ...LAZY_KONSEPT_PRESETS, ...LAZY_YEDI_PRESETS, ...LAZY_PREMIUM_PRESETS };
