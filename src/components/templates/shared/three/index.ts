@@ -7,3 +7,4 @@ export { useCanvasSlot } from './canvasSlot';
 export { hasWebGL, isVeryLowEnd, preferredQuality, dprFor, type StageQuality } from './support';
 export { useStageActive } from './useStageActive';
 export { useTilt, type Tilt } from './useTilt';
+export { GyroButton } from './GyroButton';

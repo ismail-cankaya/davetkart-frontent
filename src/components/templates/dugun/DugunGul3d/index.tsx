@@ -4,7 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import { InvitationComposition, type BackdropState, type HeroRenderProps } from '../../shared/InvitationComposition';
 import type { SectionTheme } from '../../shared/palette';
 import type { TemplateFlavor } from '../../shared/flavor';
-import { ThreeStage } from '../../shared/three';
+import { GyroButton, ThreeStage } from '../../shared/three';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
@@ -101,7 +101,7 @@ function GulBackdrop({ revealed, heroExit, mode }: BackdropState & { mode: 'prev
   );
 }
 
-function GulHero({ invitation, scrollContainer }: HeroRenderProps) {
+function GulHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
   const appear = (delay: number) =>
@@ -175,6 +175,7 @@ function GulHero({ invitation, scrollContainer }: HeroRenderProps) {
         />
       </motion.div>
 
+      {mode === 'live' && <GyroButton className="mt-6 bg-[#2A0F18]/70 text-[#F2C7C2] hover:text-white" />}
       <motion.button
         type="button"
         {...appear(3.2)}
@@ -201,7 +202,7 @@ export function DugunGul3d({ invitation, mode = 'preview' }: TemplateProps) {
       mode={mode}
       themeOverride={GUL_TEMASI}
       renderBackdrop={(state) => <GulBackdrop {...state} mode={mode} />}
-      renderHero={(props) => <GulHero {...props} />}
+      renderHero={(props) => <GulHero {...props} mode={mode} />}
     />
   );
 }

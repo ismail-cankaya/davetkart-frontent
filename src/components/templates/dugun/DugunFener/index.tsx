@@ -3,7 +3,7 @@ import { motion, useReducedMotion, useTransform } from 'motion/react';
 import { InvitationComposition, type BackdropState, type HeroRenderProps } from '../../shared/InvitationComposition';
 import type { SectionTheme } from '../../shared/palette';
 import type { TemplateFlavor } from '../../shared/flavor';
-import { ThreeStage } from '../../shared/three';
+import { GyroButton, ThreeStage } from '../../shared/three';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
@@ -82,7 +82,7 @@ function FenerBackdrop({ revealed, progress, heroExit, mode }: BackdropState & {
   );
 }
 
-function FenerHero({ invitation }: HeroRenderProps) {
+function FenerHero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
   const rise = (delay: number) =>
@@ -133,6 +133,7 @@ function FenerHero({ invitation }: HeroRenderProps) {
       <motion.div {...rise(3)} className="mt-8">
         <HeroCountdown invitation={invitation} numberClassName={`font-cormorant text-[#FFE3B5] ${GLOW}`} labelClassName="text-[#9C97B4]" />
       </motion.div>
+      {mode === 'live' && <GyroButton className="mt-6 bg-[#121A3A]/70 text-[#FFC27A] hover:text-[#FFF1DC]" />}
       {d.subtitle && (
         <motion.p {...rise(3.2)} className="mt-7 max-w-md font-cormorant italic text-lg text-[#E3DBEA]">
           {d.subtitle}
@@ -155,7 +156,7 @@ export function DugunFener({ invitation, mode = 'preview' }: TemplateProps) {
       mode={mode}
       themeOverride={FENER_TEMASI}
       renderBackdrop={(state) => <FenerBackdrop {...state} mode={mode} />}
-      renderHero={(props) => <FenerHero {...props} />}
+      renderHero={(props) => <FenerHero {...props} mode={mode} />}
     />
   );
 }
