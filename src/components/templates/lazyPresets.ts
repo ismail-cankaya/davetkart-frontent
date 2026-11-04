@@ -46,6 +46,7 @@ export const LAZY_KONSEPT_PRESETS: Record<string, Preset> = {
 
 /** Yedi Davetiye — düğün şablonları; 3B/WebGL olanların sahnesi ayrıca tembel yüklenir. */
 export const LAZY_YEDI_PRESETS: Record<string, Preset> = {
+  'dugun-kitap-sayfa': fromBarrel(() => import('./dugun/DugunKitapSayfa'), 'DugunKitapSayfa'),
   'dugun-gul-3d': fromBarrel(() => import('./dugun/DugunGul3d'), 'DugunGul3d'),
 };
 

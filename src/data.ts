@@ -3338,6 +3338,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
   },
   // ——— Yedi Davetiye — animasyonlu düğün şablonları (docs/rehber/src/components/templates/yedi-davetiye.md) ———
   {
+    id: 'dugun-kitap-sayfa',
+    name: 'Kitap Sayfaları',
+    primaryColor: '#6E2A37',
+    backgroundStyle: 'bg-gradient-to-br from-[#6E2A37] via-[#9A5A4F] to-[#F4ECD8]',
+    titleColor: 'text-[#F4ECD8]',
+    btnColor: 'bg-[#8E3346] hover:bg-[#74262A] text-[#F4ECD8]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
+  {
     id: 'dugun-gul-3d',
     name: '3D Gül Bahçesi',
     primaryColor: '#2A0D16',
