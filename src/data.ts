@@ -3397,6 +3397,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['dugun']
   },
+  {
+    id: 'dugun-popup',
+    name: 'Pop-up Kart',
+    primaryColor: '#F3EADF',
+    backgroundStyle: 'bg-gradient-to-b from-[#F9E3D6] via-[#F3EADF] to-[#9DB48D]',
+    titleColor: 'text-[#2B2433]',
+    btnColor: 'bg-[#3B3245] hover:bg-[#B0546A] text-[#FFFBF5]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
 ];
 
 /**
