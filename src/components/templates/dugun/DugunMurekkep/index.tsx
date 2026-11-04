@@ -84,7 +84,7 @@ function InkHero({ invitation }: HeroRenderProps) {
     reduced ? { initial: false as const } : { initial: { opacity: 0, y: 8 }, animate: { opacity: 1, y: 0 }, transition: { duration: 1, delay } };
 
   return (
-    <div className="grow flex flex-col items-center justify-center px-6 py-16 text-center">
+    <div dir="auto" className="grow flex flex-col items-center justify-center px-6 py-16 text-center">
       {d.title && (
         <motion.p {...fade(2.2)} className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#F4F2ED]/90 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
           {d.title}

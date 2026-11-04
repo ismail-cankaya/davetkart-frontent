@@ -100,7 +100,7 @@ function PopupHero({ invitation, scrollContainer }: HeroRenderProps) {
     reduced ? { initial: false as const } : { initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.8, delay } };
 
   return (
-    <div className="grow flex flex-col items-center justify-center px-5 pt-12 pb-12 text-center overflow-hidden">
+    <div dir="auto" className="grow flex flex-col items-center justify-center px-5 pt-12 pb-12 text-center overflow-hidden">
       {d.title && (
         <motion.p {...fade(0.2)} className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#B0546A]">
           {d.title}

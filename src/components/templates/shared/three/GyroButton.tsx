@@ -18,7 +18,9 @@ const subscribe = (l: () => void) => {
 
 function needsPermission(): boolean {
   if (typeof window === 'undefined' || typeof DeviceOrientationEvent === 'undefined') return false;
-  return typeof (DeviceOrientationEvent as unknown as OrientationWithPermission).requestPermission === 'function';
+  // Masaüstü Chromium da `requestPermission` sunuyor; düğme yalnızca dokunmatik telefonda anlamlı.
+  const touch = window.matchMedia?.('(pointer: coarse)').matches ?? false;
+  return touch && typeof (DeviceOrientationEvent as unknown as OrientationWithPermission).requestPermission === 'function';
 }
 
 async function request(): Promise<void> {

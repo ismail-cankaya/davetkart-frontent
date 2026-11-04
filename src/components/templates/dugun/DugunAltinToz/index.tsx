@@ -254,7 +254,7 @@ function ToZHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode
   });
 
   return (
-    <div ref={hero} className="relative" style={{ height: viewH * (1 + stages.length * 0.8) }}>
+    <div dir="auto" ref={hero} className="relative" style={{ height: viewH * (1 + stages.length * 0.8) }}>
       {/* Ekran okuyucu için tek parça künye; görünen aşama yazıları bunun görsel kopyasıdır. */}
       <div className="sr-only">
         <h1>{d.hasNames ? d.people.join(' & ') : NO_NAMES}</h1>

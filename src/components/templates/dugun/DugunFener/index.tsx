@@ -94,7 +94,7 @@ function FenerHero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | '
           transition: { duration: 1.4, delay, ease: [0.22, 1, 0.36, 1] as const }
         };
   return (
-    <div className="grow flex flex-col items-center justify-center px-6 pt-16 pb-28 text-center">
+    <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-16 pb-28 text-center">
       <motion.p {...rise(1.4)} className="text-[10px] sm:text-[11px] tracking-[0.45em] uppercase text-[#FFC27A]">
         {d.title || FENER_FLAVOR.tagline}
       </motion.p>

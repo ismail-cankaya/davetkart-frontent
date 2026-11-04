@@ -114,7 +114,7 @@ function HoloHero({ invitation, mode, scrollContainer }: HeroRenderProps & { mod
       : { initial: { opacity: 0, y: 10, filter: 'blur(6px)' }, animate: { opacity: 1, y: 0, filter: 'blur(0px)' }, transition: { duration: 0.8, delay } };
 
   return (
-    <div ref={root} className="grow flex flex-col items-center justify-center px-5 py-14 [perspective:1100px]">
+    <div dir="auto" ref={root} className="grow flex flex-col items-center justify-center px-5 py-14 [perspective:1100px]">
       <motion.div
         initial={reduced ? false : { rotateY: -170, scale: 0.6, opacity: 0 }}
         animate={{ rotateY: 0, scale: 1, opacity: 1 }}

@@ -114,7 +114,7 @@ function GulHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode
         };
 
   return (
-    <div className="grow flex flex-col items-center justify-center px-5 pt-16 pb-10">
+    <div dir="auto" className="grow flex flex-col items-center justify-center px-5 pt-16 pb-10">
       <motion.div
         initial={reduced ? false : { opacity: 0, scale: 0.78, y: 40, filter: 'blur(12px)' }}
         animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
