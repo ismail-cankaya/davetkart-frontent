@@ -24,6 +24,8 @@
     "verify:render": "node scripts/run-check.mjs scripts/verify-render.tsx"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.2",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
     "axios": "^1.18.1",
@@ -40,6 +42,7 @@
     "react-i18next": "^17.0.8",
     "react-router-dom": "^7.18.1",
     "tailwind-merge": "^3.6.0",
+    "three": "^0.180.0",
     "use-debounce": "^10.1.1",
     "vite": "^6.2.3",
     "zustand": "^5.0.14"
@@ -49,6 +52,7 @@
     "@types/node": "^22.14.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.180.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.25.0",
     "tailwindcss": "^4.1.14",

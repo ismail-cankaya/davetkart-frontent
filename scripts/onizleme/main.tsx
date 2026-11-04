@@ -67,7 +67,8 @@ function Onizleme() {
     const slug = kimlik?.kalan.split('-')[0] ?? '';
     const yol = `/src/components/templates/${kategori}/${slug}/index.ts`;
     const yukle = BARRELLER[yol];
-    if (!yukle) {
+    // `yol=renderer`: kayıt dosyası üzerinden (TemplateRenderer + tembel kayıt) çiz.
+    if (!yukle || q.get('yol') === 'renderer') {
       if (TEMPLATE_PRESETS.some((p) => p.id === PRESET)) setSablon('eski');
       else setHata(`"${PRESET}" bulunamadı.\nBeklenen barrel: ${yol}\nKonsept barrel'ları:\n${KONSEPT_BARRELLERI.join('\n') || '(yok)'}`);
       return;
