@@ -3,7 +3,7 @@ import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useScroll,
 import { InvitationComposition, type BackdropState, type HeroRenderProps } from '../../shared/InvitationComposition';
 import type { SectionTheme } from '../../shared/palette';
 import type { TemplateFlavor } from '../../shared/flavor';
-import { useTilt } from '../../shared/three';
+import { GyroButton, useStageActive, useTilt } from '../../shared/three';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
@@ -46,7 +46,7 @@ const HOLO_FLAVOR: TemplateFlavor = {
 };
 
 /** Eğim (işaretçi/jiroskop) + boşta yavaş salınım → yaylanmış -1..1 değerleri. */
-function useHoloTilt(live: boolean, reduced: boolean): { x: MotionValue<number>; y: MotionValue<number> } {
+function useHoloTilt(live: boolean, reduced: boolean, active: boolean): { x: MotionValue<number>; y: MotionValue<number> } {
   const tilt = useTilt(live && !reduced);
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
@@ -55,7 +55,8 @@ function useHoloTilt(live: boolean, reduced: boolean): { x: MotionValue<number>;
   const last = useRef({ x: 0, y: 0, t: 0 });
 
   useEffect(() => {
-    if (reduced) return;
+    // Ekran dışında ya da sekme gizliyken döngü durur.
+    if (reduced || !active) return;
     let raf = 0;
     const loop = (now: number) => {
       const t = tilt.current;
@@ -68,7 +69,7 @@ function useHoloTilt(live: boolean, reduced: boolean): { x: MotionValue<number>;
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [reduced, tilt, rawX, rawY]);
+  }, [reduced, active, tilt, rawX, rawY]);
 
   return { x, y };
 }
@@ -94,7 +95,9 @@ function HoloHero({ invitation, mode, scrollContainer }: HeroRenderProps & { mod
   const { scrollY } = useScroll({ container: scrollContainer });
   const lean = useTransform(scrollY, [0, 600], [0, reduced ? 0 : 28]);
   const shrink = useTransform(scrollY, [0, 600], [1, reduced ? 1 : 0.86]);
-  const { x, y } = useHoloTilt(mode === 'live', reduced);
+  const root = useRef<HTMLDivElement>(null);
+  const active = useStageActive(root);
+  const { x, y } = useHoloTilt(mode === 'live', reduced, active);
 
   const rotateY = useTransform(x, (v) => v * 16);
   const rotateX = useTransform(y, (v) => -v * 12);
@@ -111,7 +114,7 @@ function HoloHero({ invitation, mode, scrollContainer }: HeroRenderProps & { mod
       : { initial: { opacity: 0, y: 10, filter: 'blur(6px)' }, animate: { opacity: 1, y: 0, filter: 'blur(0px)' }, transition: { duration: 0.8, delay } };
 
   return (
-    <div className="grow flex flex-col items-center justify-center px-5 py-14 [perspective:1100px]">
+    <div ref={root} className="grow flex flex-col items-center justify-center px-5 py-14 [perspective:1100px]">
       <motion.div
         initial={reduced ? false : { rotateY: -170, scale: 0.6, opacity: 0 }}
         animate={{ rotateY: 0, scale: 1, opacity: 1 }}
@@ -179,6 +182,7 @@ function HoloHero({ invitation, mode, scrollContainer }: HeroRenderProps & { mod
           labelClassName="text-slate-400"
         />
       </motion.div>
+      {mode === 'live' && <GyroButton className="mt-6 bg-white/10 text-white hover:bg-white/20" />}
       {d.subtitle && (
         <motion.p {...fade(2.8)} className="mt-6 max-w-sm text-center font-cormorant italic text-lg text-slate-300">
           {d.subtitle}
