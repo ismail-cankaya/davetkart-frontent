@@ -157,6 +157,8 @@ export function MurekkepCanvas({ active, still, quality, onFail, onReady, reveal
     const onDown = (e: PointerEvent) => {
       const canvas = ref.current;
       if (!canvas || start.current === null) return;
+      // Düğme, bağlantı ve form alanlarına dokunmak damla düşürmez.
+      if (e.target instanceof Element && e.target.closest('button, a, input, textarea, select, label, [role="button"]')) return;
       const rect = canvas.getBoundingClientRect();
       const x = (e.clientX - rect.left) / rect.width;
       const y = 1 - (e.clientY - rect.top) / rect.height;
