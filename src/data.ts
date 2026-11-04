@@ -3430,6 +3430,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: videoCover('baby-ay-besigi'),
     categories: ['baby-shower']
   },
+  {
+    id: 'sunnet-sehzade',
+    name: 'Şehzade Çadırı (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#07060F',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_0%,#5A0C18_0%,#14183A_55%,#050309_100%)]',
+    titleColor: 'text-[#E7BE6A]',
+    btnColor: 'bg-[linear-gradient(180deg,#F3D58E,#C8923E)] hover:brightness-110 text-[#1B1206]',
+    imageUrl: videoCover('sunnet-sehzade'),
+    categories: ['sunnet']
+  },
 ];
 
 /**
