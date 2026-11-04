@@ -39,6 +39,12 @@ o konseptin ajanıdır; başka kimse yazmaz, bu yüzden çakışma üretmez.
 Önizleme için ajan kendi dalında geçici kayıt yapabilir (`TemplateRenderer`, `data.ts`, barrel),
 ama bu satırları **commit'lemez**. Kayıt satırlarını raporunda önerir; birleştirmede orkestratör ekler.
 
+> **Güncel durum (Faz 15, 4 Kasım 2026):** Kitap, Harita ve Sergi'nin 18 preset'i kaydedildi
+> (`design/yedi-davetiye`). Kayıt `TemplateRenderer.tsx` → `templates/lazyPresets.ts` üzerinden ve
+> **tembeldir**; konsept barrel'ı kategori barrel'ına (`<kategori>/index.ts`) bağlanmaz, bağlansaydı ana
+> pakete girerdi. Yeni bir konsept preset'i eklenirken: barrel'a, `lazyPresets.ts`'e ve `src/data.ts`'e
+> birer satır. Ayrıntı: `docs/rehber/src/components/templates/yedi-davetiye.md` §A.2.
+
 ## 3. Preset biçimi
 
 | | Biçim | Örnek |

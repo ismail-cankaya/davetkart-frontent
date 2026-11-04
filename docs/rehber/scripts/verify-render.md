@@ -43,6 +43,21 @@ yükleniyor göstergesini çiziyor; alt bilgi Suspense'in dışında olduğu iç
 LCV formunu sayfanın tamamında görmek için `prerenderToNodeStream` kullanılıyor: Suspense çözülene
 kadar bekliyor.
 
+### 2.4 Tembel şablonlar (Faz 15, `design/yedi-davetiye`)
+
+Konsept şablonları ve "Yedi Davetiye" şablonları `templates/lazyPresets.ts` ile **şablonun kendisi**
+tembel yüklenir; `renderToStaticMarkup` onlarda yalnızca `TemplateFallback`'i çizer, imza hiç çıkmaz.
+Bu yüzden misafir sayfası denetimi (`guestPage`) artık her şablonda `prerenderToNodeStream` kullanır
+ve `async`'tir. Süre ~4 s.
+
+Ayrı bölüm **"Tembel şablonlar: kayıt ve veri"** (`lazyPresetsRender`), `LAZY_PRESETS`'teki her kimlik için:
+
+| Kontrol | Neden |
+|---|---|
+| `data.ts` kataloğunda var | Kayıtlı ama seçilemeyen şablon (A bölümünün başlangıç hatası) tekrar olmasın |
+| Dolu veride adlar ve mekân çiziliyor | Şablon gerçekten çizildi (yedek zemin değil) |
+| Boş veride (ad, tarih, mekân, program, fotoğraf yok) istisna yok | Boş taslak editörde açılır |
+
 ## 3. Mutasyon kanıtı (2 Ekim 2026)
 
 | Mutasyon | Kırılan kontrol |

@@ -24,7 +24,7 @@ beklemeyle** alınması gerekiyor.
 
 ## 3. Adres
 
-`http://localhost:<port>/onizleme.html?preset=<id>&senaryo=<s>[&zarf=1][&kapat=timer,gift][&kategori=<id>][&mod=preview][&ad=…][&tarih=…][&mekan=…][&baslik=…][&altmetin=…][&harita=0]`
+`http://localhost:<port>/onizleme.html?preset=<id>&senaryo=<s>[&zarf=1][&kapat=timer,gift][&kategori=<id>][&mod=preview][&ad=…][&tarih=…][&mekan=…][&baslik=…][&altmetin=…][&harita=0][&yol=renderer]`
 
 - `preset` yoksa: konsept barrel'larındaki bütün preset'lerin bağlantı listesi. Kit (`konsept/<slug>/`) ve
   ortak parça (`shared/<ad>/`) barrel'ları listelenmez; onlar preset değildir.
@@ -32,6 +32,9 @@ beklemeyle** alınması gerekiyor.
   (`dugun-sergi-beyaz-kup` → `dugun/sergi/index.ts`), bileşen adı kimliğin PascalCase hâlidir
   (`DugunSergiBeyazKup`). Kayıt dosyasına geçici satır **gerekmez**. Klasör yoksa ve kimlik
   `data.ts`'te varsa eski preset `TemplateRenderer` ile çizilir.
+- `yol=renderer` (Faz 15): barrel aranmaz, kimlik **kayıt dosyası üzerinden** çizilir
+  (`TemplateRenderer` → `lazyPresets.ts` → `Suspense`). Kayıtlı bir şablonun gerçek yolunu denemek ve
+  barrel'ı olmayan şablonları (`dugun/DugunGul3d/` gibi büyük harfli klasörler) açmak için.
 - Bulunamazsa sayfa kırmızı bir hata yazar ve `data-onizleme="hata"` işaretler.
 - İsim temizliği (`displayNames`) `TemplateRenderer`'daki gibi uygulanır; `MotionConfig reducedMotion="user"` App'teki gibi sarar.
 
