@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import React, { createContext, useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { bandTransform, curl, type Vec } from './curl';
 
@@ -10,11 +10,19 @@ export interface Leaf {
   back: ReactNode;
 }
 
+/**
+ * Sağdan sola (Arapça) kitapta sırt sağdadır: mekanik bütünüyle aynalanır,
+ * sayfa yüzleri yazıyı bu bağlamla yeniden çevirir (okunur kalır).
+ */
+export const MirrorContext = createContext(false);
+
 interface KitapProps {
   leaves: Leaf[];
   /** Kapak kendiliğinden açılsın mı (hareketi azaltınca hayır). */
   autoOpen: boolean;
   reduced: boolean;
+  /** Belge yönü sağdan sola mı (sırt sağda, sayfalar sola doğru açılır). */
+  rtl?: boolean;
   /** Masaüstü genişlikte çift sayfa (sol: önceki yaprağın arkası). */
   onPageChange?: (turned: number) => void;
 }
@@ -43,7 +51,8 @@ function measure(w: number, h: number): Size {
  * kare kare DOM'a doğrudan yazılır (React yeniden çizimi yok); React yalnızca
  * "kaç yaprak çevrildi" ve "hangi yaprak sürükleniyor" durumunu tutar.
  */
-export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
+export function Kitap({ leaves, autoOpen, reduced, rtl = false, onPageChange }: KitapProps) {
+  const sx = rtl ? -1 : 1;
   const N = leaves.length;
   const stageRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState<Size>({ W: 340, H: 520, spread: false });
@@ -61,6 +70,7 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
   const anim = useRef<number | null>(null);
   const pointer = useRef<{ id: number; x: number; y: number; started: boolean; dir: 1 | -1 | 0; cornerY: number } | null>(null);
   const wheel = useRef({ acc: 0, lock: 0 });
+  const hinting = useRef(false);
   const busy = drag !== null;
 
   useLayoutEffect(() => {
@@ -184,10 +194,14 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
     const timer = window.setInterval(() => {
       if (pointer.current || anim.current !== null) return;
       const leaf = turned;
+      hinting.current = true;
       setDrag({ leaf, dir: 1, cornerY: H });
       requestAnimationFrame(() =>
         tween(leaf, H, { x: W, y: H }, { x: W * 0.82, y: H * 0.9 }, 520, 0, () =>
-          tween(leaf, H, { x: W * 0.82, y: H * 0.9 }, { x: W, y: H }, 520, 0, () => setDrag(null))
+          tween(leaf, H, { x: W * 0.82, y: H * 0.9 }, { x: W, y: H }, 520, 0, () => {
+            hinting.current = false;
+            setDrag(null);
+          })
         )
       );
     }, 6000);
@@ -198,7 +212,13 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
 
   // ——— İşaretçi: yatay sürükleme çevirir, dikey sürükleme sayfa içinde kaydırır ———
   const onPointerDown = (e: React.PointerEvent) => {
-    if (busy || e.button !== 0) return;
+    if (e.button !== 0) return;
+    // Köşe ipucu oynarken dokunan misafir beklemez: ipucu kesilir.
+    if (hinting.current) {
+      stopAnim();
+      hinting.current = false;
+      setDrag(null);
+    } else if (busy) return;
     if ((e.target as HTMLElement).closest('input, textarea, select, button, a, label, [data-no-flip]')) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const localY = e.clientY - rect.top - (rect.height - H) / 2;
@@ -208,7 +228,7 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
   const onPointerMove = (e: React.PointerEvent) => {
     const p = pointer.current;
     if (!p || p.id !== e.pointerId) return;
-    const dx = e.clientX - p.x;
+    const dx = (e.clientX - p.x) * sx;
     const dy = e.clientY - p.y;
     if (!p.started) {
       if (Math.abs(dx) < 10 || Math.abs(dx) < Math.abs(dy)) return;
@@ -230,7 +250,7 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
     const p = pointer.current;
     pointer.current = null;
     if (!p || p.id !== e.pointerId) return;
-    const dx = e.clientX - p.x;
+    const dx = (e.clientX - p.x) * sx;
     const dy = e.clientY - p.y;
     if (p.started && p.dir !== 0) {
       const from = { x: (p.dir === 1 ? W : -W) + dx * 1.3, y: p.cornerY + dy * 0.45 };
@@ -241,8 +261,9 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
     // Dokunma: dış kenar şeridi çevirir; içerik (form, bağlantı) hiç etkilenmez.
     if (Math.abs(dx) < 6 && Math.abs(dy) < 6) {
       const rect = e.currentTarget.getBoundingClientRect();
-      const bookLeft = rect.left + (rect.width - W) / 2 + offsetX;
-      const x = e.clientX - bookLeft;
+      const bookLeft = rect.left + (rect.width - W) / 2 + offsetX * sx;
+      const raw = e.clientX - bookLeft;
+      const x = rtl ? W - raw : raw;
       if (x > W * 0.8 && x <= W + 4) {
         setInteracted(true);
         next();
@@ -276,11 +297,13 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
 
   const onKeyDown = (e: React.KeyboardEvent) => {
     if ((e.target as HTMLElement).closest('input, textarea, select')) return;
-    if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+    const forward = rtl ? 'ArrowLeft' : 'ArrowRight';
+    const backward = rtl ? 'ArrowRight' : 'ArrowLeft';
+    if (e.key === forward || e.key === 'PageDown') {
       e.preventDefault();
       setInteracted(true);
       next();
-    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    } else if (e.key === backward || e.key === 'PageUp') {
       e.preventDefault();
       setInteracted(true);
       prev();
@@ -288,6 +311,7 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
   };
 
   return (
+    <MirrorContext.Provider value={rtl}>
     <div
       ref={stageRef}
       tabIndex={0}
@@ -305,7 +329,7 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
     >
       <div
         className="absolute left-1/2 top-1/2 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-        style={{ width: W, height: H, marginLeft: -W / 2, marginTop: -H / 2 - 18, transform: `translateX(${offsetX}px)` }}
+        style={{ width: W, height: H, marginLeft: -W / 2, marginTop: -H / 2 - 18, transform: `translateX(${offsetX * sx}px)${rtl ? ' scaleX(-1)' : ''}` }}
       >
         {/* Kitap gölgesi ve sayfa kenarları (yığın kalınlığı) */}
         <div className="absolute inset-0 rounded-r-[6px] shadow-[0_30px_60px_-20px_rgba(0,0,0,0.55)]" />
@@ -402,7 +426,7 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
       </div>
 
       {/* Gezinme: büyük dokunma hedefleri, sayfa göstergesi */}
-      <div className="absolute bottom-3 inset-x-0 flex items-center justify-center gap-4 text-[#F2EAD3]">
+      <div className={`absolute bottom-3 inset-x-0 flex items-center justify-center gap-4 text-[#F2EAD3] ${rtl ? 'flex-row-reverse' : ''}`}>
         <button
           type="button"
           onClick={() => {
@@ -413,10 +437,10 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
           aria-label="Önceki sayfa"
           className="w-11 h-11 rounded-full grid place-items-center bg-black/25 hover:bg-black/40 disabled:opacity-30 transition-colors"
         >
-          <ChevronLeft size={20} />
+          {rtl ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
         <span className="min-w-[4.5rem] text-center text-[11px] tracking-[0.25em] uppercase tabular-nums" aria-live="polite">
-          {turned === 0 ? 'Kapak' : turned >= N ? 'Son' : `${turned} / ${N - 1}`}
+          {turned === 0 ? 'Kapak' : turned >= N ? 'Arka kapak' : `${turned} / ${N - 1}`}
         </span>
         <button
           type="button"
@@ -428,9 +452,10 @@ export function Kitap({ leaves, autoOpen, reduced, onPageChange }: KitapProps) {
           aria-label="Sonraki sayfa"
           className="w-11 h-11 rounded-full grid place-items-center bg-black/25 hover:bg-black/40 disabled:opacity-30 transition-colors"
         >
-          <ChevronRight size={20} />
+          {rtl ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
         </button>
       </div>
     </div>
+    </MirrorContext.Provider>
   );
 }

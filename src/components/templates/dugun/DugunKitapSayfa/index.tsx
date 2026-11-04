@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import type { Invitation } from '../../../../types';
@@ -211,6 +211,9 @@ export function DugunKitapSayfa({ invitation, mode = 'preview' }: TemplateProps)
   const leaves = useLeaves(invitation, d);
   const reduced = useReducedMotion() ?? false;
   const [turned, setTurned] = useState(0);
+  // Belge yönü uygulamanın dilinden gelir (useDocumentDirection); Arapçada sırt sağda.
+  const [rtl, setRtl] = useState(false);
+  useEffect(() => setRtl(document.documentElement.dir === 'rtl'), []);
 
   return (
     <KitapKok>
@@ -239,7 +242,7 @@ export function DugunKitapSayfa({ invitation, mode = 'preview' }: TemplateProps)
           transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
           style={{ transformPerspective: 1400 }}
         >
-          <Kitap leaves={leaves} autoOpen={!reduced} reduced={reduced} onPageChange={setTurned} />
+          <Kitap leaves={leaves} autoOpen={!reduced} reduced={reduced} rtl={rtl} onPageChange={setTurned} />
         </motion.div>
       </div>
     </KitapKok>

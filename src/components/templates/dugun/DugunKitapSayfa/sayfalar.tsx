@@ -1,4 +1,5 @@
-import React, { type ReactNode } from 'react';
+import React, { useContext, type ReactNode } from 'react';
+import { MirrorContext } from './Kitap';
 import { cn } from '../../../../utils/cn';
 import { BEZ_DOKUSU } from '../../konsept/kitap/doku';
 
@@ -30,6 +31,7 @@ interface FaceProps {
  * ve sayfa numarası. Ön yüzde sırt solda, arka yüzde sağda.
  */
 export function Face({ side, number, head, children, className, scroll }: FaceProps) {
+  const mirrored = useContext(MirrorContext);
   const spine =
     side === 'front'
       ? 'linear-gradient(90deg, rgba(60,40,20,0.22), rgba(60,40,20,0.06) 22px, transparent 48px)'
@@ -45,6 +47,7 @@ export function Face({ side, number, head, children, className, scroll }: FacePr
           background: `${spine}, radial-gradient(140% 110% at 50% 50%, transparent 62%, rgba(176,132,64,0.28) 100%)`
         }}
       />
+      <div className={cn('absolute inset-0', mirrored && '-scale-x-100')}>
       {head && (
         <p className="absolute top-4 inset-x-10 text-center text-[9px] tracking-[0.32em] uppercase truncate" style={{ color: SOLUK }}>
           {head}
@@ -65,12 +68,14 @@ export function Face({ side, number, head, children, className, scroll }: FacePr
           — {number} —
         </p>
       )}
+      </div>
     </div>
   );
 }
 
 /** Bez cilt kapak yüzeyi (kitin dokusu, kendi gül kurusu rengi). */
 export function Cloth({ side, children }: { side: 'front' | 'back'; children?: ReactNode }) {
+  const mirrored = useContext(MirrorContext);
   return (
     <div
       className={cn('absolute inset-0 overflow-hidden', side === 'front' ? 'rounded-r-[6px]' : 'rounded-l-[6px]')}
@@ -92,7 +97,7 @@ export function Cloth({ side, children }: { side: 'front' | 'back'; children?: R
       />
       <div className="absolute inset-4 border border-[#C9A35C]/70 rounded-[3px]" />
       <div className="absolute inset-[22px] border border-[#C9A35C]/35 rounded-[2px]" />
-      {children}
+      <div className={cn('absolute inset-0', mirrored && '-scale-x-100')}>{children}</div>
     </div>
   );
 }
