@@ -24,7 +24,6 @@
     "verify:render": "node scripts/run-check.mjs scripts/verify-render.tsx"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.9",
     "@react-three/fiber": "^9.8.2",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
