@@ -53,8 +53,8 @@ Kaydedilmeyen şablon yok: 18'inin hepsi çalışır durumdaydı.
   Suspense etkisizdir.
 - **`src/data.ts`** — 18 katalog girdisi (kategori başına `categories: ['dugun' | 'nisan' | 'dogum-gunu']`).
   Renkler konseptlerin kendi paletlerinden alındı (`konsept/kitap/palet.ts` bezleri, `konsept/harita/palet.ts`,
-  `konsept/sergi/palet.ts` eser renkleri). `imageUrl: ''` — kod tabanlı şablon; `TemplateCover` kapağı
-  kartın degradesiyle çizer (bkz. `TemplateCover` durum 3). Tailwind sınıfları literal yazıldı.
+  `konsept/sergi/palet.ts` eser renkleri). kapak görseli `public/images/sablonlar/<id>.webp` (Faz 15.11; önce
+  `imageUrl: ''` idi ve `TemplateCover` degradeyi çiziyordu). Tailwind sınıfları literal yazıldı.
 
 **Karar — kategori barrel'ları (`dugun/index.ts`) değiştirilmedi.** İş tanımı "kategori `index.ts`
 dışa aktarımlarına ekle" diyordu; ancak `TemplateRenderer` kategori barrel'ını statik içe aktarır.

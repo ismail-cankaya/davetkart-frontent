@@ -24,9 +24,12 @@ Her madde **ne**, **neden açık / nasıl kapandı** ve **nasıl kontrol edilir*
   misafir ucunun kimliği döndürdüğünü kilitliyor).
 - [x] **A bölümü şablonlarının `TemplateRenderer` yolu.** `onizleme.html?…&yol=renderer` ve gerçek editör
   (`Kitap — İç Kapak`) üzerinden çizildi.
-- [ ] **Tema seçici ve galeri kapakları.** 25 girdinin `imageUrl`'i boş; kapak `backgroundStyle` degradesi.
-  Editörde tema ızgarası ve "57 tema" sayacı görüldü; kart görünümü gözle denetlenmedi.
-  *Karar gerekli:* gerçek kapak görseli istenecek mi?
+- [x] **Tema seçici ve galeri kapakları** (15.11): 25 şablonun kapağı `public/images/sablonlar/<id>.webp`
+  (640 × 640 WebP, toplam 412 kB, ortalama 16 kB). Şablonun kendisinden üretildi: canlı mod, örnek adlar
+  ("Elif & Can"; doğum gününde "Elif"), hareketi-azalt kipinde son kare, şablona göre ayarlanmış kare kırpım
+  ("Bir Ömür" dikey olduğu için kare görünüm alanında). Sihirbazın tema ızgarasında görüldü.
+  *Karar gerekli:* mevcut kapaklar yazısız dekoratif görseller; bunlar örnek adlı önizleme. Yazısız
+  istenirse aynı betikle adlar gizlenerek yeniden üretilebilir.
 - [ ] **LCV gönderimi uçtan uca.** Backend yok; form çiziliyor ama gönderilmedi.
 - [x] **Arapça (RTL).** Yedi yeni şablon `dir="rtl"` ile tarandı. İki kusur bulunup düzeltildi:
   Türkçe tarih/ad satırları karışıyordu → hero metinleri `dir="auto"` (15.8); Kitap'ın sırtı solda
@@ -95,7 +98,7 @@ Her madde **ne**, **neden açık / nasıl kapandı** ve **nasıl kontrol edilir*
 15.1 Holografik döngüsü ekran dışında durur · 15.2 iOS jiroskop izni · 15.3 Mürekkep dokunma ·
 15.4 Kitap RTL + ipucu + gösterge · 15.5 Altın Toz aşama düzeni · 15.6 drei kaldırıldı + `npm audit` ·
 15.7 boş geri sayım kutusu · 15.8 RTL metin yönü + jiroskop düğmesi yalnızca dokunmatikte ·
-15.9 rehberler · 15.10 bu liste.
+15.9 rehberler · 15.10 bu liste · 15.11 kapak görselleri.
 
 Not: 15.1 commit'i `GyroButton` kullanımını da içeriyor, bileşenin kendisi 15.2'de geldi; 15.1 tek başına
 derlenmez (dalın ucu derlenir).

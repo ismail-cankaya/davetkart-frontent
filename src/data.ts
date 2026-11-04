@@ -3163,7 +3163,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#1F3A2E] via-[#2C4A3B] to-[#F2EAD3]',
     titleColor: 'text-[#F2EAD3]',
     btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-kitap-birinci-bolum.webp',
     categories: ['dugun']
   },
   {
@@ -3173,7 +3173,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F2EAD3] via-[#E4D8B8] to-[#1C2541]',
     titleColor: 'text-[#231F1A]',
     btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-kitap-ic-kapak.webp',
     categories: ['dugun']
   },
   {
@@ -3183,7 +3183,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#B7C9A2] to-[#9CC3D5]',
     titleColor: 'text-[#23303A]',
     btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-harita-kir-yolu.webp',
     categories: ['dugun']
   },
   {
@@ -3193,7 +3193,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#DDD6C6] to-[#9CC3D5]',
     titleColor: 'text-[#23303A]',
     btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-harita-kiyi-kenti.webp',
     categories: ['dugun']
   },
   {
@@ -3203,7 +3203,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#2A4BA0]',
     titleColor: 'text-[#1C1C1C]',
     btnColor: 'bg-[#2A4BA0] hover:bg-[#223E83] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-sergi-beyaz-kup.webp',
     categories: ['dugun']
   },
   {
@@ -3213,7 +3213,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#1C1C1C]',
     titleColor: 'text-[#1C1C1C]',
     btnColor: 'bg-[#1C1C1C] hover:bg-[#373737] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-sergi-duvar-yazisi.webp',
     categories: ['dugun']
   },
   {
@@ -3223,7 +3223,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F2EAD3] via-[#E4D8B8] to-[#3D2337]',
     titleColor: 'text-[#231F1A]',
     btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/nisan-kitap-kurdele.webp',
     categories: ['nisan']
   },
   {
@@ -3233,7 +3233,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#3D2337] via-[#5A3A52] to-[#F2EAD3]',
     titleColor: 'text-[#F2EAD3]',
     btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/nisan-kitap-onsoz.webp',
     categories: ['nisan']
   },
   {
@@ -3243,7 +3243,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#B7C9A2] to-[#A8321F]',
     titleColor: 'text-[#23303A]',
     btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/nisan-harita-kavusak.webp',
     categories: ['nisan']
   },
   {
@@ -3253,7 +3253,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#DDD6C6] to-[#A8321F]',
     titleColor: 'text-[#23303A]',
     btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/nisan-harita-kroki.webp',
     categories: ['nisan']
   },
   {
@@ -3263,7 +3263,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#A72D63]',
     titleColor: 'text-[#1C1C1C]',
     btnColor: 'bg-[#A72D63] hover:bg-[#892551] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/nisan-sergi-bir-omur.webp',
     categories: ['nisan']
   },
   {
@@ -3273,7 +3273,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#A72D63] to-[#EDEDEA]',
     titleColor: 'text-[#1C1C1C]',
     btnColor: 'bg-[#A72D63] hover:bg-[#892551] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/nisan-sergi-diptik.webp',
     categories: ['nisan']
   },
   {
@@ -3283,7 +3283,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#3B2A1E] via-[#5A4330] to-[#C9A35C]',
     titleColor: 'text-[#F2EAD3]',
     btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dogum-gunu-kitap-masal.webp',
     categories: ['dogum-gunu']
   },
   {
@@ -3293,7 +3293,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#1E1E1E] via-[#2E2B27] to-[#F2EAD3]',
     titleColor: 'text-[#F2EAD3]',
     btnColor: 'bg-[#8C2F2F] hover:bg-[#74262A] text-[#F2EAD3]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dogum-gunu-kitap-yeni-bolum.webp',
     categories: ['dogum-gunu']
   },
   {
@@ -3303,7 +3303,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F1E6C8] via-[#E4D2A4] to-[#A8321F]',
     titleColor: 'text-[#23303A]',
     btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dogum-gunu-harita-hazine-avi.webp',
     categories: ['dogum-gunu']
   },
   {
@@ -3313,7 +3313,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#EEF0E6] via-[#DDD6C6] to-[#2A4BA0]',
     titleColor: 'text-[#23303A]',
     btnColor: 'bg-[#A8321F] hover:bg-[#8F2A1A] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dogum-gunu-harita-kutlama-hatti.webp',
     categories: ['dogum-gunu']
   },
   {
@@ -3323,7 +3323,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#2A4BA0]',
     titleColor: 'text-[#1C1C1C]',
     btnColor: 'bg-[#2A4BA0] hover:bg-[#223E83] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dogum-gunu-sergi-devam-eden.webp',
     categories: ['dogum-gunu']
   },
   {
@@ -3333,7 +3333,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#F7F7F5] via-[#EDEDEA] to-[#E0A526]',
     titleColor: 'text-[#1C1C1C]',
     btnColor: 'bg-[#1C1C1C] hover:bg-[#373737] text-white',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dogum-gunu-sergi-retrospektif.webp',
     categories: ['dogum-gunu']
   },
   // ——— Yedi Davetiye — animasyonlu düğün şablonları (docs/rehber/src/components/templates/yedi-davetiye.md) ———
@@ -3344,7 +3344,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-br from-[#6E2A37] via-[#9A5A4F] to-[#F4ECD8]',
     titleColor: 'text-[#F4ECD8]',
     btnColor: 'bg-[#8E3346] hover:bg-[#74262A] text-[#F4ECD8]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-kitap-sayfa.webp',
     categories: ['dugun']
   },
   {
@@ -3354,7 +3354,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_45%,#6B1A2E_0%,#2A0D16_55%,#14070B_100%)]',
     titleColor: 'text-[#FFF1EC]',
     btnColor: 'bg-[#E8A0A8] hover:bg-[#F2C7C2] text-[#2A0F18]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-gul-3d.webp',
     categories: ['dugun']
   },
   {
@@ -3364,7 +3364,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-[radial-gradient(ellipse_at_30%_25%,#7A5CFF_0%,#1A1430_45%,#07070C_100%)]',
     titleColor: 'text-white',
     btnColor: 'bg-[linear-gradient(110deg,#FFC4E6,#C4E1FF_35%,#D2FFE4_65%,#FFF4C4)] hover:brightness-110 text-[#141420]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-holografik.webp',
     categories: ['dugun']
   },
   {
@@ -3374,7 +3374,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_35%,#5A4319_0%,#1F1910_45%,#0B0A08_100%)]',
     titleColor: 'text-[#F8EBCB]',
     btnColor: 'bg-[linear-gradient(180deg,#F6D88C,#D9A441)] hover:brightness-110 text-[#1A1408]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-altin-toz.webp',
     categories: ['dugun']
   },
   {
@@ -3384,7 +3384,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-[radial-gradient(ellipse_at_45%_40%,#0E1022_0%,#2A3473_40%,#F4F2ED_85%)]',
     titleColor: 'text-[#F7F5F0]',
     btnColor: 'bg-[#1B1F3B] hover:bg-[#2A3473] text-[#F4F2ED]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-murekkep.webp',
     categories: ['dugun']
   },
   {
@@ -3394,7 +3394,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-[linear-gradient(180deg,#05071A_0%,#0B1026_45%,#5A2E3A_100%)]',
     titleColor: 'text-[#FFF1DC]',
     btnColor: 'bg-[linear-gradient(180deg,#FFD08A,#F29A45)] hover:brightness-110 text-[#1B1206]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-fener.webp',
     categories: ['dugun']
   },
   {
@@ -3404,7 +3404,7 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     backgroundStyle: 'bg-gradient-to-b from-[#F9E3D6] via-[#F3EADF] to-[#9DB48D]',
     titleColor: 'text-[#2B2433]',
     btnColor: 'bg-[#3B3245] hover:bg-[#B0546A] text-[#FFFBF5]',
-    imageUrl: '',
+    imageUrl: '/images/sablonlar/dugun-popup.webp',
     categories: ['dugun']
   },
 ];
