@@ -3431,6 +3431,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['baby-shower']
   },
   {
+    id: 'nisan-iplik',
+    name: 'Kader İpliği (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#12060F',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_40%,#3A1230_0%,#1C0818_55%,#08030A_100%)]',
+    titleColor: 'text-[#F6C27A]',
+    btnColor: 'bg-[linear-gradient(100deg,#F6C27A,#E86C91)] hover:brightness-110 text-[#2A0B1E]',
+    imageUrl: videoCover('nisan-iplik'),
+    categories: ['nisan']
+  },
+  {
     id: 'sunnet-sehzade',
     name: 'Şehzade Çadırı (Sinematik)',
     minimumTier: 'gold',

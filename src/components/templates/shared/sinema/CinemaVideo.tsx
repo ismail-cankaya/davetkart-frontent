@@ -162,6 +162,10 @@ export function CinemaVideo({ video, mode, playback = { kind: 'loop' }, classNam
         src={poster}
         alt=""
         draggable={false}
+        // İnemeyen poster kırık resim simgesi göstermesin: CSS zemini kalır.
+        onError={(e) => {
+          e.currentTarget.style.visibility = 'hidden';
+        }}
         className="absolute inset-0 w-full h-full object-cover select-none"
         style={{ objectPosition: focus }}
       />
