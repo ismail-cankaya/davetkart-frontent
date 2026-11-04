@@ -3336,6 +3336,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['dogum-gunu']
   },
+  // ——— Yedi Davetiye — animasyonlu düğün şablonları (docs/rehber/src/components/templates/yedi-davetiye.md) ———
+  {
+    id: 'dugun-gul-3d',
+    name: '3D Gül Bahçesi',
+    primaryColor: '#2A0D16',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_45%,#6B1A2E_0%,#2A0D16_55%,#14070B_100%)]',
+    titleColor: 'text-[#FFF1EC]',
+    btnColor: 'bg-[#E8A0A8] hover:bg-[#F2C7C2] text-[#2A0F18]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
 ];
 
 /**

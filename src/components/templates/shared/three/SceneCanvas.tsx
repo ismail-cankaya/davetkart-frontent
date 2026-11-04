@@ -26,6 +26,7 @@ export function SceneCanvas({ stage, camera, children, transparent = true }: Sce
       gl={{ antialias: stage.quality === 'high', alpha: transparent, powerPreference: 'high-performance' }}
       style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
       onCreated={({ gl }) => {
+        requestAnimationFrame(() => stage.onReady());
         gl.domElement.addEventListener('webglcontextlost', (e) => {
           e.preventDefault();
           stage.onFail();

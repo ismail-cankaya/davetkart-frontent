@@ -15,6 +15,8 @@ export interface StageState {
   tilt: MutableRefObject<Tilt>;
   /** Bağlam kaybı ya da hata: statik görünüme dönülür. */
   onFail: () => void;
+  /** İlk kare çizildi: statik görünüm söner. */
+  onReady: () => void;
 }
 
 class SceneBoundary extends Component<{ onFail: () => void; children: ReactNode }, { failed: boolean }> {
@@ -48,6 +50,7 @@ export function ThreeStage({ mode, fallback, children, className }: ThreeStagePr
   const ref = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
   const [failed, setFailed] = useState(false);
+  const [ready, setReady] = useState(false);
   const reduced = useReducedMotion() ?? false;
 
   useEffect(() => setMounted(true), []);
@@ -56,15 +59,22 @@ export function ThreeStage({ mode, fallback, children, className }: ThreeStagePr
   const hasSlot = useCanvasSlot(eligible);
   const active = useStageActive(ref);
   const tilt = useTilt(hasSlot && !reduced && mode === 'live');
-  const onFail = useCallback(() => setFailed(true), []);
+  const onFail = useCallback(() => {
+    setFailed(true);
+    setReady(false);
+  }, []);
+  const onReady = useCallback(() => setReady(true), []);
+  const showScene = hasSlot && !failed;
 
   return (
     <div ref={ref} className={className ?? 'absolute inset-0 overflow-hidden'} aria-hidden="true">
-      {fallback}
-      {hasSlot && (
+      <div className={`absolute inset-0 transition-opacity duration-700 ${showScene && ready ? 'opacity-0' : 'opacity-100'}`}>
+        {fallback}
+      </div>
+      {showScene && (
         <SceneBoundary onFail={onFail}>
           <Suspense fallback={null}>
-            {children({ active, still: reduced, quality: preferredQuality(mode), tilt, onFail })}
+            {children({ active, still: reduced, quality: preferredQuality(mode), tilt, onFail, onReady })}
           </Suspense>
         </SceneBoundary>
       )}

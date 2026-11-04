@@ -89,7 +89,7 @@ import {
 import { Invitation } from '../../types';
 import { displayNames } from '../../utils/names';
 import { TemplateProps } from './types';
-import { LAZY_KONSEPT_PRESETS } from './lazyPresets';
+import { LAZY_PRESETS } from './lazyPresets';
 
 interface TemplateRendererProps {
   templateId: string;
@@ -433,8 +433,8 @@ const THEME_PRESETS: Record<string, React.ComponentType<TemplateProps>> = {
   'nisan-soz-mektubu': NisanSozMektubu,
   'nisan-gul-kurusu': NisanGulKurusu,
   'nisan-soz-senedi': NisanSozSenedi,
-  // Konsept şablonları (Kitap · Harita · Sergi) — tembel yüklenir, bkz. lazyPresets.ts
-  ...LAZY_KONSEPT_PRESETS,
+  // Konsept şablonları (Kitap · Harita · Sergi) ve Yedi Davetiye — tembel yüklenir, bkz. lazyPresets.ts
+  ...LAZY_PRESETS,
 };
 
 /** Tembel şablonun chunk'ı inerken: boş, tam ekran ve sessiz bir zemin. */

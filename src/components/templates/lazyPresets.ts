@@ -43,3 +43,11 @@ export const LAZY_KONSEPT_PRESETS: Record<string, Preset> = {
   'dogum-gunu-sergi-devam-eden': fromBarrel(dogumGunuSergi, 'DogumGunuSergiDevamEden'),
   'dogum-gunu-sergi-retrospektif': fromBarrel(dogumGunuSergi, 'DogumGunuSergiRetrospektif'),
 };
+
+/** Yedi Davetiye — düğün şablonları; 3B/WebGL olanların sahnesi ayrıca tembel yüklenir. */
+export const LAZY_YEDI_PRESETS: Record<string, Preset> = {
+  'dugun-gul-3d': fromBarrel(() => import('./dugun/DugunGul3d'), 'DugunGul3d'),
+};
+
+/** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
+export const LAZY_PRESETS: Record<string, Preset> = { ...LAZY_KONSEPT_PRESETS, ...LAZY_YEDI_PRESETS };

@@ -29,7 +29,7 @@ import { useInvitationStore } from '../src/stores/useInvitationStore';
 import { useRsvpStore } from '../src/stores/useRsvpStore';
 import { rsvpReceipts } from '../src/services/rsvpReceipts';
 import { INITIAL_INVITATION, TEMPLATE_PRESETS } from '../src/data';
-import { LAZY_KONSEPT_PRESETS } from '../src/components/templates/lazyPresets';
+import { LAZY_PRESETS } from '../src/components/templates/lazyPresets';
 import type { Invitation, InvitationRecord } from '../src/types';
 
 const SIGNATURE = 'DavetKart ile hazırlandı';
@@ -129,7 +129,7 @@ async function signatureOnTheGuestPage(): Promise<void> {
 // ——— 1b. Tembel şablonlar: kayıt ve veri ——————————————————————————————————————
 
 /** Konsept şablonları (A) ve tembel yüklenen yeni şablonlar. */
-const LAZY_IDS = Object.keys(LAZY_KONSEPT_PRESETS);
+const LAZY_IDS = Object.keys(LAZY_PRESETS);
 
 async function lazyPresetsRender(): Promise<void> {
   console.log(`\nTembel şablonlar: kayıt ve veri (${LAZY_IDS.length} şablon)`);
