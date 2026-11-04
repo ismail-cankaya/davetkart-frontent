@@ -3367,6 +3367,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '',
     categories: ['dugun']
   },
+  {
+    id: 'dugun-altin-toz',
+    name: 'Altın Toz',
+    primaryColor: '#0B0A08',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_35%,#5A4319_0%,#1F1910_45%,#0B0A08_100%)]',
+    titleColor: 'text-[#F8EBCB]',
+    btnColor: 'bg-[linear-gradient(180deg,#F6D88C,#D9A441)] hover:brightness-110 text-[#1A1408]',
+    imageUrl: '',
+    categories: ['dugun']
+  },
 ];
 
 /**
