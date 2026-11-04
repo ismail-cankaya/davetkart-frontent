@@ -69,7 +69,8 @@ function GoldStage({ stages, index, scattered, mode }: { stages: Stage[]; index:
   const field = useRef<DustField | null>(null);
   const reduced = useReducedMotion() ?? false;
   const active = useStageActive(box);
-  const [layout, setLayout] = useState<TextLayout | null>(null);
+  // Düzen hangi aşamaya ait: aşama değişip yazı henüz ölçülmeden eski düzenle çizilmez.
+  const [measured, setMeasured] = useState<{ key: string; layout: TextLayout } | null>(null);
   const [formed, setFormed] = useState(false);
   const [size, setSize] = useState({ w: 0, h: 0 });
 
@@ -103,13 +104,13 @@ function GoldStage({ stages, index, scattered, mode }: { stages: Stage[]; index:
       if (cancelled || !field.current) return;
       const stage = stages[index];
       if (scattered || !stage) {
-        setLayout(null);
+        setMeasured(null);
         field.current.setTargets(null);
         return;
       }
       const maxSize = Math.min(size.w * (stage.lines.length > 1 ? 0.2 : 0.16), 132);
       const l = fitText(ctx, stage.lines, size.w * 0.86, maxSize, FAMILY, size.h * 0.42);
-      setLayout(l);
+      setMeasured({ key: stage.key, layout: l });
       field.current.setTargets(sampleText(l, size.w, size.h, count));
       if (reduced) field.current.snap();
     });
@@ -149,6 +150,7 @@ function GoldStage({ stages, index, scattered, mode }: { stages: Stage[]; index:
   }, [active, reduced, formed, size]);
 
   const stage = stages[index];
+  const layout = measured && stage && measured.key === stage.key ? measured.layout : null;
   return (
     <div ref={box} className="absolute inset-0">
       <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 w-full h-full" />
@@ -169,7 +171,7 @@ function GoldStage({ stages, index, scattered, mode }: { stages: Stage[]; index:
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: formed ? 1 : 0 }}
-              exit={{ opacity: 0, transition: { duration: 0.25 } }}
+              exit={{ opacity: 0, transition: { duration: 0.12 } }}
               transition={{ duration: 0.9 }}
               className={`absolute inset-x-0 text-center italic font-medium ${GOLD_TEXT}`}
               style={{
