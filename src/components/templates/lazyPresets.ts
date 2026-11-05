@@ -116,6 +116,24 @@ export const LAZY_ONIKI_PRESETS: Record<string, Preset> = {
   'kurumsal-izometrik': fromBarrel(() => import('./kurumsal/KurumsalIzometrik'), 'KurumsalIzometrik'),
 };
 
+/**
+ * On bir premium şablon (Faz 17) — videolu, canlı WebGL ve sensörlü etkileşimli.
+ * Bkz. docs/rehber/src/components/templates/onbir-premium-sablon.md
+ */
+export const LAZY_ONBIR_PRESETS: Record<string, Preset> = {
+  'kurumsal-lansman': fromBarrel(() => import('./kurumsal/KurumsalLansman'), 'KurumsalLansman'),
+  'kina-bugulu-ayna': fromBarrel(() => import('./kina/KinaBuguluAyna'), 'KinaBuguluAyna'),
+  'sunnet-ucan-hali': fromBarrel(() => import('./sunnet/SunnetUcanHali'), 'SunnetUcanHali'),
+  'parti-lazer': fromBarrel(() => import('./parti/PartiLazer'), 'PartiLazer'),
+  'baby-kazi-kazan': fromBarrel(() => import('./baby-shower/BabyKaziKazan'), 'BabyKaziKazan'),
+  'dugun-karanlik-oda': fromBarrel(() => import('./dugun/DugunKaranlikOda'), 'DugunKaranlikOda'),
+  'mezuniyet-yillik': fromBarrel(() => import('./mezuniyet/MezuniyetYillik'), 'MezuniyetYillik'),
+  'nisan-koi': fromBarrel(() => import('./nisan/NisanKoi'), 'NisanKoi'),
+  'parti-kokteyl': fromBarrel(() => import('./parti/PartiKokteyl'), 'PartiKokteyl'),
+  'dugun-kelebek': fromBarrel(() => import('./dugun/DugunKelebek'), 'DugunKelebek'),
+  'dogum-gunu-surpriz-makinesi': fromBarrel(() => import('./dogum-gunu/DogumGunuSurprizMakinesi'), 'DogumGunuSurprizMakinesi'),
+};
+
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
 export const LAZY_PRESETS: Record<string, Preset> = {
   ...LAZY_KONSEPT_PRESETS,
@@ -124,5 +142,6 @@ export const LAZY_PRESETS: Record<string, Preset> = {
   ...LAZY_ALTI_PRESETS,
   ...LAZY_ONIKI_PRESETS,
   ...LAZY_UC_PRESETS,
-  ...LAZY_HAFIF_PRESETS
+  ...LAZY_HAFIF_PRESETS,
+  ...LAZY_ONBIR_PRESETS
 };

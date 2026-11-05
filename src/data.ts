@@ -3797,6 +3797,118 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     btnColor: 'bg-[#2F6FED] hover:brightness-110 text-[#FFFFFF]',
     imageUrl: '/images/sablonlar/kurumsal-izometrik.svg',
     categories: ['kurumsal']
+  },  // ——— Faz 17: on bir premium şablon (onbir-premium-sablon.md) ———
+  {
+    id: 'kurumsal-lansman',
+    name: 'Lansman Sahnesi (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#03050C',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_40%,#14224A_0%,#070B18_60%,#02030A_100%)]',
+    titleColor: 'text-[#F3F7FF]',
+    btnColor: 'bg-[linear-gradient(90deg,#3D8BFF,#7A5CFF)] hover:brightness-110 text-white',
+    imageUrl: videoCover('kurumsal-lansman'),
+    categories: ['kurumsal']
+  },
+  {
+    id: 'kina-bugulu-ayna',
+    name: 'Buğulu Ayna (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#120806',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_45%,#4A211A_0%,#1E0D0A_60%,#0C0504_100%)]',
+    titleColor: 'text-[#F8EBDC]',
+    btnColor: 'bg-[linear-gradient(135deg,#B3342A,#7E1D18)] hover:brightness-110 text-[#FFF3E6]',
+    imageUrl: videoCover('kina-bugulu-ayna'),
+    categories: ['kina']
+  },
+  {
+    id: 'sunnet-ucan-hali',
+    name: 'Uçan Halı (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#0B0A22',
+    backgroundStyle: 'bg-gradient-to-b from-[#2A1B5E] via-[#6B3F7E] to-[#E08A6A]',
+    titleColor: 'text-[#FBF4DF]',
+    btnColor: 'bg-[linear-gradient(135deg,#C7303A,#8E1B26)] hover:brightness-110 text-[#FFF4E0]',
+    imageUrl: videoCover('sunnet-ucan-hali'),
+    categories: ['sunnet']
+  },
+  {
+    id: 'parti-lazer',
+    name: 'Lazer Gösterisi (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#05030C',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_40%,#1C0E3A_0%,#0A0518_60%,#030208_100%)]',
+    titleColor: 'text-[#F7F3FF]',
+    btnColor: 'bg-[linear-gradient(90deg,#1FE07A,#25C8FF_50%,#FF2BB4)] hover:brightness-110 text-[#05030C]',
+    imageUrl: videoCover('parti-lazer'),
+    categories: ['parti']
+  },  {
+    id: 'baby-kazi-kazan',
+    name: 'Kazı Kazan Sürpriz',
+    primaryColor: '#FFF6F1',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#FFF6F1_0%,#FBEFF6_50%,#F1F2FC_100%)]',
+    titleColor: 'text-[#4A3A55]',
+    btnColor: 'bg-[linear-gradient(135deg,#F2A9C4,#B79CE6)] hover:brightness-105 text-white',
+    imageUrl: '/images/sablonlar/baby-kazi-kazan.webp',
+    categories: ['baby-shower']
+  },  {
+    id: 'dogum-gunu-surpriz-makinesi',
+    name: 'Sürpriz Makinesi',
+    primaryColor: '#FFF4E4',
+    backgroundStyle: 'bg-[#FFF4E4]',
+    titleColor: 'text-[#2E1F33]',
+    btnColor: 'bg-[#E8344E] hover:bg-[#D42840] text-white',
+    imageUrl: '/images/sablonlar/dogum-gunu-surpriz-makinesi.webp',
+    categories: ['dogum-gunu']
+  },  {
+    id: 'dugun-karanlik-oda',
+    name: 'Karanlık Oda',
+    minimumTier: 'gold',
+    primaryColor: '#0E0405',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_0%,#5A100C_0%,#1A0606_55%,#0E0405_100%)]',
+    titleColor: 'text-[#FBEDE7]',
+    btnColor: 'bg-[#B8231E] hover:bg-[#CC2D27] text-[#FFF2EE]',
+    imageUrl: '/images/sablonlar/dugun-karanlik-oda.webp',
+    categories: ['dugun']
+  },  {
+    id: 'mezuniyet-yillik',
+    name: 'Mezuniyet Yıllığı',
+    minimumTier: 'gold',
+    primaryColor: '#0C1222',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_38%,#2A2E3E_0%,#121A30_55%,#0C1222_100%)]',
+    titleColor: 'text-[#F6F0E1]',
+    btnColor: 'bg-[linear-gradient(135deg,#E0B45C,#B98A3A)] hover:brightness-110 text-[#1A1407]',
+    imageUrl: '/images/sablonlar/mezuniyet-yillik.webp',
+    categories: ['mezuniyet']
+  },  {
+    id: 'nisan-koi',
+    name: 'Koi Havuzu',
+    minimumTier: 'gold',
+    primaryColor: '#061615',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_55%,#16403A_0%,#0A2422_55%,#051514_100%)]',
+    titleColor: 'text-[#F4FBF8]',
+    btnColor: 'bg-[linear-gradient(135deg,#E8714F,#C9472C)] hover:brightness-110 text-[#FFF5F0]',
+    imageUrl: '/images/sablonlar/nisan-koi.webp',
+    categories: ['nisan']
+  },  {
+    id: 'parti-kokteyl',
+    name: 'Kokteyl',
+    minimumTier: 'gold',
+    primaryColor: '#0D0510',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_40%,#3A1430_0%,#1A0B1E_55%,#0D0510_100%)]',
+    titleColor: 'text-[#FFF3F6]',
+    btnColor: 'bg-[linear-gradient(135deg,#FF9A4E,#E0336A)] hover:brightness-110 text-white',
+    imageUrl: '/images/sablonlar/parti-kokteyl.webp',
+    categories: ['parti']
+  },  {
+    id: 'dugun-kelebek',
+    name: 'Kelebek Bahçesi',
+    minimumTier: 'gold',
+    primaryColor: '#FBF1EA',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#E7E1F5_0%,#F6E3EA_38%,#FBE5D6_62%,#F4D7C4_100%)]',
+    titleColor: 'text-[#2F2737]',
+    btnColor: 'bg-[linear-gradient(135deg,#C97C8E,#9C5A86)] hover:brightness-105 text-white',
+    imageUrl: '/images/sablonlar/dugun-kelebek.webp',
+    categories: ['dugun']
   },
 ];
 

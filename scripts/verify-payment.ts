@@ -182,15 +182,19 @@ function main(): void {
 
   // Faz 10 (FE 10.20 · K102): fiyat kartının vaatleri kodla tutarlı.
   const PREMIUM_SINEMATIK = ['kina-al-duvak', 'parti-havuz', 'baby-ay-besigi', 'nisan-iplik', 'dugun-yasemin', 'sunnet-sehzade', 'dogum-gunu-havai-fisek', 'dugun-kristal-balo', 'mezuniyet-kep', 'dugun-saray-kapisi'];
+  // Faz 17: 4 videolu + 5 canlı etkileşimli premium (K102 genişledi: premium = videolu ya da premium etkileşimli).
+  const PREMIUM_FAZ17 = ['kurumsal-lansman', 'kina-bugulu-ayna', 'sunnet-ucan-hali', 'parti-lazer', 'dugun-kelebek', 'dugun-karanlik-oda', 'nisan-koi', 'parti-kokteyl', 'mezuniyet-yillik'];
   console.log('\nFiyat kartı vaatleri');
   const premium = { ...INITIAL_INVITATION, imageTheme: 'dugun-gokyuzu', showGallery: false, showGift: false, showEnvelope: false, showTimeline: false };
   check('premium tema → Gold', getRequiredTier(premium), 'gold');
   check('premium tema + galeri → Elit (modül daha yüksek)', getRequiredTier({ ...premium, showGallery: true }), 'elit');
   check('sıradan tema → Standart', getRequiredTier({ ...premium, imageTheme: 'sade' }), 'standart');
+  check('Faz 17 canlı etkileşimli premium → Gold', getRequiredTier({ ...premium, imageTheme: 'nisan-koi' }), 'gold');
+  check('Faz 17 kazı kazan → Standart', getRequiredTier({ ...premium, imageTheme: 'baby-kazi-kazan' }), 'standart');
 
   // Backend config/davetkart.php → preset_tiers ile AYNI liste (PaywallTest'te de sabit).
   check(
-    'premium temalar = backend\'in videolu temaları (13 + Faz 16 sinematik)',
+    'premium temalar = backend\'in preset_tiers listesi (13 + Faz 16 sinematik + Faz 17)',
     TEMPLATE_PRESETS.filter((preset) => preset.minimumTier === 'gold').map((preset) => preset.id).sort(),
     [
       'baby-shower-kabarcik', 'dogum-gunu-konfeti', 'dugun-deniz-isiltisi', 'dugun-gokyuzu', 'dugun-gul-yapraklari',
@@ -198,6 +202,8 @@ function main(): void {
       'parti-aurora', 'sunnet-yildiz',
       // Faz 16 — premium sinematik koleksiyon
       ...PREMIUM_SINEMATIK,
+      // Faz 17 — premium koleksiyon
+      ...PREMIUM_FAZ17,
     ].sort(),
   );
   check(
