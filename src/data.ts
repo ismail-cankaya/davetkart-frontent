@@ -3518,6 +3518,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: videoCover('dugun-saray-kapisi'),
     categories: ['dugun']
   },
+  {
+    id: 'dogum-gunu-mumlar',
+    name: 'Mumları Üfle',
+    primaryColor: '#FFF4EA',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#FFF7EF_0%,#FCE3E6_100%)]',
+    titleColor: 'text-[#7A1F45]',
+    btnColor: 'bg-[#B8336A] hover:bg-[#9C2457] text-white',
+    imageUrl: '/images/sablonlar/dogum-gunu-mumlar.svg',
+    categories: ['dogum-gunu']
+  },
 ];
 
 /**

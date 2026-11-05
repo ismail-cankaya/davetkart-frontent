@@ -72,5 +72,10 @@ export const LAZY_PREMIUM_PRESETS: Record<string, Preset> = {
   'dugun-saray-kapisi': fromBarrel(() => import('./dugun/DugunSarayKapisi'), 'DugunSarayKapisi'),
 };
 
+/** Altı hızlı şablon — CSS 3B, SVG çizgi, canvas 2B ve motion; bkz. docs/rehber/src/components/templates/alti-hizli-sablon.md */
+export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
+  'dogum-gunu-mumlar': fromBarrel(() => import('./dogum-gunu/DogumGunuMumlar'), 'DogumGunuMumlar'),
+};
+
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
 export const LAZY_PRESETS: Record<string, Preset> = { ...LAZY_KONSEPT_PRESETS, ...LAZY_YEDI_PRESETS, ...LAZY_PREMIUM_PRESETS };
