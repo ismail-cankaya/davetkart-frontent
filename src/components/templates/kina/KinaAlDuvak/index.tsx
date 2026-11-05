@@ -12,7 +12,8 @@ import { KINA_FLAVOR } from '../flavors';
 const VIDEO = videoSet('kina-al-duvak');
 const FONT = 'Yeseva+One';
 const DISPLAY = "[font-family:'Yeseva_One',var(--font-cormorant),serif]";
-const GOLD_TEXT = 'bg-[linear-gradient(180deg,#FFF1C9_0%,#E9B860_48%,#B87A2C_100%)] bg-clip-text text-transparent';
+const GOLD_TEXT = 'bg-[linear-gradient(180deg,#FFF1C9_0%,#E9B860_48%,#B87A2C_100%)] bg-clip-text text-transparent pt-[0.22em] -mt-[0.22em] pb-[0.08em] -mb-[0.08em]';
+// Dolgu: bg-clip-text yalnızca kutuyu boyar; İ noktası ve ğ kuyruğu kutu dışında kalmasın.
 const GLOW = '[filter:drop-shadow(0_0_18px_rgba(255,170,90,0.35))]';
 
 const THEME: SectionTheme = {

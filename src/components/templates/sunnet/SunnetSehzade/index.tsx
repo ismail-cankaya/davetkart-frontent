@@ -13,7 +13,8 @@ const VIDEO = videoSet('sunnet-sehzade', { landscape: '50% 30%', portrait: '50% 
 const FONT = 'Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400..700';
 const DECO = "[font-family:'Cinzel_Decorative',var(--font-cormorant),serif]";
 const CINZEL = "[font-family:'Cinzel',var(--font-cormorant),serif]";
-const GOLD = 'bg-[linear-gradient(180deg,#FFF0C4_0%,#E7BE6A_50%,#A8732A_100%)] bg-clip-text text-transparent';
+const GOLD = 'bg-[linear-gradient(180deg,#FFF0C4_0%,#E7BE6A_50%,#A8732A_100%)] bg-clip-text text-transparent pt-[0.22em] -mt-[0.22em] pb-[0.08em] -mb-[0.08em]';
+// Dolgu: bg-clip-text yalnızca kutuyu boyar; İ noktası ve ğ kuyruğu kutu dışında kalmasın.
 
 const THEME: SectionTheme = {
   id: 'midnight',

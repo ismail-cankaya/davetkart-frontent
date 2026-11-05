@@ -12,7 +12,8 @@ import { NISAN_FLAVOR } from '../flavors';
 const VIDEO = videoSet('nisan-iplik', { landscape: '50% 35%', portrait: '50% 30%' });
 const FONT = 'Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600';
 const DISPLAY = "[font-family:'Fraunces',var(--font-cormorant),serif]";
-const NAME_GRADIENT = 'bg-[linear-gradient(100deg,#FFE2C2_0%,#F6C27A_40%,#FF9DB8_100%)] bg-clip-text text-transparent';
+const NAME_GRADIENT = 'bg-[linear-gradient(100deg,#FFE2C2_0%,#F6C27A_40%,#FF9DB8_100%)] bg-clip-text text-transparent pt-[0.22em] -mt-[0.22em] pb-[0.08em] -mb-[0.08em]';
+// Dolgu: bg-clip-text yalnızca kutuyu boyar; İ noktası ve ğ kuyruğu kutu dışında kalmasın.
 
 const THEME: SectionTheme = {
   id: 'midnight',

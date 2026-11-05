@@ -77,7 +77,7 @@ vec3 veilLayer(vec2 p, float t, vec3 bg, float seed, float depth, inout vec3 gli
   // Kenar şeridi: dantel bant + pul yoğunluğu.
   float band = smoothstep(0.075, 0.0, abs(dist + 0.035)) * cover;
   float scallop = 0.5 + 0.5 * sin(p.y * 120.0);
-  col += vec3(0.9, 0.62, 0.25) * band * (0.10 + 0.12 * scallop) * ndl;
+  col += vec3(0.9, 0.62, 0.25) * band * (0.10 + 0.04 * scallop) * ndl;
   float hem = smoothstep(0.006, 0.0, abs(dist + 0.012)) * cover;
   col += vec3(1.0, 0.72, 0.35) * hem * (0.35 + 0.9 * pow(ndl, 3.0));
 
@@ -152,7 +152,7 @@ const scene: SceneDef = {
       exposure: 0.95,
       bloom: { strength: 1.0, threshold: 0.6, radius: 1.0 },
       vignette: 0.45,
-      grain: 0.02,
+      grain: 0.005,
       aberration: 0.8
     });
     const { scene: s, camera, material } = fullscreenShader(FRAG, {
