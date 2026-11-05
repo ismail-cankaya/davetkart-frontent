@@ -82,5 +82,15 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
   'dugun-kum-saati': fromBarrel(() => import('./dugun/DugunKumSaati'), 'DugunKumSaati'),
 };
 
+/** On iki etkileşimli şablon — bkz. docs/rehber/src/components/templates/oniki-etkilesimli-sablon.md */
+export const LAZY_ONIKI_PRESETS: Record<string, Preset> = {
+};
+
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
-export const LAZY_PRESETS: Record<string, Preset> = { ...LAZY_KONSEPT_PRESETS, ...LAZY_YEDI_PRESETS, ...LAZY_PREMIUM_PRESETS };
+export const LAZY_PRESETS: Record<string, Preset> = {
+  ...LAZY_KONSEPT_PRESETS,
+  ...LAZY_YEDI_PRESETS,
+  ...LAZY_PREMIUM_PRESETS,
+  ...LAZY_ALTI_PRESETS,
+  ...LAZY_ONIKI_PRESETS
+};
