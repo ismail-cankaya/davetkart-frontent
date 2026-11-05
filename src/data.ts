@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'parti-kaset',
+    name: 'Kaset',
+    primaryColor: '#120E1E',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_20%,#2E2446_0%,#120E1E_65%,#08060F_100%)]',
+    titleColor: 'text-[#FCEBD2]',
+    btnColor: 'bg-[linear-gradient(180deg,#FFD889,#E0A33A)] hover:brightness-110 text-[#120E1E]',
+    imageUrl: '/images/sablonlar/parti-kaset.svg',
+    categories: ['parti']
+  },
+  {
     id: 'mezuniyet-kagit-ucak',
     name: 'Kâğıt Uçak',
     primaryColor: '#F6F3EC',
