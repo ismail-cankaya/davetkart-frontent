@@ -66,6 +66,7 @@ export const LAZY_PREMIUM_PRESETS: Record<string, Preset> = {
   'dugun-yasemin': fromBarrel(() => import('./dugun/DugunYasemin'), 'DugunYasemin'),
   'sunnet-sehzade': fromBarrel(() => import('./sunnet/SunnetSehzade'), 'SunnetSehzade'),
   'dogum-gunu-havai-fisek': fromBarrel(() => import('./dogum-gunu/DogumGunuHavaiFisek'), 'DogumGunuHavaiFisek'),
+  'dugun-kristal-balo': fromBarrel(() => import('./dugun/DugunKristalBalo'), 'DugunKristalBalo'),
   'mezuniyet-kep': fromBarrel(() => import('./mezuniyet/MezuniyetKep'), 'MezuniyetKep'),
   'dugun-saray-kapisi': fromBarrel(() => import('./dugun/DugunSarayKapisi'), 'DugunSarayKapisi'),
 };

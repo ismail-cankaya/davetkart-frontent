@@ -3475,6 +3475,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dogum-gunu']
   },
   {
+    id: 'dugun-kristal-balo',
+    name: 'Kristal Balo (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#070814',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_35%,#2A2340_0%,#0B0C1C_55%,#050610_100%)]',
+    titleColor: 'text-[#F5F2EA]',
+    btnColor: 'bg-[#F5F2EA] hover:bg-white text-[#0A0C1E]',
+    imageUrl: videoCover('dugun-kristal-balo'),
+    categories: ['dugun']
+  },
+  {
     id: 'mezuniyet-kep',
     name: 'Kep Atma (Sinematik)',
     minimumTier: 'gold',
