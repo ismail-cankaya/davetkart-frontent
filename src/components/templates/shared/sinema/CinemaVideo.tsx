@@ -108,7 +108,12 @@ export function CinemaVideo({ video, mode, playback = { kind: 'loop' }, classNam
     if (still || playback.kind === 'scrub') return;
     const el = phase === 'intro' ? introRef.current : mainRef.current;
     if (!el) return;
-    if (visible) void el.play().catch(() => (phase === 'intro' ? setPhase('loop') : undefined));
+    // Yalnızca gerçek ret (autoplay engeli, iOS Düşük Güç) girişi atlatır. Yön değişiminde
+    // <video> yeniden kurulurken eski play() sözü AbortError ile düşer: o bir ret değildir.
+    if (visible)
+      void el.play().catch((e: unknown) => {
+        if (phase === 'intro' && e instanceof DOMException && e.name === 'NotAllowedError') setPhase('loop');
+      });
     else el.pause();
   }, [still, visible, phase, playback.kind, orientation]);
 
@@ -179,7 +184,9 @@ export function CinemaVideo({ video, mode, playback = { kind: 'loop' }, classNam
             muted
             playsInline
             loop={!isScrub}
-            preload={isScrub || phase === 'loop' || introPainted ? 'auto' : 'metadata'}
+            // Düz döngü: metadata (autoplay zaten iner). Scrub tüm veriyi ister; girişten
+            // sonra gelecek ana klip, giriş oynarken arka planda iner.
+            preload={isScrub || (intro !== null && (phase === 'loop' || introPainted)) ? 'auto' : 'metadata'}
             disablePictureInPicture
             tabIndex={-1}
             onLoadedData={() => setMainReady(orientation)}

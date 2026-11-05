@@ -3463,6 +3463,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: videoCover('sunnet-sehzade'),
     categories: ['sunnet']
   },
+  {
+    id: 'dugun-saray-kapisi',
+    name: 'Saray Kapısı (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#0B0907',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_45%,#6A5638_0%,#1C150F_55%,#080605_100%)]',
+    titleColor: 'text-[#FFF6E8]',
+    btnColor: 'bg-[linear-gradient(180deg,#EAD08F,#B8873E)] hover:brightness-110 text-[#1A1208]',
+    imageUrl: videoCover('dugun-saray-kapisi'),
+    categories: ['dugun']
+  },
 ];
 
 /**

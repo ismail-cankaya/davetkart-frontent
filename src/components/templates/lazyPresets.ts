@@ -65,6 +65,7 @@ export const LAZY_PREMIUM_PRESETS: Record<string, Preset> = {
   'nisan-iplik': fromBarrel(() => import('./nisan/NisanIplik'), 'NisanIplik'),
   'dugun-yasemin': fromBarrel(() => import('./dugun/DugunYasemin'), 'DugunYasemin'),
   'sunnet-sehzade': fromBarrel(() => import('./sunnet/SunnetSehzade'), 'SunnetSehzade'),
+  'dugun-saray-kapisi': fromBarrel(() => import('./dugun/DugunSarayKapisi'), 'DugunSarayKapisi'),
 };
 
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */

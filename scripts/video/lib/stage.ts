@@ -19,6 +19,11 @@ export interface StageOptions {
   clearColor?: THREE.ColorRepresentation;
   /** MSAA örnek sayısı: geometrili (three) sahnelerde 4, tam ekran shader'da 0. */
   samples?: number;
+  /**
+   * Durağan titreşim (varsayılan açık). Kamerası hareket eden sahnelerde kapatılır:
+   * ekrana sabit desen her karede yeniden kodlanır ve bit bütçesini yer.
+   */
+  dither?: boolean;
 }
 
 /** Son geçiş: vinyet + renk sapması + gren + 8 bit bantlanmayı kıran titreşim. */
@@ -29,6 +34,7 @@ const FinishShader = {
     uGrain: { value: 0.03 },
     uAberration: { value: 0.0 },
     uFrame: { value: 0 },
+    uDither: { value: 1 },
     uResolution: { value: new THREE.Vector2(1920, 1080) }
   },
   vertexShader: /* glsl */ `
@@ -37,7 +43,7 @@ const FinishShader = {
   `,
   fragmentShader: /* glsl */ `
     uniform sampler2D tDiffuse;
-    uniform float uVignette, uGrain, uAberration, uFrame;
+    uniform float uVignette, uGrain, uAberration, uFrame, uDither;
     uniform vec2 uResolution;
     varying vec2 vUv;
     float hash(vec3 p) {
@@ -60,7 +66,7 @@ const FinishShader = {
       col += n * uGrain * (0.35 + 0.65 * (1.0 - dot(col, vec3(0.33))));
       // Statik üçgen titreşim: koyu degradelerde 8 bit basamaklarını kırar.
       float d = hash(vec3(gl_FragCoord.xy, 7.0)) + hash(vec3(gl_FragCoord.yx, 13.0)) - 1.0;
-      col += d / 255.0;
+      col += d / 255.0 * uDither;
       gl_FragColor = vec4(col, 1.0);
     }
   `
@@ -106,6 +112,7 @@ export function createStage(ctx: SceneContext, opts: StageOptions = {}): Stage {
   finish.uniforms.uGrain.value = opts.grain ?? 0.025;
   finish.uniforms.uAberration.value = opts.aberration ?? 0;
   finish.uniforms.uResolution.value.set(width, height);
+  finish.uniforms.uDither.value = opts.dither === false ? 0 : 1;
   composer.addPass(finish);
 
   return {
