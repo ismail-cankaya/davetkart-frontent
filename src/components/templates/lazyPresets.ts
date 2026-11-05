@@ -84,6 +84,7 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
 
 /** On iki etkileşimli şablon — bkz. docs/rehber/src/components/templates/oniki-etkilesimli-sablon.md */
 export const LAZY_ONIKI_PRESETS: Record<string, Preset> = {
+  'nisan-kiraz-agaci': fromBarrel(() => import('./nisan/NisanKirazAgaci'), 'NisanKirazAgaci'),
   'baby-donence': fromBarrel(() => import('./baby-shower/BabyDonence'), 'BabyDonence'),
   'parti-disko-topu': fromBarrel(() => import('./parti/PartiDiskoTopu'), 'PartiDiskoTopu'),
   'kurumsal-izometrik': fromBarrel(() => import('./kurumsal/KurumsalIzometrik'), 'KurumsalIzometrik'),

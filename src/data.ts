@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'nisan-kiraz-agaci',
+    name: 'Kiraz Ağacı',
+    primaryColor: '#FBEFF1',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#F6D7DE_0%,#FBEFF1_70%)]',
+    titleColor: 'text-[#5A2A35]',
+    btnColor: 'bg-[#C2475E] hover:brightness-110 text-[#FFFFFF]',
+    imageUrl: '/images/sablonlar/nisan-kiraz-agaci.svg',
+    categories: ['nisan']
+  },
+  {
     id: 'baby-donence',
     name: 'Dönence',
     primaryColor: '#EAF1FA',
