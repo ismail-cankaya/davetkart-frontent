@@ -3609,6 +3609,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['sunnet']
   },
   {
+    id: 'dogum-gunu-arcade',
+    name: 'Arcade',
+    primaryColor: '#0D0B2B',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#2A1B6B_0%,#0D0B2B_70%)]',
+    titleColor: 'text-[#FFE45E]',
+    btnColor: 'bg-[#FF4FA3] hover:brightness-110 text-[#0D0B2B]',
+    imageUrl: '/images/sablonlar/dogum-gunu-arcade.svg',
+    categories: ['dogum-gunu']
+  },
+  {
     id: 'mezuniyet-kara-tahta',
     name: 'Kara Tahta',
     primaryColor: '#1E2B24',

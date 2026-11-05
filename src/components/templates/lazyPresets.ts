@@ -87,6 +87,7 @@ export const LAZY_ONIKI_PRESETS: Record<string, Preset> = {
   'dugun-opera': fromBarrel(() => import('./dugun/DugunOpera'), 'DugunOpera'),
   'nisan-kiraz-agaci': fromBarrel(() => import('./nisan/NisanKirazAgaci'), 'NisanKirazAgaci'),
   'sunnet-golge-oyunu': fromBarrel(() => import('./sunnet/SunnetGolgeOyunu'), 'SunnetGolgeOyunu'),
+  'dogum-gunu-arcade': fromBarrel(() => import('./dogum-gunu/DogumGunuArcade'), 'DogumGunuArcade'),
   'mezuniyet-kara-tahta': fromBarrel(() => import('./mezuniyet/MezuniyetKaraTahta'), 'MezuniyetKaraTahta'),
   'baby-donence': fromBarrel(() => import('./baby-shower/BabyDonence'), 'BabyDonence'),
   'parti-disko-topu': fromBarrel(() => import('./parti/PartiDiskoTopu'), 'PartiDiskoTopu'),
