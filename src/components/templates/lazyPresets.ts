@@ -77,6 +77,7 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
   'dogum-gunu-mumlar': fromBarrel(() => import('./dogum-gunu/DogumGunuMumlar'), 'DogumGunuMumlar'),
   'kurumsal-terminal': fromBarrel(() => import('./kurumsal/KurumsalTerminal'), 'KurumsalTerminal'),
   'kina-mehndi': fromBarrel(() => import('./kina/KinaMehndi'), 'KinaMehndi'),
+  'dugun-origami-turna': fromBarrel(() => import('./dugun/DugunOrigamiTurna'), 'DugunOrigamiTurna'),
 };
 
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */

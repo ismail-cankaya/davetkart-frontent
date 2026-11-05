@@ -3548,6 +3548,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/kina-mehndi.svg',
     categories: ['kina']
   },
+  {
+    id: 'dugun-origami-turna',
+    name: 'Origami Turna',
+    primaryColor: '#F4EFE6',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#F7F3EA_0%,#EDE6D8_100%)]',
+    titleColor: 'text-[#1F1D1A]',
+    btnColor: 'bg-[#1F1D1A] hover:bg-[#C2412D] text-[#F7F3EA]',
+    imageUrl: '/images/sablonlar/dugun-origami-turna.svg',
+    categories: ['dugun']
+  },
 ];
 
 /**
