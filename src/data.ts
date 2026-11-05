@@ -3598,6 +3598,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/parti-disko-topu.svg',
     categories: ['parti']
   },
+  {
+    id: 'kurumsal-izometrik',
+    name: 'İzometrik Maket',
+    primaryColor: '#EEF1F5',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#D9DFE8_0%,#EEF1F5_70%)]',
+    titleColor: 'text-[#14213D]',
+    btnColor: 'bg-[#2F6FED] hover:brightness-110 text-[#FFFFFF]',
+    imageUrl: '/images/sablonlar/kurumsal-izometrik.svg',
+    categories: ['kurumsal']
+  },
 ];
 
 /**

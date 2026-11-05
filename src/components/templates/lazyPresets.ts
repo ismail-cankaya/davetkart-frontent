@@ -86,6 +86,7 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
 export const LAZY_ONIKI_PRESETS: Record<string, Preset> = {
   'baby-donence': fromBarrel(() => import('./baby-shower/BabyDonence'), 'BabyDonence'),
   'parti-disko-topu': fromBarrel(() => import('./parti/PartiDiskoTopu'), 'PartiDiskoTopu'),
+  'kurumsal-izometrik': fromBarrel(() => import('./kurumsal/KurumsalIzometrik'), 'KurumsalIzometrik'),
 };
 
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
