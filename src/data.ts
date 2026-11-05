@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'dugun-yorunge',
+    name: 'Yörünge',
+    primaryColor: '#070B1E',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#18204A_0%,#070B1E_70%)]',
+    titleColor: 'text-[#E7E3FF]',
+    btnColor: 'bg-[#B7A6FF] hover:brightness-110 text-[#070B1E]',
+    imageUrl: '/images/sablonlar/dugun-yorunge.svg',
+    categories: ['dugun']
+  },
+  {
     id: 'dugun-opera',
     name: 'Opera Perdesi',
     primaryColor: '#3A0710',
