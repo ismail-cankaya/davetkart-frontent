@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'sunnet-gokkusagi',
+    name: 'Gökkuşağı',
+    primaryColor: '#E6F4FF',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#BFE3FF_0%,#E6F4FF_55%,#FFF8EC_100%)]',
+    titleColor: 'text-[#1F3A5F]',
+    btnColor: 'bg-[#2F80D1] hover:bg-[#4DABF7] text-white',
+    imageUrl: '/images/sablonlar/sunnet-gokkusagi.svg',
+    categories: ['sunnet']
+  },
+  {
     id: 'nisan-mektup',
     name: 'Mühürlü Mektup',
     primaryColor: '#F1DCD5',
