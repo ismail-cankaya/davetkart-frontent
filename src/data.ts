@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'dugun-deniz-feneri',
+    name: 'Deniz Feneri',
+    primaryColor: '#0B1626',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_25%,#1C3150_0%,#0B1626_60%,#050A12_100%)]',
+    titleColor: 'text-[#F4E3B5]',
+    btnColor: 'bg-[#E9C46A] hover:bg-[#F1D488] text-[#0B1626]',
+    imageUrl: '/images/sablonlar/dugun-deniz-feneri.svg',
+    categories: ['dugun']
+  },
+  {
     id: 'baby-ucurtma',
     name: 'Uçurtma',
     primaryColor: '#BFD9EE',
