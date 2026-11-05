@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'nisan-mektup',
+    name: 'Mühürlü Mektup',
+    primaryColor: '#F1DCD5',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_20%,#F6E6E0_0%,#EBD3CC_65%,#DDBDB4_100%)]',
+    titleColor: 'text-[#3A0F18]',
+    btnColor: 'bg-[#8C1C2C] hover:bg-[#A8283A] text-white',
+    imageUrl: '/images/sablonlar/nisan-mektup.svg',
+    categories: ['nisan']
+  },
+  {
     id: 'parti-kaset',
     name: 'Kaset',
     primaryColor: '#120E1E',

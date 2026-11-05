@@ -91,6 +91,7 @@ export const LAZY_UC_PRESETS: Record<string, Preset> = {
 
 /** Dört hafif şablon (CSS + SVG + motion) */
 export const LAZY_HAFIF_PRESETS: Record<string, Preset> = {
+  'nisan-mektup': fromBarrel(() => import('./nisan/NisanMektup'), 'NisanMektup'),
   'parti-kaset': fromBarrel(() => import('./parti/PartiKaset'), 'PartiKaset'),
   'mezuniyet-kagit-ucak': fromBarrel(() => import('./mezuniyet/MezuniyetKagitUcak'), 'MezuniyetKagitUcak'),
   'dugun-kar-kuresi': fromBarrel(() => import('./dugun/DugunKarKuresi'), 'DugunKarKuresi'),
