@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'mezuniyet-kagit-ucak',
+    name: 'Kâğıt Uçak',
+    primaryColor: '#F6F3EC',
+    backgroundStyle: 'bg-[#F6F3EC]',
+    titleColor: 'text-[#1E3A5F]',
+    btnColor: 'bg-[#1E3A5F] hover:bg-[#2A4C78] text-white',
+    imageUrl: '/images/sablonlar/mezuniyet-kagit-ucak.svg',
+    categories: ['mezuniyet']
+  },
+  {
     id: 'dugun-kar-kuresi',
     name: 'Kar Küresi',
     primaryColor: '#0F1B2E',
