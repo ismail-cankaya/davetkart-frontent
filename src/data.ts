@@ -3558,6 +3558,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/dugun-origami-turna.svg',
     categories: ['dugun']
   },
+  {
+    id: 'sunnet-atli-karinca',
+    name: 'Atlı Karınca',
+    primaryColor: '#101A3A',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#22336E_0%,#101A3A_60%,#070C1F_100%)]',
+    titleColor: 'text-[#FFE2A8]',
+    btnColor: 'bg-[linear-gradient(180deg,#F5C66B,#D9892E)] hover:brightness-110 text-[#101A3A]',
+    imageUrl: '/images/sablonlar/sunnet-atli-karinca.svg',
+    categories: ['sunnet']
+  },
 ];
 
 /**

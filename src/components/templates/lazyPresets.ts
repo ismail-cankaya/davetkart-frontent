@@ -78,6 +78,7 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
   'kurumsal-terminal': fromBarrel(() => import('./kurumsal/KurumsalTerminal'), 'KurumsalTerminal'),
   'kina-mehndi': fromBarrel(() => import('./kina/KinaMehndi'), 'KinaMehndi'),
   'dugun-origami-turna': fromBarrel(() => import('./dugun/DugunOrigamiTurna'), 'DugunOrigamiTurna'),
+  'sunnet-atli-karinca': fromBarrel(() => import('./sunnet/SunnetAtliKarinca'), 'SunnetAtliKarinca'),
 };
 
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
