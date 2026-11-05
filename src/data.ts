@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'dogum-gunu-balon',
+    name: 'Balon Patlat',
+    primaryColor: '#FFF6EC',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#FDE8F1_0%,#FFF6EC_55%,#E8F3FD_100%)]',
+    titleColor: 'text-[#3B2A4A]',
+    btnColor: 'bg-[#E0507A] hover:bg-[#E86A90] text-white',
+    imageUrl: '/images/sablonlar/dogum-gunu-balon.svg',
+    categories: ['dogum-gunu']
+  },
+  {
     id: 'kina-lale-bahcesi',
     name: 'Lale Bahçesi',
     primaryColor: '#2A0A0E',
