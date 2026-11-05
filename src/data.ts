@@ -3588,6 +3588,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/baby-donence.svg',
     categories: ['baby-shower']
   },
+  {
+    id: 'parti-disko-topu',
+    name: 'Disko Topu',
+    primaryColor: '#0A0614',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#2B0D3D_0%,#0A0614_70%)]',
+    titleColor: 'text-[#FF6AD5]',
+    btnColor: 'bg-[#39F3FF] hover:brightness-110 text-[#0A0614]',
+    imageUrl: '/images/sablonlar/parti-disko-topu.svg',
+    categories: ['parti']
+  },
 ];
 
 /**
