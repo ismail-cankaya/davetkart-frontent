@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'kina-lale-bahcesi',
+    name: 'Lale Bahçesi',
+    primaryColor: '#2A0A0E',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_20%,#5C1720_0%,#2A0A0E_65%,#170507_100%)]',
+    titleColor: 'text-[#F7E7C8]',
+    btnColor: 'bg-[linear-gradient(180deg,#F0CE7E,#C9973C)] hover:brightness-110 text-[#2A0A0E]',
+    imageUrl: '/images/sablonlar/kina-lale-bahcesi.svg',
+    categories: ['kina']
+  },
+  {
     id: 'nisan-bulmaca',
     name: 'Bulmaca',
     primaryColor: '#F6F1E7',
