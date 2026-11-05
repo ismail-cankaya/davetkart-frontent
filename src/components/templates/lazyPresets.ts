@@ -61,6 +61,7 @@ export const LAZY_YEDI_PRESETS: Record<string, Preset> = {
  */
 export const LAZY_PREMIUM_PRESETS: Record<string, Preset> = {
   'kina-al-duvak': fromBarrel(() => import('./kina/KinaAlDuvak'), 'KinaAlDuvak'),
+  'parti-havuz': fromBarrel(() => import('./parti/PartiHavuz'), 'PartiHavuz'),
   'baby-ay-besigi': fromBarrel(() => import('./baby-shower/BabyAyBesigi'), 'BabyAyBesigi'),
   'nisan-iplik': fromBarrel(() => import('./nisan/NisanIplik'), 'NisanIplik'),
   'dugun-yasemin': fromBarrel(() => import('./dugun/DugunYasemin'), 'DugunYasemin'),

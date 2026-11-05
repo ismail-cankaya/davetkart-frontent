@@ -3420,6 +3420,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['kina']
   },
   {
+    id: 'parti-havuz',
+    name: 'Gece Havuzu (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#03121A',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_45%,#0A4A5E_0%,#03161F_60%,#010A0F_100%)]',
+    titleColor: 'text-[#F2FEFF]',
+    btnColor: 'bg-[linear-gradient(90deg,#FF2E9E,#8A5CFF_55%,#3FD8F0)] hover:brightness-110 text-white',
+    imageUrl: videoCover('parti-havuz'),
+    categories: ['parti']
+  },
+  {
     id: 'baby-ay-besigi',
     name: 'Ay Beşiği (Sinematik)',
     minimumTier: 'gold',
