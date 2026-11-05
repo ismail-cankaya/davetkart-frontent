@@ -3538,6 +3538,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/kurumsal-terminal.svg',
     categories: ['kurumsal']
   },
+  {
+    id: 'kina-mehndi',
+    name: 'Kına Deseni',
+    primaryColor: '#2A150C',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_35%,#4A2616_0%,#2A150C_60%,#160A05_100%)]',
+    titleColor: 'text-[#E8C27A]',
+    btnColor: 'bg-[linear-gradient(180deg,#E8C27A,#B5863A)] hover:brightness-110 text-[#2A150C]',
+    imageUrl: '/images/sablonlar/kina-mehndi.svg',
+    categories: ['kina']
+  },
 ];
 
 /**
