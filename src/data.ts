@@ -3528,6 +3528,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/dogum-gunu-mumlar.svg',
     categories: ['dogum-gunu']
   },
+  {
+    id: 'kurumsal-terminal',
+    name: 'Terminal',
+    primaryColor: '#12161F',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#171C27_0%,#0E1118_100%)]',
+    titleColor: 'text-[#F2EEE6]',
+    btnColor: 'bg-[#E0A84F] hover:bg-[#EDBB66] text-[#12161F]',
+    imageUrl: '/images/sablonlar/kurumsal-terminal.svg',
+    categories: ['kurumsal']
+  },
 ];
 
 /**

@@ -75,6 +75,7 @@ export const LAZY_PREMIUM_PRESETS: Record<string, Preset> = {
 /** Altı hızlı şablon — CSS 3B, SVG çizgi, canvas 2B ve motion; bkz. docs/rehber/src/components/templates/alti-hizli-sablon.md */
 export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
   'dogum-gunu-mumlar': fromBarrel(() => import('./dogum-gunu/DogumGunuMumlar'), 'DogumGunuMumlar'),
+  'kurumsal-terminal': fromBarrel(() => import('./kurumsal/KurumsalTerminal'), 'KurumsalTerminal'),
 };
 
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
