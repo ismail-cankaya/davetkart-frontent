@@ -3589,6 +3589,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['nisan']
   },
   {
+    id: 'mezuniyet-kara-tahta',
+    name: 'Kara Tahta',
+    primaryColor: '#1E2B24',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#2C3D33_0%,#1E2B24_70%)]',
+    titleColor: 'text-[#F1F0E8]',
+    btnColor: 'bg-[#F4E27A] hover:brightness-110 text-[#1E2B24]',
+    imageUrl: '/images/sablonlar/mezuniyet-kara-tahta.svg',
+    categories: ['mezuniyet']
+  },
+  {
     id: 'baby-donence',
     name: 'Dönence',
     primaryColor: '#EAF1FA',
