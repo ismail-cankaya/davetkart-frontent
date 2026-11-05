@@ -3619,6 +3619,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['nisan']
   },
   {
+    id: 'kina-ceyiz-sandigi',
+    name: 'Çeyiz Sandığı',
+    primaryColor: '#3B1F14',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#6A3A22_0%,#3B1F14_70%)]',
+    titleColor: 'text-[#F6E2C0]',
+    btnColor: 'bg-[#B3262E] hover:brightness-110 text-[#FFF4E2]',
+    imageUrl: '/images/sablonlar/kina-ceyiz-sandigi.svg',
+    categories: ['kina']
+  },
+  {
     id: 'sunnet-golge-oyunu',
     name: 'Gölge Tiyatrosu',
     primaryColor: '#2A1608',
