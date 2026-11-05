@@ -10,3 +10,4 @@ export { ScrollCue } from './ScrollCue';
 export { useTemplateFont } from './useTemplateFont';
 export { TapBurst, type BurstStyle } from './TapBurst';
 export { LiveShader, type UniformValue, type LiveShaderFrame } from './LiveShader';
+export { LightLayer } from './LightLayer';

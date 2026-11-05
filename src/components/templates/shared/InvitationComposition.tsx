@@ -81,6 +81,17 @@ interface InvitationCompositionProps {
    */
   renderBackdrop?: (state: BackdropState) => React.ReactNode;
   /**
+   * Kaydırma kabının ÖNÜNDE sabit duran ışık katmanı (buhar, toz, ışıltı).
+   *
+   * Kap `mix-blend-mode: screen` ile harmanlanır: siyah görünmez, parlak
+   * ışık olur — bkz. `shared/sinema/LightLayer`. Harmanın arkadaki videoyu ve
+   * metni görebilmesi için katman kökün doğrudan çocuğu olmak zorundadır;
+   * hero'nun içine konan bir harman, kaydırma kabının kendi katman bağlamında
+   * boşlukla harmanlanır ve sahneyi karartır. Dokunuş almaz, ekran okuyucuya
+   * görünmez. Verilmezse hiçbir şablon etkilenmez.
+   */
+  renderForeground?: (state: BackdropState) => React.ReactNode;
+  /**
    * Hero'nun ÖN PLANINI tamamen değiştirir (varsayılan: Summary).
    *
    * renderHeroBackground yalnızca arkadaki katmanı değiştirir; tipografi ve
@@ -117,12 +128,14 @@ function ScrollBackdrop({
   scrollRef,
   revealed,
   inert,
-  render
+  render,
+  className = 'absolute inset-0 z-0 overflow-hidden pointer-events-none'
 }: {
   scrollRef: React.RefObject<HTMLDivElement | null>;
   revealed: boolean;
   inert: boolean;
   render: (state: BackdropState) => React.ReactNode;
+  className?: string;
 }) {
   const { scrollY, scrollYProgress } = useScroll({ container: scrollRef });
   // Kabın yüksekliği her karede okunur: önizleme cihazı değiştiğinde ya da
@@ -133,7 +146,7 @@ function ScrollBackdrop({
   });
 
   return (
-    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" inert={inert}>
+    <div className={className} inert={inert}>
       {render({ revealed, heroExit, progress: scrollYProgress })}
     </div>
   );
@@ -151,6 +164,7 @@ export function InvitationComposition({
   themeOverride,
   renderHeroBackground,
   renderBackdrop,
+  renderForeground,
   renderHero,
   renderEnvelope,
   heroContentClassName,
@@ -289,6 +303,18 @@ export function InvitationComposition({
           </footer>
         </div>
       </div>
+
+      {/* 4. Ön ışık katmanı: kökün doğrudan çocuğu, ekran harmanıyla videonun
+          ve metnin üstüne biner (bkz. renderForeground). */}
+      {renderForeground && (
+        <ScrollBackdrop
+          scrollRef={scrollRef}
+          revealed={revealed}
+          inert
+          render={renderForeground}
+          className="absolute inset-0 z-20 overflow-hidden pointer-events-none mix-blend-screen"
+        />
+      )}
     </div>
   );
 }

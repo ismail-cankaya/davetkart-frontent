@@ -25,8 +25,18 @@ function needsPermission(): boolean {
 
 async function request(): Promise<void> {
   const ask = (DeviceOrientationEvent as unknown as OrientationWithPermission).requestPermission;
+  // Hareket (ivme/sallama) izni ayrı bir sorudur ama aynı dokunuşla istenebilir;
+  // `useDeviceMotion` kullanan şablonlar ikinci bir düğme göstermez.
+  const askMotion =
+    typeof DeviceMotionEvent !== 'undefined'
+      ? (DeviceMotionEvent as unknown as OrientationWithPermission).requestPermission
+      : undefined;
   try {
-    permission = ask ? await ask() : 'granted';
+    const [orientation] = await Promise.all([
+      ask ? ask() : Promise.resolve('granted' as const),
+      askMotion ? askMotion().catch(() => 'denied' as const) : Promise.resolve('granted' as const)
+    ]);
+    permission = orientation;
   } catch {
     permission = 'denied';
   }

@@ -8,3 +8,4 @@ export { hasWebGL, isVeryLowEnd, preferredQuality, dprFor, type StageQuality } f
 export { useStageActive } from './useStageActive';
 export { useTilt, type Tilt } from './useTilt';
 export { GyroButton } from './GyroButton';
+export { useDeviceMotion, type DeviceMotionState } from './useDeviceMotion';
