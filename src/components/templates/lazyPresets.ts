@@ -84,6 +84,7 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
 
 /** Üç hafif animasyonlu şablon (CSS + SVG + motion) */
 export const LAZY_UC_PRESETS: Record<string, Preset> = {
+  'nisan-bulmaca': fromBarrel(() => import('./nisan/NisanBulmaca'), 'NisanBulmaca'),
   'dugun-deniz-feneri': fromBarrel(() => import('./dugun/DugunDenizFeneri'), 'DugunDenizFeneri'),
   'baby-ucurtma': fromBarrel(() => import('./baby-shower/BabyUcurtma'), 'BabyUcurtma'),
 };

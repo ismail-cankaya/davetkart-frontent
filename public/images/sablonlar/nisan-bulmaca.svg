@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <rect width="600" height="800" fill="#F6F0E2"/>
+  <g fill="#FFFDF7" stroke="#1E2333" stroke-width="3">
+    <rect x="120" y="260" width="60" height="60"/><rect x="180" y="260" width="60" height="60"/><rect x="240" y="260" width="60" height="60"/><rect x="300" y="260" width="60" height="60"/><rect x="360" y="260" width="60" height="60"/><rect x="420" y="260" width="60" height="60"/>
+    <rect x="240" y="200" width="60" height="60"/><rect x="240" y="320" width="60" height="60"/><rect x="240" y="380" width="60" height="60"/>
+    <rect x="120" y="500" width="60" height="60"/><rect x="180" y="500" width="60" height="60"/><rect x="240" y="500" width="60" height="60"/><rect x="300" y="500" width="60" height="60"/><rect x="360" y="500" width="60" height="60"/><rect x="420" y="500" width="60" height="60"/>
+  </g>
+  <g font-family="monospace" font-weight="700" font-size="34" text-anchor="middle" fill="#1E2333">
+    <text x="150" y="302">E</text><text x="210" y="302">L</text><text x="270" y="302">İ</text><text x="330" y="302">F</text>
+    <text x="270" y="242">A</text><text x="270" y="362">S</text><text x="270" y="422">A</text>
+  </g>
+  <g font-family="monospace" font-weight="700" font-size="34" text-anchor="middle" fill="#C2412D">
+    <text x="150" y="542">1</text><text x="210" y="542">2</text><text x="270" y="542">.</text><text x="330" y="542">0</text><text x="390" y="542">6</text>
+  </g>
+  <text x="300" y="120" font-family="Georgia, serif" font-size="44" text-anchor="middle" fill="#1E2333">Nişan Bulmaca</text>
+  <text x="300" y="700" font-family="monospace" font-size="20" letter-spacing="6" text-anchor="middle" fill="#C2412D">SOLDAN SAĞA: SÖZ VERDİK</text>
+</svg>

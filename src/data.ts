@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'nisan-bulmaca',
+    name: 'Bulmaca',
+    primaryColor: '#F6F1E7',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#FBF8F1_0%,#F1EADB_100%)]',
+    titleColor: 'text-[#1F2A3A]',
+    btnColor: 'bg-[#B23A3A] hover:bg-[#C44B4B] text-white',
+    imageUrl: '/images/sablonlar/nisan-bulmaca.svg',
+    categories: ['nisan']
+  },
+  {
     id: 'dugun-deniz-feneri',
     name: 'Deniz Feneri',
     primaryColor: '#0B1626',
