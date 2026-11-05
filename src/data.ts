@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'dugun-kule-saati',
+    name: 'Kule Saati',
+    primaryColor: '#1B1A17',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#2E2A22_0%,#1B1A17_70%)]',
+    titleColor: 'text-[#E6C77A]',
+    btnColor: 'bg-[#D9B45A] hover:brightness-110 text-[#1B1A17]',
+    imageUrl: '/images/sablonlar/dugun-kule-saati.svg',
+    categories: ['dugun']
+  },
+  {
     id: 'dugun-yorunge',
     name: 'Yörünge',
     primaryColor: '#070B1E',
