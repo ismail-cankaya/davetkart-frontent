@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'dugun-opera',
+    name: 'Opera Perdesi',
+    primaryColor: '#3A0710',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#6B0F1E_0%,#3A0710_70%)]',
+    titleColor: 'text-[#F2D58B]',
+    btnColor: 'bg-[#D4AF37] hover:brightness-110 text-[#2A0509]',
+    imageUrl: '/images/sablonlar/dugun-opera.svg',
+    categories: ['dugun']
+  },
+  {
     id: 'nisan-kiraz-agaci',
     name: 'Kiraz Ağacı',
     primaryColor: '#FBEFF1',
