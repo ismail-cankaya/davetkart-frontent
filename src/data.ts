@@ -3464,6 +3464,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['sunnet']
   },
   {
+    id: 'dogum-gunu-havai-fisek',
+    name: 'Havai Fişek (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#05040F',
+    backgroundStyle: 'bg-gradient-to-b from-[#04030F] via-[#1A1440] to-[#2A1640]',
+    titleColor: 'text-[#FFC86B]',
+    btnColor: 'bg-[linear-gradient(90deg,#FFC86B,#FF5FA2_55%,#9B7BFF)] hover:brightness-110 text-[#1A0B1F]',
+    imageUrl: videoCover('dogum-gunu-havai-fisek'),
+    categories: ['dogum-gunu']
+  },
+  {
     id: 'mezuniyet-kep',
     name: 'Kep Atma (Sinematik)',
     minimumTier: 'gold',

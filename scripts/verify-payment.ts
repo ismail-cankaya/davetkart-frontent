@@ -181,7 +181,7 @@ function main(): void {
   check('bozuk tarih → kesin konuşma', releaseOutcome('yarın', new Date()), 'unknown');
 
   // Faz 10 (FE 10.20 · K102): fiyat kartının vaatleri kodla tutarlı.
-  const PREMIUM_SINEMATIK = ['kina-al-duvak', 'baby-ay-besigi', 'dugun-yasemin', 'nisan-iplik', 'sunnet-sehzade', 'mezuniyet-kep', 'dugun-saray-kapisi'];
+  const PREMIUM_SINEMATIK = ['kina-al-duvak', 'baby-ay-besigi', 'dogum-gunu-havai-fisek', 'dugun-yasemin', 'nisan-iplik', 'sunnet-sehzade', 'mezuniyet-kep', 'dugun-saray-kapisi'];
   console.log('\nFiyat kartı vaatleri');
   const premium = { ...INITIAL_INVITATION, imageTheme: 'dugun-gokyuzu', showGallery: false, showGift: false, showEnvelope: false, showTimeline: false };
   check('premium tema → Gold', getRequiredTier(premium), 'gold');
