@@ -3464,6 +3464,17 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['sunnet']
   },
   {
+    id: 'mezuniyet-kep',
+    name: 'Kep Atma (Sinematik)',
+    minimumTier: 'gold',
+    primaryColor: '#120E24',
+    backgroundStyle: 'bg-gradient-to-b from-[#2A2458] via-[#8E4E7A] to-[#F09A52]',
+    titleColor: 'text-[#FFF6EC]',
+    btnColor: 'bg-[linear-gradient(180deg,#FFD58C,#E89A4A)] hover:brightness-110 text-[#1E1230]',
+    imageUrl: videoCover('mezuniyet-kep'),
+    categories: ['mezuniyet']
+  },
+  {
     id: 'dugun-saray-kapisi',
     name: 'Saray Kapısı (Sinematik)',
     minimumTier: 'gold',

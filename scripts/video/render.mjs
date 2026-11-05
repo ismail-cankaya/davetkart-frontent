@@ -185,8 +185,11 @@ function run(bin, argv) {
 
 function encode({ ffmpeg, meta, framesDir, variant, outBase }) {
   const input = ['-y', '-framerate', String(meta.fps), '-i', path.join(framesDir, 'f%05d.jpg')];
-  // Kaydırmaya bağlı videoda her 6 karede bir anahtar kare: geri sarma da anında.
-  const gop = meta.scrub ? ['-g', '6', '-keyint_min', '6', '-sc_threshold', '0', '-bf', '0'] : ['-g', String(meta.fps * 2)];
+  // Kaydırmaya bağlı videoda saniyede bir anahtar kare ve B-kare yok: arama en çok fps−1
+  // kare çözer (telefonda donanım çözücüyle birkaç ms). 6 ve 12'lik GOP mobil bütçede
+  // CRF'i 44'e itti (blok); 1 sn'lik GOP kaliteyi geri kazandırır.
+  const SCRUB_GOP = String(meta.fps);
+  const gop = meta.scrub ? ['-g', SCRUB_GOP, '-keyint_min', SCRUB_GOP, '-sc_threshold', '0', '-bf', '0'] : ['-g', String(meta.fps * 2)];
   const budget = BUDGET[variant];
 
   let crf = meta.crf ?? (variant === 'desktop' ? 22 : 23);
@@ -196,17 +199,20 @@ function encode({ ffmpeg, meta, framesDir, variant, outBase }) {
       '-profile:v', 'high', '-level', '4.1', ...gop, '-movflags', '+faststart', '-an', `${outBase}.mp4`]);
     size = fs.statSync(`${outBase}.mp4`).size;
     // +6 CRF ≈ yarı bit oranı: aşım oranından sıçrama payını hesapla.
-    if (size > budget) crf += Math.max(1, Math.ceil(6 * Math.log2(size / budget)));
+    if (size > budget) crf = Math.min(51, crf + Math.max(1, Math.ceil(6 * Math.log2(size / budget))));
   }
   const mp4 = { crf, size };
 
   let vcrf = (meta.crf ?? 22) + 12;
   let vsize = Infinity;
-  for (let attempt = 0; attempt < 6 && vsize > budget; attempt++) {
+  for (let attempt = 0; attempt < 6 && vsize > budget && vcrf <= 63; attempt++) {
     run(ffmpeg, [...input, '-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', String(vcrf), '-deadline', 'good', '-cpu-used', '2',
-      '-row-mt', '1', '-pix_fmt', 'yuv420p', ...(meta.scrub ? ['-g', '6'] : ['-g', String(meta.fps * 2)]), '-an', `${outBase}.webm`]);
+      '-row-mt', '1', '-pix_fmt', 'yuv420p', ...(meta.scrub ? ['-g', SCRUB_GOP] : ['-g', String(meta.fps * 2)]), '-an', `${outBase}.webm`]);
     vsize = fs.statSync(`${outBase}.webm`).size;
-    if (vsize > budget) vcrf += Math.max(2, Math.ceil(8 * Math.log2(vsize / budget)));
+    if (vsize > budget) {
+      if (vcrf === 63) break; // VP9 üst sınırı: webm yedek kaynak, bütçeyi biraz aşabilir
+      vcrf = Math.min(63, vcrf + Math.max(2, Math.ceil(8 * Math.log2(vsize / budget))));
+    }
   }
   return { mp4, webm: { crf: vcrf, size: vsize } };
 }
