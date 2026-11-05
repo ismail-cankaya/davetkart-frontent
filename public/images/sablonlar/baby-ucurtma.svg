@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 800" width="600" height="800">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#BFE0F5"/>
+      <stop offset="0.5" stop-color="#DCEBF7"/>
+      <stop offset="1" stop-color="#FBE3E8"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="800" fill="url(#g)"/>
+  <path d="M300 170 L 360 250 L 300 362 L 240 250 Z" fill="#F7A8B8"/>
+  <path d="M300 170 L 300 362 M240 250 L360 250" stroke="#FFFFFF" stroke-width="3"/>
+  <line x1="300" y1="362" x2="300" y2="470" stroke="#8C93AE" stroke-width="2"/>
+  <circle cx="160" cy="140" r="14" fill="#9ED9C6"/>
+  <circle cx="450" cy="120" r="14" fill="#F9D56E"/>
+  <circle cx="470" cy="300" r="14" fill="#B9A8EA"/>
+  <text x="300" y="560" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="56" fill="#3E4A6B">Uçurtma</text>
+  <text x="300" y="610" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="20" letter-spacing="6" fill="#E07A93">BABY SHOWER</text>
+</svg>

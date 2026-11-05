@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'baby-ucurtma',
+    name: 'Uçurtma',
+    primaryColor: '#BFD9EE',
+    backgroundStyle: 'bg-[linear-gradient(180deg,#CFE4F5_0%,#F6E3EC_60%,#FDF4E7_100%)]',
+    titleColor: 'text-[#4A5878]',
+    btnColor: 'bg-[#F2A7B8] hover:bg-[#F5B8C6] text-white',
+    imageUrl: '/images/sablonlar/baby-ucurtma.svg',
+    categories: ['baby-shower']
+  },
+  {
     id: 'dugun-kule-saati',
     name: 'Kule Saati',
     primaryColor: '#1B1A17',

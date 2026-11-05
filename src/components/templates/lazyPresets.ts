@@ -82,6 +82,11 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
   'dugun-kum-saati': fromBarrel(() => import('./dugun/DugunKumSaati'), 'DugunKumSaati'),
 };
 
+/** Üç hafif animasyonlu şablon (CSS + SVG + motion) */
+export const LAZY_UC_PRESETS: Record<string, Preset> = {
+  'baby-ucurtma': fromBarrel(() => import('./baby-shower/BabyUcurtma'), 'BabyUcurtma'),
+};
+
 /** On iki etkileşimli şablon — bkz. docs/rehber/src/components/templates/oniki-etkilesimli-sablon.md */
 export const LAZY_ONIKI_PRESETS: Record<string, Preset> = {
   'dugun-kule-saati': fromBarrel(() => import('./dugun/DugunKuleSaati'), 'DugunKuleSaati'),
@@ -104,5 +109,6 @@ export const LAZY_PRESETS: Record<string, Preset> = {
   ...LAZY_YEDI_PRESETS,
   ...LAZY_PREMIUM_PRESETS,
   ...LAZY_ALTI_PRESETS,
-  ...LAZY_ONIKI_PRESETS
+  ...LAZY_ONIKI_PRESETS,
+  ...LAZY_UC_PRESETS
 };
