@@ -3578,6 +3578,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/dugun-kum-saati.svg',
     categories: ['dugun']
   },
+  {
+    id: 'baby-donence',
+    name: 'Dönence',
+    primaryColor: '#EAF1FA',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#FDF3E7_0%,#EAF1FA_70%)]',
+    titleColor: 'text-[#3D4A6B]',
+    btnColor: 'bg-[#F2C46D] hover:brightness-110 text-[#3D4A6B]',
+    imageUrl: '/images/sablonlar/baby-donence.svg',
+    categories: ['baby-shower']
+  },
 ];
 
 /**

@@ -84,6 +84,7 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
 
 /** On iki etkileşimli şablon — bkz. docs/rehber/src/components/templates/oniki-etkilesimli-sablon.md */
 export const LAZY_ONIKI_PRESETS: Record<string, Preset> = {
+  'baby-donence': fromBarrel(() => import('./baby-shower/BabyDonence'), 'BabyDonence'),
 };
 
 /** Kayıt dosyasının ve `verify:render`'ın okuduğu bütün tembel şablonlar. */
