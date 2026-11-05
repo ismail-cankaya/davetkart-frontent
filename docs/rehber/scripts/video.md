@@ -139,3 +139,15 @@ gren + yüksek frekanslı kostik bütçeyi yiyordu. Zamansal gren 0.02 → 0.004
 ## 6. Üretilen videolar
 
 Tablo `premium-videolu.md` §3'te (boyutlar, CRF, poster kalitesi).
+
+## Faz 17 eki — ışık katmanı klipleri (`on.scene.ts`)
+
+Faz 17'de dört yeni sahne eklendi (`kurumsal-lansman`, `kina-bugulu-ayna`, `sunnet-ucan-hali`, `parti-lazer`;
+bkz. [`onbir-premium-sablon.md`](../src/components/templates/onbir-premium-sablon.md)). İkisi ek bir
+**ışık katmanı** klibi taşır: `<id>/on.scene.ts` → `<id>-on-{desktop,mobile}.*`. Bu klipler **siyah zemin**
+üzerine yalnızca ışık (buhar, yıldız tozu) çizer; şablonda `LightLayer` + `renderForeground` ile ekran
+harmanıyla metnin önüne bindirilir. Vinyet, gren ve titreşim kapalıdır (siyah, siyah kalmalı).
+
+```bash
+node scripts/video/render.mjs kina-bugulu-ayna --clip on
+```
