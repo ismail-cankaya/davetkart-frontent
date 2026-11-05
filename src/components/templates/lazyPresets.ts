@@ -86,6 +86,7 @@ export const LAZY_ALTI_PRESETS: Record<string, Preset> = {
 export const LAZY_ONIKI_PRESETS: Record<string, Preset> = {
   'dugun-yorunge': fromBarrel(() => import('./dugun/DugunYorunge'), 'DugunYorunge'),
   'dugun-opera': fromBarrel(() => import('./dugun/DugunOpera'), 'DugunOpera'),
+  'nisan-kahve-fali': fromBarrel(() => import('./nisan/NisanKahveFali'), 'NisanKahveFali'),
   'nisan-kiraz-agaci': fromBarrel(() => import('./nisan/NisanKirazAgaci'), 'NisanKirazAgaci'),
   'sunnet-golge-oyunu': fromBarrel(() => import('./sunnet/SunnetGolgeOyunu'), 'SunnetGolgeOyunu'),
   'dogum-gunu-arcade': fromBarrel(() => import('./dogum-gunu/DogumGunuArcade'), 'DogumGunuArcade'),

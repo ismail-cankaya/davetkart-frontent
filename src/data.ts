@@ -3599,6 +3599,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'nisan-kahve-fali',
+    name: 'Kahve Falı',
+    primaryColor: '#2B1A12',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#4A2E20_0%,#2B1A12_70%)]',
+    titleColor: 'text-[#F3E3C8]',
+    btnColor: 'bg-[#C8A26B] hover:brightness-110 text-[#2B1A12]',
+    imageUrl: '/images/sablonlar/nisan-kahve-fali.svg',
+    categories: ['nisan']
+  },
+  {
     id: 'nisan-kiraz-agaci',
     name: 'Kiraz Ağacı',
     primaryColor: '#FBEFF1',
