@@ -3568,6 +3568,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     imageUrl: '/images/sablonlar/sunnet-atli-karinca.svg',
     categories: ['sunnet']
   },
+  {
+    id: 'dugun-kum-saati',
+    name: 'Kum Saati',
+    primaryColor: '#1A120B',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#3A2716_0%,#1A120B_60%,#0C0805_100%)]',
+    titleColor: 'text-[#F3DDA8]',
+    btnColor: 'bg-[linear-gradient(180deg,#E9C77B,#B8893A)] hover:brightness-110 text-[#1A120B]',
+    imageUrl: '/images/sablonlar/dugun-kum-saati.svg',
+    categories: ['dugun']
+  },
 ];
 
 /**
