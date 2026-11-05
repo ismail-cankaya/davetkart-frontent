@@ -3579,6 +3579,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['dugun']
   },
   {
+    id: 'dugun-kar-kuresi',
+    name: 'Kar Küresi',
+    primaryColor: '#0F1B2E',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_25%,#22385A_0%,#0F1B2E_60%,#080F1B_100%)]',
+    titleColor: 'text-[#EEF3FA]',
+    btnColor: 'bg-[linear-gradient(180deg,#E8CD94,#C29A55)] hover:brightness-110 text-[#0F1B2E]',
+    imageUrl: '/images/sablonlar/dugun-kar-kuresi.svg',
+    categories: ['dugun']
+  },
+  {
     id: 'dogum-gunu-balon',
     name: 'Balon Patlat',
     primaryColor: '#FFF6EC',
