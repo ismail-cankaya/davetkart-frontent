@@ -3589,6 +3589,16 @@ export const TEMPLATE_PRESETS: TemplatePreset[] = [
     categories: ['nisan']
   },
   {
+    id: 'sunnet-golge-oyunu',
+    name: 'Gölge Tiyatrosu',
+    primaryColor: '#2A1608',
+    backgroundStyle: 'bg-[radial-gradient(ellipse_at_50%_30%,#C9893A_0%,#2A1608_70%)]',
+    titleColor: 'text-[#FFE8B8]',
+    btnColor: 'bg-[#E0A84A] hover:brightness-110 text-[#2A1608]',
+    imageUrl: '/images/sablonlar/sunnet-golge-oyunu.svg',
+    categories: ['sunnet']
+  },
+  {
     id: 'mezuniyet-kara-tahta',
     name: 'Kara Tahta',
     primaryColor: '#1E2B24',
