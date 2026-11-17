@@ -98,9 +98,19 @@ export const pricingService = {
     return toCatalog(data);
   },
 
-  /** Oturum açmış kullanıcının kataloğu: ilk yayın indirimi dahil. */
-  async myCatalog(): Promise<PricingCatalog> {
-    const { data } = await api.get<unknown>('/pricing');
+  /**
+   * Oturum açmış kullanıcının kataloğu: ilk yayın indirimi dahil.
+   *
+   * Faz 18.3 (backend K159, K163): fiyat bir HEDEF için sorulur. İlk yayın
+   * indirimi tek açık siparişe verilir; başka bir hedefin bekleyen siparişi
+   * onu tutuyorsa bu hedefin fiyatı indirimsizdir. `invitationId` yoksa
+   * davetiyesiz (paket) fiyatı gelir — checkout'un iki ucuyla aynı ayrım.
+   */
+  async myCatalog(invitationId?: string | null): Promise<PricingCatalog> {
+    const { data } = await api.get<unknown>(
+      '/pricing',
+      invitationId ? { params: { invitation: invitationId } } : undefined,
+    );
     return toCatalog(data);
   },
 };

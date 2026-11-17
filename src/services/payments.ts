@@ -164,9 +164,20 @@ export const paymentService = {
    * Hediye kodunun bu plan için ne kazandıracağı (Faz 11). Hiçbir şey AYIRMAZ:
    * kod arada tükenebilir, karar checkout'ta verilir. Hatalar 422
    * `GIFT_CODE_*` olarak gelir ve `toDisplayError` ile çizilir.
+   *
+   * Faz 18.3 (backend K159, K163): `invitationId` fiyatı sorulan hedef; kodun
+   * uygulanacağı taban onun için hesaplanır. Yoksa anahtar gövdeye HİÇ konmaz
+   * (davetiyesiz paket).
    */
-  async previewGiftCode(code: string, tier: SubscriptionTier): Promise<GiftCodePreview> {
-    const { data } = await api.post<unknown>('/gift-codes/preview', { code: code.trim(), tier });
+  async previewGiftCode(
+    code: string,
+    tier: SubscriptionTier,
+    invitationId?: string | null,
+  ): Promise<GiftCodePreview> {
+    const { data } = await api.post<unknown>(
+      '/gift-codes/preview',
+      invitationId ? { code: code.trim(), tier, invitationId } : { code: code.trim(), tier },
+    );
     const body = unwrapEnvelope(data);
 
     if (!isGiftCodePreview(body)) {

@@ -35,7 +35,8 @@ import { usePricingStore } from './usePricingStore';
  */
 function refreshCatalogIfMethodClosed(error: unknown): void {
   if (apiErrorCode(error) === 'PAYMENT_METHOD_DISABLED') {
-    void usePricingStore.getState().load({ force: true });
+    // Faz 18.3: ödeme sayfası davetiyesinin kataloğunu ayrı yuvadan okur; ikisi de tazelenir.
+    void usePricingStore.getState().refresh();
   }
 }
 
@@ -99,10 +100,13 @@ interface CheckoutState {
   /**
    * Kodu önizler; geçerliyse uygular. `true` = uygulandı. Hata fırlatmaz:
    * metni `giftCodeError`'a yazar (alanın altında durur, toast'ta kaybolmaz).
+   *
+   * Faz 18.3: `invitationId` fiyatı sorulan hedef (yoksa davetiyesiz paket);
+   * önizleme, checkout'un keseceği tutarla aynı hedef için hesaplanır.
    */
-  applyGiftCode: (code: string, tier: SubscriptionTier) => Promise<boolean>;
-  /** Plan değişince aynı kodu yeni plan için yeniden hesaplar (Faz 11). */
-  refreshGiftCode: (tier: SubscriptionTier) => Promise<void>;
+  applyGiftCode: (code: string, tier: SubscriptionTier, invitationId?: string | null) => Promise<boolean>;
+  /** Plan ya da hedef değişince aynı kodu yeniden hesaplar (Faz 11, 18.3). */
+  refreshGiftCode: (tier: SubscriptionTier, invitationId?: string | null) => Promise<void>;
   removeGiftCode: () => void;
   /**
    * Sayfaya girişte ve çıkışta: bir önceki ödemenin durumu yenisine sızmasın.
@@ -195,7 +199,7 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
 
   reviewBankTransfer: () => set({ bankTransferConfirmed: false }),
 
-  applyGiftCode: async (raw, tier) => {
+  applyGiftCode: async (raw, tier, invitationId) => {
     const code = raw.trim();
     if (!code || get().isProcessing) return false;
 
@@ -203,7 +207,7 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
     set({ isCheckingGiftCode: true, giftCodeError: null });
 
     try {
-      const preview = await paymentService.previewGiftCode(code, tier);
+      const preview = await paymentService.previewGiftCode(code, tier, invitationId);
       if (request !== latestPreview) return false;
 
       // Havale açıktaysa karta geçilir: kod yalnızca kartla geçerli.
@@ -218,9 +222,9 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
     }
   },
 
-  refreshGiftCode: async (tier) => {
+  refreshGiftCode: async (tier, invitationId) => {
     const { giftCode, applyGiftCode } = get();
-    if (giftCode) await applyGiftCode(giftCode, tier);
+    if (giftCode) await applyGiftCode(giftCode, tier, invitationId);
   },
 
   removeGiftCode: () => {

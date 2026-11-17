@@ -9,6 +9,8 @@
  * 2. **Katalog deposu (`usePricingStore`):** misafir `/public/plans`,
  *    oturumlu kullanıcı `/pricing` okur; kimlik değişince katalog yenilenir;
  *    geç gelen eski yanıt yenisini ezmez; hata "uydurma fiyat" üretmez.
+ *    Faz 18.3: ödeme sayfasının hedefli kataloğu (`loadFor`) davetiyeyi
+ *    sorguya yazar, ortak kataloğu değiştirmez, başka hedefin fiyatını tutmaz.
  * 3. **Yöntem hâli (`paymentMethodsMode`)** ve kampanya bitişinin gösterimi.
  *
  * Gerçek axios örneği kullanılır; yalnızca taşıma katmanı (adapter) taklittir.
@@ -87,7 +89,9 @@ function serve(route: (url: string) => Reply): void {
   calls = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (api.defaults as any).adapter = async (config: Record<string, unknown>) => {
-    const url = String(config.url ?? '');
+    // Faz 18.3: hedefli katalog davetiyeyi sorguda taşır; adres onunla birlikte kaydedilir.
+    const params = config.params as { invitation?: unknown } | undefined;
+    const url = String(config.url ?? '') + (params?.invitation ? `?invitation=${String(params.invitation)}` : '');
     calls.push(url);
     const reply = route(url);
     if (reply.delayMs) await new Promise((resolve) => setTimeout(resolve, reply.delayMs));
@@ -183,6 +187,60 @@ async function verifyStore(): Promise<void> {
   signIn(null);
 }
 
+// ------------------------------------------------------------- 2b. hedefli katalog (Faz 18.3)
+
+/**
+ * Backend K159: ilk yayın indirimi tek açık siparişe verilir; fiyat bir hedef
+ * için sorulur. Ödeme sayfası davetiyesinin kataloğunu AYRI yuvada tutar.
+ */
+async function verifyTargetedStore(): Promise<void> {
+  console.log('\nHedefli katalog (ödeme sayfası)');
+  const targetedGold = () => planPriceOf(store().targeted?.catalog ?? null, 'gold')?.totalMinor;
+
+  signIn('10');
+  // INV_A indirimi tutuyor; başka her hedef (ortak katalog dahil) liste fiyatında.
+  serve((url) => ({ status: 200, ...(url === '/pricing?invitation=INV_A' ? catalog(true, 23940) : catalog(true)) }));
+  await store().load();
+  await store().loadFor('INV_A');
+  check('hedefli istek davetiyeyi sorguya yazar', calls, ['/pricing', '/pricing?invitation=INV_A']);
+  check('hedefli katalog o davetiyenin fiyatını taşır', targetedGold(), 15960);
+  check('ortak katalog değişmez', planPriceOf(store().catalog, 'gold')?.totalMinor, 39900);
+
+  await store().loadFor('INV_A');
+  check('aynı hedefte ikinci istek atılmaz', calls.length, 2);
+
+  const switching = store().loadFor('INV_B');
+  check('başka davetiyenin fiyatı ekranda kalmaz', store().targeted?.catalog ?? null, null);
+  await switching;
+  check('yeni hedefin kataloğu yazılır', [store().targeted?.invitationId, targetedGold()], ['INV_B', 39900]);
+
+  calls = [];
+  await store().refresh();
+  check('refresh ortak ve hedefli kataloğu tazeler', [...calls].sort(), ['/pricing', '/pricing?invitation=INV_B']);
+
+  // Geç gelen eski hedef yanıtı: INV_A yavaş, kullanıcı arada INV_B'ye geçiyor.
+  serve((url) => ({
+    status: 200,
+    ...(url.endsWith('INV_A') ? catalog(true, 23940) : catalog(true)),
+    delayMs: url.endsWith('INV_A') ? 30 : 0,
+  }));
+  const slowA = store().loadFor('INV_A', { force: true });
+  await store().loadFor('INV_B', { force: true });
+  await slowA;
+  check('geç gelen eski hedef yanıtı yenisini ezmez', [store().targeted?.invitationId, targetedGold()], ['INV_B', 39900]);
+
+  // Hata: hedefli katalog uydurulmaz; ortak katalog etkilenmez.
+  serve((url) => (url === '/pricing' ? { status: 200, ...catalog(true) } : { status: 503, data: { error: { code: 'PROVIDER_UNAVAILABLE' } } }));
+  await store().loadFor('INV_B', { force: true });
+  check('hata: hedefli durum error, katalog yok', [store().targeted?.status, store().targeted?.catalog ?? null], ['error', null]);
+  check('hata: ortak katalog yerinde', store().status, 'ready');
+
+  signIn(null);
+  calls = [];
+  await store().loadFor('INV_A', { force: true });
+  check('misafirde hedefli istek atılmaz', calls, []);
+}
+
 // ------------------------------------------------------------- 3. yardımcılar
 
 function verifyHelpers(): void {
@@ -202,6 +260,7 @@ function verifyHelpers(): void {
 async function main(): Promise<void> {
   scanSources();
   await verifyStore();
+  await verifyTargetedStore();
   verifyHelpers();
 
   if (failures > 0) {

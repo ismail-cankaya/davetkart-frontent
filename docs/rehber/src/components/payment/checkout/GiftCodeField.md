@@ -76,3 +76,12 @@ ekranı çiziliyor. Hediyeye özel bir metin ("Planınız hediye olarak tanımla
 "₺X indirim uygulandı" satırı artık `giftDiscountMinor` gösteriyor, yani kodun **kendi**
 payını. `discountMinor` toplam indirim oldu (ilk yayın + kod). Onu göstermek, %50'lik bir
 kodu ₺319,20 indirim yapmış gibi gösterirdi.
+
+---
+
+## 🆕 Faz 18.3 (`SEC-01`)
+
+Yeni isteğe bağlı prop: `invitationId` (davetiyesiz pakette `null`). "Uygula" onu
+`applyGiftCode`'a geçirir. `FreeActivationPanel` de sipariş ödenmemiş açılırsa önizlemeyi
+`context.invitationId` ile yeniler. İkisi de aynı hedefi kullanmak zorunda: aksi hâlde alanın
+altındaki toplam ile sipariş özeti ayrışır.

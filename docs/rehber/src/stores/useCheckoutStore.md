@@ -80,3 +80,14 @@ yerinde belli ediyor ve testte taklit edilebilir bir metot.
 `startCardCheckout` ya da `applyGiftCode` 403 `PAYMENT_METHOD_DISABLED` alırsa
 `usePricingStore.load({ force: true })` çağrılır. Yöntem sayfa açıkken kapatılmış;
 düğmeler katalogla yeniden çizilir.
+
+---
+
+## 🆕 Faz 18.3 (`SEC-01`)
+
+- `applyGiftCode(code, tier, invitationId?)` ve `refreshGiftCode(tier, invitationId?)`: hedef
+  önizleme isteğine geçer. Store hedefi **saklamaz**; bağlam URL'dedir ve çağıran (ödeme sayfası,
+  kod alanı, ücretsiz etkinleştirme) onu her seferinde verir.
+- Kapanan yöntem (`PAYMENT_METHOD_DISABLED`) artık `usePricingStore.refresh()` çağırır: ödeme
+  sayfası davetiyesinin kataloğunu ayrı yuvadan okuduğu için yalnızca ortak kataloğu tazelemek
+  düğmeleri eski bırakırdı.

@@ -11,6 +11,11 @@ import { duration, ease, gesture, spring } from '../../../utils/motion';
 interface GiftCodeFieldProps {
   /** Önizlemenin hesaplanacağı plan (URL'den). */
   tier: SubscriptionTier;
+  /**
+   * Fiyatı sorulan hedef (Faz 18.3): davetiye kimliği; davetiyesiz pakette
+   * `null`. Kodun uygulanacağı taban onun için hesaplanır.
+   */
+  invitationId?: string | null;
 }
 
 /** Backend ile aynı üst sınır (`max:64`); uzun bir yapıştırma isteğe gitmesin. */
@@ -27,7 +32,7 @@ const MAX_LENGTH = 64;
  * neyin yanlış olduğunu görmeye devam etmeli.
  * Ayrıntılı açıklama: docs/rehber/src/components/payment/checkout/GiftCodeField.md
  */
-export function GiftCodeField({ tier }: GiftCodeFieldProps) {
+export function GiftCodeField({ tier, invitationId = null }: GiftCodeFieldProps) {
   const { t } = useTranslation();
   const appliedCode = useCheckoutStore((s) => s.giftCode);
   const preview = useCheckoutStore((s) => s.giftPreview);
@@ -50,7 +55,7 @@ export function GiftCodeField({ tier }: GiftCodeFieldProps) {
   const handleApply = async (e: React.FormEvent) => {
     e.preventDefault();
     if (busy || !draft.trim()) return;
-    await applyGiftCode(draft, tier);
+    await applyGiftCode(draft, tier, invitationId);
   };
 
   const handleRemove = () => {

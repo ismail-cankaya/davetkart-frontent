@@ -47,7 +47,7 @@ export function FreeActivationPanel({ context }: FreeActivationPanelProps) {
       // (kullanıcı bedava bekliyordu). Önizleme yenilenir, gerçek toplam görünür.
       if (result.status !== 'paid') {
         toast(t('giftCode.free.changed'), 'info');
-        await refreshGiftCode(context.tier);
+        await refreshGiftCode(context.tier, context.invitationId);
         return;
       }
 

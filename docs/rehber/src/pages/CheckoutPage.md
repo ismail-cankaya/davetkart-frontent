@@ -155,3 +155,41 @@ basış → onay kutusu kırmızı · onaylı basış → `/odeme/basarili?order
 - **Havale tutarı** kodsuz dökümün toplamı (havalede kod geçmez). İlk yayın indirimi
   dahil, yani müşteri doğru tutarı yatırır.
 - Katalog gelmeden ödeme düğmesi **çizilmez**. Tutarı bilinmeyen bir "Öde" düğmesi olmaz.
+
+---
+
+## 🆕 Faz 18.3 (`SEC-01` · backend K158–K163) — sayfa kendi hedefinin fiyatını sorar
+
+**Ne değişti?** Üç satır:
+
+```tsx
+usePricing({ force: true, invitationId: context?.invitationId ?? null });
+refreshGiftCode(tier, invitationId ?? null);
+<GiftCodeField tier={context.tier} invitationId={context.invitationId} />
+```
+
+**Neden?** Backend ilk yayın indirimini tek açık siparişe veriyor. Bu sayfa `?invitation=A` ile
+açıldıysa görmesi gereken fiyat A'nın fiyatıdır:
+
+| Kullanıcının durumu | A'nın sayfası | B'nin sayfası |
+|---|---|---|
+| hiç siparişi yok | indirimli | indirimli |
+| A için bekleyen indirimli siparişi var (sayfaya geri döndü) | **indirimli** (kendi rezervasyonu) | liste fiyatı |
+| ödenmiş bir siparişi var | liste fiyatı | liste fiyatı |
+
+Hedefi sormasaydı ikinci satırda A'nın sayfası da liste fiyatı gösterirdi: kullanıcı "Öde"ye
+basıp geri döndüğünde indirimini kaybolmuş sanardı.
+
+**"Öde"ye iki kez basmak** artık iki sipariş açmaz: backend aynı siparişi döndürür (K160). Plan
+değiştirip yeniden basmak eski siparişi kapatır, indirim yeni siparişe geçer (K161).
+
+**Elle deneme** (yerel, backend `PAYMENT_DRIVER=fake`, yeni bir kullanıcı, iki davetiye):
+
+1. A davetiyesinin ödeme sayfası: indirimli fiyat. "Öde"ye bas, geri dön: fiyat **hâlâ indirimli**.
+2. B davetiyesinin ödeme sayfası: **liste fiyatı**. "Öde"ye bas: açılan siparişin tutarı da liste fiyatı.
+3. A'ya dön, başka bir plan seç: indirimli. "Öde"den sonra `orders` tablosunda A için tek `pending` satır.
+4. Ağ sekmesinde `GET /api/pricing?invitation=<A>` isteğini gör.
+
+**İndirim neden düştü, kullanıcıya söylenmiyor.** B'nin sayfası yalnızca liste fiyatını gösterir;
+"indiriminiz başka bir siparişte ayrılmış" diyen bir metin yok (backend yanıtı da sebep taşımıyor,
+K163). Bu bir UX kararı olarak açık.
