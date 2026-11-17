@@ -53,3 +53,12 @@ okuyordu. Bu değerler derlemeye gömülüyordu, yani hesabı değiştirmek fron
 derlemek demekti. Artık hesap backend `.env`'inde duruyor ve katalogla
 (`bankTransfer`) geliyor, yalnızca havale açıkken. `bankTransfer.ts`'te yalnızca referans
 kodu üreticisi kaldı.
+
+---
+
+## 🆕 Faz 18.3 (`SEC-01` · backend K163)
+
+`myCatalog(invitationId?: string | null)`: kimlik verilirse istek `GET /pricing?invitation=<id>`
+olur; verilmezse eskisi gibi parametresiz gider (davetiyesiz paket). Parametre axios'un `params`
+alanıyla yazılır, adrese elle eklenmez: kodlama (encoding) axios'un işi. Yanıt aynı
+`toCatalog()` doğrulamasından geçer; biçim değişmedi. `publicCatalog()` hedef almaz.

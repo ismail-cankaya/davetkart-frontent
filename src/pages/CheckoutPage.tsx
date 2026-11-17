@@ -45,6 +45,10 @@ const CURRENT_STEP = 1;
  * `PAYMENT_METHODS=gift_code`) yalnızca hediye kodu alanı ve bir açıklama
  * görünür.
  *
+ * Faz 18.3 (backend K159, K163): katalog ve hediye kodu önizlemesi sayfanın
+ * HEDEFİ için sorulur (`?invitation=`); yanıt biçimi aynıdır. Davetiyesiz
+ * pakette hedef yoktur ve ortak katalog okunur.
+ *
  * Faz 11: "Hediye kodum var" alanı. Geçerli bir önizleme varken tutarlar
  * önizlemeden (kuruş) çizilir; toplam 0 ise kart ve havale yerine "Ücretsiz
  * etkinleştir" paneli gelir. Hediye kodu yalnızca kartla geçerli: havalede
@@ -62,7 +66,10 @@ export default function CheckoutPage() {
   const invitation = useInvitationStore((s) => s.invitation);
 
   const selectMethod = useCheckoutStore((s) => s.selectMethod);
-  const { catalog, status, reload } = usePricing({ force: true });
+  // Faz 18.3 (backend K159): fiyat BU davetiye için sorulur. İlk yayın indirimi
+  // başka bir hedefin açık siparişinde ayrılmışsa burada görünmez; bu
+  // davetiyenin kendi siparişi tutuyorsa (sayfaya geri dönüş) görünmeye devam eder.
+  const { catalog, status, reload } = usePricing({ force: true, invitationId: context?.invitationId ?? null });
   const { t } = useTranslation();
 
   // Faz 13: yöntemler ve havale hesabı backend'den (K134–K135).
@@ -87,7 +94,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     const { reset, refreshGiftCode } = useCheckoutStore.getState();
     reset({ keepGiftCode: true });
-    if (tier) void refreshGiftCode(tier);
+    if (tier) void refreshGiftCode(tier, invitationId ?? null);
   }, [tier, invitationId]);
 
   if (!context) return <InvalidCheckout />;
@@ -184,7 +191,7 @@ export default function CheckoutPage() {
                   exit={{ opacity: 0, transition: { duration: duration.fast, ease: ease.in } }}
                   className="space-y-7"
                 >
-                  {giftEnabled && <GiftCodeField tier={context.tier} />}
+                  {giftEnabled && <GiftCodeField tier={context.tier} invitationId={context.invitationId} />}
 
                   {isFree ? (
                     <FreeActivationPanel context={context} />

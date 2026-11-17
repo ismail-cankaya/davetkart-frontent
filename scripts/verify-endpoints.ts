@@ -363,6 +363,18 @@ async function main(): Promise<void> {
   );
   expectField('hediye kodu önizleme', previewBody, 'code', 'dugun-2026');
   expectField('hediye kodu önizleme', previewBody, 'tier', 'gold');
+  // Faz 18.3 (backend K163): hedef yoksa anahtar gövdeye HİÇ konmaz (davetiyesiz paket).
+  if ('invitationId' in previewBody) {
+    fail("hediye kodu önizleme → hedefsiz istekte 'invitationId' gönderildi");
+  }
+
+  const targetedPreviewBody = await check(
+    'hediye kodu önizleme (davetiye için)',
+    { method: 'POST', url: '/gift-codes/preview' },
+    { data: PREVIEW },
+    () => paymentService.previewGiftCode('DUGUN2026', 'gold', INVITATION_ID),
+  );
+  expectField('hediye kodu önizleme (davetiye için)', targetedPreviewBody, 'invitationId', INVITATION_ID);
 
   const preview = await paymentService.previewGiftCode('X', 'gold');
   if (preview.totalMinor !== 29925 || preview.discountMinor !== 9975) {

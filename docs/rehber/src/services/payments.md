@@ -151,3 +151,20 @@ dakikada yayınlanması zorunluluğunu kaldırır.
   `giftDiscountMinor`, `currency`.
 - Kapalı yöntem 403 `PAYMENT_METHOD_DISABLED` döner. `useCheckoutStore` bunu görünce fiyat
   kataloğunu tazeler.
+
+---
+
+## 🆕 Faz 18.3 (`SEC-01` · backend K159, K163)
+
+`previewGiftCode(code, tier, invitationId?)`: üçüncü parametre fiyatı sorulan hedef. Gövdeye
+yalnızca **varsa** konur (`{ code, tier, invitationId }`); yoksa anahtar hiç gönderilmez
+(`checkoutBody`'deki `giftCode` kuralının aynısı: boş bir alan backend'de anlamsız bir durum
+doğurmasın). Kodun uygulanacağı taban "otomatik indirimden sonra kalan fiyat"tır; ilk yayın
+indirimi hedefe bağlı olduğu için önizleme de hedefi bilmek zorunda.
+
+Checkout uçları değişmedi. Bir farkla: aynı davetiye + aynı plan + aynı kod için ikinci
+`checkout` çağrısı artık **aynı siparişi** döndürür (backend K160); yanıt yine 201 ve aynı
+`orderId`. Eskiden aynı kodla ikinci deneme `GIFT_CODE_ALREADY_USED` alıyordu.
+
+`npm run verify:endpoints`: hedefsiz önizlemede `invitationId` gönderilmediği, hedefli
+önizlemede gönderildiği sınanır.
