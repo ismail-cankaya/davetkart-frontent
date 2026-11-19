@@ -54,3 +54,46 @@ cümleye çevrilir (`toDisplayError` → `refundReasons.*`) ve liste tazelenir.
 
 `sessionActions.signOut()` artık `useAccountStore.reset()`'i de çağırıyor: paylaşılan bir
 cihazda bir sonraki hesabın Planlarım'ı öncekinin haklarını bir an bile göstermesin.
+
+## 7. 🆕 Faz 18.4 (`SEC-02` · K166): yayın yapmış hak iade edilmez
+
+> **Backend:** `docs/rehber/fazlar/FAZ-18.md` §18.4 · `docs/rehber/app/Services/Refund/RefundEligibility.md` §6–§7 (backend deposu)
+
+**Ne değişti (backend):** Yayınlanmış bir davetiye 3 gün içinde silinince hak serbest kalır
+(K82) ve Planlarım'da **"Kullanılabilir"** görünür: yeni bir davetiyeyi yayınlayabilir. Ama artık
+iade edilemez; backend hak listesinde `refund.eligible: false` ve `refund.blocker: 'used'` döner,
+iade isteği 409 `REFUND_NOT_ALLOWED` + `reason: 'used'` alır. Önceden bu hak "İptal Et" düğmesini
+gösteriyor ve iade ediliyordu (denetim bulgusu `SEC-02`).
+
+| Dosya | Değişiklik |
+|---|---|
+| `src/types.ts` | `RefundBlocker` birliğine `'used'` |
+| `src/locales/tr/errors.json` · `src/locales/en/errors.json` | `refundReasons.used`: 409 toast'ında "Bu hak iptal edilemiyor: …" cümlesinin devamı |
+| `src/components/account/RightRow.tsx` | `available` + `blocker === 'used'` satırına tek cümlelik açıklama |
+| `src/pages/PricingPage.tsx` | "İade alabilir miyim?" cevabı: yayın yapmış hak iade edilmez, 3 günde silinirse yeniden kullanılır |
+
+**Neden `in_use` değil?** `in_use`'un cümlesi "hak bir davetiyede kullanılıyor". Bu hak hiçbir
+davetiyede değil ve rozeti "Kullanılabilir". Aynı satırda iki çelişkili söz kullanıcıya yanlış
+eylemi önerirdi ("davetiyeyi silersem iade alırım").
+
+**Neden açıklama satırı?** Eskiden `available` + `eligible: false` yalnızca süresi geçmiş ya da
+hediye koduyla alınmış haklarda olurdu ve kullanıcı nedenini tahmin edebiliyordu. `used` yeni
+bir durum: aynı hakta dün "İptal Et" vardı. Düğmenin sessizce kaybolması "hata mı?" sorusunu
+doğururdu. Açıklama yalnızca `used` için; diğer engellerin ekrandaki davranışı değişmedi.
+
+**Sözleşme kopyası değişmedi:** `src/contracts/error-codes.json` parametrenin **adını**
+(`reason`) taşır, değerlerini değil. Backend `contracts/error-codes.json` aynı kaldı;
+`verify:errors` yeşil.
+
+**Kural yine frontend'de değil:** düğmeyi `refund.eligible` gösterir, metni `refund.blocker`
+seçer. Frontend "bu hak yayın yaptı mı?" diye kendisi sormaz (§2: K128'in haklar için hali).
+
+**Elle dene** (backend `PAYMENT_DRIVER=fake`): Standart al → davetiyeyi yayınla → aynı gün sil →
+Hesap Ayarları → Planlarım. Hak "Kullanılabilir"; "İptal Et" yok; altında "Bu hakla daha önce
+bir davetiye yayınlandığı için iptal edilemez…" yazar. Yeni bir davetiye yayınla: hak ona bağlanır.
+
+| Sık hata | Sonuç |
+|---|---|
+| `refundReasons.used` çevirisini eklememek | Toast'ta ham `used` kelimesi (`defaultValue`) |
+| Açıklamayı `!right.refund.eligible`'a bağlamak | Süresi geçmiş ve hediye haklarına da "yayın yapıldı" yazar |
+| Hakkı `in_use` kovasına taşımak ("iade edilemiyorsa kullanılıyordur") | Sayaç yanlış: hak yeni bir davetiyede kullanılabilir (K82) |

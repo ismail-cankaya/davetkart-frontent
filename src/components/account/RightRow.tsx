@@ -117,6 +117,12 @@ export function RightRow({ right }: { right: EntitlementRight }) {
           {right.state === 'available' && right.refund.eligible && right.refund.windowEndsAt && (
             <p className="text-[11px] text-muted">İptal hakkı {formatAccountDate(right.refund.windowEndsAt)} tarihine kadar.</p>
           )}
+          {/* Faz 18.4 (SEC-02, K166): serbest ama yayın yapmış hak. "İptal Et" yok; nedeni söylenir. */}
+          {right.state === 'available' && right.refund.blocker === 'used' && (
+            <p className="text-[11px] text-muted">
+              Bu hakla daha önce bir davetiye yayınlandığı için iptal edilemez; yeni bir davetiyede kullanabilirsiniz.
+            </p>
+          )}
           {request && (
             <p className="text-[11px] text-amber-800">Talep tarihi: {formatAccountDate(request.createdAt, true)}</p>
           )}

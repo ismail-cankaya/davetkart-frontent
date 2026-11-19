@@ -623,8 +623,11 @@ export interface PlaceSuggestion {
  */
 export type EntitlementState = 'available' | 'in_use' | 'refund_requested' | 'pending' | 'consumed' | 'refunded';
 
-/** Bir hakkın neden iptal edilemediği — backend `RefundBlocker` (K139). */
-export type RefundBlocker = 'already_requested' | 'not_paid' | 'in_use' | 'free' | 'window_closed';
+/**
+ * Bir hakkın neden iptal edilemediği — backend `RefundBlocker` (K139).
+ * `used` (Faz 18.4, K166): hak serbest ama bir davetiyeyi yayınladı; yeniden kullanılır, iade edilmez.
+ */
+export type RefundBlocker = 'already_requested' | 'not_paid' | 'in_use' | 'used' | 'free' | 'window_closed';
 
 export type RefundRequestStatus = 'requested' | 'approved' | 'rejected' | 'withdrawn';
 

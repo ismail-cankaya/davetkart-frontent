@@ -16,3 +16,16 @@ paket Gold.
 
 ⚠️ SSS'deki diğer cevaplar ("yayın süresi", "iade") eski sayfadan aynen kaldı. Ticari
 gerçekliğe uygun olup olmadıklarını kontrol etmen gerekiyor.
+
+## 🆕 Faz 18.4 (`SEC-02` · K166): "İade alabilir miyim?"
+
+Eski cevap 3 günlük serbest bırakmayı iade cümlesinin hemen arkasına koyuyordu: "yayındaysa,
+3 gün içinde silerek hakkı serbest bırakabilirsiniz". Okuyan, "silersem iade alırım" anlıyordu
+ve backend de tam olarak buna izin veriyordu (denetim bulgusu `SEC-02`). Backend artık yayın
+yapmış hakkı iade etmiyor; cevap buna ve Kullanım Şartları'ndaki "yayınlandığı anda hizmet ifa
+edilmiş sayılır" maddesine uyduruldu:
+
+> … Bir davetiye yayınlanan hak kullanılmış sayılır ve iade edilmez; ancak yayından sonraki
+> 3 gün içinde davetiyeyi silerseniz hakkı yeni bir davetiyede kullanabilirsiniz. …
+
+Yukarıdaki ⚠️ notun "iade" kısmı bu cevap için kapandı; "yayın süresi" cevabı hâlâ kontrol bekliyor.

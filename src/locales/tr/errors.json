@@ -10,6 +10,7 @@
     "already_requested": "bu hak için zaten bir iptal talebiniz var.",
     "not_paid": "ödemesi tamamlanmamış ya da zaten iade edilmiş.",
     "in_use": "hak bir davetiyede kullanılıyor.",
+    "used": "bu hakla daha önce bir davetiye yayınlandı. Hakkı yeni bir davetiyede kullanabilirsiniz.",
     "free": "hediye koduyla ücretsiz alınmış; iade edilecek tutar yok.",
     "window_closed": "iptal süresi (ödemeden itibaren 14 gün) geçti."
   },
