@@ -10,6 +10,7 @@
     "already_requested": "you already have a cancellation request for it.",
     "not_paid": "its payment isn't complete or it was already refunded.",
     "in_use": "it's being used by an invitation.",
+    "used": "an invitation was already published with it. You can still use it for a new invitation.",
     "free": "it was free with a gift code, so there is nothing to refund.",
     "window_closed": "the cancellation period (14 days from payment) has passed."
   },
