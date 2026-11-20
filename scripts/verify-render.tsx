@@ -5,11 +5,12 @@
  * ÇİZİLDİĞİNİ sınar. Gerçek bileşenler `react-dom/server` ile HTML'e çizilir:
  * tarayıcı yok, efektler koşmaz, ilk çizimde görünen metin denetlenir.
  *
- * Üç söz:
+ * Dört söz:
  *   1. Elit'te "DavetKart ile hazırlandı" imzası yok (K102): misafir sayfasında
  *      BÜTÜN şablonlarda ve sahibin editör önizlemesinde.
  *   2. Bu cihazdan yanıt vermiş misafir formu "güncelle" olarak görür (K101).
  *   3. Gizlilik metninin saklama süreleri kodla aynı (K97 · K98).
+ *   4. Dil seçici yalnızca tr/en sunuyor; eski kayıtlı tercih tr açılıyor (FE-01, K220).
  *
  * Ayrıntılı açıklama: docs/rehber/scripts/verify-render.md
  */
@@ -30,6 +31,8 @@ import { useRsvpStore } from '../src/stores/useRsvpStore';
 import { rsvpReceipts } from '../src/services/rsvpReceipts';
 import { INITIAL_INVITATION, TEMPLATE_PRESETS } from '../src/data';
 import { LAZY_PRESETS } from '../src/components/templates/lazyPresets';
+import i18n, { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES, getLanguageDirection } from '../src/i18n';
+import { LanguageSwitcher } from '../src/components/LanguageSwitcher';
 import type { Invitation, InvitationRecord } from '../src/types';
 
 const SIGNATURE = 'DavetKart ile hazırlandı';
@@ -276,19 +279,45 @@ function privacyRetention(): void {
   );
 }
 
+/**
+ * FE-01 (Faz 19.20): seçici yalnızca çevrilmiş dilleri çiziyor; on dilli
+ * dönemden kalan bir tercih (`de`) sayfayı varsayılan dilde açıyor.
+ */
+async function languageScope(): Promise<void> {
+  console.log('\nDil kapsamı (FE-01):');
+  const codes = SUPPORTED_LANGUAGES.map(l => l.code).join(',');
+  check(codes === 'tr,en', 'sunulan diller tr ve en', `liste: ${codes}`);
+
+  const html = renderToStaticMarkup(<LanguageSwitcher variant="inline" />);
+  const buttons = (html.match(/<button/g) ?? []).length;
+  check(buttons === 2, 'seçici iki dil çiziyor', `${buttons} düğme`);
+  check(!/>(es|fr|de|zh|hi|ar|ru|pt)</.test(html), 'gizli diller seçicide yok', html.slice(0, 160));
+
+  localStorage.setItem(LANGUAGE_STORAGE_KEY, 'de');
+  await i18n.changeLanguage();
+  check(i18n.resolvedLanguage === DEFAULT_LANGUAGE, "kayıtlı 'de' tercihiyle sayfa tr açılıyor", `dil: ${i18n.resolvedLanguage}`);
+  check(localStorage.getItem(LANGUAGE_STORAGE_KEY) === DEFAULT_LANGUAGE, 'eski tercih tr ile değiştirildi', `kayıt: ${localStorage.getItem(LANGUAGE_STORAGE_KEY)}`);
+
+  localStorage.setItem(LANGUAGE_STORAGE_KEY, 'en');
+  await i18n.changeLanguage();
+  check(i18n.resolvedLanguage === 'en', 'kayıtlı en tercihi korunuyor', `dil: ${i18n.resolvedLanguage}`);
+  check(getLanguageDirection('ar') === 'ltr', 'gizli Arapça sayfayı RTL çevirmiyor', 'rtl');
+}
+
 async function main(): Promise<void> {
   await signatureOnTheGuestPage();
   await lazyPresetsRender();
   signatureInTheEditorPreview();
   await ownReplyForm();
   privacyRetention();
+  await languageScope();
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);
     process.exit(1);
   }
 
-  console.log('\n✓ Ekrana çizilen doğru: Elit imzasız, dönen misafir yanıtını güncelliyor, saklama süreleri kodla aynı.');
+  console.log('\n✓ Ekrana çizilen doğru: Elit imzasız, dönen misafir yanıtını güncelliyor, saklama süreleri kodla aynı, dil seçici yalnızca tr/en.');
 }
 
 void main();

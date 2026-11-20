@@ -1,7 +1,7 @@
 # `scripts/verify-render.tsx` · `scripts/render-env.ts`
 
 > **Faz:** 10 — FE 10.23 · **Komut:** `npm run verify:render` (`npm run verify` ve `check` içinde)
-> **Sınadığı sözler:** K102 (Elit imzasız) · K101 (misafir yanıtını günceller) · K97/K98 (gizlilik metni)
+> **Sınadığı sözler:** K102 (Elit imzasız) · K101 (misafir yanıtını günceller) · K97/K98 (gizlilik metni) · K220 (dil kapsamı)
 
 ---
 
@@ -80,3 +80,16 @@ Ayrı bölüm **"Tembel şablonlar: kayıt ve veri"** (`lazyPresetsRender`), `LA
   çizime yansımıyor.
 - **Metin kontrolü:** gizlilik bölümü belirli ifadeleri arıyor. Hukukçu metni yeniden yazarsa kontrol
   kırılabilir; o zaman yeni metnin aynı sayıları söylediği kontrol edilip ifadeler güncellenir.
+
+---
+
+## 🆕 Faz 19.20 (`FE-01`) — dil kapsamı (K220)
+
+Beşinci bölüm `languageScope`: `SUPPORTED_LANGUAGES` tam olarak `tr,en`; `LanguageSwitcher`
+(`inline`) iki düğme çiziyor, gizli dil kodları yok; `localStorage`'a `de` yazılıp
+`i18n.changeLanguage()` (argümansız = algılamayı yeniden koştur) çağrılınca dil `tr` ve kayıt `tr`;
+`en` kaydı korunuyor; `ar` artık RTL değil.
+
+`render-env.ts` `window.localStorage`'ı global depoya bağlar: dil algılayıcı globali değil
+`window`'u okur. Mutant: `storedPreference` desteklenmeyen kodu süzmeden döndürünce kırmızı.
+Ayrıntı: `docs/rehber/src/i18n.md`.

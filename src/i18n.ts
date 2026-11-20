@@ -4,20 +4,11 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import en from './locales/en/translation.json';
 import tr from './locales/tr/translation.json';
-import es from './locales/es/translation.json';
-import fr from './locales/fr/translation.json';
-import de from './locales/de/translation.json';
-import zh from './locales/zh/translation.json';
-import hi from './locales/hi/translation.json';
-import ar from './locales/ar/translation.json';
-import ru from './locales/ru/translation.json';
-import pt from './locales/pt/translation.json';
 
 // Hata metinleri ayrı bir namespace'te durur: arayüz sözlüğü ürünle birlikte
 // büyür, hata sözlüğü ise backend'in `error-codes.json` sözleşmesine bağlıdır
 // (K20/K31). İkisini ayırmak, sözleşme yenilendiğinde neyin denetleneceğini
-// tek dosyada tutar. Yalnızca tr/en yazılıdır; kalan diller fallbackLng ile
-// 'en' metinlerini görür — eksik anahtar uyarısı üretmez.
+// tek dosyada tutar. Yalnızca tr/en yazılıdır.
 import trErrors from './locales/tr/errors.json';
 import enErrors from './locales/en/errors.json';
 
@@ -29,18 +20,26 @@ export interface AppLanguage {
   dir: 'ltr' | 'rtl';
 }
 
+/** Missing keys, unsupported browsers and stale stored choices land here (FE-01). */
+export const DEFAULT_LANGUAGE = 'tr';
+
+/** Where the visitor's explicit choice is kept. */
+export const LANGUAGE_STORAGE_KEY = 'davetkart-language';
+
+// Only tr/en are offered (FE-01, K220): the other eight files stay in
+// src/locales but are hidden until the core flow is translated.
+// How to bring one back: docs/rehber/src/i18n.md
 export const SUPPORTED_LANGUAGES: AppLanguage[] = [
-  { code: 'en', nativeName: 'English', dir: 'ltr' },
   { code: 'tr', nativeName: 'Türkçe', dir: 'ltr' },
-  { code: 'es', nativeName: 'Español', dir: 'ltr' },
-  { code: 'fr', nativeName: 'Français', dir: 'ltr' },
-  { code: 'de', nativeName: 'Deutsch', dir: 'ltr' },
-  { code: 'zh', nativeName: '中文', dir: 'ltr' },
-  { code: 'hi', nativeName: 'हिन्दी', dir: 'ltr' },
-  { code: 'ar', nativeName: 'العربية', dir: 'rtl' },
-  { code: 'ru', nativeName: 'Русский', dir: 'ltr' },
-  { code: 'pt', nativeName: 'Português', dir: 'ltr' }
+  { code: 'en', nativeName: 'English', dir: 'ltr' }
 ];
+
+/** 'en-US' → true, 'de' → false. */
+export function isSupportedLanguage(language: string | null | undefined): boolean {
+  if (!language) return false;
+  const base = language.split('-')[0];
+  return SUPPORTED_LANGUAGES.some(l => l.code === base);
+}
 
 /** Resolves 'en-US', 'ar-SA' etc. to the base code and its layout direction. */
 export function getLanguageDirection(language: string): 'ltr' | 'rtl' {
@@ -48,25 +47,36 @@ export function getLanguageDirection(language: string): 'ltr' | 'rtl' {
   return SUPPORTED_LANGUAGES.find(l => l.code === base)?.dir ?? 'ltr';
 }
 
+// A stored code we no longer offer (e.g. 'de' from the ten-language switcher)
+// resolves to DEFAULT_LANGUAGE instead of handing the choice to the browser.
+const storedPreference = {
+  name: 'storedPreference',
+  lookup(): string | undefined {
+    let stored: string | null;
+    try {
+      stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+    } catch {
+      return undefined; // private mode / no window: fall through to navigator
+    }
+    if (!stored) return undefined;
+    return isSupportedLanguage(stored) ? stored : DEFAULT_LANGUAGE;
+  }
+};
+
+const languageDetector = new LanguageDetector();
+languageDetector.addDetector(storedPreference);
+
 i18n
   // Detects the browser language on first visit; afterwards the user's
-  // explicit choice wins because localStorage is checked first.
-  .use(LanguageDetector)
+  // explicit choice wins because the stored preference is checked first.
+  .use(languageDetector)
   .use(initReactI18next)
   .init({
     resources: {
       en: { translation: en, errors: enErrors },
-      tr: { translation: tr, errors: trErrors },
-      es: { translation: es },
-      fr: { translation: fr },
-      de: { translation: de },
-      zh: { translation: zh },
-      hi: { translation: hi },
-      ar: { translation: ar },
-      ru: { translation: ru },
-      pt: { translation: pt }
+      tr: { translation: tr, errors: trErrors }
     },
-    fallbackLng: 'en',
+    fallbackLng: DEFAULT_LANGUAGE,
     ns: ['translation', 'errors'],
     defaultNS: 'translation',
     supportedLngs: SUPPORTED_LANGUAGES.map(l => l.code),
@@ -75,9 +85,9 @@ i18n
       escapeValue: false // React already escapes rendered strings
     },
     detection: {
-      order: ['localStorage', 'navigator'],
+      order: ['storedPreference', 'navigator'],
       caches: ['localStorage'],
-      lookupLocalStorage: 'davetkart-language'
+      lookupLocalStorage: LANGUAGE_STORAGE_KEY
     }
   });
 
