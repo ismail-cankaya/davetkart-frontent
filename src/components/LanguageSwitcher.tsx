@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'motion/react';
 import { Globe, ChevronDown, Check } from 'lucide-react';
-import { SUPPORTED_LANGUAGES } from '../i18n';
+import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from '../i18n';
 import { duration, ease } from '../utils/motion';
 
 const dropdownVariants = {
@@ -36,7 +36,7 @@ export const LanguageSwitcher = React.memo(function LanguageSwitcher({ variant =
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const currentCode = (i18n.resolvedLanguage ?? i18n.language ?? 'en').split('-')[0];
+  const currentCode = (i18n.resolvedLanguage ?? i18n.language ?? DEFAULT_LANGUAGE).split('-')[0];
 
   useEffect(() => {
     if (!open) return;

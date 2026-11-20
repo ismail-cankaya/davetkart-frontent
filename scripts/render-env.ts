@@ -37,3 +37,7 @@ const storage = new Map<string, string>();
     return storage.size;
   },
 };
+
+// i18next-browser-languagedetector reads `window.localStorage`, not the global;
+// the FE-01 language check in verify:render needs the stored choice visible.
+(globalThis as unknown as { window: { localStorage: Storage } }).window.localStorage = globalThis.localStorage;
