@@ -1,7 +1,7 @@
 # `scripts/verify-render.tsx` · `scripts/render-env.ts`
 
 > **Faz:** 10 — FE 10.23 · **Komut:** `npm run verify:render` (`npm run verify` ve `check` içinde)
-> **Sınadığı sözler:** K102 (Elit imzasız) · K101 (misafir yanıtını günceller) · K97/K98 (gizlilik metni) · K220 (dil kapsamı)
+> **Sınadığı sözler:** K102 (Elit imzasız) · K101 (misafir yanıtını günceller) · K97/K98 (gizlilik metni) · K220 (dil kapsamı) · K222/K223 (hata sınırı)
 
 ---
 
@@ -93,3 +93,25 @@ Beşinci bölüm `languageScope`: `SUPPORTED_LANGUAGES` tam olarak `tr,en`; `Lan
 `render-env.ts` `window.localStorage`'ı global depoya bağlar: dil algılayıcı globali değil
 `window`'u okur. Mutant: `storedPreference` desteklenmeyen kodu süzmeden döndürünce kırmızı.
 Ayrıntı: `docs/rehber/src/i18n.md`.
+
+---
+
+## 🆕 Faz 19.21 (`FE-02`) — hata sınırı (K222 · K223)
+
+`routeErrors`: **gerçek** rota tablosu (`src/routes.tsx`) `createMemoryRouter`'a verilir, hedef rotaya
+hata fırlatan bir `loader` takılır. Neden `loader`: sunucu çiziminde React hata sınırları çalışmaz;
+yükleyici hatası ise yönlendiricinin **durumuna** yazılır ve `errorElement` sunucuda da çizilir. Aynı
+`errorElement` çizim hatasında da kullanılır.
+
+| Rota | Kontrol |
+|---|---|
+| `/pricing` | `data-route-error="app"`, ham ekran yok, `<footer` duruyor, Türkçe metin + `href="/"`, ayrıntı sızmıyor |
+| `/create` | `data-route-error="editor"` + `data-save-note="local"` |
+| `/invite/abc` | `data-route-error="guest"`, site bağlantısı yok |
+| `/pricing` (chunk mesajı) | *"Sayfa yüklenemedi"* |
+
+`preloadRecovery`: `recoverFromPreloadError` sahte saat ve bellek depoyla: ilk hata yeniler, 5 s sonra
+ikincisi yenilemez, pencere geçince yine yeniler, depolama yoksa yenilemez.
+
+Mutantlar: `/create`'in `errorElement` satırı silinince *editör kendi sınırında* kırmızı; bayrak kontrolü
+silinince *ikinci kez yenilenmiyor* kırmızı.

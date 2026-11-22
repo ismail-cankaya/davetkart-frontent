@@ -5,12 +5,13 @@
  * ÇİZİLDİĞİNİ sınar. Gerçek bileşenler `react-dom/server` ile HTML'e çizilir:
  * tarayıcı yok, efektler koşmaz, ilk çizimde görünen metin denetlenir.
  *
- * Dört söz:
+ * Beş söz:
  *   1. Elit'te "DavetKart ile hazırlandı" imzası yok (K102): misafir sayfasında
  *      BÜTÜN şablonlarda ve sahibin editör önizlemesinde.
  *   2. Bu cihazdan yanıt vermiş misafir formu "güncelle" olarak görür (K101).
  *   3. Gizlilik metninin saklama süreleri kodla aynı (K97 · K98).
  *   4. Dil seçici yalnızca tr/en sunuyor; eski kayıtlı tercih tr açılıyor (FE-01, K220).
+ *   5. Hata veren rota markalı RouteError çiziyor; chunk hatası bir kez yeniliyor (FE-02, K222 · K223).
  *
  * Ayrıntılı açıklama: docs/rehber/scripts/verify-render.md
  */
@@ -18,7 +19,7 @@ import './render-env';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { prerenderToNodeStream } from 'react-dom/static';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, RouterProvider, createMemoryRouter, type RouteObject } from 'react-router-dom';
 import { TemplateRenderer } from '../src/components/templates/TemplateRenderer';
 import { DeviceSimulator } from '../src/components/preview/DeviceSimulator';
 import { RsvpModal } from '../src/components/preview/RsvpModal';
@@ -33,6 +34,8 @@ import { INITIAL_INVITATION, TEMPLATE_PRESETS } from '../src/data';
 import { LAZY_PRESETS } from '../src/components/templates/lazyPresets';
 import i18n, { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES, getLanguageDirection } from '../src/i18n';
 import { LanguageSwitcher } from '../src/components/LanguageSwitcher';
+import { routes } from '../src/routes';
+import { PRELOAD_RELOAD_KEY, PRELOAD_RELOAD_WINDOW_MS, recoverFromPreloadError } from '../src/utils/preloadRecovery';
 import type { Invitation, InvitationRecord } from '../src/types';
 
 const SIGNATURE = 'DavetKart ile hazırlandı';
@@ -304,6 +307,80 @@ async function languageScope(): Promise<void> {
   check(getLanguageDirection('ar') === 'ltr', 'gizli Arapça sayfayı RTL çevirmiyor', 'rtl');
 }
 
+/** Gerçek rota tablosu; `path`'teki rotaya hata fırlatan bir yükleyici takılır. */
+function withFailingRoute(list: RouteObject[], path: string, error: Error): RouteObject[] {
+  return list.map(route => {
+    if (route.path === path) {
+      return { ...route, loader: () => { throw error; } } as RouteObject;
+    }
+    return route.children ? ({ ...route, children: withFailingRoute(route.children, path, error) } as RouteObject) : route;
+  });
+}
+
+async function failingRoute(path: string, url: string, error: Error): Promise<string> {
+  const router = createMemoryRouter(withFailingRoute(routes, path, error), { initialEntries: [url] });
+  await new Promise<void>(resolve => {
+    if (router.state.initialized) return resolve();
+    const stop = router.subscribe(state => {
+      if (state.initialized) {
+        stop();
+        resolve();
+      }
+    });
+  });
+  const html = renderToStaticMarkup(<RouterProvider router={router} />);
+  router.dispose();
+  return html;
+}
+
+/**
+ * FE-02 (Faz 19.21): hata veren rota ham "Unexpected Application Error!" değil
+ * markalı `RouteError` çiziyor; editör ve misafir sayfası kendi sınırında.
+ */
+async function routeErrors(): Promise<void> {
+  console.log('\nHata sınırı (FE-02):');
+  await i18n.changeLanguage('tr');
+  const boom = new Error('fe02-boom');
+  const RAW = 'Unexpected Application Error';
+
+  const page = await failingRoute('/pricing', '/pricing', boom);
+  check(page.includes('data-route-error="app"') && !page.includes(RAW), 'sayfa hatası RouteError çiziyor', page.slice(0, 160));
+  check(page.includes('<footer'), 'sayfa hatasında başlık/alt bilgi kalıyor', 'alt bilgi yok');
+  check(page.includes('Bir şeyler ters gitti') && page.includes('href="/"'), 'Türkçe metin ve ana sayfa bağlantısı', 'metin/bağlantı yok');
+  check(!page.includes('fe02-boom'), 'hata ayrıntısı kullanıcıya gösterilmiyor', 'ayrıntı sızdı');
+
+  const editor = await failingRoute('/create', '/create', boom);
+  check(editor.includes('data-route-error="editor"'), 'editör kendi sınırında', editor.match(/data-route-error="\w+"/)?.[0] ?? 'sınır yok');
+  check(editor.includes('data-save-note="local"'), 'oturumsuz taslak için "yenilerseniz kaybolur" notu', 'not yok');
+
+  const guest = await failingRoute('/invite/:id', '/invite/abc', boom);
+  check(guest.includes('data-route-error="guest"'), 'misafir sayfası kendi sınırında', guest.match(/data-route-error="\w+"/)?.[0] ?? 'sınır yok');
+  check(!guest.includes('href="/"'), 'misafire site bağlantısı yok', 'ana sayfa bağlantısı var');
+
+  const chunk = await failingRoute('/pricing', '/pricing', new TypeError('Failed to fetch dynamically imported module: /assets/PricingPage-x1.js'));
+  check(chunk.includes('Sayfa yüklenemedi'), 'yüklenemeyen chunk için ayrı metin', 'genel metin çizildi');
+}
+
+/** FE-02 (K223): `vite:preloadError` → tek seferlik yenileme, döngü yok. */
+function preloadRecovery(): void {
+  console.log('\nChunk yenilemesi (FE-02):');
+  const kept = new Map<string, string>();
+  const storage = { getItem: (k: string) => kept.get(k) ?? null, setItem: (k: string, v: string) => void kept.set(k, v) };
+  let clock = 1_000_000;
+  let reloads = 0;
+  let prevented = 0;
+  const deps = { storage, reload: () => void (reloads += 1), now: () => clock };
+  const event = { preventDefault: () => void (prevented += 1) };
+
+  check(recoverFromPreloadError(event, deps) && reloads === 1 && prevented === 1, 'ilk hata: bir kez yenileniyor', `yenileme ${reloads}`);
+  check(kept.get(PRELOAD_RELOAD_KEY) === String(clock), 'bayrak zaman damgasıyla yazıldı', `bayrak ${kept.get(PRELOAD_RELOAD_KEY)}`);
+  clock += 5_000;
+  check(!recoverFromPreloadError(event, deps) && reloads === 1 && prevented === 1, 'yenileme de başarısız: ikinci kez yenilenmiyor (RouteError)', `yenileme ${reloads}`);
+  clock += PRELOAD_RELOAD_WINDOW_MS;
+  check(recoverFromPreloadError(event, deps) && reloads === 2, 'süre geçince yeni hata yine bir kez yenileniyor', `yenileme ${reloads}`);
+  check(!recoverFromPreloadError(event, { ...deps, storage: null }) && reloads === 2, 'depolama yoksa körlemesine yenileme yok', `yenileme ${reloads}`);
+}
+
 async function main(): Promise<void> {
   await signatureOnTheGuestPage();
   await lazyPresetsRender();
@@ -311,13 +388,15 @@ async function main(): Promise<void> {
   await ownReplyForm();
   privacyRetention();
   await languageScope();
+  await routeErrors();
+  preloadRecovery();
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);
     process.exit(1);
   }
 
-  console.log('\n✓ Ekrana çizilen doğru: Elit imzasız, dönen misafir yanıtını güncelliyor, saklama süreleri kodla aynı, dil seçici yalnızca tr/en.');
+  console.log('\n✓ Ekrana çizilen doğru: Elit imzasız, dönen misafir yanıtını güncelliyor, saklama süreleri kodla aynı, dil seçici yalnızca tr/en, hata veren rota RouteError çiziyor.');
 }
 
 void main();
