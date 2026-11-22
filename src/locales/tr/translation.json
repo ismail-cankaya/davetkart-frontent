@@ -4,6 +4,21 @@
     "create": "Davetiye Tasarla",
     "dashboard": "Katılım Paneli"
   },
+  "routeError": {
+    "title": "Bir şeyler ters gitti",
+    "body": "Bu sayfa beklenmedik bir hatayla karşılaştı. Tekrar deneyebilir ya da sayfayı yenileyebilirsiniz.",
+    "chunkTitle": "Sayfa yüklenemedi",
+    "chunkBody": "Bağlantı kesilmiş ya da sitenin yeni bir sürümü yayımlanmış olabilir. Sayfayı yenileyin.",
+    "retry": "Tekrar dene",
+    "reload": "Sayfayı yenile",
+    "home": "Ana sayfa",
+    "save": {
+      "local": "Taslağınız yalnızca bu sekmede duruyor; sayfayı yenilerseniz kaybolur. Önce “Tekrar dene”yi kullanın.",
+      "saving": "Son değişiklikleriniz kaydediliyor. Yenilemeden önce birkaç saniye bekleyin.",
+      "failed": "Son değişiklikleriniz kaydedilemedi; sayfayı yenilerseniz kaybolabilir. Önce “Tekrar dene”yi kullanın.",
+      "saved": "Değişiklikleriniz kaydedildi; sayfayı yenilemek güvenli."
+    }
+  },
   "auth": {
     "login": "Giriş Yap",
     "register": "Kayıt Ol",

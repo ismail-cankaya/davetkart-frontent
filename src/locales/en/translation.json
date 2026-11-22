@@ -4,6 +4,21 @@
     "create": "Design Invitation",
     "dashboard": "RSVP Panel"
   },
+  "routeError": {
+    "title": "Something went wrong",
+    "body": "This page hit an unexpected error. You can try again or reload the page.",
+    "chunkTitle": "The page could not be loaded",
+    "chunkBody": "The connection may have dropped or a new version of the site was released. Please reload the page.",
+    "retry": "Try again",
+    "reload": "Reload page",
+    "home": "Home",
+    "save": {
+      "local": "Your draft only lives in this tab; reloading will lose it. Use “Try again” first.",
+      "saving": "Your latest changes are being saved. Wait a few seconds before reloading.",
+      "failed": "Your latest changes could not be saved and may be lost on reload. Use “Try again” first.",
+      "saved": "Your changes are saved; reloading is safe."
+    }
+  },
   "auth": {
     "login": "Sign In",
     "register": "Sign Up",
