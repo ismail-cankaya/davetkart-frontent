@@ -4,6 +4,10 @@ import App from './App.tsx';
 import './index.css';
 import './i18n'; // initialize i18next before the tree renders
 import { useAuthStore } from './stores/useAuthStore';
+import { installPreloadRecovery } from './utils/preloadRecovery';
+
+// FE-02: a lazy chunk that fails to load reloads the page once (K223).
+installPreloadRecovery();
 
 // Faz 10 (10.29): önbellekteki oturum sunucuya BİR KEZ doğrulatılır. Token
 // 30 günlük (K90) ya da başka cihazdan iptal edilmişse ilk kimlikli işlemde
