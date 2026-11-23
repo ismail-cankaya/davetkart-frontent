@@ -43,3 +43,7 @@ Tıklamadan önce görünür olması gereken adımlar `isVisible()` ile değil `
 
 Yolculuk 1'e `draftSurvivesReload` eklendi: davetiye oluşturulduktan sonra adres `/create/<ULID>`, sayfa yenilenir, isim yine ekranda.
 Hat A bu yolculuğu koşmadı (E2E Hat B'nin portu ve veritabanı).
+
+## Erişilebilirlik (Faz 19.27)
+
+`a11y.spec.ts`: 14 sayfada axe (`color-contrast`, `aria-*`, `landmark-*`, `region` sıfır). Ayrıntı: [`a11y.md`](a11y.md).
