@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { Invitation, SubscriptionTier, isSubscriptionTier } from '../types';
 import { apiErrorCode, apiErrorParams } from '../services/api';
-import { TEMPLATE_PRESETS } from '../data';
+import { PLAN_RULES } from '../contracts/planRules';
 
 /** Planları sıralar ki "X planı Y gereksinimini karşılıyor mu" tek kıyas olsun. */
 export const TIER_RANK: Record<SubscriptionTier, number> = {
@@ -26,8 +26,9 @@ export const TIER_RANK: Record<SubscriptionTier, number> = {
 export function getRequiredTier(invitation: Invitation): SubscriptionTier {
   if (invitation.showGallery || invitation.showGift) return 'elit';
   if (invitation.showEnvelope || invitation.showTimeline) return 'gold';
-  // Faz 10 (FE 10.20 · K102): premium (videolu) tema en az Gold.
-  if (TEMPLATE_PRESETS.find((preset) => preset.id === invitation.imageTheme)?.minimumTier === 'gold') {
+  // Faz 10 (FE 10.20 · K102): premium (videolu) tema en az Gold. FE-10: backend sözleşmesinden
+  // (`presetTiers`) okunur; katalog okunsaydı bu mağaza üzerinden ana pakete girerdi.
+  if (PLAN_RULES.presetTiers[invitation.imageTheme] === 'gold') {
     return 'gold';
   }
   return 'standart';

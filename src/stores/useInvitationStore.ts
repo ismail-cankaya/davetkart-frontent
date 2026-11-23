@@ -5,10 +5,9 @@ import {
   InvitationRecord,
   InvitationSaveState,
   PaletteId,
-  TemplatePreset,
   TimelineEvent
 } from '../types';
-import { INITIAL_INVITATION, TEMPLATE_PRESETS, getPresetForCategory } from '../data';
+import { INITIAL_INVITATION } from '../data';
 import { persistenceService } from '../services/persistence';
 import { useAuthStore } from './useAuthStore';
 import { paywallFromError, useSubscriptionStore } from './useSubscriptionStore';
@@ -400,10 +399,3 @@ useAuthStore.subscribe((auth) => {
   }
 });
 
-/** The full preset object for the currently selected template. */
-export function useActivePreset(): TemplatePreset {
-  return useInvitationStore(
-    (state) =>
-      getPresetForCategory(state.activePresetId, state.invitation.categoryId || null) ?? TEMPLATE_PRESETS[0]
-  );
-}

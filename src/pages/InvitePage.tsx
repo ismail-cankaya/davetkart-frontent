@@ -5,7 +5,7 @@ import { useRsvpStore } from '../stores/useRsvpStore';
 import { publicInvitationService } from '../services/publicInvitation';
 import { apiErrorCode } from '../services/api';
 import { toDisplayError } from '../utils/toDisplayError';
-import { TEMPLATE_PRESETS } from '../data';
+import { TEMPLATE_PRESETS } from '../templateCatalog';
 import { Invitation } from '../types';
 
 /**

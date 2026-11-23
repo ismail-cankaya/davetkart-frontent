@@ -1,7 +1,8 @@
 import React, { useId, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { Check, LayoutGrid, Palette, RotateCcw, Sparkles, Type } from 'lucide-react';
-import { getCategoryLabel, getTemplatesForCategory } from '../../data';
+import { getCategoryLabel } from '../../data';
+import { getTemplatesForCategory } from '../../templateCatalog';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { CoupleNameFields } from '../create/CoupleNameFields';

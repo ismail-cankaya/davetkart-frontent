@@ -1,5 +1,7 @@
 # `templates/TemplateRenderer.tsx` — preset kimliği → bileşen
 
+> **FE-10 (Faz 19.24, K227):** 307 şablon artık barrel yerine `lazyTemplate(() => import('./<kategori>/<Ad>'), '<Ad>')` ile tembel; her biri kendi parçasında, misafir yalnızca kendi şablonunu indirir. Yükleme sırasında `TemplateFallback` (şablonun renginde tam ekran), parça yüklenemezse 19.21 `RouteError`. Yeni şablon: barrel + `THEME_PRESETS` girdisi (`verify:bundle` eksiği yakalar).
+
 > **Tarih:** 2026-10-15 · dal `design/kagit` (yalnızca §2 eklendi)
 
 ---
