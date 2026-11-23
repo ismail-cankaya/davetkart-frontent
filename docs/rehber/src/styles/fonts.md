@@ -26,3 +26,11 @@ eklenmedi**: `npm pack` ile indirilip woff2 + `LICENSE` kopyalandı, `@font-face
 `public/fonts/<id>/`'ye, bloğu `templates.css`'e ekle; `verify:fonts` eksik aileyi yakalar.
 
 Arapça vb. alt kümeler yok: `FE-01` (K220) arayüzü tr/en'e indirdi.
+
+## Yedek fontlar (FE-53, Faz 19.25)
+
+`Inter Fallback` (Arial) ve `Playfair Display Fallback` (Georgia), `size-adjust`/`ascent-override`/`descent-override`
+ile web fontuna eşlenir: font gelince metin yeniden kırılmaz. `size-adjust` Chromium'da Türkçe örnek metnin
+genişlik oranıyla ölçüldü (Inter 16 px'te: `opsz` ekseni boyuta göre genişler), ascent/descent fontun `hhea`/`OS/2`
+tablosundan. Ana sayfa CLS 0,176 → 0. Önyükleme (`<link rel="preload" as="font">`) **eklenmedi**: `index.html`
+her rotada (misafir dahil) iner; misafir LCP'si bütçeye 250 ms yakın, eşlemeyle CLS zaten 0.

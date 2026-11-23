@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion, animate, useInView } from 'motion/react';
@@ -97,10 +97,27 @@ function usePlayWhileVisible(ref: React.RefObject<HTMLVideoElement | null>) {
   }, [ref]);
 }
 
+/**
+ * FE-53: true after the window `load` event. The hero video (206 KB webm) used to download with
+ * `preload="auto"` on the critical path; now its <source>s mount after load (inserting a source into an
+ * empty media element starts loading; `autoPlay` plays it).
+ */
+function useAfterLoad(): boolean {
+  const [loaded, setLoaded] = useState(() => typeof document !== 'undefined' && document.readyState === 'complete');
+  useEffect(() => {
+    if (loaded) return;
+    const done = () => setLoaded(true);
+    window.addEventListener('load', done, { once: true });
+    return () => window.removeEventListener('load', done);
+  }, [loaded]);
+  return loaded;
+}
+
 export const Hero = React.memo(function Hero() {
   const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
   usePlayWhileVisible(videoRef);
+  const videoReady = useAfterLoad();
 
   // Headline arrives as lead/accent/tail phrases per language, then gets
   // split into words so the staggered blur-rise reveal survives translation.
@@ -130,13 +147,13 @@ export const Hero = React.memo(function Hero() {
           muted
           loop
           playsInline
-          preload="auto"
+          preload="none"
           poster="/videos/hero-bg-poster.jpg"
         >
           {/* WebM önce: destekleyen tarayıcı 206 KB indirir, MP4'e (2.3 MB)
               yalnızca Safari düşer. Tarayıcı ilk eşleşen kaynağı seçer. */}
-          <source src="/videos/hero-bg.webm" type="video/webm" />
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+          {videoReady && <source src="/videos/hero-bg.webm" type="video/webm" />}
+          {videoReady && <source src="/videos/hero-bg.mp4" type="video/mp4" />}
         </video>
         <div className="hero-veil absolute inset-0" />
       </div>

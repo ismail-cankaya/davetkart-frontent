@@ -27,3 +27,8 @@ Elle: `powershell -File scripts/e2e/backend.ps1 -Port 8020` → `http://127.0.0.
 - `psql` PATH'te yoksa `C:\Program Files\PostgreSQL\<n>\bin` aranır.
 - E-posta doğrulaması (SEC-09) gelince bağlantı `MAIL_MAILER=log` ya da `array`'den okunur; kanca
   `e2e/support/flows.ts` → `verifyEmailIfRequired`.
+
+## Günlük kanalı (Faz 19.25)
+
+`LOG_CHANNEL=single`: SEC-09'un doğrulama kancası (`e2e/support/flows.ts`) bağlantıyı `storage/logs/laravel.log`'dan
+okur; `.env` `daily` derse dosya `laravel-<tarih>.log` olur ve yolculuk düşer. Kanca dosya yokken de bekler.

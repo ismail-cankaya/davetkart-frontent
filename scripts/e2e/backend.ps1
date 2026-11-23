@@ -55,6 +55,8 @@ $env:PAYMENT_PROVIDER = 'fake'
 $env:PAYMENT_METHODS = 'card,gift_code'
 $env:QUEUE_CONNECTION = 'sync'
 $env:MAIL_MAILER = 'log'
+# SEC-09 hook (e2e/support/flows.ts) reads storage/logs/laravel.log: pin the channel (.env may say daily).
+$env:LOG_CHANNEL = 'single'
 $env:CACHE_STORE = 'database'
 $env:AI_PROVIDER = 'null'
 
