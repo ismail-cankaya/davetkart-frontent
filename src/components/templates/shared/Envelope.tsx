@@ -173,7 +173,8 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
             compositor'a alamıyor ve sayfa boştayken bile her karede ana thread
             çalışıyordu. Opaklıklar çarpıldığı için görünüm aynıdır. */}
         <motion.p
-          className={cn('mt-8 text-center text-[11px] font-medium tracking-[0.25em] uppercase', theme.body)}
+          // FE-54: heading colour, not body: 11 px uppercase body text on the envelope fell to 3.13:1 (axe).
+          className={cn('mt-8 text-center text-[11px] font-medium tracking-[0.25em] uppercase', theme.heading)}
           animate={{ opacity: opening ? 0 : 1 }}
           transition={{ duration: 0.3 }}
         >

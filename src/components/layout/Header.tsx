@@ -94,19 +94,19 @@ export const Header = React.memo(function Header() {
             <BrandMark size={19} />
           </span>
           <span className="font-serif text-lg md:text-xl font-bold text-brand tracking-tight">
-            Davet<span className="italic font-medium text-gold">Kart</span>
+            Davet<span className="italic font-medium text-gold" data-logotype>Kart</span>
           </span>
         </Link>
 
         {/* Navigation Links (Desktop) */}
-        <nav className="hidden md:flex items-center gap-7">
+        <nav className="hidden md:flex items-center gap-7" aria-label={t('nav.mainMenu')}>
           {NAV_LINKS.map(link => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
                 `relative transition-colors duration-300 font-medium text-sm group py-1 ${
-                  isActive ? 'text-brand' : 'text-muted hover:text-brand'
+                  isActive ? 'text-brand' : 'text-brand/80 hover:text-brand'
                 }`
               }
             >
@@ -204,7 +204,7 @@ export const Header = React.memo(function Header() {
                     onClick={() => setMobileMenuOpen(false)}
                     className={({ isActive }) =>
                       `font-medium text-base py-3 px-3 rounded-xl border-b border-ink/5 last:border-b-0 transition-colors ${
-                        isActive ? 'text-brand bg-brand/[0.04]' : 'text-muted hover:text-brand hover:bg-brand/[0.03]'
+                        isActive ? 'text-brand bg-brand/[0.04]' : 'text-brand/80 hover:text-brand hover:bg-brand/[0.03]'
                       }`
                     }
                     to={link.to}

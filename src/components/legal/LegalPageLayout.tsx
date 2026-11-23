@@ -123,7 +123,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
                         isActive ? 'scale-y-100' : 'scale-y-0'
                       }`}
                     />
-                    <span className="font-serif text-[10px] font-bold text-gold shrink-0">
+                    <span className="font-serif text-[10px] font-bold text-gold-ink shrink-0">
                       {String(idx + 1).padStart(2, '0')}
                     </span>
                     {section.title}
@@ -146,7 +146,7 @@ export function LegalPageLayout({ badge, title, accent, intro, lastUpdated, sect
               transition={{ duration: duration.panel, ease: ease.out }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <span className="font-serif text-sm font-bold text-gold">{String(idx + 1).padStart(2, '0')}</span>
+                <span className="font-serif text-sm font-bold text-gold-ink">{String(idx + 1).padStart(2, '0')}</span>
                 <span className="h-px w-8 bg-gold/40" />
               </div>
               <h2 className="font-serif text-xl md:text-2xl font-bold text-ink mb-4">{section.title}</h2>
