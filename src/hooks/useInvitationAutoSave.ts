@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useAuthStore } from '../stores/useAuthStore';
 import { useInvitationStore } from '../stores/useInvitationStore';
+import { shouldAutoSave } from '../utils/draftContent';
 
 /** Idle window after the last edit before the design is pushed to the backend. */
 const AUTO_SAVE_DELAY_MS = 1500;
@@ -29,7 +30,8 @@ export function useInvitationAutoSave(): void {
     // Yalnızca kullanıcı düzenlemeleri: kaydetme yanıtı, kayıt yükleme ve
     // sıfırlama da `invitation`'ı değiştirir ama kaydetme tetiklememelidir.
     const unsubscribe = useInvitationStore.subscribe((state, prev) => {
-      if (state.editRevision !== prev.editRevision) debouncedSave();
+      // K192 (FE-50): kayıt yoksa ilk POST yalnızca gerçek içerikte; kategori/tema seçimi taslak açmaz.
+      if (state.editRevision !== prev.editRevision && shouldAutoSave(state)) debouncedSave();
     });
 
     return () => {
