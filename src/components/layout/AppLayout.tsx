@@ -11,8 +11,9 @@ const AssistantWidget = React.lazy(() =>
   import('../assistant/AssistantWidget').then(m => ({ default: m.AssistantWidget }))
 );
 
+// FE-53: at least one screen tall, so the footer starts below the fold while a lazy page loads (CLS 0.33-0.57 before).
 const PageSpinner = () => (
-  <div className="py-32 flex justify-center items-center">
+  <div className="min-h-[100svh] py-32 flex justify-center items-start">
     <div className="w-8 h-8 border-4 border-brand border-t-transparent rounded-full animate-spin" />
   </div>
 );
