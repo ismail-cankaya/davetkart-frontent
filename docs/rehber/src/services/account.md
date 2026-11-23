@@ -19,3 +19,10 @@ tarihsel olarak `authService`'te kaldı: hesap silmek bir oturum sonu da.
 
 `useAuthStore`'a tek satırlık `setUser(user)` eklendi: profil güncellenince başlıktaki ad
 hemen değişir ve önbelleğe yazılır; token dokunulmaz.
+
+
+## 🆕 Faz 19 (19.14 · K191, SEC-09)
+
+- `resendEmailVerification()` → `POST /auth/email-verification` (204; saatte 3, 429 `RATE_LIMITED`).
+- `confirmEmailVerification(rawQuery)` → `POST /public/email-verification/confirm?<sorgu aynen>` (204 · 422 `EMAIL_VERIFICATION_INVALID`).
+- Yeni hata kodları `EMAIL_NOT_VERIFIED` (403: ödeme/yayın) ve `EMAIL_VERIFICATION_INVALID` `src/contracts/error-codes.json` kopyasında ve tr/en `errors.json`'da.

@@ -20,6 +20,11 @@ export interface AuthUser {
   firstName: string;
   lastName: string;
   email: string;
+  /**
+   * Faz 19 (K191, SEC-09): adres doğrulandı mı. Opsiyonel: alan gelmeden önce kaydedilmiş
+   * oturum önbelleği onu taşımaz; bant yalnızca açık `false`ta görünür.
+   */
+  emailVerified?: boolean;
 }
 
 /** JWT session issued by the Auth microservice. */

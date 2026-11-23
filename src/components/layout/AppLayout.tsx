@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useLenis } from '../../hooks/useLenis';
 import { Header } from './Header';
+import { EmailVerificationBanner } from '../account/EmailVerificationBanner';
 import { Footer } from './Footer';
 import { Toaster } from '../ui/Toast';
 import { ConfirmHost } from '../ui/ConfirmDialog';
@@ -33,6 +34,7 @@ export function AppLayout() {
   return (
     <div className="min-h-screen bg-cream text-ink font-sans relative">
       <Header />
+      <EmailVerificationBanner />
 
       <main className="flex-grow flex flex-col">
         <React.Suspense fallback={<PageSpinner />}>

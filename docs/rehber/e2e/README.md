@@ -33,3 +33,7 @@ e2e'nin asıl kazancı backend testlerinin sabitlemediği sözleşmelerde. Çık
 
 Tıklamadan önce görünür olması gereken adımlar `isVisible()` ile değil `waitFor`/`click` ile beklenir
 (`isVisible` beklemez). Misafir formu zarf açıldıktan sonra bir kez yeniden çizilebilir; ad `toPass` ile doldurulur.
+
+## Faz 19 (19.14 · K191, SEC-09) — e-posta doğrulama kancası
+
+`flows.ts` → `verifyEmailIfRequired` artık boş değil: kayıt sonrası doğrulama postası E2E backend'inde `MAIL_MAILER=log` + `sync` kuyrukla `storage/logs/laravel.log`'a yazılır. Kanca, sahibin adresinden sonraki ilk `/eposta-dogrula?…` bağlantısını log'dan okur (`&amp;` çözülür), sayfayı açar ve "E-posta adresiniz doğrulandı" başlığını bekler. Backend yolu `E2E_BACKEND_PATH` (yoksa `../davetkart-backend-php-laravel`). Hat A bu yolculuğu koşmadı (E2E Hat B'nin portu ve veritabanı).

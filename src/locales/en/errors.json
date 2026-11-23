@@ -28,6 +28,8 @@
       "detailed": "You've used all {{limit}} of today's assistant messages. Try again in {{retryAfter}}."
     },
     "EMAIL_CHANGE_INVALID": "This email confirmation link is invalid or has expired. Request a new one from your account settings.",
+    "EMAIL_NOT_VERIFIED": "Please verify your email address before paying or publishing. If the link did not arrive, request a new one from the banner at the top of the page.",
+    "EMAIL_VERIFICATION_INVALID": "This verification link is invalid, has expired or was already used. If your account is not verified yet, sign in and request a new link.",
     "FILE_TOO_LARGE": {
       "base": "That file is too large. Pick a smaller one and try again.",
       "detailed": "That file is too large. The limit is {{max}} KB."

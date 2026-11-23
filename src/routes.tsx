@@ -18,6 +18,7 @@ const AccountOrdersSection = React.lazy(() => import('./pages/account/AccountOrd
 const AccountSecuritySection = React.lazy(() => import('./pages/account/AccountSecuritySection'));
 const AccountPrivacySection = React.lazy(() => import('./pages/account/AccountPrivacySection'));
 const EmailChangeConfirmPage = React.lazy(() => import('./pages/EmailChangeConfirmPage'));
+const EmailVerificationPage = React.lazy(() => import('./pages/EmailVerificationPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
@@ -69,6 +70,7 @@ const appPages: RouteObject[] = [
   // cihazda açılabilir). Yol backend config/davetkart.php →
   // frontend.email_change_path ile aynı; biri değişirse ikisi birlikte.
   { path: '/eposta-onay', element: <EmailChangeConfirmPage /> },
+  { path: '/eposta-dogrula', element: <EmailVerificationPage /> },
   {
     // Hesap ayarları (Faz 10'da tek sayfa, Faz 14'te bölümlü).
     path: '/hesap',

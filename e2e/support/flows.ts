@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
 import { expect, type Page } from '@playwright/test';
 
 /**
@@ -33,11 +35,34 @@ export async function register(page: Page, owner: Owner): Promise<void> {
   await expect(page).not.toHaveURL(/\/register/);
 }
 
+/** The E2E backend (scripts/e2e/backend.ps1) mails with MAIL_MAILER=log and a sync queue. */
+const BACKEND_LOG = path.join(
+  process.env.E2E_BACKEND_PATH ?? path.join(process.cwd(), '..', 'davetkart-backend-php-laravel'),
+  'storage',
+  'logs',
+  'laravel.log',
+);
+
 /**
- * Hook for SEC-09 (Faz 19.14): when registration starts requiring e-mail
- * verification, open the link here. Today registration signs in directly.
+ * SEC-09 (Faz 19.14, K191): registration signs in but checkout and publish wait
+ * for a verified address. Read the verification mail from the log and open its
+ * link the way the user would.
  */
-export async function verifyEmailIfRequired(_page: Page, _owner: Owner): Promise<void> {}
+export async function verifyEmailIfRequired(page: Page, owner: Owner): Promise<void> {
+  let link = '';
+  await expect
+    .poll(() => {
+      const log = readFileSync(BACKEND_LOG, 'utf8');
+      const at = log.lastIndexOf(owner.email);
+      const match = at < 0 ? null : /https?:\/\/[^\s"'<>]+\/eposta-dogrula\?[^\s"'<>]+/.exec(log.slice(at));
+      link = match ? match[0].replace(/&amp;/g, '&') : '';
+      return link;
+    }, { message: `verification mail for ${owner.email} in ${BACKEND_LOG}` })
+    .not.toBe('');
+
+  await page.goto(link);
+  await expect(page.getByRole('heading', { name: 'E-posta adresiniz doğrulandı' })).toBeVisible();
+}
 
 export async function createInvitation(page: Page, names: { first: string; second: string }): Promise<void> {
   await page.goto('/create');
