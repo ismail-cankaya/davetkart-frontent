@@ -98,7 +98,7 @@ export default function ResetPasswordPage() {
             id="reset-password"
             type="password"
             required
-            // Backend kuralı min:8 (kayıtla aynı).
+            // Backend kuralı PasswordPolicy (kayıtla aynı: min 8 + yaygın parola listesi, K258).
             minLength={8}
             autoComplete="new-password"
             autoFocus

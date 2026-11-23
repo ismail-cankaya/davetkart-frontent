@@ -133,8 +133,8 @@ export default function RegisterPage() {
             id="register-password"
             type="password"
             required
-            // Backend kuralı Password::min(8); 6 bırakılsaydı istek 422 döner
-            // ve kullanıcı sebebini göremezdi.
+            // Backend kuralı PasswordPolicy (min 8 + yaygın parola listesi, K258);
+            // uzunluk burada da 8, listeyi yalnızca sunucu bilir.
             minLength={8}
             autoComplete="new-password"
             value={password}

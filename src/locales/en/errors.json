@@ -182,6 +182,7 @@
       "mimetypes": "{{field}} is in an unsupported file format.",
       "confirmed": "{{field}} doesn't match its confirmation.",
       "current_password": "{{field}} is incorrect.",
+      "uncommon_password": "{{field}} is too common or easy to guess. Choose a longer, more personal one.",
       "iban": "{{field}} isn't a valid IBAN. Check the account number.",
       "same": "{{field}} doesn't match.",
       "different": "{{field}} must be different.",

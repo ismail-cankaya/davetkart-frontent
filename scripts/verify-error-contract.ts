@@ -157,13 +157,17 @@ async function main(): Promise<void> {
     } | undefined)?.validation?.rules;
 
     //     Faz 10 (FE 10.19 · K105): `iban` backend'in kendi kuralı; adı
-    //     sözleşmenin parçası (D6).
-    for (const rule of ['current_password', 'iban']) {
+    //     sözleşmenin parçası (D6). Faz 19.9 (K258): `uncommon_password` aynı biçimde.
+    for (const rule of ['current_password', 'iban', 'uncommon_password']) {
       if (typeof rules?.[rule] !== 'string') fail(`${rule} kuralı → [${language}] çevirisi yok`);
     }
     assertRendered(
       'VALIDATION_FAILED.password (current_password)',
       toFieldErrors(apiError('VALIDATION_FAILED', { fields: { password: [{ rule: 'current_password' }] } })).password ?? '',
+    );
+    assertRendered(
+      'VALIDATION_FAILED.password (uncommon_password)',
+      toFieldErrors(apiError('VALIDATION_FAILED', { fields: { password: [{ rule: 'uncommon_password' }] } })).password ?? '',
     );
     assertRendered(
       'VALIDATION_FAILED.invitation.iban (iban)',
