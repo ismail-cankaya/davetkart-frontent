@@ -4,7 +4,7 @@ import { MotionConfig } from 'motion/react';
 import '../../src/index.css';
 import { TemplateRenderer } from '../../src/components/templates/TemplateRenderer';
 import type { TemplateProps } from '../../src/components/templates/types';
-import { TEMPLATE_PRESETS } from '../../src/data';
+import { TEMPLATE_PRESETS } from '../../src/templateCatalog';
 import { displayNames } from '../../src/utils/names';
 import { kimligiCoz, MODULLER, SENARYOLAR, senaryoKur, type Ezme, type Modul, type SenaryoAdi } from './senaryolar';
 

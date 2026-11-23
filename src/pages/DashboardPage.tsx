@@ -31,7 +31,8 @@ import { fullName } from '../utils/user';
 import { displayNames } from '../utils/names';
 import { toDisplayError } from '../utils/toDisplayError';
 import { formatReleaseDeadline, releaseOutcome } from '../utils/releaseWindow';
-import { EVENT_CATEGORIES, getPresetForCategory } from '../data';
+import { EVENT_CATEGORIES } from '../data';
+import { getPresetForCategory } from '../templateCatalog';
 import { Invitation, InvitationRecord } from '../types';
 import { duration, ease, spring } from '../utils/motion';
 

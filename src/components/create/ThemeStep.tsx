@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Check, ChevronDown, Loader2 } from 'lucide-react';
-import { getTemplatesForCategory } from '../../data';
+import { getTemplatesForCategory } from '../../templateCatalog';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useCreateWizardStore, useActiveCategory } from '../../stores/useCreateWizardStore';
 import { useProgressiveList } from '../../hooks/useProgressiveList';

@@ -13,7 +13,8 @@
  * fiyat kararıdır ve backend'de verilir. Ayrıntı: docs/rehber/scripts/verify-plan-rules.md
  */
 import { MODULE_FIELDS, PLAN_RULES } from '../src/contracts/planRules';
-import { INITIAL_INVITATION, SUBSCRIPTION_PLANS, TEMPLATE_PRESETS } from '../src/data';
+import { INITIAL_INVITATION, SUBSCRIPTION_PLANS } from '../src/data';
+import { TEMPLATE_PRESETS } from '../src/templateCatalog';
 import { TIER_RANK, getRequiredTier } from '../src/stores/useSubscriptionStore';
 import { isSubscriptionTier } from '../src/types';
 import type { Invitation, SubscriptionPlan } from '../src/types';

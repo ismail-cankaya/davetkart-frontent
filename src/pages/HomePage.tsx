@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'motion/react';
 import { PenLine, ArrowRight } from 'lucide-react';
 import { Hero } from '../components/home/Hero';
-import { PreviewSection } from '../components/preview/PreviewSection';
 import { DeferredSection } from '../components/ui/DeferredSection';
 import { ease } from '../utils/motion';
 import { useFirstPublishPercent } from '../hooks/usePricing';
+
+// FE-10: önizleme (DeviceSimulator, şablon kataloğu, mağazalar) ana pakete girmesin; HomePage çizilince iner.
+const PreviewSection = React.lazy(() =>
+  import('../components/preview/PreviewSection').then((m) => ({ default: m.PreviewSection })),
+);
 
 const Features = React.lazy(() => import('../components/home/Features').then(m => ({ default: m.Features })));
 const LiveRsvpPanel = React.lazy(() => import('../components/rsvp/LiveRsvpPanel').then(m => ({ default: m.LiveRsvpPanel })));
@@ -59,7 +63,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <PreviewSection />
+      <React.Suspense fallback={<div className="min-h-[100svh]" aria-busy="true" />}>
+        <PreviewSection />
+      </React.Suspense>
       <CreateCtaBanner />
       <React.Suspense
         fallback={
