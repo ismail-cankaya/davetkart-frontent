@@ -16,6 +16,8 @@
   --color-cream: #f8f6f1;
   --color-champagne: #efe2c1;
   --color-gold: #c9a961;
+  /* FE-54: gold for small text on light backgrounds (#c9a961 on cream is 2.08:1). */
+  --color-gold-ink: #7f6220;
 
   /* Motion token'ları — JS karşılıkları src/utils/motion.ts `ease.out` / `ease.in`.
      Girişler ease-luxe; çıkışlar ease-luxe-in (hızlanarak uzaklaşır). */
@@ -372,9 +374,10 @@ html.lenis body {
 
 @keyframes hint-fade {
 
+  /* FE-54: floor 0.75, not 0.4: at 0.4 the hint fell to 1.73:1 (axe). */
   0%,
   100% {
-    opacity: 0.4;
+    opacity: 0.75;
   }
 
   50% {

@@ -179,7 +179,7 @@ function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCard
             type="button"
             onClick={() => onDelete(card)}
             aria-label="Bu davetiyeyi sil"
-            className="w-full inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2 rounded-xl text-muted/70 hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition duration-300 cursor-pointer"
+            className="w-full inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2 rounded-xl text-muted hover:text-rose-600 hover:bg-rose-50 border border-transparent hover:border-rose-200 transition duration-300 cursor-pointer"
           >
             <Trash2 size={12} /> Sil
           </button>

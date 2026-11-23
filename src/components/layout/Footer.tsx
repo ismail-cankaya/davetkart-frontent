@@ -30,14 +30,14 @@ export const Footer = React.memo(function Footer() {
             </span>
             Davet<span className="italic font-medium text-champagne -ml-1">Kart</span>
           </span>
-          <p className="text-emerald-100/50 text-xs leading-relaxed">
+          <p className="text-emerald-100/70 text-xs leading-relaxed">
             Özel anlarınız için özenle tasarlanmış, doğa dostu, pratik ve lüks dijital davetiyeler. Hayatınızın en mutlu gününü sevdiklerinizle lüks zarafetle paylaşın.
           </p>
         </div>
 
         <div className="md:col-span-2 space-y-3">
           <h4 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Koleksiyonlar</h4>
-          <ul className="space-y-2.5 text-xs text-emerald-100/50">
+          <ul className="space-y-2.5 text-xs text-emerald-100/70">
             <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Düğün &amp; Nikah</Link></li>
             <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Sünnet Düğünü</Link></li>
             <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Baby Shower</Link></li>
@@ -48,7 +48,7 @@ export const Footer = React.memo(function Footer() {
 
         <div className="md:col-span-2 space-y-3">
           <h4 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Kurumsal</h4>
-          <ul className="space-y-2.5 text-xs text-emerald-100/50">
+          <ul className="space-y-2.5 text-xs text-emerald-100/70">
             <li><Link to="/about" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Hakkımızda</Link></li>
             <li><Link to="/" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Özellikler</Link></li>
             <li><Link to="/pricing" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Fiyatlandırma</Link></li>
@@ -59,7 +59,7 @@ export const Footer = React.memo(function Footer() {
 
         <div className="md:col-span-4 space-y-4">
           <h4 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Haber Bülteni</h4>
-          <p className="text-emerald-100/50 text-xs leading-relaxed">
+          <p className="text-emerald-100/70 text-xs leading-relaxed">
             Kampanyalardan, yeni lüks şablon tasarımlarından ve davetiye tüyolarından ilk siz haberdar olun.
           </p>
           <div className="flex gap-2">
@@ -84,7 +84,7 @@ export const Footer = React.memo(function Footer() {
       </div>
 
       {/* Legal Credits */}
-      <div className="border-t border-white/5 bg-black/30 py-6 text-center text-emerald-100/40 text-xs relative z-10">
+      <div className="border-t border-white/5 bg-black/30 py-6 text-center text-emerald-100/60 text-xs relative z-10">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p>© 2026 DavetKart. Tüm hakları saklıdır.</p>
           <div className="flex gap-6">

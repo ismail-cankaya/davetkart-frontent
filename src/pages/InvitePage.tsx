@@ -111,12 +111,12 @@ export default function InvitePage() {
   }
 
   return (
-    <div className="h-dvh w-full relative overflow-hidden bg-emerald-950">
+    <main className="h-dvh w-full relative overflow-hidden bg-emerald-950">
       <TemplateRenderer
         templateId={resolvePresetId(state.invitation.imageTheme)}
         invitation={state.invitation}
         mode="live"
       />
-    </div>
+    </main>
   );
 }

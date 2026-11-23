@@ -28,8 +28,8 @@ export default defineConfig({
   },
   projects: [
     { name: 'publish', testMatch: /publish-with-gift-code\.spec\.ts/ },
-    // Both need the invitation the first journey published.
-    { name: 'after-publish', testMatch: /(guest-rsvp|paywall-after-publish)\.spec\.ts/, dependencies: ['publish'] }
+    // All need the invitation (and owner session) the first journey published; a11y = FE-54 axe scan.
+    { name: 'after-publish', testMatch: /(guest-rsvp|paywall-after-publish|a11y)\.spec\.ts/, dependencies: ['publish'] }
   ],
   webServer: [
     {

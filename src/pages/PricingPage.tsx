@@ -211,8 +211,8 @@ export default function PricingPage() {
                               ? 'text-emerald-50/85'
                               : 'text-muted'
                             : highlighted
-                              ? 'text-white/35 line-through'
-                              : 'text-stone-400 line-through decoration-stone-300'
+                              ? 'text-white/55 line-through'
+                              : 'text-stone-500 line-through decoration-stone-400'
                         }
                       >
                         {feature.label}

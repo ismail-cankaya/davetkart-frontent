@@ -39,6 +39,7 @@ import { LanguageSwitcher } from '../src/components/LanguageSwitcher';
 import { routes } from '../src/routes';
 import { PRELOAD_RELOAD_KEY, PRELOAD_RELOAD_WINDOW_MS, recoverFromPreloadError } from '../src/utils/preloadRecovery';
 import type { Invitation, InvitationRecord } from '../src/types';
+import { Toaster } from '../src/components/ui/Toast';
 
 const SIGNATURE = 'DavetKart ile hazırlandı';
 
@@ -400,6 +401,14 @@ function preloadRecovery(): void {
   check(!recoverFromPreloadError(event, { ...deps, storage: null }) && reloads === 2, 'depolama yoksa körlemesine yenileme yok', `yenileme ${reloads}`);
 }
 
+/** FE-54: toast live regions are in the markup before any message (screen readers ignore late regions). */
+function toastRegions(): void {
+  console.log('\nBildirim bölgeleri (FE-54):');
+  const html = renderToStaticMarkup(<Toaster />);
+  check(/role="status"[^>]*aria-live="polite"/.test(html), 'başarı/bilgi: role="status" aria-live="polite" baştan var', html.slice(0, 200));
+  check(/role="alert"[^>]*aria-live="assertive"/.test(html), 'hata: role="alert" aria-live="assertive" baştan var', html.slice(0, 200));
+}
+
 async function main(): Promise<void> {
   await signatureOnTheGuestPage();
   await lazyPresetsRender();
@@ -410,6 +419,7 @@ async function main(): Promise<void> {
   await languageScope();
   await routeErrors();
   preloadRecovery();
+  toastRegions();
 
   if (failures > 0) {
     console.error(`\n${failures} sorun bulundu.`);
