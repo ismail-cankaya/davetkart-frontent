@@ -8,6 +8,7 @@ coverage/
 /test-results/
 /playwright-report/
 /e2e/.state/
+/perf-results/
 .env*
 !.env.example
 !.env.production.example

@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { expect, type Page } from '@playwright/test';
 
@@ -52,7 +52,7 @@ export async function verifyEmailIfRequired(page: Page, owner: Owner): Promise<v
   let link = '';
   await expect
     .poll(() => {
-      const log = readFileSync(BACKEND_LOG, 'utf8');
+      const log = existsSync(BACKEND_LOG) ? readFileSync(BACKEND_LOG, 'utf8') : '';
       const at = log.lastIndexOf(owner.email);
       const match = at < 0 ? null : /https?:\/\/[^\s"'<>]+\/eposta-dogrula\?[^\s"'<>]+/.exec(log.slice(at));
       link = match ? match[0].replace(/&amp;/g, '&') : '';

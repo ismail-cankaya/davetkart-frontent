@@ -27,7 +27,8 @@
     "verify:bundle": "node scripts/run-check.mjs scripts/verify-bundle.ts",
     "verify:render": "node scripts/run-check.mjs scripts/verify-render.tsx",
     "e2e": "playwright test",
-    "e2e:report": "playwright show-report"
+    "e2e:report": "playwright show-report",
+    "perf": "playwright test -c playwright.perf.config.ts"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",
