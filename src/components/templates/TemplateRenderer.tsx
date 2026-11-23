@@ -95,7 +95,6 @@ import { TEMPLATE_PRESETS } from '../../data';
 interface TemplateRendererProps {
   templateId: string;
   invitation: Invitation;
-  onRsvpClick: () => void;
   mode?: 'preview' | 'live';
 }
 
@@ -446,7 +445,7 @@ function TemplateFallback({ color }: { color?: string }) {
   return <div className="min-h-[100svh] w-full bg-[#F4F1EA]" style={color ? { background: color } : undefined} aria-busy="true" />;
 }
 
-export function TemplateRenderer({ templateId, invitation: stored, onRsvpClick, mode = 'preview' }: TemplateRendererProps) {
+export function TemplateRenderer({ templateId, invitation: stored, mode = 'preview' }: TemplateRendererProps) {
   // Şablonların tek giriş kapısı: saklama biçimindeki isim ayracı (`& Ali`,
   // bkz. utils/names) burada temizlenir; 180+ şablonun her biri ayrıca bilmez.
   // Değişiklik yoksa aynı nesne geçer — şablonların memo'su bozulmaz.
@@ -468,11 +467,11 @@ export function TemplateRenderer({ templateId, invitation: stored, onRsvpClick, 
   if (ThemePreset) {
     return (
       <Suspense fallback={<TemplateFallback color={PRESET_COLORS.get(presetKey)} />}>
-        <ThemePreset invitation={invitation} onRsvpClick={onRsvpClick} mode={mode} />
+        <ThemePreset invitation={invitation} mode={mode} />
       </Suspense>
     );
   }
 
   // Varsayılan olarak DugunSade kullan
-  return <DugunSade invitation={invitation} onRsvpClick={onRsvpClick} mode={mode} />;
+  return <DugunSade invitation={invitation} mode={mode} />;
 }

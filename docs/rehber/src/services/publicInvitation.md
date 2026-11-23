@@ -210,3 +210,9 @@ galleryImages: (wire.galleryImages ?? []).map((image) => ({ id: null, url: image
 ```
 
 Sıra, sahibin yükleme sırasıdır (`gallery_media_ids`).
+
+## 🆕 Faz 19 (19.12 · K189, FE-51) — `guestUploads`
+
+Backend LCV açıkken `guestUploads: bool` yayınlar. Servis alanı davetiye nesnesinden ayırır ve
+`PublicInvitationView.guestUploads` olarak döndürür (yoksa `false`). Davetiye modeli (`Invitation`) editörle
+paylaşıldığı için oraya eklenmedi: sunucu ayarı tasarım verisi değildir. Arayüz bu bayrağı sabit kodlamaz (D3).

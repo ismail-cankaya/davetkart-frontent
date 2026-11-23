@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Laptop, LucideIcon, Maximize2, Smartphone, Tablet } from 'lucide-react';
-import { RsvpModal } from './RsvpModal';
 import { TemplateRenderer } from '../templates/TemplateRenderer';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { useUIStore } from '../../stores/useUIStore';
@@ -92,8 +91,6 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
   );
   const activePresetId = useInvitationStore(s => s.activePresetId);
   const isMobile = useUIStore(s => s.isMobile);
-  const isRsvpModalOpen = useUIStore(s => s.isRsvpModalOpen);
-  const setRsvpModalOpen = useUIStore(s => s.setRsvpModalOpen);
   const device = useUIStore(s => s.previewDevice);
   const setPreviewDevice = useUIStore(s => s.setPreviewDevice);
   const setInvitationScope = useRsvpStore(s => s.setInvitationScope);
@@ -234,15 +231,9 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
               <TemplateRenderer
                 templateId={activePresetId}
                 invitation={invitation}
-                onRsvpClick={() => setRsvpModalOpen(true)}
                 mode="preview"
               />
             </div>
-
-            {/* RSVP Modal */}
-            <AnimatePresence>
-              {isRsvpModalOpen && <RsvpModal />}
-            </AnimatePresence>
           </motion.div>
         </motion.div>
 

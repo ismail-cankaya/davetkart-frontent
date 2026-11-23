@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { AnimatePresence } from 'motion/react';
 import { TemplateRenderer } from '../components/templates/TemplateRenderer';
-import { RsvpModal } from '../components/preview/RsvpModal';
-import { useUIStore } from '../stores/useUIStore';
 import { useRsvpStore } from '../stores/useRsvpStore';
 import { publicInvitationService } from '../services/publicInvitation';
 import { apiErrorCode } from '../services/api';
@@ -47,8 +44,6 @@ export default function InvitePage() {
   const { id } = useParams<{ id: string }>();
   const [state, setState] = useState<LoadState>({ status: 'loading' });
 
-  const isRsvpModalOpen = useUIStore((s) => s.isRsvpModalOpen);
-  const setRsvpModalOpen = useUIStore((s) => s.setRsvpModalOpen);
   const setInvitationScope = useRsvpStore((s) => s.setInvitationScope);
 
   // Misafirin yanıtı BU davetiyeye yazılır. Kapsam, davetiyenin yüklenmesini
@@ -120,11 +115,8 @@ export default function InvitePage() {
       <TemplateRenderer
         templateId={resolvePresetId(state.invitation.imageTheme)}
         invitation={state.invitation}
-        onRsvpClick={() => setRsvpModalOpen(true)}
         mode="live"
       />
-
-      <AnimatePresence>{isRsvpModalOpen && <RsvpModal />}</AnimatePresence>
     </div>
   );
 }

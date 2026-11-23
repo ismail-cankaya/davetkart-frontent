@@ -64,7 +64,7 @@ Her madde **ne**, **neden açık / nasıl kapandı** ve **nasıl kontrol edilir*
 
 - [ ] **Kategori `index.ts` barrel'larına konsept şablonları eklenmedi** (tembel yükleme için;
   gerekçe: `lazyPresets.md`, `KONSEPT-ORTAK.md` §2 notu).
-- [ ] **`onRsvpClick` hiçbir şablonda çağrılmıyor** (eski şablonlarda da); LCV satır içi form.
+- [x] **`onRsvpClick` hiçbir şablonda çağrılmıyor** → Faz 19 (K189, FE-51) ile kaldırıldı; LCV satır içi form.
 - [ ] **A bölümündeki 18 şablonun katalog adları ve renkleri** (`src/data.ts`).
 - [ ] **`verify:render` misafir sayfasını `prerenderToNodeStream` ile çiziyor** (~4 s; belge:
   `docs/rehber/scripts/verify-render.md` §2.4).

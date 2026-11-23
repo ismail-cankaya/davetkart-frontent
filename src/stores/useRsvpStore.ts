@@ -5,7 +5,6 @@ import { persistenceService } from '../services/persistence';
 import { rsvpService } from '../services/rsvps';
 import { rsvpReceipts } from '../services/rsvpReceipts';
 import { apiErrorCode } from '../services/api';
-import { mediaService, type GuestMediaKind } from '../services/media';
 
 /**
  * Panelin yenileme aralığı — backend `davetkart.rsvp.poll_interval_seconds`.
@@ -14,19 +13,6 @@ import { mediaService, type GuestMediaKind } from '../services/media';
  * değişiklik yoksa her poll **304** alır ve gövde inmez.
  */
 export const RSVP_POLL_INTERVAL_MS = 15_000;
-
-/** Taslaktaki iki medya yuvası; her biri bir kimlik + bir önizleme URL'si tutar. */
-type DraftMediaField = 'photo' | 'video';
-
-const MEDIA_KIND: Record<DraftMediaField, GuestMediaKind> = {
-  photo: 'rsvp_photo',
-  video: 'rsvp_video',
-};
-
-/** Yerel önizleme URL'si sızdırmamak için: yenisini koymadan eskisini bırak. */
-function releaseObjectUrl(url: string): void {
-  if (url.startsWith('blob:')) URL.revokeObjectURL(url);
-}
 
 /**
  * Bu cihazın yanıtı varsa günceller, yoksa yeni yanıt gönderir (FE 10.18 · K101).
@@ -95,8 +81,6 @@ interface RsvpState {
    */
   startPolling: () => () => void;
   updateDraft: (patch: Partial<RsvpDraft>) => void;
-  /** Dosyayı misafir ucundan yükler ve dönen **kimliği** taslağa yazar. */
-  attachDraftMedia: (field: DraftMediaField, file: File) => Promise<void>;
   /**
    * Taslağı doğrulayıp gönderir. Sunucunun ürettiği kayıtla çözülür; taslak
    * geçersizse `null` döner. Ağ/API hataları fırlatılır — formu gösteren
@@ -210,30 +194,7 @@ export const useRsvpStore = create<RsvpState>()((set, get) => ({
 
   updateDraft: (patch) => set((state) => ({ draft: { ...state.draft, ...patch } })),
 
-  attachDraftMedia: async (field, file) => {
-    const { invitationId, draft } = get();
-    const previousUrl = field === 'photo' ? draft.photoUrl : draft.videoUrl;
-
-    // Önizlemede sunucuya çıkılmaz: kimliği olmayan bir davetiyeye dosya
-    // iliştirilemez. Kullanıcı yine de seçtiği dosyayı görür.
-    if (!invitationId) {
-      releaseObjectUrl(previousUrl);
-      const localUrl = URL.createObjectURL(file);
-      set((state) => ({
-        draft: { ...state.draft, [`${field}Url`]: localUrl, [`${field}MediaId`]: '' },
-      }));
-      return;
-    }
-
-    const media = await mediaService.uploadAsGuest(invitationId, file, MEDIA_KIND[field]);
-
-    releaseObjectUrl(previousUrl);
-    set((state) => ({
-      draft: { ...state.draft, [`${field}Url`]: media.url, [`${field}MediaId`]: media.id },
-    }));
-  },
-
-  submitDraft: async () => {
+    submitDraft: async () => {
     const { draft, invitationId } = get();
     if (!draft.guestName.trim()) return null;
 
@@ -243,10 +204,6 @@ export const useRsvpStore = create<RsvpState>()((set, get) => ({
       status: draft.status,
       menuPreference: draft.menuPreference || null,
       message: draft.message || null,
-      // Boş dizgi değil `null`: alan isteğe bağlıdır ve ULID kuralı boş
-      // dizgiyi reddeder.
-      photoMediaId: draft.photoMediaId || null,
-      videoMediaId: draft.videoMediaId || null,
       // Tuzağın değeri formdan olduğu gibi taşınır; burada sabitlenmez.
       website: draft.website,
     };
@@ -261,8 +218,6 @@ export const useRsvpStore = create<RsvpState>()((set, get) => ({
         menuPreference: payload.menuPreference ?? '',
         status: payload.status,
         message: payload.message ?? undefined,
-        photoUrl: draft.photoUrl || undefined,
-        videoUrl: draft.videoUrl || undefined,
         createdAt: new Date().toISOString(),
       };
       set((state) => ({

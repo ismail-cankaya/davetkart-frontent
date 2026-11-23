@@ -161,3 +161,11 @@ npm run dev            # 2. terminal
 | DevTools → Network → 2. yükleme | `304 Not Modified` (tarayıcı XHR'de 200 gösterebilir; curl ile bak) |
 
 Beşinci satır §2'nin kanıtı: iki farklı sorun, iki farklı mesaj.
+
+## 🆕 Faz 19 (19.12 · K189, FE-51)
+
+`RsvpModal` ve `onRsvpClick` kaldırıldı. Hiçbir şablon `onRsvpClick`'i çağırmıyordu; misafir LCV'sini her zaman
+şablonun içindeki satır içi formla (`RSVPForm`) gönderiyordu ve pencere (tek dosya alanının olduğu yer) hiç
+açılmıyordu. Backend misafir yükleme ucunu `DAVETKART_GUEST_UPLOADS` bayrağıyla kapattı (varsayılan kapalı, uç 404).
+Bayrak `publicInvitationService.get()` sonucunda `guestUploads` olarak gelir; bugün kullanan bileşen yok.
+Yukarıdaki "`RsvpModal` yerel" satırı tarihseldir.

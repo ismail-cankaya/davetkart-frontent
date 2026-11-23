@@ -99,3 +99,5 @@ gönderildi → sahibin listesinde **tek** satır, 4 kişi.
 > Sekme arka planda kaldığı için (`visibilityState: hidden`) tarayıcı animasyonları durdurdu ve
 > gönderim sonrası *"Yanıtınız güncellendi"* başlığı ekrana gelmedi (form çıkış animasyonu bitmedi).
 > Sunucu tarafı ve formun iki hâli doğrulandı; başlığın kendisi ön plandaki bir sekmede elle bakılacak.
+
+> **Faz 19 (19.12 · K189, FE-51):** `RsvpModal` kaldırıldı; yukarıdaki "önizleme penceresi" kontrolleri artık yok.
