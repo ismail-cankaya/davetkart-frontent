@@ -210,3 +210,8 @@ Başlıktaki *"Yeni Davetiye Oluştur"*un yanına ikincil bir bağlantı geldi: 
 `getPresetForCategory(inv.imageTheme, inv.categoryId)` ile okur. Ortak bir preset
 (ör. `sade`) kına davetiyesinde kına'nın kart adını ve rengini gösterir.
 Mekanizma: `data.md` §10.
+
+
+## 🆕 Faz 19 (19.26 · K192, FE-50)
+
+`handleResume` artık `/create/<remoteId>`'ye gider (önce `/create`). Adres kaydı taşıdığı için editörde yenileme taslağı kaybettirmez.

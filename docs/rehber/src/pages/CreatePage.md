@@ -110,3 +110,12 @@ söylememeli.
 npm run lint
 npm run build
 ```
+
+
+## 🆕 Faz 19 (19.26 · K192, FE-50) — adres kaydı taşır
+
+- Kayıt açılınca (`recordId` dolunca) adres `/create/<id>` olur (`replace`): yenileme, geri tuşu ve paylaşılan bağlantı aynı taslağa döner.
+- `/create/:id`: editörde başka belge varsa (ya da yenilemeden sonra store boşsa) `invitationService.get(id)` → `loadRecord` + `resumeEditor`.
+  Yüklenirken spinner. Hata (başkasının kimliği 404, H7; yok; oturum yok) → mesaj (`toDisplayError`) + `/dashboard`.
+- Panelden "Düzenlemeye Devam Et" doğrudan `/create/<id>`'ye gider; kayıt zaten yüklü olduğu için ikinci istek atılmaz.
+- `/create` (kimliksiz) yeni sihirbazdır. Store'da açık bir kayıt varsa adres ona döner (sihirbaz durumu giriş/çıkış turunda korunuyordu, K37).

@@ -28,6 +28,10 @@
       "detailed": "Günlük {{limit}} mesaj hakkınızın tamamını kullandınız. {{retryAfter}} sonra tekrar deneyebilirsiniz."
     },
     "EMAIL_CHANGE_INVALID": "E-posta onay bağlantısı geçersiz ya da süresi dolmuş. Hesap ayarlarından yeni bir bağlantı isteyin.",
+    "DRAFT_LIMIT_REACHED": {
+      "base": "Taslak sınırına ulaştınız. Yeni davetiye açmak için panelinizden kullanmadığınız taslakları silin.",
+      "detailed": "En fazla {{limit}} taslak tutabilirsiniz. Yeni davetiye açmak için panelinizden kullanmadığınız taslakları silin."
+    },
     "EMAIL_NOT_VERIFIED": "Ödeme ve yayın için önce e-posta adresinizi doğrulayın. Bağlantı gelmediyse sayfanın üstündeki banttan yeniden isteyin.",
     "EMAIL_VERIFICATION_INVALID": "Doğrulama bağlantısı geçersiz, süresi dolmuş ya da zaten kullanılmış. Hesabınız doğrulanmadıysa giriş yapıp yeni bir bağlantı isteyin.",
     "FILE_TOO_LARGE": {

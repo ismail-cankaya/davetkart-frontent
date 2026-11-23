@@ -37,3 +37,9 @@ Tıklamadan önce görünür olması gereken adımlar `isVisible()` ile değil `
 ## Faz 19 (19.14 · K191, SEC-09) — e-posta doğrulama kancası
 
 `flows.ts` → `verifyEmailIfRequired` artık boş değil: kayıt sonrası doğrulama postası E2E backend'inde `MAIL_MAILER=log` + `sync` kuyrukla `storage/logs/laravel.log`'a yazılır. Kanca, sahibin adresinden sonraki ilk `/eposta-dogrula?…` bağlantısını log'dan okur (`&amp;` çözülür), sayfayı açar ve "E-posta adresiniz doğrulandı" başlığını bekler. Backend yolu `E2E_BACKEND_PATH` (yoksa `../davetkart-backend-php-laravel`). Hat A bu yolculuğu koşmadı (E2E Hat B'nin portu ve veritabanı).
+
+
+## Faz 19 (19.26 · K192, FE-50) — yenileme taslağı korur
+
+Yolculuk 1'e `draftSurvivesReload` eklendi: davetiye oluşturulduktan sonra adres `/create/<ULID>`, sayfa yenilenir, isim yine ekranda.
+Hat A bu yolculuğu koşmadı (E2E Hat B'nin portu ve veritabanı).

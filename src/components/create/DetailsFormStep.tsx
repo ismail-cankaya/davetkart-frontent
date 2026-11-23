@@ -108,6 +108,8 @@ export function DetailsFormStep() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     flush();
+    // K192 (FE-50): "Davetiyeni Oluştur" açık bir kayıt isteğidir; içerik boş olsa da taslak açılır.
+    void useInvitationStore.getState().saveInvitation();
     startGeneration();
     scrollToTarget(0, { immediate: true });
   };

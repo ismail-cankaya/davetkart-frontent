@@ -21,6 +21,7 @@ import { signOut, startNewInvitation } from '../src/stores/sessionActions';
 import { pendingWrites } from '../src/hooks/useInvitationDraft';
 import { formatCalendarDay } from '../src/components/templates/utils';
 import { INITIAL_INVITATION } from '../src/data';
+import { shouldAutoSave } from '../src/utils/draftContent';
 import type { AuthUser, Invitation, InvitationRecord } from '../src/types';
 
 // ——— Sahte sunucu ———————————————————————————————————————————————————————
@@ -845,8 +846,25 @@ function calendarDayAcrossZones(): void {
   check(formatCalendarDay('') === null, 'boş son tarih gösterilmiyor', String(formatCalendarDay('')));
 }
 
+/** K192 (FE-50, D1): ilk kayıt gerçek içerikte açılır; kategori/tema seçimi taslak açmaz. */
+function autosaveWaitsForRealContent(): void {
+  console.log('\nOtomatik kaydetme: ilk taslak (K192)');
+  reset();
+
+  useCreateWizardStore.getState().selectCategory('dugun');
+  useInvitationStore.getState().selectTemplate(INITIAL_INVITATION.imageTheme);
+  check(!shouldAutoSave(useInvitationStore.getState()), 'yalnızca kategori ve tema seçimi kayıt isteği üretmez', 'kaydetmeye değer sayıldı');
+
+  useInvitationStore.getState().updateField('names', 'Deniz & Can');
+  check(shouldAutoSave(useInvitationStore.getState()), 'ilk gerçek içerik (isimler) taslağı açar', 'kaydetmeye değer sayılmadı');
+
+  useInvitationStore.getState().loadRecord(record('REC-K192', { names: '' }));
+  check(shouldAutoSave(useInvitationStore.getState()), 'kayıt varken her düzenleme kaydedilir (tema dahil)', 'kayıtlı belge atlandı');
+}
+
 async function main(): Promise<void> {
   await autosaveContract();
+  autosaveWaitsForRealContent();
   await documentVersionContract();
   await newInvitationDoesNotOverwrite();
   await staleSaveResponseIsIgnored();
