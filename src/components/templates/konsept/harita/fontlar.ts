@@ -1,8 +1,9 @@
 import { useEffect } from 'react';
+import { loadTemplateFonts } from '../../../../utils/templateFonts';
 
 /**
  * Haritanın üç yazısı (font denetimi: docs/rehber/tasarim/font-denetimi/harita.png).
- * Genel `index.css`'e eklenmez; şablon açılınca tek `<link>` ile yüklenir.
+ * Genel `index.css`'e eklenmez; şablon açılınca yerel `/fonts/templates.css` ile yüklenir (SEC-12).
  */
 export const HARITA_YAZI = {
   /** Harita etiketleri, üst etiket, lejant başlığı. */
@@ -12,14 +13,6 @@ export const HARITA_YAZI = {
   /** Kartuştaki adlar, su adları, bölüm başlıkları — yalnızca italik. */
   italik: 'Newsreader, Georgia, "Times New Roman", serif'
 } as const;
-
-const SORGU =
-  'family=Barlow+Condensed:wght@400;600' +
-  '&family=Barlow+Semi+Condensed:wght@400;500' +
-  '&family=Newsreader:ital,opsz,wght@1,6..72,400..600' +
-  '&display=swap';
-
-const KIMLIK = 'hr-font';
 
 /**
  * Kapağın kutularının boyunu belirleyen yüzler. `document.fonts.load` yalnızca
@@ -31,17 +24,6 @@ const ORNEK = 'Aa09 ÇçĞğİıÖöŞşÜü&';
 
 let bitti = false;
 let soz: Promise<void> | null = null;
-
-function baglanti(): HTMLLinkElement {
-  const mevcut = document.getElementById(KIMLIK);
-  if (mevcut instanceof HTMLLinkElement) return mevcut;
-  const link = document.createElement('link');
-  link.id = KIMLIK;
-  link.rel = 'stylesheet';
-  link.href = `https://fonts.googleapis.com/css2?${SORGU}`;
-  document.head.appendChild(link);
-  return link;
-}
 
 /**
  * Fontları yükler; stil sayfası VE kapağın yüzleri inince çözülür. Stil sayfası
@@ -57,16 +39,11 @@ export function haritaFontlari(): Promise<void> {
       bitti = true;
       coz();
     };
-    const link = baglanti();
     const yuzler = () => {
       if (!document.fonts?.load) return son();
       Promise.all(YUZLER.map((f) => document.fonts.load(f, ORNEK))).then(son, son);
     };
-    if (link.sheet) yuzler();
-    else {
-      link.addEventListener('load', yuzler, { once: true });
-      link.addEventListener('error', son, { once: true });
-    }
+    void loadTemplateFonts().then(yuzler);
   });
   return soz;
 }

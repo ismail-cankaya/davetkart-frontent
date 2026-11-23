@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { loadTemplateFonts } from '../../../../utils/templateFonts';
 
 /**
  * Kâğıt ailesinin yazıları. Seçim, Türkçe glif denetiminden geçenler
@@ -13,41 +14,30 @@ import { useEffect, useState } from 'react';
 /** Adlarda kullanılan el yazıları. Gövdede ve küçük metinde KULLANILMAZ. */
 export const EL_YAZILARI = {
   /** Resmî bakır gravür kaligrafisi. Yalnızca ≥ 28 px adlar. */
-  pinyon: { aile: 'Pinyon Script', sorgu: 'Pinyon+Script', yigin: '"Pinyon Script", "Cormorant Garamond", Georgia, serif' },
+  pinyon: { aile: 'Pinyon Script', yigin: '"Pinyon Script", "Cormorant Garamond", Georgia, serif' },
   /** Fırça kaligrafisi; ince–kalın karşıtlığı yüksek, küçükte daha okunur. */
-  'alex-brush': { aile: 'Alex Brush', sorgu: 'Alex+Brush', yigin: '"Alex Brush", "Cormorant Garamond", Georgia, serif' },
+  'alex-brush': { aile: 'Alex Brush', yigin: '"Alex Brush", "Cormorant Garamond", Georgia, serif' },
   /** Gündelik el yazısı (not kâğıdı, kraft). ≥ 20 px. */
-  caveat: { aile: 'Caveat', sorgu: 'Caveat:wght@400..600', yigin: 'Caveat, "Cormorant Garamond", Georgia, serif' }
+  caveat: { aile: 'Caveat', yigin: 'Caveat, "Cormorant Garamond", Georgia, serif' }
 } as const;
 
 export type ElYazisi = keyof typeof EL_YAZILARI;
 
 /** Gövde: küçük boyda okunaklı, gerçek küçük büyük harfi (smcp) olan serif. */
 export const GOVDE_YIGINI = '"EB Garamond", "Cormorant Garamond", Georgia, serif';
-const GOVDE_SORGU = 'EB+Garamond:ital,wght@0,400..600;1,400..500';
 
 /** Ara başlık: genel olarak zaten yüklü olan Cormorant Garamond. */
 export const BASLIK_YIGINI = '"Cormorant Garamond", "EB Garamond", Georgia, serif';
-
-function stilYukle(id: string, sorgu: string): void {
-  if (document.getElementById(id)) return;
-  const link = document.createElement('link');
-  link.id = id;
-  link.rel = 'stylesheet';
-  link.href = `https://fonts.googleapis.com/css2?family=${sorgu}&display=swap`;
-  document.head.appendChild(link);
-}
 
 /**
  * Şablonun fontlarını belgeye bir kez ekler. Etki içinde çalışır: sunucu
  * çiziminde (verify:render) hiçbir şey yapmaz ve ilk boyamayı bekletmez —
  * `display=swap` ile metin önce yedek fontla görünür.
  */
-export function useKagitFontlari(el?: ElYazisi): void {
+export function useKagitFontlari(): void {
   useEffect(() => {
-    stilYukle('kg-font-govde', GOVDE_SORGU);
-    if (el) stilYukle(`kg-font-${el}`, EL_YAZILARI[el].sorgu);
-  }, [el]);
+    void loadTemplateFonts();
+  }, []);
 }
 
 /**

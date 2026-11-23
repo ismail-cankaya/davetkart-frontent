@@ -1,5 +1,7 @@
 # `shared/paper/fontlar.ts` — el yazıları ve yükleme
 
+> **SEC-12 (Faz 19.17):** Google Fonts `<link>`'i kalktı; aileler yerel `/fonts/templates.css`'te, yükleme `src/utils/templateFonts.ts` (`loadTemplateFonts`). Aşağıdaki Google sorgusu anlatımı tarihçedir. Ayrıntı: [`docs/rehber/src/styles/fonts.md`](/docs/rehber/src/styles/fonts.md).
+
 > **Tarih:** 2026-10-15 · dal `design/kagit` · Denetim: [KAGIT-KONSEPTI §3](../../../../../tasarim/KAGIT-KONSEPTI.md)
 
 ---
