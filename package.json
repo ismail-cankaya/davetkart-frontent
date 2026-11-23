@@ -23,7 +23,9 @@
     "verify:gift": "node scripts/run-check.mjs scripts/verify-gift-code.ts",
     "verify:pricing": "node scripts/run-check.mjs scripts/verify-pricing.ts",
     "verify:plans": "node scripts/run-check.mjs scripts/verify-plan-rules.ts",
-    "verify:render": "node scripts/run-check.mjs scripts/verify-render.tsx"
+    "verify:render": "node scripts/run-check.mjs scripts/verify-render.tsx",
+    "e2e": "playwright test",
+    "e2e:report": "playwright show-report"
   },
   "dependencies": {
     "@react-three/fiber": "^9.8.2",
@@ -44,6 +46,7 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@playwright/test": "1.61.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^22.14.0",
     "@types/react": "^19.3.0",
