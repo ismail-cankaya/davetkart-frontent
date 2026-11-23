@@ -1,5 +1,7 @@
 # `konsept/kitap/fontlar.ts` — Libre Caslon yükleme
 
+> **SEC-12 (Faz 19.17):** Google Fonts `<link>`'i kalktı; aileler yerel `/fonts/templates.css`'te, yükleme `src/utils/templateFonts.ts` (`loadTemplateFonts`). Aşağıdaki Google sorgusu anlatımı tarihçedir. Ayrıntı: [`docs/rehber/src/styles/fonts.md`](/docs/rehber/src/styles/fonts.md).
+
 > **Tarih:** 2026-10-17 · dal `design/kitap` · Denetim: [KITAP-KONSEPTI §3](../../../../../tasarim/KITAP-KONSEPTI.md),
 > [font-denetimi/kitap.png](../../../../../tasarim/font-denetimi/kitap.png)
 

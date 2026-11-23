@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { loadTemplateFonts } from '../../../../utils/templateFonts';
 
 /**
  * Kitap konseptinin iki ailesi (font denetimi: KITAP-KONSEPTI §3).
@@ -14,30 +15,9 @@ export const BASLIK_YIGINI = '"Libre Caslon Display", "Libre Caslon Text", Georg
 /** Gövde, adlar (iç sayfa), italik, etiketler. */
 export const METIN_YIGINI = '"Libre Caslon Text", Georgia, serif';
 
-const BAGLANTI_ID = 'kt-font';
-const ADRES =
-  'https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap';
-
-/** Stil dosyasının yüklenmesi; ikinci şablon aynı sözü bekler. */
-let stilYuklendi: Promise<void> | null = null;
-
+/** Yerel şablon stil dosyası (SEC-12); ikinci şablon aynı sözü bekler. */
 function stilEkle(): Promise<void> {
-  if (stilYuklendi) return stilYuklendi;
-  stilYuklendi = new Promise<void>((coz) => {
-    const var_ = document.getElementById(BAGLANTI_ID) as HTMLLinkElement | null;
-    if (var_) {
-      coz();
-      return;
-    }
-    const link = document.createElement('link');
-    link.id = BAGLANTI_ID;
-    link.rel = 'stylesheet';
-    link.href = ADRES;
-    link.onload = () => coz();
-    link.onerror = () => coz();
-    document.head.appendChild(link);
-  });
-  return stilYuklendi;
+  return loadTemplateFonts();
 }
 
 /**

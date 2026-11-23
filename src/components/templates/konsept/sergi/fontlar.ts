@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { loadTemplateFonts } from '../../../../utils/templateFonts';
 
 /**
  * Sergi'nin iki ailesi: Instrument Serif (duvar yazısı, adlar) ve Instrument
@@ -6,23 +7,15 @@ import { useEffect, useState } from 'react';
  * docs/rehber/tasarim/SERGI-KONSEPTI.md §3.
  *
  * Genel `index.css` `@import`'una eklenmez; yalnızca sergi şablonu açılınca,
- * tek `<link>` ile yüklenir.
+ * yerel `/fonts/templates.css` ile yüklenir (SEC-12).
  */
 export const BASLIK_YIGINI = '"Instrument Serif", "Cormorant Garamond", Georgia, serif';
 export const GOVDE_YIGINI = '"Instrument Sans", Inter, ui-sans-serif, system-ui, sans-serif';
 
-const KIMLIK = 'sg-fontlar';
-const SORGU = 'family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400..700';
-
 /** Fontları belgeye bir kez ekler; sunucu çiziminde hiçbir şey yapmaz. */
 export function useSergiFontlari(): void {
   useEffect(() => {
-    if (document.getElementById(KIMLIK)) return;
-    const link = document.createElement('link');
-    link.id = KIMLIK;
-    link.rel = 'stylesheet';
-    link.href = `https://fonts.googleapis.com/css2?${SORGU}&display=swap`;
-    document.head.appendChild(link);
+    void loadTemplateFonts();
   }, []);
 }
 

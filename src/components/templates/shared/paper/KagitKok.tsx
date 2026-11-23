@@ -10,7 +10,7 @@ import { useKagitFontlari } from './fontlar';
  * Tema dizgileri sabit olduğu için renk bu tek noktadan gelir.
  */
 export function KagitKok({ set, children }: { set: KagitSeti; children: React.ReactNode }) {
-  useKagitFontlari(set.el);
+  useKagitFontlari();
   const style = useMemo(() => kagitDegiskenleri(set), [set]);
   return (
     <div className="contents" style={style}>
