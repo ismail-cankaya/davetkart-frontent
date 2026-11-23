@@ -621,6 +621,16 @@ async function main(): Promise<void> {
     () => accountService.confirmEmailChange(signedQuery),
   );
 
+  // Faz 19 (K191): doğrulama postası ve bağlantısı; sorgu yine AYNEN gider.
+  await check('doğrulama postası', { method: 'POST', url: '/auth/email-verification' }, '', () => accountService.resendEmailVerification());
+  const verifyQuery = '?address=ab&expires=1&user=7&signature=cd';
+  await check(
+    'e-posta doğrulama',
+    { method: 'POST', url: `/public/email-verification/confirm${verifyQuery}` },
+    '',
+    () => accountService.confirmEmailVerification(verifyQuery),
+  );
+
   await check('oturumlar', { method: 'GET', url: '/auth/sessions' }, { data: [] }, () => accountService.listSessions());
   await check('oturumu kapat', { method: 'DELETE', url: '/auth/sessions/42' }, '', () => accountService.revokeSession('42'));
   await check('diğer oturumları kapat', { method: 'DELETE', url: '/auth/sessions' }, '', () => accountService.revokeOtherSessions());

@@ -99,6 +99,17 @@ export const accountService = {
     await api.post(`/public/email-change/confirm?${query}`);
   },
 
+  /** Faz 19 (K191): doğrulama postasını yeniden gönderir → 204 (saatte 3; doğrulanmışsa posta gitmez). */
+  async resendEmailVerification(): Promise<void> {
+    await api.post('/auth/email-verification');
+  },
+
+  /** Faz 19 (K191): doğrulama bağlantısının sorgusu AYNEN gider (imza kodlamayı kapsar) → 204. */
+  async confirmEmailVerification(rawQuery: string): Promise<void> {
+    const query = rawQuery.startsWith('?') ? rawQuery.slice(1) : rawQuery;
+    await api.post(`/public/email-verification/confirm?${query}`);
+  },
+
   async listSessions(): Promise<AccountSession[]> {
     const { data } = await api.get<unknown>('/auth/sessions');
     const body = unwrapEnvelope(data);

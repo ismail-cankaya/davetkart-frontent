@@ -23,7 +23,16 @@
     "login": "Sign In",
     "register": "Sign Up",
     "logout": "Sign Out",
-    "myPanel": "My Panel"
+    "myPanel": "My Panel",
+    "verification": {
+      "banner": "We sent a verification link to {{email}}. You can keep designing; verify your address to pay and publish.",
+      "resend": "Resend the link",
+      "sent": "A new verification link was sent to {{email}}.",
+      "confirming": "Verifying your address…",
+      "doneTitle": "Your email address is verified",
+      "doneBody": "You can now pay and publish your invitation.",
+      "failedTitle": "This link could not be used"
+    }
   },
   "hero": {
     "badge": "The Next-Generation Invitation Experience",

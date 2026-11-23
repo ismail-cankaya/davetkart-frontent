@@ -28,6 +28,8 @@
       "detailed": "Günlük {{limit}} mesaj hakkınızın tamamını kullandınız. {{retryAfter}} sonra tekrar deneyebilirsiniz."
     },
     "EMAIL_CHANGE_INVALID": "E-posta onay bağlantısı geçersiz ya da süresi dolmuş. Hesap ayarlarından yeni bir bağlantı isteyin.",
+    "EMAIL_NOT_VERIFIED": "Ödeme ve yayın için önce e-posta adresinizi doğrulayın. Bağlantı gelmediyse sayfanın üstündeki banttan yeniden isteyin.",
+    "EMAIL_VERIFICATION_INVALID": "Doğrulama bağlantısı geçersiz, süresi dolmuş ya da zaten kullanılmış. Hesabınız doğrulanmadıysa giriş yapıp yeni bir bağlantı isteyin.",
     "FILE_TOO_LARGE": {
       "base": "Dosya çok büyük. Daha küçük bir dosya seçip tekrar deneyin.",
       "detailed": "Dosya çok büyük. En fazla {{max}} KB yükleyebilirsiniz."

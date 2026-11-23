@@ -23,7 +23,16 @@
     "login": "Giriş Yap",
     "register": "Kayıt Ol",
     "logout": "Çıkış Yap",
-    "myPanel": "Panelim"
+    "myPanel": "Panelim",
+    "verification": {
+      "banner": "{{email}} adresine bir doğrulama bağlantısı gönderdik. Davetiyenizi hazırlayabilirsiniz; ödeme ve yayın için adresinizi doğrulayın.",
+      "resend": "Bağlantıyı yeniden gönder",
+      "sent": "Yeni doğrulama bağlantısı {{email}} adresine gönderildi.",
+      "confirming": "Adresiniz doğrulanıyor…",
+      "doneTitle": "E-posta adresiniz doğrulandı",
+      "doneBody": "Artık ödeme yapabilir ve davetiyenizi yayınlayabilirsiniz.",
+      "failedTitle": "Bağlantı kullanılamadı"
+    }
   },
   "hero": {
     "badge": "Yeni Nesil Davetiye Deneyimi",
