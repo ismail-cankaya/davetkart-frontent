@@ -182,6 +182,7 @@
       "mimetypes": "{{field}} desteklenmeyen bir dosya biçiminde.",
       "confirmed": "{{field}} tekrarıyla eşleşmiyor.",
       "current_password": "{{field}} hatalı.",
+      "uncommon_password": "{{field}} çok yaygın ya da tahmini kolay. Daha uzun ve size özgü bir parola seçin.",
       "iban": "{{field}} geçerli bir IBAN değil. Hesap numarasını kontrol edin.",
       "same": "{{field}} eşleşmiyor.",
       "different": "{{field}} farklı olmalıdır.",
