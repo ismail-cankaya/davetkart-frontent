@@ -64,6 +64,13 @@ export async function verifyEmailIfRequired(page: Page, owner: Owner): Promise<v
   await expect(page.getByRole('heading', { name: 'E-posta adresiniz doğrulandı' })).toBeVisible();
 }
 
+/** FE-50 (K192): the draft id lives in the URL, so a reload reopens the same draft. */
+export async function draftSurvivesReload(page: Page, names: { first: string }): Promise<void> {
+  await expect(page).toHaveURL(/\/create\/[0-9a-z]{26}$/i);
+  await page.reload();
+  await expect(page.locator('main').getByText(names.first).first()).toBeVisible();
+}
+
 export async function createInvitation(page: Page, names: { first: string; second: string }): Promise<void> {
   await page.goto('/create');
   const main = page.locator('main');

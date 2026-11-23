@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { createInvitation, newOwner, openGuestPage, publishWithGiftCode, register } from './support/flows';
+import { createInvitation, draftSurvivesReload, newOwner, openGuestPage, publishWithGiftCode, register } from './support/flows';
 import { GIFT_CODE, OWNER_STORAGE, savePublished } from './support/state';
 
 /** Yolculuk 1 (TST-04): kayıt → davetiye → hediye koduyla yayın → misafir sayfası. */
@@ -9,6 +9,7 @@ test('kayıt, davetiye ve hediye koduyla yayın', async ({ page }) => {
 
   await register(page, owner);
   await createInvitation(page, names);
+  await draftSurvivesReload(page, names);
   const invitationId = await publishWithGiftCode(page, GIFT_CODE);
 
   await openGuestPage(page, invitationId);
