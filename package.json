@@ -13,7 +13,7 @@
     "verify:errors": "node scripts/run-check.mjs scripts/verify-error-contract.ts",
     "verify:i18n": "node scripts/run-check.mjs scripts/verify-i18n.ts",
     "verify:endpoints": "node scripts/run-check.mjs scripts/verify-endpoints.ts",
-    "verify": "npm run verify:errors && npm run verify:i18n && npm run verify:endpoints && npm run verify:etag && npm run verify:time && npm run verify:state && npm run verify:content && npm run verify:image && npm run verify:payment && npm run verify:gift && npm run verify:pricing && npm run verify:plans && npm run verify:fonts && npm run verify:render",
+    "verify": "npm run verify:errors && npm run verify:i18n && npm run verify:endpoints && npm run verify:etag && npm run verify:time && npm run verify:state && npm run verify:content && npm run verify:image && npm run verify:payment && npm run verify:gift && npm run verify:pricing && npm run verify:plans && npm run verify:fonts && npm run verify:bundle && npm run verify:render",
     "verify:etag": "node scripts/run-check.mjs scripts/verify-conditional-get.ts",
     "verify:time": "node scripts/run-check.mjs scripts/verify-event-time.ts",
     "verify:state": "node scripts/run-check.mjs scripts/verify-editor-state.ts",
@@ -24,6 +24,7 @@
     "verify:pricing": "node scripts/run-check.mjs scripts/verify-pricing.ts",
     "verify:plans": "node scripts/run-check.mjs scripts/verify-plan-rules.ts",
     "verify:fonts": "node scripts/run-check.mjs scripts/verify-fonts.ts",
+    "verify:bundle": "node scripts/run-check.mjs scripts/verify-bundle.ts",
     "verify:render": "node scripts/run-check.mjs scripts/verify-render.tsx",
     "e2e": "playwright test",
     "e2e:report": "playwright show-report"
