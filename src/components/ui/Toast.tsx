@@ -49,7 +49,20 @@ export function Toaster() {
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[100] flex flex-col items-center gap-2 pointer-events-none px-4 w-full sm:w-auto">
-      <AnimatePresence>
+      {/* FE-54: live regions are in the DOM before any message, or screen readers miss the first one. */}
+      <div role="status" aria-live="polite" className="flex flex-col items-center gap-2" data-toast-region="polite">
+        <ToastList toasts={toasts.filter(t => t.type !== 'error')} />
+      </div>
+      <div role="alert" aria-live="assertive" className="flex flex-col items-center gap-2" data-toast-region="assertive">
+        <ToastList toasts={toasts.filter(t => t.type === 'error')} />
+      </div>
+    </div>
+  );
+}
+
+function ToastList({ toasts }: { toasts: ToastItem[] }) {
+  return (
+    <AnimatePresence>
         {toasts.map(t => {
           const { accent, ring, Icon } = TONE[t.type];
           return (
@@ -71,7 +84,6 @@ export function Toaster() {
             </motion.div>
           );
         })}
-      </AnimatePresence>
-    </div>
+    </AnimatePresence>
   );
 }
