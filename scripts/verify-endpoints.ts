@@ -166,14 +166,9 @@ async function main(): Promise<void> {
   expectField('sahip yüklemesi', ownerBody, 'file');
   expectMultipartFile('sahip yüklemesi', file.name);
 
-  const guestBody = await check(
-    'misafir yüklemesi',
-    { method: 'POST', url: `/public/invitations/${INVITATION_ID}/media` },
-    MEDIA,
-    () => mediaService.uploadAsGuest(INVITATION_ID, file, 'rsvp_photo'),
-  );
-  expectField('misafir yüklemesi', guestBody, 'kind', 'rsvp_photo');
-  expectMultipartFile('misafir yüklemesi', file.name);
+  // Faz 19 (K189, FE-51): misafir yükleme ucu bayrakla kapalı ve servisten
+  // kaldırıldı; açılırsa (D2) sözleşme denetimi buraya geri gelir.
+  if ('uploadAsGuest' in mediaService) fail('misafir yüklemesi servise geri döndü — K189 bayrağına bağlanmadı');
 
   // 🔴 Yanıt `id` taşımalı: LCV medyayı kimlikle bağlar, URL'yle değil.
   const uploaded = await mediaService.uploadForOwner(INVITATION_ID, file);

@@ -115,3 +115,12 @@ ikincisi yenilemez, pencere geçince yine yeniler, depolama yoksa yenilemez.
 
 Mutantlar: `/create`'in `errorElement` satırı silinince *editör kendi sınırında* kırmızı; bayrak kontrolü
 silinince *ikinci kez yenilenmiyor* kırmızı.
+
+## 🆕 Faz 19 (19.12 · K189, FE-51) — misafir yüklemesi kapalı
+
+`guestUploadsAreOff()`: satır içi LCV formu (`RSVPForm`) ve misafir sayfasının tamamı `type="file"` çizmiyor;
+`src/` altında `RsvpModal`, `uploadAsGuest`, `onRsvpClick` geçen modül yok (statik içe aktarma grafiğinin
+yaklaşığı: metin taraması, Vite'ın gerçek grafiği değil) ve `RsvpModal.tsx` silinmiş. Mutant: forma
+`<input type="file" />` eklendi → iki kontrol kırmızı. Yukarıdaki tablodaki `RsvpModal` satırı artık
+geçersiz: önizleme penceresi kaldırıldı, "Yanıtımı Güncelle" kontrolleri yalnızca `RSVPForm` ve sayfanın tamamında.
+Bayrak açılırsa (D2) bu vaka "açıkken satır içi form dosya alanı çiziyor, kapalıyken çizmiyor" olur.

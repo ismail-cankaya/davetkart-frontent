@@ -73,6 +73,9 @@ export class MediaTooLargeError extends Error {
  * |---|---|---|---|
  * | Sahip (galeri) | `POST /invitations/{id}/media` | ✅ | `gallery` |
  * | Misafir (LCV) | `POST /public/invitations/{id}/media` | — | `rsvp_photo`, `rsvp_video` |
+ *
+ * Faz 19 (K189, FE-51): misafir ucu sunucuda bayrakla kapalı ve arayüzde
+ * yükleme alanı yok; bu yüzden servis yalnızca sahibin ucunu taşır.
  */
 export interface MediaService {
   /**
@@ -82,8 +85,6 @@ export interface MediaService {
    * sırayı göndermez. Yanıttaki `id` galeri öğesinin kimliğidir.
    */
   uploadForOwner(invitationId: string, file: File): Promise<UploadedMedia>;
-  /** Misafirin LCV'sine iliştireceği fotoğraf veya video. */
-  uploadAsGuest(invitationId: string, file: File, kind: GuestMediaKind): Promise<UploadedMedia>;
   /**
    * Galeriden bir fotoğrafı kaldırır — `DELETE /invitations/{id}/media/{mediaId}`.
    *
@@ -145,10 +146,6 @@ async function upload(path: string, file: File, kind: MediaKind): Promise<Upload
 const httpAdapter: MediaService = {
   uploadForOwner(invitationId, file) {
     return upload(`/invitations/${invitationId}/media`, file, 'gallery');
-  },
-
-  uploadAsGuest(invitationId, file, kind) {
-    return upload(`/public/invitations/${invitationId}/media`, file, kind);
   },
 
   async removeForOwner(invitationId, mediaId) {

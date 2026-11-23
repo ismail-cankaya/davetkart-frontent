@@ -491,7 +491,10 @@ export interface RsvpCreatePayload {
   status: RsvpStatus;
   menuPreference?: string | null;
   message?: string | null;
-  /** `mediaService` yükleme yanıtından gelen ULID. */
+  /**
+   * Misafir yükleme ucundan gelen ULID. Faz 19 (K189, FE-51): misafir yüklemesi
+   * kapalı ve arayüzde yok; alan sözleşmede durur, bugün gönderilmez.
+   */
   photoMediaId?: string | null;
   videoMediaId?: string | null;
   /**
@@ -515,15 +518,6 @@ export interface RsvpDraft {
   menuPreference: string;
   status: RsvpStatus;
   message: string;
-  /**
-   * 🔴 Yükleme yanıtı hem kimlik hem URL verir ve taslak **ikisini de** tutar:
-   * kimlik gönderilir, URL yalnızca kullanıcıya "yüklendi" göstermek için
-   * durur. Yalnızca URL saklansaydı LCV'ye fotoğraf hiçbir zaman bağlanamazdı.
-   */
-  photoMediaId: string;
-  photoUrl: string;
-  videoMediaId: string;
-  videoUrl: string;
   /** Bot tuzağı; bkz. `RsvpCreatePayload.website`. */
   website: string;
 }

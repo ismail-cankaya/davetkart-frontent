@@ -16,13 +16,14 @@
  * Ayrıntılı açıklama: docs/rehber/scripts/verify-render.md
  */
 import './render-env';
+import fs from 'node:fs';
+import path from 'node:path';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { prerenderToNodeStream } from 'react-dom/static';
 import { MemoryRouter, RouterProvider, createMemoryRouter, type RouteObject } from 'react-router-dom';
 import { TemplateRenderer } from '../src/components/templates/TemplateRenderer';
 import { DeviceSimulator } from '../src/components/preview/DeviceSimulator';
-import { RsvpModal } from '../src/components/preview/RsvpModal';
 import { RSVPForm } from '../src/components/templates/shared/RSVPForm';
 import PrivacyPage from '../src/pages/legal/PrivacyPage';
 import { getSectionTheme } from '../src/components/templates/shared/palette';
@@ -68,7 +69,7 @@ async function guestPage(presetId: string, patch: Partial<Invitation>): Promise<
     ...patch,
   };
   const { prelude } = await prerenderToNodeStream(
-    <TemplateRenderer templateId={presetId} invitation={invitation} onRsvpClick={() => {}} mode="live" />,
+    <TemplateRenderer templateId={presetId} invitation={invitation} mode="live" />,
   );
   let html = '';
   for await (const chunk of prelude) html += String(chunk);
@@ -202,16 +203,11 @@ function inlineForm(): string {
   );
 }
 
-function rsvpModal(): string {
-  syncServerSnapshot();
-  return renderToStaticMarkup(<RsvpModal />);
-}
-
 /** Tembel bölümler dahil bütün sayfa: `prerender` Suspense'in çözülmesini bekler. */
 async function fullGuestPage(): Promise<string> {
   syncServerSnapshot();
   const { prelude } = await prerenderToNodeStream(
-    <TemplateRenderer templateId="dugun-sade" invitation={RSVP_INVITATION} onRsvpClick={() => {}} mode="live" />,
+    <TemplateRenderer templateId="dugun-sade" invitation={RSVP_INVITATION} mode="live" />,
   );
   let html = '';
   for await (const chunk of prelude) html += String(chunk);
@@ -228,7 +224,6 @@ async function ownReplyForm(): Promise<void> {
     'ilk ziyarette form yeni yanıt gönderiyor',
     'güncelleme metni çizildi',
   );
-  check(rsvpModal().includes('YANITI GÖNDER'), 'önizleme penceresi de yeni yanıt diyor', 'metin yok');
 
   // Gönderimden sonra kod tarayıcıda kalır; sayfa yeniden açılınca geri okunur.
   rsvpReceipts.remember('INV-R', { rsvpId: 'R1', editCode: 'kod-1' });
@@ -241,13 +236,36 @@ async function ownReplyForm(): Promise<void> {
     'aynı cihazdan dönen misafir "Yanıtımı Güncelle" ve açıklamayı görüyor',
     'yeni yanıt formu çizildi',
   );
-  check(rsvpModal().includes('YANITIMI GÜNCELLE'), 'önizleme penceresi de güncelle diyor', 'metin yok');
   check((await fullGuestPage()).includes('Yanıtımı Güncelle'), 'misafir sayfasının tamamında form güncelleme hâlinde', 'yok');
 
   useRsvpStore.getState().setInvitationScope('INV-S');
   check(inlineForm().includes('Katılımımı Bildir'), 'kod davetiyeye özgü: başka davetiyede yeni yanıt', 'güncelleme çizildi');
 
   useRsvpStore.getState().setInvitationScope(null);
+}
+
+/** src altında verilen kalıbı içeren modüller (statik içe aktarma grafiğinin yaklaşığı). */
+function sourcesMatching(pattern: RegExp): string[] {
+  return (fs.readdirSync('src', { recursive: true }) as string[])
+    .filter((file) => /\.(ts|tsx)$/.test(file))
+    .filter((file) => pattern.test(fs.readFileSync(path.join('src', file), 'utf8')));
+}
+
+/** K189 (FE-51, D1): misafir yüklemesi kapalı — arayüzde dosya alanı ve ölü yükleme kodu yok. */
+async function guestUploadsAreOff(): Promise<void> {
+  console.log('\nLCV: misafir yüklemesi kapalı (K189)');
+
+  useRsvpStore.getState().setInvitationScope('INV-U');
+  check(!inlineForm().includes('type="file"'), 'satır içi LCV formu dosya alanı çizmiyor', 'dosya alanı çizildi');
+  check(!(await fullGuestPage()).includes('type="file"'), 'misafir sayfasının tamamında dosya alanı yok', 'dosya alanı var');
+  useRsvpStore.getState().setInvitationScope(null);
+
+  const leftovers = sourcesMatching(/RsvpModal|uploadAsGuest|onRsvpClick/);
+  check(
+    leftovers.length === 0 && !fs.existsSync('src/components/preview/RsvpModal.tsx'),
+    'RsvpModal, uploadAsGuest ve onRsvpClick paket grafiğinde yok',
+    leftovers.join(', ') || 'RsvpModal.tsx duruyor',
+  );
 }
 
 // ——— 3. Gizlilik metni ————————————————————————————————————————————————————
@@ -386,6 +404,7 @@ async function main(): Promise<void> {
   await lazyPresetsRender();
   signatureInTheEditorPreview();
   await ownReplyForm();
+  await guestUploadsAreOff();
   privacyRetention();
   await languageScope();
   await routeErrors();

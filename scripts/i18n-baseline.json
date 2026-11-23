@@ -39,7 +39,6 @@
     "src/components/payment/checkout/PaymentMethodSelector.tsx": 6,
     "src/components/preview/DeviceSimulator.tsx": 3,
     "src/components/preview/PreviewSection.tsx": 3,
-    "src/components/preview/RsvpModal.tsx": 28,
     "src/components/preview/TemplateGrid.tsx": 13,
     "src/components/rsvp/LiveRsvpPanel.tsx": 20,
     "src/components/ui/ConfirmDialog.tsx": 1,

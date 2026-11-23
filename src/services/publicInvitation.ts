@@ -38,6 +38,8 @@ type PublicModules = Partial<
 > & {
   timelineEvents?: WireTimelineEvent[];
   galleryImages?: WireGalleryImage[];
+  /** K189 (FE-51): misafir LCV'ye dosya yükleyebilir mi. Yalnızca LCV açıkken gelir. */
+  guestUploads?: boolean;
 };
 
 type WirePublicInvitation = PublicCore & PublicModules;
@@ -51,6 +53,11 @@ interface WirePublicRecord {
 export interface PublicInvitationView {
   id: string;
   invitation: Invitation;
+  /**
+   * Faz 19 (K189, FE-51): sunucunun misafir yükleme bayrağı. Arayüz bunu sabit
+   * kodlamaz; bugün (bayrak kapalı) hiçbir bileşen dosya alanı çizmiyor.
+   */
+  guestUploads: boolean;
 }
 
 /**
@@ -114,7 +121,8 @@ export const publicInvitationService = {
         throw new Error('Unexpected /public/invitations response shape');
       }
 
-      return { id: body.id, invitation: hydrate(body.invitation) };
+      const { guestUploads = false, ...wire } = body.invitation;
+      return { id: body.id, invitation: hydrate(wire), guestUploads };
     });
   }
 };

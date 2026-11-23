@@ -93,9 +93,9 @@ function Onizleme() {
 
   if (hata) return <Hata mesaj={hata} />;
   if (!sablon) return null;
-  if (sablon === 'eski') return <TemplateRenderer templateId={PRESET} invitation={davet} onRsvpClick={() => {}} mode={MOD} />;
+  if (sablon === 'eski') return <TemplateRenderer templateId={PRESET} invitation={davet} mode={MOD} />;
   const Bilesen = sablon;
-  return <Bilesen invitation={davet} onRsvpClick={() => {}} mode={MOD} />;
+  return <Bilesen invitation={davet} mode={MOD} />;
 }
 
 /** `?preset` yoksa: konsept barrel'larındaki bütün preset'lerin bağlantıları. */

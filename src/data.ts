@@ -4178,10 +4178,6 @@ export const INITIAL_RSVP_DRAFT: RsvpDraft = {
   menuPreference: 'Et Menü',
   status: 'attending',
   message: '',
-  photoMediaId: '',
-  photoUrl: '',
-  videoMediaId: '',
-  videoUrl: '',
   // Tuzak boş başlar; insan onu göremediği için boş kalır (L2).
   website: ''
 };

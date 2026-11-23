@@ -210,3 +210,10 @@ yüzden yalnızca yükleme isteği `timeout: 120_000` alıyor.
 | Sonucu boyut karşılaştırmadan kullanmak | Küçük dosyalar yeniden kodlanıp **büyür** |
 | Hata hâlinde exception fırlatmak | Yükleme hiç denenmez; oysa sunucu bunu yapabilirdi |
 | `toBlob`'un biçimini kontrol etmemek | Safari WebP üretemediğinde sessizce PNG gider |
+
+## 🆕 Faz 19 (19.12 · K189, FE-51) — `uploadAsGuest` kaldırıldı
+
+Misafir yükleme ucu sunucuda bayrakla kapalı (varsayılan; kapalıyken 404) ve arayüzde onu çağıran yer kalmamıştı.
+Servis artık yalnızca sahibin uçlarını taşır. `GuestMediaKind` ve `MEDIA_UPLOAD_LIMIT_BYTES` kaldı: türler
+backend `MediaKind` ile aynı listeyi tutar ve özellik açılırsa (D2) aynı sınırlar kullanılır.
+`verify:endpoints` misafir yüklemesinin servise bayraksız geri dönmesini yakalar.
