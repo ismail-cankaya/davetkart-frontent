@@ -44,6 +44,12 @@ const appPages: RouteObject[] = [
     element: <CreatePage />,
     errorElement: <RouteError scope="editor" />
   },
+  {
+    // K192 (FE-50): kayıt açılınca adres kimliği taşır; yenileme aynı taslağa döner.
+    path: '/create/:id',
+    element: <CreatePage />,
+    errorElement: <RouteError scope="editor" />
+  },
   { path: '/login', element: <LoginPage /> },
   { path: '/register', element: <RegisterPage /> },
   // Şifre sıfırlama (Faz 10, FE 10.16). `/sifre-sifirla` maildeki

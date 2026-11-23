@@ -237,7 +237,7 @@ export default function DashboardPage() {
   const handleResume = (card: DashboardCard) => {
     loadRecord(card.record);
     resumeEditor(card.invitation.categoryId || 'dugun');
-    navigate('/create');
+    navigate(`/create/${card.remoteId}`);
   };
 
   /**
