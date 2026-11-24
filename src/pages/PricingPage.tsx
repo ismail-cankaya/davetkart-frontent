@@ -12,6 +12,7 @@ import { planPriceOf } from '../stores/usePricingStore';
 import { paymentMethodsMode } from '../utils/paymentMethods';
 import { SubscriptionTier } from '../types';
 import { ease } from '../utils/motion';
+import { GUEST_DATA_MONTHS_AFTER_EVENT } from '../legal/retention';
 
 /**
  * Fiyatlandırma sayfası (`/pricing`).
@@ -35,18 +36,19 @@ interface Faq {
   a: string;
 }
 
-const STATIC_FAQS: Faq[] = [
+// FE-52 (19.19, K232): backend'de yayın süresi ve uzatma yok; SSS bunu vaat etmez (verify-render kilitler).
+export const STATIC_FAQS: Faq[] = [
   {
     q: 'Ödeme tek seferlik mi, abonelik mi?',
-    a: 'Tüm paketler tek seferlik ödemedir; abonelik veya gizli yenileme ücreti yoktur. Bir kez ödersiniz, davetiyeniz paketinizin yayın süresi boyunca yayında kalır.'
+    a: 'Tüm paketler tek seferlik ödemedir; abonelik veya gizli yenileme ücreti yoktur. Bir kez ödersiniz; davetiyeniz siz silene kadar yayında kalır.'
   },
   {
     q: 'Ödeme yapmadan davetiyemi tasarlayabilir miyim?',
     a: 'Evet. Tasarım stüdyosunda davetiyenizi ücretsiz oluşturabilir, canlı önizlemede her ayrıntısını inceleyebilirsiniz. Ödeme yalnızca davetiyenizi yayınlayıp paylaşmak istediğinizde gereklidir.'
   },
   {
-    q: 'Yayın süresi bittiğinde ne olur?',
-    a: 'Yayın süresi sonunda davetiyeniz erişime kapanır; ancak tasarımınız ve LCV kayıtlarınız hesabınızda saklanır. Dilerseniz küçük bir ücretle yayın sürenizi uzatabilirsiniz.'
+    q: 'Davetiyem ne kadar süre yayında kalır?',
+    a: `Bir süre sınırı ve ek ücret yoktur: davetiyeniz, siz davetiyeyi veya hesabınızı silene kadar yayında kalır. Misafir yanıtları ve misafirlerin yüklediği fotoğraflar ise gizlilik gereği etkinlik tarihinden ${GUEST_DATA_MONTHS_AFTER_EVENT} ay sonra silinir.`
   },
   {
     q: 'İade alabilir miyim?',

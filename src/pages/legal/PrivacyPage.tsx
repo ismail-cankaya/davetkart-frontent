@@ -1,5 +1,5 @@
 import { LegalPageLayout, LegalSection } from '../../components/legal/LegalPageLayout';
-import { BACKUP_PURGE_DAYS } from '../../legal/retention';
+import { BACKUP_PURGE_DAYS, GUEST_DATA_MONTHS_AFTER_EVENT } from '../../legal/retention';
 
 const SECTIONS: LegalSection[] = [
   {
@@ -92,7 +92,7 @@ const SECTIONS: LegalSection[] = [
       'Hesap verileri (ad-soyad, e-posta adresi, şifrenin özeti): üyelik süresince. Hesabınızı "Hesabım" sayfasından sildiğinizde hesabınız, davetiyeleriniz, davetli yanıtları ve yüklenen tüm fotoğraf ve videolar canlı sistemden derhal silinir; yedeklerdeki kopyaları aşağıdaki Yedekler maddesindeki süre içinde silinir,',
       'Davetiye içeriği (metinler, etkinlik bilgileri, sizin yüklediğiniz fotoğraflar): siz davetiyeyi veya hesabınızı silene kadar,',
       'Silinen davetiyeler: 30 gün boyunca geri alınabilir; bu sürenin sonunda fotoğrafları ve davetli yanıtlarıyla birlikte kalıcı olarak silinir,',
-      'Davetli (misafir) verileri: LCV yanıtları (isim, katılım durumu, kişi sayısı, menü tercihi, mesaj) ile davetlilerin yüklediği fotoğraf ve videolar, etkinlik tarihinden 6 ay sonra silinir. Etkinlik tarihi girilmemiş davetiyelerde bu veriler davetiyenin yayınlandığı tarihten, hiç yayınlanmamışsa oluşturulduğu tarihten 12 ay sonra silinir,',
+      `Davetli (misafir) verileri: LCV yanıtları (isim, katılım durumu, kişi sayısı, menü tercihi, mesaj) ile davetlilerin yüklediği fotoğraf ve videolar, etkinlik tarihinden ${GUEST_DATA_MONTHS_AFTER_EVENT} ay sonra silinir. Etkinlik tarihi girilmemiş davetiyelerde bu veriler davetiyenin yayınlandığı tarihten, hiç yayınlanmamışsa oluşturulduğu tarihten 12 ay sonra silinir,`,
       'İletişim formu mesajları: gönderildikleri tarihten itibaren 12 ay,',
       'İşlem ve fatura kayıtları: ilgili mevzuat gereği 10 yıl. Hesabınız silindiğinde bu kayıtların hesabınızla bağlantısı kaldırılır,',
       'Pazarlama izinleri: rızanın geri alınmasına kadar,',

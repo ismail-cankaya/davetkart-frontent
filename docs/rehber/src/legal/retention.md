@@ -29,3 +29,9 @@ metin gerçekten uzun bir süre söz veremez.
 ## 4. Açık kalanlar
 
 - AWS panelinde ömür kuralının gerçekten 30 + 7 gün olduğu bu fazda doğrulanmadı (K152 ⚠️ bucket henüz açılmadı).
+
+## 5. `GUEST_DATA_MONTHS_AFTER_EVENT` (FE-52 · Faz 19.19 · K232)
+
+Misafir verisinin (LCV yanıtları + misafir dosyaları) etkinlik tarihinden kaç ay sonra silindiği: **6** (K98,
+backend `data:purge`). Gizlilik metni (`PrivacyPage`) ve fiyat sayfası SSS'si (`PricingPage`) bu sabiti kullanır;
+`verify-render` ikisini de denetler. Backend'deki süre değişirse önce backend, sonra burası.

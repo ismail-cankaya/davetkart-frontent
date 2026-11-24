@@ -133,3 +133,9 @@ Bayrak açılırsa (D2) bu vaka "açıkken satır içi form dosya alanı çiziyo
   okunur; biri metne sayıyı elle yazarsa sabitle ayrışır ve kırmızı (mutant 1).
 - **Veri işleyenler:** `DATA_PROCESSORS` listesi testte **ayrı** yazılı (sayfadan türetilmez); sayfadan bir ad
   silinirse `eksik: <ad>` ile kırmızı (mutant 2: Shopier). Ayrıca K257 (tarihsiz davetiye 12 ay) cümlesi aranır.
+
+## FE-52 (Faz 19.19, K232): fiyat sayfası SSS
+
+§3'ün içinden `pricingFaq()` koşar: `PricingPage`'in dışa aktarılan `STATIC_FAQS` dizisinde "yayın süre…" ya da
+"uzat…" geçen soru kırmızıdır (backend'de karşılığı yok); misafir verisi cümlesi `GUEST_DATA_MONTHS_AFTER_EVENT`
+ile aynı olmalı. Gizlilik metnindeki 6 ay denetimi de artık aynı sabite bağlı.
