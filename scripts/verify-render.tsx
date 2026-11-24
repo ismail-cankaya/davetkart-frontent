@@ -26,6 +26,7 @@ import { TemplateRenderer } from '../src/components/templates/TemplateRenderer';
 import { DeviceSimulator } from '../src/components/preview/DeviceSimulator';
 import { RSVPForm } from '../src/components/templates/shared/RSVPForm';
 import PrivacyPage from '../src/pages/legal/PrivacyPage';
+import { BACKUP_PURGE_DAYS } from '../src/legal/retention';
 import { getSectionTheme } from '../src/components/templates/shared/palette';
 import { DUGUN_FLAVOR } from '../src/components/templates/dugun/flavors';
 import { useInvitationStore } from '../src/stores/useInvitationStore';
@@ -276,22 +277,35 @@ async function guestUploadsAreOff(): Promise<void> {
  * Saklama süreleri bölümü. Başlık içindekiler listesinde de geçtiği için
  * SON geçişinden bir sonraki bölümün başlığına kadar alınır.
  */
-function retentionSection(): string {
+function privacySection(title: string, next: string): string {
   const html = renderToStaticMarkup(
     <MemoryRouter>
       <PrivacyPage />
     </MemoryRouter>,
   );
-  const start = html.lastIndexOf('Saklama Süreleri');
-  return html.slice(start, html.indexOf('Veri Güvenliği Önlemleri', start));
+  const start = html.lastIndexOf(title);
+  return html.slice(start, html.indexOf(next, start));
 }
+
+/** SEC-11 (19.18, K231): sayfadaki listeden bağımsız yazılı; biri sayfadan silinirse kırmızı. */
+const DATA_PROCESSORS = ['Amazon Web Services', 'Amazon CloudFront', 'Amazon SES', 'Shopier', 'Natro', 'Sentry', 'Google Gemini'];
 
 function privacyRetention(): void {
   console.log('\nGizlilik metni: saklama süreleri (K97 · K98)');
 
-  const text = retentionSection();
+  const text = privacySection('Saklama Süreleri', 'Veri Güvenliği Önlemleri');
   check(text.length > 0, 'bölüm bulundu', 'başlık yok');
-  check(text.includes('derhal silinir'), 'hesap silinince veriler hemen silinir (K97)', 'ifade yok');
+  check(text.includes('canlı sistemden derhal silinir'), 'hesap silinince canlı veriler hemen silinir (K97)', 'ifade yok');
+  check(
+    text.includes(`yedeklerden de en geç ${BACKUP_PURGE_DAYS} gün içinde`),
+    `yedeklerden en geç ${BACKUP_PURGE_DAYS} gün, sabitle aynı (K231)`,
+    'yedek cümlesi yok ya da süre sabitten ayrıştı',
+  );
+  check(
+    text.includes('oluşturulduğu tarihten 12 ay sonra silinir'),
+    'tarihsiz davetiyede misafir verisi 12 ay (K257)',
+    'kural yok',
+  );
   check(text.includes('30 gün'), 'silinen davetiye 30 gün (K98)', 'süre yok');
   check(text.includes('etkinlik tarihinden 6 ay'), 'misafir verisi etkinlikten 6 ay (K98)', 'süre yok');
   check(text.includes('12 ay'), 'iletişim mesajı 12 ay (K98)', 'süre yok');
@@ -299,6 +313,14 @@ function privacyRetention(): void {
     !text.includes('zamanaşımı') && !text.includes('yayın bitiminden'),
     'eski, kodla çelişen ifadeler yok',
     '"zamanaşımı" ya da "yayın bitiminden" geri geldi',
+  );
+
+  const processors = privacySection('Hizmet Aldığımız Veri İşleyenler', 'Saklama Süreleri');
+  const missing = DATA_PROCESSORS.filter(name => !processors.includes(name));
+  check(
+    processors.length > 0 && missing.length === 0,
+    `veri işleyenler adıyla: ${DATA_PROCESSORS.length} sağlayıcı (K231)`,
+    `eksik: ${missing.join(', ') || 'bölüm yok'}`,
   );
 }
 

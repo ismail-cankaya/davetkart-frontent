@@ -1,5 +1,5 @@
 {
-  "total": 797,
+  "total": 781,
   "files": {
     "src/components/account/AccountNav.tsx": 5,
     "src/components/account/DeleteAccountCard.tsx": 12,
@@ -64,7 +64,7 @@
     "src/pages/account/AccountPrivacySection.tsx": 5,
     "src/pages/account/AccountSecuritySection.tsx": 3,
     "src/pages/legal/CookiesPage.tsx": 42,
-    "src/pages/legal/PrivacyPage.tsx": 76,
+    "src/pages/legal/PrivacyPage.tsx": 88,
     "src/pages/legal/TermsPage.tsx": 62
   }
 }

@@ -40,6 +40,23 @@ hukukçunun işi; yayından önce okutulmalı.
 
 - **10 yıl sonra silme yok:** `orders` satırları hiç silinmiyor. Metin 10 yıl diyor; süre dolunca
   silen bir iş henüz yok (on yıl sonra gereken bir iş, ama söz verilmiş).
-- **Yedekler:** silinen veri yedeklerde yaşamaya devam eder; yedek saklama süresi deploy fazında.
+- ~~**Yedekler:** silinen veri yedeklerde yaşamaya devam eder~~ → SEC-11 (19.18, K231) ile kapandı: §5.
 - **Çerez Politikası:** misafirin LCV düzenleme kodu (`davetkart_rsvp_receipt:*`, FE 10.18) tarayıcıda
   saklanıyor ama `CookiesPage`'in yerel depolama listesinde yok.
+
+## 5. SEC-11 (Faz 19.18, K231): yedekler, veri işleyenler, tarihsiz davetiye
+
+- **Yedekler.** "Derhal silinir" yalnızca canlı sistem için doğruydu; gece dökümü, Lightsail disk görüntüsü
+  ve medya bucket'ının eski sürümleri silinen veriyi bir süre daha taşıyor. Metin artık iki adımı ayrı söylüyor:
+  canlıdan hemen, yedeklerden en geç `BACKUP_PURGE_DAYS` (40) gün içinde. Sayının dayanağı:
+  [`../../legal/retention.md`](../../legal/retention.md).
+- **Veri işleyenler** (`veri-isleyenler` bölümü). Her satır: ad · amaç · yer · veri. Kaynaklar: AWS bölgesi
+  Y1.5 (`eu-central-1`), SES Y2.1, medya CloudFront Y3.2, Natro DNS + posta `YAYIN-DEVIR.md`, Shopier
+  alanları `ShopierGateway::buyerFields()` (yer tutucular gerçek veri değil, SEC-10), Sentry
+  `send_default_pii=false`, Gemini `AskAssistantAction` (yalnızca mesaj). Sentry ve Gemini koşullu yazıldı
+  (Y11.3 / Y11.4 henüz açılmadı). Google Fonts yok: fontlar SEC-12 (K226) ile kendi sunucumuzda.
+- **Tarihsiz davetiye** (K257, SEC-13): misafir verisi yayından, yayınlanmadıysa oluşturmadan 12 ay sonra silinir.
+- **Hukuki çerçeve korunur.** Yalnızca teknik gerçekler eklendi; aktarımın hukuki dayanağı (KVKK m. 9) ve
+  ifadelerin uygunluğu yayından önce bir hukukçuya okutulmalı.
+- **Kilit.** `verify-render` §3: "canlı sistemden derhal silinir", "yedeklerden de en geç {sabit} gün",
+  K257 cümlesi ve yedi sağlayıcının adı (liste testte ayrı yazılı: sayfadaki listeden ad silinirse kırmızı).
