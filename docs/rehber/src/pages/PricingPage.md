@@ -29,3 +29,18 @@ edilmiş sayılır" maddesine uyduruldu:
 > 3 gün içinde davetiyeyi silerseniz hakkı yeni bir davetiyede kullanabilirsiniz. …
 
 Yukarıdaki ⚠️ notun "iade" kısmı bu cevap için kapandı; "yayın süresi" cevabı hâlâ kontrol bekliyor.
+
+## 🆕 Faz 19.19 (`FE-52` · K232): SSS yayın süresi vaat etmiyor
+
+**Sorun.** İki SSS cevabı "paketinizin yayın süresi", "süre sonunda erişime kapanır" ve "küçük bir ücretle uzatabilirsiniz"
+diyordu. Backend'de yayın süresi, kapanma tarihi ya da uzatma siparişi yok: davetiye siz silene kadar yayında kalır
+(tek istisna: iade sonrası yayından kaldırma, "İade alabilir miyim?" cevabında).
+
+**Şimdi.** İlk cevap "siz silene kadar yayında kalır"; üçüncü soru "Davetiyem ne kadar süre yayında kalır?" ve cevabı
+gerçek kuralı söyler: süre sınırı ve ek ücret yok; misafir verisi etkinlikten
+`GUEST_DATA_MONTHS_AFTER_EVENT` (6) ay sonra silinir (K98). Sayı `src/legal/retention.ts`'ten okunur; gizlilik
+metni de aynı sabiti kullanır (iki yerde sayı yazılmaz).
+
+**Kilit.** `STATIC_FAQS` dışa aktarılır; `verify-render` hiçbir SSS'de "yayın süre…" ya da "uzat…" geçmediğini ve
+6 ay cümlesinin sabitle aynı olduğunu denetler. Yayın süresi bir gün ürüne girerse önce backend kuralı, sonra bu
+denetim, en son metin değişir.

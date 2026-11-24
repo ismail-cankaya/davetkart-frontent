@@ -4,3 +4,6 @@
  * Kılavuz: docs/rehber/src/legal/retention.md
  */
 export const BACKUP_PURGE_DAYS = 40;
+
+/** K98 (FE-52, 19.19): misafir verisi (LCV + misafir dosyaları) etkinlik tarihinden bu kadar ay sonra silinir (`data:purge`). */
+export const GUEST_DATA_MONTHS_AFTER_EVENT = 6;
