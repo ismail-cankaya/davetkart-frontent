@@ -26,7 +26,8 @@ import { TemplateRenderer } from '../src/components/templates/TemplateRenderer';
 import { DeviceSimulator } from '../src/components/preview/DeviceSimulator';
 import { RSVPForm } from '../src/components/templates/shared/RSVPForm';
 import PrivacyPage from '../src/pages/legal/PrivacyPage';
-import { BACKUP_PURGE_DAYS } from '../src/legal/retention';
+import { BACKUP_PURGE_DAYS, GUEST_DATA_MONTHS_AFTER_EVENT } from '../src/legal/retention';
+import { STATIC_FAQS } from '../src/pages/PricingPage';
 import { getSectionTheme } from '../src/components/templates/shared/palette';
 import { DUGUN_FLAVOR } from '../src/components/templates/dugun/flavors';
 import { useInvitationStore } from '../src/stores/useInvitationStore';
@@ -287,6 +288,21 @@ function privacySection(title: string, next: string): string {
   return html.slice(start, html.indexOf(next, start));
 }
 
+/**
+ * FE-52 (19.19, K232): backend'de yayın süresi ve uzatma yok; SSS bunları vaat etmez,
+ * misafir verisi süresini sabitten söyler.
+ */
+function pricingFaq(): void {
+  console.log('\nFiyat sayfası SSS (FE-52):');
+  const promises = STATIC_FAQS.filter(f => /yayın süre|uzat/i.test(`${f.q} ${f.a}`)).map(f => f.q);
+  check(promises.length === 0, 'yayın süresi ya da ücretli uzatma vaadi yok (K232)', `geçen soru: ${promises.join(' | ')}`);
+  check(
+    STATIC_FAQS.some(f => f.a.includes(`etkinlik tarihinden ${GUEST_DATA_MONTHS_AFTER_EVENT} ay sonra silinir`)),
+    `misafir verisi ${GUEST_DATA_MONTHS_AFTER_EVENT} ay, sabitle aynı (K98)`,
+    'cümle yok ya da sabitten ayrıştı',
+  );
+}
+
 /** SEC-11 (19.18, K231): sayfadaki listeden bağımsız yazılı; biri sayfadan silinirse kırmızı. */
 const DATA_PROCESSORS = ['Amazon Web Services', 'Amazon CloudFront', 'Amazon SES', 'Shopier', 'Natro', 'Sentry', 'Google Gemini'];
 
@@ -307,13 +323,19 @@ function privacyRetention(): void {
     'kural yok',
   );
   check(text.includes('30 gün'), 'silinen davetiye 30 gün (K98)', 'süre yok');
-  check(text.includes('etkinlik tarihinden 6 ay'), 'misafir verisi etkinlikten 6 ay (K98)', 'süre yok');
+  check(
+    text.includes(`etkinlik tarihinden ${GUEST_DATA_MONTHS_AFTER_EVENT} ay`),
+    `misafir verisi etkinlikten ${GUEST_DATA_MONTHS_AFTER_EVENT} ay, sabitle aynı (K98)`,
+    'süre yok ya da sabitten ayrıştı',
+  );
   check(text.includes('12 ay'), 'iletişim mesajı 12 ay (K98)', 'süre yok');
   check(
     !text.includes('zamanaşımı') && !text.includes('yayın bitiminden'),
     'eski, kodla çelişen ifadeler yok',
     '"zamanaşımı" ya da "yayın bitiminden" geri geldi',
   );
+
+  pricingFaq();
 
   const processors = privacySection('Hizmet Aldığımız Veri İşleyenler', 'Saklama Süreleri');
   const missing = DATA_PROCESSORS.filter(name => !processors.includes(name));
