@@ -1,4 +1,5 @@
 import { LegalPageLayout, LegalSection } from '../../components/legal/LegalPageLayout';
+import { BACKUP_PURGE_DAYS } from '../../legal/retention';
 
 const SECTIONS: LegalSection[] = [
   {
@@ -66,19 +67,36 @@ const SECTIONS: LegalSection[] = [
     ],
     note: 'Kişisel verileriniz hiçbir koşulda üçüncü kişilere satılmaz veya pazarlama amacıyla kiralanmaz.'
   },
-  // FE 10.22: süreler backend'in uyguladığı kurallarla aynı (K97 hesap silme,
-  // K98 saklama süreleri). Biri değişirse öbürü de değişir: rehber/src/pages/legal/PrivacyPage.md
+  // SEC-11 (19.18): adıyla veri işleyenler. Biri eklenir ya da çıkarsa verify-render listesi de değişir.
+  {
+    id: 'veri-isleyenler',
+    title: 'Hizmet Aldığımız Veri İşleyenler',
+    paragraphs: ['Hizmeti sunmak için aşağıdaki sağlayıcılardan hizmet alırız. Her satırda sağlayıcının adı, amacı, verinin işlendiği yer ve işlenen veri yer alır:'],
+    bullets: [
+      'Amazon Web Services (AWS: Amazon Lightsail ve Amazon S3): sunucu, veritabanı, dosya depolama ve yedekler · Almanya (Frankfurt) · hesap bilgileri, davetiye içeriği, davetli yanıtları, yüklenen fotoğraf ve videolar ile bunların yedekleri,',
+      'Amazon CloudFront (AWS): fotoğraf ve videoların hızlı sunulması · dünya genelindeki önbellek sunucuları · davetiyede gösterilen fotoğraf ve videolar,',
+      'Amazon Simple Email Service (Amazon SES): e-posta gönderimi (doğrulama, şifre sıfırlama, bildirimler) · Almanya (Frankfurt) · e-posta adresiniz ve gönderilen e-postanın içeriği,',
+      'Shopier: ödemenin alınması · Türkiye · ad, soyad, e-posta adresi, sipariş tutarı ve hesabınızın kaç gündür açık olduğu. Kart bilgilerinizi doğrudan Shopier\'in sayfasına girersiniz; DavetKart bu bilgileri görmez ve saklamaz,',
+      'Natro: alan adı (DNS) ve gelen e-posta kutuları · Türkiye · @davetkart.com adreslerine gönderdiğiniz e-postalar,',
+      'Sentry (etkinleştirildiğinde): hata kaydı ve izleme · yurt dışı (hizmet hesabında seçilen veri bölgesi) · hata anındaki teknik bilgiler; IP adresi ve kişisel veriler varsayılan olarak gönderilmez,',
+      'Google Gemini (davetiye asistanı etkinleştirildiğinde): asistanın yanıt üretmesi · yurt dışı (Google sunucuları) · yalnızca asistana yazdığınız mesaj.'
+    ],
+    note: 'Fontlar ve sayfa dosyaları DavetKart\'ın kendi sunucusundan yüklenir; sayfa açılırken üçüncü taraf bir yazı tipi ya da reklam hizmetine istek gönderilmez.'
+  },
+  // FE 10.22: süreler backend'in uyguladığı kurallarla aynı (K97 hesap silme, K98 + K257 saklama,
+  // K231 yedekler). Biri değişirse öbürü de değişir: rehber/src/pages/legal/PrivacyPage.md
   {
     id: 'saklama-sureleri',
     title: 'Saklama Süreleri',
     bullets: [
-      'Hesap verileri (ad-soyad, e-posta adresi, şifrenin özeti): üyelik süresince. Hesabınızı "Hesabım" sayfasından sildiğinizde hesabınız, davetiyeleriniz, davetli yanıtları ve yüklenen tüm fotoğraf ve videolar derhal silinir,',
+      'Hesap verileri (ad-soyad, e-posta adresi, şifrenin özeti): üyelik süresince. Hesabınızı "Hesabım" sayfasından sildiğinizde hesabınız, davetiyeleriniz, davetli yanıtları ve yüklenen tüm fotoğraf ve videolar canlı sistemden derhal silinir; yedeklerdeki kopyaları aşağıdaki Yedekler maddesindeki süre içinde silinir,',
       'Davetiye içeriği (metinler, etkinlik bilgileri, sizin yüklediğiniz fotoğraflar): siz davetiyeyi veya hesabınızı silene kadar,',
       'Silinen davetiyeler: 30 gün boyunca geri alınabilir; bu sürenin sonunda fotoğrafları ve davetli yanıtlarıyla birlikte kalıcı olarak silinir,',
-      'Davetli (misafir) verileri: LCV yanıtları (isim, katılım durumu, kişi sayısı, menü tercihi, mesaj) ile davetlilerin yüklediği fotoğraf ve videolar, etkinlik tarihinden 6 ay sonra silinir. Etkinlik tarihi girilmemiş davetiyelerde bu veriler davetiye veya hesap silinene kadar saklanır,',
+      'Davetli (misafir) verileri: LCV yanıtları (isim, katılım durumu, kişi sayısı, menü tercihi, mesaj) ile davetlilerin yüklediği fotoğraf ve videolar, etkinlik tarihinden 6 ay sonra silinir. Etkinlik tarihi girilmemiş davetiyelerde bu veriler davetiyenin yayınlandığı tarihten, hiç yayınlanmamışsa oluşturulduğu tarihten 12 ay sonra silinir,',
       'İletişim formu mesajları: gönderildikleri tarihten itibaren 12 ay,',
       'İşlem ve fatura kayıtları: ilgili mevzuat gereği 10 yıl. Hesabınız silindiğinde bu kayıtların hesabınızla bağlantısı kaldırılır,',
-      'Pazarlama izinleri: rızanın geri alınmasına kadar.'
+      'Pazarlama izinleri: rızanın geri alınmasına kadar,',
+      `Yedekler: yukarıdaki silmeler canlı sistemde hemen uygulanır. Veritabanının günlük yedekleri, sunucunun günlük disk görüntüleri ve silinen fotoğraf ile videoların önceki sürümleri yalnızca arıza veya veri kaybında geri yükleme için bir süre daha saklanır; silinen veriler yedeklerden de en geç ${BACKUP_PURGE_DAYS} gün içinde kendiliğinden silinir.`
     ]
   },
   {
@@ -132,7 +150,7 @@ export default function PrivacyPage() {
       title="Gizlilik"
       accent="Sözleşmesi"
       intro="Kişisel verilerinizin güvenliği bizim için özel anlarınız kadar değerli. Bu metin, verilerinizi KVKK kapsamında hangi amaçlarla ve nasıl işlediğimizi şeffaf biçimde açıklar."
-      lastUpdated="2 Ekim 2026"
+      lastUpdated="24 Kasım 2026"
       sections={SECTIONS}
       related={[
         {
