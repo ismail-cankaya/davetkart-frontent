@@ -124,3 +124,12 @@ yaklaşığı: metin taraması, Vite'ın gerçek grafiği değil) ve `RsvpModal.
 `<input type="file" />` eklendi → iki kontrol kırmızı. Yukarıdaki tablodaki `RsvpModal` satırı artık
 geçersiz: önizleme penceresi kaldırıldı, "Yanıtımı Güncelle" kontrolleri yalnızca `RSVPForm` ve sayfanın tamamında.
 Bayrak açılırsa (D2) bu vaka "açıkken satır içi form dosya alanı çiziyor, kapalıyken çizmiyor" olur.
+
+## SEC-11 (Faz 19.18, K231): yedek süresi ve veri işleyenler
+
+§3 (gizlilik metni) iki kilit daha taşır:
+
+- **Yedek süresi:** metin "yedeklerden de en geç {`BACKUP_PURGE_DAYS`} gün içinde" demeli. Sayı `src/legal/retention.ts`'ten
+  okunur; biri metne sayıyı elle yazarsa sabitle ayrışır ve kırmızı (mutant 1).
+- **Veri işleyenler:** `DATA_PROCESSORS` listesi testte **ayrı** yazılı (sayfadan türetilmez); sayfadan bir ad
+  silinirse `eksik: <ad>` ile kırmızı (mutant 2: Shopier). Ayrıca K257 (tarihsiz davetiye 12 ay) cümlesi aranır.
