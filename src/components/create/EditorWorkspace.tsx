@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'motion/react';
 import { CloudOff, CloudUpload, CheckCircle2, Loader2, PenLine, Rocket, ShieldCheck } from 'lucide-react';
 import { DesignerPanel } from '../editor/DesignerPanel';
@@ -28,8 +29,10 @@ export function EditorWorkspace() {
   const backToBuild = useCreateWizardStore(s => s.backToBuild);
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const saveState = useInvitationStore(s => s.saveState);
+  const saveError = useInvitationStore(s => s.saveError);
   const publishInvitation = useInvitationStore(s => s.publishInvitation);
   const [isPublishing, setIsPublishing] = React.useState(false);
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,6 +42,11 @@ export function EditorWorkspace() {
   useEffect(() => {
     scrollToTarget(0, { immediate: true });
   }, []);
+
+  // A-H2: içerik reddi (taslak tavanı) sayfanın altındaki notta kaybolmasın.
+  useEffect(() => {
+    if (saveState === 'rejected') toast(toDisplayError(saveError), 'error');
+  }, [saveState, saveError]);
 
   /**
    * Yayınlamayı dener ve sunucunun kararına göre ilerler.
@@ -191,6 +199,14 @@ export function EditorWorkspace() {
                 <ShieldCheck size={13} className="text-brand" />
                 Giriş yapmadan tasarlayabilirsiniz — yayınlamak için giriş yaptığınızda tasarımınız hesabınıza kaydedilir.
               </>
+            ) : saveState === 'rejected' ? (
+              <span data-save-state="rejected" className="inline-flex flex-wrap items-center justify-center gap-1.5">
+                <CloudOff size={13} className="text-amber-600" />
+                {toDisplayError(saveError)}
+                <Link to="/dashboard" className="font-semibold text-brand underline underline-offset-2">
+                  {t('editorSave.manageDrafts')}
+                </Link>
+              </span>
             ) : saveState === 'saving' ? (
               <>
                 <CloudUpload size={13} className="text-brand animate-pulse" />

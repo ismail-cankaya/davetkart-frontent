@@ -25,7 +25,7 @@ function describe(error: unknown): string {
 function saveNote(isAuthenticated: boolean, saveState: InvitationSaveState): SaveNote {
   if (!isAuthenticated) return 'local'; // anonymous draft lives only in memory
   if (saveState === 'saving') return 'saving';
-  if (saveState === 'error') return 'failed';
+  if (saveState === 'error' || saveState === 'rejected') return 'failed';
   return 'saved';
 }
 

@@ -20,6 +20,9 @@
       "saved": "Your changes are saved; reloading is safe."
     }
   },
+  "editorSave": {
+    "manageDrafts": "Manage my drafts"
+  },
   "auth": {
     "login": "Sign In",
     "register": "Sign Up",

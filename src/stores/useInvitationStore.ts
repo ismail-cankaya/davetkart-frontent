@@ -8,6 +8,7 @@ import {
   TimelineEvent
 } from '../types';
 import { INITIAL_INVITATION } from '../data';
+import { apiErrorCode } from '../services/api';
 import { persistenceService } from '../services/persistence';
 import { useAuthStore } from './useAuthStore';
 import { paywallFromError, useSubscriptionStore } from './useSubscriptionStore';
@@ -43,6 +44,8 @@ interface InvitationState {
   recordId: string | null;
   /** Outcome of the most recent backend save (drives the editor's status hint). */
   saveState: InvitationSaveState;
+  /** `rejected` durumunun sunucu hatası (gösterim: `toDisplayError`); diğer durumlarda `null`. */
+  saveError: unknown;
   /**
    * Kullanıcı düzenlemesi sayacı — yalnızca `updateField` ve `selectTemplate`
    * artırır. Otomatik kaydetme BUNU izler, `invitation` referansını değil.
@@ -217,6 +220,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       set((state) => ({
         recordId: record.id,
         saveState: 'saved',
+        saveError: null,
         invitation: {
           ...state.invitation,
           timelineEvents: adoptServerIds(state.invitation.timelineEvents, sentKeys, record),
@@ -240,7 +244,13 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
         return { ok: false, error };
       }
 
-      set({ saveState: 'error' });
+      // A-H2: taslak tavanı bağlantı hatası değil; aynı POST aynı 403'ü üretir.
+      if (apiErrorCode(error) === 'DRAFT_LIMIT_REACHED') {
+        set({ saveState: 'rejected', saveError: error });
+        return { ok: false, error };
+      }
+
+      set({ saveState: 'error', saveError: null });
       return { ok: false, error };
     }
   };
@@ -289,6 +299,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
     activePresetId: INITIAL_INVITATION.imageTheme,
     recordId: null,
     saveState: 'idle',
+    saveError: null,
     editRevision: 0,
     documentVersion: 0,
 
@@ -328,6 +339,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
         invitation: { ...INITIAL_INVITATION, ...record.invitation },
         activePresetId: record.invitation.imageTheme || INITIAL_INVITATION.imageTheme,
         saveState: 'idle',
+        saveError: null,
         documentVersion: documentGeneration
       });
     },
@@ -343,6 +355,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
         invitation: INITIAL_INVITATION,
         activePresetId: INITIAL_INVITATION.imageTheme,
         saveState: 'idle',
+        saveError: null,
         documentVersion: documentGeneration
       });
     },
