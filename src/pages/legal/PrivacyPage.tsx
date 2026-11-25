@@ -76,7 +76,7 @@ const SECTIONS: LegalSection[] = [
       'Amazon Web Services (AWS: Amazon Lightsail ve Amazon S3): sunucu, veritabanı, dosya depolama ve yedekler · Almanya (Frankfurt) · hesap bilgileri, davetiye içeriği, davetli yanıtları, yüklenen fotoğraf ve videolar ile bunların yedekleri,',
       'Amazon CloudFront (AWS): fotoğraf ve videoların hızlı sunulması · dünya genelindeki önbellek sunucuları · davetiyede gösterilen fotoğraf ve videolar,',
       'Amazon Simple Email Service (Amazon SES): e-posta gönderimi (doğrulama, şifre sıfırlama, bildirimler) · Almanya (Frankfurt) · e-posta adresiniz ve gönderilen e-postanın içeriği,',
-      'Shopier: ödemenin alınması · Türkiye · ad, soyad, e-posta adresi, sipariş tutarı ve hesabınızın kaç gündür açık olduğu. Kart bilgilerinizi doğrudan Shopier\'in sayfasına girersiniz; DavetKart bu bilgileri görmez ve saklamaz,',
+      'Shopier: ödemenin alınması · Türkiye · ad, soyad, e-posta adresi, kartla ödemede cep telefonunuz (yalnızca siparişte saklanır, hesap silinince silinir), sipariş tutarı ve hesabınızın kaç gündür açık olduğu. Kart bilgilerinizi doğrudan Shopier\'in sayfasına girersiniz; DavetKart bu bilgileri görmez ve saklamaz,',
       'Natro: alan adı (DNS) ve gelen e-posta kutuları · Türkiye · @davetkart.com adreslerine gönderdiğiniz e-postalar,',
       'Sentry (etkinleştirildiğinde): hata kaydı ve izleme · yurt dışı (hizmet hesabında seçilen veri bölgesi) · hata anındaki teknik bilgiler; IP adresi ve kişisel veriler varsayılan olarak gönderilmez,',
       'Google Gemini (davetiye asistanı etkinleştirildiğinde): asistanın yanıt üretmesi · yurt dışı (Google sunucuları) · yalnızca asistana yazdığınız mesaj.'
