@@ -38,8 +38,8 @@ hukukçunun işi; yayından önce okutulmalı.
 
 ## 4. Açık kalanlar (B6)
 
-- **10 yıl sonra silme yok:** `orders` satırları hiç silinmiyor. Metin 10 yıl diyor; süre dolunca
-  silen bir iş henüz yok (on yıl sonra gereken bir iş, ama söz verilmiş).
+- ~~**10 yıl sonra silme yok:** `orders` satırları hiç silinmiyor.~~ → B-E2 (K234, 25 Kasım 2026): `data:purge`
+  siparişi yılının sonundan 10 yıl sonra siler (backend `PurgeExpiredData.md` §3.4).
 - ~~**Yedekler:** silinen veri yedeklerde yaşamaya devam eder~~ → SEC-11 (19.18, K231) ile kapandı: §5.
 - ~~**Çerez Politikası:** misafirin LCV düzenleme kodu (`davetkart_rsvp_receipt:*`, FE 10.18) tarayıcıda
   saklanıyor ama `CookiesPage`'in yerel depolama listesinde yok.~~ → B-H5 (25 Kasım 2026) ile kapandı: "Kesinlikle

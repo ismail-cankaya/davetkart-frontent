@@ -12,7 +12,7 @@ import { planPriceOf } from '../stores/usePricingStore';
 import { paymentMethodsMode } from '../utils/paymentMethods';
 import { SubscriptionTier } from '../types';
 import { ease } from '../utils/motion';
-import { GUEST_DATA_MONTHS_AFTER_EVENT } from '../legal/retention';
+import { GUEST_DATA_MONTHS_AFTER_EVENT, UNDATED_GUEST_DATA_MONTHS } from '../legal/retention';
 
 /**
  * Fiyatlandırma sayfası (`/pricing`).
@@ -48,7 +48,7 @@ export const STATIC_FAQS: Faq[] = [
   },
   {
     q: 'Davetiyem ne kadar süre yayında kalır?',
-    a: `Bir süre sınırı ve ek ücret yoktur: davetiyeniz, siz davetiyeyi veya hesabınızı silene kadar yayında kalır. Misafir yanıtları ve misafirlerin yüklediği fotoğraflar ise gizlilik gereği etkinlik tarihinden ${GUEST_DATA_MONTHS_AFTER_EVENT} ay sonra silinir.`
+    a: `Bir süre sınırı ve ek ücret yoktur: davetiyeniz, siz davetiyeyi veya hesabınızı silene kadar yayında kalır. Misafir yanıtları ve misafirlerin yüklediği fotoğraflar ise gizlilik gereği etkinlik tarihinden ${GUEST_DATA_MONTHS_AFTER_EVENT} ay sonra silinir; etkinlik tarihi girilmemişse davetiyenin yayınlandığı (hiç yayınlanmadıysa oluşturulduğu) tarihten ${UNDATED_GUEST_DATA_MONTHS} ay sonra.`
   },
   {
     q: 'İade alabilir miyim?',

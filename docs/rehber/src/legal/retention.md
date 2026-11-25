@@ -35,3 +35,9 @@ metin gerçekten uzun bir süre söz veremez.
 Misafir verisinin (LCV yanıtları + misafir dosyaları) etkinlik tarihinden kaç ay sonra silindiği: **6** (K98,
 backend `data:purge`). Gizlilik metni (`PrivacyPage`) ve fiyat sayfası SSS'si (`PricingPage`) bu sabiti kullanır;
 `verify-render` ikisini de denetler. Backend'deki süre değişirse önce backend, sonra burası.
+
+## `UNDATED_GUEST_DATA_MONTHS` (B-E8, 25 Kasım 2026)
+
+K257: etkinlik tarihi olmayan davetiyede misafir verisi yayın (yoksa oluşturma) tarihinden 12 ay sonra silinir
+(backend `PurgeExpiredData::UNDATED_FALLBACK_MONTHS`). Gizlilik metni ve fiyat sayfası SSS'si sayıyı bu sabitten
+yazar; `verify-render` ikisini de sabitle karşılaştırır. Önce SSS bu kuralı hiç söylemiyordu.
