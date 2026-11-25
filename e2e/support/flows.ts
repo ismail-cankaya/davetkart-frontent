@@ -129,5 +129,6 @@ export async function openGuestPage(page: Page, invitationId: string): Promise<v
   const hasEnvelope = await envelope.waitFor({ state: 'visible', timeout: 10_000 }).then(() => true, () => false);
   if (!hasEnvelope) return;
   await envelope.click();
-  await expect(envelope).toBeHidden({ timeout: 15_000 });
+  // The seal hides at once, but the page stays inert until the envelope slides away and unmounts (B-H2).
+  await expect(envelope).toHaveCount(0, { timeout: 15_000 });
 }

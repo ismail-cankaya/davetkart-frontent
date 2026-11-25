@@ -32,7 +32,13 @@ e2e'nin asıl kazancı backend testlerinin sabitlemediği sözleşmelerde. Çık
 ## Kararlılık
 
 Tıklamadan önce görünür olması gereken adımlar `isVisible()` ile değil `waitFor`/`click` ile beklenir
-(`isVisible` beklemez). Misafir formu zarf açıldıktan sonra bir kez yeniden çizilebilir; ad `toPass` ile doldurulur.
+(`isVisible` beklemez).
+
+**Zarf (B-H2, 25 Kasım 2026):** `openGuestPage` zarfın DOM'dan **kalkmasını** bekler (`toHaveCount(0)`), gizlenmesini değil.
+Mühür düğmesi tıklanınca hemen `scale(0)` olur (Playwright için "gizli"), ama zarf kayıp sökülene kadar (`onOpened`)
+sayfa içeriği `inert`'tir: o arada yapılan `fill` alana ulaşmaz. Eskiden bu "form yeniden çiziliyor" sanılıp
+`toPass` döngüsüyle aşılıyordu; ölçüm (`closest('[inert]')`) formun yeniden bağlanmadığını, yalnızca `inert` olduğunu
+gösterdi. Gerçek misafir için veri kaybı yok: `inert` alana yazmayı zaten engeller.
 
 ## Faz 19 (19.14 · K191, SEC-09) — e-posta doğrulama kancası
 

@@ -10,14 +10,10 @@ test('misafir yanıtı sahibin panelinde görünür', async ({ browser }) => {
   const guestContext = await browser.newContext();
   const guest = await guestContext.newPage();
   await openGuestPage(guest, invitationId);
-  const name = guest.getByLabel('Ad Soyad');
-  // The form can remount once after the envelope opens (local state resets): refill until it holds.
   await expect(guest.getByRole('heading', { name: 'Lütfen Cevap Veriniz' })).toBeVisible();
-  await expect(async () => {
-    await name.fill(guestName);
-    await guest.waitForTimeout(500);
-    await expect(name).toHaveValue(guestName, { timeout: 500 });
-  }).toPass({ timeout: 15_000 });
+  const name = guest.getByLabel('Ad Soyad');
+  await name.fill(guestName);
+  await expect(name).toHaveValue(guestName);
   const [reply] = await Promise.all([
     guest.waitForResponse(r => r.request().method() === 'POST' && r.url().includes(`/api/public/invitations/${invitationId}/rsvps`)),
     guest.getByRole('button', { name: /Katılımımı Bildir/i }).click()
