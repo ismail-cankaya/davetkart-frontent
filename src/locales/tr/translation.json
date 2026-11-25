@@ -33,7 +33,8 @@
       "doneTitle": "E-posta adresiniz doğrulandı",
       "doneBody": "Artık ödeme yapabilir ve davetiyenizi yayınlayabilirsiniz.",
       "failedTitle": "Bağlantı kullanılamadı"
-    }
+    },
+    "passwordHint": "En az 8 karakter. Çok yaygın ya da tahmini kolay parolalar kabul edilmez."
   },
   "hero": {
     "badge": "Yeni Nesil Davetiye Deneyimi",

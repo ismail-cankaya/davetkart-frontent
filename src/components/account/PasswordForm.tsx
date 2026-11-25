@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { accountService } from '../../services/account';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useAccountStore } from '../../stores/useAccountStore';
@@ -16,6 +17,7 @@ import { FormField, SubmitButton } from './FormField';
  * sunucuda kapanır; oturum listesi tazelenir.
  */
 export function PasswordForm() {
+  const { t } = useTranslation();
   const email = useAuthStore(s => s.user?.email);
   const loadSessions = useAccountStore(s => s.loadSessions);
 
@@ -75,7 +77,7 @@ export function PasswordForm() {
           value={password}
           onChange={event => setPassword(event.target.value)}
           error={errors.password}
-          hint="En az 8 karakter."
+          hint={t('auth.passwordHint')}
         />
         <FormField
           id="password-repeat"
