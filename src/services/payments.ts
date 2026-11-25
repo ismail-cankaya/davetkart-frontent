@@ -1,5 +1,6 @@
 import { api, unwrapEnvelope } from './api';
 import { isPlanPrice } from './pricing';
+import { normalizeTrMobile } from '../utils/trMobile';
 import { CheckoutAction, CheckoutPayload, CheckoutResult, GiftCodePreview, OrderRecord, SubscriptionTier } from '../types';
 
 /**
@@ -45,9 +46,12 @@ import { CheckoutAction, CheckoutPayload, CheckoutResult, GiftCodePreview, Order
  * boş bir `giftCode` alanı backend'de anlamsız bir durum doğururdu.
  * Fiyat, tutar ve indirim ASLA gövdeye girmez (M6).
  */
-export function checkoutBody(tier: SubscriptionTier, giftCode?: string | null): CheckoutPayload {
+export function checkoutBody(tier: SubscriptionTier, giftCode?: string | null, phone?: string | null): CheckoutPayload {
   const code = giftCode?.trim();
-  return code ? { tier, giftCode: code } : { tier };
+  const body: CheckoutPayload = code ? { tier, giftCode: code } : { tier };
+  // K262 (A-E5): telefon yalnızca biçimi doğruysa gider; zorunluluğunu sürücü belirler (backend).
+  const mobile = phone ? normalizeTrMobile(phone) : null;
+  return mobile ? { ...body, phone: mobile } : body;
 }
 
 /**
@@ -148,15 +152,16 @@ export const paymentService = {
     invitationId: string,
     tier: SubscriptionTier,
     giftCode?: string | null,
+    phone?: string | null,
   ): Promise<CheckoutResult> {
     // Gövdede tier ve (varsa) giftCode: fiyatı ve indirimi backend hesaplar (M6).
-    const { data } = await api.post<unknown>(`/invitations/${invitationId}/checkout`, checkoutBody(tier, giftCode));
+    const { data } = await api.post<unknown>(`/invitations/${invitationId}/checkout`, checkoutBody(tier, giftCode, phone));
     return toCheckoutResult(data);
   },
 
   /** Davetiyesiz paket alır; ilk yayınlanan davetiyeye bağlanır (K99). */
-  async checkoutForAccount(tier: SubscriptionTier, giftCode?: string | null): Promise<CheckoutResult> {
-    const { data } = await api.post<unknown>('/payments/checkout', checkoutBody(tier, giftCode));
+  async checkoutForAccount(tier: SubscriptionTier, giftCode?: string | null, phone?: string | null): Promise<CheckoutResult> {
+    const { data } = await api.post<unknown>('/payments/checkout', checkoutBody(tier, giftCode, phone));
     return toCheckoutResult(data);
   },
 

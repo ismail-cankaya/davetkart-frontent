@@ -77,6 +77,9 @@ interface CheckoutState {
   isCheckingGiftCode: boolean;
   /** Son önizlemenin ya da checkout'un hediye kodu hatası, çizilmeye hazır metin. */
   giftCodeError: string | null;
+  /** K262 (A-E5): kartla ödemede alıcının cep telefonu, yazıldığı hâliyle; yalnızca siparişe gider. */
+  buyerPhone: string;
+  setBuyerPhone: (phone: string) => void;
   selectMethod: (method: PaymentMethod) => void;
   setTermsAccepted: (accepted: boolean) => void;
   /**
@@ -128,6 +131,7 @@ const INITIAL_STATE = {
   isProcessing: false,
   pendingOrder: null,
   bankTransferConfirmed: false,
+  buyerPhone: '',
   ...INITIAL_GIFT_STATE
 };
 
@@ -145,6 +149,8 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
 
   setTermsAccepted: (accepted) => set({ termsAccepted: accepted }),
 
+  setBuyerPhone: (phone) => set({ buyerPhone: phone }),
+
   startCardCheckout: async ({ tier, invitationId }) => {
     if (get().isProcessing) return null;
     set({ isProcessing: true });
@@ -152,14 +158,14 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
     // Faz 11: kod YALNIZCA geçerli bir önizlemesi varsa gider. Önizlemesi
     // olmayan (hatalı ya da henüz denenmemiş) kod sessizce gönderilseydi
     // kullanıcı indirimsiz bir fiyata "Öde" demiş olurdu.
-    const { giftCode, giftPreview } = get();
+    const { giftCode, giftPreview, buyerPhone } = get();
     const code = giftPreview ? giftCode : null;
 
     try {
       // Davetiye kimliği varsa o davetiyeye, yoksa davetiyesiz paket olur (K42, K99).
       const result = invitationId
-        ? await paymentService.checkoutForInvitation(invitationId, tier, code)
-        : await paymentService.checkoutForAccount(tier, code);
+        ? await paymentService.checkoutForInvitation(invitationId, tier, code, buyerPhone)
+        : await paymentService.checkoutForAccount(tier, code, buyerPhone);
 
       set({ isProcessing: false, pendingOrder: result });
       return result;
@@ -239,8 +245,9 @@ export const useCheckoutStore = create<CheckoutState>()((set, get) => ({
 
     if (options?.keepGiftCode) {
       // Kod kalır; önizleme eski planındı, yeniden hesaplanana kadar yok sayılır.
-      const { giftCode } = get();
-      set({ ...INITIAL_STATE, giftCode });
+      // Aynı sayfada plan değişti: yazılan telefon da korunur.
+      const { giftCode, buyerPhone } = get();
+      set({ ...INITIAL_STATE, giftCode, buyerPhone });
       return;
     }
 

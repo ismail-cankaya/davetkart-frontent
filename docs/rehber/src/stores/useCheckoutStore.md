@@ -91,3 +91,9 @@ düğmeler katalogla yeniden çizilir.
 - Kapanan yöntem (`PAYMENT_METHOD_DISABLED`) artık `usePricingStore.refresh()` çağırır: ödeme
   sayfası davetiyesinin kataloğunu ayrı yuvadan okuduğu için yalnızca ortak kataloğu tazelemek
   düğmeleri eski bırakırdı.
+
+## Faz 19 ortak düzeltme (A-E5 · K262) — `buyerPhone`
+
+Kart formunun yazdığı ham telefon. `startCardCheckout` onu `paymentService`'e geçirir; normalleştirme ve "geçersizse hiç gönderme"
+kararı `checkoutBody`'de. `reset()` temizler (bir sonraki ödemeye sızmasın); `reset({ keepGiftCode: true })` (aynı sayfada plan
+değişti) kodu ve telefonu korur.

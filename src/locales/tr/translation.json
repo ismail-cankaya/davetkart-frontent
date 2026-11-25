@@ -77,6 +77,9 @@
     }
   },
   "providerCheckout": {
+    "phoneLabel": "Cep telefonunuz",
+    "phoneHint": "Ödeme sağlayıcısı (Shopier) alıcının cep telefonunu ister. Yalnızca bu siparişte saklanır; hesabınıza yazılmaz.",
+    "phoneInvalid": "Geçerli bir cep telefonu yazın: 05XX XXX XX XX.",
     "amountLabel": "Ödenecek tutar",
     "explainer": "Kart bilgilerinizi bir sonraki adımda Shopier'in güvenli ödeme sayfasında gireceksiniz.",
     "button": "Güvenli ödeme sayfasına geç",

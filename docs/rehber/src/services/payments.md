@@ -168,3 +168,9 @@ Checkout uçları değişmedi. Bir farkla: aynı davetiye + aynı plan + aynı k
 
 `npm run verify:endpoints`: hedefsiz önizlemede `invitationId` gönderilmediği, hedefli
 önizlemede gönderildiği sınanır.
+
+## Faz 19 ortak düzeltme (A-E5 · K262) — `phone`
+
+`checkoutBody(tier, giftCode?, phone?)`: telefon `normalizeTrMobile`'dan geçerse `phone: "05XXXXXXXXX"` olarak eklenir, geçmezse
+anahtar hiç konmaz (hediye koduyla aynı kural). Zorunluluğu backend'de sürücü belirler (`RequiresBuyerPhone`): Shopier'de telefonsuz
+kart ödemesi 422 `VALIDATION_FAILED` (`fields.phone`). Test: `verify:payment` → "Alıcı telefonu".
