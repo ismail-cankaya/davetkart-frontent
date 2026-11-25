@@ -27,6 +27,7 @@
     "verify:bundle": "node scripts/run-check.mjs scripts/verify-bundle.ts",
     "verify:render": "node scripts/run-check.mjs scripts/verify-render.tsx",
     "gen:preset-colors": "node scripts/run-check.mjs scripts/gen-preset-colors.ts",
+    "a11y:envelopes": "vite build --config scripts/onizleme/vite.build.config.mjs && node scripts/onizleme/zarf-kontrast.cjs",
     "e2e": "playwright test",
     "e2e:report": "playwright show-report",
     "perf": "playwright test -c playwright.perf.config.ts"
