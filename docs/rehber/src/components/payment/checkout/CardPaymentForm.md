@@ -43,3 +43,13 @@ submit → onay kutusu? → startCardCheckout (POST …/checkout, sipariş 'pend
 
 Bu dosyanın yeni metinleri `providerCheckout.*` anahtarlarında (12.14, 10 dil). Eski
 Türkçe sabit metinler (bekleyen sipariş notu, toast) yeniden yazılırken anahtara taşındı.
+
+## Faz 19 ortak düzeltme (A-E5 · K262) — alıcı telefonu
+
+Shopier formuna eskiden herkes için aynı yer tutucu telefon gidiyordu (SEC-10). Kart formunda artık **cep telefonu** alanı var:
+`type="tel"`, `autocomplete="tel-national"`, etiketli; gönderim denendiğinde biçim yanlışsa alan `aria-invalid` olur ve
+hata metni `aria-describedby` ile bağlanır (yoksa ipucu metni bağlıdır). Doğrulama `utils/trMobile.ts` → `normalizeTrMobile`
+(backend `StoreCheckoutRequest` ile aynı kural). Değer `useCheckoutStore.buyerPhone`'da durur, gövdeye `checkoutBody` koyar.
+
+Telefon yalnızca kartla ödemede sorulur: hediye kodunun tamamen karşıladığı ödeme (`FreeActivationPanel`) ve havale onu istemez.
+Backend telefonu zorunlu tutan sürücüde (Shopier) 422 `phone` döndürürse toast `toDisplayError` metnini gösterir.

@@ -8,6 +8,8 @@ import { toast } from '../../ui/Toast';
 import { formatTryMinor } from '../../../utils/currency';
 import { toDisplayError } from '../../../utils/toDisplayError';
 import { gesture } from '../../../utils/motion';
+import { cn } from '../../../utils/cn';
+import { normalizeTrMobile } from '../../../utils/trMobile';
 
 interface CardPaymentFormProps {
   context: CheckoutContext;
@@ -44,14 +46,18 @@ export function CardPaymentForm({ context, amountMinor }: CardPaymentFormProps) 
   const termsAccepted = useCheckoutStore((s) => s.termsAccepted);
   const startCardCheckout = useCheckoutStore((s) => s.startCardCheckout);
   const goToProvider = useCheckoutStore((s) => s.goToProvider);
+  const buyerPhone = useCheckoutStore((s) => s.buyerPhone);
+  const setBuyerPhone = useCheckoutStore((s) => s.setBuyerPhone);
 
   const uid = useId();
+  const phoneId = `${uid}-phone`;
+  const phoneInvalid = submitted && normalizeTrMobile(buyerPhone) === null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isProcessing) return;
     setSubmitted(true);
-    if (!termsAccepted) return;
+    if (!termsAccepted || normalizeTrMobile(buyerPhone) === null) return;
 
     try {
       const result = await startCardCheckout(context);
@@ -88,6 +94,37 @@ export function CardPaymentForm({ context, amountMinor }: CardPaymentFormProps) 
           </p>
         </div>
       )}
+
+      {/* K262 (A-E5): Shopier'e yer tutucu yerine alıcının gerçek cep telefonu gider; yalnızca siparişte saklanır. */}
+      <div>
+        <label htmlFor={phoneId} className="block text-xs font-semibold text-ink mb-1.5">
+          {t('providerCheckout.phoneLabel')}
+        </label>
+        <input
+          id={phoneId}
+          type="tel"
+          inputMode="tel"
+          autoComplete="tel-national"
+          value={buyerPhone}
+          onChange={(e) => setBuyerPhone(e.target.value)}
+          placeholder="05XX XXX XX XX"
+          aria-invalid={phoneInvalid}
+          aria-describedby={phoneInvalid ? `${phoneId}-error` : `${phoneId}-hint`}
+          className={cn(
+            'w-full rounded-2xl border bg-white px-4 py-3 text-sm text-ink outline-none transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-brand/30',
+            phoneInvalid ? 'border-rose-400' : 'border-ink/15 focus:border-brand/50'
+          )}
+        />
+        {phoneInvalid ? (
+          <p id={`${phoneId}-error`} className="mt-1.5 text-[11px] text-rose-700">
+            {t('providerCheckout.phoneInvalid')}
+          </p>
+        ) : (
+          <p id={`${phoneId}-hint`} className="mt-1.5 text-[11px] text-muted leading-relaxed">
+            {t('providerCheckout.phoneHint')}
+          </p>
+        )}
+      </div>
 
       <div className="space-y-5 pt-1">
         <CheckoutConsent id={`${uid}-consent`} invalid={submitted} />

@@ -61,3 +61,9 @@ hukukçunun işi; yayından önce okutulmalı.
   ifadelerin uygunluğu yayından önce bir hukukçuya okutulmalı.
 - **Kilit.** `verify-render` §3: "canlı sistemden derhal silinir", "yedeklerden de en geç {sabit} gün",
   K257 cümlesi ve yedi sağlayıcının adı (liste testte ayrı yazılı: sayfadaki listeden ad silinirse kırmızı).
+
+## Faz 19 ortak düzeltme (A-E5 · K262)
+
+Veri işleyenler listesinin Shopier satırı kartla ödemede gönderilen **cep telefonunu** da sayar: yalnızca siparişte saklanır, hesap
+silinince silinir (backend `DeleteAccountAction`). TCKN ve adres hâlâ yer tutucu (Shopier'in cevabı bekleniyor); kullanıcıdan
+alınmadıkları için metinde yoklar.

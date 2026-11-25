@@ -77,6 +77,9 @@
     }
   },
   "providerCheckout": {
+    "phoneLabel": "Your mobile phone",
+    "phoneHint": "The payment provider (Shopier) needs the buyer's mobile phone. It is kept only with this order, not on your account.",
+    "phoneInvalid": "Enter a valid Turkish mobile number: 05XX XXX XX XX.",
     "amountLabel": "Amount due",
     "explainer": "You will enter your card details on Shopier's secure payment page in the next step.",
     "button": "Continue to secure payment page",

@@ -281,6 +281,8 @@ export interface CheckoutPayload {
    * İndirim de fiyat gibi sunucuda hesaplanır; gövdede tutar ya da indirim yok.
    */
   giftCode?: string;
+  /** K262 (A-E5): normalleştirilmiş TR cep telefonu (`05XXXXXXXXX`); yoksa anahtar gönderilmez. */
+  phone?: string;
 }
 
 /** Hediye kodunun faydası — backend `GiftCodeBenefit` enum'ı (Faz 11). */
