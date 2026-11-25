@@ -34,9 +34,13 @@ export function useInvitationAutoSave(): void {
       if (state.editRevision !== prev.editRevision && shouldAutoSave(state)) debouncedSave();
     });
 
+    // B-D10: React söker ÜSTTEN aşağı; formun taslak yazımı (useInvitationDraft) bu temizlikten SONRA gelir.
+    // Abonelik o yazımı görsün diye kapatma ve flush bir mikro görev sonraya bırakılır.
     return () => {
-      unsubscribe();
-      debouncedSave.flush();
+      queueMicrotask(() => {
+        unsubscribe();
+        debouncedSave.flush();
+      });
     };
   }, [isAuthenticated, debouncedSave]);
 }

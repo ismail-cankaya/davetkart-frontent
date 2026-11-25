@@ -16,3 +16,20 @@ durumdur (bugün yalnızca `403 DRAFT_LIMIT_REACHED`, bkz. `stores/useInvitation
 üretir; kapı açık kalsaydı her düzenleme 1,5 sn sonra yeni bir 403 atardı. Açık eylemler (yayınla, "Davetiyeni
 Oluştur") kapıdan geçmez, `saveInvitation()`'ı doğrudan çağırır: kullanıcı panelden taslak sildiyse başarılı kayıt
 reddi kaldırır ve otomatik kaydetme geri gelir. Test: `verify:state` → `draftLimitStopsAutosave`.
+
+## B-D10 (26 Kasım 2026): editörden hemen çıkınca son düzenleme kayboluyordu
+
+**Belirti:** bir alana yazıp hemen (taslak penceresi ~400 ms dolmadan) editörden çıkınca — başka sayfaya geçiş ya da
+çökme (FE-02: hata sınırı rotayı söker) — son düzenleme backend'e hiç gitmiyordu. e2e `editor-flush.spec.ts` yakaladı.
+
+**Neden:** React söküm temizliklerini **üstten aşağı** çalıştırır. `CreatePage`'deki bu kancanın temizliği (abonelikten
+çık + `flush`) önce koşuyordu; formdaki `useInvitationDraft` temizliği bekleyen yazımı store'a SONRA yazıyordu. O anda
+dinleyen abonelik kalmadığı için kaydetme tetiklenmiyordu.
+
+**Çözüm:** temizlik aboneliği kapatmayı ve `flush`'ı `queueMicrotask` ile bir mikro görev sonraya bırakır. Aynı söküm
+geçişindeki çocuk temizlikleri o mikro görevden önce biter; yazım aboneliğe ulaşır, `debouncedSave()` kurulur ve
+mikro görevdeki `flush` onu hemen gönderir. `use-debounce` söküldükten sonra yeni zamanlayıcıyı çalıştırmaz ama
+`flush()` bekleyen çağrıyı yine yapar; bu yüzden kayıt kaçmaz.
+
+**Sınama:** `npm run e2e` → `editörden hemen çıkınca son düzenleme kaydedilir` (yazdıktan hemen sonra panele geçiş,
+PUT'un gövdesinde yeni mekân, 200).
