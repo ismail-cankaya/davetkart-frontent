@@ -33,7 +33,8 @@
       "doneTitle": "Your email address is verified",
       "doneBody": "You can now pay and publish your invitation.",
       "failedTitle": "This link could not be used"
-    }
+    },
+    "passwordHint": "At least 8 characters. Very common or easy-to-guess passwords are not accepted."
   },
   "hero": {
     "badge": "The Next-Generation Invitation Experience",
