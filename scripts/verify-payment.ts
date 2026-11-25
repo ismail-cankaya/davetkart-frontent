@@ -27,6 +27,7 @@ import { TEMPLATE_PRESETS } from '../src/templateCatalog';
 import type { OrderStatus } from '../src/types';
 import { formatTry, formatTryMinor } from '../src/utils/currency';
 import { checkoutActionOf, checkoutBody, isCheckoutAction } from '../src/services/payments';
+import { normalizeTrMobile } from '../src/utils/trMobile';
 import { isSafeFormTarget, submitProviderForm } from '../src/utils/submitProviderForm';
 
 let failures = 0;
@@ -222,6 +223,13 @@ function main(): void {
   check('gövde: kod kırpılır', checkoutBody('gold', '  DUGUN2026 '), { tier: 'gold', giftCode: 'DUGUN2026' });
   check('gövde: boş kod hiç gitmez', checkoutBody('gold', '   '), { tier: 'gold' });
   check('gövde: null kod hiç gitmez', checkoutBody('elit', null), { tier: 'elit' });
+
+  console.log('\nAlıcı telefonu (A-E5 · K262)');
+  check('telefon: +90, boşluk ve parantez normalleşir', normalizeTrMobile('+90 (532) 123-45 67'), '05321234567');
+  check('telefon: başında 0 olmayan 10 hane reddedilir', normalizeTrMobile('5321234567'), null);
+  check('telefon: sabit hat reddedilir', normalizeTrMobile('0212 123 45 67'), null);
+  check('gövde: telefon normalleşmiş gider', checkoutBody('gold', null, '0532 123 45 67'), { tier: 'gold', phone: '05321234567' });
+  check('gövde: boş ya da geçersiz telefon hiç gitmez', [checkoutBody('gold', null, ''), checkoutBody('gold', null, 'abc')], [{ tier: 'gold' }, { tier: 'gold' }]);
 
   // Faz 12: ödeme sayfasına gidiş (backend K119). `checkout` önce, eski `redirectUrl` geri dönüş.
   console.log('\nÖdeme sayfasına gidiş (Faz 12)');
