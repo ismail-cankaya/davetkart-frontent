@@ -4,11 +4,11 @@ import { OWNER_STORAGE, readPublished } from './support/state';
 
 /**
  * Erişilebilirlik taraması (Faz 19.27, FE-54, K229): denetimin 14 sayfası (AUD-2026-11-12 axe-scan.mjs).
- * Sıfır olmalı: `color-contrast`, `aria-*`, `landmark-*`, `region`. `heading-order` (best-practice) kapsam dışı.
+ * Sıfır olmalı: `color-contrast`, `aria-*`, `landmark-*`, `region`. `heading-order` (best-practice) B-H4'ten beri kapıda.
  */
 const DESKTOP = { width: 1280, height: 800 };
 const MOBILE = { width: 390, height: 844 };
-const GATED = /^(color-contrast|aria-.+|landmark-.+|region)$/;
+const GATED = /^(color-contrast|aria-.+|landmark-.+|region|heading-order)$/;
 
 async function scan(browser: Browser, path: string, auth: boolean, viewport: { width: number; height: number }): Promise<string[]> {
   const context = await browser.newContext({ viewport, locale: 'tr-TR', ...(auth ? { storageState: OWNER_STORAGE } : {}) });
