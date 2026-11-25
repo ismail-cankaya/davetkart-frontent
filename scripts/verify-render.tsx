@@ -36,6 +36,7 @@ import { useRsvpStore } from '../src/stores/useRsvpStore';
 import { RSVP_RECEIPT_KEY_PREFIX, rsvpReceipts } from '../src/services/rsvpReceipts';
 import { INITIAL_INVITATION } from '../src/data';
 import { TEMPLATE_PRESETS } from '../src/templateCatalog';
+import { DEFAULT_PRESET_ID, PRESET_PRIMARY_COLORS } from '../src/templatePresetColors';
 import { LAZY_PRESETS } from '../src/components/templates/lazyPresets';
 import i18n, { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES, getLanguageDirection } from '../src/i18n';
 import { LanguageSwitcher } from '../src/components/LanguageSwitcher';
@@ -142,6 +143,15 @@ async function signatureOnTheGuestPage(): Promise<void> {
 
 /** Konsept şablonları (A) ve tembel yüklenen yeni şablonlar. */
 const LAZY_IDS = Object.keys(LAZY_PRESETS);
+
+/** B-E5: misafir sayfasının katalogsuz renk/kimlik modülü katalogla aynı (`npm run gen:preset-colors`). */
+function presetColorsMatchTheCatalog(): void {
+  console.log('\nŞablon renkleri (B-E5):');
+  const drift = TEMPLATE_PRESETS.filter((p) => PRESET_PRIMARY_COLORS[p.id] !== p.primaryColor).map((p) => p.id);
+  const extra = Object.keys(PRESET_PRIMARY_COLORS).length - TEMPLATE_PRESETS.length;
+  check(drift.length === 0 && extra === 0, `${TEMPLATE_PRESETS.length} şablonun rengi katalogla aynı`, `ayrışan: ${drift.slice(0, 5).join(', ')} · fazla: ${extra} → npm run gen:preset-colors`);
+  check(DEFAULT_PRESET_ID === TEMPLATE_PRESETS[0].id, 'varsayılan şablon kataloğun ilki', DEFAULT_PRESET_ID);
+}
 
 async function lazyPresetsRender(): Promise<void> {
   console.log(`\nTembel şablonlar: kayıt ve veri (${LAZY_IDS.length} şablon)`);
@@ -478,6 +488,7 @@ function toastRegions(): void {
 async function main(): Promise<void> {
   await signatureOnTheGuestPage();
   await lazyPresetsRender();
+  presetColorsMatchTheCatalog();
   signatureInTheEditorPreview();
   await ownReplyForm();
   await guestUploadsAreOff();

@@ -5,7 +5,7 @@ import { useRsvpStore } from '../stores/useRsvpStore';
 import { publicInvitationService } from '../services/publicInvitation';
 import { apiErrorCode } from '../services/api';
 import { toDisplayError } from '../utils/toDisplayError';
-import { TEMPLATE_PRESETS } from '../templateCatalog';
+import { DEFAULT_PRESET_ID, PRESET_PRIMARY_COLORS } from '../templatePresetColors';
 import { Invitation } from '../types';
 
 /**
@@ -24,11 +24,9 @@ type LoadState =
   // Sebep taşınır: kopuk bağlantı ile sunucu hatası aynı cümleyi hak etmez.
   | { status: 'error'; detail: string };
 
-/** Şablon anahtarı katalogda yoksa ilk hazır şablona düşülür. */
+/** Şablon anahtarı katalogda yoksa ilk hazır şablona düşülür (B-E5: kataloğun kendisi indirilmez). */
 function resolvePresetId(imageTheme: string): string {
-  return TEMPLATE_PRESETS.some((preset) => preset.id === imageTheme)
-    ? imageTheme
-    : TEMPLATE_PRESETS[0].id;
+  return Object.hasOwn(PRESET_PRIMARY_COLORS, imageTheme) ? imageTheme : DEFAULT_PRESET_ID;
 }
 
 function FullScreen({ title, detail }: { title: string; detail?: string }) {

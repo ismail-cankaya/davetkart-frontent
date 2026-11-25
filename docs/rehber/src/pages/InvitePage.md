@@ -169,3 +169,8 @@ Beşinci satır §2'nin kanıtı: iki farklı sorun, iki farklı mesaj.
 açılmıyordu. Backend misafir yükleme ucunu `DAVETKART_GUEST_UPLOADS` bayrağıyla kapattı (varsayılan kapalı, uç 404).
 Bayrak `publicInvitationService.get()` sonucunda `guestUploads` olarak gelir; bugün kullanan bileşen yok.
 Yukarıdaki "`RsvpModal` yerel" satırı tarihseldir.
+
+## B-E5 (25 Kasım 2026): katalog indirilmiyor
+
+`resolvePresetId` kimliği `templateCatalog` yerine üretilmiş [`templatePresetColors`](../templatePresetColors.md)'ta arar
+(`PRESET_PRIMARY_COLORS`, `DEFAULT_PRESET_ID`). Davranış aynı; misafir sayfası ~94 kB küçüldü.
