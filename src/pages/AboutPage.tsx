@@ -58,7 +58,7 @@ export default function AboutPage() {
             className="space-y-5"
           >
             <div className="flex items-center gap-3">
-              <span className="font-serif text-sm font-bold text-gold">Neden varız?</span>
+              <span className="font-serif text-sm font-bold text-gold-ink">Neden varız?</span>
               <span className="h-px w-8 bg-gold/40" />
             </div>
             <h2 className="font-serif text-2xl md:text-4xl font-bold text-ink leading-tight">

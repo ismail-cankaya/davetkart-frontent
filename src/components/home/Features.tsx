@@ -79,7 +79,7 @@ export const Features = React.memo(function Features() {
 
               {/* Content */}
               <div className="flex items-center gap-3 mb-3">
-                <span className="font-serif text-sm font-bold text-gold">{item.step}</span>
+                <span className="font-serif text-sm font-bold text-gold-ink">{item.step}</span>
                 <span className="h-px w-8 bg-gold/40" />
               </div>
               <h3 className="font-serif text-xl md:text-2xl font-bold text-ink mb-3">
