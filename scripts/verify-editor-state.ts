@@ -10,7 +10,8 @@
  * Gerçek store ve servis modülleri kullanılır; yalnızca axios'un taşıma
  * katmanı (adapter) sahte bir sunucuyla değiştirilir.
  */
-import { api } from '../src/services/api';
+import { api, apiErrorCode } from '../src/services/api';
+import { toDisplayError } from '../src/utils/toDisplayError';
 import { invalidateConditionalCache } from '../src/services/conditionalGet';
 import { useAuthStore } from '../src/stores/useAuthStore';
 import { useCreateWizardStore } from '../src/stores/useCreateWizardStore';
@@ -862,9 +863,64 @@ function autosaveWaitsForRealContent(): void {
   check(shouldAutoSave(useInvitationStore.getState()), 'kayıt varken her düzenleme kaydedilir (tema dahil)', 'kayıtlı belge atlandı');
 }
 
+/** A-H2 (FE-50): taslak tavanı bir bağlantı hatası değil; mesaj gösterilir, otomatik kaydetme durur. */
+async function draftLimitStopsAutosave(): Promise<void> {
+  console.log('\nTaslak tavanı (A-H2)');
+  reset();
+
+  let full = true;
+  server = (req) =>
+    full && req.method === 'POST' && req.url === '/invitations'
+      ? { status: 403, data: { error: { code: 'DRAFT_LIMIT_REACHED', params: { limit: 50 } } } }
+      : defaultServer(req);
+
+  useInvitationStore.getState().updateField('names', 'Deniz & Can');
+  await useInvitationStore.getState().saveInvitation();
+  const rejected = useInvitationStore.getState();
+  check(
+    rejected.saveState === 'rejected' && apiErrorCode(rejected.saveError) === 'DRAFT_LIMIT_REACHED',
+    '403 DRAFT_LIMIT_REACHED "bağlantı hatası" değil, red olarak tutuluyor',
+    `saveState=${rejected.saveState}, kod=${apiErrorCode(rejected.saveError)}`,
+  );
+  check(
+    toDisplayError(rejected.saveError).includes('50'),
+    'gösterilen metin sunucunun tavanlı taslak mesajı (bağlantı notu değil)',
+    toDisplayError(rejected.saveError),
+  );
+
+  useInvitationStore.getState().updateField('venue', 'Çırağan Sarayı');
+  check(
+    !shouldAutoSave(useInvitationStore.getState()),
+    'red sonrası düzenleme aynı 403\'ü otomatik olarak yeniden üretmiyor',
+    `saveState=${useInvitationStore.getState().saveState}`,
+  );
+
+  // Kullanıcı panelden taslak sildi; açık kaydetme (yayınla / "Davetiyeni Oluştur") yeniden dener.
+  full = false;
+  await useInvitationStore.getState().saveInvitation();
+  const saved = useInvitationStore.getState();
+  check(
+    saved.saveState === 'saved' && saved.saveError === null && shouldAutoSave(saved),
+    'açık kaydetme başarılıysa red kalkıyor, otomatik kaydetme geri geliyor',
+    `saveState=${saved.saveState}, recordId=${saved.recordId}`,
+  );
+
+  full = true;
+  useInvitationStore.getState().resetInvitation();
+  useInvitationStore.getState().updateField('names', 'Ece & Mert');
+  await useInvitationStore.getState().saveInvitation();
+  useInvitationStore.getState().resetInvitation();
+  check(
+    useInvitationStore.getState().saveState === 'idle' && useInvitationStore.getState().saveError === null,
+    'yeni belge reddi taşımıyor',
+    `saveState=${useInvitationStore.getState().saveState}`,
+  );
+}
+
 async function main(): Promise<void> {
   await autosaveContract();
   autosaveWaitsForRealContent();
+  await draftLimitStopsAutosave();
   await documentVersionContract();
   await newInvitationDoesNotOverwrite();
   await staleSaveResponseIsIgnored();
