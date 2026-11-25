@@ -60,7 +60,7 @@ Kalan altı öneri (saray kapısı, kristal balo, şehzade, havai fişek, kep, a
 | `SplitReveal.tsx` | Harf (grapheme) harf açılış; kelimeler bölünmez, Arapça/İbranice gibi bitişik yazılar kelime kelime açılır (harf bölmek bitişmeyi bozar). |
 | `TapBurst.tsx` | Dokunuş patlaması (canvas); düğme ve form alanlarına dokunmak tetiklemez; parçacık yokken kare döngüsü durur; isteğe bağlı kendiliğinden patlama. |
 | `LiveShader.tsx` | three.js'siz (~3 kB) tam ekran WebGL katmanı; videoyla aynı shader, video zamanına eşlenir, ilk karede belirir; tek WebGL yuvası kuralına uyar (`canvasSlot`). |
-| `useTemplateFont.ts` | Şablona özel Google yazı tipini yalnızca şablon çizilince yükler (`index.css`'e eklenmedi: her sayfa indirirdi). |
+| `useTemplateFont.ts` | Şablona özel yazı tipini yalnızca şablon çizilince yükler (`index.css`'e eklenmedi: her sayfa indirirdi). SEC-12'den beri yerel `/fonts/templates.css` (`loadTemplateFonts`). |
 | `ScrollCue.tsx` | Kapak altındaki "Kaydırın" çizgisi. |
 
 **Geriye uyumluluk:** `VideoBackdrop` iki küçük değişiklik aldı — kancalar dışa aktarıldı ve
@@ -220,9 +220,9 @@ animasyonları gerçek cihazdan yavaş görünür; 4.5 sn karesinde bazı adlar 
   gibi adlı kapak istenirse `public/images/sablonlar/<id>.webp` üretilebilir.
 - [ ] **Backend testi koşturulmadı:** kapsayıcıda PHP 8.3, proje ^8.5. PHP 8.5 makinede:
   `php artisan test --filter=PaywallTest` ve `--filter=TemplateCatalogueTest`.
-- [ ] **Google Fonts:** şablon yazı tipleri çalışma anında Google'dan iner (uygulamanın mevcut
-  `index.css` yaklaşımıyla aynı kaynak). CSP eklenirse `fonts.googleapis.com` / `fonts.gstatic.com`
-  izinli olmalı.
+- [x] **Google Fonts:** ~~şablon yazı tipleri çalışma anında Google'dan iner; CSP eklenirse
+  `fonts.googleapis.com` / `fonts.gstatic.com` izinli olmalı.~~ → SEC-12 (Faz 19.17, K226): yazı tipleri
+  yerelden (`/fonts/`); CSP'de Google izni gerekmez ([`fonts.md`](../../styles/fonts.md)).
 - [x] **Yedi Davetiye açık işleri (Holografik rAF görünürlük, Altın Toz üst üste yazı, Mürekkep
   düğmeye dokunma, iOS jiroskop izni):** Faz 15'te kapanmıştı (15.1, 15.5, 15.3, 15.2); bu fazda
   ek iş gerekmedi. Mürekkep'in bağlamı unmount'ta bırakmaması bilinçli (StrictMode).

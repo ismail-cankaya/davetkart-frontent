@@ -30,7 +30,9 @@ düğme, form). Başka aile yok.
 Instrument Serif yedeklerinden dardır; font gelince büyük adların satır kırılımı değişir. Kapak adları
 bu kancayı bekleyerek belirir. Sınır 400 ms: ölçülen en geç kapak öğesi 895 ms'de oturuyor (≤ 1.0 s kuralı).
 
-## 4. Boyut (2026-10-17, Google Fonts, Chrome UA)
+## 4. Boyut (2026-10-17 ölçümü, Chrome UA)
+
+> Ölçüm Google'ın dosyalarıyla yapıldı; SEC-12'den beri aynı `latin` + `latin-ext` alt kümeleri yerelden iner.
 
 Türkçe `latin` + `latin-ext` alt kümeleri gerekir (`ğ ş ı İ` latin-ext'te). Üç yüz × iki alt küme
 ≈ 108 KB woff2 (Sans 11.1 + 30.1, Serif dik/italik 11.6–12.4 + 21.0–22.1). Görsel bütçesine (≤ 60 KB)
@@ -38,4 +40,4 @@ sayılmaz; Kâğıt kitiyle aynı yöntem.
 
 ## 5. Sınırlar
 
-- Google Fonts'a bağlı (projenin mevcut yöntemi). Çevrimdışı önizlemede yedek font görünür.
+- Fontlar yereldir: `/fonts/templates.css` + `public/fonts/` (SEC-12, K226); Google'a istek yok. Stil dosyası yüklenemezse yedek font görünür.

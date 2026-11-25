@@ -76,7 +76,7 @@ her şablon ayrı bir commit'tir.
 - **Arcade:** oyun açıkken Space ve oklar tüm pencerede yakalanır. Bir testte oyun kapandıktan sonra Space'e
   basmaya devam edilince sayfa beyaz kaldı; neden bulunamadı (ortak düzende olabilir) — **ilk kontrol edilecek
   konu**. Boş veride sayaç "0/0" gösterir. Piksel yazı tipi yok, sistem monospace.
-- **Kara Tahta:** Google Fonts yüklenemezse Cormorant'a düşer. Tahta boyutu değişince (döndürme) çizim
+- **Kara Tahta:** yazı tipi (yerel `/fonts/templates.css`, SEC-12) yüklenemezse Cormorant'a düşer. Tahta boyutu değişince (döndürme) çizim
   temizlenir. Tahta sabit yükseklikte (420/440 px); çok uzun isimler sıkışabilir. Boş veri denenmedi.
 - **Dönence:** dönüş düz izdüşüm (gerçek 3B değil); figürler kesişirken arkadaki öndekinin üstüne çıkabilir.
   Önizleme ve azaltılmış hareket yalnızca kod okunarak doğrulandı.

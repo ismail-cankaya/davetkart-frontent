@@ -36,7 +36,7 @@ ve font gelince yerinden oynamaz ([HaritaKapak §4.1](HaritaKapak.md)).
 
 ## 3. Sınırlar
 
-- Google Fonts'a bağlı (projenin mevcut yöntemi). Çevrimdışında yedek font görünür.
+- Fontlar yereldir: `/fonts/templates.css` + `public/fonts/` (SEC-12, K226); Google'a istek yok. Stil dosyası yüklenemezse yedek font görünür.
 - `font-synthesis: none` temadadır: Barlow Semi Condensed'in yüklenmeyen 600/700 kalınlığı sahte kalın
   üretmez, 500'e düşer (ortak bölümlerdeki `font-semibold`/`font-bold` etiketleri).
 - Bu makinede (dört ajan, soğuk önbellek) stil sayfası 0.4–1.6 s, yüzler ondan 0.5–1.9 s sonra geldi;
