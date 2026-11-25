@@ -139,3 +139,10 @@ Bayrak açılırsa (D2) bu vaka "açıkken satır içi form dosya alanı çiziyo
 §3'ün içinden `pricingFaq()` koşar: `PricingPage`'in dışa aktarılan `STATIC_FAQS` dizisinde "yayın süre…" ya da
 "uzat…" geçen soru kırmızıdır (backend'de karşılığı yok); misafir verisi cümlesi `GUEST_DATA_MONTHS_AFTER_EVENT`
 ile aynı olmalı. Gizlilik metnindeki 6 ay denetimi de artık aynı sabite bağlı.
+
+## B-H5 (Faz 19 ortak düzeltme, 25 Kasım 2026): Çerez Politikası
+
+`cookieStorageList()` (gizlilik bölümünden sonra, dil `tr`'ye alınarak) koşar: `CookiesPage` çizilir, `RSVP_RECEIPT_KEY_PREFIX`
+(`src/services/rsvpReceipts.ts`) ve "LCV yanıt düzenleme kodu" satırı aranır. Anahtar adı değişir ya da satır
+silinirse kırmızı: tarayıcıya yazılan her kalıcı kayıt politikada adıyla geçmeli. Satır `t('legal.cookies.rsvpReceipt')` ile
+(tr/en) gelir; gömülü yazılsaydı `verify:i18n` tabanı 781 → 782 olurdu.
