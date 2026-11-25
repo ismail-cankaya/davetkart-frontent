@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
@@ -10,6 +10,7 @@ import { SubscriptionTier } from '../../types';
 import { PLAN_ICONS, PLAN_ICON_TONES } from './planVisuals';
 import { PlanPriceTag } from './PlanPriceTag';
 import { usePricing } from '../../hooks/usePricing';
+import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { planPriceOf } from '../../stores/usePricingStore';
 import { paymentMethodsMode } from '../../utils/paymentMethods';
 import { checkoutHref } from '../../utils/checkoutRoute';
@@ -51,6 +52,10 @@ export function PaywallModal() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { catalog, status, reload } = usePricing();
+
+  const dialogRef = useRef<HTMLDivElement>(null);
+  // Ekran okuyucu ve klavye için gerçek bir modal: odak içeride kalır, kapanınca geri döner (B-H3).
+  useFocusTrap(dialogRef, isOpen);
 
   const recommendedPlan = SUBSCRIPTION_PLANS.find((p) => p.id === requiredTier);
   const isUpgrade = reason === 'upgrade';
@@ -107,6 +112,10 @@ export function PaywallModal() {
           className="fixed inset-0 z-[90] bg-ink/45 backdrop-blur-md flex justify-center p-4 md:p-8 overflow-y-auto overscroll-contain"
         >
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="paywall-title"
             variants={modalVariants}
             initial="hidden"
             animate="shown"
@@ -133,7 +142,7 @@ export function PaywallModal() {
                 <span className="text-brand font-semibold text-xs tracking-[0.15em] uppercase bg-brand/5 border border-brand/10 px-3.5 py-1.5 rounded-full inline-block mb-4">
                   {isUpgrade ? 'Planınızı Yükseltin' : 'Yayınlamaya Bir Adım Kaldı'}
                 </span>
-                <h2 className="font-serif text-2xl md:text-3xl font-bold text-ink">
+                <h2 id="paywall-title" className="font-serif text-2xl md:text-3xl font-bold text-ink">
                   {isUpgrade ? (
                     <>
                       Mevcut planınız <span className="italic text-brand font-medium">bu davetiyeye yetmiyor</span>
