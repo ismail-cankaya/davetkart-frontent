@@ -172,7 +172,7 @@ export function PaywallModal() {
                 {/* 🔴 Ödemenin nerede tamamlandığı ÖNCEDEN söylenir. Kullanıcı
                     ödeme sayfasına geçtiğinde şaşırmamalı. */}
                 {catalog && (
-                  <p className="text-[11px] text-muted/80 mt-4 max-w-md mx-auto leading-relaxed">
+                  <p className="text-[11px] text-muted mt-4 max-w-md mx-auto leading-relaxed">
                     {t(`pricing.paywallNote.${paymentMethodsMode(catalog.paymentMethods)}`)}
                   </p>
                 )}
@@ -195,7 +195,7 @@ export function PaywallModal() {
                       onClick={() => !isLocked && selectTier(plan.id)}
                       className={`relative flex flex-col rounded-3xl border-2 p-5 md:p-6 pt-7 transition duration-300 ease-luxe ${
                         isLocked
-                          ? 'bg-white/50 border-ink/[0.05] opacity-55'
+                          ? 'bg-stone-50 border-ink/[0.05]'
                           : isSelected
                             ? 'bg-white border-brand shadow-xl shadow-brand/10 cursor-pointer'
                             : 'bg-white border-ink/[0.06] shadow-md shadow-ink/[0.04] hover:border-brand/35 hover:-translate-y-1 cursor-pointer'
@@ -238,7 +238,7 @@ export function PaywallModal() {
                             ) : (
                               <Minus size={14} className="text-stone-300 shrink-0 mt-px" />
                             )}
-                            <span className={feature.included ? 'text-ink/80' : 'text-stone-400 line-through decoration-stone-300'}>
+                            <span className={feature.included ? 'text-ink/80' : 'text-stone-500 line-through decoration-stone-400'}>
                               {feature.label}
                             </span>
                           </li>
@@ -248,7 +248,7 @@ export function PaywallModal() {
                       {/* Buy */}
                       <div className="mt-auto">
                         {isLocked ? (
-                          <div className="w-full inline-flex items-center justify-center gap-2 bg-stone-100 text-stone-400 px-5 py-3.5 rounded-xl font-semibold text-xs cursor-not-allowed">
+                          <div className="w-full inline-flex items-center justify-center gap-2 bg-stone-100 text-stone-600 px-5 py-3.5 rounded-xl font-semibold text-xs cursor-not-allowed">
                             <Lock size={13} />
                             Seçtiğiniz modüller için yetersiz
                           </div>
