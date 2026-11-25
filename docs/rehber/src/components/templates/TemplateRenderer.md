@@ -29,3 +29,7 @@ Kimlikler bileşiktir (`-` içerir), backend `imageTheme`'i yalnızca ≤ 48 kar
 
 Bütün şablonlar burada eager içe aktarılır: ana paket büyür (kâğıt ailesinin payı Aşama 3
 raporunda ölçüldü). Tembel yükleme ayrı bir iş.
+
+## B-E5 (25 Kasım 2026)
+
+Yedek zeminin rengi `PRESET_PRIMARY_COLORS`'tan ([`templatePresetColors`](../../templatePresetColors.md)); katalog içe aktarılmaz.
