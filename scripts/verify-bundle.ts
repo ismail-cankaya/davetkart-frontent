@@ -12,7 +12,7 @@ import { gzipSync } from 'node:zlib';
 const ROOT = process.cwd();
 const DIST = path.join(ROOT, 'dist');
 /** Ham (sıkıştırılmamış) bayt. Gerekçe ve ölçümler: docs/rehber/scripts/verify-bundle.md. */
-const BUDGET = { initial: 720_000, guest: 900_000 };
+const BUDGET = { initial: 720_000, guest: 800_000 }; // K237 (B-E6): misafir 900 → 800 kB, B-E5 sonrası 790.2
 const CATEGORIES = ['dugun', 'kina', 'nisan', 'sunnet', 'dogum-gunu', 'mezuniyet', 'baby-shower', 'parti', 'kurumsal'];
 let failures = 0;
 
