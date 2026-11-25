@@ -21,8 +21,7 @@ değişirse ikisi de yeşil kalır. Üç Playwright yolculuğu gerçek backend +
 Portlar `E2E_BACKEND_PORT` / `E2E_PREVIEW_PORT` ile değişir (hat B: 8020/4180). `reuseExistingServer: false`:
 her koşu veritabanını yeniden kurar; port doluysa koşu başlamaz (eski bir `php artisan serve` açık kalmış olabilir).
 
-`npm run check`'e **girmez** (§A-1 varsayılanı): PostgreSQL + PHP + ~1 dk ister. CI taslağı:
-`.github/workflows/e2e.yml.example` (çalıştırılmaz).
+`npm run check`'e **girmez** (§A-1 varsayılanı): PostgreSQL + PHP + ~1 dk ister. CI: `.github/workflows/e2e.yml` (K236, B-E10: `main`'e PR'larda ve elle; [kılavuz](.github/workflows/e2e.md)).
 
 ## Nasıl koşulur
 

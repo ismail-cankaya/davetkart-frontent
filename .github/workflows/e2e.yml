@@ -1,0 +1,94 @@
+# K236 (B-E10): uçtan uca testler CI'da — main'e açılan PR'larda ve elle. Her push'ta değil (Windows
+# koşucusu + PostgreSQL kurulumu ~10 dk). Ayrıntı: docs/rehber/.github/workflows/e2e.md
+name: e2e
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      backend_ref:
+        description: Backend dalı (boşsa aynı adlı dal, o yoksa main)
+        required: false
+        default: ''
+
+concurrency:
+  group: e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    # scripts/e2e/backend.ps1 ve playwright.config.ts `powershell` çağırır: Windows koşucusu.
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      E2E_BACKEND_PORT: 8020
+      E2E_PREVIEW_PORT: 4180
+      BACKEND_REPO: ismail-cankaya/davetkart-backend-php-laravel
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: davetkart-frontent
+
+      - name: Backend dalını seç
+        id: ref
+        shell: pwsh
+        env:
+          TOKEN: ${{ secrets.BACKEND_REPO_TOKEN || github.token }}
+          WANTED: ${{ inputs.backend_ref || github.head_ref || github.ref_name }}
+        run: |
+          $url = "https://x-access-token:$env:TOKEN@github.com/$env:BACKEND_REPO.git"
+          $found = git ls-remote --heads $url $env:WANTED
+          $ref = if ($found) { $env:WANTED } else { 'main' }
+          Write-Host "backend ref: $ref"
+          "ref=$ref" >> $env:GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.BACKEND_REPO }}
+          ref: ${{ steps.ref.outputs.ref }}
+          path: davetkart-backend-php-laravel
+          token: ${{ secrets.BACKEND_REPO_TOKEN || github.token }}
+
+      - name: PostgreSQL 18
+        shell: pwsh
+        run: |
+          choco install postgresql18 --params '/Password:postgres' -y --no-progress
+          "C:\Program Files\PostgreSQL\18\bin" >> $env:GITHUB_PATH
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_pgsql, pgsql, intl, gd, zip
+          tools: composer
+
+      - name: Backend
+        working-directory: davetkart-backend-php-laravel
+        shell: pwsh
+        run: |
+          composer install --no-interaction --prefer-dist --no-progress
+          Copy-Item .env.example .env
+          (Get-Content .env) -replace '^DB_PASSWORD=.*', 'DB_PASSWORD=postgres' | Set-Content .env
+          php artisan key:generate --no-interaction
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: davetkart-frontent/package-lock.json
+
+      - name: e2e
+        working-directory: davetkart-frontent
+        shell: pwsh
+        run: |
+          npm ci
+          npx playwright install chromium
+          npm run e2e
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: |
+            davetkart-frontent/playwright-report
+            davetkart-frontent/test-results
