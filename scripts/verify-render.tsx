@@ -26,13 +26,14 @@ import { TemplateRenderer } from '../src/components/templates/TemplateRenderer';
 import { DeviceSimulator } from '../src/components/preview/DeviceSimulator';
 import { RSVPForm } from '../src/components/templates/shared/RSVPForm';
 import PrivacyPage from '../src/pages/legal/PrivacyPage';
+import CookiesPage from '../src/pages/legal/CookiesPage';
 import { BACKUP_PURGE_DAYS, GUEST_DATA_MONTHS_AFTER_EVENT } from '../src/legal/retention';
 import { STATIC_FAQS } from '../src/pages/PricingPage';
 import { getSectionTheme } from '../src/components/templates/shared/palette';
 import { DUGUN_FLAVOR } from '../src/components/templates/dugun/flavors';
 import { useInvitationStore } from '../src/stores/useInvitationStore';
 import { useRsvpStore } from '../src/stores/useRsvpStore';
-import { rsvpReceipts } from '../src/services/rsvpReceipts';
+import { RSVP_RECEIPT_KEY_PREFIX, rsvpReceipts } from '../src/services/rsvpReceipts';
 import { INITIAL_INVITATION } from '../src/data';
 import { TEMPLATE_PRESETS } from '../src/templateCatalog';
 import { LAZY_PRESETS } from '../src/components/templates/lazyPresets';
@@ -303,6 +304,22 @@ function pricingFaq(): void {
   );
 }
 
+/** B-H5: tarayıcıya yazılan LCV düzenleme kodu Çerez Politikası'nın zorunlu listesinde adıyla geçmeli. */
+async function cookieStorageList(): Promise<void> {
+  console.log('\nÇerez Politikası: yerel depolama listesi (B-H5)');
+  await i18n.changeLanguage(DEFAULT_LANGUAGE); // satır t() ile çizilir (verify:i18n tabanı artmasın)
+  const html = renderToStaticMarkup(
+    <MemoryRouter>
+      <CookiesPage />
+    </MemoryRouter>,
+  );
+  check(
+    html.includes(RSVP_RECEIPT_KEY_PREFIX) && html.includes('LCV yanıt düzenleme kodu'),
+    `LCV düzenleme kodu (${RSVP_RECEIPT_KEY_PREFIX}*) listede`,
+    'satır yok ya da anahtar adı koddan ayrıştı',
+  );
+}
+
 /** SEC-11 (19.18, K231): sayfadaki listeden bağımsız yazılı; biri sayfadan silinirse kırmızı. */
 const DATA_PROCESSORS = ['Amazon Web Services', 'Amazon CloudFront', 'Amazon SES', 'Shopier', 'Natro', 'Sentry', 'Google Gemini'];
 
@@ -460,6 +477,7 @@ async function main(): Promise<void> {
   await ownReplyForm();
   await guestUploadsAreOff();
   privacyRetention();
+  await cookieStorageList();
   await languageScope();
   await routeErrors();
   preloadRecovery();
