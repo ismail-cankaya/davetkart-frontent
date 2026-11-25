@@ -64,6 +64,8 @@ if (existsSync(path.join(DIST, 'index.html'))) {
       const guest = closure([`assets/${invite}`], new Set(initial));
       const g = measure(guest);
       check(g.raw <= BUDGET.guest, `misafir sayfası (şablon hariç) ${kb(g.raw)} (gzip ${kb(g.gzip)}) ≤ ${kb(BUDGET.guest)}`);
+      const catalog = [...guest].filter((f) => /\/templateCatalog-[\w-]+\.js$/.test(f));
+      check(catalog.length === 0, 'misafir sayfası şablon kataloğunu indirmiyor (B-E5)', catalog.join(', '));
     }
   }
 }

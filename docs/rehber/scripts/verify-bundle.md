@@ -16,3 +16,8 @@ Düşürmek için sıradaki adımlar: `motion`'ı ilk yüklemeden çıkarmak, mi
 
 **Mutant (23 Kasım 2026):** `TemplateRenderer`'a `import { DugunSade } from './dugun'` + statik girdi →
 3 hata (barrel kuralı, tembel girdi eksik, misafir sayfası 964.8 kB).
+
+## B-E5 (25 Kasım 2026)
+
+Misafir sayfasının kapanışında `templateCatalog-*.js` parçası varsa kırmızı: `InvitePage` ve `TemplateRenderer` kataloğu değil
+üretilmiş `src/templatePresetColors.ts`'i kullanır.
