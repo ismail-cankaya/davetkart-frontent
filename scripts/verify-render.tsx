@@ -27,7 +27,7 @@ import { DeviceSimulator } from '../src/components/preview/DeviceSimulator';
 import { RSVPForm } from '../src/components/templates/shared/RSVPForm';
 import PrivacyPage from '../src/pages/legal/PrivacyPage';
 import CookiesPage from '../src/pages/legal/CookiesPage';
-import { BACKUP_PURGE_DAYS, GUEST_DATA_MONTHS_AFTER_EVENT } from '../src/legal/retention';
+import { BACKUP_PURGE_DAYS, GUEST_DATA_MONTHS_AFTER_EVENT, UNDATED_GUEST_DATA_MONTHS } from '../src/legal/retention';
 import { STATIC_FAQS } from '../src/pages/PricingPage';
 import { getSectionTheme } from '../src/components/templates/shared/palette';
 import { DUGUN_FLAVOR } from '../src/components/templates/dugun/flavors';
@@ -302,6 +302,11 @@ function pricingFaq(): void {
     `misafir verisi ${GUEST_DATA_MONTHS_AFTER_EVENT} ay, sabitle aynı (K98)`,
     'cümle yok ya da sabitten ayrıştı',
   );
+  check(
+    STATIC_FAQS.some(f => f.a.includes(`oluşturulduğu) tarihten ${UNDATED_GUEST_DATA_MONTHS} ay sonra`)),
+    `SSS tarihsiz davetiye ${UNDATED_GUEST_DATA_MONTHS} ay, sabitle aynı (K257, B-E8)`,
+    'kural yok ya da sabitten ayrıştı',
+  );
 }
 
 /** B-H5: tarayıcıya yazılan LCV düzenleme kodu Çerez Politikası'nın zorunlu listesinde adıyla geçmeli. */
@@ -335,8 +340,8 @@ function privacyRetention(): void {
     'yedek cümlesi yok ya da süre sabitten ayrıştı',
   );
   check(
-    text.includes('oluşturulduğu tarihten 12 ay sonra silinir'),
-    'tarihsiz davetiyede misafir verisi 12 ay (K257)',
+    text.includes(`oluşturulduğu tarihten ${UNDATED_GUEST_DATA_MONTHS} ay sonra silinir`),
+    `tarihsiz davetiyede misafir verisi ${UNDATED_GUEST_DATA_MONTHS} ay, sabitle aynı (K257)`,
     'kural yok',
   );
   check(text.includes('30 gün'), 'silinen davetiye 30 gün (K98)', 'süre yok');
