@@ -18,7 +18,8 @@ Hiçbir rotada `errorElement` yoktu: bir sayfa düşünce React Router'ın İngi
   durumunu da temizler). Misafir (`scope="guest"`) site bağlantısı görmez.
 - `scope="editor"`: `EditorSaveNote` canlı `saveState`'i okur. Editör düşünce `CreatePage` söküler,
   `useInvitationAutoSave` temizliği bekleyen kaydı `flush` eder; not `saving` → `saved`/`failed`
-  olarak güncellenir. Oturumsuz kullanıcıda `local`: "yenilerseniz kaybolur".
+  olarak güncellenir. Oturumsuz kullanıcıda `local`: "yenilerseniz kaybolur". `rejected` (taslak tavanı,
+  A-H2) da `failed` sayılır: içerik sunucuda değil.
 - Hata ayrıntısı yalnızca `import.meta.env.DEV`'de.
 
 ## Sık hata

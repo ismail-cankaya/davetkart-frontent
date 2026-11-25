@@ -417,6 +417,32 @@ cevap verebilecek tek yer kaydetmeyi yapan store'dur. `openPaywall` bir arayüz
 | Duvarı formun olduğu aşamada da çizmek | `CreatePage` (10.8d) |
 | Sayfadan ayrılırken boşaltılan kaydetmenin 402'sinden sonra kalanları kaydetmek | Otomatik kaydetme hook'u sayfayla birlikte ölür; kullanıcı döndüğünde bir sonraki düzenleme hepsini gönderir |
 
+## 🆕 Ek — Faz 19 ortak düzeltme: taslak tavanı (A-H2 · K192)
+
+**Hata:** Tavan (50 taslak) doluyken ilk kayıt `403 DRAFT_LIMIT_REACHED` alıyordu; `runSave` bunu `saveState: 'error'`
+yapıyor, editör "Kaydedilemedi — bağlantınızı kontrol edin, bir sonraki değişiklikte yeniden denenir" diyordu.
+İki yanlış: mesaj bağlantıyı suçluyordu (`errors.json`'daki doğru metin hiç görünmüyordu) ve her düzenleme aynı
+403'ü yeniden üretiyordu — 402 fırtınasının (yukarıda) taslak eşi.
+
+**Düzeltme:**
+
+```
+runSave → POST → 403 DRAFT_LIMIT_REACHED
+   └─ saveState = 'rejected', saveError = <hata>     ← 'error' değil
+         ├─ shouldAutoSave → false                   (otomatik kaydetme durur)
+         ├─ EditorWorkspace: toast + not = toDisplayError(saveError) + "Taslaklarımı yönet" (/dashboard)
+         └─ RouteError: 'failed' notu
+```
+
+- `saveError` yalnızca `rejected`'te dolu; başarılı kayıt, `loadRecord` ve `resetInvitation` `null` yapar.
+- Açık eylemler yeniden dener: `publishInvitation` 403'ü fırlatır (`EditorWorkspace` zaten `toDisplayError` gösterir),
+  "Davetiyeni Oluştur" kuyruğa yeni bir kaydetme koyar. Başarılı olursa red kalkar.
+- Neden yalnızca bu kod? Diğer 4xx'lerin (ör. doğrulama) kendi yolları var; genel bir "her 4xx red" kuralı 401'i
+  (oturum düştü, yeniden girişten sonra devam) da durdururdu.
+
+Test: `verify:state` → `draftLimitStopsAutosave` (red tutuluyor, mesaj tavanlı metin, otomatik kaydetme kapalı,
+açık kaydetme reddi kaldırıyor, yeni belge reddi taşımıyor).
+
 ### Doğrulama
 
 `npm run verify:state` → **"Yayındaki davetiyede plan üstü modül (Faz 10 · K88)"**

@@ -20,6 +20,9 @@
       "saved": "Değişiklikleriniz kaydedildi; sayfayı yenilemek güvenli."
     }
   },
+  "editorSave": {
+    "manageDrafts": "Taslaklarımı yönet"
+  },
   "auth": {
     "login": "Giriş Yap",
     "register": "Kayıt Ol",

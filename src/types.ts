@@ -513,8 +513,11 @@ export interface RsvpCreatePayload {
   website: string;
 }
 
-/** Lifecycle of the editor's debounced cloud auto-save. */
-export type InvitationSaveState = 'idle' | 'saving' | 'saved' | 'error';
+/**
+ * Lifecycle of the editor's debounced cloud auto-save. `rejected`: the server refused
+ * the content itself (draft limit, A-H2); auto-save stops until an explicit save.
+ */
+export type InvitationSaveState = 'idle' | 'saving' | 'saved' | 'error' | 'rejected';
 
 /** Form state of an RSVP being composed, before it becomes an RSVPResponse. */
 export interface RsvpDraft {

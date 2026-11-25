@@ -59,3 +59,13 @@ Elle: hiç planı olmayan bir hesapla galerili bir davetiyeyi **Yayınla** → d
 *"Yayınlamaya Bir Adım Kaldı"* (`purchase`); Gold alınmış bir davetiyede galeriyi
 açıp **Yayınla** → *"Planınızı Yükseltin"* (`upgrade`), Elit vurgulu. İkisi de Faz
 10'dan önce de böyleydi; değişmemiş olmaları bu adımın kanıtı.
+
+---
+
+## 4. Faz 19 ortak düzeltme (A-H2): taslak tavanı notu
+
+`saveState === 'rejected'` (yalnızca `403 DRAFT_LIMIT_REACHED`, bkz. `../../stores/useInvitationStore.md`) iki yerde
+görünür: kaydetme notunda `toDisplayError(saveError)` + `/dashboard`'a "Taslaklarımı yönet" bağlantısı
+(`t('editorSave.manageDrafts')`), ve `rejected`'e geçişte bir kez `toast(…, 'error')` — not sayfanın altında kalır,
+sihirbazdan gelen kullanıcı onu görmeyebilir. Etki `[saveState, saveError]`'a bağlı: aynı red ikinci kez toast açmaz.
+Eskiden bu durumda "bağlantınızı kontrol edin" yazıyordu.
