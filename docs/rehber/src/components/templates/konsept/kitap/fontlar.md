@@ -29,5 +29,5 @@ yine `true` döner; 0.5 s'lik girişle içerik en geç 0.9 s'de tam görünür (
 
 ## 4. Sınırlar
 
-- Google Fonts'a bağlı (projenin mevcut yöntemi); çevrimdışı önizlemede Georgia görünür.
+- Fontlar yereldir: `/fonts/templates.css` + `public/fonts/` (SEC-12, K226); Google'a istek yok. Stil dosyası yüklenemezse Georgia görünür.
 - Caslon'un fleuron glifleri denetlenmedi; süsler bu yüzden SVG'dir (`Fleuron.tsx`).

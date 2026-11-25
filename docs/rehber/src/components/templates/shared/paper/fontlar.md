@@ -27,5 +27,5 @@ Sınır dolunca yine `true` döner: yavaş ağda ad gizli kalmaz.
 
 ## 4. Sınırlar
 
-- Google Fonts'a bağlı (projenin mevcut yöntemi). Çevrimdışı önizlemede yedek font görünür.
+- Fontlar yereldir: `/fonts/templates.css` + `public/fonts/` (SEC-12, K226); Google'a istek yok. Stil dosyası yüklenemezse yedek font görünür.
 - Font eklemek yeniden glif denetimi ister.

@@ -210,7 +210,7 @@ Kurallar:
 ### 3.3 Yükleme
 
 Fontlar `index.css`'teki genel `@import`'a **eklenmez** (her sayfaya inerdi). `KagitKok` şablon
-açıldığında yalnızca o setin el yazısını ve EB Garamond'u ekler (`display=swap`). Yedek Cormorant
+açıldığında yalnızca o setin el yazısını ve EB Garamond'u ekler (`display=swap`). **SEC-12 (K226):** bu yükleme artık Google'a değil, yerel `/fonts/templates.css`'e gider ([`fonts.md`](../src/styles/fonts.md)). Yedek Cormorant
 Garamond'dur; satır uzunluğu değişebileceği için hero adları `useElYazisiHazir()` ile en çok 700 ms bekleyebilir.
 
 ---

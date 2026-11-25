@@ -87,7 +87,7 @@ Kurallar:
 
 ### 3.3 Yükleme
 
-Kitte `konsept/sergi/fontlar.ts`: şablon açılınca tek `<link>` (iki aile, `display=swap`).
+Kitte `konsept/sergi/fontlar.ts`: şablon açılınca tek `<link>` (iki aile, `display=swap`). **SEC-12 (K226):** bu yükleme artık Google'a değil, yerel `/fonts/templates.css`'e gider ([`fonts.md`](../src/styles/fonts.md)).
 Örnek: `shared/paper/fontlar.ts`.
 
 ## 4. Düzen kuralları

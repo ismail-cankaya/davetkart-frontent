@@ -82,7 +82,7 @@ Kurallar:
 
 ### 3.3 Yükleme
 
-`konsept/kitap/fontlar.ts`: iki aile tek `<link>`, `display=swap`.
+`konsept/kitap/fontlar.ts`: iki aile tek `<link>`, `display=swap`. **SEC-12 (K226):** bu yükleme artık Google'a değil, yerel `/fonts/templates.css`'e gider ([`fonts.md`](../src/styles/fonts.md)).
 
 ## 4. Düzen kuralları
 
