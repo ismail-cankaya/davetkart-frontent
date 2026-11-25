@@ -36,7 +36,7 @@ export const Footer = React.memo(function Footer() {
         </div>
 
         <div className="md:col-span-2 space-y-3">
-          <h4 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Koleksiyonlar</h4>
+          <h2 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Koleksiyonlar</h2>
           <ul className="space-y-2.5 text-xs text-emerald-100/70">
             <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Düğün &amp; Nikah</Link></li>
             <li><Link to="/create" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Sünnet Düğünü</Link></li>
@@ -47,7 +47,7 @@ export const Footer = React.memo(function Footer() {
         </div>
 
         <div className="md:col-span-2 space-y-3">
-          <h4 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Kurumsal</h4>
+          <h2 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Kurumsal</h2>
           <ul className="space-y-2.5 text-xs text-emerald-100/70">
             <li><Link to="/about" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Hakkımızda</Link></li>
             <li><Link to="/" className="hover:text-white hover:translate-x-1 rtl:hover:-translate-x-1 transition duration-200 inline-block">Özellikler</Link></li>
@@ -58,7 +58,7 @@ export const Footer = React.memo(function Footer() {
         </div>
 
         <div className="md:col-span-4 space-y-4">
-          <h4 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Haber Bülteni</h4>
+          <h2 className="text-xs uppercase font-bold text-champagne tracking-[0.12em]">Haber Bülteni</h2>
           <p className="text-emerald-100/70 text-xs leading-relaxed">
             Kampanyalardan, yeni lüks şablon tasarımlarından ve davetiye tüyolarından ilk siz haberdar olun.
           </p>

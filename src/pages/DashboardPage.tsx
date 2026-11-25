@@ -124,9 +124,9 @@ function InvitationCard({ card, onResume, onCopyLink, onDelete }: InvitationCard
 
       {/* Details */}
       <div className="flex-1 flex flex-col p-5">
-        <h3 className="font-serif text-base font-bold text-ink truncate">
+        <h2 className="font-serif text-base font-bold text-ink truncate">
           {names ? `${names} · ${categoryLabel(inv.categoryId)}` : categoryLabel(inv.categoryId)}
-        </h3>
+        </h2>
 
         <div className="space-y-2 mt-3 mb-5">
           <div className="flex items-center gap-2 text-xs text-muted">
