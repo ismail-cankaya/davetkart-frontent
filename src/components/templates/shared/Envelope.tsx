@@ -178,7 +178,7 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
           animate={{ opacity: opening ? 0 : 1 }}
           transition={{ duration: 0.3 }}
         >
-          <span className={opening ? 'inline-block' : 'inline-block animate-hint-fade'}>Mühre dokunarak açın</span>
+          <span className={opening ? 'inline-block' : 'inline-block animate-hint-pulse'}>Mühre dokunarak açın</span>
         </motion.p>
       </motion.div>
     </motion.div>

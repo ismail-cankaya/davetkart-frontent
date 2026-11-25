@@ -97,3 +97,15 @@ da `console.error` olursa betik onları yazar ve 1 ile çıkar.
 - Video katmanları headless çekimde ilk kare ya da poster olarak görünebilir.
 - Galeri görselleri depodaki genel görsellerdir; gerçek fotoğraf boyutlarını temsil etmez.
 - Ajanlar düzeneği değiştirmez; eksik görürse raporunda yazar.
+
+## B-D14 — `npm run a11y:envelopes` (26 Kasım 2026)
+
+Zarf ipucunun ("Mühre dokunarak açın") kontrastını **bütün** şablonlarda ölçer: `onizleme.html`'i
+`scripts/onizleme/vite.build.config.mjs` ile üretim için derler (`node_modules/.cache/onizleme/dist`, `index.html`'e
+dokunmaz), `vite preview` açar, her şablonu `?preset=<id>&senaryo=dolu&zarf=1&yol=renderer` ile 390 px'te çizer,
+kartın girişi bitince (2,5 sn) ipucuna yalnızca axe `color-contrast` uygular. Şablon listesi
+`src/templatePresetColors.ts`'ten; `IDS=a,b` alt küme verir. Sonuçlar `node_modules/.cache/onizleme/envelope-contrast.jsonl`.
+İhlal ya da hata varsa çıkış 1. ~6 dk; `npm run check`'e girmez.
+
+Tuzaklar: hazır işareti `<html data-onizleme>`'de — `waitFor({ state: 'attached' })` (varsayılan "visible" beklemez);
+ölçüm girişten önce alınırsa (opaklık 0→1, 1,1 sn) sahte ihlal çıkar. Bulgu ve çözüm: `src/components/templates/shared/Envelope.md` §B-D14.
