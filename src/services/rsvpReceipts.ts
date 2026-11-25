@@ -9,7 +9,9 @@ import { RsvpReceipt } from '../types';
  * Tarayıcı deposu kapalı olabilir (gizli pencere, kota). Her erişim try/catch
  * içinde: depo yoksa misafir her seferinde yeni yanıt gönderir, form bozulmaz.
  */
-const KEY_PREFIX = 'davetkart_rsvp_receipt:';
+/** Çerez Politikası da bu adı listeler (B-H5); `verify-render` ikisinin aynı kaldığını denetler. */
+export const RSVP_RECEIPT_KEY_PREFIX = 'davetkart_rsvp_receipt:';
+const KEY_PREFIX = RSVP_RECEIPT_KEY_PREFIX;
 
 function keyFor(invitationId: string): string {
   return `${KEY_PREFIX}${invitationId}`;

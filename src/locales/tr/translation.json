@@ -128,5 +128,10 @@
       "noneTitle": "Şu an ödeme alınamıyor",
       "noneBody": "Çevrim içi ödeme geçici olarak kapalı. Lütfen daha sonra tekrar deneyin ya da bize yazın."
     }
+  },
+  "legal": {
+    "cookies": {
+      "rsvpReceipt": "LCV yanıt düzenleme kodu (yerel depolama, {{prefix}}<davetiye>) — misafirin aynı cihazdan verdiği yanıtı yeni kayıt açmadan güncelleyebilmesi için; yalnızca yanıt kimliği ve düzenleme kodu tutulur, tarayıcı verisi silinene kadar."
+    }
   }
 }

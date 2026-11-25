@@ -1,4 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import { LegalPageLayout, LegalSection } from '../../components/legal/LegalPageLayout';
+import { RSVP_RECEIPT_KEY_PREFIX } from '../../services/rsvpReceipts';
 
 const SECTIONS: LegalSection[] = [
   {
@@ -29,7 +31,7 @@ const SECTIONS: LegalSection[] = [
     bullets: [
       'Oturum kimliği ve kimlik doğrulama belirteci (JWT) — oturum süresince,',
       'Dil ve bölge tercihi — 12 ay,',
-      'Davetiye taslağı yerel kaydı — taslak tamamlanana veya silinene kadar.'
+      'Davetiye taslağı yerel kaydı — taslak tamamlanana veya silinene kadar,'
     ]
   },
   {
@@ -86,6 +88,14 @@ const SECTIONS: LegalSection[] = [
 ];
 
 export default function CookiesPage() {
+  const { t } = useTranslation();
+  // B-H5: misafirin LCV düzenleme kodu da tarayıcıda kalıcı; adı koddaki anahtarla aynı.
+  const sections = SECTIONS.map((section) =>
+    section.id === 'zorunlu-cerezler'
+      ? { ...section, bullets: [...(section.bullets ?? []), t('legal.cookies.rsvpReceipt', { prefix: RSVP_RECEIPT_KEY_PREFIX })] }
+      : section
+  );
+
   return (
     <LegalPageLayout
       badge="Yasal"
@@ -93,7 +103,7 @@ export default function CookiesPage() {
       accent="Politikası"
       intro="Deneyiminizi iyileştirmek için sınırlı ve şeffaf biçimde çerez kullanıyoruz. Hangi çerezleri neden kullandığımızı ve tercihlerinizi nasıl yöneteceğinizi bu sayfada bulabilirsiniz."
       lastUpdated="1 Temmuz 2026"
-      sections={SECTIONS}
+      sections={sections}
       related={[
         {
           to: '/privacy',

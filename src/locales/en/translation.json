@@ -128,5 +128,10 @@
       "noneTitle": "Payments are unavailable",
       "noneBody": "Online payment is temporarily closed. Please try again later or contact us."
     }
+  },
+  "legal": {
+    "cookies": {
+      "rsvpReceipt": "RSVP edit code (local storage, {{prefix}}<invitation>) — lets a guest update the reply given from the same device without creating a new one; only the reply id and edit code are kept, until browser data is cleared."
+    }
   }
 }

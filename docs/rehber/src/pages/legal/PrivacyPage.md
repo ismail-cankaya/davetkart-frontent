@@ -41,8 +41,9 @@ hukukçunun işi; yayından önce okutulmalı.
 - **10 yıl sonra silme yok:** `orders` satırları hiç silinmiyor. Metin 10 yıl diyor; süre dolunca
   silen bir iş henüz yok (on yıl sonra gereken bir iş, ama söz verilmiş).
 - ~~**Yedekler:** silinen veri yedeklerde yaşamaya devam eder~~ → SEC-11 (19.18, K231) ile kapandı: §5.
-- **Çerez Politikası:** misafirin LCV düzenleme kodu (`davetkart_rsvp_receipt:*`, FE 10.18) tarayıcıda
-  saklanıyor ama `CookiesPage`'in yerel depolama listesinde yok.
+- ~~**Çerez Politikası:** misafirin LCV düzenleme kodu (`davetkart_rsvp_receipt:*`, FE 10.18) tarayıcıda
+  saklanıyor ama `CookiesPage`'in yerel depolama listesinde yok.~~ → B-H5 (25 Kasım 2026) ile kapandı: "Kesinlikle
+  Gerekli Çerezler" listesinde ad (`RSVP_RECEIPT_KEY_PREFIX`), amaç, süre; `verify-render` denetler.
 
 ## 5. SEC-11 (Faz 19.18, K231): yedekler, veri işleyenler, tarihsiz davetiye
 
