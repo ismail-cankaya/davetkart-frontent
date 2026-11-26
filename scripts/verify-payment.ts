@@ -20,6 +20,7 @@ import {
 import { checkoutHref, parseCheckoutSearch } from '../src/utils/checkoutRoute';
 import { bankTransferReference } from '../src/services/bankTransfer';
 import { POLL_LIMIT, orderIdFrom, returnViewFor, shouldKeepPolling } from '../src/utils/paymentReturn';
+import { AUTO_PUBLISH_KEY, type AutoPublishOrder, claimAutoPublish, returnCardView, sessionPublishMemory } from '../src/utils/autoPublish';
 import { releaseOutcome } from '../src/utils/releaseWindow';
 import { getRequiredTier } from '../src/stores/useSubscriptionStore';
 import { INITIAL_INVITATION, SUBSCRIPTION_PLANS } from '../src/data';
@@ -170,6 +171,48 @@ function main(): void {
   check('?order= okunur', orderIdFrom(new URLSearchParams('order=01j5abc')), '01j5abc');
   check('boş ?order= → null', orderIdFrom(new URLSearchParams('order=%20')), null);
   check('?order= yok → null', orderIdFrom(new URLSearchParams('tier=gold')), null);
+
+  // FE-58 (Faz 21.3, K267): yayın niyetiyle başlayan ödeme dönüşte BİR KEZ yayınlar; sunucu ödemede yayınlamaz (K67).
+  console.log('\nÖdeme dönüşünde yayın (FE-58, K267)');
+  const fakeStorage = () => {
+    const data = new Map<string, string>();
+    return { data, getItem: (k: string) => data.get(k) ?? null, setItem: (k: string, v: string) => void data.set(k, v) };
+  };
+  const tab = fakeStorage();
+  const thisVisit = sessionPublishMemory(tab);
+  const requests: string[] = [];
+  const pollOnce = (order: AutoPublishOrder): string => {
+    const decision = claimAutoPublish(order, thisVisit);
+    if (decision.kind === 'publish') requests.push(decision.invitationId);
+    return decision.kind;
+  };
+  const bound: AutoPublishOrder = { orderId: '01JORDER0000000000000001', invitationId: '01JINV00000000000000001', status: 'pending' };
+  check('ödenmemiş davetiyeli sipariş: istek yok', pollOnce(bound), 'none');
+  check('ödenince yayın isteği', pollOnce({ ...bound, status: 'paid' }), 'publish');
+  check('sonraki yoklamalar yeni istek üretmez', [pollOnce({ ...bound, status: 'paid' }), pollOnce({ ...bound, status: 'paid' })], ['already', 'already']);
+  check('toplam TEK yayın isteği, doğru davetiyeye', requests, ['01JINV00000000000000001']);
+  check('paket siparişi (davetiyesiz): yayın yok', claimAutoPublish({ orderId: '01JPKG', invitationId: null, status: 'paid' }, thisVisit).kind, 'none');
+  check('ödenmemiş hiçbir durum yayınlamaz', unpaid.map((status) => claimAutoPublish({ ...bound, orderId: `01J${status}`, status }, thisVisit).kind), ['none', 'none', 'none', 'none']);
+  check('sayfa yenilenince (yeni bellek, aynı sekme) ikinci istek yok', claimAutoPublish({ ...bound, status: 'paid' }, sessionPublishMemory(tab)).kind, 'already');
+  check('aynı sekmede başka sipariş yine yayınlar', claimAutoPublish({ ...bound, orderId: '01JORDER0000000000000002', status: 'paid' }, sessionPublishMemory(tab)).kind, 'publish');
+  const noStorage = sessionPublishMemory(null);
+  check('depolama yok: aynı ziyarette yine tek istek', [claimAutoPublish({ ...bound, status: 'paid' }, noStorage).kind, claimAutoPublish({ ...bound, status: 'paid' }, noStorage).kind], ['publish', 'already']);
+  const broken = { getItem: () => { throw new Error('blocked'); }, setItem: () => { throw new Error('blocked'); } };
+  check('depolama hata verirse çökmez, ziyaret içi bekçi sürer', [claimAutoPublish({ ...bound, status: 'paid' }, sessionPublishMemory(broken)).kind], ['publish']);
+  const busy = fakeStorage();
+  const many = sessionPublishMemory(busy);
+  for (let i = 0; i < 30; i += 1) claimAutoPublish({ ...bound, orderId: `01JMANY${i}`, status: 'paid' }, many);
+  check('bellek sınırlı (en çok 20 sipariş)', (JSON.parse(busy.data.get(AUTO_PUBLISH_KEY) ?? '[]') as string[]).length, 20);
+
+  console.log('\nÖdeme dönüşü: kart (FE-58)');
+  const paidBound = { invitationId: '01JINV00000000000000001' };
+  check('yayın sürüyor → yayına alınıyor', returnCardView('confirmed', paidBound, { status: 'publishing' }), 'publishing');
+  check('istek henüz atılmadı → yayına alınıyor', returnCardView('confirmed', paidBound, { status: 'idle' }), 'publishing');
+  check('yayında', returnCardView('confirmed', paidBound, { status: 'published', invitationId: '01JINV00000000000000001' }), 'published');
+  check('yayın hatası', returnCardView('confirmed', paidBound, { status: 'error', message: 'x' }), 'publishFailed');
+  check('tekrar ziyaret: "onaylandı", yayınlanıyor DEMEZ', returnCardView('confirmed', paidBound, { status: 'skipped' }), 'confirmed');
+  check('paket siparişi: onaylandı', returnCardView('confirmed', { invitationId: null }, { status: 'idle' }), 'confirmed');
+  check('ödenmemiş: dönüş görünümü aynen', returnCardView('verifying', paidBound, { status: 'idle' }), 'verifying');
 
   // Faz 10 (10.28): silme onayındaki plan hakkı uyarısı (K82). Pencerenin
   // sonu backend'den gelir; burada yalnızca "şimdi"yle kıyaslanır.

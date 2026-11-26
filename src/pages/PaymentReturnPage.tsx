@@ -15,14 +15,14 @@ import {
   XCircle,
 } from 'lucide-react';
 import { paymentService } from '../services/payments';
-import { AutoPublishState, useAutoPublish } from '../hooks/useAutoPublish';
+import { useAutoPublish } from '../hooks/useAutoPublish';
+import { ReturnCardView, returnCardView } from '../utils/autoPublish';
 import { apiErrorCode } from '../services/api';
 import { OrderRecord } from '../types';
 import { checkoutHref } from '../utils/checkoutRoute';
 import {
   POLL_INTERVAL_MS,
   ReturnKind,
-  ReturnView,
   orderIdFrom,
   returnViewFor,
   shouldKeepPolling,
@@ -128,7 +128,7 @@ export default function PaymentReturnPage({ kind }: PaymentReturnPageProps) {
 
   if (!poll.order) return <ReturnCard view="verifying" order={null} onRecheck={retry} />;
 
-  const view = cardViewFor(
+  const view = returnCardView(
     returnViewFor(poll.order.status, { kind, settled: poll.settled }),
     poll.order,
     autoPublish.state
@@ -144,24 +144,8 @@ export default function PaymentReturnPage({ kind }: PaymentReturnPageProps) {
   );
 }
 
-/**
- * Ekranda çizilen görünüm. Ödeme onaylandıysa (`confirmed`) sonucu artık
- * yayın belirler: davetiyeli siparişte "yayınlanıyor → yayında / yayınlanamadı",
- * paket siparişinde "plan tanımlandı".
- */
-type CardView = ReturnView | 'publishing' | 'published' | 'publishFailed';
-
-function cardViewFor(view: ReturnView, order: OrderRecord, publish: AutoPublishState): CardView {
-  if (view !== 'confirmed' || !order.invitationId) return view;
-  switch (publish.status) {
-    case 'published':
-      return 'published';
-    case 'error':
-      return 'publishFailed';
-    default:
-      return 'publishing';
-  }
-}
+/** Ekranda çizilen görünüm: `returnCardView` (utils/autoPublish, `verify:payment` sınar). */
+type CardView = ReturnCardView;
 
 // --------------------------------------------------------------- görünümler
 

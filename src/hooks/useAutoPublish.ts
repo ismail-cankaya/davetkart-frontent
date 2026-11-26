@@ -3,28 +3,14 @@ import { persistenceService } from '../services/persistence';
 import { apiErrorCode } from '../services/api';
 import { OrderRecord } from '../types';
 import { toDisplayError } from '../utils/toDisplayError';
+import { AutoPublishState, PublishMemory, browserPublishMemory, claimAutoPublish } from '../utils/autoPublish';
 
-export type AutoPublishState =
-  | { status: 'idle' }
-  | { status: 'publishing' }
-  | { status: 'published'; invitationId: string }
-  | { status: 'error'; message: string };
+export type { AutoPublishState };
 
 /**
- * Ödeme onaylandığında siparişin bağlı olduğu davetiyeyi yayına alır.
- *
- * Kart, Shopier ve hediye kodu (toplam 0) aynı dönüş sayfasına düşer; sipariş
- * `paid` olunca kullanıcıdan ikinci bir "Yayınla" tıklaması beklenmez. Yayının
- * kendisi yine `POST /invitations/{id}/publish`: plan kontrolünü (402) sunucu
- * yapar, frontend yetki kararı vermez.
- *
- * - Paket siparişi (`invitationId: null`): yayınlanacak bir davetiye yok, `idle`.
- * - 409 `INVITATION_ALREADY_PUBLISHED`: kullanıcı hedefine ulaşmış, başarı sayılır.
- * - Diğer hatalar: ödeme geçerli kalır; ekran sebebi ve "Tekrar Dene"yi gösterir.
- *
- * 🔴 Aynı sipariş için istek bir kez atılır (ref bekçisi). Sonuç iptal
- * edilmez: StrictMode'un çift efekti ilk isteğin sonucunu düşürseydi ikinci
- * çalışma bekçiye takılır ve ekran "yayınlanıyor"da kalırdı.
+ * Ödeme onaylandığında siparişin bağlı olduğu davetiyeyi yayına alır (K267: yayın niyetiyle başlayan ödeme).
+ * Karar `claimAutoPublish`'te: sekme başına sipariş başına tek istek; tekrar ziyarette `skipped`.
+ * Ayrıntı: docs/rehber/src/hooks/useAutoPublish.md
  */
 export function useAutoPublish(order: OrderRecord | null): {
   state: AutoPublishState;
@@ -32,6 +18,7 @@ export function useAutoPublish(order: OrderRecord | null): {
 } {
   const [state, setState] = useState<AutoPublishState>({ status: 'idle' });
   const attemptedOrderId = useRef<string | null>(null);
+  const memory = useRef<PublishMemory | null>(null);
 
   const publish = useCallback(async (invitationId: string) => {
     setState({ status: 'publishing' });
@@ -49,14 +36,18 @@ export function useAutoPublish(order: OrderRecord | null): {
 
   const orderId = order?.orderId ?? null;
   const invitationId = order?.invitationId ?? null;
-  const isPaid = order?.status === 'paid';
+  const status = order?.status ?? null;
 
   useEffect(() => {
-    if (!orderId || !invitationId || !isPaid) return;
-    if (attemptedOrderId.current === orderId) return;
+    // 🔴 Bu çizimde karar bir kez verilir: StrictMode'un ikinci efekti ilk isteğin sonucunu ezmesin.
+    if (!orderId || !status || attemptedOrderId.current === orderId) return;
+    memory.current ??= browserPublishMemory();
+    const decision = claimAutoPublish({ orderId, invitationId, status }, memory.current);
+    if (decision.kind === 'none') return;
     attemptedOrderId.current = orderId;
-    void publish(invitationId);
-  }, [orderId, invitationId, isPaid, publish]);
+    if (decision.kind === 'already') setState({ status: 'skipped' });
+    else void publish(decision.invitationId);
+  }, [orderId, invitationId, status, publish]);
 
   const retry = useCallback(() => {
     if (invitationId) void publish(invitationId);

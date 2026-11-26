@@ -177,3 +177,15 @@ normal. "Gecikti" kullanıcıya bir sorun olduğunu düşündürür ve tekrar ö
 orada, sayfa yalnızca onları kullanıyor. Yeni metin çeviri anahtarında:
 `paymentReturn.delayedBody` (12.14). Sayfanın geri kalan metinleri hâlâ Türkçe sabit
 (önceden var olan borç).
+
+## 🆕 Faz 21.3 (`FE-58`, K267): otomatik yayın kaldı, kural sabitlendi
+
+K67 ile çelişki kapandı: otomatik yayın **kalır**, K67 "ödeme **sunucuda** yayınlamaz; frontend yayın niyetiyle başlayan
+ödemenin dönüşünde bir kez yayınlar" diye daraltıldı (K267). İki değişiklik:
+
+- Karar `utils/autoPublish.ts`'e taşındı (`claimAutoPublish`, `returnCardView`); eski `cardViewFor` oradadır ve
+  `verify:payment` sınar.
+- Aynı sipariş bu sekmede daha önce denendiyse (yenileme, geri gelme) istek **gitmez**, kart "Ödemeniz onaylandı" der.
+  Önceden yenileme ikinci bir yayın isteği atıyordu; davetiye bu arada yayından kaldırıldıysa yeniden yayınlanıyordu.
+
+Ayrıntı: [`../utils/autoPublish.md`](../utils/autoPublish.md).
