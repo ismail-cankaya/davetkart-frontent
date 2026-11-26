@@ -595,22 +595,6 @@ export interface GeoPoint {
   lng: number;
 }
 
-/**
- * Konum aramasında listelenen tek bir öneri.
- *
- * Öneriler backend'in harita sağlayıcısı vekilinden gelir (bkz.
- * `services/places.ts`); sağlayıcı anahtarı frontend'e hiç inmez.
- */
-export interface PlaceSuggestion {
-  /** Sağlayıcının yer kimliği (Google `place_id`); yalnızca liste anahtarı. */
-  placeId: string;
-  /** Birincil satır: "Çırağan Sarayı Kempinski". */
-  name: string;
-  /** İkincil satır: "Çırağan Cd. No:32, Beşiktaş/İstanbul". */
-  address: string;
-  location: GeoPoint;
-}
-
 // ─────────────────────────────────────────────── Hesap ayarları (Faz 14)
 
 /**

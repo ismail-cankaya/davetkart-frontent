@@ -1,5 +1,5 @@
 {
-  "total": 781,
+  "total": 780,
   "files": {
     "src/components/account/AccountNav.tsx": 5,
     "src/components/account/DeleteAccountCard.tsx": 12,
@@ -21,7 +21,7 @@
     "src/components/create/GenerationLoader.tsx": 5,
     "src/components/create/ThemeStep.tsx": 7,
     "src/components/create/TimelineEditor.tsx": 9,
-    "src/components/create/location/LocationSearchField.tsx": 9,
+    "src/components/create/location/LocationSearchField.tsx": 8,
     "src/components/create/location/MapPickerModal.tsx": 11,
     "src/components/editor/DesignerPanel.tsx": 12,
     "src/components/editor/ThemePickerModal.tsx": 4,

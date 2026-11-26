@@ -1,8 +1,6 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ExternalLink, Link2, Loader2, MapPin, MapPinned, X } from 'lucide-react';
-import { PlaceSuggestion } from '../../../types';
-import { usePlaceSearch } from '../../../hooks/usePlaceSearch';
+import { ExternalLink, Link2, MapPin, MapPinned, X } from 'lucide-react';
 import { cn } from '../../../utils/cn';
 import {
   buildDirectionsUrl,
@@ -16,7 +14,6 @@ import { MapPickerModal } from './MapPickerModal';
 import { ease } from '../../../utils/motion';
 
 type LocationOption =
-  | { kind: 'place'; id: string; place: PlaceSuggestion }
   | { kind: 'link'; id: string; url: string }
   | { kind: 'map'; id: string };
 
@@ -38,20 +35,9 @@ interface LocationSearchFieldProps {
 }
 
 /**
- * "Ulaşım Bilgileri" — yazarak aranan, haritadan da seçilebilen konum alanı.
- *
- * Akış:
- * 1. Kullanıcı yer adını yazar; backend'in Google Haritalar vekilinden
- *    öneriler listelenir (uç hazır olana kadar liste boştur, bkz.
- *    `services/places.ts`).
- * 2. Listenin sonunda her zaman "Harita üzerinden konum seç" bulunur; açılan
- *    pencerede harita ve en altta koordinat girişi vardır.
- * 3. Bir öneri ya da koordinat seçilince misafirin "Yol Tarifi Al" düğmesini
- *    besleyen Google Haritalar yol tarifi bağlantısı `mapUrl`'e yazılır.
- *
- * 🔴 Yazılan metin TEK BAŞINA kaydedilmez: bir yer adı konum değildir. State'e
- * yalnızca seçilmiş bir konum yazılır; alan boşken placeholder yalnızca
- * silik bir rehberdir. Metni tamamen silmek seçili konumu kaldırır.
+ * "Ulaşım Bilgileri": haritadan seçilen ya da harita bağlantısı yapıştırılan konum alanı (FE-08, K271: öneri araması yok).
+ * Yazılan metin tek başına kaydedilmez; yalnızca seçilmiş konum `mapUrl`'e yazılır.
+ * Ayrıntı: docs/rehber/src/components/create/location/LocationSearchField.md
  */
 export function LocationSearchField({
   label,
@@ -87,12 +73,9 @@ export function LocationSearchField({
 
   const trimmedQuery = query.trim();
   const isDirty = trimmedQuery !== committedLabel.trim();
-  const { suggestions, loading, completedQuery } = usePlaceSearch(open && isDirty ? trimmedQuery : '');
 
   const options = useMemo<LocationOption[]>(() => {
-    const list: LocationOption[] = isDirty
-      ? suggestions.map((place) => ({ kind: 'place', id: `place-${place.placeId}`, place }))
-      : [];
+    const list: LocationOption[] = [];
 
     // Önceki sürümde bu alana Google Haritalar bağlantısı yapıştırılıyordu;
     // o yol korunur.
@@ -102,11 +85,9 @@ export function LocationSearchField({
 
     list.push({ kind: 'map', id: 'map' });
     return list;
-  }, [isDirty, suggestions, trimmedQuery]);
+  }, [isDirty, trimmedQuery]);
 
   const safeIndex = Math.min(activeIndex, options.length - 1);
-  const showNoResults =
-    isDirty && !loading && completedQuery !== null && completedQuery === trimmedQuery && suggestions.length === 0;
 
   const commit = (mapUrl: string, nextLabel: string) => {
     lastValueRef.current = mapUrl;
@@ -128,9 +109,6 @@ export function LocationSearchField({
 
   const choose = (option: LocationOption) => {
     if (option.kind === 'map') openPicker();
-    else if (option.kind === 'place') {
-      commit(buildDirectionsUrl(option.place.location, option.place.placeId), option.place.name);
-    }
     else commit(option.url, option.url);
   };
 
@@ -259,19 +237,6 @@ export function LocationSearchField({
               data-lenis-prevent
               className="absolute left-0 right-0 top-full mt-2 z-30 max-h-72 overflow-y-auto rounded-xl border border-white/15 bg-brand-deep p-1.5 shadow-2xl shadow-black/40"
             >
-              {loading && (
-                <li role="presentation" className="flex items-center gap-2 px-3 py-2.5 text-xs text-white/50">
-                  <Loader2 size={13} className="animate-spin" />
-                  Konumlar aranıyor…
-                </li>
-              )}
-
-              {showNoResults && (
-                <li role="presentation" className="px-3 py-2.5 text-xs text-white/50">
-                  “{completedQuery}” için konum bulunamadı.
-                </li>
-              )}
-
               {options.map((option, index) => {
                 const active = index === safeIndex;
                 return (
@@ -289,16 +254,6 @@ export function LocationSearchField({
                       option.kind === 'map' && index > 0 && 'mt-1'
                     )}
                   >
-                    {option.kind === 'place' && (
-                      <>
-                        <MapPin size={15} className="mt-0.5 shrink-0 text-champagne/80" />
-                        <span className="min-w-0">
-                          <span className="block text-sm text-white truncate">{option.place.name}</span>
-                          <span className="block text-[11px] text-white/45 truncate">{option.place.address}</span>
-                        </span>
-                      </>
-                    )}
-
                     {option.kind === 'link' && (
                       <>
                         <Link2 size={15} className="mt-0.5 shrink-0 text-champagne/80" />
