@@ -16,10 +16,18 @@ const TONE: Record<ToastType, { accent: string; ring: string; Icon: typeof Info 
   error: { accent: 'text-rose-300', ring: 'border-rose-400/25', Icon: AlertTriangle }
 };
 
-interface ToastItem {
+export interface ToastItem {
   id: number;
   message: string;
   type: ToastType;
+}
+
+/**
+ * Faz 20 (FE-57): aynı metin ve ton zaten ekrandaysa yığılmaz; yenisi onun yerini alır, süresi baştan başlar.
+ * Üç kez yanlış parola üç kart üst üste açıp formun altını örtüyordu.
+ */
+export function withToast(list: ToastItem[], item: ToastItem): ToastItem[] {
+  return [...list.filter(t => t.message !== item.message || t.type !== item.type), item];
 }
 
 type Listener = (toast: ToastItem) => void;
@@ -38,7 +46,7 @@ export function Toaster() {
 
   useEffect(() => {
     const onToast: Listener = (item) => {
-      setToasts(prev => [...prev, item]);
+      setToasts(prev => withToast(prev, item));
       setTimeout(() => {
         setToasts(prev => prev.filter(t => t.id !== item.id));
       }, 4200);
