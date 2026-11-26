@@ -24,3 +24,8 @@ Hata en yakın `errorElement`'e çıkar; `/hesap` alt bölümleri de iç rotanı
 
 Yeni sayfayı `routes`'un en üst düzeyine eklemek: yalnızca `appPages`'e eklenen sayfa iç sınırı alır.
 Kendi metni gereken bölge (ör. ödeme) için rotaya `errorElement` + yeni `scope` ekle.
+
+## Bilinmeyen adres (Faz 20, `FE-06`)
+
+En dıştaki `*` → `<Navigate to="/">` kaldırıldı; `appPages`'in son satırı `{ path: '*', element: <NotFoundPage /> }`.
+Böylece 404 kartı başlık ve alt bilgiyle çizilir. Ayrıntı: [`pages/NotFoundPage.md`](pages/NotFoundPage.md).

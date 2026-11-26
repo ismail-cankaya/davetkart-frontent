@@ -5,6 +5,10 @@
     "create": "Design Invitation",
     "dashboard": "RSVP Panel"
   },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The address you are looking for may have changed, been removed or been mistyped."
+  },
   "routeError": {
     "title": "Something went wrong",
     "body": "This page hit an unexpected error. You can try again or reload the page.",

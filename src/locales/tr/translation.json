@@ -5,6 +5,10 @@
     "create": "Davetiye Tasarla",
     "dashboard": "Katılım Paneli"
   },
+  "notFound": {
+    "title": "Sayfa bulunamadı",
+    "body": "Aradığınız adres değişmiş, kaldırılmış ya da yanlış yazılmış olabilir."
+  },
   "routeError": {
     "title": "Bir şeyler ters gitti",
     "body": "Bu sayfa beklenmedik bir hatayla karşılaştı. Tekrar deneyebilir ya da sayfayı yenileyebilirsiniz.",
