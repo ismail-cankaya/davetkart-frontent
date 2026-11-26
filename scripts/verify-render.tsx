@@ -21,7 +21,7 @@ import path from 'node:path';
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { prerenderToNodeStream } from 'react-dom/static';
-import { MemoryRouter, RouterProvider, createMemoryRouter, type RouteObject } from 'react-router-dom';
+import { MemoryRouter, RouterProvider, createMemoryRouter, matchRoutes, type RouteObject } from 'react-router-dom';
 import { TemplateRenderer } from '../src/components/templates/TemplateRenderer';
 import { DeviceSimulator } from '../src/components/preview/DeviceSimulator';
 import { RSVPForm } from '../src/components/templates/shared/RSVPForm';
@@ -41,6 +41,7 @@ import { LAZY_PRESETS } from '../src/components/templates/lazyPresets';
 import i18n, { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY, SUPPORTED_LANGUAGES, getLanguageDirection } from '../src/i18n';
 import { LanguageSwitcher } from '../src/components/LanguageSwitcher';
 import { routes } from '../src/routes';
+import NotFoundPage from '../src/pages/NotFoundPage';
 import { PRELOAD_RELOAD_KEY, PRELOAD_RELOAD_WINDOW_MS, recoverFromPreloadError } from '../src/utils/preloadRecovery';
 import type { Invitation, InvitationRecord } from '../src/types';
 import { Toaster, withToast, type ToastItem } from '../src/components/ui/Toast';
@@ -457,6 +458,18 @@ async function routeErrors(): Promise<void> {
   check(chunk.includes('Sayfa yüklenemedi'), 'yüklenemeyen chunk için ayrı metin', 'genel metin çizildi');
 }
 
+/** Faz 20 (FE-06): bilinmeyen adres açıklamasız ana sayfaya atılmaz. */
+async function notFound(): Promise<void> {
+  console.log('\nBilinmeyen adres (Faz 20, FE-06):');
+  await i18n.changeLanguage('tr');
+  const match = matchRoutes(routes, '/olmayan-sayfa') ?? [];
+  const last = match[match.length - 1]?.route;
+  check(last?.path === '*' && match.length > 1, 'bilinmeyen adres ortak düzen içindeki 404 rotasına düşüyor', match.map(m => m.route.path ?? '(düzen)').join(' > '));
+  check(matchRoutes(routes, '/pricing')?.at(-1)?.route.path === '/pricing', 'bilinen adres 404 değil', 'pricing 404 oldu');
+  const html = renderToStaticMarkup(<MemoryRouter><NotFoundPage /></MemoryRouter>);
+  check(html.includes('Sayfa bulunamadı') && html.includes('href="/"'), '404: Türkçe başlık ve ana sayfa bağlantısı', html.slice(0, 160));
+}
+
 /** FE-02 (K223): `vite:preloadError` → tek seferlik yenileme, döngü yok. */
 function preloadRecovery(): void {
   console.log('\nChunk yenilemesi (FE-02):');
@@ -508,6 +521,7 @@ async function main(): Promise<void> {
   await cookieStorageList();
   await languageScope();
   await routeErrors();
+  await notFound();
   preloadRecovery();
   toastRegions();
 

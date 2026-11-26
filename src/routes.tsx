@@ -23,6 +23,7 @@ const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
 const PaymentReturnPage = React.lazy(() => import('./pages/PaymentReturnPage'));
+const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
 // Kurumsal sayfalar
 const AboutPage = React.lazy(() => import('./pages/AboutPage'));
@@ -121,7 +122,9 @@ const appPages: RouteObject[] = [
         <PaymentReturnPage kind="failure" />
       </ProtectedRoute>
     )
-  }
+  },
+  // Bilinmeyen adres: açıklamasız ana sayfaya atılmaz (Faz 20, FE-06); başlık ve alt bilgi kalır.
+  { path: '*', element: <NotFoundPage /> }
 ];
 
 // Error boundaries (FE-02, K222): a page error keeps the chrome (inner
@@ -143,5 +146,4 @@ export const routes: RouteObject[] = [
       </React.Suspense>
     )
   },
-  { path: '*', element: <Navigate to="/" replace /> }
 ];
