@@ -46,7 +46,6 @@
     },
     "INVALID_CREDENTIALS": "That email or password isn't right. Check them and try again.",
     "INVITATION_ALREADY_PUBLISHED": "This invitation is already published.",
-    "INVITATION_LOCKED": "This invitation is locked and can't be edited right now.",
     "MALFORMED_REQUEST": "We couldn't read that request. Refresh the page and try again.",
     "MEDIA_QUOTA_EXCEEDED": {
       "base": "You've reached your upload limit. Remove a file to add a new one.",
@@ -80,8 +79,6 @@
     "RSVP_DEADLINE_PASSED": "The RSVP deadline has passed.",
     "RSVP_QUOTA_EXCEEDED": "This invitation can't accept more RSVPs; it looks like it's full.",
     "SERVER_ERROR": "Something went wrong on our side. Our team has been notified — please try again.",
-    "SLUG_TAKEN": "That link address is already used by another invitation. Choose a different one.",
-    "TOKEN_EXPIRED": "Your session has expired. Sign in again to pick up where you left off.",
     "UNAUTHENTICATED": "You need to sign in to do that.",
     "VALIDATION_FAILED": "Some fields need your attention."
   },

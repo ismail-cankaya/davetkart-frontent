@@ -46,7 +46,6 @@
     },
     "INVALID_CREDENTIALS": "E-posta veya parola hatalı. Kontrol edip tekrar deneyin.",
     "INVITATION_ALREADY_PUBLISHED": "Bu davetiye zaten yayında.",
-    "INVITATION_LOCKED": "Bu davetiye kilitli olduğu için şu anda düzenlenemiyor.",
     "MALFORMED_REQUEST": "İstek anlaşılamadı. Sayfayı yenileyip tekrar deneyin.",
     "MEDIA_QUOTA_EXCEEDED": {
       "base": "Yükleme hakkınız doldu. Yeni dosya eklemek için mevcutlardan birini silin.",
@@ -80,8 +79,6 @@
     "RSVP_DEADLINE_PASSED": "Katılım bildirim süresi sona erdi.",
     "RSVP_QUOTA_EXCEEDED": "Bu davetiye için katılım bildirimi alınamıyor; kontenjan dolmuş görünüyor.",
     "SERVER_ERROR": "Bir aksaklık oldu. Ekibimiz durumdan haberdar; lütfen tekrar deneyin.",
-    "SLUG_TAKEN": "Bu bağlantı adresi başka bir davetiye tarafından kullanılıyor. Farklı bir adres seçin.",
-    "TOKEN_EXPIRED": "Oturumunuzun süresi doldu. Kaldığınız yerden devam etmek için tekrar giriş yapın.",
     "UNAUTHENTICATED": "Bu işlem için giriş yapmanız gerekiyor.",
     "VALIDATION_FAILED": "Formda düzeltilmesi gereken alanlar var."
   },
