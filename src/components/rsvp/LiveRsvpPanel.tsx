@@ -16,9 +16,11 @@ interface LiveRsvpPanelProps {
    * tanıtım kopyası kimliksizdir ve bu yüzden nota da ihtiyaç duymaz.
    */
   scopeSlot?: React.ReactNode;
+  /** Ana sayfa vitrini: üstteki telefon önizlemesinden denenebilir. Panelde önizleme yok, ipucu da yok (FE-57). */
+  demo?: boolean;
 }
 
-export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: LiveRsvpPanelProps) {
+export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot, demo = false }: LiveRsvpPanelProps) {
   const rsvpList = useRsvpStore(s => s.rsvpList);
   const isLoading = useRsvpStore(s => s.isLoading);
   const remoteError = useRsvpStore(s => s.remoteError);
@@ -251,16 +253,18 @@ export const LiveRsvpPanel = React.memo(function LiveRsvpPanel({ scopeSlot }: Li
               )}
             </motion.div>
 
-            {/* Footer Info */}
-            <div className="bg-gradient-to-r from-brand/5 to-emerald-50 p-4 rounded-xl border border-emerald-100 text-center">
-              <p className="text-xs font-semibold text-brand flex items-center justify-center gap-1.5">
-                {/* Sürekli döngü CSS'te, compositor'da döner (bkz. index.css) */}
-                <span className="animate-heartbeat inline-flex">
-                  <UserCheck size={14} />
-                </span>
-                Yukarıdaki telefon önizlemesinden Katılım bildirerek bu paneli canlı test edebilirsiniz!
-              </p>
-            </div>
+            {/* Footer Info: yalnızca ana sayfa vitrininde (üstünde telefon önizlemesi var) */}
+            {demo && (
+              <div className="bg-gradient-to-r from-brand/5 to-emerald-50 p-4 rounded-xl border border-emerald-100 text-center">
+                <p className="text-xs font-semibold text-brand flex items-center justify-center gap-1.5">
+                  {/* Sürekli döngü CSS'te, compositor'da döner (bkz. index.css) */}
+                  <span className="animate-heartbeat inline-flex">
+                    <UserCheck size={14} />
+                  </span>
+                  Yukarıdaki telefon önizlemesinden Katılım bildirerek bu paneli canlı test edebilirsiniz!
+                </p>
+              </div>
+            )}
 
           </div>
 

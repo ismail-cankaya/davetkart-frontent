@@ -84,7 +84,7 @@ export default function HomePage() {
             Tahmini yükseklikler 390 / 768 / 1440 px genişlikte ölçüldü. */}
         {/* Vitrin: canlı katılım takibi — ziyaretçi önizlemedeki RSVP formuyla deneyebilir */}
         <DeferredSection estimateClassName="[--defer-height:970px]">
-          <LiveRsvpPanel />
+          <LiveRsvpPanel demo />
         </DeferredSection>
         <DeferredSection estimateClassName="[--defer-height:1160px] md:[--defer-height:825px] lg:[--defer-height:720px]">
           <Testimonials />
