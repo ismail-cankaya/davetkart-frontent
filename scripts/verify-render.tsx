@@ -43,7 +43,7 @@ import { LanguageSwitcher } from '../src/components/LanguageSwitcher';
 import { routes } from '../src/routes';
 import { PRELOAD_RELOAD_KEY, PRELOAD_RELOAD_WINDOW_MS, recoverFromPreloadError } from '../src/utils/preloadRecovery';
 import type { Invitation, InvitationRecord } from '../src/types';
-import { Toaster } from '../src/components/ui/Toast';
+import { Toaster, withToast, type ToastItem } from '../src/components/ui/Toast';
 
 const SIGNATURE = 'DavetKart ile hazırlandı';
 
@@ -483,6 +483,18 @@ function toastRegions(): void {
   const html = renderToStaticMarkup(<Toaster />);
   check(/role="status"[^>]*aria-live="polite"/.test(html), 'başarı/bilgi: role="status" aria-live="polite" baştan var', html.slice(0, 200));
   check(/role="alert"[^>]*aria-live="assertive"/.test(html), 'hata: role="alert" aria-live="assertive" baştan var', html.slice(0, 200));
+
+  // Faz 20 (FE-57): aynı bildirim yığılmaz, en yenisi sona geçer; farklı metin ya da ton ayrı kalır.
+  const item = (id: number, message: string, type: ToastItem['type'] = 'error'): ToastItem => ({ id, message, type });
+  let list: ToastItem[] = [];
+  for (const next of [item(1, 'Parola yanlış'), item(2, 'Bağlantı yok'), item(3, 'Parola yanlış'), item(4, 'Parola yanlış', 'info')]) {
+    list = withToast(list, next);
+  }
+  check(
+    list.map(t => t.id).join(',') === '2,3,4',
+    'aynı metin ve ton yığılmıyor, en yenisi kalıyor; farklı ton ayrı',
+    list.map(t => `${t.id}:${t.type}:${t.message}`).join(' | '),
+  );
 }
 
 async function main(): Promise<void> {
