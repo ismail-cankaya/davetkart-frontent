@@ -64,8 +64,8 @@
       "detailed": "The features in this invitation require the {{requiredTier}} plan. Upgrade to continue."
     },
     "PROVIDER_UNAVAILABLE": {
-      "base": "The assistant can't respond right now. Try again shortly.",
-      "detailed": "The assistant can't respond right now. Try again in {{retryAfter}}."
+      "base": "The service can't respond right now. Try again shortly.",
+      "detailed": "The service can't respond right now. Try again in {{retryAfter}}."
     },
     "RATE_LIMITED": {
       "base": "You're moving a little fast. Wait a moment and try again.",

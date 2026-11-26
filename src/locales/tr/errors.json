@@ -64,8 +64,8 @@
       "detailed": "Bu davetiyedeki özellikler {{requiredTier}} planı gerektiriyor. Planınızı yükseltin."
     },
     "PROVIDER_UNAVAILABLE": {
-      "base": "Asistan şu anda yanıt veremiyor. Kısa bir süre sonra tekrar deneyin.",
-      "detailed": "Asistan şu anda yanıt veremiyor. {{retryAfter}} sonra tekrar deneyin."
+      "base": "Hizmet şu anda yanıt veremiyor. Kısa bir süre sonra tekrar deneyin.",
+      "detailed": "Hizmet şu anda yanıt veremiyor. {{retryAfter}} sonra tekrar deneyin."
     },
     "RATE_LIMITED": {
       "base": "Çok hızlı ilerliyorsunuz. Biraz bekleyip tekrar deneyin.",
