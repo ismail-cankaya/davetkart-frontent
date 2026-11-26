@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { AccountEntitlements, AccountSession } from '../types';
 import { accountService } from '../services/account';
+import { useAuthStore } from './useAuthStore';
 
 type LoadStatus = 'idle' | 'loading' | 'ready' | 'error';
 
@@ -85,3 +86,15 @@ export const useAccountStore = create<AccountState>()((set, get) => ({
 
   reset: () => set(INITIAL),
 }));
+
+/**
+ * 🔴 Sahiplik bekçisi (Faz 20, FE-57): 401'den sonra aynı sekmede BAŞKA bir hesap girerse önceki
+ * hesabın hakları ve oturumları, yenisi gelene kadar ekranda kalmasın. Aynı kişi dönerse veri kalır.
+ */
+let accountOwnerId: string | null = useAuthStore.getState().user?.id ?? null;
+useAuthStore.subscribe((auth) => {
+  const userId = auth.user?.id ?? null;
+  if (userId === null) return;
+  if (accountOwnerId !== null && accountOwnerId !== userId) useAccountStore.getState().reset();
+  accountOwnerId = userId;
+});

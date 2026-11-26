@@ -27,6 +27,7 @@
     "login": "Giriş Yap",
     "register": "Kayıt Ol",
     "logout": "Çıkış Yap",
+    "sessionExpired": "Oturumunuz sona erdi. Devam etmek için yeniden giriş yapın.",
     "myPanel": "Panelim",
     "verification": {
       "banner": "{{email}} adresine bir doğrulama bağlantısı gönderdik. Davetiyenizi hazırlayabilirsiniz; ödeme ve yayın için adresinizi doğrulayın.",

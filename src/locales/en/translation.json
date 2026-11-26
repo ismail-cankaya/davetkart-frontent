@@ -27,6 +27,7 @@
     "login": "Sign In",
     "register": "Sign Up",
     "logout": "Sign Out",
+    "sessionExpired": "Your session has ended. Sign in again to continue.",
     "myPanel": "My Panel",
     "verification": {
       "banner": "We sent a verification link to {{email}}. You can keep designing; verify your address to pay and publish.",

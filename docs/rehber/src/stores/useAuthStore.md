@@ -165,3 +165,19 @@ mevcut çağrı yerleri (`Header` çıkışı, `api.ts` interceptor'ı) değişm
 | `signOut({ revoke: false })` | Oturum ve editör temizlenir · `/auth/logout` **gitmez** |
 
 Mutasyon: `if (token && revoke)` → `if (token)` iken *"iptal isteği gönderilmiyor"* kırılıyor.
+
+## Faz 20 (`FE-57`): sunucuda düşen oturum
+
+`api.ts`'in 401 yakalayıcısı artık `logout({ revoke: false, expired: true })` çağırır:
+
+- **`revoke: false`:** sunucu token'ı zaten reddetti (`UNAUTHENTICATED`). Eskiden yakalayıcı varsayılanla
+  (`revoke: true`) çağırıyordu ve ölü token'la `POST /auth/logout` gidiyor, ikinci bir 401 dönüyordu
+  (`AUD-2026-11-26`, Faz 14 elle doğrulamasının 12. adımında görüldü). Döngü yoktu ama istek boşunaydı.
+- **`expired: true` → `sessionExpired`:** giriş sayfası "Oturumunuz sona erdi…" (`auth.sessionExpired`) gösterir.
+  Yalnızca o anda bir token varken yanar (token'sız ziyaretçinin 401'i "sona erdi" demez); `login`/`register` söndürür.
+  Açık çıkış (`signOut`) yakmaz.
+- Editör ve hesap belleği bu yolda bilerek temizlenmez (aynı kişi dönebilir); başka hesap girerse bekçiler temizler
+  (`useInvitationStore` ve `useAccountStore` sonu).
+
+**Doğrulama** (`npm run verify:state` → *"Sunucuda düşen oturum (Faz 20, FE-57)"*): 6 kontrol. Mutasyon: yakalayıcıda
+eski `logout()` → "iptal isteği gönderilmiyor" ve "sona erdi diyecek" kırılır.

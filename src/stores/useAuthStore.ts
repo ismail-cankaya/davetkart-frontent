@@ -6,6 +6,8 @@ interface AuthState {
   user: AuthUser | null;
   token: string | null;
   isAuthenticated: boolean;
+  /** Faz 20 (FE-57): oturum sunucuda düştü (401); giriş sayfası nedenini söyler. Girişte söner. */
+  sessionExpired: boolean;
   /** Authenticate against the Auth service; resolves with the signed-in user. */
   login: (credentials: LoginCredentials) => Promise<AuthUser>;
   register: (payload: RegisterPayload) => Promise<AuthUser>;
@@ -14,9 +16,9 @@ interface AuthState {
    *
    * `revoke: false` (Faz 10, FE 10.16): token sunucuda ZATEN silinmiş —
    * şifre sıfırlandı ya da hesap silindi. İptal isteği yalnızca bir 401
-   * dönerdi.
+   * dönerdi. `expired: true`: çağıran 401 yakalayıcısı (Faz 20, FE-57).
    */
-  logout: (options?: { revoke?: boolean }) => void;
+  logout: (options?: { revoke?: boolean; expired?: boolean }) => void;
   /**
    * Faz 10 (10.29): önbellekteki oturumu sunucuya doğrulatır ve kullanıcıyı
    * tazeler. Uygulama açılışında bir kez çağrılır (App.tsx).
@@ -33,28 +35,30 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   user: null,
   token: null,
   isAuthenticated: false,
+  sessionExpired: false,
 
   login: async (credentials) => {
     const session = await authService.login(credentials);
     authService.persistSession(session);
-    set({ user: session.user, token: session.token, isAuthenticated: true });
+    set({ user: session.user, token: session.token, isAuthenticated: true, sessionExpired: false });
     return session.user;
   },
 
   register: async (payload) => {
     const session = await authService.register(payload);
     authService.persistSession(session);
-    set({ user: session.user, token: session.token, isAuthenticated: true });
+    set({ user: session.user, token: session.token, isAuthenticated: true, sessionExpired: false });
     return session.user;
   },
 
-  logout: ({ revoke = true } = {}) => {
+  logout: ({ revoke = true, expired = false } = {}) => {
     const { token } = get();
     // Clear local state first: if the server-side revoke below comes back
     // 401, the response interceptor calls logout() again — token is already
     // null by then, so the revoke is not re-issued (no loop).
     authService.clearSession();
-    set({ user: null, token: null, isAuthenticated: false });
+    // Token'sız 401 (zaten çıkmış ziyaretçi) "oturumunuz sona erdi" demez.
+    set({ user: null, token: null, isAuthenticated: false, sessionExpired: expired && token !== null });
     if (token && revoke) {
       authService.revokeSession(token);
     }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { LogIn } from 'lucide-react';
 import { AuthShell, authInputClass } from '../components/auth/AuthShell';
 import { useAuthStore } from '../stores/useAuthStore';
@@ -11,6 +12,8 @@ import { AuthRedirectState, ForgotPasswordState } from '../types';
 /** Sign-in page; on success the visitor returns to where they left off. */
 export default function LoginPage() {
   const login = useAuthStore(s => s.login);
+  const sessionExpired = useAuthStore(s => s.sessionExpired);
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,6 +63,12 @@ export default function LoginPage() {
         </>
       }
     >
+      {/* Faz 20 (FE-57): sunucuda düşen oturum kullanıcıyı açıklamasız buraya atmasın. */}
+      {sessionExpired && (
+        <p role="status" className="mb-5 rounded-xl border border-champagne/30 bg-white/5 px-4 py-3 text-sm text-champagne">
+          {t('auth.sessionExpired')}
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <label htmlFor="login-email" className="block text-xs font-bold tracking-wider uppercase text-champagne">
