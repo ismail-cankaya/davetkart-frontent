@@ -42,7 +42,7 @@ export default function AccountPlansSection() {
         description={
           entitlements.totalAvailable > 0
             ? `${entitlements.totalAvailable} kullanılabilir hakkınız var. Bir sonraki yayınınızda, davetiyenizin ihtiyacını karşılayan en uygun hak kendiliğinden kullanılır.`
-            : 'Şu an kullanılabilir hakkınız yok. Davetiyenizi yayınlarken ya da fiyatlar sayfasından plan alabilirsiniz.'
+            : 'Şu an kullanılabilir hakkınız yok. Planınızı davetiyenizi yayınlarken seçip alabilirsiniz.'
         }
         action={
           entitlements.totalAvailable === 0 ? (
