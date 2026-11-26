@@ -14,6 +14,7 @@ import { api, apiErrorCode } from '../src/services/api';
 import { toDisplayError } from '../src/utils/toDisplayError';
 import { invalidateConditionalCache } from '../src/services/conditionalGet';
 import { useAuthStore } from '../src/stores/useAuthStore';
+import { useAccountStore } from '../src/stores/useAccountStore';
 import { useCreateWizardStore } from '../src/stores/useCreateWizardStore';
 import { useInvitationStore } from '../src/stores/useInvitationStore';
 import { useRsvpStore } from '../src/stores/useRsvpStore';
@@ -917,6 +918,56 @@ async function draftLimitStopsAutosave(): Promise<void> {
   );
 }
 
+/** Faz 20 (FE-57): sunucuda düşen oturum — boşuna iptal yok, neden söylenir, hesap verisi sızmaz. */
+async function expiredSession(): Promise<void> {
+  console.log('\nSunucuda düşen oturum (Faz 20, FE-57)');
+
+  const UNAUTHENTICATED: Reply = { status: 401, data: { error: { code: 'UNAUTHENTICATED' } } };
+  const expire = async () => {
+    server = (req) => (req.url === '/auth/me' ? UNAUTHENTICATED : defaultServer(req));
+    await useAuthStore.getState().refreshSession();
+    await tick();
+  };
+  const entitlements = { tiers: [], rights: [], totalAvailable: 2 };
+
+  reset();
+  await expire();
+  check(
+    !requests.some((r) => r.url === '/auth/logout'),
+    '401: reddedilmiş token için iptal isteği gönderilmiyor',
+    requests.map((r) => `${r.method} ${r.url}`).join(', '),
+  );
+  check(useAuthStore.getState().sessionExpired, '401: giriş sayfası "oturumunuz sona erdi" diyecek', 'sessionExpired=false');
+
+  await useAuthStore.getState().login({ email: 'ayse@ornek.com', password: 'x' });
+  check(!useAuthStore.getState().sessionExpired, 'yeniden giriş notu söndürüyor', 'sessionExpired=true');
+
+  reset();
+  signOut();
+  check(!useAuthStore.getState().sessionExpired, 'açık çıkış "sona erdi" demiyor', 'sessionExpired=true');
+
+  reset();
+  useAccountStore.setState({ entitlements, entitlementsStatus: 'ready' });
+  await expire();
+  await useAuthStore.getState().login({ email: 'mehmet@ornek.com', password: 'x' });
+  check(
+    useAccountStore.getState().entitlements === null && useAccountStore.getState().sessions.length === 0,
+    '401 sonrası başka hesap: önceki hesabın hakları bellekte kalmıyor',
+    `entitlements=${JSON.stringify(useAccountStore.getState().entitlements)}`,
+  );
+
+  reset();
+  useAccountStore.setState({ entitlements, entitlementsStatus: 'ready' });
+  await expire();
+  await useAuthStore.getState().login({ email: 'ayse@ornek.com', password: 'x' });
+  check(
+    useAccountStore.getState().entitlements?.totalAvailable === 2,
+    '401 sonrası aynı hesap: veri korunuyor (yeniden okunana kadar)',
+    `entitlements=${JSON.stringify(useAccountStore.getState().entitlements)}`,
+  );
+  useAccountStore.getState().reset();
+}
+
 async function main(): Promise<void> {
   await autosaveContract();
   autosaveWaitsForRealContent();
@@ -931,6 +982,7 @@ async function main(): Promise<void> {
   draftWritesOnlyWhatTheFormChanged();
   await sessionBoundaries();
   await sessionRefresh();
+  await expiredSession();
   await rsvpOwnReply();
   await rsvpScopeRace();
   calendarDayAcrossZones();

@@ -184,7 +184,8 @@ api.interceptors.response.use(
       apiErrorCode(error) !== 'INVALID_CREDENTIALS' &&
       !isFromStaleSession(error as AxiosError)
     ) {
-      useAuthStore.getState().logout();
+      // Sunucu token'ı zaten reddetti: iptal isteği ikinci bir 401'den başka bir şey getirmez (Faz 20, FE-57).
+      useAuthStore.getState().logout({ revoke: false, expired: true });
     }
     return Promise.reject(error);
   }
