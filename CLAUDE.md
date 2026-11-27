@@ -6,7 +6,7 @@
 - **Styling:** Tailwind CSS v4 (`@tailwindcss/vite`)
 - **Animations & Transitions:** Motion (`motion` library)
 - **Icons:** Lucide React (`lucide-react`)
-- **AI Integration:** Google GenAI (`@google/genai`)
+- **AI Assistant:** through the backend (`POST /api/assistant/chat`); the frontend has no AI SDK and no AI key
 
 ## Design & UI/UX Principles (Core Focus)
 - **Modern & Premium Aesthetics:** The UI must look highly professional and state-of-the-art. Avoid generic designs. Use modern typography, well-curated color palettes, and sleek layouts.
@@ -14,10 +14,12 @@
 - **High-Quality Components:** Build reusable, encapsulated components leveraging Tailwind CSS utilities.
 
 ## Setup & Commands
-- **Install dependencies:** `npm install`
+- **Node:** 24, from `.nvmrc` (`package.json` `engines`)
+- **Install dependencies:** `npm ci` with the Vite dev server stopped (`npm install` if it is running)
 - **Development Server:** `npm run dev` (Runs on `http://localhost:3000`)
 - **Build:** `npm run build`
-- **Type Checking:** `npm run lint`
+- **Type Checking:** `npm run lint` (`tsc --noEmit`, `strict`)
+- **Quality gate:** `npm run check` (lint + build + the 15 `verify:*` scripts); `npm run e2e` for end-to-end tests. Details: `README.md`
 
 
 ## Enterprise & Professional Architectural Guidelines
@@ -40,6 +42,6 @@ To maintain a high-quality, production-ready SaaS application, all new developme
 - **Routing Strategy:** Use a professional router (e.g., `react-router-dom`) to manage separated pages: `/login`, `/register`, `/dashboard`, `/create`, `/invite/:id`.
 
 ### 4. General Coding Standards
-- **Strict TypeScript:** Write strict, strongly typed TypeScript code. Define explicit interfaces/types for all data structures and API responses. Avoid `any`.
+- **Strict TypeScript:** Write strict, strongly typed TypeScript code (`tsconfig.json` has `"strict": true`). Define explicit interfaces/types for all data structures and API responses. Avoid `any`.
 - **Code Splitting:** Continue utilizing `React.lazy` and `React.Suspense` for heavy components to optimize First Contentful Paint (FCP).
 - **Documentation:** Use Github-style Markdown when creating documentation and include clear comments for complex business logic.
