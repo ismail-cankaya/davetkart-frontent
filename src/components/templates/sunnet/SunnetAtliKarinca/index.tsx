@@ -7,6 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../share
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
 import type { Invitation } from '../../../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /* ——— Lunapark paleti ——— */
 const NAVY = '#0A1230';
@@ -50,14 +51,7 @@ const KARINCA_TEMASI: SectionTheme = {
 const KARINCA_FLAVOR: TemplateFlavor = {
   ...SUNNET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Atlı karıncamız şehzademiz için dönüyor',
-  headings: {
-    timeline: 'Şenlik Programı',
-    details: 'Lunaparkın Yolu',
-    gallery: 'Şehzademizden Kareler',
-    gift: 'Takı & Armağan',
-    rsvp: 'Biletinizi Ayırtın'
-  }
+  textScopes: ['sunnet-atli-karinca', ...(SUNNET_FLAVOR.textScopes ?? [])]
 };
 
 /*
@@ -286,7 +280,7 @@ function KarincaHero({ invitation, hareketli }: HeroRenderProps & { hareketli: b
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-4 pt-14 pb-24 text-center">
       <motion.p {...rise(0.4)} className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#F6C453]">
-        {d.title || KARINCA_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className="mt-4 font-cormorant italic font-semibold leading-[1] text-[#FFF3DC] text-[clamp(2.4rem,11cqw,4.8rem)] break-words max-w-full [text-shadow:0_0_22px_rgba(246,196,83,0.45)]">
         {d.hasNames ? (

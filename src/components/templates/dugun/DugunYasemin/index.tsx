@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('dugun-yasemin');
 const FONT = 'Pinyon+Script';
@@ -44,8 +45,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Yaseminler açarken, ay ışığında',
-  headings: { timeline: 'Gecenin Akışı', details: 'Bahçede Buluşalım', gallery: 'Anılarımız', gift: 'Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-yasemin', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** İşaretçiyi izleyen ay ışığı: kadrajda yumuşak bir aydınlık havuz. */
@@ -127,7 +127,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           ))}
         </h1>
         <motion.p {...fade(2.8)} className="mt-6 font-cormorant italic text-xl sm:text-2xl text-[#D7E3DC]">
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.p {...fade(3.1)} className="mt-5 font-cormorant text-sm tracking-[0.3em] uppercase text-[#B3C7BF]">

@@ -4,21 +4,16 @@ import { hasTimelineEventContent } from '../../../../utils/timelineEvents';
 import type { TemplateFlavor } from '../../shared/flavor';
 import { displayText, formatDateStr } from '../../utils';
 
-export type BolumAdi = keyof TemplateFlavor['headings'];
+export type BolumAdi = 'timeline' | 'details' | 'gallery' | 'gift' | 'rsvp';
 
 /** Kompozisyonun bölümleri çizdiği sıra (InvitationComposition). */
 const SIRA: readonly BolumAdi[] = ['timeline', 'details', 'gallery', 'gift', 'rsvp'];
 
-/** Kitap dilinde bölüm adları; kategori bunları kendi kopyasında ezebilir. */
-export const KITAP_BASLIKLARI: TemplateFlavor['headings'] = {
-  // Program şimdilik ortak düzende; noktalı "içindekiler" satırları ortak
-  // Timeline'da değişiklik ister (KITAP-KONSEPTI §4.2, öneri).
-  timeline: 'İçindekiler',
-  details: 'Yer ve Zaman',
-  gallery: 'Resimli Sayfalar',
-  gift: 'Armağan',
-  rsvp: 'Cevabınız'
-};
+/**
+ * Kitap dilinde bölüm adları ("İçindekiler", "Yer ve Zaman"…) Faz 24'ten beri
+ * `invitationText/locales/tr.json` → `scopes.kitap`'ta; `useKitapFlavor` bu kapsamı ekler.
+ */
+export const KITAP_KAPSAMI = 'kitap';
 
 const ROMEN: readonly [number, string][] = [
   [10, 'X'],
@@ -80,19 +75,15 @@ export function bolumEtiketleri(
   return etiketler;
 }
 
-const BOS_BASLIK: Partial<TemplateFlavor['headings']> = {};
-
 /**
- * Kategori flavor'ının kitap kopyası: bölüm adları kitap dilinde, üst
+ * Kategori flavor'ının kitap kopyası: bölüm adları kitap dilinde (`scopes.kitap`), üst
  * etiketler açık bölümlerden numaralı. Kategori deseni kapatılır — sayfa
- * düz şamuadır. `basliklar` ve `bicim` çağıranın modül sabiti olmalı
- * (bağımlılık). `bicim` etiketin dilini verir: düğünde "Bölüm II", nişanda
- * (önsöz, henüz bölüm yok) "Önsöz · II".
+ * düz şamuadır. `bicim` çağıranın modül sabiti olmalı (bağımlılık) ve etiketin
+ * dilini verir: düğünde "Bölüm II", nişanda (önsöz, henüz bölüm yok) "Önsöz · II".
  */
 export function useKitapFlavor(
   temel: TemplateFlavor,
   invitation: Invitation,
-  basliklar: Partial<TemplateFlavor['headings']> = BOS_BASLIK,
   bicim: EtiketBicimi = bolumEtiketi
 ): TemplateFlavor {
   // Liste her çizimde ucuzca hesaplanır; flavor yalnızca liste değişince yenilenir.
@@ -100,11 +91,15 @@ export function useKitapFlavor(
 
   return useMemo(() => {
     const bolumler = anahtar ? (anahtar.split(',') as BolumAdi[]) : [];
+    const etiketler: Record<string, string> = {};
+    for (const [ad, etiket] of Object.entries(bolumEtiketleri(bolumler, 2, bicim))) {
+      if (etiket) etiketler[`${ad}.eyebrow`] = etiket;
+    }
     return {
       ...temel,
       BackgroundPattern: undefined,
-      headings: { ...KITAP_BASLIKLARI, ...basliklar },
-      eyebrows: { ...temel.eyebrows, ...bolumEtiketleri(bolumler, 2, bicim) }
+      textScopes: [...(temel.textScopes ?? []).slice(0, 1), KITAP_KAPSAMI, ...(temel.textScopes ?? []).slice(1)],
+      textDefaults: { ...temel.textDefaults, ...etiketler }
     };
-  }, [temel, anahtar, basliklar, bicim]);
+  }, [temel, anahtar, bicim]);
 }

@@ -43,9 +43,9 @@ interface BezKapakProps {
   invitation: Invitation;
   bez: BezAdi;
   /** Üstteki aralıklı büyük harf etiket (ör. "Bölüm I"). */
-  etiket: string;
+  etiket: React.ReactNode;
   /** Çizginin altındaki italik satır (ör. flavor.tagline). */
-  altSatir?: string;
+  altSatir?: React.ReactNode;
   /** Adlar hero'da başlıktır (`h1`); kapak kapısında yalnızca metin (`p`). */
   adlarEtiketi?: 'h1' | 'p';
   /** En alttaki yuva: kaydırma ipucu ya da "kapağı açın" düğmesi. */

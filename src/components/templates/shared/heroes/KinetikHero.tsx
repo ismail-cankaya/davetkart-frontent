@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Kinetik Tipografi hero — hareketin SÜS değil, kompozisyonun kendisi olduğu düzen.
@@ -103,7 +104,8 @@ export function KinetikHero({ invitation, theme, flavor, topWord }: KinetikHeroP
   const top = (topWord || invitation.title || 'Davetlisiniz').toLocaleUpperCase('tr-TR');
   // Alt şerit mekânı ya da tarihi akıtır; ikisi de girilmemişse boş şerit
   // yerine kategorinin adına düşer (uydurma bir mekân/tarih basılmaz).
-  const bottom = (venue || dateLabel || flavor.envelopeLabel).toLocaleUpperCase('tr-TR');
+  const t = useInvText();
+  const bottom = (venue || dateLabel || t('envelope.label')).toLocaleUpperCase('tr-TR');
 
   return (
     <section className="pause-marquee relative flex-1 flex flex-col justify-center gap-7 @sm:gap-10 py-12 @sm:py-16 overflow-hidden">

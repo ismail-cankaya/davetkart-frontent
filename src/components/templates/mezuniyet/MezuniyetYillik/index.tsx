@@ -9,6 +9,7 @@ import { DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { KivrilanSayfa } from './KivrilanSayfa';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Caveat:wght@500;700&family=Libre+Baskerville:ital@0;1';
 const PLAYFAIR = "[font-family:'Playfair_Display',var(--font-cormorant),serif]";
@@ -47,8 +48,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...MEZUNIYET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Bir dönem bitti, hikâye yeni başlıyor',
-  headings: { timeline: 'Tören Programı', details: 'Tören Yeri', gallery: 'Yıllıktan Kareler', gift: 'Hediye', rsvp: 'Yıllığı İmzala' }
+  textScopes: ['mezuniyet-yillik', ...(MEZUNIYET_FLAVOR.textScopes ?? [])]
 };
 
 const PAPER = 'bg-[#F4EEE0] bg-[radial-gradient(ellipse_at_30%_20%,rgba(255,255,255,0.6),transparent_60%)]';
@@ -130,7 +130,7 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
       <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}>Sınıfın yıldızı</p>
       <Photo src={photos[0]} fallback={FALLBACKS[0]} className="mt-3 w-full aspect-[4/3.4] shadow-[0_6px_14px_-6px_rgba(0,0,0,0.5)]" />
       <p className={`${PLAYFAIR} mt-4 font-bold text-[#1C2340] text-[clamp(1.3rem,6.4cqw,1.9rem)] leading-tight break-words`}>{name}</p>
-      <p className={`${HAND} mt-1 text-[#4A3F2E] text-[clamp(1.05rem,5cqw,1.4rem)] leading-snug`}>“{d.subtitle || FLAVOR.tagline}”</p>
+      <p className={`${HAND} mt-1 text-[#4A3F2E] text-[clamp(1.05rem,5cqw,1.4rem)] leading-snug`}>“{d.subtitle || <InvText k="hero.tagline" />}”</p>
     </div>,
     // 2 · Tören
     <div key="toren" className={`absolute inset-0 ${PAPER} px-[10%] pt-[11%] pb-[8%]`}>

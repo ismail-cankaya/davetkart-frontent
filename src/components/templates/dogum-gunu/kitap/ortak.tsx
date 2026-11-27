@@ -14,8 +14,7 @@ import { DOGUM_GUNU_FLAVOR } from '../flavors';
  */
 export const DOGUM_GUNU_KITAP_FLAVOR: TemplateFlavor = {
   ...DOGUM_GUNU_FLAVOR,
-  giftNote:
-    'Bu yeni bölümün ilk sayfasında yanımızda olmanız en güzel armağan; yine de bir hediye düşünürseniz hesap bilgileri aşağıdadır.'
+  textScopes: ['dogum-gunu-kitap', ...(DOGUM_GUNU_FLAVOR.textScopes ?? [])]
 };
 
 /** Yetişkin, anı defteri: "Yeni Bölüm · II", "Yeni Bölüm · III"… */

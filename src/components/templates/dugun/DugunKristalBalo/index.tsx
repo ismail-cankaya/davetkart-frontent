@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('dugun-kristal-balo', { landscape: '50% 40%', portrait: '50% 35%' });
 const FONT = 'Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800';
@@ -46,8 +47,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Kristallerin altında ilk dansımıza',
-  headings: { timeline: 'Balonun Akışı', details: 'Balo Salonu', gallery: 'Işıltılı Anlar', gift: 'Hediye', rsvp: 'Davetiyeye Yanıt' }
+  textScopes: ['dugun-kristal-balo', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /**
@@ -155,7 +155,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           </h1>
         </motion.div>
         <motion.p {...fade(2.7)} className={`mt-6 ${DIDONE} italic text-lg sm:text-xl text-[#D5DAEA]`}>
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.p {...fade(3)} className="mt-4 text-[11px] tracking-[0.35em] uppercase text-[#AEB4CC]">

@@ -6,6 +6,7 @@ import type { EnvelopeRenderProps } from '../../shared/InvitationComposition';
 import { Igne } from './Igne';
 import { PusulaGulu } from './simgeler';
 import { kisiler } from './veri';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Zarf kapısı: katlanmış harita. Kapak kartuşun küçüğüdür; dokununca kapak
@@ -104,7 +105,7 @@ export function HaritaZarf({
         >
           <div>
             <p className="[font-family:var(--hr-etiket)] text-[12px] @2xl:text-[14px] font-semibold uppercase tracking-[0.18em] text-[#A8321F]">
-              {flavor.envelopeLabel}
+              <InvText k="envelope.label" />
             </p>
             <p className="mt-3 @2xl:mt-4 [font-family:var(--hr-italik)] text-[30px] @2xl:text-[46px] font-medium italic leading-[1.05] text-[#23303A] [text-wrap:balance] break-words">
               {adlar.length ? (

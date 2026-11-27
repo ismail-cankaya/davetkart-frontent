@@ -8,6 +8,7 @@ import { TemplateFlavor } from './flavor';
 import { CalendarIcon, MapPinIcon, ExternalLinkIcon } from './icons';
 import { ease } from '../../../utils/motion';
 import { SectionHeading, sectionMotion } from './SectionHeading';
+import { InvText } from '../../../invitationText/InvitationTextContext';
 
 interface DetailsProps {
   invitation: Invitation;
@@ -36,8 +37,8 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
     <section className={cn('relative px-6 py-16', theme.page)}>
       <SectionHeading
         theme={theme}
-        eyebrow={flavor.eyebrows?.details ?? 'Ne Zaman & Nerede'}
-        title={flavor.headings.details}
+        eyebrow={<InvText k="details.eyebrow" />}
+        title={<InvText k="details.heading" />}
         amount={0.4}
         className="mb-10"
       />
@@ -83,7 +84,7 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
                 <CalendarIcon size={17} />
               </span>
               <div>
-                <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase', theme.body)}>Tarih &amp; Saat</p>
+                <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase', theme.body)}><InvText k="details.dateLabel" /></p>
                 <p className={cn('font-serif text-base font-semibold mt-0.5', theme.heading)}>{dateLabel}</p>
               </div>
             </div>
@@ -97,7 +98,7 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
                 <MapPinIcon size={17} />
               </span>
               <div>
-                <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase', theme.body)}>Mekan</p>
+                <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase', theme.body)}><InvText k="details.venueLabel" /></p>
                 <p className={cn('font-serif text-base font-semibold mt-0.5', theme.heading)}>{venue}</p>
               </div>
             </div>
@@ -118,7 +119,7 @@ export function Details({ invitation, theme, flavor }: DetailsProps) {
               )}
             >
               <ExternalLinkIcon size={14} />
-              Yol Tarifi Al
+              <InvText k="details.directions" />
             </motion.a>
           )}
         </div>

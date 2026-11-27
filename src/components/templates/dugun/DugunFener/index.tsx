@@ -7,6 +7,7 @@ import { GyroButton, ThreeStage } from '../../shared/three';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const FenerSahnesi = lazy(() => import('./FenerSahnesi'));
 
@@ -43,8 +44,7 @@ const FENER_TEMASI: SectionTheme = {
 const FENER_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Dileklerimizi göğe bırakıyoruz',
-  headings: { timeline: 'Gecenin Akışı', details: 'Buluşma Yeri', gallery: 'Işıklı Anlar', gift: 'Takı & Hediye', rsvp: 'Dileğinizi Bize Yollayın' }
+  textScopes: ['dugun-fener', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** Statik gök: yıldız noktaları + birkaç CSS fener (WebGL yokken, yüklenirken). */
@@ -96,7 +96,7 @@ function FenerHero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | '
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-16 pb-28 text-center">
       <motion.p {...rise(1.4)} className="text-[10px] sm:text-[11px] tracking-[0.45em] uppercase text-[#FFC27A]">
-        {d.title || FENER_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className={`mt-6 font-cormorant italic font-medium leading-[0.98] text-[#FFF1DC] text-[clamp(2.8rem,13cqw,5.6rem)] break-words max-w-full ${GLOW}`}>
         {d.hasNames ? (

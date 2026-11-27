@@ -21,7 +21,7 @@ export { SayfaBasi } from './SayfaBasi';
 export { Ayrac } from './Ayrac';
 export { Fleuron } from './Fleuron';
 export { SayfayiCevirin } from './SayfayiCevirin';
-export { KITAP_BASLIKLARI, useKitapFlavor, cizilenBolumler, bolumEtiketleri, bolumEtiketi, romen } from './bolumBasliklari';
+export { KITAP_KAPSAMI, useKitapFlavor, cizilenBolumler, bolumEtiketleri, bolumEtiketi, romen } from './bolumBasliklari';
 export type { BolumAdi, EtiketBicimi } from './bolumBasliklari';
 export { kitapTarihi, tamTarih, kisiler } from './tarih';
 export type { KitapTarihi } from './tarih';

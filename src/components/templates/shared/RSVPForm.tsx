@@ -6,7 +6,6 @@ import { useRsvpStore } from '../../../stores/useRsvpStore';
 import { toast } from '../../ui/Toast';
 import { HoneypotField } from '../../ui/HoneypotField';
 import { toDisplayError } from '../../../utils/toDisplayError';
-import { RSVP_STATUS_CHOICES } from '../../../utils/rsvpStatus';
 import { SectionTheme, statusClasses } from './palette';
 import { TemplateFlavor } from './flavor';
 import { googleCalendarUrl, downloadIcsFile } from './calendar';
@@ -14,6 +13,7 @@ import { formatCalendarDay } from '../utils';
 import { CheckIcon, SendIcon, UsersIcon, GoogleIcon, AppleIcon } from './icons';
 import { ease } from '../../../utils/motion';
 import { SectionHeading, sectionMotion } from './SectionHeading';
+import { InvText, useFixedText, useInvText } from '../../../invitationText/InvitationTextContext';
 
 interface RSVPFormProps {
   invitation: Invitation;
@@ -77,21 +77,22 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
     }
   };
 
+  const t = useInvText();
+  const fixed = useFixedText();
   const labelClass = cn('block text-[10px] font-semibold tracking-[0.2em] uppercase mb-1.5', theme.body);
 
   return (
     <section className={cn('relative px-6 py-16', theme.page)}>
       <SectionHeading
         theme={theme}
-        eyebrow={flavor.eyebrows?.rsvp ?? 'LCV — Katılım Bildirimi'}
-        title={flavor.headings.rsvp}
+        eyebrow={<InvText k="rsvp.eyebrow" />}
+        title={<InvText k="rsvp.heading" />}
         amount={0.4}
         className="mb-10"
       >
         {deadlineLabel && (
           <p className={cn('text-[12px] font-light mt-3', theme.body)}>
-            Lütfen katılım durumunuzu <span className={cn('font-semibold', theme.accent)}>{deadlineLabel}</span>{' '}
-            tarihine kadar bildiriniz.
+            <InvText k="rsvp.deadline" slots={{ date: <span className={cn('font-semibold', theme.accent)}>{deadlineLabel}</span> }} />
           </p>
         )}
       </SectionHeading>
@@ -121,11 +122,11 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                 <CheckIcon size={26} strokeWidth={2.25} />
               </motion.span>
               <h3 className={cn('font-serif text-xl font-bold mt-4', theme.heading)}>
-                {wasUpdate ? 'Yanıtınız güncellendi' : 'Başarıyla katılımınız oluşturuldu'}
+                {wasUpdate ? <InvText k="rsvp.successUpdate" /> : <InvText k="rsvp.successNew" />}
               </h3>
               <p className={cn('text-[13px] font-light mt-2 leading-relaxed', theme.body)}>
-                Teşekkür ederiz!
-                {calendarUrl && ' Büyük günü kaçırmamak için etkinliği takviminize ekleyebilirsiniz.'}
+                <InvText k="rsvp.thanks" />
+                {calendarUrl && <> <InvText k="rsvp.calendarHint" /></>}
               </p>
 
               {/* Takvim kısayolları tarihten türer: tarih girilmemişse ikisi de
@@ -146,7 +147,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     )}
                   >
                     <GoogleIcon size={14} />
-                    Google Takvim'e Ekle
+                    <InvText k="rsvp.googleCalendar" />
                   </motion.a>
                   <motion.button
                     type="button"
@@ -160,7 +161,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     )}
                   >
                     <AppleIcon size={14} />
-                    Apple Takvim'e Ekle (.ics)
+                    <InvText k="rsvp.appleCalendar" />
                   </motion.button>
                 </div>
               )}
@@ -177,7 +178,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
 
               <div>
                 <label htmlFor="rsvp-name" className={labelClass}>
-                  Ad Soyad
+                  <InvText k="rsvp.nameLabel" />
                 </label>
                 <input
                   id="rsvp-name"
@@ -187,20 +188,20 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     setGuestName(e.target.value);
                     if (error) setError(false);
                   }}
-                  placeholder="Adınız ve soyadınız"
+                  placeholder={t('rsvp.namePlaceholder')}
                   className={cn(theme.input, error && feedback.errorInput)}
                 />
-                {error && <p className={cn('text-[11px] mt-1.5', feedback.error)}>Lütfen adınızı yazın.</p>}
+                {error && <p className={cn('text-[11px] mt-1.5', feedback.error)}><InvText k="rsvp.nameError" /></p>}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className={labelClass}>Kişi Sayısı</label>
+                  <label className={labelClass}><InvText k="rsvp.countLabel" /></label>
                   {/* ± 28 px görünür, 44 px dokunulur (sözde öğe). */}
                   <div className={cn('flex items-center justify-between rounded-lg border px-2 py-1.5', theme.border)}>
                     <button
                       type="button"
-                      aria-label="Kişi sayısını azalt"
+                      aria-label={fixed('rsvp.decrease')}
                       onClick={() => setGuestCount((c) => Math.max(1, c - 1))}
                       className={cn('w-7 h-7 rounded-md text-base font-bold cursor-pointer transition-colors', theme.buttonGhost, 'border-0', 'relative before:absolute before:-inset-2')}
                     >
@@ -212,7 +213,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     </span>
                     <button
                       type="button"
-                      aria-label="Kişi sayısını artır"
+                      aria-label={fixed('rsvp.increase')}
                       onClick={() => setGuestCount((c) => Math.min(12, c + 1))}
                       className={cn('w-7 h-7 rounded-md text-base font-bold cursor-pointer transition-colors', theme.buttonGhost, 'border-0', 'relative before:absolute before:-inset-2')}
                     >
@@ -224,7 +225,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                 {invitation.askMenuPreference && (
                   <div>
                     <label htmlFor="rsvp-menu" className={labelClass}>
-                      Menü Tercihi
+                      <InvText k="rsvp.menuLabel" />
                     </label>
                     <select
                       id="rsvp-menu"
@@ -243,7 +244,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
               </div>
 
               <div>
-                <label className={labelClass}>Katılım Durumu</label>
+                <label className={labelClass}><InvText k="rsvp.statusLabel" /></label>
                 <div className={cn('grid grid-cols-2 rounded-lg border p-1 gap-1', theme.border)}>
                   {/* Bu şablon iki uçlu bir seçim sunar; "Belirsiz" bilinçli
                       olarak yok — satır içi form kısa tutuluyor. */}
@@ -261,7 +262,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                           : cn(theme.body, 'hover:opacity-75')
                       )}
                     >
-                      {RSVP_STATUS_CHOICES[option]}
+                      <InvText k={option === 'attending' ? 'rsvp.attending' : 'rsvp.declined'} />
                     </button>
                   ))}
                 </div>
@@ -271,7 +272,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                   açılmaz, aynı yanıt güncellenir. */}
               {ownReply && (
                 <p className={cn('text-[12px] font-light text-center leading-relaxed', theme.body)}>
-                  Bu cihazdan daha önce yanıt verdiniz. Yeniden gönderirseniz yanıtınız güncellenir.
+                  <InvText k="rsvp.returningNote" />
                 </p>
               )}
 
@@ -286,7 +287,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                 )}
               >
                 <SendIcon size={14} />
-                {submitting ? 'Gönderiliyor…' : ownReply ? 'Yanıtımı Güncelle' : 'Katılımımı Bildir'}
+                <InvText k={submitting ? 'rsvp.sending' : ownReply ? 'rsvp.update' : 'rsvp.submit'} />
               </motion.button>
             </motion.form>
           )}

@@ -9,6 +9,7 @@ import { CinemaBackdrop, DateCountdown, LiveShader, ScrollCue, useTemplateFont, 
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
 import { HAVUZ_FRAG, ORB_COLORS, orbPositions } from './havuzShader';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('parti-havuz');
 const FONT = 'Unbounded:wght@300..800';
@@ -46,8 +47,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...PARTI_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Işıklar suyun altında yanıyor',
-  headings: { timeline: 'Gecenin Programı', details: 'Havuz Başı', gallery: 'Kareler', gift: 'Hediye', rsvp: 'Listeye Adını Yaz' }
+  textScopes: ['parti-havuz', ...(PARTI_FLAVOR.textScopes ?? [])]
 };
 
 /** Kulüp ışığı: iki geniş huzme kadrajı yavaşça süpürür (yalnızca CSS dönüşü). */
@@ -148,7 +148,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           </motion.span>
         </motion.div>
         <motion.p {...fade(2.4)} className="mt-6 text-base sm:text-lg text-[#CFEFF3] max-w-md">
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.div {...fade(2.7)} className="mt-6 flex flex-wrap items-center justify-center gap-2">

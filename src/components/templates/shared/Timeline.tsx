@@ -9,6 +9,7 @@ import { TemplateFlavor } from './flavor';
 import { ClockIcon } from './icons';
 import { ease } from '../../../utils/motion';
 import { SectionHeading, sectionMotion } from './SectionHeading';
+import { InvText } from '../../../invitationText/InvitationTextContext';
 
 interface TimelineProps {
   invitation: Invitation;
@@ -50,8 +51,8 @@ export function Timeline({ invitation, theme, flavor, scrollContainer }: Timelin
     <section className={cn('relative px-6 py-16 overflow-hidden', theme.page)}>
       <SectionHeading
         theme={theme}
-        eyebrow={flavor.eyebrows?.timeline ?? 'Program Akışı'}
-        title={flavor.headings.timeline}
+        eyebrow={<InvText k="timeline.eyebrow" />}
+        title={<InvText k="timeline.heading" />}
         amount={0.5}
         className="mb-12"
       />

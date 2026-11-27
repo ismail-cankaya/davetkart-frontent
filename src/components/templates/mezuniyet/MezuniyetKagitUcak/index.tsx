@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const INK = '#1E3A5F';
 
@@ -40,14 +41,7 @@ const UCAK_TEMASI: SectionTheme = {
 const UCAK_FLAVOR: TemplateFlavor = {
   ...MEZUNIYET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Yeni rotamızı birlikte kutlayalım',
-  headings: {
-    timeline: 'Uçuş Planı',
-    details: 'Varış Noktası',
-    gallery: 'Yolculuktan Kareler',
-    gift: 'Hediye',
-    rsvp: 'Biniş Kartını Al'
-  }
+  textScopes: ['mezuniyet-kagit-ucak', ...(MEZUNIYET_FLAVOR.textScopes ?? [])]
 };
 
 interface Durak {
@@ -160,7 +154,7 @@ function UcakHero({ invitation, hareketli }: HeroRenderProps & { hareketli: bool
   const liste = useMemo(() => duraklar(d), [d]);
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-5 pt-14 pb-16 text-center">
-      <p className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#D9534F]">{d.title || UCAK_FLAVOR.tagline}</p>
+      <p className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#D9534F]">{d.title || <InvText k="hero.tagline" />}</p>
       <h1 className="mt-4 font-cormorant font-semibold leading-[1.05] text-[#1E3A5F] text-[clamp(2.3rem,11cqw,4.4rem)] break-words max-w-full">
         {d.hasNames ? d.people.join(' & ') : NO_NAMES}
       </h1>

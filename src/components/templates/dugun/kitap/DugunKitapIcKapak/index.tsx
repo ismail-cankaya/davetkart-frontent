@@ -4,6 +4,7 @@ import { TemplateProps } from '../../../types';
 import { displayText } from '../../../utils';
 import { IcKapak, KITAP_TEMASI, KapakKapisi, KitapKok, SayfaBasi, useKitapFlavor, type BezAdi } from '../../../konsept/kitap';
 import { DUGUN_KITAP_FLAVOR } from '../ortak';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DugunKitapIcKapak — "İç Kapak" (iç kapak ekseni).
@@ -30,9 +31,9 @@ export function DugunKitapIcKapak({ invitation, mode = 'preview' }: TemplateProp
         mode={mode}
         themeOverride={KITAP_TEMASI}
         renderHero={({ invitation: davet }) => <IcKapak invitation={davet} />}
-        renderBackdrop={({ heroExit }) => <SayfaBasi heroExit={heroExit} sol={adlar} sag={flavor.envelopeLabel} />}
+        renderBackdrop={({ heroExit }) => <SayfaBasi heroExit={heroExit} sol={adlar} sag={<InvText k="envelope.label" />} />}
         renderEnvelope={(props) => (
-          <KapakKapisi {...props} bez={BEZ} etiket={props.flavor.envelopeLabel} altSatir={props.flavor.tagline} />
+          <KapakKapisi {...props} bez={BEZ} etiket={<InvText k="envelope.label" />} altSatir={<InvText k="hero.tagline" />} />
         )}
       />
     </KitapKok>

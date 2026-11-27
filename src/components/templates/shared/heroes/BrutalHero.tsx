@@ -4,6 +4,7 @@ import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Brutal hero — kütüphanenin tek ANTİ-DEKORATİF dili.
@@ -129,7 +130,7 @@ export function BrutalHero({
                       className="text-[9px] font-black tracking-[0.18em]"
                       style={{ color: onAccent }}
                     >
-                      {invitation.title || flavor.envelopeLabel} <span className="opacity-50">/</span>
+                      {invitation.title || <InvText k="envelope.label" />} <span className="opacity-50">/</span>
                     </span>
                   ))}
                 </span>

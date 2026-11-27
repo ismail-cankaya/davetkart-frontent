@@ -7,6 +7,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { TrackingReveal } from '../TrackingReveal';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Ufuk hero — bir filmin açılış jeneriği.
@@ -83,7 +84,8 @@ export function UfukHero({
   const withShutter = !invitation.showEnvelope;
   const t0 = withShutter ? 0.9 : 0.35;
 
-  const title = hasText(invitation.title) ? invitation.title : flavor.tagline;
+  const t = useInvText();
+  const title = hasText(invitation.title) ? invitation.title : t('hero.tagline');
   const names = invitation.names || 'Davetlisiniz';
   const parts = names.split(/\s+&\s+/);
   const lines = parts.length > 1 ? [parts[0], '&', parts.slice(1).join(' & ')] : [names];

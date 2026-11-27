@@ -31,8 +31,8 @@ export interface KapakKapisiProps extends EnvelopeRenderProps {
   /** Varsayılan yüzün (`BezKapak`) bezi; `yuz` verilince kullanılmaz. */
   bez?: BezAdi;
   /** Varsayılan yüzün etiketi; `yuz` verilince kullanılmaz. */
-  etiket?: string;
-  altSatir?: string;
+  etiket?: React.ReactNode;
+  altSatir?: React.ReactNode;
   /**
    * Kapağın ön yüzü. `dugme` "Kapağı açın"dır; `className` yüzü kapıya
    * yerleştirir (tam kaplama, arka yüz gizli). Verilmezse `BezKapak`.

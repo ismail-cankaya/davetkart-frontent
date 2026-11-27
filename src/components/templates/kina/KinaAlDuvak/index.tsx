@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('kina-al-duvak');
 const FONT = 'Yeseva+One';
@@ -47,8 +48,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...KINA_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Al duvağın altında bir gece',
-  headings: { timeline: 'Gecenin Akışı', details: 'Kına Evi', gallery: 'Kınalı Anlar', gift: 'Takı & Hediye', rsvp: 'Gelişinizi Bildirin' }
+  textScopes: ['kina-al-duvak', ...(KINA_FLAVOR.textScopes ?? [])]
 };
 
 /** Kına deseni: damla, nokta dizisi ve kıvrık sarmaşık — kendini çizerek gelir. */
@@ -159,7 +159,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           )}
         </h1>
         <motion.p {...fade(3.0)} className="mt-6 font-cormorant italic text-xl sm:text-2xl text-[#F3D9C8]">
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.p {...fade(3.3)} className="mt-5 text-[11px] tracking-[0.32em] uppercase text-[#D9BFB4]">

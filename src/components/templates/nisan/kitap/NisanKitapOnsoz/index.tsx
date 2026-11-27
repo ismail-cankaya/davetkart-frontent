@@ -4,7 +4,6 @@ import { TemplateProps } from '../../../types';
 import { displayText } from '../../../utils';
 import {
   BolumAcilisi,
-  KITAP_BASLIKLARI,
   KITAP_TEMASI,
   KapakKapisi,
   KitapKok,
@@ -15,6 +14,7 @@ import {
 } from '../../../konsept/kitap';
 import { NISAN_BEZI, NISAN_KITAP_FLAVOR, ONSOZ_ETIKETI } from '../ortak';
 import { PencereliKapak } from './PencereliKapak';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanKitapOnsoz — "Önsöz" (bez cilt ekseni, pencereli kapak).
@@ -54,7 +54,7 @@ function OnsozHero({ invitation, flavor, scrollContainer }: HeroRenderProps) {
         invitation={invitation}
         bez={NISAN_BEZI}
         etiket={KAPAK_ETIKETI}
-        altSatir={flavor.tagline}
+        altSatir={<InvText k="hero.tagline" />}
         style={{ minHeight: ekran ?? '100svh' }}
         alt={<SayfayiCevirin />}
       />
@@ -71,7 +71,7 @@ function OnsozHero({ invitation, flavor, scrollContainer }: HeroRenderProps) {
 }
 
 export function NisanKitapOnsoz({ invitation, mode = 'preview' }: TemplateProps) {
-  const flavor = useKitapFlavor(NISAN_KITAP_FLAVOR, invitation, KITAP_BASLIKLARI, ONSOZ_ETIKETI);
+  const flavor = useKitapFlavor(NISAN_KITAP_FLAVOR, invitation, ONSOZ_ETIKETI);
   const adlar = displayText(invitation.names);
 
   return (
@@ -88,13 +88,13 @@ export function NisanKitapOnsoz({ invitation, mode = 'preview' }: TemplateProps)
             {...props}
             bez={NISAN_BEZI}
             etiket={KAPAK_ETIKETI}
-            altSatir={props.flavor.tagline}
+            altSatir={<InvText k="hero.tagline" />}
             yuz={({ dugme, className }) => (
               <PencereliKapak
                 invitation={props.invitation}
                 bez={NISAN_BEZI}
                 etiket={KAPAK_ETIKETI}
-                altSatir={props.flavor.tagline}
+                altSatir={<InvText k="hero.tagline" />}
                 adlarEtiketi="p"
                 className={className}
                 alt={dugme}

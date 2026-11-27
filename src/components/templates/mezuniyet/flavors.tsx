@@ -38,14 +38,5 @@ function MezuniyetPattern({ className }: { className?: string }) {
 export const MEZUNIYET_FLAVOR: TemplateFlavor = {
   categoryId: 'mezuniyet',
   Ornament: MezuniyetOrnament,
-  BackgroundPattern: MezuniyetPattern,
-  envelopeLabel: 'Mezuniyet Davetiyesi',
-  tagline: 'Emeklerin Taçlandığı Gün',
-  headings: {
-    timeline: 'Tören Programı',
-    details: 'Adres & Ulaşım',
-    gallery: 'Yıllardan Kareler',
-    gift: 'Hediye',
-    rsvp: 'Katılım Durumu'
-  }
+  BackgroundPattern: MezuniyetPattern
 };

@@ -9,6 +9,7 @@ import { GyroButton, useDeviceMotion } from '../../shared/three';
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
 import { GLASS, KOKTEYL_FRAG } from './kokteylShader';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Manrope:wght@400;600';
 const BODONI = "[font-family:'Bodoni_Moda',var(--font-cormorant),serif]";
@@ -47,8 +48,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...PARTI_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Kadehler hazır, bir tek siz eksiksiniz',
-  headings: { timeline: 'Gecenin Menüsü', details: 'Bar Adresi', gallery: 'Kareler', gift: 'Hediye', rsvp: 'Listeye Adınızı Yazın' }
+  textScopes: ['parti-kokteyl', ...(PARTI_FLAVOR.textScopes ?? [])]
 };
 
 /** Bardağın p uzayındaki konumunu CSS'e taşır: yükseklik × yükseklik kare, ortada. */
@@ -201,7 +201,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
             {[d.date.dayMonth || d.date.day, d.date.time, d.venue].filter(Boolean).join('  ·  ')}
           </motion.p>
           <motion.p {...fade(2.9)} className={`${BODONI} mt-1.5 italic text-[15px] text-[#E8CCD6] max-w-sm`}>
-            {d.subtitle || FLAVOR.tagline}
+            {d.subtitle || <InvText k="hero.tagline" />}
           </motion.p>
           {live && (
             <motion.p {...fade(3.3)} className={`${MANROPE} mt-2 text-[9px] tracking-[0.3em] uppercase text-[#9C7E8C]`}>

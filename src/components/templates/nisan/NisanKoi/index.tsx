@@ -9,6 +9,7 @@ import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
 import { KOI_FRAG } from './koiShader';
 import { createKoiSim, type Food } from './koiSim';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400';
 const ITALIANA = "[font-family:'Italiana',var(--font-cormorant),serif]";
@@ -45,8 +46,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...NISAN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'İki ayrı akıntı, tek bir havuz',
-  headings: { timeline: 'Nişan Akışı', details: 'Buluşma Yeri', gallery: 'Bizden Kareler', gift: 'Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['nisan-koi', ...(NISAN_FLAVOR.textScopes ?? [])]
 };
 
 /** WebGL yokken / önizlemede: aynı kompozisyonun durağan SVG'si. */
@@ -152,7 +152,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         </div>
         <div className="mt-[34svh]">
           <motion.p {...fade(1.8)} className={`${SERIF} text-lg italic text-[#DCEDE7] max-w-sm mx-auto ${shadow}`}>
-            {d.subtitle || FLAVOR.tagline}
+            {d.subtitle || <InvText k="hero.tagline" />}
           </motion.p>
           {meta.length > 0 && (
             <motion.p {...fade(2.1)} className={`${SERIF} mt-3 text-[13px] tracking-[0.2em] uppercase text-[#F4FBF8] ${shadow}`}>

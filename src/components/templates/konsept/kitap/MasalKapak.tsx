@@ -49,7 +49,7 @@ interface MasalKapakProps {
   /** Başlık — adlar ya da kategorinin ad dizgisi; yaldız rengi çağırandan. */
   baslik: React.ReactNode;
   /** Çizginin altındaki italik satır (flavor.tagline). */
-  altSatir?: string;
+  altSatir?: React.ReactNode;
   /** En alttaki yuva: "Sayfayı çevirin" ya da "Kapağı açın". */
   alt?: React.ReactNode;
   className?: string;

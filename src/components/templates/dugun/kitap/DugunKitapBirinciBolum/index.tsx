@@ -15,6 +15,7 @@ import {
   type BezAdi
 } from '../../../konsept/kitap';
 import { DUGUN_KITAP_FLAVOR } from '../ortak';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DugunKitapBirinciBolum — "Birinci Bölüm" (bez cilt ekseni).
@@ -52,7 +53,7 @@ function BirinciBolumHero({ invitation, flavor, scrollContainer }: HeroRenderPro
         invitation={invitation}
         bez={BEZ}
         etiket={KAPAK_ETIKETI}
-        altSatir={flavor.tagline}
+        altSatir={<InvText k="hero.tagline" />}
         style={{ minHeight: ekran ?? '100svh' }}
         alt={<SayfayiCevirin />}
       />
@@ -74,7 +75,7 @@ export function DugunKitapBirinciBolum({ invitation, mode = 'preview' }: Templat
         themeOverride={KITAP_TEMASI}
         renderHero={(props) => <BirinciBolumHero {...props} />}
         renderBackdrop={({ heroExit }) => <SayfaBasi heroExit={heroExit} sol={adlar} sag={KAPAK_ETIKETI} />}
-        renderEnvelope={(props) => <KapakKapisi {...props} bez={BEZ} etiket={KAPAK_ETIKETI} altSatir={props.flavor.tagline} />}
+        renderEnvelope={(props) => <KapakKapisi {...props} bez={BEZ} etiket={KAPAK_ETIKETI} altSatir={<InvText k="hero.tagline" />} />}
       />
     </KitapKok>
   );

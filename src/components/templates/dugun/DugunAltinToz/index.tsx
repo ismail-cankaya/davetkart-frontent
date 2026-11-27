@@ -44,7 +44,7 @@ const TOZ_TEMASI: SectionTheme = {
 const TOZ_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  headings: { timeline: 'Gecenin Akışı', details: 'Adres', gallery: 'Altın Anlar', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-altin-toz', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 interface Stage {

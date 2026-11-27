@@ -40,8 +40,7 @@ const MUREKKEP_TEMASI: SectionTheme = {
 const MUREKKEP_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Aynı suya düşen iki damla',
-  headings: { timeline: 'Günün Akışı', details: 'Buluşma Yeri', gallery: 'Anılar', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-murekkep', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** WebGL yoksa ya da yüklenirken: bulanık lekeler (statik). */

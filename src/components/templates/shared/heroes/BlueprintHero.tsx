@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Blueprint hero — daveti bir DUYURU değil, bir PROJE olarak sunan dil.
@@ -32,7 +33,7 @@ export interface BlueprintHeroProps extends HeroRenderProps {
 }
 
 /** Kot çizgisi: iki ucunda dikey serif, ortasında etiket. */
-function DimensionLine({ label, color, delay = 0 }: { label: string; color: string; delay?: number }) {
+function DimensionLine({ label, color, delay = 0 }: { label: React.ReactNode; color: string; delay?: number }) {
   return (
     <div className="flex items-center gap-2 w-full" aria-hidden="true">
       <span className="block h-2.5 w-px shrink-0" style={{ background: color }} />
@@ -97,6 +98,7 @@ export function BlueprintHero({
   accent = '#ffd08a',
   sheetCode = 'DK-01'
 }: BlueprintHeroProps) {
+  const t = useInvText();
   const { Ornament } = flavor;
   const reduced = useReducedMotion();
   const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
@@ -192,7 +194,7 @@ export function BlueprintHero({
           {/* Kot çizgisi başlığın ÜSTÜNDE: isim böylece ölçülmüş bir açıklık
               gibi okunur, serbest bir yazı gibi değil. */}
           <div className="mt-6">
-            <DimensionLine label={flavor.envelopeLabel} color={line} delay={0.5} />
+            <DimensionLine label={<InvText k="envelope.label" />} color={line} delay={0.5} />
           </div>
 
           <motion.h1
@@ -262,7 +264,7 @@ export function BlueprintHero({
             className={cn('mt-7 grid border', dateText ? 'grid-cols-3' : 'grid-cols-2')}
             style={{ borderColor: `${line}55` }}
           >
-            <BlockCell label="Proje" value={flavor.envelopeLabel} color={line} className="border-r" />
+            <BlockCell label="Proje" value={t('envelope.label')} color={line} className="border-r" />
             {dateText && <BlockCell label="Tarih" value={dateText} color={line} className="border-r" />}
             <BlockCell
               label={invitation.showTimer && valid ? 'Kalan' : 'Durum'}

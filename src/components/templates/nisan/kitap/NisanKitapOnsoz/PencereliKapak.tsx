@@ -31,9 +31,9 @@ interface PencereliKapakProps {
   invitation: Invitation;
   bez: BezAdi;
   /** Üstteki aralıklı büyük harf etiket ("Önsöz"). */
-  etiket: string;
+  etiket: React.ReactNode;
   /** Pencerenin altındaki italik satır (flavor.tagline). */
-  altSatir?: string;
+  altSatir?: React.ReactNode;
   /** Adlar hero'da başlıktır (`h1`); kapak kapısında yalnızca metin (`p`). */
   adlarEtiketi?: 'h1' | 'p';
   /** En alttaki yuva: "Sayfayı çevirin" ya da "Kapağı açın". */

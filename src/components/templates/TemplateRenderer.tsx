@@ -4,11 +4,14 @@ import { displayNames } from '../../utils/names';
 import { TemplateProps } from './types';
 import { LAZY_PRESETS } from './lazyPresets';
 import { PRESET_PRIMARY_COLORS } from '../../templatePresetColors';
+import { InvitationTextProvider, type TextEditorBridge } from '../../invitationText/InvitationTextContext';
 
 interface TemplateRendererProps {
   templateId: string;
   invitation: Invitation;
   mode?: 'preview' | 'live';
+  /** Faz 25: yalnızca editör önizlemesi verir; metinler tıklanabilir olur. */
+  textEditor?: TextEditorBridge | null;
 }
 
 /**
@@ -364,7 +367,7 @@ function TemplateFallback({ color }: { color?: string }) {
   return <div className="min-h-[100svh] w-full bg-[#F4F1EA]" style={color ? { background: color } : undefined} aria-busy="true" />;
 }
 
-export function TemplateRenderer({ templateId, invitation: stored, mode = 'preview' }: TemplateRendererProps) {
+export function TemplateRenderer({ templateId, invitation: stored, mode = 'preview', textEditor = null }: TemplateRendererProps) {
   // Şablonların tek giriş kapısı: saklama biçimindeki isim ayracı (`& Ali`,
   // bkz. utils/names) burada temizlenir; 180+ şablonun her biri ayrıca bilmez.
   // Değişiklik yoksa aynı nesne geçer — şablonların memo'su bozulmaz.
@@ -385,17 +388,21 @@ export function TemplateRenderer({ templateId, invitation: stored, mode = 'previ
   const ThemePreset = THEME_PRESETS[presetKey] || THEME_PRESETS[`dugun-${templateId}`];
   if (ThemePreset) {
     return (
-      <Suspense fallback={<TemplateFallback color={PRESET_PRIMARY_COLORS[presetKey]} />}>
-        <ThemePreset invitation={invitation} mode={mode} />
-      </Suspense>
+      <InvitationTextProvider locale={invitation.locale} overrides={invitation.textOverrides} editor={textEditor}>
+        <Suspense fallback={<TemplateFallback color={PRESET_PRIMARY_COLORS[presetKey]} />}>
+          <ThemePreset invitation={invitation} mode={mode} />
+        </Suspense>
+      </InvitationTextProvider>
     );
   }
 
   // Varsayılan olarak DugunSade kullan
   const Fallback = THEME_PRESETS['dugun-sade'];
   return (
-    <Suspense fallback={<TemplateFallback />}>
-      <Fallback invitation={invitation} mode={mode} />
-    </Suspense>
+    <InvitationTextProvider locale={invitation.locale} overrides={invitation.textOverrides} editor={textEditor}>
+      <Suspense fallback={<TemplateFallback />}>
+        <Fallback invitation={invitation} mode={mode} />
+      </Suspense>
+    </InvitationTextProvider>
   );
 }

@@ -30,14 +30,5 @@ function NisanPattern({ className }: { className?: string }) {
 export const NISAN_FLAVOR: TemplateFlavor = {
   categoryId: 'nisan',
   Ornament: NisanOrnament,
-  BackgroundPattern: NisanPattern,
-  envelopeLabel: 'Nişan Davetiyesi',
-  tagline: 'Söz Verdik, Nişanlanıyoruz',
-  headings: {
-    timeline: 'Zaman Çizelgesi',
-    details: 'Mekan',
-    gallery: 'Fotoğraflar',
-    gift: 'Hediye',
-    rsvp: 'Katılım Formu'
-  }
+  BackgroundPattern: NisanPattern
 };

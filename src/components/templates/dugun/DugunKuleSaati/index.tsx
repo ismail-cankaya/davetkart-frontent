@@ -7,6 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { buildTrain, gearPath, weddingMinutes, type Gear } from './mekanizma';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -48,8 +49,7 @@ const KULE_TEMASI: SectionTheme = {
 const KULE_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Saat o ânı çaldığında',
-  headings: { timeline: 'Saat Saat Günümüz', details: 'Kulenin Altında', gallery: 'Durdurulmuş Anlar', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-kule-saati', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** Animasyon ancak misafir sayfasında ve hareket azaltılmamışsa çalışır. */
@@ -411,7 +411,7 @@ function KuleHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mod
         transition={{ duration: 1.4 }}
         className="text-[10px] sm:text-[11px] uppercase text-[#D9AE5E]"
       >
-        {d.title || KULE_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
 
       <motion.button

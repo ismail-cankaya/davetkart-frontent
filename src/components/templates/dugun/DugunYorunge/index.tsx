@@ -16,6 +16,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { INTRO_MERGE, orbitFrame } from './yorunge';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const YorungeSahnesi = lazy(() => import('./YorungeSahnesi'));
 
@@ -56,8 +57,7 @@ const YORUNGE_TEMASI: SectionTheme = {
 const YORUNGE_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'İki yörünge, tek bir yol',
-  headings: { timeline: 'Yörünge Durakları', details: 'Buluşma Noktası', gallery: 'Yıldız Haritamız', gift: 'Takı & Hediye', rsvp: 'Yörüngemize Katılın' }
+  textScopes: ['dugun-yorunge', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** Animasyon ancak misafir sayfasında ve hareket azaltılmamışsa çalışır. */
@@ -304,7 +304,7 @@ function YorungeHero({ invitation, mode, spin }: HeroRenderProps & { mode: Mode;
     <div dir="auto" className="grow flex flex-col items-center justify-between px-6 pt-12 pb-20 text-center min-h-[100svh]">
       <div className="flex flex-col items-center">
         <motion.p {...rise(1.2)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#F3D9A4]">
-          {d.title || YORUNGE_FLAVOR.tagline}
+          {d.title || <InvText k="hero.tagline" />}
         </motion.p>
         <h1 className={`mt-4 font-cormorant italic font-medium leading-[0.98] text-[#F4F1FF] text-[clamp(2.4rem,11cqw,5rem)] break-words max-w-full ${GLOW}`}>
           {d.hasNames ? (

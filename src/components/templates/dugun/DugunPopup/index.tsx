@@ -39,8 +39,7 @@ const POPUP_TEMASI: SectionTheme = {
 const POPUP_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Açın, hikâyemiz ayağa kalksın',
-  headings: { timeline: 'Günün Akışı', details: 'Nerede, Ne Zaman', gallery: 'Bizden Kareler', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-popup', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 interface LayerSpec {

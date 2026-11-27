@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Terrazzo hero — dokusunu bir görselden değil, DAĞILIMDAN alan dil.
@@ -166,7 +167,7 @@ export function TerrazzoHero({
         </motion.span>
 
         <span className={cn('block mt-5 text-[9.5px] font-semibold tracking-[0.28em]', theme.body)}>
-          {invitation.title || flavor.envelopeLabel}
+          {invitation.title || <InvText k="envelope.label" />}
         </span>
 
         <h1

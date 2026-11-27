@@ -18,7 +18,7 @@ import { DOGUM_GUNU_HARITA_FLAVOR } from '../flavor';
 /** Programın üst etiketi hazinenin diliyle; geri kalan kategori harita flavor'ı. */
 const FLAVOR: TemplateFlavor = {
   ...DOGUM_GUNU_HARITA_FLAVOR,
-  eyebrows: { timeline: 'Hazineye giden yol' }
+  textScopes: ['dogum-gunu-harita-hazine-avi', ...(DOGUM_GUNU_HARITA_FLAVOR.textScopes ?? [])]
 };
 
 /** Çocuk partisinin sözlüğü: karşılama kadeh değil balondur; mum pastadır. */

@@ -16,6 +16,7 @@ import { HARITA_SURE, useHaritaHareketi, type GirisProps } from './hareket';
 import { useGirisPenceresi, useKapakAltiBildirimi, useKatmanFontu, useOlcumEtkisi } from './kapakOrtak';
 import { HARITA_RENK } from './palet';
 import type { KoseSusu } from './HaritaKapak';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * İz kapağı: lejantı olmayan harita kapağı. Program adımları haritanın
@@ -246,6 +247,7 @@ export function IzKapak({
   vurgu = 'esit',
   enCok = 4
 }: IzKapakProps) {
+  const t = useInvText(flavor);
   const h = useHaritaHareketi();
   const kokRef = useRef<HTMLElement | null>(null);
   const kartusRef = useRef<HTMLDivElement | null>(null);
@@ -323,7 +325,7 @@ export function IzKapak({
   );
 
   const duraklar = durakVar && (
-    <ol aria-label={flavor.headings.timeline} className={cn('relative z-10 flex flex-col', hazine ? 'gap-6' : 'gap-4')}>
+    <ol aria-label={t('timeline.heading')} className={cn('relative z-10 flex flex-col', hazine ? 'gap-6' : 'gap-4')}>
       {veri.duraklar.map((durak, i) =>
         hazine ? (
           <li key={durak.anahtar} className={cn('max-w-[15.5rem]', i % 2 === 0 ? 'self-end' : 'self-start')}>

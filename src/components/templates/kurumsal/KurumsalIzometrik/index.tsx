@@ -9,6 +9,7 @@ import { hasTimelineEventContent } from '../../../../utils/timelineEvents';
 import type { Invitation } from '../../../../types';
 import { TemplateProps } from '../../types';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -55,9 +56,7 @@ const HEADINGS = {
 const IZOMETRIK_FLAVOR: TemplateFlavor = {
   ...KURUMSAL_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Ölçek 1:100 · Etkinlik Maketi',
-  headings: { ...HEADINGS },
-  eyebrows: { timeline: 'Program', details: 'Konum', gallery: 'Arşiv', gift: 'Destek', rsvp: 'Katılım' }
+  textScopes: ['kurumsal-izometrik', ...(KURUMSAL_FLAVOR.textScopes ?? [])]
 };
 
 type FloorKey = keyof typeof HEADINGS;
@@ -335,7 +334,7 @@ function IzometrikHero({ invitation, scrollContainer, mode }: HeroRenderProps & 
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-5 pt-12 pb-16 text-center">
       <motion.p {...fade(0.1)} className="font-mono text-[10px] sm:text-[11px] tracking-[0.32em] uppercase text-[#2563EB]">
-        {d.title || IZOMETRIK_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <motion.h1
         {...fade(0.2)}

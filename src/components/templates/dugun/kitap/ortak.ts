@@ -9,5 +9,5 @@ import { DUGUN_FLAVOR } from '../flavors';
  */
 export const DUGUN_KITAP_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
-  giftNote: 'Bu hikâyede yanımızda olmanız en güzel armağan; yine de takdirinizi iletmek isterseniz hesap bilgilerimiz aşağıdadır.'
+  textScopes: ['dugun-kitap', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };

@@ -161,6 +161,12 @@ export interface Invitation {
   rsvpDeadline: string;
   askMenuPreference: boolean;
 
+  // ——— Davetiye metinleri (Faz 24, K302–K303) ———
+  /** Davetiyenin dili; arayüz dilinden bağımsız. v2.0'da yalnızca `tr`. */
+  locale?: InvitationLocale;
+  /** Kullanıcının değiştirdiği sabit şablon metinleri (yalnızca değişenler). Elit gerektirir (K305). */
+  textOverrides?: TextOverrides;
+
   // ——— Content collections ———
   timelineEvents: TimelineEvent[];
   /** Galeri fotoğrafları, sunucunun tuttuğu sırayla. */
@@ -689,4 +695,5 @@ export interface PasswordChangePayload {
 export interface EmailChangePayload {
   email: string;
   currentPassword: string;
-}
+}import type { InvitationLocale, TextOverrides } from './invitationText/types';
+

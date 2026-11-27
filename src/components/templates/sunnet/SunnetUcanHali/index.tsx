@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, LightLayer, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('sunnet-ucan-hali', { landscape: '50% 70%', portrait: '42% 70%' });
 const TOZ = clipSet('sunnet-ucan-hali', 'on');
@@ -47,8 +48,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...SUNNET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Şehzademiz halısıyla göklerde',
-  headings: { timeline: 'Yolculuk Programı', details: 'İneceğimiz Yer', gallery: 'Masal Kareleri', gift: 'Hediye', rsvp: 'Halıda Yerinizi Ayırın' }
+  textScopes: ['sunnet-ucan-hali', ...(SUNNET_FLAVOR.textScopes ?? [])]
 };
 
 /**
@@ -188,7 +188,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           {name}
         </motion.h1>
         <motion.p {...fade(1)} className={`${SERIF} mt-3 italic text-lg text-[#E3DAFF]`}>
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
 
         {/* Uçan halı: süzülerek gelir, sonra dalgalanarak havada kalır. */}

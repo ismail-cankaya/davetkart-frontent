@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /* ——— Gece kıyısı paleti ——— */
 const LAMP = '#FFD27A';
@@ -45,14 +46,7 @@ const FENER_TEMASI: SectionTheme = {
 const FENER_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Fenerin ışığında, bir ömür boyu',
-  headings: {
-    timeline: 'Gecenin Akışı',
-    details: 'Kıyıya Giden Yol',
-    gallery: 'Işıktan Kareler',
-    gift: 'Hediye & Takı',
-    rsvp: 'Işığımıza Katılın'
-  }
+  textScopes: ['dugun-deniz-feneri', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /*
@@ -202,7 +196,7 @@ function FenerHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boo
   return (
     <div dir="auto" className={`grow flex flex-col items-center justify-center px-5 pt-16 pb-36 text-center ${hareketli ? 'df-run' : ''}`}>
       <motion.p {...isik(0.3)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#FFD27A]">
-        {d.title || FENER_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
 
       <h1 className="mt-5 font-cormorant italic font-semibold leading-[1.02] text-[#F4EBD8] text-[clamp(2.5rem,12cqw,5rem)] break-words max-w-full">

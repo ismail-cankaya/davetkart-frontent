@@ -49,15 +49,7 @@ const TERMINAL_TEMASI: SectionTheme = {
 const TERMINAL_FLAVOR: TemplateFlavor = {
   ...KURUMSAL_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Oturum açıldı',
-  headings: {
-    timeline: '$ agenda --list',
-    details: '$ venue --map',
-    gallery: '$ ls ./galeri',
-    gift: '$ donate --info',
-    rsvp: '$ rsvp --join'
-  },
-  eyebrows: { timeline: 'Gündem', details: 'Konum', gallery: 'Arşiv', gift: 'Katkı', rsvp: 'Katılım Kaydı' }
+  textScopes: ['kurumsal-terminal', ...(KURUMSAL_FLAVOR.textScopes ?? [])]
 };
 
 // ——— Senaryo ———

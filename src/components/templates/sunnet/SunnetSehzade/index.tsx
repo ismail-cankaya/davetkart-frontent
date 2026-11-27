@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('sunnet-sehzade', { landscape: '50% 30%', portrait: '50% 25%' });
 const FONT = 'Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400..700';
@@ -47,8 +48,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...SUNNET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Şehzademizin en mutlu günü',
-  headings: { timeline: 'Şölen Programı', details: 'Otağımız', gallery: 'Şehzadeden Kareler', gift: 'Hediye', rsvp: 'Davete İcabet' }
+  textScopes: ['sunnet-sehzade', ...(SUNNET_FLAVOR.textScopes ?? [])]
 };
 
 /** Sekiz köşeli yıldız arması: iki kare, kendini çizer, ortada nokta. */
@@ -123,7 +123,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           </motion.p>
         )}
         <motion.p {...fade(3.3)} className="mt-5 font-cormorant italic text-xl text-[#E6D8BE]">
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.p {...fade(3.6)} className={`mt-4 ${CINZEL} text-[11px] tracking-[0.3em] uppercase text-[#C7BBA8]`}>

@@ -77,14 +77,5 @@ function SunnetPattern({ className }: { className?: string }) {
 export const SUNNET_FLAVOR: TemplateFlavor = {
   categoryId: 'sunnet',
   Ornament: SunnetOrnament,
-  BackgroundPattern: SunnetPattern,
-  envelopeLabel: 'Sünnet Davetiyesi',
-  tagline: 'Şehzademizin Büyük Gününe Bekliyoruz',
-  headings: {
-    timeline: 'Şenlik Programı',
-    details: 'Adres & Ulaşım',
-    gallery: 'Şehzademizden Kareler',
-    gift: 'Takı & Armağan',
-    rsvp: 'Katılım Durumu'
-  }
+  BackgroundPattern: SunnetPattern
 };

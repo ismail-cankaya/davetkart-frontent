@@ -9,12 +9,5 @@ import { DUGUN_FLAVOR } from '../flavors';
 export const DUGUN_HARITA_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  headings: {
-    ...DUGUN_FLAVOR.headings,
-    timeline: 'Duraklar',
-    details: 'Varış',
-    gallery: 'Yol üstünden',
-    rsvp: 'Rotaya katılın'
-  },
-  eyebrows: { timeline: 'Günün rotası' }
+  textScopes: ['dugun-harita', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };

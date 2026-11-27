@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('nisan-iplik', { landscape: '50% 35%', portrait: '50% 30%' });
 const FONT = 'Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600';
@@ -46,8 +47,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...NISAN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'İki iplik, tek düğüm',
-  headings: { timeline: 'Akşamın Akışı', details: 'Buluşma Yeri', gallery: 'Bizden Kareler', gift: 'Hediye', rsvp: 'Sözümüze Tanık Olun' }
+  textScopes: ['nisan-iplik', ...(NISAN_FLAVOR.textScopes ?? [])]
 };
 
 /** Adların arasında "&" yerine kendini çizen küçük bir düğüm. */
@@ -144,7 +144,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           ))}
         </h1>
         <motion.p {...fade(2.5)} className={`mt-6 ${DISPLAY} italic text-lg sm:text-xl text-[#EBCFD8]`}>
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.p {...fade(2.8)} className="mt-5 text-[11px] tracking-[0.3em] uppercase text-[#CFB3BF]">

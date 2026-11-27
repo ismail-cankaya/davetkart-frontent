@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const CANDLE_COUNT = 5;
 const CANDLE_COLORS = ['#C2416B', '#E8B04A', '#F2A7BC', '#E8B04A', '#C2416B'];
@@ -42,8 +43,7 @@ const MUM_TEMASI: SectionTheme = {
 
 const MUM_FLAVOR: TemplateFlavor = {
   ...DOGUM_GUNU_FLAVOR,
-  tagline: 'Bir dilek tut, mumları üfle',
-  headings: { timeline: 'Partinin Akışı', details: 'Kutlama Yeri', gallery: 'Tatlı Anılar', gift: 'Hediye Kutusu', rsvp: 'Pastaya Sen de Ortak Ol' }
+  textScopes: ['dogum-gunu-mumlar', ...(DOGUM_GUNU_FLAVOR.textScopes ?? [])]
 };
 
 /** Alev titremesi + duman; `prefers-reduced-motion` altında hiçbiri oynamaz. */
@@ -345,7 +345,7 @@ function MumHero({ invitation, play, still }: HeroRenderProps & { play: boolean;
         <Cake lit={Array.from({ length: CANDLE_COUNT }, () => true)} size="sm" still={still} />
       </motion.div>
       <motion.p {...rise(0.3)} className="mt-6 text-[10px] tracking-[0.42em] uppercase text-[#B8862B]">
-        {d.title || MUM_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className="mt-4 font-cormorant italic font-semibold leading-[1] text-[#8E1F45] text-[clamp(2.6rem,12cqw,5rem)] break-words max-w-full">
         {d.hasNames ? (
@@ -409,6 +409,7 @@ export function DogumGunuMumlar({ invitation, mode = 'preview' }: TemplateProps)
   const [gateOpen, setGateOpen] = useState(mode === 'live');
   const finish = useCallback(() => setGateOpen(false), []);
   const showGate = mode === 'live' && gateOpen;
+  const t = useInvText(MUM_FLAVOR);
   /** Mum kapısı zarfın yerini alır: ortak zarf ikinci bir kapı olarak açılmasın. */
   const compositionInvitation = useMemo(() => ({ ...invitation, showEnvelope: false }), [invitation]);
 
@@ -425,7 +426,7 @@ export function DogumGunuMumlar({ invitation, mode = 'preview' }: TemplateProps)
           renderHero={(props) => <MumHero {...props} play={!showGate} still={mode === 'preview'} />}
         />
       </div>
-      <AnimatePresence>{showGate && <CandleGate key="gate" title={MUM_FLAVOR.tagline} onDone={finish} />}</AnimatePresence>
+      <AnimatePresence>{showGate && <CandleGate key="gate" title={t('hero.tagline')} onDone={finish} />}</AnimatePresence>
     </div>
   );
 }

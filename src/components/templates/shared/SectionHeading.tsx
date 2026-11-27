@@ -17,8 +17,8 @@ export const isStartAligned = (theme: SectionTheme) => theme.headingAlign === 's
 
 interface SectionHeadingProps {
   theme: SectionTheme;
-  eyebrow: string;
-  title: string;
+  eyebrow: React.ReactNode;
+  title: React.ReactNode;
   /** Girişin başlaması için görünmesi gereken oran. */
   amount: number;
   /** Alt boşluk (`mb-10` / `mb-12`). */

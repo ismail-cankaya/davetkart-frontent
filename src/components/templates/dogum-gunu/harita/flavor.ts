@@ -10,12 +10,5 @@ import { DOGUM_GUNU_FLAVOR } from '../flavors';
 export const DOGUM_GUNU_HARITA_FLAVOR: TemplateFlavor = {
   ...DOGUM_GUNU_FLAVOR,
   BackgroundPattern: undefined,
-  headings: {
-    ...DOGUM_GUNU_FLAVOR.headings,
-    timeline: 'Duraklar',
-    details: 'Varış',
-    gallery: 'Yol üstünden',
-    rsvp: 'Rotaya katılın'
-  },
-  eyebrows: { timeline: 'Kutlama rotası' }
+  textScopes: ['dogum-gunu-harita', ...(DOGUM_GUNU_FLAVOR.textScopes ?? [])]
 };

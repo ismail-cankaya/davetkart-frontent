@@ -7,6 +7,7 @@ import { SectionTheme } from '../../shared/palette';
 import { useCountdown } from '../../shared/useCountdown';
 import { KURUMSAL_EASE } from './theme';
 import { splitHostAndEvent } from './eventName';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 export interface KurumsalHeroProps extends HeroRenderProps {
   /** start: sola yaslı editoryal künye; center: sahnenin ekseninde. */
@@ -118,7 +119,8 @@ export function KurumsalHero({ invitation, theme, flavor, align = 'start' }: Kur
   // Tek ad girildiyse o etkinliğin adıdır; kurum rayı kategori etiketine düşer.
   const { host, event: eventName } = splitHostAndEvent(invitation.names);
   const event = eventName || 'Davetlisiniz';
-  const eyebrow = displayText(invitation.title) || flavor.tagline;
+  const t = useInvText();
+  const eyebrow = displayText(invitation.title) || t('hero.tagline');
   const subtitle = displayText(invitation.subtitle);
   const venue = displayText(invitation.venue);
   const dateLabel = formatDateStr(invitation.date);
@@ -169,12 +171,12 @@ export function KurumsalHero({ invitation, theme, flavor, align = 'start' }: Kur
               <Ornament size={18} />
             </span>
             <span className={cn('min-w-0 break-words text-left text-[10px] @sm:text-[11px] font-semibold uppercase tracking-[0.22em] leading-snug', theme.heading)}>
-              {host || flavor.envelopeLabel}
+              {host || <InvText k="envelope.label" />}
             </span>
           </span>
           {host && !center && (
             <span className={cn('hidden @sm:block shrink-0 text-[10px] font-medium uppercase tracking-[0.22em]', theme.body)}>
-              {flavor.envelopeLabel}
+              <InvText k="envelope.label" />
             </span>
           )}
           <motion.span

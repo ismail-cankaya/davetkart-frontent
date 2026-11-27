@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 type Pt = readonly [number, number];
@@ -52,8 +53,7 @@ const TURNA_TEMASI: SectionTheme = {
 const TURNA_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Bin turna katladık, tek bir dilek için',
-  headings: { timeline: 'Günün Akışı', details: 'Buluşma Yeri', gallery: 'Kâğıttaki Anlar', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-origami-turna', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /* ——— Katlama geometrisi ———
@@ -260,7 +260,7 @@ function TurnaHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
     <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-14 pb-24 text-center">
       <KatlananTurna animate={animate} />
       <motion.p {...rise(t0)} className="mt-6 text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#B8321C]">
-        {d.title || TURNA_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className="mt-5 font-cormorant font-medium leading-[1.02] text-[#1F1C19] text-[clamp(2.5rem,12cqw,5rem)] break-words max-w-full">
         {d.hasNames ? (

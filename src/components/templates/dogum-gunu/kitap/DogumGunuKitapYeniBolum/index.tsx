@@ -6,7 +6,6 @@ import {
   BolumAcilisi,
   CizgiliSayfa,
   DefterKapak,
-  KITAP_BASLIKLARI,
   KITAP_TEMASI,
   KapakKapisi,
   KitapKok,
@@ -16,6 +15,7 @@ import {
   useKitapFlavor
 } from '../../../konsept/kitap';
 import { DOGUM_GUNU_KITAP_FLAVOR, SahipAdi, YENI_BOLUM_ETIKETI } from '../ortak';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DogumGunuKitapYeniBolum — "Yeni Bölüm" (anı defteri ekseni, yetişkin).
@@ -62,7 +62,7 @@ function YeniBolumHero({ invitation, flavor, scrollContainer }: HeroRenderProps)
         invitation={invitation}
         etiket={ETIKET}
         baslik={kapakBasligi(invitation.names, 'h1')}
-        altSatir={flavor.tagline}
+        altSatir={<InvText k="hero.tagline" />}
         style={{ minHeight: ekran ?? '100svh' }}
         alt={<SayfayiCevirin />}
       />
@@ -74,7 +74,7 @@ function YeniBolumHero({ invitation, flavor, scrollContainer }: HeroRenderProps)
 }
 
 export function DogumGunuKitapYeniBolum({ invitation, mode = 'preview' }: TemplateProps) {
-  const flavor = useKitapFlavor(DOGUM_GUNU_KITAP_FLAVOR, invitation, KITAP_BASLIKLARI, YENI_BOLUM_ETIKETI);
+  const flavor = useKitapFlavor(DOGUM_GUNU_KITAP_FLAVOR, invitation, YENI_BOLUM_ETIKETI);
   const adlar = displayText(invitation.names);
 
   return (
@@ -94,7 +94,7 @@ export function DogumGunuKitapYeniBolum({ invitation, mode = 'preview' }: Templa
                 invitation={props.invitation}
                 etiket={ETIKET}
                 baslik={kapakBasligi(props.invitation.names, 'p')}
-                altSatir={props.flavor.tagline}
+                altSatir={<InvText k="hero.tagline" />}
                 className={className}
                 alt={dugme}
               />

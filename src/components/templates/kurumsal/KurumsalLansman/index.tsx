@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('kurumsal-lansman', { landscape: '50% 45%', portrait: '50% 40%' });
 const GIRIS = clipSet('kurumsal-lansman', 'giris', { landscape: '50% 45%', portrait: '50% 40%' });
@@ -47,8 +48,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...KURUMSAL_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Sahne sizin için hazırlanıyor',
-  headings: { timeline: 'Akış', details: 'Salon & Ulaşım', gallery: 'Sahne Arkası', gift: 'Katkı', rsvp: 'Yerinizi Ayırtın' }
+  textScopes: ['kurumsal-lansman', ...(KURUMSAL_FLAVOR.textScopes ?? [])]
 };
 
 const INTERACTIVE = 'a, button, input, select, textarea, label, [role="button"]';
@@ -187,7 +187,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         </h1>
 
         <motion.p {...fade(still ? 0 : 3.6)} className={`${GROTESK} mt-6 text-base sm:text-lg text-[#C3D0F0] max-w-md`}>
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
 
         {meta.length > 0 && (

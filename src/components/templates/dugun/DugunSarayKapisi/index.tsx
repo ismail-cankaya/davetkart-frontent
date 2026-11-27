@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** Döngü (kapı açık) ve tek seferlik giriş (koridor + kapının açılışı). */
 const VIDEO = videoSet('dugun-saray-kapisi', { landscape: '50% 45%', portrait: '50% 45%' });
@@ -48,8 +49,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Kapılar sizin için açılıyor',
-  headings: { timeline: 'Düğün Programı', details: 'Saray', gallery: 'Anılarımız', gift: 'Hediye', rsvp: 'Davete İcabet' }
+  textScopes: ['dugun-saray-kapisi', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
@@ -103,7 +103,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           <span className="h-px w-14 bg-[linear-gradient(270deg,transparent,#D8B36A)]" />
         </motion.div>
         <motion.p {...fade(1.5)} className="mt-5 font-cormorant italic text-xl sm:text-2xl text-[#EADCC6] [text-shadow:0_2px_12px_rgba(0,0,0,0.8)]">
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.p {...fade(1.8)} className={`mt-4 ${ROMAN} text-[11px] tracking-[0.32em] uppercase text-[#D4C6B0] [text-shadow:0_2px_10px_rgba(0,0,0,0.8)]`}>

@@ -44,14 +44,5 @@ function BabyShowerPattern({ className }: { className?: string }) {
 export const BABY_SHOWER_FLAVOR: TemplateFlavor = {
   categoryId: 'baby-shower',
   Ornament: BabyShowerOrnament,
-  BackgroundPattern: BabyShowerPattern,
-  envelopeLabel: 'Baby Shower Davetiyesi',
-  tagline: 'Minik Mucizemizi Birlikte Bekliyoruz',
-  headings: {
-    timeline: 'Günün Akışı',
-    details: 'Adres & Ulaşım',
-    gallery: 'Bekleyişten Kareler',
-    gift: 'Hediye Listesi',
-    rsvp: 'Katılım Durumu'
-  }
+  BackgroundPattern: BabyShowerPattern
 };

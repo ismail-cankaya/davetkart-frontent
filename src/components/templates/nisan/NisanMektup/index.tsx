@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const MEKTUP_TEMASI: SectionTheme = {
   id: 'midnight',
@@ -38,14 +39,7 @@ const MEKTUP_TEMASI: SectionTheme = {
 const MEKTUP_FLAVOR: TemplateFlavor = {
   ...NISAN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Bir mektupla müjdeliyoruz',
-  headings: {
-    timeline: 'Gecenin Akışı',
-    details: 'Adres',
-    gallery: 'Anılar',
-    gift: 'Hediye',
-    rsvp: 'Cevabınızı Yazın'
-  }
+  textScopes: ['nisan-mektup', ...(NISAN_FLAVOR.textScopes ?? [])]
 };
 
 /** Mektup: mum mühür ikiye ayrılır, kâğıt yukarı doğru açılır; adlar mürekkeple yazılır. */
@@ -122,7 +116,7 @@ function MektupHero({ invitation, hareketli }: HeroRenderProps & { hareketli: bo
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-16 pb-16 text-center">
       <motion.p {...belir(1.6)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#8C1C2C]">
-        {d.title || MEKTUP_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className="sr-only">{d.hasNames ? d.people.join(' & ') : NO_NAMES}</h1>
       <div className="mt-6">

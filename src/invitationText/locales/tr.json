@@ -1,0 +1,658 @@
+{
+  "shared": {
+    "names.placeholder": "Davetlisiniz",
+    "envelope.hint": "Mühre dokunarak açın",
+    "countdown.days": "Gün",
+    "countdown.hours": "Saat",
+    "countdown.minutes": "Dakika",
+    "countdown.seconds": "Saniye",
+    "timeline.eyebrow": "Program Akışı",
+    "details.eyebrow": "Ne Zaman & Nerede",
+    "details.dateLabel": "Tarih & Saat",
+    "details.venueLabel": "Mekan",
+    "details.directions": "Yol Tarifi Al",
+    "gallery.eyebrow": "Özel Anlarımız",
+    "gift.eyebrow": "Hediye Takdiri",
+    "gift.note": "Varlığınız en büyük hediyemiz; yine de takdirinizi iletmek isterseniz hesap bilgilerimizi aşağıda bulabilirsiniz.",
+    "gift.bankLabel": "Banka",
+    "gift.holderLabel": "Hesap Sahibi",
+    "gift.ibanLabel": "IBAN",
+    "gift.copy": "Kopyala",
+    "gift.copied": "Kopyalandı",
+    "gift.amountsLabel": "Hediye Miktarı Önerileri",
+    "rsvp.eyebrow": "LCV — Katılım Bildirimi",
+    "rsvp.deadline": "Lütfen katılım durumunuzu {date} tarihine kadar bildiriniz.",
+    "rsvp.successNew": "Başarıyla katılımınız oluşturuldu",
+    "rsvp.successUpdate": "Yanıtınız güncellendi",
+    "rsvp.thanks": "Teşekkür ederiz!",
+    "rsvp.calendarHint": "Büyük günü kaçırmamak için etkinliği takviminize ekleyebilirsiniz.",
+    "rsvp.googleCalendar": "Google Takvim'e Ekle",
+    "rsvp.appleCalendar": "Apple Takvim'e Ekle (.ics)",
+    "rsvp.nameLabel": "Ad Soyad",
+    "rsvp.namePlaceholder": "Adınız ve soyadınız",
+    "rsvp.nameError": "Lütfen adınızı yazın.",
+    "rsvp.countLabel": "Kişi Sayısı",
+    "rsvp.menuLabel": "Menü Tercihi",
+    "rsvp.statusLabel": "Katılım Durumu",
+    "rsvp.attending": "Katılıyorum",
+    "rsvp.declined": "Katılamıyorum",
+    "rsvp.returningNote": "Bu cihazdan daha önce yanıt verdiniz. Yeniden gönderirseniz yanıtınız güncellenir.",
+    "rsvp.submit": "Katılımımı Bildir",
+    "rsvp.update": "Yanıtımı Güncelle",
+    "rsvp.sending": "Gönderiliyor…"
+  },
+  "categories": {
+    "baby-shower": {
+      "details.heading": "Adres & Ulaşım",
+      "envelope.label": "Baby Shower Davetiyesi",
+      "gallery.heading": "Bekleyişten Kareler",
+      "gift.heading": "Hediye Listesi",
+      "hero.tagline": "Minik Mucizemizi Birlikte Bekliyoruz",
+      "rsvp.heading": "Katılım Durumu",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dogum-gunu": {
+      "details.heading": "Adres & Ulaşım",
+      "envelope.label": "Doğum Günü Davetiyesi",
+      "gallery.heading": "Anılarımız",
+      "gift.heading": "Hediye Kutusu",
+      "hero.tagline": "Yeni Yaşımı Birlikte Kutlayalım",
+      "rsvp.heading": "Katılım Durumu",
+      "timeline.heading": "Parti Akışı"
+    },
+    "dugun": {
+      "details.heading": "Düğün Adresi",
+      "envelope.label": "Düğün Davetiyesi",
+      "gallery.heading": "Hikâyemizden Kareler",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Evleniyoruz",
+      "rsvp.heading": "Lütfen Cevap Veriniz",
+      "timeline.heading": "Nikâhtan Düğüne"
+    },
+    "kina": {
+      "details.eyebrow": "Kınanın Yakılacağı Yer",
+      "details.heading": "Adres & Ulaşım",
+      "envelope.label": "Kına Davetiyesi",
+      "gallery.eyebrow": "Kınadan Önce",
+      "gallery.heading": "Anılarımız",
+      "gift.eyebrow": "Takı Merasimi",
+      "gift.heading": "Takı & Armağan",
+      "gift.note": "Kınamızda yanımızda olmanız en güzel armağan; yine de takı ya da hediye göndermek isterseniz hesap bilgilerimiz aşağıda.",
+      "hero.tagline": "Kınamıza Bekliyoruz",
+      "rsvp.eyebrow": "Kına Davetine Yanıt",
+      "rsvp.heading": "Katılım Durumu",
+      "timeline.eyebrow": "Kına Gecesi Programı",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "kurumsal": {
+      "details.heading": "Konum ve Ulaşım",
+      "envelope.label": "Etkinlik Daveti",
+      "gallery.heading": "Görsel Arşiv",
+      "gift.heading": "Bağış ve Katkı",
+      "hero.tagline": "Birlikte Daha İleriye",
+      "rsvp.heading": "Kayıt Formu",
+      "timeline.heading": "Gündem"
+    },
+    "mezuniyet": {
+      "details.heading": "Adres & Ulaşım",
+      "envelope.label": "Mezuniyet Davetiyesi",
+      "gallery.heading": "Yıllardan Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Emeklerin Taçlandığı Gün",
+      "rsvp.heading": "Katılım Durumu",
+      "timeline.heading": "Tören Programı"
+    },
+    "nisan": {
+      "details.heading": "Mekan",
+      "envelope.label": "Nişan Davetiyesi",
+      "gallery.heading": "Fotoğraflar",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Söz Verdik, Nişanlanıyoruz",
+      "rsvp.heading": "Katılım Formu",
+      "timeline.heading": "Zaman Çizelgesi"
+    },
+    "parti": {
+      "details.heading": "Mekan & Ulaşım",
+      "envelope.label": "Parti Davetiyesi",
+      "gallery.heading": "Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Unutulmaz Bir Gece Başlıyor",
+      "rsvp.heading": "Listeye Katıl",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "sunnet": {
+      "details.heading": "Adres & Ulaşım",
+      "envelope.label": "Sünnet Davetiyesi",
+      "gallery.heading": "Şehzademizden Kareler",
+      "gift.heading": "Takı & Armağan",
+      "hero.tagline": "Şehzademizin Büyük Gününe Bekliyoruz",
+      "rsvp.heading": "Katılım Durumu",
+      "timeline.heading": "Şenlik Programı"
+    }
+  },
+  "scopes": {
+    "baby-ay-besigi": {
+      "details.heading": "Buluşma Yeri",
+      "gallery.heading": "Bekleyiş",
+      "gift.heading": "Hediye Listesi",
+      "hero.tagline": "Ayın beşiğinde, yıldızların ninnisinde",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "baby-donence": {
+      "details.heading": "Buluşma Yeri",
+      "gallery.heading": "Bekleyişten Kareler",
+      "gift.heading": "Hediye Listesi",
+      "hero.tagline": "Dönence dönüyor, minik yolcu geliyor",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "baby-kazi-kazan": {
+      "details.heading": "Nerede Buluşuyoruz?",
+      "gallery.heading": "Bekleyiş Kareleri",
+      "gift.heading": "Bebek Listesi",
+      "hero.tagline": "Minik bir mucize yolda!",
+      "rsvp.heading": "Geliyor musunuz?",
+      "timeline.heading": "Günün Akışı"
+    },
+    "baby-ucurtma": {
+      "details.heading": "Buluşma Noktası",
+      "gallery.heading": "Gökyüzünden Kareler",
+      "gift.heading": "Hediye Listesi",
+      "hero.tagline": "Minik bir rüzgâr geliyor",
+      "rsvp.heading": "Uçurtmanı Bize Gönder",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dogum-gunu-arcade": {
+      "details.heading": "Oyun Alanı",
+      "gallery.heading": "Yüksek Skorlar",
+      "gift.heading": "Bonus Kutusu",
+      "hero.tagline": "Yeni seviyeye hoş geldin",
+      "rsvp.heading": "Oyuncu 2 Katıl",
+      "timeline.heading": "Bölüm Bölüm Parti"
+    },
+    "dogum-gunu-balon": {
+      "details.heading": "Partiye Giden Yol",
+      "gallery.heading": "Anılar",
+      "gift.heading": "Hediye Fikirleri",
+      "hero.tagline": "Balonları patlat, sürprizi gör!",
+      "rsvp.heading": "Geliyor musun?",
+      "timeline.heading": "Parti Akışı"
+    },
+    "dogum-gunu-harita": {
+      "details.heading": "Varış",
+      "gallery.heading": "Yol üstünden",
+      "rsvp.heading": "Rotaya katılın",
+      "timeline.eyebrow": "Kutlama rotası",
+      "timeline.heading": "Duraklar"
+    },
+    "dogum-gunu-harita-hazine-avi": {
+      "timeline.eyebrow": "Hazineye giden yol"
+    },
+    "dogum-gunu-havai-fisek": {
+      "details.heading": "Kutlama Yeri",
+      "gallery.heading": "Yılın Kareleri",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Gökyüzü bu gece senin için yanıyor",
+      "rsvp.heading": "Geliyor musun?",
+      "timeline.heading": "Gecenin Programı"
+    },
+    "dogum-gunu-kitap": {
+      "gift.note": "Bu yeni bölümün ilk sayfasında yanımızda olmanız en güzel armağan; yine de bir hediye düşünürseniz hesap bilgileri aşağıdadır."
+    },
+    "dogum-gunu-mumlar": {
+      "details.heading": "Kutlama Yeri",
+      "gallery.heading": "Tatlı Anılar",
+      "gift.heading": "Hediye Kutusu",
+      "hero.tagline": "Bir dilek tut, mumları üfle",
+      "rsvp.heading": "Pastaya Sen de Ortak Ol",
+      "timeline.heading": "Partinin Akışı"
+    },
+    "dogum-gunu-sergi": {
+      "gift.heading": "Armağan",
+      "gift.note": "En güzel armağan aramızda olmanız. Yine de bir şey getirmek isterseniz bilgiler aşağıda."
+    },
+    "dogum-gunu-surpriz-makinesi": {
+      "details.heading": "Parti Nerede?",
+      "gallery.heading": "Anılar",
+      "gift.heading": "Hediye Fikirleri",
+      "hero.tagline": "Pasta, oyun ve bolca kahkaha!",
+      "rsvp.heading": "Geliyor musun?",
+      "timeline.heading": "Parti Programı"
+    },
+    "dugun-altin-toz": {
+      "details.heading": "Adres",
+      "gallery.heading": "Altın Anlar",
+      "gift.heading": "Takı & Hediye",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "dugun-deniz-feneri": {
+      "details.heading": "Kıyıya Giden Yol",
+      "gallery.heading": "Işıktan Kareler",
+      "gift.heading": "Hediye & Takı",
+      "hero.tagline": "Fenerin ışığında, bir ömür boyu",
+      "rsvp.heading": "Işığımıza Katılın",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "dugun-fener": {
+      "details.heading": "Buluşma Yeri",
+      "gallery.heading": "Işıklı Anlar",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Dileklerimizi göğe bırakıyoruz",
+      "rsvp.heading": "Dileğinizi Bize Yollayın",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "dugun-gul3d": {
+      "details.heading": "Bahçemizin Adresi",
+      "gallery.heading": "Bizden Kareler",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Gül bahçesinde evleniyoruz",
+      "rsvp.heading": "Gelişinizi Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dugun-harita": {
+      "details.heading": "Varış",
+      "gallery.heading": "Yol üstünden",
+      "rsvp.heading": "Rotaya katılın",
+      "timeline.eyebrow": "Günün rotası",
+      "timeline.heading": "Duraklar"
+    },
+    "dugun-holografik": {
+      "details.heading": "Nerede, Ne Zaman",
+      "gallery.heading": "Yansımalar",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Işığın kırıldığı gün",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dugun-kar-kuresi": {
+      "details.heading": "Köşke Giden Yol",
+      "gallery.heading": "Kardan Kareler",
+      "gift.heading": "Hediye & Takı",
+      "hero.tagline": "Bir kış masalında, birlikte",
+      "rsvp.heading": "Masalımıza Katılın",
+      "timeline.heading": "Masalın Akışı"
+    },
+    "dugun-karanlik-oda": {
+      "details.heading": "Çekim Yeri",
+      "gallery.heading": "Banyodan Çıkanlar",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Hikâyemizin en güzel karesine davetlisiniz",
+      "rsvp.heading": "Kareye Girin",
+      "timeline.heading": "Günün Kareleri"
+    },
+    "dugun-kelebek": {
+      "details.heading": "Bahçe Adresi",
+      "gallery.heading": "Bizden Kareler",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Bahar gibi bir başlangıca davetlisiniz",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dugun-kitap": {
+      "gift.note": "Bu hikâyede yanımızda olmanız en güzel armağan; yine de takdirinizi iletmek isterseniz hesap bilgilerimiz aşağıdadır."
+    },
+    "dugun-kitap-sayfa": {
+      "details.heading": "Tarih & Mekân",
+      "gallery.heading": "Resimli Sayfalar",
+      "gift.heading": "Armağan",
+      "rsvp.heading": "Lütfen Cevap Veriniz",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dugun-kristal-balo": {
+      "details.heading": "Balo Salonu",
+      "gallery.heading": "Işıltılı Anlar",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Kristallerin altında ilk dansımıza",
+      "rsvp.heading": "Davetiyeye Yanıt",
+      "timeline.heading": "Balonun Akışı"
+    },
+    "dugun-kule-saati": {
+      "details.heading": "Kulenin Altında",
+      "gallery.heading": "Durdurulmuş Anlar",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Saat o ânı çaldığında",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Saat Saat Günümüz"
+    },
+    "dugun-kum-saati": {
+      "details.heading": "Buluşma Yeri",
+      "gallery.heading": "Kum Taneleri Kadar Anı",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Zaman bizim için akıyor",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dugun-murekkep": {
+      "details.heading": "Buluşma Yeri",
+      "gallery.heading": "Anılar",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Aynı suya düşen iki damla",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dugun-opera": {
+      "details.eyebrow": "Gala Salonu",
+      "details.heading": "Sahne",
+      "envelope.label": "Gala Davetiyesi",
+      "gallery.eyebrow": "Perde Arkası",
+      "gallery.heading": "Kulis Anları",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Perde aşkımız için açılıyor",
+      "rsvp.eyebrow": "Katılım",
+      "rsvp.heading": "Locanızı Ayırtın",
+      "timeline.eyebrow": "Gecenin Librettosu",
+      "timeline.heading": "Perdeler & Sahneler"
+    },
+    "dugun-origami-turna": {
+      "details.heading": "Buluşma Yeri",
+      "gallery.heading": "Kâğıttaki Anlar",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Bin turna katladık, tek bir dilek için",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dugun-popup": {
+      "details.heading": "Nerede, Ne Zaman",
+      "gallery.heading": "Bizden Kareler",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Açın, hikâyemiz ayağa kalksın",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "dugun-saray-kapisi": {
+      "details.heading": "Saray",
+      "gallery.heading": "Anılarımız",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Kapılar sizin için açılıyor",
+      "rsvp.heading": "Davete İcabet",
+      "timeline.heading": "Düğün Programı"
+    },
+    "dugun-sergi": {
+      "gift.heading": "Katkı",
+      "gift.note": "Varlığınız bu açılışın en güzel katkısı. Yine de bir katkıda bulunmak isterseniz hesap bilgileri aşağıda."
+    },
+    "dugun-yasemin": {
+      "details.heading": "Bahçede Buluşalım",
+      "gallery.heading": "Anılarımız",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Yaseminler açarken, ay ışığında",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "dugun-yorunge": {
+      "details.heading": "Buluşma Noktası",
+      "gallery.heading": "Yıldız Haritamız",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "İki yörünge, tek bir yol",
+      "rsvp.heading": "Yörüngemize Katılın",
+      "timeline.heading": "Yörünge Durakları"
+    },
+    "kina-al-duvak": {
+      "details.heading": "Kına Evi",
+      "gallery.heading": "Kınalı Anlar",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Al duvağın altında bir gece",
+      "rsvp.heading": "Gelişinizi Bildirin",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "kina-bugulu-ayna": {
+      "details.heading": "Kına Mekânı",
+      "gallery.heading": "Aynadaki Kareler",
+      "gift.heading": "Takı & Hediye",
+      "hero.tagline": "Buğuyu silin, aynada bizi görün",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "kina-ceyiz-sandigi": {
+      "details.heading": "Kınanın Yakılacağı Yer",
+      "gallery.heading": "Sandıktan Anılar",
+      "gift.heading": "Takı & Armağan",
+      "hero.tagline": "Çeyizimiz serildi, kınamız yakılıyor",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "kina-lale-bahcesi": {
+      "details.heading": "Bahçeye Giden Yol",
+      "gallery.heading": "Lale Kareleri",
+      "gift.heading": "Hediye & Takı",
+      "hero.tagline": "Lalelerin arasında, kına gecemize",
+      "rsvp.heading": "Bahçemize Katılın",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "kina-mehndi": {
+      "gallery.heading": "Kınalı Anlar",
+      "hero.tagline": "Kınamız Yakılıyor",
+      "rsvp.heading": "Bize Haber Verin",
+      "timeline.heading": "Gecenin Deseni"
+    },
+    "kitap": {
+      "timeline.heading": "İçindekiler",
+      "details.heading": "Yer ve Zaman",
+      "gallery.heading": "Resimli Sayfalar",
+      "gift.heading": "Armağan",
+      "rsvp.heading": "Cevabınız"
+    },
+    "kurumsal-izometrik": {
+      "details.eyebrow": "Konum",
+      "details.heading": "Mekân",
+      "gallery.eyebrow": "Arşiv",
+      "gallery.heading": "Maketten Kareler",
+      "gift.eyebrow": "Destek",
+      "gift.heading": "Katkı",
+      "hero.tagline": "Ölçek 1:100 · Etkinlik Maketi",
+      "rsvp.eyebrow": "Katılım",
+      "rsvp.heading": "LCV",
+      "timeline.eyebrow": "Program",
+      "timeline.heading": "Ajanda"
+    },
+    "kurumsal-lansman": {
+      "details.heading": "Salon & Ulaşım",
+      "gallery.heading": "Sahne Arkası",
+      "gift.heading": "Katkı",
+      "hero.tagline": "Sahne sizin için hazırlanıyor",
+      "rsvp.heading": "Yerinizi Ayırtın",
+      "timeline.heading": "Akış"
+    },
+    "kurumsal-terminal": {
+      "details.eyebrow": "Konum",
+      "details.heading": "$ venue --map",
+      "gallery.eyebrow": "Arşiv",
+      "gallery.heading": "$ ls ./galeri",
+      "gift.eyebrow": "Katkı",
+      "gift.heading": "$ donate --info",
+      "hero.tagline": "Oturum açıldı",
+      "rsvp.eyebrow": "Katılım Kaydı",
+      "rsvp.heading": "$ rsvp --join",
+      "timeline.eyebrow": "Gündem",
+      "timeline.heading": "$ agenda --list"
+    },
+    "mezuniyet-kagit-ucak": {
+      "details.heading": "Varış Noktası",
+      "gallery.heading": "Yolculuktan Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Yeni rotamızı birlikte kutlayalım",
+      "rsvp.heading": "Biniş Kartını Al",
+      "timeline.heading": "Uçuş Planı"
+    },
+    "mezuniyet-kara-tahta": {
+      "details.heading": "Sınıfın Adresi",
+      "gallery.heading": "Okul Yıllarından",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Son ders: Mezuniyet",
+      "rsvp.heading": "Yoklama",
+      "timeline.heading": "Günün Ders Programı"
+    },
+    "mezuniyet-kep": {
+      "details.heading": "Tören Yeri",
+      "gallery.heading": "Okul Yılları",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Kepler havada, gelecek önümüzde",
+      "rsvp.heading": "Törene Katılım",
+      "timeline.heading": "Tören Programı"
+    },
+    "mezuniyet-yillik": {
+      "details.heading": "Tören Yeri",
+      "gallery.heading": "Yıllıktan Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Bir dönem bitti, hikâye yeni başlıyor",
+      "rsvp.heading": "Yıllığı İmzala",
+      "timeline.heading": "Tören Programı"
+    },
+    "nisan-bulmaca": {
+      "details.heading": "Soldan Sağa: Adres",
+      "gallery.heading": "Çözüm Kareleri",
+      "gift.heading": "Armağan",
+      "hero.tagline": "Soldan sağa: söz verdik",
+      "rsvp.heading": "Son Kare: Katılımınız",
+      "timeline.heading": "Yukarıdan Aşağıya: Program"
+    },
+    "nisan-harita": {
+      "details.heading": "Varış",
+      "gallery.heading": "Yol üstünden",
+      "rsvp.heading": "Rotaya katılın",
+      "timeline.eyebrow": "Rotamız belli",
+      "timeline.heading": "Duraklar"
+    },
+    "nisan-iplik": {
+      "details.heading": "Buluşma Yeri",
+      "gallery.heading": "Bizden Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "İki iplik, tek düğüm",
+      "rsvp.heading": "Sözümüze Tanık Olun",
+      "timeline.heading": "Akşamın Akışı"
+    },
+    "nisan-kahve-fali": {
+      "details.heading": "Kahve Nerede İçilecek",
+      "gallery.heading": "Fincandan Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Bir fincan kahvenin kırk yıl hatırı var",
+      "rsvp.heading": "Falına Katıl",
+      "timeline.heading": "Günün Akışı"
+    },
+    "nisan-kiraz-agaci": {
+      "details.heading": "Ağacın Altında",
+      "gallery.heading": "Çiçek Çiçek Anılar",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Kiraz çiçekleri açarken söz veriyoruz",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Günün Akışı"
+    },
+    "nisan-kitap": {
+      "gift.note": "Hikâyemizin bu ilk sayfasında yanımızda olmanız en güzel armağan; yine de takdirinizi iletmek isterseniz hesap bilgilerimiz aşağıdadır."
+    },
+    "nisan-koi": {
+      "details.heading": "Buluşma Yeri",
+      "gallery.heading": "Bizden Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "İki ayrı akıntı, tek bir havuz",
+      "rsvp.heading": "Katılımınızı Bildirin",
+      "timeline.heading": "Nişan Akışı"
+    },
+    "nisan-mektup": {
+      "details.heading": "Adres",
+      "gallery.heading": "Anılar",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Bir mektupla müjdeliyoruz",
+      "rsvp.heading": "Cevabınızı Yazın",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "nisan-sergi": {
+      "gift.heading": "Katkı",
+      "gift.note": "En güzel katkı aramızda olmanız. Yine de bir katkıda bulunmak isterseniz hesap bilgileri aşağıda.",
+      "rsvp.heading": "Önizleme listesi",
+      "timeline.heading": "Önizleme akışı"
+    },
+    "parti-disko-topu": {
+      "details.heading": "Pist Nerede?",
+      "gallery.heading": "Işıltılı Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Işıklar Sönünce Başlıyoruz",
+      "rsvp.heading": "Listeye Adını Yaz",
+      "timeline.heading": "Gecenin Akışı"
+    },
+    "parti-havuz": {
+      "details.heading": "Havuz Başı",
+      "gallery.heading": "Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Işıklar suyun altında yanıyor",
+      "rsvp.heading": "Listeye Adını Yaz",
+      "timeline.heading": "Gecenin Programı"
+    },
+    "parti-kaset": {
+      "details.heading": "B Yüzü — Yol",
+      "gallery.heading": "Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Kaseti tak, parti başlasın",
+      "rsvp.heading": "Listeye Adını Yaz",
+      "timeline.heading": "A Yüzü — Akış"
+    },
+    "parti-kokteyl": {
+      "details.heading": "Bar Adresi",
+      "gallery.heading": "Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Kadehler hazır, bir tek siz eksiksiniz",
+      "rsvp.heading": "Listeye Adınızı Yazın",
+      "timeline.heading": "Gecenin Menüsü"
+    },
+    "parti-lazer": {
+      "details.heading": "Çatı Katı",
+      "gallery.heading": "Işık Kareleri",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Sis, ışık ve bütün gece müzik",
+      "rsvp.heading": "Misafir Listesi",
+      "timeline.heading": "Set Listesi"
+    },
+    "sergi": {
+      "details.heading": "Ziyaret bilgileri",
+      "gallery.heading": "Eserler",
+      "rsvp.heading": "Açılış listesi",
+      "timeline.heading": "Açılış akışı"
+    },
+    "sunnet-atli-karinca": {
+      "details.heading": "Lunaparkın Yolu",
+      "gallery.heading": "Şehzademizden Kareler",
+      "gift.heading": "Takı & Armağan",
+      "hero.tagline": "Atlı karıncamız şehzademiz için dönüyor",
+      "rsvp.heading": "Biletinizi Ayırtın",
+      "timeline.heading": "Şenlik Programı"
+    },
+    "sunnet-gokkusagi": {
+      "details.heading": "Şenlik Yeri",
+      "gallery.heading": "Anılar",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Gökkuşağı kadar renkli bir gün",
+      "rsvp.heading": "Şenliğe Katılın",
+      "timeline.heading": "Günün Akışı"
+    },
+    "sunnet-golge-oyunu": {
+      "gallery.heading": "Perdenin Ardından Kareler",
+      "hero.tagline": "Perde aralanıyor, şehzademizin günü geldi"
+    },
+    "sunnet-sehzade": {
+      "details.heading": "Otağımız",
+      "gallery.heading": "Şehzadeden Kareler",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Şehzademizin en mutlu günü",
+      "rsvp.heading": "Davete İcabet",
+      "timeline.heading": "Şölen Programı"
+    },
+    "sunnet-ucan-hali": {
+      "details.heading": "İneceğimiz Yer",
+      "gallery.heading": "Masal Kareleri",
+      "gift.heading": "Hediye",
+      "hero.tagline": "Şehzademiz halısıyla göklerde",
+      "rsvp.heading": "Halıda Yerinizi Ayırın",
+      "timeline.heading": "Yolculuk Programı"
+    }
+  },
+  "fixed": {
+    "envelope.open": "Davetiyeyi aç",
+    "gallery.previous": "Önceki fotoğraf",
+    "gallery.next": "Sonraki fotoğraf",
+    "gift.copyIban": "IBAN'ı kopyala",
+    "rsvp.decrease": "Kişi sayısını azalt",
+    "rsvp.increase": "Kişi sayısını artır"
+  }
+}

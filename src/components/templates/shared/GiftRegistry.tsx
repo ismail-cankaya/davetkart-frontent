@@ -7,6 +7,7 @@ import { TemplateFlavor } from './flavor';
 import { GiftIcon, CopyIcon, CheckIcon } from './icons';
 import { ease } from '../../../utils/motion';
 import { SectionHeading, isStartAligned, sectionMotion } from './SectionHeading';
+import { InvText, useFixedText } from '../../../invitationText/InvitationTextContext';
 
 interface GiftRegistryProps {
   invitation: Invitation;
@@ -19,6 +20,7 @@ interface GiftRegistryProps {
  * and optional pre-set gift amount chips.
  */
 export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
+  const fixed = useFixedText();
   const [copied, setCopied] = useState(false);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const copyTimer = useRef<number | undefined>(undefined);
@@ -46,14 +48,13 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
     <section className={cn('relative px-6 py-16', theme.page)}>
       <SectionHeading
         theme={theme}
-        eyebrow={flavor.eyebrows?.gift ?? 'Hediye Takdiri'}
-        title={flavor.headings.gift}
+        eyebrow={<InvText k="gift.eyebrow" />}
+        title={<InvText k="gift.heading" />}
         amount={0.5}
         className="mb-10"
       >
         <p className={cn('text-[13px] font-light mt-3 max-w-xs mx-auto leading-relaxed', theme.body, isStartAligned(theme) && 'mx-0')}>
-          {flavor.giftNote ??
-            'Varlığınız en büyük hediyemiz; yine de takdirinizi iletmek isterseniz hesap bilgilerimizi aşağıda bulabilirsiniz.'}
+          <InvText k="gift.note" />
         </p>
       </SectionHeading>
 
@@ -76,9 +77,9 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
           </span>
           <div className="min-w-0">
             <p className={cn('font-semibold text-sm truncate', theme.heading)}>
-              {invitation.bankName || 'Banka'}
+              {invitation.bankName || <InvText k="gift.bankLabel" />}
             </p>
-            <p className={cn('text-xs truncate', theme.body)}>{invitation.accountHolder || 'Hesap Sahibi'}</p>
+            <p className={cn('text-xs truncate', theme.body)}>{invitation.accountHolder || <InvText k="gift.holderLabel" />}</p>
           </div>
         </div>
 
@@ -87,7 +88,7 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
         {/* IBAN row */}
         <div className={cn('rounded-xl border px-4 py-3 flex items-center justify-between gap-3', theme.border)}>
           <div className="min-w-0">
-            <p className={cn('text-[9px] font-semibold tracking-[0.25em] uppercase', theme.body)}>IBAN</p>
+            <p className={cn('text-[9px] font-semibold tracking-[0.25em] uppercase', theme.body)}><InvText k="gift.ibanLabel" /></p>
             <p className={cn('font-mono text-[13px] tracking-wide truncate mt-0.5', theme.heading)}>
               {invitation.iban || 'TR__ ____ ____ ____ ____ ____ __'}
             </p>
@@ -96,7 +97,7 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
             type="button"
             onClick={handleCopy}
             whileTap={{ scale: 0.92 }}
-            aria-label="IBAN'ı kopyala"
+            aria-label={fixed('gift.copyIban')}
             className={cn(
               'shrink-0 flex items-center gap-1.5 rounded-lg px-3 py-2 text-[11px] font-bold transition-colors duration-300 cursor-pointer',
               // Dokunma hedefi 44 px; görünen düğme aynı.
@@ -105,7 +106,7 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
             )}
           >
             {copied ? <CheckIcon size={13} /> : <CopyIcon size={13} />}
-            {copied ? 'Kopyalandı' : 'Kopyala'}
+            {copied ? <InvText k="gift.copied" /> : <InvText k="gift.copy" />}
           </motion.button>
         </div>
 
@@ -113,7 +114,7 @@ export function GiftRegistry({ invitation, theme, flavor }: GiftRegistryProps) {
         {invitation.giftOptions.length > 0 && (
           <div>
             <p className={cn('text-[10px] font-semibold tracking-[0.2em] uppercase mb-2.5', theme.body)}>
-              Hediye Miktarı Önerileri
+              <InvText k="gift.amountsLabel" />
             </p>
             {/* Çipler 34 px görünür, 44 px dokunulur; satır arası tıklama
                 alanları çakışmasın diye 2 px açık. */}

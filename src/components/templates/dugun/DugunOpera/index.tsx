@@ -16,6 +16,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { createCurtain, fitCanvas } from './perdeMotoru';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -56,10 +57,7 @@ const OPERA_TEMASI: SectionTheme = {
 const OPERA_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  envelopeLabel: 'Gala Davetiyesi',
-  tagline: 'Perde aşkımız için açılıyor',
-  headings: { timeline: 'Perdeler & Sahneler', details: 'Sahne', gallery: 'Kulis Anları', gift: 'Takı & Hediye', rsvp: 'Locanızı Ayırtın' },
-  eyebrows: { timeline: 'Gecenin Librettosu', details: 'Gala Salonu', gallery: 'Perde Arkası', rsvp: 'Katılım' }
+  textScopes: ['dugun-opera', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 function useAnimated(mode: Mode) {
@@ -372,7 +370,7 @@ function OperaHero({ invitation, mode, gate, onAim }: HeroRenderProps & { mode: 
         </motion.h1>
 
         <motion.div {...rise(T_NAMES + 0.5)} className="flex flex-col items-center">
-          <p className="mt-4 font-cormorant italic text-lg text-[#E9D6B4]">{OPERA_FLAVOR.tagline}</p>
+          <p className="mt-4 font-cormorant italic text-lg text-[#E9D6B4]"><InvText k="hero.tagline" /></p>
           {d.date.day && (
             <p className={`mt-5 font-cormorant text-2xl text-[#FBE9C2] ${GLOW}`}>
               {d.date.weekday && <span className="block text-[11px] tracking-[0.35em] uppercase text-[#D9C3A4] mb-1">{d.date.weekday}</span>}

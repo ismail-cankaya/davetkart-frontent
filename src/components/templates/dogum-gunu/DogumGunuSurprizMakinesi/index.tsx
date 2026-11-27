@@ -10,6 +10,7 @@ import { displayText } from '../../utils';
 import { TemplateProps } from '../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { CAPSULE_COLORS, createMachine, type Machine } from './makineMotoru';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700';
 const BALOO = "[font-family:'Baloo_2',ui-rounded,var(--font-sans),sans-serif]";
@@ -47,8 +48,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...DOGUM_GUNU_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Pasta, oyun ve bolca kahkaha!',
-  headings: { timeline: 'Parti Programı', details: 'Parti Nerede?', gallery: 'Anılar', gift: 'Hediye Fikirleri', rsvp: 'Geliyor musun?' }
+  textScopes: ['dogum-gunu-surpriz-makinesi', ...(DOGUM_GUNU_FLAVOR.textScopes ?? [])]
 };
 
 interface Prize {
@@ -214,6 +214,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
   const fade = (delay: number) =>
     still ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.7, ease: [0.22, 1, 0.36, 1] as const } };
 
+  const tagline = useInvText(FLAVOR)('hero.tagline');
   const prizes = useMemo<Prize[]>(() => {
     const first = invitation.timelineEvents.find((e) => displayText(e.title));
     const list: Prize[] = [
@@ -221,10 +222,10 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       { key: 'saat', icon: '⏰', label: 'Saat', value: d.date.time },
       { key: 'yer', icon: '📍', label: 'Yer', value: d.venue },
       { key: 'program', icon: '🎈', label: 'Programda', value: first ? [first.time, displayText(first.title)].filter(Boolean).join(' · ') : '' },
-      { key: 'surpriz', icon: '🎁', label: 'Sürpriz', value: d.subtitle || FLAVOR.tagline }
+      { key: 'surpriz', icon: '🎁', label: 'Sürpriz', value: d.subtitle || tagline }
     ];
     return list.filter((p) => p.value);
-  }, [d, invitation.timelineEvents]);
+  }, [d, invitation.timelineEvents, tagline]);
 
   const [opened, setOpened] = useState<{ prize: Prize; color: number }[]>([]);
   // Önizleme ve hareketi azalt: bütün kartlar baştan açık.

@@ -9,6 +9,7 @@ import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTem
 import { TemplateProps } from '../../types';
 import type { Invitation } from '../../../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('dogum-gunu-havai-fisek', { landscape: '50% 40%', portrait: '50% 45%' });
 const FONT = 'Syne:wght@500..800';
@@ -45,8 +46,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...DOGUM_GUNU_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Gökyüzü bu gece senin için yanıyor',
-  headings: { timeline: 'Gecenin Programı', details: 'Kutlama Yeri', gallery: 'Yılın Kareleri', gift: 'Hediye', rsvp: 'Geliyor musun?' }
+  textScopes: ['dogum-gunu-havai-fisek', ...(DOGUM_GUNU_FLAVOR.textScopes ?? [])]
 };
 
 /**
@@ -148,7 +148,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           ))}
         </h1>
         <motion.p {...fade(1.3)} className="mt-5 text-base sm:text-lg text-[#DAD3F5] max-w-md">
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.p {...fade(1.6)} className={`mt-4 ${DISPLAY} text-xs tracking-[0.25em] uppercase text-[#B9B2D6]`}>

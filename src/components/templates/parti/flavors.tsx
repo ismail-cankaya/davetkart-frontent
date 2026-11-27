@@ -38,14 +38,5 @@ function PartiPattern({ className }: { className?: string }) {
 export const PARTI_FLAVOR: TemplateFlavor = {
   categoryId: 'parti',
   Ornament: PartiOrnament,
-  BackgroundPattern: PartiPattern,
-  envelopeLabel: 'Parti Davetiyesi',
-  tagline: 'Unutulmaz Bir Gece Başlıyor',
-  headings: {
-    timeline: 'Gecenin Akışı',
-    details: 'Mekan & Ulaşım',
-    gallery: 'Kareler',
-    gift: 'Hediye',
-    rsvp: 'Listeye Katıl'
-  }
+  BackgroundPattern: PartiPattern
 };

@@ -9,6 +9,7 @@ import { CinemaBackdrop, DateCountdown, LightLayer, ScrollCue, useTemplateFont }
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
 import { createFogEngine, type FogEngine } from './buguMotoru';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('kina-bugulu-ayna', { landscape: '50% 50%', portrait: '50% 50%' });
 const BUHAR = clipSet('kina-bugulu-ayna', 'on');
@@ -47,8 +48,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...KINA_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Buğuyu silin, aynada bizi görün',
-  headings: { timeline: 'Gecenin Akışı', details: 'Kına Mekânı', gallery: 'Aynadaki Kareler', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['kina-bugulu-ayna', ...(KINA_FLAVOR.textScopes ?? [])]
 };
 
 /** Aynadaki küçük kına motifi: damla, nokta halkası, sarmal. */
@@ -207,7 +207,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         </motion.div>
 
         <motion.p {...fade(still ? 0 : 3.6)} className={`${SERIF} mt-16 text-lg italic text-[#E8D3BE] max-w-sm text-center`}>
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         <ScrollCue delay={still ? 0 : 4.2} className="text-[#E3B276]" />
       </div>

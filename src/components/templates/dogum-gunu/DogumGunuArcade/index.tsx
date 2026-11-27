@@ -8,6 +8,7 @@ import { TemplateProps } from '../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import type { Invitation } from '../../../../types';
 import { buildWorld, createGame, drawScene, sizeCanvas, STEP, type GameState, type TokenKind, type World } from './motor';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /* ------------------------------------------------------------------ */
 /* Tema                                                                */
@@ -47,8 +48,7 @@ const ARCADE_TEMASI: SectionTheme = {
 const ARCADE_FLAVOR: TemplateFlavor = {
   ...DOGUM_GUNU_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Yeni seviyeye hoş geldin',
-  headings: { timeline: 'Bölüm Bölüm Parti', details: 'Oyun Alanı', gallery: 'Yüksek Skorlar', gift: 'Bonus Kutusu', rsvp: 'Oyuncu 2 Katıl' }
+  textScopes: ['dogum-gunu-arcade', ...(DOGUM_GUNU_FLAVOR.textScopes ?? [])]
 };
 
 /* ------------------------------------------------------------------ */
@@ -417,7 +417,7 @@ function ArcadeHero({ invitation, play, mode, onReplay }: HeroRenderProps & { pl
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-5 pt-14 pb-24 text-center font-mono">
       <motion.p {...rise(0.05)} className="text-[10px] tracking-[0.35em] uppercase text-[#2DE2E6]">
-        {d.title || ARCADE_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <motion.h1
         {...rise(0.15)}
@@ -474,7 +474,8 @@ function ArcadeBackdrop() {
 function ArcadeGateHost({ invitation, onDone }: { invitation: Invitation; onDone: () => void }) {
   const d = useHeroData(invitation);
   const tokens = useInfoTokens(invitation, d);
-  return <ArcadeGate tokens={tokens} title={d.title || ARCADE_FLAVOR.tagline} onDone={onDone} />;
+  const t = useInvText(ARCADE_FLAVOR);
+  return <ArcadeGate tokens={tokens} title={d.title || t('hero.tagline')} onDone={onDone} />;
 }
 
 function prefersReduced(): boolean {

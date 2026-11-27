@@ -4,7 +4,6 @@ import { TemplateProps } from '../../../types';
 import { displayText } from '../../../utils';
 import {
   BolumAcilisi,
-  KITAP_BASLIKLARI,
   KITAP_TEMASI,
   KapakKapisi,
   KitapKok,
@@ -18,6 +17,7 @@ import {
 } from '../../../konsept/kitap';
 import { DOGUM_GUNU_KITAP_FLAVOR, MASAL_SAYFA_ETIKETI, SahipAdi } from '../ortak';
 import { KayanYildiz } from './KayanYildiz';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DogumGunuKitapMasal — "Masal" (masal kitabı ekseni, çocuk).
@@ -68,7 +68,7 @@ function MasalHero({ invitation, flavor, scrollContainer }: HeroRenderProps) {
         acilis={ACILIS}
         figur={<KayanYildiz />}
         baslik={kapakBasligi(invitation.names, 'h1')}
-        altSatir={flavor.tagline}
+        altSatir={<InvText k="hero.tagline" />}
         style={{ minHeight: ekran ?? '100svh' }}
         alt={<SayfayiCevirin />}
       />
@@ -80,7 +80,7 @@ function MasalHero({ invitation, flavor, scrollContainer }: HeroRenderProps) {
 }
 
 export function DogumGunuKitapMasal({ invitation, mode = 'preview' }: TemplateProps) {
-  const flavor = useKitapFlavor(DOGUM_GUNU_KITAP_FLAVOR, invitation, KITAP_BASLIKLARI, MASAL_SAYFA_ETIKETI);
+  const flavor = useKitapFlavor(DOGUM_GUNU_KITAP_FLAVOR, invitation, MASAL_SAYFA_ETIKETI);
   const adlar = displayText(invitation.names);
 
   return (
@@ -102,7 +102,7 @@ export function DogumGunuKitapMasal({ invitation, mode = 'preview' }: TemplatePr
                 acilis={ACILIS}
                 figur={<KayanYildiz />}
                 baslik={kapakBasligi(props.invitation.names, 'p')}
-                altSatir={props.flavor.tagline}
+                altSatir={<InvText k="hero.tagline" />}
                 className={className}
                 alt={dugme}
               />

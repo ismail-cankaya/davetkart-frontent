@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const BALON_TEMASI: SectionTheme = {
   id: 'stone',
@@ -38,14 +39,7 @@ const BALON_TEMASI: SectionTheme = {
 const BALON_FLAVOR: TemplateFlavor = {
   ...DOGUM_GUNU_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Balonları patlat, sürprizi gör!',
-  headings: {
-    timeline: 'Parti Akışı',
-    details: 'Partiye Giden Yol',
-    gallery: 'Anılar',
-    gift: 'Hediye Fikirleri',
-    rsvp: 'Geliyor musun?'
-  }
+  textScopes: ['dogum-gunu-balon', ...(DOGUM_GUNU_FLAVOR.textScopes ?? [])]
 };
 
 const RENKLER = ['#FF7A9C', '#7FB7E8', '#FFC857', '#9C7FE8'] as const;
@@ -92,7 +86,7 @@ function BalonHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boo
 
   return (
     <div dir="auto" className={`grow flex flex-col items-center justify-center px-5 pt-16 pb-16 text-center ${hareketli ? 'db-run' : ''}`}>
-      <p className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#E0507A]">{d.title || BALON_FLAVOR.tagline}</p>
+      <p className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#E0507A]">{d.title || <InvText k="hero.tagline" />}</p>
       <h1 className="mt-4 font-sans font-extrabold leading-[1.05] text-[#3B2A4A] text-[clamp(2.3rem,11cqw,4.4rem)] break-words max-w-full">
         {d.hasNames ? d.people.join(' & ') : NO_NAMES}
       </h1>

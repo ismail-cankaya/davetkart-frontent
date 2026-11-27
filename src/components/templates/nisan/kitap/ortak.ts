@@ -11,8 +11,7 @@ import { NISAN_FLAVOR } from '../flavors';
  */
 export const NISAN_KITAP_FLAVOR: TemplateFlavor = {
   ...NISAN_FLAVOR,
-  giftNote:
-    'Hikâyemizin bu ilk sayfasında yanımızda olmanız en güzel armağan; yine de takdirinizi iletmek isterseniz hesap bilgilerimiz aşağıdadır.'
+  textScopes: ['nisan-kitap', ...(NISAN_FLAVOR.textScopes ?? [])]
 };
 
 /**

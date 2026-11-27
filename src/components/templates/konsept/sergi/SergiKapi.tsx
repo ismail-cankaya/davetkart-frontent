@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ease } from '../../../../utils/motion';
 import type { EnvelopeRenderProps } from '../../shared/InvitationComposition';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Zarf kapısı: salonun ışığı kapalı. Dokunuşla ışık yanar, karanlık çekilir
@@ -37,6 +38,7 @@ function Anahtar() {
 }
 
 export function SergiKapi({ invitation, flavor, onRevealStart, onOpened, siluet = true }: SergiKapiProps) {
+  const t = useInvText(flavor);
   const [aciliyor, setAciliyor] = useState(false);
   const reduced = useReducedMotion();
   const adlar = invitation.names || 'Davetlisiniz';
@@ -67,7 +69,7 @@ export function SergiKapi({ invitation, flavor, onRevealStart, onOpened, siluet 
     <motion.div
       role="dialog"
       aria-modal="true"
-      aria-label={flavor.envelopeLabel}
+      aria-label={t('envelope.label')}
       className="absolute inset-0 z-40 overflow-hidden cursor-pointer select-none bg-[var(--sg-karanlik)] text-[var(--sg-duvar)]"
       onClick={ac}
       initial={{ opacity: 1 }}
@@ -93,7 +95,7 @@ export function SergiKapi({ invitation, flavor, onRevealStart, onOpened, siluet 
         transition={{ duration: 0.15 }}
       >
         <p lang="tr" className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--sg-karanlik-etiket)]">
-          {flavor.envelopeLabel}
+          <InvText k="envelope.label" />
         </p>
         <p className="font-serif italic text-[36px] leading-[1.04] [text-wrap:balance] [overflow-wrap:break-word]">{adlar}</p>
         <button

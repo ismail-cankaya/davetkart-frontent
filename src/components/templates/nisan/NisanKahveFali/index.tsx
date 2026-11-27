@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 /** cup: fincan dik · flip: ters çevriliyor · read: telve akıyor · done: son kare (statik). */
@@ -47,8 +48,7 @@ const KAHVE_TEMASI: SectionTheme = {
 const KAHVE_FLAVOR: TemplateFlavor = {
   ...NISAN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Bir fincan kahvenin kırk yıl hatırı var',
-  headings: { timeline: 'Günün Akışı', details: 'Kahve Nerede İçilecek', gallery: 'Fincandan Kareler', gift: 'Hediye', rsvp: 'Falına Katıl' }
+  textScopes: ['nisan-kahve-fali', ...(NISAN_FLAVOR.textScopes ?? [])]
 };
 
 /** Buhar dalgası + ipucu nabzı; `prefers-reduced-motion` altında hiçbiri oynamaz. */
@@ -350,7 +350,7 @@ function KahveHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
         {d.hasNames ? d.people.join(' & ') : NO_NAMES}
         {d.date.day ? ` — ${d.date.day}` : ''}
       </h1>
-      <p className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#A8622C]">{d.title || KAHVE_FLAVOR.tagline}</p>
+      <p className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#A8622C]">{d.title || <InvText k="hero.tagline" />}</p>
 
       <div className="relative mt-6 w-[min(86vw,340px)] sm:w-[380px] aspect-square">
         <AnimatePresence initial={false}>

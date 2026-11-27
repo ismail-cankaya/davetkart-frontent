@@ -10,6 +10,7 @@ import { basHarfler, type BasHarfKurali } from './basHarfler';
 import { Kabartma } from './Baski';
 import { Adlar } from './Adlar';
 import { kaymaGirisi } from './hareket';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Kâğıt zarf kapısı: mühür kırılır, kapak açılır, kart yükselir, zarf çekilir.
@@ -89,7 +90,7 @@ export function KagitZarf({ invitation, theme, flavor, onRevealStart, onOpened, 
       {/* Kime: etiket ve adlar zarfın üstünde, gerçek metin olarak. Açılan
           kapak yukarı kalktığında adların ARKASINDA kalsın diye z-10. */}
       <motion.div {...kaymaGirisi(0)} className="relative z-10 w-full max-w-[20rem] text-center">
-        <p className={cn('text-[11px] font-semibold uppercase tracking-[0.32em]', theme.accent)}>{flavor.envelopeLabel}</p>
+        <p className={cn('text-[11px] font-semibold uppercase tracking-[0.32em]', theme.accent)}><InvText k="envelope.label" /></p>
         <Adlar adlar={adlar} boy={36} as="p" className={cn('mt-3', theme.heading)} />
       </motion.div>
 

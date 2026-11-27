@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const KAR_TEMASI: SectionTheme = {
   id: 'midnight',
@@ -38,14 +39,7 @@ const KAR_TEMASI: SectionTheme = {
 const KAR_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Bir kış masalında, birlikte',
-  headings: {
-    timeline: 'Masalın Akışı',
-    details: 'Köşke Giden Yol',
-    gallery: 'Kardan Kareler',
-    gift: 'Hediye & Takı',
-    rsvp: 'Masalımıza Katılın'
-  }
+  textScopes: ['dugun-kar-kuresi', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /* ——— Kar motoru (canvas 2B) ——— */
@@ -280,7 +274,7 @@ function KarHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boole
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-5 pt-14 pb-16 text-center">
       <motion.p {...belir(0.2)} className="mb-6 text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#D9B97A]">
-        {d.title || KAR_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <Kure hareketli={hareketli} />
       {/* Kaide: adlar burada yazar. */}

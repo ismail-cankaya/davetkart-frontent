@@ -8,6 +8,7 @@ import { SectionTheme } from '../../shared/palette';
 import { useCountdown } from '../../shared/useCountdown';
 import { KurdeleCizim } from './Kurdele';
 import { splitCouple, splitDateLabel } from './heroText';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 export type KurdeleDensity = 'default' | 'compact';
 
@@ -292,7 +293,7 @@ export function KurdeleHero({
           {...rise(1.15)}
           className={cn('font-serif italic', compact ? 'mt-3 text-lg' : 'mt-4 text-lg @sm:text-xl', theme.accent)}
         >
-          {flavor.tagline}
+          <InvText k="hero.tagline" />
         </motion.p>
 
         {subtitle && (

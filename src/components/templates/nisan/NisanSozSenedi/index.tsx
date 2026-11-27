@@ -17,6 +17,7 @@ import { displayText } from '../../utils';
 import { TemplateProps } from '../../types';
 import { NISAN_KAGIT_FLAVOR, kagitTarih, kisiler } from '../parts/kagitOrtak';
 import { KagitSayac } from '../parts/KagitSayac';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanSozSenedi — "Söz Senedi": nişan bir sözdür; davetiye iki imzalı bir
@@ -91,6 +92,7 @@ function KunyeSatiri({ etiket, deger }: { etiket: string; deger: string }) {
 }
 
 function SozSenediHero({ invitation, flavor }: HeroRenderProps) {
+  const t = useInvText(flavor);
   const adHazir = useElYazisiHazir(SET.el, 500);
   const baslik = displayText(invitation.title);
   const altBaslik = displayText(invitation.subtitle);
@@ -141,7 +143,7 @@ function SozSenediHero({ invitation, flavor }: HeroRenderProps) {
 
         {/* Tarih damgası köşeye vurulmuş: kartın kenarını aşar. */}
         <motion.div {...basmaGirisi(0.7, -10)} className="absolute -right-2 -bottom-7">
-          <MurekkepDamga ust={flavor.envelopeLabel} alt={gun || undefined} orta={basHarfler(invitation.names)} boyut={104} aci={0} />
+          <MurekkepDamga ust={t('envelope.label')} alt={gun || undefined} orta={basHarfler(invitation.names)} boyut={104} aci={0} />
         </motion.div>
       </KagitLevha>
 

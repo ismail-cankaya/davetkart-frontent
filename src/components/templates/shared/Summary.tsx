@@ -9,6 +9,7 @@ import { ChevronDownIcon } from './icons';
 import { useCountdown } from './useCountdown';
 import { ease } from '../../../utils/motion';
 import { TrackingReveal } from './TrackingReveal';
+import { InvText, useInvText } from '../../../invitationText/InvitationTextContext';
 
 /**
  * Yoğunluk modu: 'compact', süslemelerin metin alanını daralttığı şablonlarda
@@ -33,7 +34,7 @@ function CountdownTile({
   compact = false
 }: {
   value: number;
-  label: string;
+  label: React.ReactNode;
   theme: SectionTheme;
   compact?: boolean;
 }) {
@@ -76,10 +77,10 @@ function Countdown({ date, timeZone, theme, compact = false }: { date: string; t
       // 4 sabit sütun: Gün/Saat/Dakika/Saniye her genişlikte tek satırda kalır.
       className={cn('grid grid-cols-4 w-full mx-auto', compact ? 'gap-1 @sm:gap-2 max-w-[300px]' : 'gap-1.5 @sm:gap-2.5 max-w-[340px]')}
     >
-      <CountdownTile value={days} label="Gün" theme={theme} compact={compact} />
-      <CountdownTile value={hours} label="Saat" theme={theme} compact={compact} />
-      <CountdownTile value={minutes} label="Dakika" theme={theme} compact={compact} />
-      <CountdownTile value={seconds} label="Saniye" theme={theme} compact={compact} />
+      <CountdownTile value={days} label={<InvText k="countdown.days" />} theme={theme} compact={compact} />
+      <CountdownTile value={hours} label={<InvText k="countdown.hours" />} theme={theme} compact={compact} />
+      <CountdownTile value={minutes} label={<InvText k="countdown.minutes" />} theme={theme} compact={compact} />
+      <CountdownTile value={seconds} label={<InvText k="countdown.seconds" />} theme={theme} compact={compact} />
     </motion.div>
   );
 }
@@ -93,7 +94,8 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
   const isDark = theme.id === 'midnight';
   const compact = density === 'compact';
   const { Ornament } = flavor;
-  const nameWords = (invitation.names || 'Davetlisiniz').split(' ');
+  const t = useInvText();
+  const nameWords = (invitation.names || t('names.placeholder')).split(' ');
   // Tarih ve mekân yalnızca kullanıcı gerçekten girdiyse çizilir.
   const dateLabel = formatDateStr(invitation.date);
   const venue = displayText(invitation.venue);

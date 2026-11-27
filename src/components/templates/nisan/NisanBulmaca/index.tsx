@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /* Palet: kâğıt #F6F0E2, mürekkep #1E2333, kırmızı kalem #C2412D. */
 
@@ -47,14 +48,7 @@ const BULMACA_TEMASI: SectionTheme = {
 const BULMACA_FLAVOR: TemplateFlavor = {
   ...NISAN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Soldan sağa: söz verdik',
-  headings: {
-    timeline: 'Yukarıdan Aşağıya: Program',
-    details: 'Soldan Sağa: Adres',
-    gallery: 'Çözüm Kareleri',
-    gift: 'Armağan',
-    rsvp: 'Son Kare: Katılımınız'
-  }
+  textScopes: ['nisan-bulmaca', ...(NISAN_FLAVOR.textScopes ?? [])]
 };
 
 /* ——— Yerleşim ——— */
@@ -234,7 +228,7 @@ function BulmacaHero({ invitation, hareketli }: HeroRenderProps & { hareketli: b
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-4 pt-14 pb-24 text-center text-[#1E2333]">
       <motion.p {...rise(0.2)} className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#C2412D] font-semibold">
-        {d.title || BULMACA_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className="sr-only">{d.hasNames ? d.people.join(' & ') : NO_NAMES}</h1>
       {bulmaca.hucreler.length > 0 && (

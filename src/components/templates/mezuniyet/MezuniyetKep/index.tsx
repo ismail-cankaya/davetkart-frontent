@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('mezuniyet-kep', { landscape: '50% 45%', portrait: '50% 45%' });
 const FONT = 'DM+Serif+Display:ital@0;1';
@@ -44,8 +45,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...MEZUNIYET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Kepler havada, gelecek önümüzde',
-  headings: { timeline: 'Tören Programı', details: 'Tören Yeri', gallery: 'Okul Yılları', gift: 'Hediye', rsvp: 'Törene Katılım' }
+  textScopes: ['mezuniyet-kep', ...(MEZUNIYET_FLAVOR.textScopes ?? [])]
 };
 
 /**
@@ -126,7 +126,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           transition={{ delay: 2.6, duration: 1.1, ease: [0.65, 0, 0.35, 1] }}
         />
         <motion.p {...fade(2.9)} className={`relative mt-5 ${DISPLAY} italic text-lg sm:text-xl text-[#F3E4DA]`}>
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.p {...fade(3.2)} className="relative mt-4 text-[11px] tracking-[0.3em] uppercase text-[#E3D3DA]">

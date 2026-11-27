@@ -14,6 +14,7 @@ import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { Kitap, type Leaf } from './Kitap';
 import { Buket, ChapterHead, Cloth, Endpaper, Face, Fener, GUL, Kuslar, SOLUK, Vignette, YALDIZ, Yuzukler } from './sayfalar';
+import { InvitationTextScope } from '../../../../invitationText/InvitationTextContext';
 
 /** Bölümler sayfaya sığsın: ortak bölümlerin dolgusu sayfa ölçüsüne iner. */
 const SAYFA_ICI = '[&_section]:px-0 [&_section]:py-3';
@@ -121,8 +122,8 @@ function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
     const flavor: TemplateFlavor = {
       ...DUGUN_FLAVOR,
       BackgroundPattern: undefined,
-      headings: { timeline: 'Günün Akışı', details: 'Tarih & Mekân', gallery: 'Resimli Sayfalar', gift: 'Armağan', rsvp: 'Lütfen Cevap Veriniz' },
-      eyebrows: { timeline: eyebrow('timeline'), details: eyebrow('details'), gallery: eyebrow('gallery'), gift: eyebrow('gift'), rsvp: eyebrow('rsvp') }
+      textScopes: ['dugun-kitap-sayfa', ...(DUGUN_FLAVOR.textScopes ?? [])],
+      textDefaults: { ...DUGUN_FLAVOR.textDefaults, 'timeline.eyebrow': eyebrow('timeline'), 'details.eyebrow': eyebrow('details'), 'gallery.eyebrow': eyebrow('gallery'), 'gift.eyebrow': eyebrow('gift'), 'rsvp.eyebrow': eyebrow('rsvp') }
     };
 
     if (hasDetails)
@@ -180,7 +181,8 @@ function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
         label: s.label,
         front: (
           <Face side="front" number={front} head={head} scroll className={SAYFA_ICI}>
-            {s.content}
+            {/* Kitap kompozisyonsuz çizilir: metin kapsamını bölümlere kendisi verir (Faz 24). */}
+            <InvitationTextScope flavor={flavor}>{s.content}</InvitationTextScope>
           </Face>
         ),
         back: (

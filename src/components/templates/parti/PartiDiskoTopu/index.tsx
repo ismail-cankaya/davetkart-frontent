@@ -7,6 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
 import { createStage, createWall, drawBall, dropBeat, spin, stepStage, useCanvasLoop, type DiscoStage } from './diskoMotoru';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -47,8 +48,7 @@ const DISKO_TEMASI: SectionTheme = {
 const DISKO_FLAVOR: TemplateFlavor = {
   ...PARTI_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Işıklar Sönünce Başlıyoruz',
-  headings: { timeline: 'Gecenin Akışı', details: 'Pist Nerede?', gallery: 'Işıltılı Kareler', gift: 'Hediye', rsvp: 'Listeye Adını Yaz' }
+  textScopes: ['parti-disko-topu', ...(PARTI_FLAVOR.textScopes ?? [])]
 };
 
 /** Animasyon ancak misafir sayfasında ve hareket azaltılmamışsa çalışır. */
@@ -194,7 +194,7 @@ function DiskoHero({ invitation, mode, stage }: HeroRenderProps & { mode: Mode; 
       </motion.div>
 
       <motion.p {...rise(1.2)} className={`mt-6 text-[10px] sm:text-[11px] tracking-[0.42em] uppercase font-semibold text-[#9BF1FF] ${NEON_CYAN}`}>
-        {d.title || DISKO_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
 
       <motion.h1

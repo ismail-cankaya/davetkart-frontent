@@ -8,6 +8,7 @@ import { DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { GyroButton, useDeviceMotion } from '../../shared/three';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Caveat:wght@500;700&family=Special+Elite';
 const SERIF = "[font-family:'Cormorant_Garamond',var(--font-cormorant),serif]";
@@ -45,8 +46,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Hikâyemizin en güzel karesine davetlisiniz',
-  headings: { timeline: 'Günün Kareleri', details: 'Çekim Yeri', gallery: 'Banyodan Çıkanlar', gift: 'Takı & Hediye', rsvp: 'Kareye Girin' }
+  textScopes: ['dugun-karanlik-oda', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /**
@@ -237,7 +237,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
             ))}
         </motion.div>
         <motion.p {...fade(2.6)} className={`${SERIF} mt-5 text-lg italic text-[#E6CFC8] max-w-md`}>
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {live && (
           <motion.p {...fade(3.2)} className={`${TYPE} mt-4 text-[10px] tracking-[0.25em] uppercase text-[#A07A72]`}>

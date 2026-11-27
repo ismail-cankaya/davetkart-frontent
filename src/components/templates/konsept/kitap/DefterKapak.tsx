@@ -21,11 +21,11 @@ interface DefterKapakProps {
   /** Kapağın rengi (hex). Varsayılan mürekkep: kara kaplı defter. */
   renk?: string;
   /** Etiketin üst satırı (ör. "Yeni Bölüm"); büyük harfe çevrilir. */
-  etiket: string;
+  etiket: React.ReactNode;
   /** Etiketin başlığı — adlar ya da kategorinin ad dizgisi. */
   baslik: React.ReactNode;
   /** Etiketin altındaki italik satır (flavor.tagline), yaldız. */
-  altSatir?: string;
+  altSatir?: React.ReactNode;
   /** En alttaki yuva: "Sayfayı çevirin" ya da "Kapağı açın". */
   alt?: React.ReactNode;
   className?: string;

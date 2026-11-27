@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const GOK_TEMASI: SectionTheme = {
   id: 'midnight',
@@ -38,14 +39,7 @@ const GOK_TEMASI: SectionTheme = {
 const GOK_FLAVOR: TemplateFlavor = {
   ...SUNNET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Gökkuşağı kadar renkli bir gün',
-  headings: {
-    timeline: 'Günün Akışı',
-    details: 'Şenlik Yeri',
-    gallery: 'Anılar',
-    gift: 'Hediye',
-    rsvp: 'Şenliğe Katılın'
-  }
+  textScopes: ['sunnet-gokkusagi', ...(SUNNET_FLAVOR.textScopes ?? [])]
 };
 
 const RENKLER = ['#FF6B6B', '#FFA94D', '#FFD43B', '#69DB7C', '#4DABF7', '#9775FA'] as const;
@@ -123,7 +117,7 @@ function GokHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boole
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-16 pb-16 text-center">
       <motion.p {...belir(1.6)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#2F80D1]">
-        {d.title || GOK_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className="sr-only">{d.hasNames ? d.people.join(' & ') : NO_NAMES}</h1>
       <div className="mt-6">

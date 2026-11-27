@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const GOLD = '#E3B85C';
 
@@ -40,14 +41,7 @@ const LALE_TEMASI: SectionTheme = {
 const LALE_FLAVOR: TemplateFlavor = {
   ...KINA_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Lalelerin arasında, kına gecemize',
-  headings: {
-    timeline: 'Gecenin Akışı',
-    details: 'Bahçeye Giden Yol',
-    gallery: 'Lale Kareleri',
-    gift: 'Hediye & Takı',
-    rsvp: 'Bahçemize Katılın'
-  }
+  textScopes: ['kina-lale-bahcesi', ...(KINA_FLAVOR.textScopes ?? [])]
 };
 
 /** x (%), boy (px), renk, gecikme — deterministik dizilim. */
@@ -127,7 +121,7 @@ function LaleHero({ invitation, hareketli }: HeroRenderProps & { hareketli: bool
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-16 pb-56 text-center">
       <motion.p {...belir(1.6)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#E3B85C]">
-        {d.title || LALE_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <motion.h1
         {...belir(2)}

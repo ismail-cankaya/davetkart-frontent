@@ -10,12 +10,5 @@ import { NISAN_FLAVOR } from '../flavors';
 export const NISAN_HARITA_FLAVOR: TemplateFlavor = {
   ...NISAN_FLAVOR,
   BackgroundPattern: undefined,
-  headings: {
-    ...NISAN_FLAVOR.headings,
-    timeline: 'Duraklar',
-    details: 'Varış',
-    gallery: 'Yol üstünden',
-    rsvp: 'Rotaya katılın'
-  },
-  eyebrows: { timeline: 'Rotamız belli' }
+  textScopes: ['nisan-harita', ...(NISAN_FLAVOR.textScopes ?? [])]
 };

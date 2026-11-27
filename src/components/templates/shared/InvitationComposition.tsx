@@ -6,6 +6,7 @@ import { getSectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { Envelope } from './Envelope';
 import { Summary, SummaryDensity } from './Summary';
+import { InvitationTextScope } from '../../../invitationText/InvitationTextContext';
 
 // Below-the-fold sections stay lazy — the hero paints without them.
 const Timeline = React.lazy(() => import('./Timeline').then((m) => ({ default: m.Timeline })));
@@ -220,6 +221,8 @@ export function InvitationComposition({
     // @container: içerideki @sm/@md varyantları viewport'a değil bu kökün
     // genişliğine bakar — dar telefon simülatöründe de gerçek mobilde de
     // tipografi/sayaç aynı şekilde ölçeklenir.
+    // Faz 24: metinler flavor'ın kategorisi ve kapsamlarından çözülür (InvText).
+    <InvitationTextScope flavor={flavor}>
     <div data-mode={mode} className={cn('relative w-full h-full overflow-hidden @container', theme.base, theme.page)}>
       
       {/* 1. Fixed layer behind all sections: the template's scroll-driven
@@ -316,5 +319,6 @@ export function InvitationComposition({
         />
       )}
     </div>
+    </InvitationTextScope>
   );
 }

@@ -16,7 +16,7 @@ interface SayfaBasiProps {
   /** Sol sayfa başı — kullanıcının yazdığı biçimde (harf büyüklüğü değişmez). */
   sol: string;
   /** Sağ sayfa başı — şablonun kendi metni; büyük harfe çevrilir. */
-  sag: string;
+  sag: React.ReactNode;
 }
 
 export function SayfaBasi({ heroExit, sol, sag }: SayfaBasiProps) {

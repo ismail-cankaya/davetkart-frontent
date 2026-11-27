@@ -8,6 +8,7 @@ import { DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
 import { createParticles, createScratchCard, paintCoating, type ScratchCard } from './kaziMotoru';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600';
 const ROUND = "[font-family:'Fredoka',ui-rounded,var(--font-sans),sans-serif]";
@@ -46,8 +47,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...BABY_SHOWER_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Minik bir mucize yolda!',
-  headings: { timeline: 'Günün Akışı', details: 'Nerede Buluşuyoruz?', gallery: 'Bekleyiş Kareleri', gift: 'Bebek Listesi', rsvp: 'Geliyor musunuz?' }
+  textScopes: ['baby-kazi-kazan', ...(BABY_SHOWER_FLAVOR.textScopes ?? [])]
 };
 
 interface Panel {
@@ -197,7 +197,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       key: 'surpriz',
       label: 'Ve sürpriz…',
       coat: 'kazı ✦ sürpriz',
-      content: <span className="block text-[clamp(1.2rem,5.5cqw,1.7rem)] font-semibold leading-snug text-[#C27BA0]">{d.subtitle || FLAVOR.tagline}</span>
+      content: <span className="block text-[clamp(1.2rem,5.5cqw,1.7rem)] font-semibold leading-snug text-[#C27BA0]">{d.subtitle || <InvText k="hero.tagline" />}</span>
     }
   ];
 

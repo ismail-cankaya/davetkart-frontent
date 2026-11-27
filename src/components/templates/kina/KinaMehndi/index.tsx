@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -44,8 +45,7 @@ const MEHNDI_TEMASI: SectionTheme = {
 const MEHNDI_FLAVOR: TemplateFlavor = {
   ...KINA_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Kınamız Yakılıyor',
-  headings: { ...KINA_FLAVOR.headings, timeline: 'Gecenin Deseni', gallery: 'Kınalı Anlar', rsvp: 'Bize Haber Verin' }
+  textScopes: ['kina-mehndi', ...(KINA_FLAVOR.textScopes ?? [])]
 };
 
 /* ------------------------------------------------------------------ */
@@ -340,7 +340,7 @@ function MehndiHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-12 pb-24 text-center">
       <motion.p {...rise(0.2)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#E6C27A]">
-        {d.title || MEHNDI_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <div className="mt-5">
         <MehndiHand still={still} />

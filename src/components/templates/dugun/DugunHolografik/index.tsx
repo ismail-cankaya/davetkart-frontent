@@ -41,8 +41,7 @@ const HOLO_TEMASI: SectionTheme = {
 const HOLO_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Işığın kırıldığı gün',
-  headings: { timeline: 'Günün Akışı', details: 'Nerede, Ne Zaman', gallery: 'Yansımalar', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-holografik', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** Eğim (işaretçi/jiroskop) + boşta yavaş salınım → yaylanmış -1..1 değerleri. */

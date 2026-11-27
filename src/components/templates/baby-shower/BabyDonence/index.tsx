@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 type FigureKind = 'moon' | 'star' | 'cloud';
@@ -61,8 +62,7 @@ const DONENCE_TEMASI: SectionTheme = {
 const DONENCE_FLAVOR: TemplateFlavor = {
   ...BABY_SHOWER_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Dönence dönüyor, minik yolcu geliyor',
-  headings: { timeline: 'Günün Akışı', details: 'Buluşma Yeri', gallery: 'Bekleyişten Kareler', gift: 'Hediye Listesi', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['baby-donence', ...(BABY_SHOWER_FLAVOR.textScopes ?? [])]
 };
 
 /** Animasyon ancak misafir sayfasında ve hareket azaltılmamışsa çalışır. */
@@ -346,7 +346,7 @@ function DonenceHero({ invitation, scrollContainer, mode }: HeroRenderProps & { 
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-5 pt-12 pb-20 text-center text-[#3E4A66]">
       <motion.p {...rise(0.2)} className="text-[10px] sm:text-[11px] tracking-[0.38em] uppercase text-[#C98E2E]">
-        {d.title || DONENCE_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
 
       <motion.h1

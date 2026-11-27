@@ -6,11 +6,7 @@ import type { SergiMetinleri } from '../../konsept/sergi';
  * bu akşam önizleme. Taban flavor `NISAN_FLAVOR`'dır; zarf etiketi
  * ("Nişan Davetiyesi") ondan gelir.
  */
-export const NISAN_SERGI_METINLERI: SergiMetinleri = {
-  hediye: 'Katkı',
-  hediyeNotu: 'En güzel katkı aramızda olmanız. Yine de bir katkıda bulunmak isterseniz hesap bilgileri aşağıda.',
-  basliklar: { timeline: 'Önizleme akışı', rsvp: 'Önizleme listesi' }
-};
+export const NISAN_SERGI_METINLERI: SergiMetinleri = { kapsam: 'nisan-sergi' };
 
 /** Kapakta tekrar eden sabit sözler. */
 export const ONIZLEME = {

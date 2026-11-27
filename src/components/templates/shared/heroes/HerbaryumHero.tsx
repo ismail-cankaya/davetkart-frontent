@@ -6,6 +6,7 @@ import { PaperGrain } from '../effects';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Herbaryum hero — daveti bir DUYURU değil, bir KAYIT olarak kuran dil.
@@ -187,7 +188,7 @@ export function HerbaryumHero({
 
         <header className="relative text-center">
           <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.3em]', theme.body)}>
-            Herbaryum · {flavor.envelopeLabel}
+            Herbaryum · <InvText k="envelope.label" />
           </span>
         </header>
 

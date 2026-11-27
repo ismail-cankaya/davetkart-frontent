@@ -9,6 +9,7 @@ import { CinemaBackdrop, DateCountdown, LiveShader, ScrollCue, useTemplateFont, 
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
 import { LAZER_FRAG, aimAt } from './lazerShader';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('parti-lazer');
 const FONT = 'Big+Shoulders+Display:wght@500;800;900';
@@ -46,8 +47,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...PARTI_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Sis, ışık ve bütün gece müzik',
-  headings: { timeline: 'Set Listesi', details: 'Çatı Katı', gallery: 'Işık Kareleri', gift: 'Hediye', rsvp: 'Misafir Listesi' }
+  textScopes: ['parti-lazer', ...(PARTI_FLAVOR.textScopes ?? [])]
 };
 
 /**
@@ -115,7 +115,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           </div>
         )}
         <motion.p {...fade(still ? 0 : 2.6 + lines.length)} className="mt-6 text-sm sm:text-base text-[#C9C1EC] max-w-md">
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {mode === 'live' && !reduced && (
           <motion.p {...fade(3 + lines.length)} className={`${DISPLAY} mt-5 text-xs tracking-[0.4em] uppercase text-[#8C82B8]`}>

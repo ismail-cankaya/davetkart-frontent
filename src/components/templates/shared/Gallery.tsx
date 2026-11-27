@@ -7,6 +7,7 @@ import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ChevronLeftIcon, ChevronRightIcon } from './icons';
 import { SectionHeading, sectionMotion } from './SectionHeading';
+import { InvText, useFixedText } from '../../../invitationText/InvitationTextContext';
 
 interface GalleryProps {
   invitation: Invitation;
@@ -50,6 +51,7 @@ const slideVariants: Variants = {
  * transitions and dot navigation.
  */
 export function Gallery({ invitation, theme, flavor }: GalleryProps) {
+  const fixed = useFixedText();
   const images = invitation.galleryImages;
   const [[storedIndex, slide], setIndex] = useState<[number, SlideCustom]>([0, { dir: 0, dragX: 0, width: 0 }]);
   const frameRef = useRef<HTMLDivElement>(null);
@@ -77,8 +79,8 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
     <section className={cn('relative px-6 py-16 overflow-hidden', theme.page)}>
       <SectionHeading
         theme={theme}
-        eyebrow={flavor.eyebrows?.gallery ?? 'Özel Anlarımız'}
-        title={flavor.headings.gallery}
+        eyebrow={<InvText k="gallery.eyebrow" />}
+        title={<InvText k="gallery.heading" />}
         amount={0.5}
         className="mb-10"
       />
@@ -127,7 +129,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
             <>
               <button
                 type="button"
-                aria-label="Önceki fotoğraf"
+                aria-label={fixed('gallery.previous')}
                 onClick={() => paginate(-1)}
                 className="group absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer"
               >
@@ -137,7 +139,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
               </button>
               <button
                 type="button"
-                aria-label="Sonraki fotoğraf"
+                aria-label={fixed('gallery.next')}
                 onClick={() => paginate(1)}
                 className="group absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full flex items-center justify-center cursor-pointer"
               >

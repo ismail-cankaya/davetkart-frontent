@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -73,14 +74,7 @@ const SANDIK_TEMASI: SectionTheme = {
 const SANDIK_FLAVOR: TemplateFlavor = {
   ...KINA_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Çeyizimiz serildi, kınamız yakılıyor',
-  headings: {
-    timeline: 'Gecenin Akışı',
-    details: 'Kınanın Yakılacağı Yer',
-    gallery: 'Sandıktan Anılar',
-    gift: 'Takı & Armağan',
-    rsvp: 'Katılımınızı Bildirin'
-  }
+  textScopes: ['kina-ceyiz-sandigi', ...(KINA_FLAVOR.textScopes ?? [])]
 };
 
 function useAnimated(mode: Mode) {
@@ -367,7 +361,7 @@ function SandikHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
         transition={{ duration: 0.8, delay: 0.2 }}
         className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#A3241C] font-medium"
       >
-        {d.title || SANDIK_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
 
       <motion.h1

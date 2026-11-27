@@ -8,6 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('baby-ay-besigi', { landscape: '50% 30%', portrait: '50% 30%' });
 const FONT = 'Quicksand:wght@300..700';
@@ -44,8 +45,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...BABY_SHOWER_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Ayın beşiğinde, yıldızların ninnisinde',
-  headings: { timeline: 'Günün Akışı', details: 'Buluşma Yeri', gallery: 'Bekleyiş', gift: 'Hediye Listesi', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['baby-ay-besigi', ...(BABY_SHOWER_FLAVOR.textScopes ?? [])]
 };
 
 /** Açılışta tek tek yanan küçük yıldızlar (metnin çevresinde). */
@@ -106,7 +106,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
             ))}
           </h1>
           <motion.p {...fade(2.6)} className={`mt-5 ${DISPLAY} text-base sm:text-lg text-[#5E4D7A]`}>
-            {d.subtitle || FLAVOR.tagline}
+            {d.subtitle || <InvText k="hero.tagline" />}
           </motion.p>
           {(d.date.day || d.venue) && (
             <motion.p {...fade(3)} className="mt-4 text-[11px] tracking-[0.28em] uppercase text-[#7D6A9C]">

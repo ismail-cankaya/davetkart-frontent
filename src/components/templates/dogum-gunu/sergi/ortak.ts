@@ -6,10 +6,7 @@ import { kisiler, type SergiMetinleri } from '../../konsept/sergi';
  * sahibinin dönemleri duvarda. Taban flavor `DOGUM_GUNU_FLAVOR`'dır; zarf
  * etiketi ("Doğum Günü Davetiyesi") ondan gelir.
  */
-export const DOGUM_GUNU_SERGI_METINLERI: SergiMetinleri = {
-  hediye: 'Armağan',
-  hediyeNotu: 'En güzel armağan aramızda olmanız. Yine de bir şey getirmek isterseniz bilgiler aşağıda.'
-};
+export const DOGUM_GUNU_SERGI_METINLERI: SergiMetinleri = { kapsam: 'dogum-gunu-sergi' };
 
 /** Kapakta tekrar eden sabit sözler. */
 export const RETROSPEKTIF = {

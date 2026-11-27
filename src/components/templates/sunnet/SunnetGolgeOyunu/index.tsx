@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -47,8 +48,7 @@ const GOLGE_TEMASI: SectionTheme = {
 const GOLGE_FLAVOR: TemplateFlavor = {
   ...SUNNET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Perde aralanıyor, şehzademizin günü geldi',
-  headings: { ...SUNNET_FLAVOR.headings, gallery: 'Perdenin Ardından Kareler' }
+  textScopes: ['sunnet-golge-oyunu', ...(SUNNET_FLAVOR.textScopes ?? [])]
 };
 
 function useAnimated(mode: Mode) {
@@ -485,7 +485,7 @@ function GolgeHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-4 pt-10 pb-20 text-center">
       <motion.p {...rise(0.2)} className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#F0AE5C] mb-5 px-2">
-        {d.title || GOLGE_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
 
       <motion.div

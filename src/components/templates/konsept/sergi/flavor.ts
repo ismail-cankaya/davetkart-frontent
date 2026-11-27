@@ -4,20 +4,16 @@ import { hasTimelineEventContent } from '../../../../utils/timelineEvents';
 import type { TemplateFlavor } from '../../shared/flavor';
 import { displayText, formatDateStr } from '../../utils';
 
-/** Kategoriye göre değişen sergi metinleri; geri kalan başlıklar konseptindir (§4.2). */
+/**
+ * Kategoriye göre değişen sergi metinleri (Faz 24): metinlerin kendisi `invitationText/locales/tr.json`'da,
+ * `scopes[kapsam]` altında; ortak sergi başlıkları `scopes.sergi`'de.
+ */
 export interface SergiMetinleri {
-  /** Hediye bölümünün başlığı (ör. "Katkı"). */
-  hediye: string;
-  /** Hediye bölümünün açıklama cümlesi; bağış kutusu metaforu kullanılmaz. */
-  hediyeNotu?: string;
-  /**
-   * Kategorinin dilindeki bölüm başlıkları (ör. nişanda "Önizleme akışı");
-   * verilmeyenler konseptin başlıklarıdır. Modül düzeyinde sabit olmalı.
-   */
-  basliklar?: Partial<Omit<TemplateFlavor['headings'], 'gift'>>;
+  /** Kategorinin sergi kapsamı (ör. `dugun-sergi`). */
+  kapsam: string;
 }
 
-type Bolum = keyof TemplateFlavor['headings'];
+type Bolum = 'timeline' | 'details' | 'gallery' | 'gift' | 'rsvp';
 
 /**
  * Bölümlerin görünüp görünmeyeceği — ortak bölümlerin kendi koşullarıyla
@@ -51,19 +47,13 @@ export function useSergiFlavor(taban: TemplateFlavor, invitation: Invitation, me
       .forEach((bolum, i) => {
         eyebrows[bolum as Bolum] = `Salon ${i + 1}`;
       });
+    const salonlar: Record<string, string> = {};
+    for (const [bolum, etiket] of Object.entries(eyebrows)) salonlar[`${bolum}.eyebrow`] = etiket;
     return {
       ...taban,
       BackgroundPattern: undefined,
-      headings: {
-        timeline: 'Açılış akışı',
-        details: 'Ziyaret bilgileri',
-        gallery: 'Eserler',
-        rsvp: 'Açılış listesi',
-        ...metinler.basliklar,
-        gift: metinler.hediye
-      },
-      eyebrows,
-      giftNote: metinler.hediyeNotu ?? taban.giftNote
+      textScopes: [metinler.kapsam, 'sergi', ...(taban.textScopes ?? [])],
+      textDefaults: { ...taban.textDefaults, ...salonlar }
     };
-  }, [taban, gorunen, metinler.hediye, metinler.hediyeNotu, metinler.basliklar]);
+  }, [taban, gorunen, metinler.kapsam]);
 }

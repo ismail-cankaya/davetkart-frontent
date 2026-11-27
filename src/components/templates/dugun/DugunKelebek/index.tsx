@@ -9,6 +9,7 @@ import { ThreeStage } from '../../shared/three';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { BUTTERFLY_PALETTES, toCss, type Perch, type PointerState } from './kelebek';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const KelebekSahnesi = lazy(() => import('./KelebekSahnesi'));
 
@@ -48,8 +49,7 @@ const THEME: SectionTheme = {
 const FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Bahar gibi bir başlangıca davetlisiniz',
-  headings: { timeline: 'Günün Akışı', details: 'Bahçe Adresi', gallery: 'Bizden Kareler', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-kelebek', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** Durağan kelebek (önizleme, WebGL yok, hareketi azalt). */
@@ -213,7 +213,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           ))}
         </h1>
         <motion.p {...fade(1.5)} className={`${SERIF} mt-5 text-lg italic text-[#5E5266] max-w-md`}>
-          {d.subtitle || FLAVOR.tagline}
+          {d.subtitle || <InvText k="hero.tagline" />}
         </motion.p>
         {(d.date.day || d.venue) && (
           <motion.div {...fade(1.9)} className={`${SERIF} mt-6 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-[15px] tracking-[0.14em] uppercase text-[#3E3546]`}>

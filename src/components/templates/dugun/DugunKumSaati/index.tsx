@@ -7,6 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { createDustField, createHourglass, useCanvasLoop } from './kumMotoru';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -45,8 +46,7 @@ const KUM_TEMASI: SectionTheme = {
 const KUM_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Zaman bizim için akıyor',
-  headings: { timeline: 'Günün Akışı', details: 'Buluşma Yeri', gallery: 'Kum Taneleri Kadar Anı', gift: 'Takı & Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['dugun-kum-saati', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** Animasyon ancak misafir sayfasında ve hareket azaltılmamışsa çalışır. */
@@ -118,7 +118,7 @@ function KumHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode
 
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-14 pb-24 text-center">
-      <p className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#EBC172]">{d.title || KUM_FLAVOR.tagline}</p>
+      <p className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#EBC172]">{d.title || <InvText k="hero.tagline" />}</p>
 
       <motion.h1
         style={animated ? { clipPath: namesClip } : undefined}

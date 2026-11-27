@@ -7,6 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../share
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
 import type { Invitation } from '../../../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /* ——— Pastel gökyüzü paleti ——— */
 const INK = '#3E4A6B';
@@ -54,14 +55,7 @@ const UCURTMA_TEMASI: SectionTheme = {
 const UCURTMA_FLAVOR: TemplateFlavor = {
   ...BABY_SHOWER_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Minik bir rüzgâr geliyor',
-  headings: {
-    timeline: 'Günün Akışı',
-    details: 'Buluşma Noktası',
-    gallery: 'Gökyüzünden Kareler',
-    gift: 'Hediye Listesi',
-    rsvp: 'Uçurtmanı Bize Gönder'
-  }
+  textScopes: ['baby-ucurtma', ...(BABY_SHOWER_FLAVOR.textScopes ?? [])]
 };
 
 /*
@@ -226,7 +220,7 @@ function UcurtmaHero({ invitation, hareketli }: HeroRenderProps & { hareketli: b
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-4 pt-14 pb-24 text-center" style={{ color: INK }}>
       <motion.p {...rise(0.3)} className="text-[10px] sm:text-[11px] tracking-[0.4em] uppercase text-[#E07A93]">
-        {d.title || UCURTMA_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className="mt-4 font-cormorant italic font-semibold leading-[1] text-[#3E4A6B] text-[clamp(2.4rem,11cqw,4.6rem)] break-words max-w-full [text-shadow:0_2px_14px_rgba(255,255,255,0.8)]">
         {d.hasNames ? (

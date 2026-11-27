@@ -9,6 +9,7 @@ import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../share
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { TEBESIRLER, fitCanvas, tebesirCiz, useTebesirTozu, type TebesirId } from './tebesirMotoru';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -48,8 +49,7 @@ const TAHTA_TEMASI: SectionTheme = {
 const TAHTA_FLAVOR: TemplateFlavor = {
   ...MEZUNIYET_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Son ders: Mezuniyet',
-  headings: { timeline: 'Günün Ders Programı', details: 'Sınıfın Adresi', gallery: 'Okul Yıllarından', gift: 'Hediye', rsvp: 'Yoklama' }
+  textScopes: ['mezuniyet-kara-tahta', ...(MEZUNIYET_FLAVOR.textScopes ?? [])]
 };
 
 function useAnimated(mode: Mode) {
@@ -102,10 +102,10 @@ interface Panel {
   countdown?: boolean;
 }
 
-function buildPanels(d: HeroData, showTimer: boolean): Panel[] {
+function buildPanels(d: HeroData, showTimer: boolean, tagline: string): Panel[] {
   const panels: Panel[] = [];
   const namesLines: Line[] = [
-    { key: 'tag', content: d.title || TAHTA_FLAVOR.tagline, chars: (d.title || TAHTA_FLAVOR.tagline).length, className: 'text-[#F6E3A0] text-[22px] sm:text-2xl' }
+    { key: 'tag', content: d.title || tagline, chars: (d.title || tagline).length, className: 'text-[#F6E3A0] text-[22px] sm:text-2xl' }
   ];
   if (d.hasNames) {
     d.people.forEach((p, i) => {
@@ -257,7 +257,9 @@ function TahtaHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
   const d = useHeroData(invitation);
   const animated = useAnimated(mode);
   const showTimer = !!invitation.showTimer;
-  const panels = useMemo(() => buildPanels(d, showTimer), [d, showTimer]);
+  const t = useInvText();
+  const tagline = t('hero.tagline');
+  const panels = useMemo(() => buildPanels(d, showTimer, tagline), [d, showTimer, tagline]);
   const [index, setIndex] = useState(0);
   const [visited, setVisited] = useState(false);
   const [wiping, setWiping] = useState(false);

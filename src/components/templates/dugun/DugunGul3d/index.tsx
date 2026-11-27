@@ -43,14 +43,7 @@ const GUL_TEMASI: SectionTheme = {
 const GUL_FLAVOR: TemplateFlavor = {
   ...DUGUN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Gül bahçesinde evleniyoruz',
-  headings: {
-    timeline: 'Günün Akışı',
-    details: 'Bahçemizin Adresi',
-    gallery: 'Bizden Kareler',
-    gift: 'Takı & Hediye',
-    rsvp: 'Gelişinizi Bildirin'
-  }
+  textScopes: ['dugun-gul3d', ...(DUGUN_FLAVOR.textScopes ?? [])]
 };
 
 /** Statik gül: sarmal elips taç yaprakları (WebGL yoksa, yüklenirken ve hareketi azaltınca altta). */

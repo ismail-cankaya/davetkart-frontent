@@ -34,14 +34,5 @@ function DogumGunuPattern({ className }: { className?: string }) {
 export const DOGUM_GUNU_FLAVOR: TemplateFlavor = {
   categoryId: 'dogum-gunu',
   Ornament: DogumGunuOrnament,
-  BackgroundPattern: DogumGunuPattern,
-  envelopeLabel: 'Doğum Günü Davetiyesi',
-  tagline: 'Yeni Yaşımı Birlikte Kutlayalım',
-  headings: {
-    timeline: 'Parti Akışı',
-    details: 'Adres & Ulaşım',
-    gallery: 'Anılarımız',
-    gift: 'Hediye Kutusu',
-    rsvp: 'Katılım Durumu'
-  }
+  BackgroundPattern: DogumGunuPattern
 };

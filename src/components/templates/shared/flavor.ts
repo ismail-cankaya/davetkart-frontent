@@ -3,7 +3,7 @@ import React from 'react';
 /**
  * Category-specific personality injected into the shared sections by each
  * template (dugun/kina/nisan). Sections stay generic; flavor carries the
- * wording and the decorative ornament.
+ * decorative ornament and WHERE the wording comes from (Faz 24: `textScopes`).
  */
 export interface TemplateFlavor {
   categoryId: string;
@@ -11,30 +11,11 @@ export interface TemplateFlavor {
   Ornament: React.ComponentType<{ size?: number; className?: string }>;
   /** Background pattern specific to the category, rendered fixed behind sections. */
   BackgroundPattern?: React.ComponentType<{ className?: string }>;
-  /** Envelope front label, e.g. "Düğün Davetiyesi". */
-  envelopeLabel: string;
-  /** Serif line under the hero names. */
-  tagline: string;
-  /** Section heading wording per category. */
-  headings: {
-    timeline: string;
-    details: string;
-    gallery: string;
-    gift: string;
-    rsvp: string;
-  };
   /**
-   * Bölüm başlıklarının üstündeki küçük etiketler. Verilmeyen her biri ortak
-   * varsayılanı kullanır ("Özel Anlarımız", "Hediye Takdiri"…); romantik
-   * okunan bu metinleri kurumsal gibi kategoriler değiştirebilir.
+   * Faz 24 (K302): metinler koddan çıktı, `src/invitationText/locales/tr.json`'da durur.
+   * Kategori varsayılanı `categoryId`'den; şablona özel olanlar bu kapsamlardan (en özelden genele).
    */
-  eyebrows?: Partial<{
-    timeline: string;
-    details: string;
-    gallery: string;
-    gift: string;
-    rsvp: string;
-  }>;
-  /** Hediye bölümünün açıklama cümlesi; verilmezse ortak varsayılan. */
-  giftNote?: string;
+  textScopes?: readonly string[];
+  /** Çalışma anında hesaplanan varsayılanlar (ör. "Bölüm II"); anahtar → metin. Kapsamlardan önce gelir. */
+  textDefaults?: Readonly<Record<string, string>>;
 }

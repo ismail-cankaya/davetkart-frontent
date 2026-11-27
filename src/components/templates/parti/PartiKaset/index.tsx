@@ -6,6 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const GOLD = '#FFC857';
 
@@ -40,14 +41,7 @@ const KASET_TEMASI: SectionTheme = {
 const KASET_FLAVOR: TemplateFlavor = {
   ...PARTI_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Kaseti tak, parti başlasın',
-  headings: {
-    timeline: 'A Yüzü — Akış',
-    details: 'B Yüzü — Yol',
-    gallery: 'Kareler',
-    gift: 'Hediye',
-    rsvp: 'Listeye Adını Yaz'
-  }
+  textScopes: ['parti-kaset', ...(PARTI_FLAVOR.textScopes ?? [])]
 };
 
 const CSS = `
@@ -115,7 +109,7 @@ function KasetHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boo
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-6 pt-16 pb-16 text-center">
       <motion.p {...belir(1.6)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#FFC857]">
-        {d.title || KASET_FLAVOR.tagline}
+        {d.title || <InvText k="hero.tagline" />}
       </motion.p>
       <h1 className="sr-only">{d.hasNames ? d.people.join(' & ') : NO_NAMES}</h1>
       <div className="mt-6">

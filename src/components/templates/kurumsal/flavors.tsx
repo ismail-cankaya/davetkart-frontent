@@ -56,14 +56,5 @@ function KurumsalPattern({ className }: { className?: string }) {
 export const KURUMSAL_FLAVOR: TemplateFlavor = {
   categoryId: 'kurumsal',
   Ornament: KurumsalOrnament,
-  BackgroundPattern: KurumsalPattern,
-  envelopeLabel: 'Etkinlik Daveti',
-  tagline: 'Birlikte Daha İleriye',
-  headings: {
-    timeline: 'Gündem',
-    details: 'Konum ve Ulaşım',
-    gallery: 'Görsel Arşiv',
-    gift: 'Bağış ve Katkı',
-    rsvp: 'Kayıt Formu'
-  }
+  BackgroundPattern: KurumsalPattern
 };

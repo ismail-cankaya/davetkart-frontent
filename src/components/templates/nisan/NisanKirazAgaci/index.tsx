@@ -7,6 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
 import { SEASON_BLOOM, createTree, useCanvasLoop, type TreeBox } from './kirazMotoru';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -45,8 +46,7 @@ const KIRAZ_TEMASI: SectionTheme = {
 const KIRAZ_FLAVOR: TemplateFlavor = {
   ...NISAN_FLAVOR,
   BackgroundPattern: undefined,
-  tagline: 'Kiraz çiçekleri açarken söz veriyoruz',
-  headings: { timeline: 'Günün Akışı', details: 'Ağacın Altında', gallery: 'Çiçek Çiçek Anılar', gift: 'Hediye', rsvp: 'Katılımınızı Bildirin' }
+  textScopes: ['nisan-kiraz-agaci', ...(NISAN_FLAVOR.textScopes ?? [])]
 };
 
 /** Animasyon ancak misafir sayfasında ve hareket azaltılmamışsa çalışır. */
@@ -170,7 +170,7 @@ function KirazHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mo
 
       <div className="relative z-[1] flex flex-col items-center pointer-events-none">
         <motion.p {...rise(0.1)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#C25A78]">
-          {d.title || KIRAZ_FLAVOR.tagline}
+          {d.title || <InvText k="hero.tagline" />}
         </motion.p>
 
         <motion.h1

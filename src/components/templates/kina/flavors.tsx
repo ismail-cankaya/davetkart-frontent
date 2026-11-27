@@ -39,23 +39,5 @@ function KinaPattern({ className }: { className?: string }) {
 export const KINA_FLAVOR: TemplateFlavor = {
   categoryId: 'kina',
   Ornament: TepsiIcon,
-  BackgroundPattern: KinaPattern,
-  envelopeLabel: 'Kına Davetiyesi',
-  tagline: 'Kınamıza Bekliyoruz',
-  headings: {
-    timeline: 'Gecenin Akışı',
-    details: 'Adres & Ulaşım',
-    gallery: 'Anılarımız',
-    gift: 'Takı & Armağan',
-    rsvp: 'Katılım Durumu'
-  },
-  eyebrows: {
-    timeline: 'Kına Gecesi Programı',
-    details: 'Kınanın Yakılacağı Yer',
-    gallery: 'Kınadan Önce',
-    gift: 'Takı Merasimi',
-    rsvp: 'Kına Davetine Yanıt'
-  },
-  giftNote:
-    'Kınamızda yanımızda olmanız en güzel armağan; yine de takı ya da hediye göndermek isterseniz hesap bilgilerimiz aşağıda.'
+  BackgroundPattern: KinaPattern
 };

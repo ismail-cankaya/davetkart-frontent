@@ -36,14 +36,5 @@ function DugunPattern({ className }: { className?: string }) {
 export const DUGUN_FLAVOR: TemplateFlavor = {
   categoryId: 'dugun',
   Ornament: DugunOrnament,
-  BackgroundPattern: DugunPattern,
-  envelopeLabel: 'Düğün Davetiyesi',
-  tagline: 'Evleniyoruz',
-  headings: {
-    timeline: 'Nikâhtan Düğüne',
-    details: 'Düğün Adresi',
-    gallery: 'Hikâyemizden Kareler',
-    gift: 'Takı & Hediye',
-    rsvp: 'Lütfen Cevap Veriniz'
-  }
+  BackgroundPattern: DugunPattern
 };

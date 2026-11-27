@@ -5,6 +5,7 @@ import { cn } from '../../../utils/cn';
 import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { duration, ease } from '../../../utils/motion';
+import { InvText, useFixedText } from '../../../invitationText/InvitationTextContext';
 
 /**
  * Mühür kırıldıktan sonra zarfın kaymaya başladığı an (s): kanat (0.7 s)
@@ -32,6 +33,7 @@ interface EnvelopeProps {
  * zarf tek adımda solar. Aksi hâlde kullanıcı hiçbir şey olmadan beklerdi.
  */
 export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }: EnvelopeProps) {
+  const fixed = useFixedText();
   const [opening, setOpening] = useState(false);
   const reduced = useReducedMotion();
   const revealDelay = reduced ? 0 : REVEAL_DELAY;
@@ -114,10 +116,10 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
             transition={{ duration: 0.8, ease: ease.out, delay: 0.45 }}
           >
             <span className={cn('text-[9px] font-semibold tracking-[0.3em] uppercase', theme.accent)}>
-              {flavor.envelopeLabel}
+              <InvText k="envelope.label" />
             </span>
             <span className={cn('font-serif italic text-xl text-center leading-snug', theme.heading)}>
-              {invitation.names || 'Davetlisiniz'}
+              {invitation.names || <InvText k="names.placeholder" />}
             </span>
           </motion.div>
 
@@ -151,7 +153,7 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
           {/* Wax seal */}
           <motion.button
             type="button"
-            aria-label="Davetiyeyi aç"
+            aria-label={fixed('envelope.open')}
             className={cn(
               'absolute left-1/2 top-[42%] -translate-x-1/2 -translate-y-1/2 z-30 w-16 h-16 rounded-full',
               'flex items-center justify-center shadow-xl shadow-black/25 cursor-pointer',
@@ -178,7 +180,7 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
           animate={{ opacity: opening ? 0 : 1 }}
           transition={{ duration: 0.3 }}
         >
-          <span className={opening ? 'inline-block' : 'inline-block animate-hint-pulse'}>Mühre dokunarak açın</span>
+          <span className={opening ? 'inline-block' : 'inline-block animate-hint-pulse'}><InvText k="envelope.hint" /></span>
         </motion.p>
       </motion.div>
     </motion.div>
