@@ -73,7 +73,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version-file: davetkart-frontent/.nvmrc
           cache: npm
           cache-dependency-path: davetkart-frontent/package-lock.json
 

@@ -27,3 +27,8 @@
 
 `playwright.config.ts` `powershell -File scripts/e2e/backend.ps1` çağırır; Ubuntu'da `powershell` yok (`pwsh` var) ve
 betik Windows yollarına (`C:\Program Files\PostgreSQL`) düşebiliyor. Linux'a geçmek betiği taşımayı gerektirir.
+
+## Faz 21.9 (`TST-05`): Node sürümü `.nvmrc`'den
+
+`actions/setup-node` artık `node-version: 22` değil `node-version-file: davetkart-frontent/.nvmrc` (24) okur; yerel ve
+sunucu derlemesiyle aynı major. Ayrıntı: [`../../.nvmrc.md`](../../.nvmrc.md).

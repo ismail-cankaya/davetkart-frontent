@@ -17,13 +17,12 @@ jobs:
       - name: Kodu çek
         uses: actions/checkout@v4
 
-      - name: Node 22 kur
-        # actions/setup-node'un kendi "cache: npm" ozelligi var - backend'de
-        # kullandigimiz ayri actions/cache adimina burada gerek yok, ayni isi
-        # tek satirda hallediyor.
+      - name: Node kur (.nvmrc)
+        # TST-05 (Faz 21.9): surum tek yerde, .nvmrc'de (yerel, CI ve sunucu ayni major).
+        # actions/setup-node'un kendi "cache: npm" ozelligi ayri actions/cache adimina gerek birakmaz.
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version-file: ".nvmrc"
           cache: "npm"
 
       - name: Bağımlılıkları kur
