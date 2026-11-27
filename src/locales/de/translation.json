@@ -28,6 +28,15 @@
       "eco": "Umweltfreundlich"
     }
   },
+  "showcase": {
+    "title": {
+      "lead": "Ihre Einladung, jetzt",
+      "accent": "in der Tasche."
+    },
+    "subtitle": "Von der Hochzeit bis zur Verlobung: Jedes Design öffnet sich perfekt auf dem Handy.",
+    "cta": "Alle Designs entdecken",
+    "phoneLabel": "{{category}}-Design {{name}} in der Vorschau öffnen"
+  },
   "giftCode": {
     "toggle": "Ich habe einen Geschenkcode",
     "appliedBadge": "Angewendet",

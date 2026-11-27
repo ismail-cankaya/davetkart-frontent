@@ -28,6 +28,15 @@
       "eco": "Ecológico"
     }
   },
+  "showcase": {
+    "title": {
+      "lead": "O seu convite, agora",
+      "accent": "no bolso."
+    },
+    "subtitle": "De casamentos a noivados, cada design abre na perfeição no telemóvel.",
+    "cta": "Explorar todos os designs",
+    "phoneLabel": "Abrir o design {{name}} de {{category}} na pré-visualização"
+  },
   "giftCode": {
     "toggle": "Tenho um código de presente",
     "appliedBadge": "Aplicado",

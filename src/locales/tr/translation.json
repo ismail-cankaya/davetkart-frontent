@@ -62,6 +62,15 @@
       "eco": "Çevre Dostu"
     }
   },
+  "showcase": {
+    "title": {
+      "lead": "Davetiyeniz artık",
+      "accent": "cepte."
+    },
+    "subtitle": "Düğünden nişana, her tasarım telefonda kusursuz açılır.",
+    "cta": "Tüm tasarımları keşfet",
+    "phoneLabel": "{{category}}, {{name}} tasarımını önizlemede aç"
+  },
   "giftCode": {
     "toggle": "Hediye kodum var",
     "appliedBadge": "Uygulandı",

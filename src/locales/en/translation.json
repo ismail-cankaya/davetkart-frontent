@@ -62,6 +62,15 @@
       "eco": "Eco-Friendly"
     }
   },
+  "showcase": {
+    "title": {
+      "lead": "Your invitation, now",
+      "accent": "in their pocket."
+    },
+    "subtitle": "From weddings to engagements, every design opens flawlessly on a phone.",
+    "cta": "Explore all designs",
+    "phoneLabel": "Open the {{category}} design {{name}} in the preview"
+  },
   "giftCode": {
     "toggle": "I have a gift code",
     "appliedBadge": "Applied",

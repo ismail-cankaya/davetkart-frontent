@@ -28,6 +28,15 @@
       "eco": "环保"
     }
   },
+  "showcase": {
+    "title": {
+      "lead": "您的请柬，如今",
+      "accent": "就在口袋里。"
+    },
+    "subtitle": "从婚礼到订婚，每款设计都能在手机上完美呈现。",
+    "cta": "浏览全部设计",
+    "phoneLabel": "在预览中打开{{category}}设计“{{name}}”"
+  },
   "giftCode": {
     "toggle": "我有礼品码",
     "appliedBadge": "已使用",

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { motion, animate, useInView } from 'motion/react';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { duration, ease } from '../../utils/motion';
+import { SHOWCASE_SECTION_ID } from './showcase/showcaseLayout';
 
 /**
  * Hero koreografisi (s). Birincil CTA ~0.6 s'de oturur, hero ~1.6 s'de
@@ -255,7 +256,7 @@ export const Hero = React.memo(function Hero() {
 
       {/* Scroll indicator */}
       <motion.a
-        href="#animasyon-ve-onizleme"
+        href={`#${SHOWCASE_SECTION_ID}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: HERO_TIMING.cue, duration: 0.6 }}

@@ -28,6 +28,15 @@
       "eco": "Écologique"
     }
   },
+  "showcase": {
+    "title": {
+      "lead": "Votre invitation, désormais",
+      "accent": "dans la poche."
+    },
+    "subtitle": "Du mariage aux fiançailles, chaque modèle s'ouvre parfaitement sur mobile.",
+    "cta": "Découvrir tous les modèles",
+    "phoneLabel": "Ouvrir le modèle {{name}} ({{category}}) dans l'aperçu"
+  },
   "giftCode": {
     "toggle": "J'ai un code cadeau",
     "appliedBadge": "Appliqué",

@@ -6,6 +6,12 @@ import { Hero } from '../components/home/Hero';
 import { DeferredSection } from '../components/ui/DeferredSection';
 import { ease } from '../utils/motion';
 import { useFirstPublishPercent } from '../hooks/usePricing';
+import { SHOWCASE_HEIGHT_CLASS } from '../components/home/showcase/showcaseLayout';
+
+// Faz 23: vitrin sahnesi kendi parçasında; yer tutucu aynı yüksekliği ayırır (CLS yok).
+const ShowcaseSection = React.lazy(() =>
+  import('../components/home/showcase/ShowcaseSection').then((m) => ({ default: m.ShowcaseSection })),
+);
 
 // FE-10: önizleme (DeviceSimulator, şablon kataloğu, mağazalar) ana pakete girmesin; HomePage çizilince iner.
 const PreviewSection = React.lazy(() =>
@@ -55,7 +61,7 @@ function CreateCtaBanner() {
 }
 
 /**
- * Landing page: hero, the template showcase with the live phone preview
+ * Landing page: hero, the scroll-driven showcase scene (Faz 23), the template showcase with the live phone preview
  * (shared PreviewSection — the same component the /create studio uses),
  * feature highlights and social proof. No editing tools here.
  */
@@ -63,6 +69,9 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <React.Suspense fallback={<div className={`bg-cream ${SHOWCASE_HEIGHT_CLASS}`} aria-busy="true" />}>
+        <ShowcaseSection />
+      </React.Suspense>
       <React.Suspense fallback={<div className="min-h-[100svh]" aria-busy="true" />}>
         <PreviewSection />
       </React.Suspense>

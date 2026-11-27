@@ -28,6 +28,15 @@
       "eco": "Ecológico"
     }
   },
+  "showcase": {
+    "title": {
+      "lead": "Tu invitación, ahora",
+      "accent": "en el bolsillo."
+    },
+    "subtitle": "De bodas a compromisos, cada diseño se abre a la perfección en el móvil.",
+    "cta": "Descubre todos los diseños",
+    "phoneLabel": "Abrir el diseño {{name}} de {{category}} en la vista previa"
+  },
   "giftCode": {
     "toggle": "Tengo un código de regalo",
     "appliedBadge": "Aplicado",

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import Lenis from 'lenis';
+import { SHOWCASE_SECTION_ID } from '../components/home/showcase/showcaseLayout';
 
 const HEADER_OFFSET = -76;
 
@@ -48,10 +49,9 @@ export function scrollToTarget(target: string | number, options?: { immediate?: 
     window.scrollTo({ top: dest as number, behavior: 'smooth' });
   }
 }
-// First section after the landing hero (template showcase) — the hero snap's
-// target. On other pages the zone math collapses and the snap stays inert
-// (on /create the same section sits at the top, so no zone can form).
-const SNAP_SECTION_ID = 'animasyon-ve-onizleme';
+// First section after the landing hero (Faz 23: the showcase scene) — the hero
+// snap's target. On other pages the element is absent and the snap stays inert.
+const SNAP_SECTION_ID = SHOWCASE_SECTION_ID;
 const SNAP_TRIGGER = 60; // px of scroll intent past the cue before the snap kicks in
 const EASE_OUT_QUART = (t: number) => 1 - Math.pow(1 - t, 4);
 
