@@ -9,7 +9,7 @@ type Preset = ComponentType<TemplateProps>;
  * pakete statik olarak girer, tembel yükleme boşa giderdi.
  */
 function fromBarrel<K extends string>(load: () => Promise<Record<K, Preset>>, name: K): Preset {
-  return lazy(() => load().then((m) => ({ default: m[name] })));
+  return lazy<Preset>(() => load().then((m) => ({ default: m[name] })));
 }
 
 const dugunKitap = () => import('./dugun/kitap');

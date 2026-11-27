@@ -32,7 +32,7 @@ const CARD_MOTION_CLASS =
   '[transition:box-shadow_300ms_ease,translate_300ms_var(--ease-luxe),scale_120ms_ease-out] hover:-translate-y-[5px] active:scale-[0.97]';
 
 interface TemplateGridProps {
-  simulatorRef: React.RefObject<HTMLDivElement>;
+  simulatorRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export function TemplateGrid({ simulatorRef }: TemplateGridProps) {

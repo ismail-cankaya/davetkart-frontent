@@ -19,7 +19,7 @@ function lazyTemplate<K extends string>(
   load: () => Promise<Record<K, ComponentType<TemplateProps>>>,
   name: K,
 ): ComponentType<TemplateProps> {
-  return lazy(() => load().then((m) => ({ default: m[name] })));
+  return lazy<ComponentType<TemplateProps>>(() => load().then((m) => ({ default: m[name] })));
 }
 
 /** Şablon kimliği → tembel bileşen. Yeni şablon: barrel'a + buraya; `verify:bundle` eksiği yakalar. */

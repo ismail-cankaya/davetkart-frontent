@@ -70,7 +70,7 @@ const RISE_HIDDEN = { opacity: 0, transform: 'translateY(10px)' };
 const RISE_SHOWN = { opacity: 1, transform: 'translateY(0px)' };
 
 interface DeviceSimulatorProps {
-  simulatorRef: React.RefObject<HTMLDivElement>;
+  simulatorRef: React.RefObject<HTMLDivElement | null>;
   /**
    * Ana sayfa tanıtımı. Yeni davetiye boş doğduğu için, taslak henüz içerik
    * taşımıyorsa önizlemeye örnek içerik bindirilir (store'a yazılmaz).

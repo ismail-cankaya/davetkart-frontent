@@ -11,3 +11,8 @@ okunuyordu; ortak preset'in kına'daki görünümü (`categoryOverrides`) atlan�
 
 Artık `getPresetForCategory(slot.presetId, slot.categoryId)` kullanılır. Mekanizma:
 `src/data.md` §10.
+
+## Faz 21.8 (`FE-03`): `simulatorRef` tipi
+
+`React.RefObject<HTMLDivElement | null>`: React 19'da `useRef<HTMLDivElement>(null)` bu türü döndürür; `strict` açılınca
+eski `RefObject<HTMLDivElement>` derlenmiyordu. Kullanım zaten `simulatorRef.current?.` ile null güvenliydi.

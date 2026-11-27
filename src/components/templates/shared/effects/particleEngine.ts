@@ -988,10 +988,12 @@ export function createParticleField(
   options: FieldOptions,
   { staticFrame = false }: { staticFrame?: boolean } = {}
 ): FieldHandle {
-  const g = canvas.getContext('2d', { alpha: true });
-  if (!g) {
+  const maybeContext = canvas.getContext('2d', { alpha: true });
+  if (!maybeContext) {
     return { setRunning: () => undefined, destroy: () => undefined };
   }
+  // Bir kez daraltılır: aşağıdaki fonksiyon bildirimleri (hoisting) yukarıdaki null kontrolünü görmez (FE-03).
+  const g: CanvasRenderingContext2D = maybeContext;
 
   const preset = PRESETS[options.preset]();
   const rng = mulberry32(options.seed ?? 0x5eed);
