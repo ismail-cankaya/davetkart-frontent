@@ -9,7 +9,7 @@ import { ChevronDownIcon } from './icons';
 import { useCountdown } from './useCountdown';
 import { ease } from '../../../utils/motion';
 import { TrackingReveal } from './TrackingReveal';
-import { InvText, useInvText } from '../../../invitationText/InvitationTextContext';
+import { InvText, useFixedText } from '../../../invitationText/InvitationTextContext';
 
 /**
  * Yoğunluk modu: 'compact', süslemelerin metin alanını daralttığı şablonlarda
@@ -94,8 +94,8 @@ export function Summary({ invitation, theme, flavor, density = 'default' }: Summ
   const isDark = theme.id === 'midnight';
   const compact = density === 'compact';
   const { Ornament } = flavor;
-  const t = useInvText();
-  const nameWords = (invitation.names || t('names.placeholder')).split(' ');
+  const fixed = useFixedText();
+  const nameWords = (invitation.names || fixed('names.placeholder')).split(' ');
   // Tarih ve mekân yalnızca kullanıcı gerçekten girdiyse çizilir.
   const dateLabel = formatDateStr(invitation.date);
   const venue = displayText(invitation.venue);

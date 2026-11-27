@@ -119,7 +119,7 @@ export function Envelope({ invitation, theme, flavor, onRevealStart, onOpened }:
               <InvText k="envelope.label" />
             </span>
             <span className={cn('font-serif italic text-xl text-center leading-snug', theme.heading)}>
-              {invitation.names || <InvText k="names.placeholder" />}
+              {invitation.names || fixed('names.placeholder')}
             </span>
           </motion.div>
 

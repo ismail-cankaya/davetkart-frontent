@@ -1,6 +1,5 @@
 {
   "shared": {
-    "names.placeholder": "Davetlisiniz",
     "envelope.hint": "Mühre dokunarak açın",
     "countdown.days": "Gün",
     "countdown.hours": "Saat",
@@ -649,9 +648,10 @@
   },
   "fixed": {
     "envelope.open": "Davetiyeyi aç",
-    "gallery.previous": "Önceki fotoğraf",
     "gallery.next": "Sonraki fotoğraf",
+    "gallery.previous": "Önceki fotoğraf",
     "gift.copyIban": "IBAN'ı kopyala",
+    "names.placeholder": "Davetlisiniz",
     "rsvp.decrease": "Kişi sayısını azalt",
     "rsvp.increase": "Kişi sayısını artır"
   }
