@@ -1,0 +1,13 @@
+# ARC-07 (Faz 21.18, K275): metin dosyalari depoda ve calisma agacinda LF, core.autocrlf ayarindan bagimsiz.
+# Ayrinti: docs/rehber/.gitattributes.md
+* text=auto eol=lf
+
+# Ikili dosyalar: satir sonu donusumu ve metin farki yok.
+*.png binary
+*.jpg binary
+*.webp binary
+*.mp4 binary
+*.webm binary
+*.woff2 binary
+*.glb binary
+*.ico binary
