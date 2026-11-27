@@ -16,6 +16,7 @@ değişirse ikisi de yeşil kalır. Üç Playwright yolculuğu gerçek backend +
 | Frontend | `npm run build` + `vite preview` **4180**; `DAVETKART_API_PROXY` `/api` ve `/storage`'ı 8020'ye yollar |
 | Tarayıcı | Yalnızca Chromium (`Desktop Chrome`), `tr-TR` |
 | Sıra | `publish` projesi → `after-publish` (`guest-rsvp`, `paywall-after-publish`) ona bağımlı; `workers: 1` |
+| Ana sayfa | `home` projesi (`home-showcase`, Faz 23): bağımsız, yayına ve backend verisine bakmaz |
 | Çıktı | `test-results/`, `playwright-report/`, `e2e/.state/` (hepsi `.gitignore`'da) |
 
 Portlar `E2E_BACKEND_PORT` / `E2E_PREVIEW_PORT` ile değişir (hat B: 8020/4180). `reuseExistingServer: false`:
