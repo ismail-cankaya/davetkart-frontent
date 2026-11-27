@@ -32,7 +32,6 @@
       "base": "You have reached the draft limit. Delete drafts you no longer need from your dashboard to start a new one.",
       "detailed": "You can keep at most {{limit}} drafts. Delete drafts you no longer need from your dashboard to start a new one."
     },
-    "EMAIL_NOT_VERIFIED": "Please verify your email address before paying or publishing. If the link did not arrive, request a new one from the banner at the top of the page.",
     "EMAIL_VERIFICATION_INVALID": "This verification link is invalid, has expired or was already used. If your account is not verified yet, sign in and request a new link.",
     "FILE_TOO_LARGE": {
       "base": "That file is too large. Pick a smaller one and try again.",

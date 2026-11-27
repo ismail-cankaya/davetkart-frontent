@@ -26,3 +26,8 @@ hemen değişir ve önbelleğe yazılır; token dokunulmaz.
 - `resendEmailVerification()` → `POST /auth/email-verification` (204; saatte 3, 429 `RATE_LIMITED`).
 - `confirmEmailVerification(rawQuery)` → `POST /public/email-verification/confirm?<sorgu aynen>` (204 · 422 `EMAIL_VERIFICATION_INVALID`).
 - Yeni hata kodları `EMAIL_NOT_VERIFIED` (403: ödeme/yayın) ve `EMAIL_VERIFICATION_INVALID` `src/contracts/error-codes.json` kopyasında ve tr/en `errors.json`'da.
+
+## 🆕 Faz 22 (22.1 · K276)
+
+`EMAIL_NOT_VERIFIED` silindi (backend artık fırlatmıyor; sözleşme kopyası ve tr/en `errors.json` aynı maddede).
+`resendEmailVerification()` ve `confirmEmailVerification()` değişmedi.

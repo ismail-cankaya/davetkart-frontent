@@ -32,7 +32,6 @@
       "base": "Taslak sınırına ulaştınız. Yeni davetiye açmak için panelinizden kullanmadığınız taslakları silin.",
       "detailed": "En fazla {{limit}} taslak tutabilirsiniz. Yeni davetiye açmak için panelinizden kullanmadığınız taslakları silin."
     },
-    "EMAIL_NOT_VERIFIED": "Ödeme ve yayın için önce e-posta adresinizi doğrulayın. Bağlantı gelmediyse sayfanın üstündeki banttan yeniden isteyin.",
     "EMAIL_VERIFICATION_INVALID": "Doğrulama bağlantısı geçersiz, süresi dolmuş ya da zaten kullanılmış. Hesabınız doğrulanmadıysa giriş yapıp yeni bir bağlantı isteyin.",
     "FILE_TOO_LARGE": {
       "base": "Dosya çok büyük. Daha küçük bir dosya seçip tekrar deneyin.",

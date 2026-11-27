@@ -44,9 +44,9 @@ const BACKEND_LOG = path.join(
 );
 
 /**
- * SEC-09 (Faz 19.14, K191): registration signs in but checkout and publish wait
- * for a verified address. Read the verification mail from the log and open its
- * link the way the user would.
+ * SEC-09 (Faz 19.14, K191): read the verification mail from the log and open its
+ * link the way the user would. Since Faz 22.1 (K276) checkout and publish do not
+ * wait for it; the journey verifies so the first-invitation discount applies.
  */
 export async function verifyEmailIfRequired(page: Page, owner: Owner): Promise<void> {
   let link = '';

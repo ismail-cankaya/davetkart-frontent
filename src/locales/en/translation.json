@@ -34,12 +34,12 @@
     "sessionExpired": "Your session has ended. Sign in again to continue.",
     "myPanel": "My Panel",
     "verification": {
-      "banner": "We sent a verification link to {{email}}. You can keep designing; verify your address to pay and publish.",
+      "banner": "Verify your email address so you do not lose access to your account. We sent the link to {{email}}; verified accounts also get the first-invitation discount.",
       "resend": "Resend the link",
       "sent": "A new verification link was sent to {{email}}.",
       "confirming": "Verifying your address…",
       "doneTitle": "Your email address is verified",
-      "doneBody": "You can now pay and publish your invitation.",
+      "doneBody": "If you forget your password, you can get back into your account with this address. The first-invitation discount now applies to your account too.",
       "failedTitle": "This link could not be used"
     },
     "passwordHint": "At least 8 characters. Very common or easy-to-guess passwords are not accepted."
@@ -112,11 +112,11 @@
       "first_publish": "First-publish discount ({{percent}}%)",
       "campaign": "Campaign discount ({{percent}}%)"
     },
-    "firstPublishBanner": "New members only: {{percent}}% off every package on your first invitation — applied automatically at checkout.",
+    "firstPublishBanner": "New members only: {{percent}}% off every package on your first invitation — applied automatically at checkout once your email is verified.",
     "firstPublishHint": "{{percent}}% off your first invitation",
     "faqFirstPublish": {
       "q": "How does the first-invitation discount work?",
-      "a": "New members get {{percent}}% off every package on their first invitation. The discount is applied automatically at checkout; no coupon code is needed. If a campaign offers a bigger discount, the bigger one applies."
+      "a": "New members get {{percent}}% off every package on their first invitation. For accounts with a verified email address, the discount is applied automatically at checkout; no coupon code is needed. If a campaign offers a bigger discount, the bigger one applies."
     },
     "methods": {
       "cardBank": "Pay by card or bank transfer",

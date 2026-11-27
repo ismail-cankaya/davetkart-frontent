@@ -19,3 +19,16 @@ gösterilmez. `refreshSession()` ilk açılışta kullanıcıyı sunucudan tazel
 - Bant kapatılamaz: kullanıcı doğrulayana kadar ödeme ve yayın 403 alır, uyarının görünür kalması gerekir.
 - Doğrulama durumu periyodik sorgulanmaz. Bağlantı aynı tarayıcıda açılırsa `EmailVerificationPage` oturumu tazeler;
   başka cihazda açılırsa bir sonraki sayfa yüklemesinde `refreshSession()` tazeler.
+
+## 🆕 Faz 22 (22.1 · K276) — hatırlatma, engel değil
+
+Backend ödeme ve yayın kapısını kaldırdı (`EMAIL_NOT_VERIFIED` katalogdan çıktı). Bant artık bir **hatırlatma**:
+"Hesap erişiminizi kaybetmemek için e-posta adresinizi doğrulayın. Bağlantıyı {{email}} adresine gönderdik; doğrulanan
+hesaplarda ilk davetiye indirimi de geçerli olur." Yukarıdaki iki cümle geçersiz:
+
+- §"Ne yapar"daki "ödeme ve yayın için doğrulayın" metni → yeni metin (tr/en `auth.verification.banner`).
+- §"Bilerek yapılmayan"daki gerekçe → bant yine kapatılamaz, ama gerekçe artık hesap kurtarma (parola sıfırlama postası bu
+  adrese gider) ve ilk davetiye indirimi (`FirstPublishEligibility` doğrulama istemeye devam ediyor).
+
+Fiyat sayfasının indirim bandı ve SSS'si de "e-posta doğrulanınca otomatik" diyor; doğrulama sayfasının `doneBody` metni
+"artık ödeyebilirsiniz" yerine hesap kurtarmayı ve indirimi söylüyor.

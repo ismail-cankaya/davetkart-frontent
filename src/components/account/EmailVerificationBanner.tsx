@@ -9,7 +9,8 @@ import { toDisplayError } from '../../utils/toDisplayError';
 import { duration, ease } from '../../utils/motion';
 
 /**
- * Faz 19 (K191, SEC-09): doğrulanmamış hesaba "adresini doğrula" bandı + yeniden gönder.
+ * Faz 19 (K191) → Faz 22.1 (K276): doğrulanmamış hesaba hatırlatma bandı + yeniden gönder. Engel değil:
+ * ödeme ve yayın serbest, yalnızca ilk davetiye indirimi doğrulama ister.
  * Yalnızca sunucu açıkça `emailVerified: false` dediğinde görünür (eski oturum önbelleği alanı taşımaz).
  * Ayrıntılı açıklama: docs/rehber/src/components/account/EmailVerificationBanner.md
  */

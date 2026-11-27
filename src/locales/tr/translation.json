@@ -34,12 +34,12 @@
     "sessionExpired": "Oturumunuz sona erdi. Devam etmek için yeniden giriş yapın.",
     "myPanel": "Panelim",
     "verification": {
-      "banner": "{{email}} adresine bir doğrulama bağlantısı gönderdik. Davetiyenizi hazırlayabilirsiniz; ödeme ve yayın için adresinizi doğrulayın.",
+      "banner": "Hesap erişiminizi kaybetmemek için e-posta adresinizi doğrulayın. Bağlantıyı {{email}} adresine gönderdik; doğrulanan hesaplarda ilk davetiye indirimi de geçerli olur.",
       "resend": "Bağlantıyı yeniden gönder",
       "sent": "Yeni doğrulama bağlantısı {{email}} adresine gönderildi.",
       "confirming": "Adresiniz doğrulanıyor…",
       "doneTitle": "E-posta adresiniz doğrulandı",
-      "doneBody": "Artık ödeme yapabilir ve davetiyenizi yayınlayabilirsiniz.",
+      "doneBody": "Parolanızı unutursanız hesabınıza bu adresle yeniden erişebilirsiniz. İlk davetiye indirimi de artık hesabınızda geçerli.",
       "failedTitle": "Bağlantı kullanılamadı"
     },
     "passwordHint": "En az 8 karakter. Çok yaygın ya da tahmini kolay parolalar kabul edilmez."
@@ -112,11 +112,11 @@
       "first_publish": "İlk yayın indirimi (%{{percent}})",
       "campaign": "Kampanya indirimi (%{{percent}})"
     },
-    "firstPublishBanner": "Yeni üyelere özel: ilk davetiyenizde tüm paketlerde %{{percent}} indirim — ödeme adımında otomatik uygulanır.",
+    "firstPublishBanner": "Yeni üyelere özel: ilk davetiyenizde tüm paketlerde %{{percent}} indirim — e-postanızı doğruladığınızda ödeme adımında otomatik uygulanır.",
     "firstPublishHint": "İlk davetiyenizde %{{percent}} indirim",
     "faqFirstPublish": {
       "q": "İlk davetiye indirimi nasıl çalışır?",
-      "a": "Yeni üyelerimizin ilk davetiyesinde tüm paketlerde %{{percent}} indirim uygulanır. İndirim ödeme adımında otomatik olarak yansıtılır; kupon kodu gerekmez. Bir kampanya daha büyük bir indirim sunuyorsa büyük olan uygulanır."
+      "a": "Yeni üyelerimizin ilk davetiyesinde tüm paketlerde %{{percent}} indirim uygulanır. İndirim, e-posta adresi doğrulanmış hesaplarda ödeme adımında otomatik olarak yansıtılır; kupon kodu gerekmez. Bir kampanya daha büyük bir indirim sunuyorsa büyük olan uygulanır."
     },
     "methods": {
       "cardBank": "Kartla ya da Havale/EFT ile ödeme",
