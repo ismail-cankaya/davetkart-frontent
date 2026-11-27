@@ -45,3 +45,9 @@ To maintain a high-quality, production-ready SaaS application, all new developme
 - **Strict TypeScript:** Write strict, strongly typed TypeScript code (`tsconfig.json` has `"strict": true`). Define explicit interfaces/types for all data structures and API responses. Avoid `any`.
 - **Code Splitting:** Continue utilizing `React.lazy` and `React.Suspense` for heavy components to optimize First Contentful Paint (FCP).
 - **Documentation:** Use Github-style Markdown when creating documentation and include clear comments for complex business logic.
+
+## Git (İsmail, 2026-11-27)
+- **Commit, dal oluşturma ve push varsayılan olarak engellidir; her biri soruya tabidir.** İsmail açıkça istemedikçe
+  `git commit`, `git push`, `git branch`, `git checkout -b` / `git switch -c` çalıştırma; değişikliği çalışma ağacında bırak
+  ve İsmail'e sor. `.claude/settings.json` bu komutlarda onay ister.
+- Dosyalar tek tek eklenir (CRLF tuzağı: `git add -A` yok).
