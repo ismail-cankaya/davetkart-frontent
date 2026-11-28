@@ -142,6 +142,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       { label: 'Hikaye / Zaman çizelgesi', included: false },
       { label: 'Fotoğraf galerisi', included: false },
       { label: 'Hediye & IBAN modülü', included: false },
+      { label: 'Metinleri özelleştirme', included: false },
       { label: 'Logosuz özel yayın', included: false }
     ]
   },
@@ -158,6 +159,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       { label: 'Hikaye / Zaman çizelgesi', included: true },
       { label: 'Fotoğraf galerisi', included: false },
       { label: 'Hediye & IBAN modülü', included: false },
+      { label: 'Metinleri özelleştirme', included: false },
       { label: 'Logosuz özel yayın', included: false }
     ]
   },
@@ -174,6 +176,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
       { label: 'Hikaye / Zaman çizelgesi', included: true },
       { label: 'Fotoğraf galerisi', included: true },
       { label: 'Hediye & IBAN modülü', included: true },
+      { label: 'Metinleri özelleştirme', included: true },
       { label: 'Logosuz özel yayın', included: true }
     ]
   }
@@ -217,6 +220,10 @@ export const INITIAL_INVITATION: Invitation = {
 
   rsvpDeadline: '',
   askMenuPreference: true,
+
+  // Faz 24 (K302, K303): davetiyenin dili ve değiştirilen sabit metinler (başta hiçbiri).
+  locale: 'tr',
+  textOverrides: {},
 
   timelineEvents: DEFAULT_TIMELINE_EVENTS,
   galleryImages: []

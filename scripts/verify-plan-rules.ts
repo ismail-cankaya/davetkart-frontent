@@ -12,7 +12,7 @@
  * 🔴 Kırmızıysa farkı bir tarafa "uydurma": hangi şablonun hangi planda olduğu bir
  * fiyat kararıdır ve backend'de verilir. Ayrıntı: docs/rehber/scripts/verify-plan-rules.md
  */
-import { MODULE_FIELDS, PLAN_RULES } from '../src/contracts/planRules';
+import { DERIVED_MODULES, MODULE_FIELDS, PLAN_RULES } from '../src/contracts/planRules';
 import { INITIAL_INVITATION, SUBSCRIPTION_PLANS } from '../src/data';
 import { TEMPLATE_PRESETS } from '../src/templateCatalog';
 import { TIER_RANK, getRequiredTier } from '../src/stores/useSubscriptionStore';
@@ -130,7 +130,8 @@ const MODULE_ROWS: ReadonlyArray<{ label: string; module: string }> = [
   { label: 'Zarf açılış animasyonu', module: 'show_envelope' },
   { label: 'Hikaye / Zaman çizelgesi', module: 'show_timeline' },
   { label: 'Fotoğraf galerisi', module: 'show_gallery' },
-  { label: 'Hediye & IBAN modülü', module: 'show_gift' }
+  { label: 'Hediye & IBAN modülü', module: 'show_gift' },
+  { label: 'Metinleri özelleştirme', module: 'has_custom_texts' }
 ];
 const WHITE_LABEL_ROW = 'Logosuz özel yayın';
 /** LCV satırının etiketi plana göre değişir ("maksimum 100 kişi" / "Sınırsız"). */
@@ -261,6 +262,11 @@ function invitationWith(modules: readonly string[], imageTheme: string): Invitat
   for (const [module, field] of Object.entries(MODULE_FIELDS)) {
     invitation[field] = modules.includes(module);
   }
+  // Türetilen kolon (Faz 24, K305): değiştirilmiş bir metin varsa açık.
+  invitation.textOverrides = modules.includes('has_custom_texts') ? { tr: { 'rsvp.submit': 'Geliyorum' } } : {};
+  for (const [module, derived] of Object.entries(DERIVED_MODULES)) {
+    if (derived(invitation) !== modules.includes(module)) throw new Error(`invitationWith: ${module} türetilemedi`);
+  }
   return invitation;
 }
 
@@ -281,8 +287,9 @@ function verifyRequiredTier(): void {
   const before = failures;
 
   const modules = Object.keys(moduleTiers);
-  if (!same(sorted(Object.keys(MODULE_FIELDS)), sorted(modules))) {
-    fail(`MODULE_FIELDS [${sorted(Object.keys(MODULE_FIELDS))}] ≠ sözleşmedeki modüller [${sorted(modules)}]`);
+  const mapped = [...Object.keys(MODULE_FIELDS), ...Object.keys(DERIVED_MODULES)];
+  if (!same(sorted(mapped), sorted(modules))) {
+    fail(`MODULE_FIELDS + DERIVED_MODULES [${sorted(mapped)}] ≠ sözleşmedeki modüller [${sorted(modules)}]`);
     return;
   }
 
