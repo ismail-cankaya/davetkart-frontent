@@ -225,7 +225,8 @@ export function DeviceCanvas({
           </div>
         </motion.div>
       </div>
-      {body && createPortal(<div className="flex h-full w-full flex-col">{children(framedEditor)}</div>, body)}
+      {/* Misafir sayfası gibi `main` içinde; adlı, çünkü sayfanın kendi `main`'i de var (axe landmark-unique, Faz 29.5). */}
+      {body && createPortal(<main aria-label={title} className="flex h-full w-full flex-col">{children(framedEditor)}</main>, body)}
     </div>
   );
 }

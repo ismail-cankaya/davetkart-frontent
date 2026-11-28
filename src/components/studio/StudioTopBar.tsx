@@ -135,7 +135,9 @@ export function StudioTopBar() {
         <motion.button
           type="button"
           onClick={publish}
-          disabled={isPublishing || (isLive && !hasPending)}
+          // Yayınlarken `disabled` değil: düğme odağını korur, paywall kapanınca odak ona döner (B-H3). Çift tık `usePublishFlow`'da.
+          disabled={isLive && !hasPending}
+          aria-busy={isPublishing}
           whileTap={{ scale: 0.97 }}
           className="relative inline-flex h-9 items-center gap-1.5 overflow-hidden rounded-full bg-champagne px-4 text-xs font-bold text-brand-deep shadow-lg shadow-black/20 hover:bg-white disabled:opacity-50 cursor-pointer disabled:cursor-default"
         >

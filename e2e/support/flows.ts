@@ -64,11 +64,12 @@ export async function verifyEmailIfRequired(page: Page, owner: Owner): Promise<v
   await expect(page.getByRole('heading', { name: 'E-posta adresiniz doğrulandı' })).toBeVisible();
 }
 
-/** FE-50 (K192): the draft id lives in the URL, so a reload reopens the same draft. */
+/** FE-50 (K192): the draft id lives in the URL, so a reload reopens the same draft (Faz 28: in the studio). */
 export async function draftSurvivesReload(page: Page, names: { first: string }): Promise<void> {
-  await expect(page).toHaveURL(/\/create\/[0-9a-z]{26}$/i);
+  await expect(page).toHaveURL(/\/studio\/[0-9a-z]{26}$/i);
   await page.reload();
-  await expect(page.locator('main').getByText(names.first).first()).toBeVisible();
+  // The invitation is drawn in the canvas iframe; the studio top bar repeats the names.
+  await expect(page.locator('header').getByText(names.first).first()).toBeVisible({ timeout: 30_000 });
 }
 
 export async function createInvitation(page: Page, names: { first: string; second: string }): Promise<void> {

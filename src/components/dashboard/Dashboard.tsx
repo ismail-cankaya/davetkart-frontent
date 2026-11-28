@@ -157,7 +157,7 @@ function InvitationCard({ card, onResume, onShare, onDelete }: InvitationCardPro
             <div className="grid grid-cols-2 gap-2">
               <Link
                 to={`/invite/${card.remoteId}`}
-                className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2.5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 shadow-sm shadow-emerald-600/20 transition duration-300"
+                className="inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold px-2 py-2.5 rounded-xl bg-emerald-700 text-white hover:bg-emerald-800 shadow-sm shadow-emerald-600/20 transition duration-300"
               >
                 <Eye size={13} /> {t('textEditor.card.view')}
               </Link>

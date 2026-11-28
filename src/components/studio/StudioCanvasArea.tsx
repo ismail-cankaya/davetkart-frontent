@@ -56,7 +56,7 @@ export function StudioCanvasArea() {
   const control = 'grid h-9 w-9 place-items-center rounded-full text-ink/70 hover:bg-ink/5 hover:text-ink transition-colors cursor-pointer disabled:opacity-40';
 
   return (
-    <section className="relative flex min-w-0 flex-1 flex-col bg-[#ECE8E1] [background-image:radial-gradient(rgba(20,40,30,0.08)_1px,transparent_1px)] [background-size:18px_18px]">
+    <main className="relative flex min-w-0 flex-1 flex-col bg-[#ECE8E1] [background-image:radial-gradient(rgba(20,40,30,0.08)_1px,transparent_1px)] [background-size:18px_18px]">
       <div className="min-h-0 flex-1">
         <DeviceCanvas
           device={device}
@@ -131,6 +131,6 @@ export function StudioCanvasArea() {
           </button>
         </motion.div>
       </div>
-    </section>
+    </main>
   );
 }

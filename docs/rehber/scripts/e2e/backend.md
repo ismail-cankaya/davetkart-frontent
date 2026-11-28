@@ -32,3 +32,5 @@ Elle: `powershell -File scripts/e2e/backend.ps1 -Port 8020` → `http://127.0.0.
 
 `LOG_CHANNEL=single`: SEC-09'un doğrulama kancası (`e2e/support/flows.ts`) bağlantıyı `storage/logs/laravel.log`'dan
 okur; `.env` `daily` derse dosya `laravel-<tarih>.log` olur ve yolculuk düşer. Kanca dosya yokken de bekler.
+`LOG_LEVEL=debug` (Faz 29.5): `log` postacısı postayı `debug` düzeyinde yazar; `.env` `LOG_LEVEL=error` derse posta
+günlüğe hiç düşmez ve yolculuk aynı yerde düşer (Linux'ta bash eşdeğeriyle görüldü).

@@ -14,13 +14,18 @@ test('yayındaki davetiyede Elit modülü plan duvarını açar', async ({ page 
   await expect(page).toHaveURL(/\/studio\//);
   await page.getByRole('tab', { name: 'Bölümler' }).click();
 
-  const gallery = page.getByRole('switch', { name: /Fotoğraf Galerisi/ });
+  const gallery = page.getByRole('switch', { name: 'Galeri', exact: true });
   await expect(gallery).toHaveAttribute('aria-checked', 'false');
   const [save] = await Promise.all([
     page.waitForResponse(r => r.request().method() === 'PUT' && r.url().endsWith('/pending'), { timeout: 20_000 }),
     gallery.click()
   ]);
   expect(save.status(), 'PUT /pending with an Elit module: the draft is free').toBe(200);
+  // Açılan bölümün ayarı yanda açılır (Faz 25); 1440 px altında modal: önce kapatılır.
+  const drawer = page.getByRole('dialog', { name: 'Galeri' });
+  await expect(drawer).toBeVisible();
+  await drawer.getByRole('button', { name: 'Kapat' }).click();
+  await expect(drawer).toHaveCount(0);
 
   const publish = page.getByRole('button', { name: 'Değişiklikleri yayınla' });
   const [attempt] = await Promise.all([

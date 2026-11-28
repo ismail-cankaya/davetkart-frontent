@@ -41,3 +41,8 @@ Kaydet iframe'e anında yansır; Ctrl+Z odak iframe'deyken de çalışır (`useF
   `useTilt`) ya da `document.fonts.ready`'yi ana belgeden okur (`DugunKelebek`, `DugunAltinToz`, `useSikiBlok`):
   tuvalde süs hareketleri hafif kayık olabilir; misafir sayfası etkilenmez.
 - Misafir sayfası (`/invite/:id`) ve ana sayfa vitrini iframe kullanmaz.
+
+## Yer işareti (Faz 29.5)
+
+Portal içeriği iframe'de `<main aria-label={title}>` içinde çizilir; misafir sayfasının kökü de `<main>` olduğundan
+şablonlar aynı yapıyı görür. Ad zorunlu: stüdyo ve panelin kendi `main`'i var (axe `landmark-unique`).

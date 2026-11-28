@@ -3,7 +3,8 @@ import { expect, test, type Browser, type Page } from '@playwright/test';
 import { OWNER_STORAGE, readPublished } from './support/state';
 
 /**
- * Erişilebilirlik taraması (Faz 19.27, FE-54, K229): denetimin 14 sayfası (AUD-2026-11-12 axe-scan.mjs).
+ * Erişilebilirlik taraması (Faz 19.27, FE-54, K229): denetimin 14 sayfası (AUD-2026-11-12 axe-scan.mjs);
+ * Faz 29.5: Tasarım Stüdyosu ve hızlı önizleme.
  * Sıfır olmalı: `color-contrast`, `aria-*`, `landmark-*`, `region`. `heading-order` (best-practice) B-H4'ten beri kapıda.
  */
 const DESKTOP = { width: 1280, height: 800 };
@@ -30,7 +31,7 @@ async function scan(browser: Browser, path: string, auth: boolean, viewport: { w
     }));
 }
 
-test('15 sayfada kontrast ve yer işareti ihlali yok', async ({ browser }) => {
+test('17 sayfada kontrast ve yer işareti ihlali yok', async ({ browser }) => {
   test.setTimeout(300_000);
   const { invitationId } = readPublished();
   const pages: [string, string, boolean, typeof DESKTOP][] = [
@@ -38,6 +39,7 @@ test('15 sayfada kontrast ve yer işareti ihlali yok', async ({ browser }) => {
     ['Fiyatlar', '/pricing', false, DESKTOP], ['İletişim', '/contact', false, DESKTOP], ['Gizlilik', '/privacy', false, DESKTOP],
     ['Hakkımızda', '/about', false, DESKTOP],
     ['Sihirbaz', '/create', true, DESKTOP], ['Panel', '/dashboard', true, DESKTOP],
+    ['Stüdyo', `/studio/${invitationId}`, true, DESKTOP], ['Hızlı önizleme', `/dashboard/preview/${invitationId}`, true, DESKTOP],
     ['Ödeme', `/odeme?tier=gold&invitation=${invitationId}`, true, DESKTOP],
     ['Hesap · güvenlik', '/hesap/guvenlik', true, DESKTOP], ['Hesap · planlarım', '/hesap/planlarim', true, DESKTOP],
     ['Misafir (390)', `/invite/${invitationId}`, false, MOBILE], ['Ana sayfa (390)', '/', false, MOBILE], ['Panel (390)', '/dashboard', true, MOBILE],
