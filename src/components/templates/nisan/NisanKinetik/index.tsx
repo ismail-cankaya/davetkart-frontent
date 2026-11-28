@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { KinetikHero } from '../../shared/heroes';
 import { NISAN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanKinetik — "Kinetik Tipografi" nişan yorumu: pudra zemin, gül kurusu vurgu.
@@ -31,13 +32,14 @@ const NISAN_KINETIK_THEME: SectionTheme = {
 };
 
 export function NisanKinetik({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={NISAN_FLAVOR}
       mode={mode}
       themeOverride={NISAN_KINETIK_THEME}
-      renderHero={(props) => <KinetikHero {...props} topWord="NİŞAN" />}
+      renderHero={(props) => <KinetikHero {...props} topWord={t('design.nisan-kinetik.ustKelime')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #fbf6f7 0%, #f2eaed 100%)"

@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('baby-ay-besigi', { landscape: '50% 30%', portrait: '50% 30%' });
 const FONT = 'Quicksand:wght@300..700';
@@ -73,6 +73,7 @@ function Pirilti({ reduced }: { reduced: boolean }) {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -91,7 +92,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         >
           <Pirilti reduced={reduced} />
           <motion.p {...fade(0.8)} className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#8F72C4]">
-            {d.title || 'Bebek Hoş Geldin'}
+            {d.title || t('design.baby-ay-besigi.baslik')}
           </motion.p>
           <h1 className={`mt-4 ${DISPLAY} font-semibold leading-[1.05] text-[clamp(2.4rem,11cqw,5.2rem)] text-[#3E2F5B] max-w-full break-words [text-shadow:0_2px_24px_rgba(255,255,255,0.7)]`}>
             {(d.hasNames ? d.people : [NO_NAMES]).map((p, i) => (
@@ -118,7 +119,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Kavuşmaya kalan"
+        eyebrow={t('design.baby-ay-besigi.geriSayimBasligi')}
         classes={{
           root: 'min-h-[75svh]',
           eyebrow: 'text-[#8F72C4]',

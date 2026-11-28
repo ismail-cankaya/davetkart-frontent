@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /* ——— Gece kıyısı paleti ——— */
 const LAMP = '#FFD27A';
@@ -169,17 +169,18 @@ interface BilgiSatiri {
 }
 
 /** Boş alanların satırı hiç çıkmaz. */
-function satirlariKur(d: HeroData): BilgiSatiri[] {
+function satirlariKur(d: HeroData, t: (key: string) => string): BilgiSatiri[] {
   const s: BilgiSatiri[] = [];
-  if (d.date.day) s.push({ key: 'tarih', label: 'Tarih', value: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
-  if (d.date.time) s.push({ key: 'saat', label: 'Saat', value: d.date.time });
-  if (d.venue) s.push({ key: 'mekan', label: 'Mekân', value: d.venue });
+  if (d.date.day) s.push({ key: 'tarih', label: t('label.date'), value: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
+  if (d.date.time) s.push({ key: 'saat', label: t('label.time'), value: d.date.time });
+  if (d.venue) s.push({ key: 'mekan', label: t('label.venue'), value: d.venue });
   return s;
 }
 
 function FenerHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boolean }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
-  const satirlar = useMemo(() => satirlariKur(d), [d]);
+  const satirlar = useMemo(() => satirlariKur(d, t), [d, t]);
 
   /** Işık soldan sağa süpürür gibi: kırpma açılır, bulanıklık kalkar. */
   const isik = (delay: number) =>

@@ -9,7 +9,7 @@ import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTem
 import { TemplateProps } from '../../types';
 import type { Invitation } from '../../../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('dogum-gunu-havai-fisek', { landscape: '50% 40%', portrait: '50% 45%' });
 const FONT = 'Syne:wght@500..800';
@@ -106,6 +106,7 @@ function Sayim() {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -126,7 +127,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           style={{ colors: style.colors, count: 46, speed: 230, gravity: 90, life: 1.6, size: 2.2, trail: true }}
         />
         <motion.p {...fade(0)} className={`${DISPLAY} font-semibold text-[10px] sm:text-xs tracking-[0.45em] uppercase text-[#FFC86B]`}>
-          {d.title || 'Doğum Günü Kutlaması'}
+          {d.title || t('design.dogum-gunu-havai-fisek.baslik')}
         </motion.p>
         {age !== null && (
           <motion.div
@@ -164,7 +165,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Büyük geceye"
+        eyebrow={t('design.dogum-gunu-havai-fisek.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: `${DISPLAY} text-[#FFC86B]`,

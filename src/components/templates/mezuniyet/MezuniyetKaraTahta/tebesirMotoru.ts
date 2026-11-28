@@ -1,12 +1,12 @@
 import { useCallback, useEffect, useRef, type RefObject } from 'react';
 
-/** Pastel tebeşir renkleri (beyaz + dört pastel). */
+/** Pastel tebeşir renkleri (beyaz + dört pastel). `ad` erişilebilirlik etiketinin sabit metin anahtarı. */
 export const TEBESIRLER = [
-  { id: 'beyaz', ad: 'Beyaz tebeşir', renk: '#F4F1E6' },
-  { id: 'pembe', ad: 'Pembe tebeşir', renk: '#F5B9C9' },
-  { id: 'mavi', ad: 'Mavi tebeşir', renk: '#A9D6EC' },
-  { id: 'sari', ad: 'Sarı tebeşir', renk: '#F6E3A0' },
-  { id: 'yesil', ad: 'Yeşil tebeşir', renk: '#BFE6C4' }
+  { id: 'beyaz', ad: 'design.mezuniyet-kara-tahta.tebesir-beyaz', renk: '#F4F1E6' },
+  { id: 'pembe', ad: 'design.mezuniyet-kara-tahta.tebesir-pembe', renk: '#F5B9C9' },
+  { id: 'mavi', ad: 'design.mezuniyet-kara-tahta.tebesir-mavi', renk: '#A9D6EC' },
+  { id: 'sari', ad: 'design.mezuniyet-kara-tahta.tebesir-sari', renk: '#F6E3A0' },
+  { id: 'yesil', ad: 'design.mezuniyet-kara-tahta.tebesir-yesil', renk: '#BFE6C4' }
 ] as const;
 
 export type TebesirId = (typeof TEBESIRLER)[number]['id'];

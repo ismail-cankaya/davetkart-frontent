@@ -5,19 +5,21 @@ import { KinetikHero } from '../../shared/heroes';
 import { SUNNET_KINETIK } from '../themes';
 import { SUNNET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * SunnetKinetik — "Kinetik Tipografi": zemin pelerinin kendisi (doygun sax),
  * şeritte kuşağın nakışı gibi tekrar eden "MAŞALLAH".
  */
 export function SunnetKinetik({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={SUNNET_FLAVOR}
       mode={mode}
       themeOverride={SUNNET_KINETIK}
-      renderHero={(props) => <KinetikHero {...props} topWord="MAŞALLAH" />}
+      renderHero={(props) => <KinetikHero {...props} topWord={t('design.sunnet-kinetik.ustKelime')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(170deg, #2540c0 0%, #1b2f9e 55%, #14237a 100%)"

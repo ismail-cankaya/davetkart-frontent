@@ -10,6 +10,7 @@
 export const SPINE_POINTS = 10;
 export const FISH = 2;
 
+// text-slots: kod — GLSL gölgelendirici; Türkçe yorumlar
 export const KOI_FRAG = /* glsl */ `
 #define TAU 6.28318530718
 uniform float uTime;

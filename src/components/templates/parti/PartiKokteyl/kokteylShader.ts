@@ -17,6 +17,7 @@ export const GLASS = {
   halfTop: 0.102
 };
 
+// text-slots: kod — GLSL gölgelendirici; Türkçe yorumlar
 export const KOKTEYL_FRAG = /* glsl */ `
 #define TAU 6.28318530718
 uniform float uTime;

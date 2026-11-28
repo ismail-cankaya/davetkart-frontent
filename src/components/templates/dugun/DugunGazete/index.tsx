@@ -5,16 +5,18 @@ import { GazeteHero } from '../../shared/heroes';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /** DugunGazete — "Gazete Manşeti" düğün yorumu: daveti bir evlilik ilanı olarak basan dizgi. */
 export function DugunGazete({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN_THEMES.DugunGazete}
-      renderHero={(props) => <GazeteHero {...props} masthead="EVLİLİK İLANI" />}
+      renderHero={(props) => <GazeteHero {...props} masthead={t('design.dugun-gazete.masthead')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #f9f8f7 0%, #ecebe9 100%)"

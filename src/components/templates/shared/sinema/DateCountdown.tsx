@@ -4,7 +4,7 @@ import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
 import { useCountdown } from '../useCountdown';
 import { eventDateParts } from '../eventDate';
-import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 export interface DateCountdownClasses {
   /** Bölüm kabı (yükseklik, boşluk). */
@@ -20,10 +20,10 @@ export interface DateCountdownClasses {
 }
 
 const UNITS = [
-  ['days', 'Gün'],
-  ['hours', 'Saat'],
-  ['minutes', 'Dakika'],
-  ['seconds', 'Saniye']
+  ['days', 'countdown.days'],
+  ['hours', 'countdown.hours'],
+  ['minutes', 'countdown.minutes'],
+  ['seconds', 'countdown.seconds']
 ] as const;
 
 /**
@@ -33,7 +33,7 @@ const UNITS = [
  */
 export function DateCountdown({
   invitation,
-  eyebrow = 'Geri sayım',
+  eyebrow,
   classes = {},
   ornament
 }: {
@@ -45,6 +45,7 @@ export function DateCountdown({
   const reduced = useReducedMotion() ?? false;
   const d = eventDateParts(invitation.date);
   const countdown = useCountdown(invitation.date, invitation.timezone);
+  const t = useInvText();
   if (!d.day) return null;
   const showTimer = invitation.showTimer && countdown.valid;
   const inView = (delay: number) =>
@@ -60,7 +61,7 @@ export function DateCountdown({
     <section dir="auto" className={cn('relative flex flex-col items-center justify-center text-center px-6 py-24', classes.root)}>
       {ornament}
       <motion.p {...inView(0)} className={cn('text-[10px] tracking-[0.45em] uppercase', classes.eyebrow)}>
-        {eyebrow}
+        {eyebrow ?? t('label.countdown')}
       </motion.p>
       <motion.p {...inView(0.12)} className={cn('mt-5', classes.date)}>
         {d.dayMonth || d.day}
@@ -80,7 +81,7 @@ export function DateCountdown({
                 <span className={cn('tabular-nums text-3xl sm:text-4xl leading-none', classes.number)}>
                   {String(countdown[key]).padStart(2, '0')}
                 </span>
-                <span className={cn('mt-2 text-[9px] sm:text-[10px] uppercase tracking-[0.25em]', classes.label)}>{label}</span>
+                <span className={cn('mt-2 text-[9px] sm:text-[10px] uppercase tracking-[0.25em]', classes.label)}>{t(label)}</span>
               </div>
             </React.Fragment>
           ))}

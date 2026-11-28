@@ -8,7 +8,7 @@ import { displayText } from '../../utils';
 import type { Invitation } from '../../../../types';
 import { TemplateProps } from '../../types';
 import { KURUMSAL_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /*
  * Palet — "Mürekkep & Kehribar": yeşil-siyah hacker klişesi değil; derin
@@ -70,7 +70,7 @@ interface ScriptBlock {
 const AGENDA_LIMIT = 4;
 
 /** Boş veriyi atlayarak komut bloklarını kurar. Bloğun çıktısı yoksa blok hiç yazılmaz. */
-function buildScript(d: HeroData, invitation: Invitation): ScriptBlock[] {
+function buildScript(d: HeroData, invitation: Invitation, t: (key: string) => string): ScriptBlock[] {
   const blocks: ScriptBlock[] = [];
   const line = (text: string, tone: Tone): OutputLine[] => (text ? [{ text, tone }] : []);
 
@@ -90,7 +90,7 @@ function buildScript(d: HeroData, invitation: Invitation): ScriptBlock[] {
 
   blocks.push({
     cmd: 'venue --map',
-    out: [...line(d.venue, 'strong'), ...(d.venue && displayText(invitation.mapUrl) ? line('→ yol tarifi aşağıda hazır', 'muted') : [])]
+    out: [...line(d.venue, 'strong'), ...(d.venue && displayText(invitation.mapUrl) ? line(t('design.kurumsal-terminal.yolTarifi'), 'muted') : [])]
   });
 
   const agenda = invitation.showTimeline
@@ -178,10 +178,11 @@ function Prompt({ children }: { children?: React.ReactNode }) {
 }
 
 function TerminalHero({ invitation, mode, revealed }: HeroRenderProps & { mode: 'preview' | 'live'; revealed: boolean }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
   const instant = reduced || mode === 'preview';
-  const blocks = useMemo(() => buildScript(d, invitation), [d, invitation]);
+  const blocks = useMemo(() => buildScript(d, invitation, t), [d, invitation, t]);
   const { step, starts, total } = useTypewriter(blocks, instant, revealed);
   const done = step >= total;
   const srText = scriptToText(blocks);

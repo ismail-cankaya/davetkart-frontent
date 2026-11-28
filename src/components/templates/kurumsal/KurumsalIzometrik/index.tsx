@@ -9,7 +9,7 @@ import { hasTimelineEventContent } from '../../../../utils/timelineEvents';
 import type { Invitation } from '../../../../types';
 import { TemplateProps } from '../../types';
 import { KURUMSAL_FLAVOR } from '../flavors';
-import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -45,12 +45,13 @@ const IZOMETRIK_TEMASI: SectionTheme = {
   footer: { names: 'text-[#475569]', branding: 'text-[#94A3B8]' }
 };
 
-const HEADINGS = {
-  timeline: 'Ajanda',
-  details: 'Mekân',
-  gallery: 'Maketten Kareler',
-  gift: 'Katkı',
-  rsvp: 'LCV'
+/** Katların bölüm başlığı anahtarları: kat adı ve kaydırma hedefi kullanıcının başlığından okunur (Faz 26.3). */
+const HEADING_KEYS = {
+  timeline: 'timeline.heading',
+  details: 'details.heading',
+  gallery: 'gallery.heading',
+  gift: 'gift.heading',
+  rsvp: 'rsvp.heading'
 } as const;
 
 const IZOMETRIK_FLAVOR: TemplateFlavor = {
@@ -59,7 +60,7 @@ const IZOMETRIK_FLAVOR: TemplateFlavor = {
   textScopes: ['kurumsal-izometrik', ...(KURUMSAL_FLAVOR.textScopes ?? [])]
 };
 
-type FloorKey = keyof typeof HEADINGS;
+type FloorKey = keyof typeof HEADING_KEYS;
 
 interface Floor {
   key: FloorKey;
@@ -67,17 +68,17 @@ interface Floor {
 }
 
 /** Yalnızca verisi dolu (kompozisyonun gerçekten çizeceği) bölümler kat olur. */
-function buildFloors(invitation: Invitation): Floor[] {
+function buildFloors(invitation: Invitation, t: (key: string) => string): Floor[] {
   const floors: Floor[] = [];
   if (invitation.showTimeline && (invitation.timelineEvents ?? []).some(hasTimelineEventContent)) {
-    floors.push({ key: 'timeline', label: 'Ajanda' });
+    floors.push({ key: 'timeline', label: t(HEADING_KEYS.timeline) });
   }
   if (displayText(invitation.date) || displayText(invitation.venue) || displayText(invitation.mapUrl)) {
-    floors.push({ key: 'details', label: 'Mekân' });
+    floors.push({ key: 'details', label: t(HEADING_KEYS.details) });
   }
-  if (invitation.showGallery && invitation.galleryImages.length > 0) floors.push({ key: 'gallery', label: 'Galeri' });
-  if (invitation.showGift && displayText(invitation.iban)) floors.push({ key: 'gift', label: 'Katkı' });
-  if (invitation.showRSVP) floors.push({ key: 'rsvp', label: 'LCV' });
+  if (invitation.showGallery && invitation.galleryImages.length > 0) floors.push({ key: 'gallery', label: t('design.kurumsal-izometrik.galeriKati') });
+  if (invitation.showGift && displayText(invitation.iban)) floors.push({ key: 'gift', label: t(HEADING_KEYS.gift) });
+  if (invitation.showRSVP) floors.push({ key: 'rsvp', label: t(HEADING_KEYS.rsvp) });
   return floors;
 }
 
@@ -258,11 +259,11 @@ function Model({ floors, explode, animated, active, onHover, onPick }: ModelProp
           <g
             role="button"
             tabIndex={0}
-            aria-label={`${f.label} bölümüne git`}
+            aria-label={staticFixedText('design.kurumsal-izometrik.bolumeGit').replace('{label}', f.label)}
             className="cursor-pointer focus:outline-none"
             onClick={() => onPick(f.key)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
+              if (e.key === 'Enter' || e.key === ' ') { // text-slots: kod — tuş adı
                 e.preventDefault();
                 onPick(f.key);
               }
@@ -295,9 +296,8 @@ function Model({ floors, explode, animated, active, onHover, onPick }: ModelProp
 }
 
 /** Bölümü kompozisyonun kaydırma kabında başlığından bulur ve oraya kayar. */
-function scrollToSection(container: HTMLDivElement | null | undefined, key: FloorKey, smooth: boolean) {
+function scrollToSection(container: HTMLDivElement | null | undefined, heading: string, smooth: boolean) {
   if (!container) return;
-  const heading = HEADINGS[key];
   const target = Array.from(container.querySelectorAll('section')).find(
     (s) => (s.querySelector('h2')?.textContent ?? '').trim() === heading
   );
@@ -310,7 +310,8 @@ function IzometrikHero({ invitation, scrollContainer, mode }: HeroRenderProps & 
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
   const animated = mode === 'live' && !reduced;
-  const floors = useMemo(() => buildFloors(invitation), [invitation]);
+  const t = useInvText(IZOMETRIK_FLAVOR);
+  const floors = useMemo(() => buildFloors(invitation, t), [invitation, t]);
   const [hover, setHover] = useState<FloorKey | null>(null);
 
   // Patlatılmış görünüm: kaydırdıkça katlar ayrılır. Statik kipte hafif ayrık sabit kare.
@@ -322,8 +323,8 @@ function IzometrikHero({ invitation, scrollContainer, mode }: HeroRenderProps & 
   });
 
   const pick = useCallback(
-    (k: FloorKey) => scrollToSection(scrollContainer?.current, k, !reduced),
-    [scrollContainer, reduced]
+    (k: FloorKey) => scrollToSection(scrollContainer?.current, t(HEADING_KEYS[k]), !reduced),
+    [scrollContainer, reduced, t]
   );
   const textDelay = animated ? PLATE_DRAW + (floors.length + 1) * FLOOR_STAGGER + 0.2 : 0;
   const fade = (delay: number) =>

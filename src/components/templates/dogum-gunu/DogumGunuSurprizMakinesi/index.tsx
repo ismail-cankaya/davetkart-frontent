@@ -111,6 +111,7 @@ function DroppedCapsule({ color, onOpen }: { color: number; onOpen: () => void }
 }
 
 function Machine({ prizes, live, still, onPrize }: { prizes: Prize[]; live: boolean; still: boolean; onPrize: (color: number) => void }) {
+  const t = useInvText();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const machine = useRef<Machine | null>(null);
   const [turns, setTurns] = useState(0);
@@ -196,7 +197,7 @@ function Machine({ prizes, live, still, onPrize }: { prizes: Prize[]; live: bool
           </div>
         </div>
         <p className={`${BALOO} mt-3 text-center text-[12px] font-bold tracking-[0.2em] uppercase text-white/90`}>
-          {!live ? 'Sürpriz Makinesi' : done ? 'Hepsi açıldı!' : pending ? 'Kapsüle dokun!' : 'Kolu çevir'}
+          {!live ? t('design.dogum-gunu-surpriz-makinesi.surprizMakinesi') : done ? t('design.dogum-gunu-surpriz-makinesi.hepsiAcildi') : pending ? t('design.dogum-gunu-surpriz-makinesi.kapsuleDokun') : t('design.dogum-gunu-surpriz-makinesi.koluCevir')}
         </p>
       </div>
       {/* Ayak */}
@@ -214,18 +215,19 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
   const fade = (delay: number) =>
     still ? {} : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { delay, duration: 0.7, ease: [0.22, 1, 0.36, 1] as const } };
 
-  const tagline = useInvText(FLAVOR)('hero.tagline');
+  const t = useInvText(FLAVOR);
+  const tagline = t('hero.tagline');
   const prizes = useMemo<Prize[]>(() => {
     const first = invitation.timelineEvents.find((e) => displayText(e.title));
     const list: Prize[] = [
-      { key: 'tarih', icon: '📅', label: 'Tarih', value: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(', ') },
-      { key: 'saat', icon: '⏰', label: 'Saat', value: d.date.time },
-      { key: 'yer', icon: '📍', label: 'Yer', value: d.venue },
-      { key: 'program', icon: '🎈', label: 'Programda', value: first ? [first.time, displayText(first.title)].filter(Boolean).join(' · ') : '' },
-      { key: 'surpriz', icon: '🎁', label: 'Sürpriz', value: d.subtitle || tagline }
+      { key: 'tarih', icon: '📅', label: t('label.date'), value: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(', ') },
+      { key: 'saat', icon: '⏰', label: t('label.time'), value: d.date.time },
+      { key: 'yer', icon: '📍', label: t('label.place'), value: d.venue },
+      { key: 'program', icon: '🎈', label: t('design.dogum-gunu-surpriz-makinesi.programda'), value: first ? [first.time, displayText(first.title)].filter(Boolean).join(' · ') : '' },
+      { key: 'surpriz', icon: '🎁', label: t('design.dogum-gunu-surpriz-makinesi.surpriz'), value: d.subtitle || tagline }
     ];
     return list.filter((p) => p.value);
-  }, [d, invitation.timelineEvents, tagline]);
+  }, [d, invitation.timelineEvents, tagline, t]);
 
   const [opened, setOpened] = useState<{ prize: Prize; color: number }[]>([]);
   // Önizleme ve hareketi azalt: bütün kartlar baştan açık.
@@ -236,19 +238,19 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
     <div className="relative grow flex flex-col">
       <div className="relative min-h-[100svh] flex flex-col items-center px-5 pt-12 pb-24 text-center" dir="auto">
         <motion.p {...fade(0.1)} className={`${BALOO} text-xs font-bold tracking-[0.3em] uppercase text-[#E8344E]`}>
-          {d.title || 'Doğum Günü Partisi'}
+          {d.title || t('design.dogum-gunu-surpriz-makinesi.baslik')}
         </motion.p>
         <motion.h1 {...fade(0.2)} className={`${BALOO} mt-1 font-extrabold leading-[0.95] text-[clamp(2.6rem,12cqw,4.6rem)] text-[#2E1F33] break-words max-w-full [text-shadow:0_4px_0_#FFC83D]`}>
           {name}
         </motion.h1>
         <motion.p {...fade(0.35)} className={`${NUNITO} mt-2 mb-6 text-[15px] font-semibold text-[#6E5A70]`}>
-          {live && !reduced ? 'Kolu çevir, kapsülleri aç, partiyi keşfet!' : 'Sürpriz makinesinden çıkanlar:'}
+          {live && !reduced ? <InvText k="design.dogum-gunu-surpriz-makinesi.koluCevirKesfet" /> : <InvText k="design.dogum-gunu-surpriz-makinesi.makinedenCikanlar" />}
         </motion.p>
 
         <motion.div initial={still ? false : { opacity: 0, scale: 0.85, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.9, ease: [0.34, 1.56, 0.64, 1] }}>
           <Machine prizes={prizes} live={live && !reduced} still={still} onPrize={(color) => setOpened((o) => (o.length < prizes.length ? [...o, { prize: prizes[o.length], color }] : o))} />
         </motion.div>
-        {live && !reduced && <GyroButton className="mt-4 bg-white/80 text-[#6E5A70] border border-[#F3D9C4]" label={'Telefonu eğerek kapsülleri yuvarla'} />}
+        {live && !reduced && <GyroButton className="mt-4 bg-white/80 text-[#6E5A70] border border-[#F3D9C4]" label={t('design.dogum-gunu-surpriz-makinesi.telefonuEgerek')} />}
 
         <div className="mt-6 w-full max-w-[360px] space-y-2.5" aria-live="polite">
           <AnimatePresence>

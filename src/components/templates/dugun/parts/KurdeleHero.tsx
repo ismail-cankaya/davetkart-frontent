@@ -8,7 +8,7 @@ import { SectionTheme } from '../../shared/palette';
 import { useCountdown } from '../../shared/useCountdown';
 import { KurdeleCizim } from './Kurdele';
 import { splitCouple, splitDateLabel } from './heroText';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 export type KurdeleDensity = 'default' | 'compact';
 
@@ -105,13 +105,14 @@ function CountdownRibbon({
   compact: boolean;
 }) {
   const { valid, days, hours, minutes, seconds } = useCountdown(invitation.date, invitation.timezone);
+  const t = useInvText();
   if (!valid) return null;
 
   const units: Array<[number, string]> = [
-    [days, 'Gün'],
-    [hours, 'Saat'],
-    [minutes, 'Dakika'],
-    [seconds, 'Saniye']
+    [days, t('countdown.days')],
+    [hours, t('countdown.hours')],
+    [minutes, t('countdown.minutes')],
+    [seconds, t('countdown.seconds')]
   ];
 
   return (

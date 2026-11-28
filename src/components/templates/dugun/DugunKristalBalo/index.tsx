@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('dugun-kristal-balo', { landscape: '50% 40%', portrait: '50% 35%' });
 const FONT = 'Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800';
@@ -96,6 +96,7 @@ function IsikCizgisi() {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -125,7 +126,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       <div className="relative min-h-[100svh] @container flex flex-col items-center justify-end px-6 pt-[45svh] pb-24 text-center [perspective:900px]" dir="auto">
         <motion.div ref={ref} style={{ rotateX: rx, rotateY: ry }} className="[transform-style:preserve-3d]">
           <motion.p {...fade(1.2)} className={`${DIDONE} text-[10px] sm:text-[11px] tracking-[0.6em] uppercase text-[#E6C887]`}>
-            {d.title || 'Balomuza Davetlisiniz'}
+            {d.title || t('design.dugun-kristal-balo.baslik')}
           </motion.p>
           <h1 className={`mt-5 ${DIDONE} font-medium leading-[0.98] tracking-[-0.01em] text-[clamp(2.6rem,12cqw,6.2rem)] max-w-full break-words [filter:drop-shadow(0_0_24px_rgba(200,215,255,0.35))_drop-shadow(0_3px_14px_rgba(0,0,0,0.8))]`}>
             {(d.hasNames ? d.people : [NO_NAMES]).map((p, i) => (

@@ -1,6 +1,7 @@
 import React, { useState, useSyncExternalStore } from 'react';
 import { Smartphone } from 'lucide-react';
 import { cn } from '../../../../utils/cn';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 type Permission = 'unknown' | 'granted' | 'denied';
 
@@ -47,7 +48,8 @@ async function request(): Promise<void> {
  * "Eğerek oynat" düğmesi: yalnızca izin isteyen tarayıcıda (iOS Safari) ve
  * henüz karar verilmemişken görünür. Öbür cihazlarda `useTilt` izinsiz çalışır.
  */
-export function GyroButton({ className, label = 'Telefonu eğerek oynatın' }: { className?: string; label?: string }) {
+export function GyroButton({ className, label }: { className?: string; label?: string }) {
+  const t = useInvText();
   const current = useSyncExternalStore(subscribe, () => permission, () => 'granted' as Permission);
   const [needed] = useState(needsPermission);
   if (!needed || current !== 'unknown') return null;
@@ -61,7 +63,7 @@ export function GyroButton({ className, label = 'Telefonu eğerek oynatın' }: {
       )}
     >
       <Smartphone size={14} />
-      {label}
+      {label ?? t('design.gyro.oynat')}
     </button>
   );
 }

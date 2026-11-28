@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('dugun-yasemin');
 const FONT = 'Pinyon+Script';
@@ -92,6 +92,7 @@ function YaprakYagmuru() {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -105,7 +106,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         <AyIsigi enabled={live} />
         {live && <YaprakYagmuru />}
         <motion.p {...fade(0.7)} className="font-cormorant text-[11px] sm:text-xs tracking-[0.55em] uppercase text-[#E8D9A6] [text-shadow:0_1px_10px_rgba(0,0,0,0.9)]">
-          {d.title || 'Düğünümüze davetlisiniz'}
+          {d.title || t('design.dugun-yasemin.baslik')}
         </motion.p>
         <motion.span
           aria-hidden="true"
@@ -138,7 +139,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Büyük güne"
+        eyebrow={t('design.dugun-yasemin.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'font-cormorant text-[#E8D9A6]',

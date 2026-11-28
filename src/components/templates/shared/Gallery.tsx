@@ -7,7 +7,7 @@ import { SectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { ChevronLeftIcon, ChevronRightIcon } from './icons';
 import { SectionHeading, sectionMotion } from './SectionHeading';
-import { InvText, useFixedText } from '../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useFixedText } from '../../../invitationText/InvitationTextContext';
 
 interface GalleryProps {
   invitation: Invitation;
@@ -97,7 +97,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
             <motion.img
               key={index}
               src={images[index].url}
-              alt={`Galeri fotoğrafı ${index + 1}`}
+              alt={staticFixedText('gallery.photoAlt').replace('{n}', String(index + 1))}
               className="absolute inset-0 w-full h-full object-cover"
               custom={slide}
               variants={slideVariants}
@@ -161,7 +161,7 @@ export function Gallery({ invitation, theme, flavor }: GalleryProps) {
               <button
                 key={image.id ?? image.url}
                 type="button"
-                aria-label={`${dotIndex + 1}. fotoğrafa git`}
+                aria-label={staticFixedText('gallery.goToPhoto').replace('{n}', String(dotIndex + 1))}
                 onClick={() => {
                   if (dotIndex !== index) goTo(() => dotIndex, dotIndex > index ? 1 : -1);
                 }}

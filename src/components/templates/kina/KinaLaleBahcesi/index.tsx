@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const GOLD = '#E3B85C';
 
@@ -102,17 +102,18 @@ function LaleBackdrop({ hareketli }: { hareketli: boolean }) {
   );
 }
 
-function satirlar(d: HeroData): { k: string; l: string; v: string }[] {
+function satirlar(d: HeroData, t: (key: string) => string): { k: string; l: string; v: string }[] {
   const s: { k: string; l: string; v: string }[] = [];
-  if (d.date.day) s.push({ k: 'tarih', l: 'Tarih', v: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
-  if (d.date.time) s.push({ k: 'saat', l: 'Saat', v: d.date.time });
-  if (d.venue) s.push({ k: 'mekan', l: 'Mekân', v: d.venue });
+  if (d.date.day) s.push({ k: 'tarih', l: t('label.date'), v: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
+  if (d.date.time) s.push({ k: 'saat', l: t('label.time'), v: d.date.time });
+  if (d.venue) s.push({ k: 'mekan', l: t('label.venue'), v: d.venue });
   return s;
 }
 
 function LaleHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boolean }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
-  const bilgi = useMemo(() => satirlar(d), [d]);
+  const bilgi = useMemo(() => satirlar(d, t), [d, t]);
   const belir = (delay: number) =>
     hareketli
       ? { initial: { opacity: 0, y: 18 }, animate: { opacity: 1, y: 0 }, transition: { duration: 1, delay, ease: [0.22, 1, 0.36, 1] as const } }

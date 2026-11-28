@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { KinetikHero } from '../../shared/heroes';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * MezuniyetKinetik — "Kinetik Tipografi" mezuniyet yorumu: afiş kağıdı, koyu yeşil vurgu.
@@ -34,13 +35,14 @@ const MEZUNIYET_KINETIK_THEME: SectionTheme = {
 };
 
 export function MezuniyetKinetik({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={MEZUNIYET_FLAVOR}
       mode={mode}
       themeOverride={MEZUNIYET_KINETIK_THEME}
-      renderHero={(props) => <KinetikHero {...props} topWord="MEZUNİYET" />}
+      renderHero={(props) => <KinetikHero {...props} topWord={t('design.mezuniyet-kinetik.ustKelime')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #f9f8f3 0%, #efede5 100%)"

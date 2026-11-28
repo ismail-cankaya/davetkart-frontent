@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
-import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 type FigureKind = 'moon' | 'star' | 'cloud';
@@ -328,6 +328,7 @@ interface InfoCard {
 }
 
 function DonenceHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode: Mode }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
   const animated = useAnimated(mode);
   const { scrollY } = useScroll({ container: scrollContainer });
@@ -335,8 +336,8 @@ function DonenceHero({ invitation, scrollContainer, mode }: HeroRenderProps & { 
   const rotTarget = useTransform(scrollY, (y) => (y / (scrollContainer?.current?.clientHeight || 800)) * Math.PI * 3);
 
   const cards: InfoCard[] = [];
-  if (d.date.day) cards.push({ key: 'date', label: d.date.weekday || 'Tarih', value: d.date.day, extra: d.date.time || undefined });
-  if (d.venue) cards.push({ key: 'venue', label: 'Yer', value: d.venue });
+  if (d.date.day) cards.push({ key: 'date', label: d.date.weekday || t('label.date'), value: d.date.day, extra: d.date.time || undefined });
+  if (d.venue) cards.push({ key: 'venue', label: t('label.place'), value: d.venue });
 
   const rise = (delay: number) =>
     animated

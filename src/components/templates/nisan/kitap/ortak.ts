@@ -1,6 +1,7 @@
 import type { TemplateFlavor } from '../../shared/flavor';
 import { romen, type BezAdi, type EtiketBicimi } from '../../konsept/kitap';
 import { NISAN_FLAVOR } from '../flavors';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Nişanın kitap preset'lerinin ortak tabanı. Nişan hikâyenin **önsözü**dür
@@ -19,7 +20,7 @@ export const NISAN_KITAP_FLAVOR: TemplateFlavor = {
  * Hero önsözün ilk sayfasıdır (I); düğündeki "Bölüm II" burada olmaz, çünkü
  * kitabın birinci bölümü henüz yazılmadı. Modül sabiti (useMemo bağımlılığı).
  */
-export const ONSOZ_ETIKETI: EtiketBicimi = (sira) => `Önsöz · ${romen(sira)}`;
+export const ONSOZ_ETIKETI: EtiketBicimi = (sira) => staticFixedText('design.nisan-kitap.onsoz').replace('{n}', romen(sira));
 
 /**
  * Nişanın bezi `murdum`: düğün `sise` ve `lacivert`, kına `sarap` taşır; aynı

@@ -1,4 +1,5 @@
 import { formatCalendarDay, formatDateStr } from '../../utils';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /** Hero'nun isim satırları: iki kişi ise ayrı satırlar, değilse tek satır. */
 export type KinaNames = { first: string; second: string };
@@ -16,7 +17,7 @@ export function splitKinaNames(names: string | null | undefined): KinaNames {
     if (first && second) return { first, second };
   }
   const single = text.replace(/^&\s*|\s*&$/g, '').trim();
-  return { first: single || 'Davetlisiniz', second: '' };
+  return { first: single || staticFixedText('names.placeholder'), second: '' };
 }
 
 /** Tarih künyesi: gün adı · takvim günü · saat; tarih yoksa hepsi boş. */

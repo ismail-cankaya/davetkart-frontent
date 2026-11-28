@@ -34,6 +34,7 @@ export function orbPositions(t: number, aspect: number): number[] {
   return out;
 }
 
+// text-slots: kod — GLSL gölgelendirici; Türkçe yorumlar
 export const HAVUZ_FRAG = /* glsl */ `
 #define TAU 6.28318530718
 uniform float uTime;

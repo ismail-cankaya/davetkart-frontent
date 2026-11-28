@@ -9,7 +9,7 @@ import { GyroButton, useDeviceMotion } from '../../shared/three';
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
 import { GLASS, KOKTEYL_FRAG } from './kokteylShader';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,700;1,6..96,500&family=Manrope:wght@400;600';
 const BODONI = "[font-family:'Bodoni_Moda',var(--font-cormorant),serif]";
@@ -90,6 +90,7 @@ function initials(people: string[]): string {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONTS);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -184,7 +185,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         {/* Üst: adlar */}
         <div className="absolute inset-x-0 top-0 h-[33%] flex flex-col items-center justify-end px-5 pb-2 text-center pointer-events-none">
           <motion.p {...fade(0.3)} className={`${MANROPE} text-[10px] font-semibold tracking-[0.42em] uppercase text-[#FF9A6E]`}>
-            {d.title || 'Kokteyl Daveti'}
+            {d.title || t('design.parti-kokteyl.baslik')}
           </motion.p>
           <h1 className={`${BODONI} mt-2 font-medium leading-[0.95] tracking-[-0.01em] text-[clamp(2.1rem,9.5cqw,4.6rem)] text-[#FFF3F6] max-w-full break-words`}>
             {names.map((p, i) => (
@@ -210,7 +211,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           )}
           {live && (
             <div className="pointer-events-auto">
-              <GyroButton className="mt-2 bg-[#1A0B1E]/70 text-[#FF9A6E] border border-[#FF9A7A]/25" label={'Eğerek çalkala'} />
+              <GyroButton className="mt-2 bg-[#1A0B1E]/70 text-[#FF9A6E] border border-[#FF9A7A]/25" label={t('design.parti-kokteyl.egerekCalkala')} />
             </div>
           )}
         </div>

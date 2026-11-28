@@ -2,7 +2,7 @@ import React from 'react';
 import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
 import { useCountdown } from '../useCountdown';
-import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 interface HeroCountdownProps {
   invitation: Invitation;
@@ -14,10 +14,10 @@ interface HeroCountdownProps {
 }
 
 const UNITS = [
-  ['days', 'Gün'],
-  ['hours', 'Saat'],
-  ['minutes', 'Dakika'],
-  ['seconds', 'Saniye']
+  ['days', 'countdown.days'],
+  ['hours', 'countdown.hours'],
+  ['minutes', 'countdown.minutes'],
+  ['seconds', 'countdown.seconds']
 ] as const;
 
 /**
@@ -26,6 +26,7 @@ const UNITS = [
  */
 export function HeroCountdown({ invitation, cellClassName, numberClassName, labelClassName, className }: HeroCountdownProps) {
   const countdown = useCountdown(invitation.date, invitation.timezone);
+  const t = useInvText();
   if (!invitation.showTimer || !countdown.valid) return null;
   return (
     <div className={cn('flex items-start justify-center gap-3 sm:gap-5', className)} role="timer" aria-label={staticFixedText('design.hero-countdown.etkinligeKalanSure')}>
@@ -34,7 +35,7 @@ export function HeroCountdown({ invitation, cellClassName, numberClassName, labe
           <span className={cn('tabular-nums text-2xl sm:text-3xl leading-none', numberClassName)}>
             {String(countdown[key]).padStart(2, '0')}
           </span>
-          <span className={cn('mt-1.5 text-[10px] uppercase tracking-[0.2em]', labelClassName)}>{label}</span>
+          <span className={cn('mt-1.5 text-[10px] uppercase tracking-[0.2em]', labelClassName)}>{t(label)}</span>
         </div>
       ))}
     </div>

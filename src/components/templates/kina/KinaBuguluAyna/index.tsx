@@ -9,7 +9,7 @@ import { CinemaBackdrop, DateCountdown, LightLayer, ScrollCue, useTemplateFont }
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
 import { createFogEngine, type FogEngine } from './buguMotoru';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('kina-bugulu-ayna', { landscape: '50% 50%', portrait: '50% 50%' });
 const BUHAR = clipSet('kina-bugulu-ayna', 'on');
@@ -157,6 +157,7 @@ function FoggedGlass({ active, children }: { active: boolean; children: React.Re
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONTS);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -169,7 +170,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
     <div className="relative grow flex flex-col">
       <div className="relative min-h-[100svh] flex flex-col items-center justify-center px-5 pt-12 pb-24" dir="auto">
         <motion.p {...fade(0.2)} className={`${SERIF} text-[11px] tracking-[0.42em] uppercase text-[#E3B276] mb-5`}>
-          {d.title || 'Kına Gecesi'}
+          {d.title || t('design.kina-bugulu-ayna.baslik')}
         </motion.p>
 
         {/* Ayna: pirinç çerçeve, sivri kemer, cam yansıması. */}
@@ -213,7 +214,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Kına gecesine"
+        eyebrow={t('design.kina-bugulu-ayna.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#E3B276]',

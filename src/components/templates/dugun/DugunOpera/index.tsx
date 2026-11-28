@@ -16,7 +16,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { createCurtain, fitCanvas } from './perdeMotoru';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -188,6 +188,7 @@ function GoldCrest({ className = '' }: { className?: string }) {
 }
 
 function StageCurtain({ animated, gate, onAim }: { animated: boolean; gate: MotionValue<number>; onAim: (x: number) => void }) {
+  const t = useInvText();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const curtain = useMemo(() => createCurtain(animated ? 0 : 1), [animated]);
   const [open, setOpen] = useState(!animated);
@@ -306,13 +307,14 @@ function StageCurtain({ animated, gate, onAim }: { animated: boolean; gate: Moti
         onClick={toggle}
         className="absolute z-30 bottom-5 left-1/2 -translate-x-1/2 rounded-full border border-[#D9A548]/50 bg-[#1A0509]/70 backdrop-blur px-4 py-1.5 text-[10px] tracking-[0.32em] uppercase text-[#F2D08A] hover:bg-[#D9A548]/15 transition-colors"
       >
-        {open ? 'Perdeyi kapat' : 'Perdeyi aç'}
+        {open ? t('design.dugun-opera.perdeyiKapat') : t('design.dugun-opera.perdeyiAc')}
       </button>
     </>
   );
 }
 
 function OperaHero({ invitation, mode, gate, onAim }: HeroRenderProps & { mode: Mode; gate: MotionValue<number>; onAim: (x: number) => void }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
   const animated = useAnimated(mode);
   const [play, setPlay] = useState(!animated);
@@ -350,7 +352,7 @@ function OperaHero({ invitation, mode, gate, onAim }: HeroRenderProps & { mode: 
       <div className="relative z-10 flex flex-col items-center">
         <motion.div {...rise(T_NAMES - 0.4)}>
           <GoldCrest className="w-32 sm:w-40 h-auto" />
-          <p className="mt-3 text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#E8BC62]">{d.title || 'Gala Gecesi'}</p>
+          <p className="mt-3 text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#E8BC62]">{d.title || t('design.dugun-opera.baslik')}</p>
         </motion.div>
 
         <motion.h1

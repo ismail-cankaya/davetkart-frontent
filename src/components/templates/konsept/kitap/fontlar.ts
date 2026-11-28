@@ -44,7 +44,7 @@ export function useBaslikFontuHazir(sinirMs = 400): boolean {
     const bitir = () => !iptal && setHazir(true);
     const zaman = window.setTimeout(bitir, sinirMs);
     stilEkle()
-      .then(() => document.fonts.load('40px "Libre Caslon Display"', 'ĞŞİığşçöü&'))
+      .then(() => document.fonts.load('40px "Libre Caslon Display"', 'ĞŞİığşçöü&')) // text-slots: kod — yazı tipi yükleme örnek harfleri
       .then(bitir, bitir);
     return () => {
       iptal = true;

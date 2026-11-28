@@ -21,7 +21,8 @@ interface RSVPFormProps {
   flavor: TemplateFlavor;
 }
 
-const MENU_OPTIONS = ['Et Menü', 'Tavuk Menü', 'Vejetaryen Menü'] as const;
+/** Menü seçenekleri (düzenlenebilir metin anahtarları); gönderilen değer seçeneğin metnidir. */
+const MENU_OPTIONS = ['rsvp.menuMeat', 'rsvp.menuChicken', 'rsvp.menuVegetarian'] as const;
 
 /**
  * Inline RSVP section — shadcn-minimal form. On submit the entry is committed
@@ -39,7 +40,8 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
   const [guestCount, setGuestCount] = useState(2);
   const [status, setStatus] = useState<RsvpStatus>('attending');
   const [website, setWebsite] = useState('');
-  const [menuPreference, setMenuPreference] = useState<string>(MENU_OPTIONS[0]);
+  // Boş = ilk seçenek (metni kullanıcının değiştirebildiği anahtardan okunur).
+  const [menuPreference, setMenuPreference] = useState<string>('');
   const [error, setError] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -62,7 +64,7 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
       guestName: guestName.trim(),
       guestCount,
       status,
-      menuPreference: invitation.askMenuPreference ? menuPreference : 'Belirtilmedi',
+      menuPreference: invitation.askMenuPreference ? menuPreference || t(MENU_OPTIONS[0]) : fixed('rsvp.menuUnspecified'),
       message: '',
       website
     });
@@ -229,13 +231,13 @@ export function RSVPForm({ invitation, theme, flavor }: RSVPFormProps) {
                     </label>
                     <select
                       id="rsvp-menu"
-                      value={menuPreference}
+                      value={menuPreference || t(MENU_OPTIONS[0])}
                       onChange={(e) => setMenuPreference(e.target.value)}
                       className={cn(theme.input, isDark && '[color-scheme:dark]', 'cursor-pointer')}
                     >
-                      {MENU_OPTIONS.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
+                      {MENU_OPTIONS.map((key) => (
+                        <option key={key} value={t(key)}>
+                          {t(key)}
                         </option>
                       ))}
                     </select>

@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { useCountdown } from '../../shared/useCountdown';
 import { etiketBelirir } from './hareket';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 interface SergiSayacProps {
   date: string;
@@ -18,20 +19,21 @@ interface SergiSayacProps {
  * Tarih okunamıyorsa hiç çizilmez. Saniyede bir değişen rakamlar ekran
  * okuyucuya duyurulmaz (canlı bölge yok); tarih etikette zaten yazılı.
  */
-export function SergiSayac({ date, timeZone, baslik = 'Açılışa kalan', gecikme, className }: SergiSayacProps) {
+export function SergiSayac({ date, timeZone, baslik, gecikme, className }: SergiSayacProps) {
   const { valid, days, hours, minutes, seconds } = useCountdown(date, timeZone);
+  const t = useInvText();
   if (!valid) return null;
   const birimler: [string, number][] = [
-    ['Gün', days],
-    ['Saat', hours],
-    ['Dakika', minutes],
-    ['Saniye', seconds]
+    [t('countdown.days'), days],
+    [t('countdown.hours'), hours],
+    [t('countdown.minutes'), minutes],
+    [t('countdown.seconds'), seconds]
   ];
 
   return (
     <motion.div {...etiketBelirir(gecikme)} className={cn('w-full max-w-[21rem]', className)}>
       <p lang="tr" className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--sg-etiket)]">
-        {baslik}
+        {baslik ?? t('design.sergi.acilisaKalan')}
       </p>
       <div className="mt-2.5 grid grid-cols-4 gap-3 border-t border-[var(--sg-kenar)] pt-3">
         {birimler.map(([ad, deger]) => (

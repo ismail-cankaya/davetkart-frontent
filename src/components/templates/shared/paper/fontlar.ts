@@ -12,13 +12,14 @@ import { loadTemplateFonts } from '../../../../utils/templateFonts';
  */
 
 /** Adlarda kullanılan el yazıları. Gövdede ve küçük metinde KULLANILMAZ. */
+// text-slots: kod — yazı tipi aileleri (CSS), metin değil; satırlar işaretli
 export const EL_YAZILARI = {
   /** Resmî bakır gravür kaligrafisi. Yalnızca ≥ 28 px adlar. */
-  pinyon: { aile: 'Pinyon Script', yigin: '"Pinyon Script", "Cormorant Garamond", Georgia, serif' },
+  pinyon: { aile: 'Pinyon Script', yigin: '"Pinyon Script", "Cormorant Garamond", Georgia, serif' }, // text-slots: kod
   /** Fırça kaligrafisi; ince–kalın karşıtlığı yüksek, küçükte daha okunur. */
-  'alex-brush': { aile: 'Alex Brush', yigin: '"Alex Brush", "Cormorant Garamond", Georgia, serif' },
+  'alex-brush': { aile: 'Alex Brush', yigin: '"Alex Brush", "Cormorant Garamond", Georgia, serif' }, // text-slots: kod
   /** Gündelik el yazısı (not kâğıdı, kraft). ≥ 20 px. */
-  caveat: { aile: 'Caveat', yigin: 'Caveat, "Cormorant Garamond", Georgia, serif' }
+  caveat: { aile: 'Caveat', yigin: 'Caveat, "Cormorant Garamond", Georgia, serif' } // text-slots: kod
 } as const;
 
 export type ElYazisi = keyof typeof EL_YAZILARI;
@@ -52,7 +53,7 @@ export function useElYazisiHazir(el: ElYazisi | undefined, sinirMs = 700): boole
     let iptal = false;
     const bitir = () => !iptal && setHazir(true);
     const zaman = window.setTimeout(bitir, sinirMs);
-    document.fonts.load(`32px "${EL_YAZILARI[el].aile}"`, 'ğşıİçöüÇÖŞĞÜ').then(bitir, bitir);
+    document.fonts.load(`32px "${EL_YAZILARI[el].aile}"`, 'ğşıİçöüÇÖŞĞÜ').then(bitir, bitir); // text-slots: kod — yazı tipi yükleme örnek harfleri
     return () => {
       iptal = true;
       window.clearTimeout(zaman);

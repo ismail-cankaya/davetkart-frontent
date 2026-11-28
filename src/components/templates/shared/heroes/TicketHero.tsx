@@ -6,7 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { Perforation, Barcode } from '../effects';
 import { ease } from '../../../../utils/motion';
-import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Etkinlik Bileti hero — yerleşim süs değil, İŞLEV taşır.
@@ -42,6 +42,7 @@ function Field({
 }
 
 export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
+  const t = useInvText();
   const { valid, days } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
   const dateParts = formatDateStr(invitation.date).split(' ');
@@ -102,7 +103,7 @@ export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
               <Field label={<InvText k="label.time" />} value={timeText} theme={theme} />
               <Field
                 label={<InvText k="label.remaining" />}
-                value={invitation.showTimer && valid ? `${days} gün` : '—'}
+                value={invitation.showTimer && valid ? `${days} ${t('countdown.daysLower')}` : '—'}
                 theme={theme}
               />
             </div>

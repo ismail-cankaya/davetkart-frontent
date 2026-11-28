@@ -15,7 +15,7 @@ import {
   type BezAdi
 } from '../../../konsept/kitap';
 import { DUGUN_KITAP_FLAVOR } from '../ortak';
-import { InvText } from '../../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DugunKitapBirinciBolum — "Birinci Bölüm" (bez cilt ekseni).
@@ -38,7 +38,7 @@ function BirinciBolumHero({ invitation, flavor, scrollContainer }: HeroRenderPro
     return (
       <BolumAcilisi
         invitation={invitation}
-        etiket="Bölüm I"
+        etiket={staticFixedText('design.kitap.bolum').replace('{n}', 'I')}
         adlar
         giris="yuklenince"
         sayfaNo="1"
@@ -57,7 +57,7 @@ function BirinciBolumHero({ invitation, flavor, scrollContainer }: HeroRenderPro
         style={{ minHeight: ekran ?? '100svh' }}
         alt={<SayfayiCevirin />}
       />
-      <BolumAcilisi invitation={invitation} etiket="Bölüm I" adlar={false} giris="gorununce" sayfaNo="1" />
+      <BolumAcilisi invitation={invitation} etiket={staticFixedText('design.kitap.bolum').replace('{n}', 'I')} adlar={false} giris="gorununce" sayfaNo="1" />
     </div>
   );
 }

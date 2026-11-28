@@ -25,7 +25,7 @@ import {
   yaziBelirir
 } from '../../../konsept/sergi';
 import { NISAN_SERGI_METINLERI, ONIZLEME } from '../ortak';
-import { staticFixedText } from '../../../../../invitationText/InvitationTextContext';
+import { staticFixedText, useInvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanSergiDiptik — "Diptik": tek eser, iki pano (SERGI-KONSEPTI §4.3).
@@ -48,6 +48,7 @@ function adBoyu(adlar: string[]): string {
 }
 
 function DiptikHero({ invitation }: HeroRenderProps) {
+  const t = useInvText();
   const fontHazir = useDuvarYazisiHazir();
   const baslik = displayText(invitation.title);
   const altBaslik = displayText(invitation.subtitle);
@@ -91,11 +92,11 @@ function DiptikHero({ invitation }: HeroRenderProps) {
             levha
             className="w-[74%] max-w-[16rem] @3xl:w-auto @3xl:flex-1 @3xl:max-w-[14.5rem]"
             sanatci={displayText(invitation.names) || undefined}
-            eser={ESER.ad}
+            eser={t(ESER.ad)}
             yil={tarih.yil}
-            teknik={ESER.teknik}
+            teknik={t(ESER.teknik)}
             nokta="Rezerve"
-            bilgiBasligi={ONIZLEME.baslik}
+            bilgiBasligi={t(ONIZLEME.baslik)}
             bilgi={[tarihSatiri(tarih), mekan]}
             gecikme={0.55}
           />
@@ -110,7 +111,7 @@ function DiptikHero({ invitation }: HeroRenderProps) {
               </motion.p>
             )}
             {invitation.showTimer && (
-              <SergiSayac date={invitation.date} timeZone={invitation.timezone} baslik={ONIZLEME.sayac} gecikme={0.5} />
+              <SergiSayac date={invitation.date} timeZone={invitation.timezone} baslik={t(ONIZLEME.sayac)} gecikme={0.5} />
             )}
           </div>
         )}

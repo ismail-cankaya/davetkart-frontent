@@ -9,7 +9,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DustField, fitText, sampleText, type TextLayout } from './tozMotoru';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const FAMILY = '"Cormorant Garamond", Georgia, serif';
 const GOLD_TEXT = 'text-transparent bg-clip-text bg-[linear-gradient(180deg,#FFF1C9_0%,#F2C566_45%,#B9822A_100%)]';
@@ -208,6 +208,7 @@ function GoldStage({ stages, index, scattered, mode }: { stages: Stage[]; index:
 }
 
 function ToZHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
   const hero = useRef<HTMLDivElement>(null);
   const [viewH, setViewH] = useState(700);
@@ -242,11 +243,11 @@ function ToZHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode
       list.push({
         key: 'mekan',
         lines: [d.venue],
-        eyebrow: 'Mekân',
+        eyebrow: t('label.venue'),
         caption: <p className="text-[11px] tracking-[0.3em] uppercase text-[#9C8F72]"><InvText k="design.dugun-altin-toz.ayrintilarAsagida" /></p>
       });
     return list;
-  }, [d, invitation]);
+  }, [d, invitation, t]);
 
   const { scrollYProgress } = useScroll({ container: scrollContainer, target: hero, offset: ['start start', 'end end'] });
   useMotionValueEvent(scrollYProgress, 'change', (p) => {

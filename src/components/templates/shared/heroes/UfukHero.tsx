@@ -33,7 +33,7 @@ import { InvText, staticFixedText, useInvText } from '../../../../invitationText
  *    küçülür ve söner; arkada sahne aynı anda geceye döner.
  */
 
-const COUNTDOWN_LABELS = ['Gün', 'Saat', 'Dk', 'Sn'] as const;
+const COUNTDOWN_LABELS = ['countdown.days', 'countdown.hours', 'countdown.minutesShort', 'countdown.secondsShort'] as const;
 
 /** "Cumartesi" — tarih ayrıştırılamazsa boş. */
 function weekdayOf(value: string): string {
@@ -229,7 +229,7 @@ export function UfukHero({
             {dateText && (
               <div className="flex flex-col items-center">
                 <dt className={cn('text-[9px] font-semibold uppercase tracking-[0.32em]', theme.accent)}>
-                  {weekday || 'Tarih'}
+                  {weekday || t('label.date')}
                 </dt>
                 <dd className={cn('font-serif text-lg @sm:text-xl mt-1.5', theme.heading)}>{dateText}</dd>
                 {timeText && (
@@ -267,7 +267,7 @@ export function UfukHero({
                     {String(value).padStart(2, '0')}
                   </span>
                   <span className={cn('text-[8px] font-semibold uppercase tracking-[0.2em] mt-1.5', theme.body)}>
-                    {COUNTDOWN_LABELS[i]}
+                    {t(COUNTDOWN_LABELS[i])}
                   </span>
                 </span>
               </React.Fragment>

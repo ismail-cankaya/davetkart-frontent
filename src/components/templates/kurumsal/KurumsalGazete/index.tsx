@@ -5,6 +5,7 @@ import { GazeteHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
 import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * KurumsalGazete — "Gazete Manşeti" kurumsal yorumu: daveti bülten haberi
@@ -34,13 +35,14 @@ const KURUMSAL_GAZETE_THEME = kurumsalTheme(
 );
 
 export function KurumsalGazete({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_GAZETE_THEME}
-      renderHero={(props) => <GazeteHero {...props} masthead="KURUMSAL BÜLTEN" />}
+      renderHero={(props) => <GazeteHero {...props} masthead={t('design.kurumsal-gazete.masthead')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #F8F8F5 0%, #ECECE7 100%)"

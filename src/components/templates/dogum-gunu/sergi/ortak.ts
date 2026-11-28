@@ -8,12 +8,12 @@ import { kisiler, type SergiMetinleri } from '../../konsept/sergi';
  */
 export const DOGUM_GUNU_SERGI_METINLERI: SergiMetinleri = { kapsam: 'dogum-gunu-sergi' };
 
-/** Kapakta tekrar eden sabit sözler. */
+/** Kapakta tekrar eden sözlerin anahtarları (`useInvText` ile okunur). */
 export const RETROSPEKTIF = {
   /** Sergi adı; sahibinin adının altında durur. */
-  sergi: 'Retrospektif',
+  sergi: 'design.dogum-gunu-sergi.sergiAdi',
   /** Etiketin tarih/mekân başlığı. */
-  baslik: 'Açılış'
+  baslik: 'design.dogum-gunu-sergi.acilis'
 } as const;
 
 /**

@@ -9,7 +9,7 @@ import { DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { KivrilanSayfa } from './KivrilanSayfa';
-import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Caveat:wght@500;700&family=Libre+Baskerville:ital@0;1';
 const PLAYFAIR = "[font-family:'Playfair_Display',var(--font-cormorant),serif]";
@@ -95,14 +95,15 @@ const FALLBACKS = [
   'linear-gradient(180deg, #E9D7C0, #B9A58A)'
 ];
 
+/** Yıllık imzaları: `text` metin anahtarıdır. */
 const SIGNATURES = [
-  { text: 'Yolun hep açık olsun!', x: 8, y: 22, r: -6, c: '#1F3B8A' },
-  { text: 'Bu yıl efsaneydi ✿', x: 46, y: 38, r: 5, c: '#8E2B2B' },
-  { text: 'Sakın bizi unutma :)', x: 10, y: 58, r: -3, c: '#2F6B4F' },
-  { text: 'Nice başarılara — sınıfın', x: 30, y: 78, r: 4, c: '#5B3A8A' }
+  { text: 'design.mezuniyet-yillik.imza1', x: 8, y: 22, r: -6, c: '#1F3B8A' },
+  { text: 'design.mezuniyet-yillik.imza2', x: 46, y: 38, r: 5, c: '#8E2B2B' },
+  { text: 'design.mezuniyet-yillik.imza3', x: 10, y: 58, r: -3, c: '#2F6B4F' },
+  { text: 'design.mezuniyet-yillik.imza4', x: 30, y: 78, r: 4, c: '#5B3A8A' }
 ];
 
-function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): React.ReactNode[] {
+function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean, t: (key: string) => string): React.ReactNode[] {
   const year = d.date.year || String(new Date().getFullYear());
   const stamp = (
     <div className="absolute right-[8%] bottom-[9%] w-[34%] aspect-square rounded-full border-[3px] border-[#8E2B2B]/70 grid place-items-center rotate-[-14deg] text-[#8E2B2B]/80">
@@ -120,7 +121,7 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
       <div className="absolute inset-[6.5%] border border-[#E0B45C]/25 rounded-sm" />
       <div className="absolute left-0 top-0 bottom-0 w-[7%] bg-[linear-gradient(90deg,rgba(0,0,0,0.45),rgba(0,0,0,0))]" />
       <Laurel className="w-[42%] text-[#E0B45C]" />
-      <p className={`${BASK} mt-3 text-[10px] tracking-[0.4em] uppercase text-[#E0B45C]/85`}>{d.title || 'Mezuniyet Yıllığı'}</p>
+      <p className={`${BASK} mt-3 text-[10px] tracking-[0.4em] uppercase text-[#E0B45C]/85`}>{d.title || t('design.mezuniyet-yillik.baslik')}</p>
       <p className={`${PLAYFAIR} ${GOLD} mt-2 font-extrabold text-[clamp(2.2rem,12cqw,3.4rem)] leading-none`}>{year}</p>
       <p className={`${PLAYFAIR} mt-4 italic text-[#F6F0E1] text-[clamp(1.1rem,5.4cqw,1.6rem)] leading-tight break-words`}>{name}</p>
       <p className={`${BASK} absolute bottom-[9%] text-[9px] tracking-[0.3em] uppercase text-[#E0B45C]/60`}><InvText k="design.mezuniyet-yillik.sayfayiCevirin" /></p>
@@ -137,9 +138,9 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
       <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}><InvText k="design.mezuniyet-yillik.mezuniyetToreni" /></p>
       <div className="mt-5 space-y-4 text-[#1C2340]">
         {[
-          ['Tarih', [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(', ')],
-          ['Saat', d.date.time],
-          ['Yer', d.venue]
+          [t('label.date'), [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(', ')],
+          [t('label.time'), d.date.time],
+          [t('label.place'), d.venue]
         ]
           .filter(([, v]) => v)
           .map(([k, v]) => (
@@ -188,11 +189,11 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
             animate={drawSigs ? { strokeDashoffset: 0, fillOpacity: 1 } : undefined}
             transition={{ delay: 0.4 + i * 0.7, duration: 1.4, ease: 'easeInOut' }}
           >
-            {s.text}
+            {t(s.text)}
           </motion.text>
         ))}
       </svg>
-      <p className="sr-only"><InvText k="design.mezuniyet-yillik.arkadaslarininNotlari" />{' '}{SIGNATURES.map((s) => s.text).join(', ')}</p>
+      <p className="sr-only"><InvText k="design.mezuniyet-yillik.arkadaslarininNotlari" />{' '}{SIGNATURES.map((s) => t(s.text)).join(', ')}</p>
     </div>,
     // 5 · Son sayfa (çevrilmez)
     <div key="son" className={`absolute inset-0 ${PAPER} px-[10%] flex flex-col items-center justify-center text-center`}>
@@ -205,6 +206,7 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
 }
 
 function Book({ d, photos, name, live }: { d: HeroData; photos: string[]; name: string; live: boolean }) {
+  const t = useInvText();
   const [current, setCurrent] = useState(0);
   const p0 = useMotionValue(live ? 0 : 0.12);
   const p1 = useMotionValue(0);
@@ -212,7 +214,7 @@ function Book({ d, photos, name, live }: { d: HeroData; photos: string[]; name: 
   const p3 = useMotionValue(0);
   const p4 = useMotionValue(0);
   const progress: MotionValue<number>[] = [p0, p1, p2, p3, p4];
-  const content = pages(d, photos, name, live && current >= 4);
+  const content = pages(d, photos, name, live && current >= 4, t);
   const flippable = content.length - 1;
   const ref = useRef<HTMLDivElement>(null);
   const dragRef = useRef<{ x: number; w: number; dir: 0 | 1 | -1 } | null>(null);
@@ -276,7 +278,7 @@ function Book({ d, photos, name, live }: { d: HeroData; photos: string[]; name: 
         tabIndex={live ? 0 : -1}
         role="group"
         aria-roledescription={staticFixedText('design.mezuniyet-yillik.yillik')}
-        aria-label={`Yıllık, sayfa ${current + 1} / ${content.length}. Sağ ve sol ok tuşlarıyla çevirin.`}
+        aria-label={staticFixedText('design.mezuniyet-yillik.sayfaKonumu').replace('{n}', String(current + 1)).replace('{total}', String(content.length))}
       >
         {/* Sayfa kalınlığı ve gölge */}
         <div aria-hidden="true" className="absolute inset-0 translate-x-[5px] translate-y-[5px] rounded-r-md bg-[repeating-linear-gradient(90deg,#E8E0CC_0_1px,#D9CFB8_1px_3px)] shadow-[0_40px_60px_-25px_rgba(0,0,0,0.9)]" />
@@ -311,6 +313,7 @@ function Book({ d, photos, name, live }: { d: HeroData; photos: string[]; name: 
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONTS);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -327,7 +330,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           transition={{ duration: 0.9 }}
           className={`${BASK} mb-6 text-[11px] tracking-[0.35em] uppercase text-[#E0B45C]`}
         >
-          {d.title || 'Mezuniyet Töreni'}
+          {d.title || t('design.mezuniyet-yillik.toren')}
         </motion.p>
         <motion.div initial={still ? false : { opacity: 0, y: 30, rotateX: 18 }} animate={{ opacity: 1, y: 0, rotateX: 0 }} transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}>
           <Book d={d} photos={photos} name={name} live={live} />

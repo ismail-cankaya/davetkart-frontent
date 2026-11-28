@@ -8,7 +8,7 @@ import { Igne } from './Igne';
 import { Simge } from './simgeler';
 import type { GirisProps } from './hareket';
 import type { Durak, LejantVerisi } from './veri';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Lejant: haritanın "ne zaman, nerede, hangi sırayla" kutusu. Satırlar
@@ -34,11 +34,12 @@ export function Rozet({ durak }: { durak: Durak }) {
 /** "Varışa 120 gün 04 saat 12 dakika": geri sayım haritanın diliyle. Saniye yok. */
 export function Varisa({ invitation }: { invitation: Invitation }) {
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
+  const t = useInvText();
   if (!invitation.showTimer || !valid) return null;
   const birimler = [
-    { deger: String(days), ad: 'gün' },
-    { deger: String(hours).padStart(2, '0'), ad: 'saat' },
-    { deger: String(minutes).padStart(2, '0'), ad: 'dakika' }
+    { deger: String(days), ad: t('countdown.daysLower') },
+    { deger: String(hours).padStart(2, '0'), ad: t('countdown.hoursLower') },
+    { deger: String(minutes).padStart(2, '0'), ad: t('countdown.minutesLower') }
   ];
   return (
     <p className="mt-3 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 border-t border-dashed border-[#23303A]/40 pt-2.5 text-[#23303A]">

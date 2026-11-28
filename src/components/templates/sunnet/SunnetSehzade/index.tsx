@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('sunnet-sehzade', { landscape: '50% 30%', portrait: '50% 25%' });
 const FONT = 'Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400..700';
@@ -96,6 +96,7 @@ function Perdeler() {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -111,7 +112,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         <TapBurst enabled={mode === 'live'} style={{ colors: ['#FFE6A8', '#E7BE6A', '#FF9F5A'], count: 24, speed: 140, gravity: 70, life: 1.2, size: 2 }} />
         <Arma reduced={reduced} />
         <motion.p {...fade(1.9)} className={`mt-5 ${CINZEL} text-[10px] sm:text-xs tracking-[0.45em] uppercase text-[#E7BE6A]`}>
-          {d.title || 'Sünnet Düğünümüze Davet'}
+          {d.title || t('design.sunnet-sehzade.baslik')}
         </motion.p>
         <h1 className={`mt-5 ${DECO} font-bold leading-[1.05] text-[clamp(2.6rem,12cqw,6rem)] max-w-full break-words [filter:drop-shadow(0_0_20px_rgba(255,180,90,0.35))_drop-shadow(0_2px_10px_rgba(0,0,0,0.7))]`}>
           <SplitReveal text={first} style="drop" delay={2.1} stagger={0.07} duration={1} charClassName={GOLD} />
@@ -134,7 +135,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Şölene kalan"
+        eyebrow={t('design.sunnet-sehzade.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: `${CINZEL} text-[#E7BE6A]`,

@@ -3,6 +3,7 @@ import type { Invitation } from '../../../../types';
 import { hasTimelineEventContent } from '../../../../utils/timelineEvents';
 import type { TemplateFlavor } from '../../shared/flavor';
 import { displayText, formatDateStr } from '../../utils';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 export type BolumAdi = 'timeline' | 'details' | 'gallery' | 'gift' | 'rsvp';
 
@@ -57,7 +58,7 @@ export function cizilenBolumler(invitation: Invitation): BolumAdi[] {
 export type EtiketBicimi = (sira: number) => string;
 
 /** Varsayılan: kitap bölümleri ("Bölüm II"). */
-export const bolumEtiketi: EtiketBicimi = (sira) => `Bölüm ${romen(sira)}`;
+export const bolumEtiketi: EtiketBicimi = (sira) => staticFixedText('design.kitap.bolum').replace('{n}', romen(sira));
 
 /**
  * Bölüm etiketleri: hero I. bölümdür, ilk çizilen bölüm II'den başlar.

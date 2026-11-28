@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('kina-al-duvak');
 const FONT = 'Yeseva+One';
@@ -124,6 +124,7 @@ function DuvakKalkisi() {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -137,7 +138,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       <div className="relative min-h-[100svh] @container flex flex-col items-center justify-center px-6 pt-14 pb-24 text-center" dir="auto">
         <TapBurst enabled={mode === 'live'} style={{ colors: ['#FFE6A8', '#E9B860', '#FFB08A'], count: 26, speed: 150, gravity: 40, life: 1.3, size: 2.1 }} />
         <motion.p {...fade(1.6)} className="text-[10px] sm:text-[11px] tracking-[0.5em] uppercase text-[#E9B860]">
-          {d.title || 'Kına Gecesi'}
+          {d.title || t('design.kina-al-duvak.baslik')}
         </motion.p>
         <div className="mt-5">
           <KinaDeseni reduced={reduced} />
@@ -170,7 +171,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Kınaya kalan"
+        eyebrow={t('design.kina-al-duvak.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#E9B860]',

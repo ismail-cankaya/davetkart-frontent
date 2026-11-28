@@ -4,6 +4,7 @@ import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
 import { useCountdown } from '../../shared/useCountdown';
 import { KAGIT_TEMASI, belirmeGirisi } from '../../shared/paper';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const iki = (n: number) => String(n).padStart(2, '0');
 
@@ -16,12 +17,13 @@ const iki = (n: number) => String(n).padStart(2, '0');
  */
 export function KagitSayac({ invitation, gecikme = 0.6 }: { invitation: Invitation; gecikme?: number }) {
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
+  const t = useInvText();
   if (!invitation.showTimer || !valid) return null;
 
   const birimler = [
-    { deger: days, ad: 'gün' },
-    { deger: hours, ad: 'saat' },
-    { deger: minutes, ad: 'dakika' }
+    { deger: days, ad: t('countdown.daysLower') },
+    { deger: hours, ad: t('countdown.hoursLower') },
+    { deger: minutes, ad: t('countdown.minutesLower') }
   ];
 
   return (

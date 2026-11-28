@@ -6,7 +6,7 @@ import { PaperGrain } from '../effects';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
-import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Herbaryum hero — daveti bir DUYURU değil, bir KAYIT olarak kuran dil.
@@ -135,6 +135,7 @@ export function HerbaryumHero({
 }: HerbaryumHeroProps) {
   const { Ornament } = flavor;
   const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
+  const t = useInvText();
 
   const dateParts = formatDateStr(invitation.date).split(' ');
   const dateText = dateParts.slice(0, 3).join(' ');
@@ -144,18 +145,18 @@ export function HerbaryumHero({
 
   // Girilmemiş bilgi için satır açılmaz; "Tarih: —" satırı, alanın
   // doldurulmuş ama boş bırakılmış gibi okunmasına yol açardı.
-  const fields: Array<[string, string]> = [['Tür', invitation.names || staticFixedText('names.placeholder')]];
+  const fields: Array<[string, string]> = [[t('hero.herbaryum.tur'), invitation.names || staticFixedText('names.placeholder')]];
 
   if (dateText) {
-    fields.push(['Tarih', timeText ? `${dateText} · ${timeText}` : dateText]);
+    fields.push([t('label.date'), timeText ? `${dateText} · ${timeText}` : dateText]);
   }
 
   if (venue) {
-    fields.push(['Lokasyon', venue]);
+    fields.push([t('hero.herbaryum.lokasyon'), venue]);
   }
 
   if (invitation.showTimer && valid) {
-    fields.push(['Kalan', `${days} gün ${String(hours).padStart(2, '0')} saat`]);
+    fields.push([t('label.remaining'), `${days} ${t('countdown.daysLower')} ${String(hours).padStart(2, '0')} ${t('countdown.hoursLower')}`]);
   }
 
   return (

@@ -5,19 +5,21 @@ import { KinetikHero } from '../../shared/heroes';
 import { KINA_KINETIK } from '../themes';
 import { KINA_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * KinaKinetik — "Kinetik Tipografi" kına yorumu: zemin duvağın alı, üstünden
  * krem harflerle "KINA GECESİ" akar. Kategorinin tek doygun kırmızı zemini.
  */
 export function KinaKinetik({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={KINA_FLAVOR}
       mode={mode}
       themeOverride={KINA_KINETIK}
-      renderHero={(props) => <KinetikHero {...props} topWord="KINA GECESİ" />}
+      renderHero={(props) => <KinetikHero {...props} topWord={t('design.kina-kinetik.ustKelime')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(170deg, #a32019 0%, #8c1a14 55%, #6a120d 100%)"

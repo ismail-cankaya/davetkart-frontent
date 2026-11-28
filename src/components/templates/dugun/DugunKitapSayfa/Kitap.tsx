@@ -318,7 +318,10 @@ export function Kitap({ leaves, autoOpen, reduced, rtl = false, onPageChange }: 
       tabIndex={0}
       role="group"
       aria-roledescription={staticFixedText('design.kitap.kitap')}
-      aria-label={`${leaves[Math.min(turned, N - 1)]?.label ?? ''} — sayfa ${Math.min(turned + 1, N)} / ${N}`}
+      aria-label={staticFixedText('design.kitap.sayfaKonumu')
+        .replace('{label}', leaves[Math.min(turned, N - 1)]?.label ?? '')
+        .replace('{n}', String(Math.min(turned + 1, N)))
+        .replace('{total}', String(N))}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -441,7 +444,7 @@ export function Kitap({ leaves, autoOpen, reduced, rtl = false, onPageChange }: 
           {rtl ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
         <span className="min-w-[4.5rem] text-center text-[11px] tracking-[0.25em] uppercase tabular-nums" aria-live="polite">
-          {turned === 0 ? 'Kapak' : turned >= N ? 'Arka kapak' : `${turned} / ${N - 1}`}
+          {turned === 0 ? staticFixedText('design.dugun-kitap-sayfa.kapak') : turned >= N ? staticFixedText('design.dugun-kitap-sayfa.arkaKapak') : `${turned} / ${N - 1}`}
         </span>
         <button
           type="button"

@@ -24,7 +24,7 @@ import {
   type SoyutEserTanimi
 } from '../../../konsept/sergi';
 import { DOGUM_GUNU_SERGI_METINLERI, RETROSPEKTIF, sergiKisileri } from '../ortak';
-import { staticFixedText } from '../../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DogumGunuSergiRetrospektif — "Retrospektif": salon asması (SERGI-KONSEPTI
@@ -86,7 +86,7 @@ function Salon() {
               className="mt-2.5 w-full text-center text-[12px] leading-[1.35] text-[var(--sg-etiket)] [overflow-wrap:break-word]"
             >
               <span className="block font-semibold tabular-nums text-[var(--sg-murekkep)]">{d.no}</span>
-              {d.eser.ad}
+              <InvText k={d.eser.ad} />
             </motion.p>
           </li>
         ))}
@@ -96,6 +96,7 @@ function Salon() {
 }
 
 function RetrospektifHero({ invitation }: HeroRenderProps) {
+  const t = useInvText();
   const fontHazir = useDuvarYazisiHazir();
   const baslik = displayText(invitation.title);
   const altBaslik = displayText(invitation.subtitle);
@@ -103,7 +104,7 @@ function RetrospektifHero({ invitation }: HeroRenderProps) {
   const tarih = etiketTarihi(invitation.date);
   const { sahibi, kurator } = sergiKisileri(invitation.names);
   // Adsız davette sergi adı duvar yazısına çıkar ("Davetlisiniz Retrospektif" okunmasın).
-  const ad = sahibi || RETROSPEKTIF.sergi;
+  const ad = sahibi || t(RETROSPEKTIF.sergi);
 
   return (
     <section className="relative flex-1 flex flex-col justify-center px-6 pt-14 pb-14 @md:px-10 @3xl:px-16 @3xl:py-20 @5xl:px-20 @5xl:py-16">
@@ -123,7 +124,7 @@ function RetrospektifHero({ invitation }: HeroRenderProps) {
           </h1>
           {sahibi && (
             <p className="mt-2 font-serif text-[26px] leading-[1.1] text-[var(--sg-etiket)] @md:text-[30px] @5xl:text-[34px]">
-              {RETROSPEKTIF.sergi}
+              <InvText k={RETROSPEKTIF.sergi} />
             </p>
           )}
         </motion.div>
@@ -136,10 +137,10 @@ function RetrospektifHero({ invitation }: HeroRenderProps) {
           <Etiket
             className="w-[66%] max-w-[15rem] @3xl:w-auto @3xl:flex-1 @3xl:pb-8"
             sanatci={sahibi || undefined}
-            eser="Dört dönem"
-            teknik="Karışık teknik: sabır, kahkaha, çay"
+            eser={t('design.dogum-gunu-sergi-retrospektif.dortDonem')}
+            teknik={t('design.dogum-gunu-sergi.karisikTeknik')}
             kurator={kurator || undefined}
-            bilgiBasligi={RETROSPEKTIF.baslik}
+            bilgiBasligi={t(RETROSPEKTIF.baslik)}
             bilgi={[tarihSatiri(tarih), mekan]}
             gecikme={0.6}
           />

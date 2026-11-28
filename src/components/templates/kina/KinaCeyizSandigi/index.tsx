@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -387,7 +387,7 @@ function SandikHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
         type="button"
         onClick={toggle}
         aria-pressed={open}
-        aria-label={open ? 'Çeyiz sandığını kapat' : 'Çeyiz sandığını aç'}
+        aria-label={open ? staticFixedText('design.kina-ceyiz-sandigi.sandigiKapat') : staticFixedText('design.kina-ceyiz-sandigi.sandigiAc')}
         className="group relative mt-4 w-full max-w-[300px] cursor-pointer select-none rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A3241C]/50"
         style={{ height: STACK_H + LID_H + BODY_H }}
       >

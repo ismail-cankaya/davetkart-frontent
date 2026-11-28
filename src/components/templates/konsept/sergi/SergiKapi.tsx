@@ -107,7 +107,7 @@ export function SergiKapi({ invitation, flavor, onRevealStart, onOpened, siluet 
           }}
           // Kapı kalkana kadar odak arkadaki bölümlere kaçmasın (kalıcı tuzak değil: Enter açar).
           onKeyDown={(event) => {
-            if (event.key === 'Tab') event.preventDefault();
+            if (event.key === 'Tab') event.preventDefault(); // text-slots: kod — tuş adı
           }}
           className="mt-1 inline-flex min-h-12 items-center gap-3 border border-white/40 px-5 text-[13px] font-semibold tracking-[0.08em] text-[var(--sg-duvar)] transition-colors duration-200 hover:bg-white/[0.06] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--sg-duvar)]"
         >

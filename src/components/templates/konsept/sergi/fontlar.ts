@@ -30,7 +30,7 @@ export function useDuvarYazisiHazir(sinirMs = 400): boolean {
     let iptal = false;
     const bitir = () => !iptal && setHazir(true);
     const zaman = window.setTimeout(bitir, sinirMs);
-    if (document.fonts?.load) document.fonts.load('italic 48px "Instrument Serif"', 'ğşıİçöüÇÖŞĞÜ&').then(bitir, bitir);
+    if (document.fonts?.load) document.fonts.load('italic 48px "Instrument Serif"', 'ğşıİçöüÇÖŞĞÜ&').then(bitir, bitir); // text-slots: kod — yazı tipi yükleme örnek harfleri
     else bitir();
     return () => {
       iptal = true;

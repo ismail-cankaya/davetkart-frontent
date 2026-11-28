@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { GazeteHero } from '../../shared/heroes';
 import { NISAN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /** NisanGazete — "Gazete Manşeti" nişan yorumu: daveti haber olarak duyuran dizgi. */
 const NISAN_GAZETE_THEME: SectionTheme = {
@@ -26,13 +27,14 @@ const NISAN_GAZETE_THEME: SectionTheme = {
 };
 
 export function NisanGazete({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={NISAN_FLAVOR}
       mode={mode}
       themeOverride={NISAN_GAZETE_THEME}
-      renderHero={(props) => <GazeteHero {...props} masthead="NİŞAN GAZETESİ" />}
+      renderHero={(props) => <GazeteHero {...props} masthead={t('design.nisan-gazete.masthead')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #fbfcfd 0%, #eff1f3 100%)"

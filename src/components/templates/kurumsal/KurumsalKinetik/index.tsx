@@ -6,6 +6,7 @@ import { KURUMSAL_FLAVOR } from '../flavors';
 import { KurumsalFrame } from '../parts/KurumsalFrame';
 import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * KurumsalKinetik — "Kinetik Tipografi" kurumsal yorumu: konferans afişi.
@@ -35,13 +36,14 @@ const KURUMSAL_KINETIK_THEME = kurumsalTheme({
 });
 
 export function KurumsalKinetik({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_KINETIK_THEME}
-      renderHero={(props) => <KinetikHero {...props} topWord="ETKİNLİK" />}
+      renderHero={(props) => <KinetikHero {...props} topWord={t('design.kurumsal-kinetik.ustKelime')} />}
       renderHeroBackground={({ revealed }) => (
         <HeroStage
           base="linear-gradient(170deg, #1A1E26 0%, #0F1116 55%, #08090C 100%)"

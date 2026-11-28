@@ -16,6 +16,7 @@ attribute vec2 a;
 void main(){ gl_Position = vec4(a, 0.0, 1.0); }
 `;
 
+// text-slots: kod — GLSL gölgelendirici; Türkçe yorumlar
 const FRAG = `
 precision highp float;
 uniform vec2 u_res;

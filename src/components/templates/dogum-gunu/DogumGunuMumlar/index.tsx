@@ -265,6 +265,7 @@ function ConfettiBurst({ onDone }: { onDone: () => void }) {
 /* ------------------------------------------------------------------ */
 
 function CandleGate({ title, onDone }: { title: string; onDone: () => void }) {
+  const t = useInvText();
   const reduced = useReducedMotion() ?? false;
   const [lit, setLit] = useState<boolean[]>(() => Array.from({ length: CANDLE_COUNT }, () => true));
   const [celebrating, setCelebrating] = useState(false);
@@ -308,7 +309,7 @@ function CandleGate({ title, onDone }: { title: string; onDone: () => void }) {
       </div>
 
       <p className="relative mt-6 h-5 text-xs tracking-[0.2em] uppercase text-[#B8862B]" aria-live="polite">
-        {remaining > 0 ? `${remaining} mum kaldı` : 'İyi ki doğdun!'}
+        {remaining > 0 ? t('design.dogum-gunu-mumlar.mumKaldi').replace('{count}', String(remaining)) : t('design.dogum-gunu-mumlar.iyiKiDogdun')}
       </p>
 
       <button

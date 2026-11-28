@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const KAR_TEMASI: SectionTheme = {
   id: 'midnight',
@@ -229,7 +229,7 @@ function Kure({ hareketli }: { hareketli: boolean }) {
       <motion.div
         role={hareketli ? 'button' : undefined}
         tabIndex={hareketli ? 0 : undefined}
-        aria-label={hareketli ? 'Kar küresini salla' : undefined}
+        aria-label={hareketli ? staticFixedText('design.dugun-kar-kuresi.kureyiSalla') : undefined}
         drag={hareketli ? 'x' : false}
         dragSnapToOrigin
         dragElastic={0.25}
@@ -239,7 +239,7 @@ function Kure({ hareketli }: { hareketli: boolean }) {
         }}
         onTap={() => sallaHiz(0, -300)}
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.key === 'Enter' || e.key === ' ') { // text-slots: kod — tuş adı
             e.preventDefault();
             sallaHiz(0, -300);
           }
@@ -255,17 +255,18 @@ function Kure({ hareketli }: { hareketli: boolean }) {
   );
 }
 
-function satirlar(d: HeroData): { k: string; l: string; v: string }[] {
+function satirlar(d: HeroData, t: (key: string) => string): { k: string; l: string; v: string }[] {
   const s: { k: string; l: string; v: string }[] = [];
-  if (d.date.day) s.push({ k: 'tarih', l: 'Tarih', v: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
-  if (d.date.time) s.push({ k: 'saat', l: 'Saat', v: d.date.time });
-  if (d.venue) s.push({ k: 'mekan', l: 'Mekân', v: d.venue });
+  if (d.date.day) s.push({ k: 'tarih', l: t('label.date'), v: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
+  if (d.date.time) s.push({ k: 'saat', l: t('label.time'), v: d.date.time });
+  if (d.venue) s.push({ k: 'mekan', l: t('label.venue'), v: d.venue });
   return s;
 }
 
 function KarHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boolean }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
-  const bilgi = useMemo(() => satirlar(d), [d]);
+  const bilgi = useMemo(() => satirlar(d, t), [d, t]);
   const belir = (delay: number) =>
     hareketli
       ? { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.9, delay } }

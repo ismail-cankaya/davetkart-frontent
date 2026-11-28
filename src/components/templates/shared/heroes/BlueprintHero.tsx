@@ -208,7 +208,7 @@ export function BlueprintHero({
           </motion.h1>
 
           <div className="mt-4">
-            <DimensionLine label={invitation.title || 'Davet'} color={line} delay={0.75} />
+            <DimensionLine label={invitation.title || t('label.invite')} color={line} delay={0.75} />
           </div>
 
           {invitation.subtitle && (
@@ -267,8 +267,8 @@ export function BlueprintHero({
             <BlockCell label={<InvText k="hero.blueprint.proje" />} value={t('envelope.label')} color={line} className="border-r" />
             {dateText && <BlockCell label={<InvText k="label.date" />} value={dateText} color={line} className="border-r" />}
             <BlockCell
-              label={invitation.showTimer && valid ? 'Kalan' : 'Durum'}
-              value={invitation.showTimer && valid ? `${days} G ${String(hours).padStart(2, '0')} S` : 'Onaylandı'}
+              label={invitation.showTimer && valid ? t('label.remaining') : t('hero.blueprint.durum')}
+              value={invitation.showTimer && valid ? `${days} G ${String(hours).padStart(2, '0')} S` : t('hero.blueprint.onaylandi')}
               color={line}
               strong={accent}
             />

@@ -9,7 +9,7 @@ import { ThreeStage } from '../../shared/three';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { BUTTERFLY_PALETTES, toCss, type Perch, type PointerState } from './kelebek';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const KelebekSahnesi = lazy(() => import('./KelebekSahnesi'));
 
@@ -119,6 +119,7 @@ function Garden({ still }: { still: boolean }) {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONTS);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -202,7 +203,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
     <div className="relative grow flex flex-col">
       <div ref={box} className="relative min-h-[100svh] flex flex-col items-center justify-center px-5 pt-12 pb-28 text-center" dir="auto">
         <motion.p {...fade(0.2)} className={`${SERIF} text-[11px] font-semibold tracking-[0.42em] uppercase text-[#B5677A]`}>
-          {d.title || 'Düğünümüze davetlisiniz'}
+          {d.title || t('design.dugun-kelebek.baslik')}
         </motion.p>
         <h1 ref={title} className={`${SCRIPT} mt-5 text-[#2F2737] leading-[1.15] text-[clamp(3rem,14cqw,6.6rem)] max-w-full break-words`}>
           {names.map((p, i) => (
@@ -244,7 +245,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Büyük güne"
+        eyebrow={t('design.dugun-kelebek.geriSayimBasligi')}
         classes={{
           root: 'min-h-[75svh]',
           eyebrow: 'text-[#B5677A]',

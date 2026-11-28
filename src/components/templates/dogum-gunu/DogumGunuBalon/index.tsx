@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const BALON_TEMASI: SectionTheme = {
   id: 'stone',
@@ -57,11 +57,11 @@ interface Bilgi {
   v: string;
 }
 
-function bilgiler(d: HeroData): Bilgi[] {
+function bilgiler(d: HeroData, t: (key: string) => string): Bilgi[] {
   const s: Bilgi[] = [];
-  if (d.date.day) s.push({ k: 'tarih', l: 'Tarih', v: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
-  if (d.date.time) s.push({ k: 'saat', l: 'Saat', v: d.date.time });
-  if (d.venue) s.push({ k: 'mekan', l: 'Mekân', v: d.venue });
+  if (d.date.day) s.push({ k: 'tarih', l: t('label.date'), v: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
+  if (d.date.time) s.push({ k: 'saat', l: t('label.time'), v: d.date.time });
+  if (d.venue) s.push({ k: 'mekan', l: t('label.venue'), v: d.venue });
   return s;
 }
 
@@ -77,8 +77,9 @@ function Balon({ renk }: { renk: string }) {
 }
 
 function BalonHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boolean }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
-  const liste = useMemo(() => bilgiler(d), [d]);
+  const liste = useMemo(() => bilgiler(d, t), [d, t]);
   const [acik, setAcik] = useState<Set<string>>(() => new Set());
   const hepsi = !hareketli || acik.size >= liste.length;
   const goster = (k: string) => hepsi || acik.has(k);

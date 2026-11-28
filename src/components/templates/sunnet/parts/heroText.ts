@@ -1,4 +1,5 @@
 import { formatCalendarDay, formatDateStr } from '../../utils';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /** Sünnet adları: önce şehzade, sonra (varsa) aile. */
 export interface SehzadeNames {
@@ -15,7 +16,7 @@ export interface SehzadeNames {
  */
 export function splitSehzadeNames(names: string): SehzadeNames {
   const value = names.trim();
-  if (!value) return { prince: 'Davetlisiniz', family: '' };
+  if (!value) return { prince: staticFixedText('names.placeholder'), family: '' };
   const [first, ...rest] = value.split(/\s+&\s+/);
   return { prince: first, family: rest.join(' & ') };
 }

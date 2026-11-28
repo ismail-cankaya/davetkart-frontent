@@ -4,7 +4,7 @@ import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
-import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Brutal hero — kütüphanenin tek ANTİ-DEKORATİF dili.
@@ -78,6 +78,7 @@ export function BrutalHero({
 }: BrutalHeroProps) {
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
+  const t = useInvText();
 
   // İsim kelimelere bölünüp alt alta yığılır: brutalizmde satır sonu bir
   // tipografi kararıdır, metnin kabına sığmasının yan etkisi değil.
@@ -94,10 +95,10 @@ export function BrutalHero({
   // Yalnızca girilmiş bilgiler satır olur; "Tarih: —" satırı, alan
   // doldurulmuş ama boş bırakılmış gibi okunurdu.
   const rows = ([
-    ['Tarih', dateText],
-    ['Saat', timeText],
-    ['Mekan', displayText(invitation.venue)]
-  ] as Array<[string, string]>).filter(([, value]) => value !== '');
+    ['date', t('label.date'), dateText],
+    ['time', t('label.time'), timeText],
+    ['venue', t('hero.brutal.venue'), displayText(invitation.venue)]
+  ] as Array<[string, string, string]>).filter(([, , value]) => value !== '');
 
   return (
     <section className="relative flex-1 flex items-center justify-center px-4 @sm:px-6 py-10 @sm:py-14">
@@ -186,9 +187,9 @@ export function BrutalHero({
                 tablonun okunma ritmini taşır. */}
             {rows.length > 0 && (
               <dl className="mt-5">
-                {rows.map(([label, value], i) => (
+                {rows.map(([key, label, value], i) => (
                   <div
-                    key={label}
+                    key={key}
                     className="flex items-baseline gap-3 py-2.5"
                     style={{
                       borderTopWidth: 3,
@@ -206,7 +207,7 @@ export function BrutalHero({
                       {label}
                     </dt>
                     {/* Mekân kullanıcı metnidir: harfi değiştirilmez. */}
-                    <dd className={cn('text-[12px] font-bold uppercase leading-tight break-words', label === 'Mekan' && 'normal-case', theme.heading)}>
+                    <dd className={cn('text-[12px] font-bold uppercase leading-tight break-words', key === 'venue' && 'normal-case', theme.heading)}>
                       {value}
                     </dd>
                   </div>

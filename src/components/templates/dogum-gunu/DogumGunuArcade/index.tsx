@@ -64,23 +64,24 @@ interface InfoToken {
 const TOKEN_COLOR: Record<TokenKind, string> = { date: NEON.pink, venue: NEON.cyan, program: NEON.yellow };
 
 function useInfoTokens(invitation: Invitation, d: HeroData): InfoToken[] {
+  const t = useInvText();
   const events = invitation.timelineEvents;
   return useMemo(() => {
     const out: InfoToken[] = [];
     if (d.date.day) {
       out.push({
         kind: 'date',
-        label: 'Tarih',
+        label: t('label.date'),
         lines: [[d.date.weekday, d.date.day].filter(Boolean).join(', ') + (d.date.time ? ` · ${d.date.time}` : '')]
       });
     }
-    if (d.venue) out.push({ kind: 'venue', label: 'Mekân', lines: [d.venue] });
+    if (d.venue) out.push({ kind: 'venue', label: t('label.venue'), lines: [d.venue] });
     const program = events
       .map((e) => [e.time.trim(), e.title.trim()].filter(Boolean).join(' — '))
       .filter((line) => line.length > 0);
-    if (program.length > 0) out.push({ kind: 'program', label: 'Program', lines: program });
+    if (program.length > 0) out.push({ kind: 'program', label: t('label.program'), lines: program });
     return out;
-  }, [d.date.day, d.date.weekday, d.date.time, d.venue, events]);
+  }, [d.date.day, d.date.weekday, d.date.time, d.venue, events, t]);
 }
 
 /* ------------------------------------------------------------------ */
@@ -186,7 +187,7 @@ function ArcadeGate({ tokens, title, onDone }: { tokens: InfoToken[]; title: str
   // Klavye: yalnızca kapı açıkken; kapı modal olduğundan sayfa kaydırması zaten kilitli.
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === 'Escape') { // text-slots: kod — tuş adı
         doneRef.current();
         return;
       }

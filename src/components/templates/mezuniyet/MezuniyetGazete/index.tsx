@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { GazeteHero } from '../../shared/heroes';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /** MezuniyetGazete — "Gazete Manşeti" mezuniyet yorumu: daveti haber olarak duyuran dizgi. */
 const MEZUNIYET_GAZETE_THEME: SectionTheme = {
@@ -26,13 +27,14 @@ const MEZUNIYET_GAZETE_THEME: SectionTheme = {
 };
 
 export function MezuniyetGazete({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={MEZUNIYET_FLAVOR}
       mode={mode}
       themeOverride={MEZUNIYET_GAZETE_THEME}
-      renderHero={(props) => <GazeteHero {...props} masthead="KAMPÜS GAZETESİ" />}
+      renderHero={(props) => <GazeteHero {...props} masthead={t('design.mezuniyet-gazete.masthead')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #fbfaf5 0%, #efeee6 100%)"

@@ -8,14 +8,14 @@ import type { SergiMetinleri } from '../../konsept/sergi';
  */
 export const NISAN_SERGI_METINLERI: SergiMetinleri = { kapsam: 'nisan-sergi' };
 
-/** Kapakta tekrar eden sabit sözler. */
+/** Kapakta tekrar eden sözlerin anahtarları (`useInvText` ile okunur). */
 export const ONIZLEME = {
   /** Etiketin tarih/mekân başlığı. */
-  baslik: 'Önizleme',
+  baslik: 'design.nisan-sergi.onizleme',
   /** Geri sayımın üst satırı. */
-  sayac: 'Önizlemeye kalan',
+  sayac: 'design.nisan-sergi.onizlemeyeKalan',
   /** Sergi adı: nişanın önizlediği. */
-  sergi: 'Bir Ömür',
+  sergi: 'design.nisan-sergi.birOmur',
   /** Sergi adının durumu. */
-  durum: 'Yakında'
+  durum: 'design.nisan-sergi.yakinda'
 } as const;

@@ -9,7 +9,7 @@ import { CinemaBackdrop, DateCountdown, LiveShader, ScrollCue, useTemplateFont, 
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
 import { HAVUZ_FRAG, ORB_COLORS, orbPositions } from './havuzShader';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('parti-havuz');
 const FONT = 'Unbounded:wght@300..800';
@@ -87,6 +87,7 @@ function DiveRings() {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -109,7 +110,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         {live && <DiveRings />}
         <motion.span {...fade(0.9)} className="inline-flex items-center gap-2 rounded-full border border-[#5CE1F0]/30 bg-[#031A24]/55 backdrop-blur px-4 py-1.5 text-[10px] tracking-[0.35em] uppercase text-[#BFF6FF]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#FF2E9E] shadow-[0_0_10px_#FF2E9E]" />
-          {d.title || 'Gece Havuzu'}
+          {d.title || t('design.parti-havuz.baslik')}
         </motion.span>
         <h1 className={`mt-7 ${DISPLAY} font-bold tracking-[-0.03em] leading-[0.95] text-[clamp(2.4rem,11.5cqw,6.4rem)] max-w-full break-words [text-shadow:0_6px_40px_rgba(0,0,0,0.45)]`}>
           {names.map((p, i) => (
@@ -168,7 +169,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </motion.div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Geri sayım"
+        eyebrow={t('design.parti-havuz.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#FF5DB1]',

@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { KURUMSAL_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('kurumsal-lansman', { landscape: '50% 45%', portrait: '50% 40%' });
 const GIRIS = clipSet('kurumsal-lansman', 'giris', { landscape: '50% 45%', portrait: '50% 40%' });
@@ -160,6 +160,7 @@ function LedText({ text, delay, reduced }: { text: string; delay: number; reduce
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -179,7 +180,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
             {!still && <span className="absolute inset-0 rounded-full bg-[#FF4D6D] animate-ping opacity-60" />}
             <span className="relative w-2 h-2 rounded-full bg-[#FF4D6D]" />
           </span>
-          <span className={`${GROTESK} text-[10px] tracking-[0.35em] uppercase text-[#CFE0FF]`}>{d.title || 'Lansman'}</span>
+          <span className={`${GROTESK} text-[10px] tracking-[0.35em] uppercase text-[#CFE0FF]`}>{d.title || t('design.kurumsal-lansman.baslik')}</span>
         </motion.div>
 
         <h1 className={`${GROTESK} mt-7 font-bold tracking-[-0.035em] leading-[0.95] text-[clamp(2.3rem,10.5cqw,6.6rem)] max-w-[min(92vw,1100px)] break-words`}>
@@ -208,7 +209,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Sahneye kalan süre"
+        eyebrow={t('design.kurumsal-lansman.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#5FD4FF]',

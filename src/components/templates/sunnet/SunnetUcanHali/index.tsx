@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, LightLayer, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('sunnet-ucan-hali', { landscape: '50% 70%', portrait: '42% 70%' });
 const TOZ = clipSet('sunnet-ucan-hali', 'on');
@@ -165,6 +165,7 @@ function ShootingStars({ enabled, host }: { enabled: boolean; host: React.RefObj
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONTS);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -179,7 +180,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
     <div ref={host} className="relative grow flex flex-col">
       <div className="relative min-h-[100svh] flex flex-col items-center justify-start px-5 pt-[11svh] pb-24 text-center" dir="auto">
         <motion.p {...fade(0.3)} className={`${CINZEL} text-[10px] sm:text-[11px] tracking-[0.45em] uppercase text-[#F3C65F]`}>
-          {d.title || 'Sünnet Düğünü'}
+          {d.title || t('design.sunnet-ucan-hali.baslik')}
         </motion.p>
         <motion.h1
           {...fade(0.6)}
@@ -229,7 +230,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       <ShootingStars enabled={!still} host={host} />
       <DateCountdown
         invitation={invitation}
-        eyebrow="Büyük güne"
+        eyebrow={t('design.sunnet-ucan-hali.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#F3C65F]',

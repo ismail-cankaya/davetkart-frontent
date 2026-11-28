@@ -9,7 +9,7 @@ import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
 import { KOI_FRAG } from './koiShader';
 import { createKoiSim, type Food } from './koiSim';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Italiana&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400';
 const ITALIANA = "[font-family:'Italiana',var(--font-cormorant),serif]";
@@ -124,6 +124,7 @@ function Backdrop(props: BackdropState & { mode: 'preview' | 'live' }) {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONTS);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -139,7 +140,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       <div className="relative min-h-[100svh] flex flex-col items-center justify-between px-5 pt-[9svh] pb-28 text-center pointer-events-none" dir="auto">
         <div>
           <motion.p {...fade(0.3)} className={`${SERIF} text-[11px] tracking-[0.42em] uppercase text-[#F2A07B] ${shadow}`}>
-            {d.title || 'Nişan Davetiyesi'}
+            {d.title || t('design.nisan-koi.baslik')}
           </motion.p>
           <h1 className={`${ITALIANA} mt-4 text-[#F7FCFA] leading-[1] text-[clamp(2.6rem,12cqw,5.6rem)] break-words max-w-full ${shadow}`}>
             {names.map((p, i) => (
@@ -169,7 +170,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Buluşmaya kalan"
+        eyebrow={t('design.nisan-koi.geriSayimBasligi')}
         classes={{
           root: 'min-h-[75svh]',
           eyebrow: 'text-[#F2A07B]',

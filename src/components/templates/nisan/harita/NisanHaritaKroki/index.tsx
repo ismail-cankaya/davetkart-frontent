@@ -3,6 +3,7 @@ import { InvitationComposition } from '../../../shared/InvitationComposition';
 import { HARITA_TEMASI, HaritaKapak, HaritaKok, HaritaSahnesi, HaritaZarf, MahalleKrokisi } from '../../../konsept/harita';
 import { TemplateProps } from '../../../types';
 import { NISAN_HARITA_FLAVOR } from '../flavor';
+import { useInvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanHaritaKroki — "Kroki": nişan evine giden yolun elle çizilmiş mahalle
@@ -11,6 +12,7 @@ import { NISAN_HARITA_FLAVOR } from '../flavor';
  * oklarıyla kartuştan çıkar, iğnede "Buradayız" der.
  */
 export function NisanHaritaKroki({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <HaritaKok>
       <InvitationComposition
@@ -23,7 +25,7 @@ export function NisanHaritaKroki({ invitation, mode = 'preview' }: TemplateProps
             <MahalleKrokisi />
           </HaritaSahnesi>
         )}
-        renderHero={(props) => <HaritaKapak {...props} duzen="kenar" rota="kroki" sus="kuzey" etiketUstu="Buradayız" />}
+        renderHero={(props) => <HaritaKapak {...props} duzen="kenar" rota="kroki" sus="kuzey" etiketUstu={t('design.nisan-harita-kroki.buradayiz')} />}
         renderEnvelope={(props) => <HaritaZarf {...props} arazi={<MahalleKrokisi />} />}
       />
     </HaritaKok>

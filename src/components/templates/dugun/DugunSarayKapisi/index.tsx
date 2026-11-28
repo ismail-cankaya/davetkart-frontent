@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /** Döngü (kapı açık) ve tek seferlik giriş (koridor + kapının açılışı). */
 const VIDEO = videoSet('dugun-saray-kapisi', { landscape: '50% 45%', portrait: '50% 45%' });
@@ -53,6 +53,7 @@ const FLAVOR: TemplateFlavor = {
 };
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -76,7 +77,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           </span>
         )}
         <motion.p {...fade(0.9)} className={`${ROMAN} text-[10px] sm:text-xs tracking-[0.55em] uppercase text-[#F3DDA8] [text-shadow:0_1px_3px_rgba(20,12,4,0.95),0_0_14px_rgba(20,12,4,0.8)]`}>
-          {d.title || 'Düğünümüze Davetlisiniz'}
+          {d.title || t('design.dugun-saray-kapisi.baslik')}
         </motion.p>
         <motion.h1
           className={`mt-5 ${ROMAN} leading-[1.05] tracking-[0.04em] text-[clamp(2.5rem,11.5cqw,6rem)] text-[#FFF6E8] max-w-full break-words [text-shadow:0_0_26px_rgba(255,214,150,0.55),0_4px_22px_rgba(10,6,2,0.9)]`}
@@ -114,7 +115,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Büyük güne"
+        eyebrow={t('design.dugun-saray-kapisi.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: `${ROMAN} text-[#E7C98A]`,

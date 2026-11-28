@@ -8,7 +8,7 @@ import { DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { GyroButton, useDeviceMotion } from '../../shared/three';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Caveat:wght@500;700&family=Special+Elite';
 const SERIF = "[font-family:'Cormorant_Garamond',var(--font-cormorant),serif]";
@@ -90,6 +90,7 @@ function Photo({ src, fallback, className, children, devRef, tall }: { src?: str
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONTS);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -167,7 +168,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
     <div className="relative grow flex flex-col">
       <div className="relative min-h-[100svh] flex flex-col items-center px-4 pt-10 pb-24 text-center overflow-hidden" dir="auto">
         <motion.p {...fade(0.2)} className={`${TYPE} text-[11px] tracking-[0.3em] uppercase text-[#FF8A7C]`}>
-          {d.title || 'Düğünümüze davetlisiniz'}
+          {d.title || t('design.dugun-karanlik-oda.baslik')}
         </motion.p>
 
         {/* İp ve mandallı kareler */}
@@ -244,12 +245,12 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
             <InvText k="design.dugun-karanlik-oda.kareleriSurukleyinTelefonuSa" />
           </motion.p>
         )}
-        {live && <GyroButton className="mt-3 bg-[#1C0B0C]/70 text-[#FF8A7C] border border-[#FF5A4E]/25" label={'Sallama için izin ver'} />}
+        {live && <GyroButton className="mt-3 bg-[#1C0B0C]/70 text-[#FF8A7C] border border-[#FF5A4E]/25" label={t('design.dugun-karanlik-oda.sallamaIzni')} />}
         <ScrollCue delay={live ? 3.6 : 0} className="text-[#FF8A7C]" />
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Deklanşöre kalan"
+        eyebrow={t('design.dugun-karanlik-oda.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#FF8A7C]',

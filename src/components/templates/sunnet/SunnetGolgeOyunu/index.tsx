@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -295,10 +295,10 @@ function poses(scene: number, k: number, t: number, animated: boolean): { horse:
   return { horse, prince: ridingPose(horse, lerp(-30, -158, ease(k)), clamp01(k * 2)), glow: 1 };
 }
 
-function captionFor(scene: number, name: string) {
-  if (scene === 0) return 'Bir varmış, bir yokmuş… Sarayda büyük bir gün doğuyor.';
-  if (scene === 1) return 'Atı kapıya geldi; şehzademiz yola çıkıyor.';
-  return name ? `${name} şehzademizin sünnet şöleni başlıyor!` : 'Şehzademizin sünnet şöleni başlıyor!';
+function captionFor(scene: number, name: string, text: (key: string) => string) {
+  if (scene === 0) return text('design.sunnet-golge-oyunu.sahne1');
+  if (scene === 1) return text('design.sunnet-golge-oyunu.sahne2');
+  return name ? text('design.sunnet-golge-oyunu.sahne3Adli').replace('{name}', name) : text('design.sunnet-golge-oyunu.sahne3');
 }
 
 /* ───────────────────────────── Perde ───────────────────────────── */
@@ -309,6 +309,7 @@ function ShadowScreen({ animated, name }: { animated: boolean; name: string }) {
   const [lamp, setLamp] = useState({ x: 0.5, y: 0.32 });
   const [running, setRunning] = useState(animated);
   const t = useClock(running, 100);
+  const text = useInvText();
   const tRef = useRef(t);
   tRef.current = t;
 
@@ -365,7 +366,7 @@ function ShadowScreen({ animated, name }: { animated: boolean; name: string }) {
   };
   const onKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
     const step = 0.08;
-    if (e.key === 'Enter' || e.key === ' ') {
+    if (e.key === 'Enter' || e.key === ' ') { // text-slots: kod — tuş adı
       e.preventDefault();
       go((scene + 1) % 3);
     } else if (e.key === 'ArrowLeft') setLamp((l) => ({ ...l, x: clamp01(l.x - step) }));
@@ -379,7 +380,7 @@ function ShadowScreen({ animated, name }: { animated: boolean; name: string }) {
   const shadow = `drop-shadow(${dx.toFixed(1)}px ${dy.toFixed(1)}px 3px rgba(40,12,2,0.55)) drop-shadow(0 0 6px rgba(255,190,90,${(0.25 * lampPower).toFixed(2)}))`;
   const lx = (lamp.x * 100).toFixed(1);
   const ly = (lamp.y * 100).toFixed(1);
-  const caption = captionFor(scene, name);
+  const caption = captionFor(scene, name, text);
 
   return (
     <div className="w-full max-w-[560px]">
@@ -388,7 +389,7 @@ function ShadowScreen({ animated, name }: { animated: boolean; name: string }) {
         <div
           role="button"
           tabIndex={0}
-          aria-label={`Gölge perdesi, sahne ${scene + 1}/3: ${caption} Sonraki sahne için dokunun; ışığı taşımak için sürükleyin.`}
+          aria-label={staticFixedText('design.sunnet-golge-oyunu.perdeEtiketi').replace('{n}', String(scene + 1)).replace('{caption}', caption)}
           onPointerDown={onDown}
           onPointerMove={onMove}
           onPointerUp={onUp}

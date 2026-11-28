@@ -1,5 +1,6 @@
 import { Invitation } from '../../../types';
 import { instantToWallClock, wallClockToInstant } from '../../../utils/eventTime';
+import { staticFixedText } from '../../../invitationText/InvitationTextContext';
 
 /**
  * Takvime ekleme yardımcıları.
@@ -36,7 +37,8 @@ function eventRange(invitation: Invitation): { start: string; end: string } | nu
 }
 
 function eventTitle(invitation: Invitation): string {
-  return invitation.names ? `${invitation.names} — Davet` : 'Davet';
+  const title = staticFixedText('calendar.eventTitle');
+  return invitation.names ? `${invitation.names} — ${title}` : title;
 }
 
 /** Prefilled Google Calendar "create event" link. */

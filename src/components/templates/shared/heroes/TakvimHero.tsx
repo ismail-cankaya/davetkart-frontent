@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { displayText } from '../../utils';
@@ -6,7 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { PaperGrain } from '../effects';
 import { ease } from '../../../../utils/motion';
-import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvitationLocale } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Takvim hero — "tarihi kaydet" kartının en bilinen hâli: duvar takvimi.
@@ -28,8 +28,17 @@ import { InvText, staticFixedText } from '../../../../invitationText/InvitationT
  * `new Date(y, m, 1)` ile bulunur; bu, saat diliminden bağımsızdır.
  */
 
-const MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
-const WEEKDAYS = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+/** Ay ve gün adları davetiyenin dilinde `Intl`'den (Faz 26.3); hafta Pazartesi başlar. UTC: saat diliminden bağımsız. */
+function monthNames(locale: string): string[] {
+  const format = new Intl.DateTimeFormat(locale, { month: 'long', timeZone: 'UTC' });
+  return Array.from({ length: 12 }, (_, i) => format.format(new Date(Date.UTC(2024, i, 1))));
+}
+
+function weekdayNames(locale: string): string[] {
+  const format = new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' });
+  // 1 Ocak 2024 bir Pazartesi.
+  return Array.from({ length: 7 }, (_, i) => format.format(new Date(Date.UTC(2024, 0, 1 + i))));
+}
 
 interface MonthGrid {
   year: number;
@@ -160,6 +169,9 @@ export function TakvimHero({
   const { Ornament } = flavor;
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const grid = monthGrid(invitation.date);
+  const locale = useInvitationLocale();
+  const MONTHS = useMemo(() => monthNames(locale), [locale]);
+  const WEEKDAYS = useMemo(() => weekdayNames(locale), [locale]);
   const venue = displayText(invitation.venue);
 
   // Tarih seçilmemişse ızgara yine çizilir ama soluk ve işaretsiz: hiçbir
@@ -205,7 +217,7 @@ export function TakvimHero({
             {/* Ay başlığı */}
             <div className={cn('mt-5 flex items-end justify-between border-b pb-2', theme.border)}>
               <span className={cn('font-serif text-[2.5rem] @sm:text-[2.9rem] leading-none', theme.heading)}>
-                {grid ? MONTHS[grid.month] : 'Takvim'}
+                {grid ? MONTHS[grid.month] : <InvText k="hero.takvim.takvim" />}
               </span>
               {grid && (
                 <span className="text-sm font-light tabular-nums tracking-[0.2em]" style={{ color: ink }}>

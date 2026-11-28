@@ -8,7 +8,7 @@ import { DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
 import { createParticles, createScratchCard, paintCoating, type ScratchCard } from './kaziMotoru';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600';
 const ROUND = "[font-family:'Fredoka',ui-rounded,var(--font-sans),sans-serif]";
@@ -159,6 +159,7 @@ function ScratchPanel({
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONTS);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -170,8 +171,8 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
   const panels: Panel[] = [
     {
       key: 'ad',
-      label: 'Kimin için?',
-      coat: 'kazı ✦ isim',
+      label: t('design.baby-kazi-kazan.kiminIcin'),
+      coat: t('design.baby-kazi-kazan.kaziIsim'),
       content: (
         <span className="block text-[clamp(1.5rem,7cqw,2.2rem)] font-semibold leading-tight break-words">
           {d.hasNames ? d.people.join(' & ') : NO_NAMES}
@@ -182,8 +183,8 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       ? [
           {
             key: 'tarih',
-            label: 'Ne zaman?',
-            coat: 'kazı ✦ tarih',
+            label: t('design.baby-kazi-kazan.neZaman'),
+            coat: t('design.baby-kazi-kazan.kaziTarih'),
             content: (
               <span className="block">
                 <span className="block text-[clamp(1.4rem,6.5cqw,2rem)] font-semibold leading-tight">{d.date.dayMonth || d.date.day}</span>
@@ -195,8 +196,8 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       : []),
     {
       key: 'surpriz',
-      label: 'Ve sürpriz…',
-      coat: 'kazı ✦ sürpriz',
+      label: t('design.baby-kazi-kazan.veSurpriz'),
+      coat: t('design.baby-kazi-kazan.kaziSurpriz'),
       content: <span className="block text-[clamp(1.2rem,5.5cqw,1.7rem)] font-semibold leading-snug text-[#C27BA0]">{d.subtitle || <InvText k="hero.tagline" />}</span>
     }
   ];
@@ -234,13 +235,13 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
     <div className="relative grow flex flex-col">
       <div className="relative min-h-[100svh] flex flex-col items-center justify-center px-5 pt-12 pb-24" dir="auto">
         <motion.p {...fade(0.1)} className={`${ROUND} text-[11px] font-semibold tracking-[0.3em] uppercase text-[#C27BA0]`}>
-          {d.title || 'Baby Shower'}
+          {d.title || t('design.baby-kazi-kazan.baslik')}
         </motion.p>
         <motion.h1 {...fade(0.25)} className={`${ROUND} mt-3 text-center font-bold leading-[1.05] text-[clamp(2rem,9cqw,3.4rem)] text-[#4A3A55]`}>
           <InvText k="design.baby-kazi-kazan.birSurprizimizVar" />
         </motion.h1>
         <motion.p {...fade(0.4)} className={`${NUNITO} mt-2 text-center text-[15px] text-[#8C7A96]`}>
-          {live ? 'Parmağınızla kartları kazıyın' : 'Kartları kazıyarak keşfedin'}
+          {live ? <InvText k="design.baby-kazi-kazan.parmaginizlaKazin" /> : <InvText k="design.baby-kazi-kazan.kaziyarakKesfedin" />}
         </motion.p>
 
         <motion.div
@@ -285,7 +286,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Tanışmamıza kalan"
+        eyebrow={t('design.baby-kazi-kazan.geriSayimBasligi')}
         classes={{
           root: 'min-h-[70svh]',
           eyebrow: 'text-[#C27BA0]',

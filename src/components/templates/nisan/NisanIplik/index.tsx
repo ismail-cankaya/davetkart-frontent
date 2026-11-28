@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('nisan-iplik', { landscape: '50% 35%', portrait: '50% 30%' });
 const FONT = 'Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600';
@@ -120,6 +120,7 @@ function IplikIzi({ enabled }: { enabled: boolean }) {
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -133,7 +134,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       <div className="relative min-h-[100svh] @container flex flex-col items-center justify-center px-6 pt-[30svh] @3xl:pt-[40svh] pb-24 text-center" dir="auto">
         <IplikIzi enabled={mode === 'live' && !reduced} />
         <motion.p {...fade(0.6)} className="text-[10px] sm:text-[11px] tracking-[0.5em] uppercase text-[#F6C27A]">
-          {d.title || 'Nişan Davetiyesi'}
+          {d.title || t('design.nisan-iplik.baslik')}
         </motion.p>
         <h1 className={`mt-6 ${DISPLAY} italic font-light leading-[1.02] text-[clamp(2.6rem,12cqw,6rem)] max-w-full break-words [filter:drop-shadow(0_0_22px_rgba(255,140,170,0.25))]`}>
           {people.map((p, i) => (
@@ -155,7 +156,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Söz gününe"
+        eyebrow={t('design.nisan-iplik.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#F6C27A]',

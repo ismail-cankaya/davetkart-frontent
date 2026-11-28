@@ -102,7 +102,7 @@ interface Panel {
   countdown?: boolean;
 }
 
-function buildPanels(d: HeroData, showTimer: boolean, tagline: string): Panel[] {
+function buildPanels(d: HeroData, showTimer: boolean, tagline: string, t: (key: string) => string): Panel[] {
   const panels: Panel[] = [];
   const namesLines: Line[] = [
     { key: 'tag', content: d.title || tagline, chars: (d.title || tagline).length, className: 'text-[#F6E3A0] text-[22px] sm:text-2xl' }
@@ -115,7 +115,7 @@ function buildPanels(d: HeroData, showTimer: boolean, tagline: string): Panel[] 
   } else {
     namesLines.push({ key: 'nn', content: NO_NAMES, chars: NO_NAMES.length, className: 'text-[clamp(2.6rem,13cqw,4.8rem)] leading-[0.95] font-semibold' });
   }
-  panels.push({ id: 'adlar', label: 'Adlar', lines: namesLines, doodle: 'underline' });
+  panels.push({ id: 'adlar', label: t('design.mezuniyet-kara-tahta.adlar'), lines: namesLines, doodle: 'underline' });
 
   if (d.date.day || d.venue) {
     const lines: Line[] = [];
@@ -123,16 +123,16 @@ function buildPanels(d: HeroData, showTimer: boolean, tagline: string): Panel[] 
     if (d.date.day) lines.push({ key: 'day', content: d.date.day, chars: d.date.day.length, className: 'text-[clamp(2.2rem,10cqw,3.6rem)] leading-none font-semibold' });
     if (d.date.time) lines.push({ key: 'time', content: `saat ${d.date.time}`, chars: 9, className: 'text-[#F6E3A0] text-3xl' });
     if (d.venue) lines.push({ key: 'venue', content: d.venue, chars: d.venue.length, className: 'text-2xl text-[#BFE6C4] max-w-[22ch]' });
-    panels.push({ id: 'tarih', label: 'Tarih ve yer', lines, doodle: 'cap' });
+    panels.push({ id: 'tarih', label: t('design.mezuniyet-kara-tahta.tarihVeYer'), lines, doodle: 'cap' });
   }
 
   // Son panel yalnızca söylenecek bir şey varsa: alt yazı ya da geri sayım.
   const timer = showTimer && !!d.date.day;
   if (timer || d.subtitle) {
     const lines: Line[] = [];
-    if (timer) lines.push({ key: 'h', content: 'Geri sayım', chars: 10, className: 'text-[#F5B9C9] text-2xl' });
+    if (timer) lines.push({ key: 'h', content: t('design.mezuniyet-kara-tahta.geriSayim'), chars: t('design.mezuniyet-kara-tahta.geriSayim').length, className: 'text-[#F5B9C9] text-2xl' });
     if (d.subtitle) lines.push({ key: 'sub', content: d.subtitle, chars: d.subtitle.length, className: 'text-2xl max-w-[24ch] leading-tight' });
-    panels.push({ id: 'sayim', label: timer ? 'Geri sayım' : 'Not', lines, doodle: 'stars', countdown: timer });
+    panels.push({ id: 'sayim', label: timer ? t('design.mezuniyet-kara-tahta.geriSayim') : t('design.mezuniyet-kara-tahta.not'), lines, doodle: 'stars', countdown: timer });
   }
   return panels;
 }
@@ -259,7 +259,7 @@ function TahtaHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
   const showTimer = !!invitation.showTimer;
   const t = useInvText();
   const tagline = t('hero.tagline');
-  const panels = useMemo(() => buildPanels(d, showTimer, tagline), [d, showTimer, tagline]);
+  const panels = useMemo(() => buildPanels(d, showTimer, tagline, t), [d, showTimer, tagline, t]);
   const [index, setIndex] = useState(0);
   const [visited, setVisited] = useState(false);
   const [wiping, setWiping] = useState(false);
@@ -440,7 +440,7 @@ function TahtaHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
             onPointerUp={onUp}
             onPointerCancel={onUp}
             className={`absolute inset-0 w-full h-full ${chalk ? 'cursor-crosshair touch-none' : 'pointer-events-none'}`}
-            aria-label={chalk ? 'Tahtaya parmağınla yaz' : undefined}
+            aria-label={chalk ? staticFixedText('design.mezuniyet-kara-tahta.tahtayaYaz') : undefined}
             aria-hidden={chalk ? undefined : true}
           />
           {animated && <canvas ref={dustRef} className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" />}
@@ -477,7 +477,7 @@ function TahtaHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
                 {...enter(0.6 + i * 0.07, { opacity: 0, y: -10, rotate: -12 })}
                 onClick={() => setChalk((cur) => (cur === c.id ? null : c.id))}
                 aria-pressed={chalk === c.id}
-                aria-label={c.ad}
+                aria-label={staticFixedText(c.ad)}
                 className={`h-3.5 w-9 sm:w-11 rounded-[3px] shadow-[0_2px_3px_rgba(0,0,0,0.35)] transition-transform duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${chalk === c.id ? '-translate-y-1.5 ring-2 ring-white/70' : ''}`}
                 style={{ background: `linear-gradient(180deg, ${c.renk}, ${c.renk}CC)` }}
               />
@@ -501,7 +501,7 @@ function TahtaHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
         style={{ fontFamily: CHALK_FONT }}
         className="mt-4 text-center text-lg text-[#C9CFC3]"
       >
-        {chalk ? 'Parmağınla tahtaya yaz · silgiyle temizle' : 'Silgiye dokun, tahta silinsin · tebeşir al, sen de yaz'}
+        {chalk ? <InvText k="design.mezuniyet-kara-tahta.parmaginlaYaz" /> : <InvText k="design.mezuniyet-kara-tahta.silgiyeDokun" />}
       </motion.p>
     </div>
   );

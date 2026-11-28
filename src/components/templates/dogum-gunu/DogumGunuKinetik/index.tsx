@@ -5,6 +5,7 @@ import { HeroStage, Halo } from '../../shared/effects';
 import { KinetikHero } from '../../shared/heroes';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * DogumGunuKinetik — "Kinetik Tipografi" doğum günü yorumu: kömür siyahı zemin, asit sarısı akış.
@@ -31,13 +32,14 @@ const DOGUM_GUNU_KINETIK_THEME: SectionTheme = {
 };
 
 export function DogumGunuKinetik({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={DOGUM_GUNU_FLAVOR}
       mode={mode}
       themeOverride={DOGUM_GUNU_KINETIK_THEME}
-      renderHero={(props) => <KinetikHero {...props} topWord="DOĞUM GÜNÜ" />}
+      renderHero={(props) => <KinetikHero {...props} topWord={t('design.dogum-gunu-kinetik.ustKelime')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(170deg, #1c1a20 0%, #121116 55%, #0a0a0c 100%)"

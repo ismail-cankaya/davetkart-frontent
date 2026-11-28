@@ -25,7 +25,7 @@ import {
   yaziBelirir
 } from '../../../konsept/sergi';
 import { DUGUN_SERGI_METINLERI } from '../ortak';
-import { staticFixedText } from '../../../../../invitationText/InvitationTextContext';
+import { staticFixedText, useInvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DugunSergiBeyazKup — "Beyaz Küp": müzede düğün, tek eser (SERGI-KONSEPTI
@@ -50,6 +50,7 @@ function adBoyu(adlar: string[]): string {
 }
 
 function BeyazKupHero({ invitation }: HeroRenderProps) {
+  const t = useInvText();
   const fontHazir = useDuvarYazisiHazir();
   const baslik = displayText(invitation.title);
   const altBaslik = displayText(invitation.subtitle);
@@ -87,10 +88,10 @@ function BeyazKupHero({ invitation }: HeroRenderProps) {
           <Etiket
             className="w-[62%] max-w-[15rem] @lg:w-auto @lg:max-w-[13.5rem] @lg:flex-1 @lg:pb-1"
             sanatci={displayText(invitation.names) || undefined}
-            eser={ESER.ad}
+            eser={t(ESER.ad)}
             yil={tarih.yil}
-            teknik={ESER.teknik}
-            bilgiBasligi="Açılış"
+            teknik={t(ESER.teknik)}
+            bilgiBasligi={t('design.dugun-sergi-beyaz-kup.acilis')}
             bilgi={[tarihSatiri(tarih), mekan]}
           />
         </div>

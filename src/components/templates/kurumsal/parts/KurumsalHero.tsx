@@ -129,9 +129,9 @@ export function KurumsalHero({ invitation, theme, flavor, align = 'start' }: Kur
 
   const specs = [
     day && { key: 'day', label: <InvText k="label.date" />, value: day },
-    time && { key: 'time', label: 'Saat', value: time },
-    venue && { key: 'venue', label: 'Mekân', value: venue }
-  ].filter((spec): spec is { key: string; label: string; value: string } => Boolean(spec));
+    time && { key: 'time', label: <InvText k="label.time" />, value: time },
+    venue && { key: 'venue', label: <InvText k="label.venue" />, value: venue }
+  ].filter((spec): spec is { key: string; label: React.JSX.Element; value: string } => Boolean(spec));
 
   return (
     <section

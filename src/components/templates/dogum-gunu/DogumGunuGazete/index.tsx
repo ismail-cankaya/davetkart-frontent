@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { GazeteHero } from '../../shared/heroes';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /** DogumGunuGazete — "Gazete Manşeti" doğum günü yorumu: daveti haber olarak duyuran dizgi. */
 const DOGUM_GUNU_GAZETE_THEME: SectionTheme = {
@@ -26,13 +27,14 @@ const DOGUM_GUNU_GAZETE_THEME: SectionTheme = {
 };
 
 export function DogumGunuGazete({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={DOGUM_GUNU_FLAVOR}
       mode={mode}
       themeOverride={DOGUM_GUNU_GAZETE_THEME}
-      renderHero={(props) => <GazeteHero {...props} masthead="YAŞ GÜNÜ EKSPRES" />}
+      renderHero={(props) => <GazeteHero {...props} masthead={t('design.dogum-gunu-gazete.masthead')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #fefbf3 0%, #f4efe2 100%)"

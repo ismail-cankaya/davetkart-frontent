@@ -40,22 +40,23 @@ export function haritaTarihi(date: string | null | undefined): HaritaTarihi {
  */
 export type SimgeSozlugu = [DurakSimgeAdi, string[]][];
 
+// text-slots: kod — durak başlığında aranan sözcükler (simge seçimi), ekranda görünmez; satırlar işaretli
 const SIMGE_SOZLUGU: SimgeSozlugu = [
-  ['pasta', ['pasta']],
-  ['halka', ['nişan', 'nisan', 'söz ']],
-  ['yuzuk', ['nikâh', 'nikah', 'tören', 'toren', 'yüzük', 'yüzüğ', 'evlilik', 'imza']],
-  ['kurdele', ['kurdele']],
-  ['kahve', ['kahve']],
-  ['cay', [' çay']],
-  ['tatli', ['tatlı', 'tatli', 'baklava', 'lokum', 'çikolata']],
-  ['yemek', ['yemek', 'yemeğ', 'ziyafet', 'menü', 'sofra', 'kahvaltı', 'öğle']],
-  ['kadeh', ['karşılama', 'kokteyl', 'hoş geldin', 'ikram', 'içecek']],
-  ['muzik', ['dans', 'müzik', 'eğlence', 'kutlama', 'parti', 'konser', 'sahne', 'halay', ' dj ']],
-  ['kamera', ['fotoğraf', 'fotograf', 'çekim']],
+  ['pasta', ['pasta']], // text-slots: kod
+  ['halka', ['nişan', 'nisan', 'söz ']], // text-slots: kod
+  ['yuzuk', ['nikâh', 'nikah', 'tören', 'toren', 'yüzük', 'yüzüğ', 'evlilik', 'imza']], // text-slots: kod
+  ['kurdele', ['kurdele']], // text-slots: kod
+  ['kahve', ['kahve']], // text-slots: kod
+  ['cay', [' çay']], // text-slots: kod
+  ['tatli', ['tatlı', 'tatli', 'baklava', 'lokum', 'çikolata']], // text-slots: kod
+  ['yemek', ['yemek', 'yemeğ', 'ziyafet', 'menü', 'sofra', 'kahvaltı', 'öğle']], // text-slots: kod
+  ['kadeh', ['karşılama', 'kokteyl', 'hoş geldin', 'ikram', 'içecek']], // text-slots: kod
+  ['muzik', ['dans', 'müzik', 'eğlence', 'kutlama', 'parti', 'konser', 'sahne', 'halay', ' dj ']], // text-slots: kod
+  ['kamera', ['fotoğraf', 'fotograf', 'çekim']], // text-slots: kod
   // Doğum günü (2026-10-23). Sonda: önceki sözcüklerle çakışmaz. "Oyun" müzikten
   // sonradır: "Eğlence ve oyun havaları" müzik simgesini alır.
-  ['hediye', ['hediye']],
-  ['zar', ['oyun', 'hazine av', 'saklambaç', 'yarışma']]
+  ['hediye', ['hediye']], // text-slots: kod
+  ['zar', ['oyun', 'hazine av', 'saklambaç', 'yarışma']] // text-slots: kod
 ];
 
 /**

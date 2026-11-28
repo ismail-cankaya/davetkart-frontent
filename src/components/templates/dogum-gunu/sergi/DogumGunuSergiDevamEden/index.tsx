@@ -23,7 +23,7 @@ import {
   yaziBelirir
 } from '../../../konsept/sergi';
 import { DOGUM_GUNU_SERGI_METINLERI, RETROSPEKTIF, sergiKisileri } from '../ortak';
-import { InvText, staticFixedText } from '../../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DogumGunuSergiDevamEden — "Devam Eden": tek eser (SERGI-KONSEPTI §4.3).
@@ -46,6 +46,7 @@ function adBoyu(ad: string): string {
 }
 
 function DevamEdenHero({ invitation }: HeroRenderProps) {
+  const t = useInvText();
   const fontHazir = useDuvarYazisiHazir();
   const baslik = displayText(invitation.title);
   const altBaslik = displayText(invitation.subtitle);
@@ -71,7 +72,7 @@ function DevamEdenHero({ invitation }: HeroRenderProps) {
             {ad}
           </h1>
           <p lang="tr" className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--sg-etiket)]">
-            {RETROSPEKTIF.sergi} <InvText k="design.dogum-gunu-sergi-devam-eden.sonOda" />
+            <InvText k={RETROSPEKTIF.sergi} /> <InvText k="design.dogum-gunu-sergi-devam-eden.sonOda" />
           </p>
         </motion.div>
 
@@ -87,12 +88,12 @@ function DevamEdenHero({ invitation }: HeroRenderProps) {
             levha
             className="w-[72%] max-w-[16rem] @lg:w-auto @lg:flex-1 @lg:max-w-[14.5rem]"
             sanatci={sahibi || undefined}
-            eser={ESER.ad}
+            eser={t(ESER.ad)}
             yil={tarih.yil}
-            teknik={ESER.teknik}
-            nokta="Sürüyor"
+            teknik={t(ESER.teknik)}
+            nokta={t('design.dogum-gunu-sergi-devam-eden.suruyor')}
             kurator={kurator || undefined}
-            bilgiBasligi={RETROSPEKTIF.baslik}
+            bilgiBasligi={t(RETROSPEKTIF.baslik)}
             bilgi={[tarihSatiri(tarih), mekan]}
             gecikme={0.55}
           />

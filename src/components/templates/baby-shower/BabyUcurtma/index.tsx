@@ -7,7 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../share
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
 import type { Invitation } from '../../../../types';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /* ——— Pastel gökyüzü paleti ——— */
 const INK = '#3E4A6B';
@@ -95,15 +95,15 @@ interface BilgiKarti {
 }
 
 /** İplerde asılı kartlar; boş alanların kartı (ve uçurtması) hiç çıkmaz. */
-function kartlariKur(d: HeroData, invitation: Invitation): BilgiKarti[] {
+function kartlariKur(d: HeroData, invitation: Invitation, t: (key: string) => string): BilgiKarti[] {
   const kartlar: BilgiKarti[] = [];
-  if (d.date.day) kartlar.push({ key: 'tarih', label: 'Tarih', value: d.date.dayMonth || d.date.day, sub: d.date.weekday || d.date.year });
-  if (d.date.time) kartlar.push({ key: 'saat', label: 'Saat', value: d.date.time });
-  if (d.venue) kartlar.push({ key: 'mekan', label: 'Mekân', value: d.venue });
+  if (d.date.day) kartlar.push({ key: 'tarih', label: t('label.date'), value: d.date.dayMonth || d.date.day, sub: d.date.weekday || d.date.year });
+  if (d.date.time) kartlar.push({ key: 'saat', label: t('label.time'), value: d.date.time });
+  if (d.venue) kartlar.push({ key: 'mekan', label: t('label.venue'), value: d.venue });
   if (invitation.showTimeline) {
     const program = invitation.timelineEvents.filter((e) => e.title.trim() !== '');
     for (const e of program.slice(0, Math.max(0, UCURTMA_SAYISI - kartlar.length))) {
-      kartlar.push({ key: `p-${e.localKey}`, label: e.time.trim() || 'Program', value: e.title.trim() });
+      kartlar.push({ key: `p-${e.localKey}`, label: e.time.trim() || t('label.program'), value: e.title.trim() });
     }
   }
   return kartlar.slice(0, UCURTMA_SAYISI);
@@ -207,8 +207,9 @@ function UcurtmaBackdrop({ hareketli }: BackdropState & { hareketli: boolean }) 
 }
 
 function UcurtmaHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boolean }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
-  const kartlar = useMemo(() => kartlariKur(d, invitation), [d, invitation]);
+  const kartlar = useMemo(() => kartlariKur(d, invitation, t), [d, invitation, t]);
   const rise = (delay: number) =>
     hareketli
       ? {

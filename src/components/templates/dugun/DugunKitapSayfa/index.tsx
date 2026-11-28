@@ -14,19 +14,15 @@ import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { Kitap, type Leaf } from './Kitap';
 import { Buket, ChapterHead, Cloth, Endpaper, Face, Fener, GUL, Kuslar, SOLUK, Vignette, YALDIZ, Yuzukler } from './sayfalar';
-import { InvText, InvitationTextScope } from '../../../../invitationText/InvitationTextContext';
+import { InvText, InvitationTextScope, useFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /** Bölümler sayfaya sığsın: ortak bölümlerin dolgusu sayfa ölçüsüne iner. */
 const SAYFA_ICI = '[&_section]:px-0 [&_section]:py-3';
 /** İçindekiler düzeninde program kaydırmayı izlemez; ortak imza için boş ref. */
 const NO_SCROLL: React.RefObject<HTMLDivElement | null> = { current: null };
 const ILLUSTRASYONLAR = [Kuslar, Yuzukler, Fener, Buket];
-const SOZLER = [
-  'Ve hikâye burada yeni bir sayfaya geçiyor.',
-  'İki yol, tek bir yön.',
-  'Işığımız yolunuzu aydınlatsın.',
-  'Her sayfada biraz daha çiçek.'
-];
+/** Boş sayfaların sözleri (anahtar; `useInvText` ile okunur). */
+const SOZLER = ['design.dugun-kitap-sayfa.soz1', 'design.dugun-kitap-sayfa.soz2', 'design.dugun-kitap-sayfa.soz3', 'design.dugun-kitap-sayfa.soz4'];
 
 function Cover({ d }: { d: HeroData }) {
   return (
@@ -54,11 +50,12 @@ function Cover({ d }: { d: HeroData }) {
 }
 
 function Story({ d }: { d: HeroData }) {
+  const t = useInvText();
   const first = d.subtitle.charAt(0);
   return (
     <Face side="front" number={1} head={d.people.join(' & ') || NO_NAMES}>
       <div className="h-full flex flex-col justify-center">
-        <ChapterHead numeral="I" title={d.title || 'Hikâyemiz'} />
+        <ChapterHead numeral="I" title={d.title || t('design.dugun-kitap-sayfa.hikayemiz')} />
         <p className="text-center italic text-[15px]" style={{ color: SOLUK }}>
           <InvText k="design.dugun-kitap-sayfa.birVarmisBirYokmus" />
         </p>
@@ -105,6 +102,8 @@ function Colophon({ invitation, number }: { invitation: Invitation; number: numb
 
 /** Bölümlerin sırası; her biri yalnızca verisi varsa bir yaprak olur. */
 function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
+  const t = useInvText();
+  const fixed = useFixedText();
   return useMemo(() => {
     const theme = KITAP_TEMASI;
     const sections: { key: string; label: string; content: React.ReactNode }[] = [];
@@ -118,7 +117,7 @@ function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
     if (hasGallery) chapters.push('gallery');
     if (invitation.showGift) chapters.push('gift');
     if (invitation.showRSVP) chapters.push('rsvp');
-    const eyebrow = (k: string) => `Bölüm ${romen(chapters.indexOf(k) + 2)}`;
+    const eyebrow = (k: string) => fixed('design.kitap.bolum').replace('{n}', romen(chapters.indexOf(k) + 2));
     const flavor: TemplateFlavor = {
       ...DUGUN_FLAVOR,
       BackgroundPattern: undefined,
@@ -129,7 +128,7 @@ function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
     if (hasDetails)
       sections.push({
         key: 'details',
-        label: 'Tarih ve mekân',
+        label: fixed('design.dugun-kitap-sayfa.detaySayfa'),
         content: (
           <>
             <Details invitation={invitation} theme={theme} flavor={flavor} />
@@ -143,11 +142,11 @@ function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
         )
       });
     if (hasTimeline)
-      sections.push({ key: 'timeline', label: 'Program', content: <Timeline invitation={invitation} theme={theme} flavor={flavor} scrollContainer={NO_SCROLL} /> });
+      sections.push({ key: 'timeline', label: fixed('design.dugun-kitap-sayfa.programSayfa'), content: <Timeline invitation={invitation} theme={theme} flavor={flavor} scrollContainer={NO_SCROLL} /> });
     if (hasGallery)
       sections.push({
         key: 'gallery',
-        label: 'Galeri',
+        label: fixed('design.dugun-kitap-sayfa.galeriSayfa'),
         content: (
           <div data-no-flip>
             <Gallery invitation={invitation} theme={theme} flavor={flavor} />
@@ -155,19 +154,19 @@ function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
         )
       });
     if (invitation.showGift)
-      sections.push({ key: 'gift', label: 'Hediye', content: <GiftRegistry invitation={invitation} theme={theme} flavor={flavor} /> });
+      sections.push({ key: 'gift', label: fixed('design.dugun-kitap-sayfa.hediyeSayfa'), content: <GiftRegistry invitation={invitation} theme={theme} flavor={flavor} /> });
     if (invitation.showRSVP)
-      sections.push({ key: 'rsvp', label: 'Katılım bildirimi', content: <RSVPForm invitation={invitation} theme={theme} flavor={flavor} /> });
+      sections.push({ key: 'rsvp', label: fixed('design.dugun-kitap-sayfa.katilimSayfa'), content: <RSVPForm invitation={invitation} theme={theme} flavor={flavor} /> });
 
     const head = d.people.join(' & ');
     const leaves: Leaf[] = [
-      { key: 'kapak', label: 'Kapak', front: <Cover d={d} />, back: <Endpaper side="back" /> },
+      { key: 'kapak', label: fixed('design.dugun-kitap-sayfa.kapak'), front: <Cover d={d} />, back: <Endpaper side="back" /> },
       {
         key: 'hikaye',
-        label: 'Hikâye',
+        label: fixed('design.dugun-kitap-sayfa.hikayeSayfa'),
         front: <Story d={d} />,
         back: (
-          <Vignette number={2} caption={SOZLER[0]}>
+          <Vignette number={2} caption={t(SOZLER[0])}>
             <Kuslar className="w-44 h-auto" />
           </Vignette>
         )
@@ -186,7 +185,7 @@ function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
           </Face>
         ),
         back: (
-          <Vignette number={front + 1} caption={SOZLER[(i + 1) % SOZLER.length]}>
+          <Vignette number={front + 1} caption={t(SOZLER[(i + 1) % SOZLER.length])}>
             <Art className="w-36 h-auto" />
           </Vignette>
         )
@@ -194,12 +193,12 @@ function useLeaves(invitation: Invitation, d: HeroData): Leaf[] {
     });
     leaves.push({
       key: 'son',
-      label: 'Son sayfa',
+      label: fixed('design.dugun-kitap-sayfa.sonSayfa'),
       front: <Colophon invitation={invitation} number={3 + sections.length * 2} />,
       back: <Cloth side="back" />
     });
     return leaves;
-  }, [invitation, d]);
+  }, [invitation, d, t, fixed]);
 }
 
 /**

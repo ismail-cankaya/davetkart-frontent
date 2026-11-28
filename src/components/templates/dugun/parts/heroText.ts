@@ -1,3 +1,5 @@
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
+
 /** Davetiye tarihinin, düğün kartı düzenine dağıtılan parçaları. */
 export interface DateParts {
   day: string;
@@ -31,7 +33,7 @@ export type CoupleNames = { kind: 'pair'; first: string; second: string } | { ki
  * ("Ayşe & Ali", "Ayşe" ya da ""). Bir taraf boşsa çift değil tek satırdır;
  * ikisi de boşsa `fallback` yazılır.
  */
-export function splitCouple(names: string | null | undefined, fallback = 'Davetlisiniz'): CoupleNames {
+export function splitCouple(names: string | null | undefined, fallback = staticFixedText('names.placeholder')): CoupleNames {
   const text = names?.trim() ?? '';
   const at = text.indexOf('&');
   if (at > 0) {

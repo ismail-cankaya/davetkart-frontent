@@ -8,7 +8,7 @@ import { NO_NAMES, useHeroData } from '../../shared/yedi';
 import { CinemaBackdrop, DateCountdown, ScrollCue, SplitReveal, TapBurst, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('mezuniyet-kep', { landscape: '50% 45%', portrait: '50% 45%' });
 const FONT = 'DM+Serif+Display:ital@0;1';
@@ -79,6 +79,7 @@ function Backdrop({ mode, ...state }: BackdropState & { mode: 'preview' | 'live'
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -102,7 +103,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           </motion.span>
         )}
         <motion.p {...fade(1.2)} className="relative text-[10px] sm:text-[11px] tracking-[0.5em] uppercase text-[#FFE2A8] [text-shadow:0_1px_3px_rgba(30,15,40,0.95),0_0_14px_rgba(30,15,40,0.7)]">
-          {d.title || 'Mezuniyet Törenine Davet'}
+          {d.title || t('design.mezuniyet-kep.baslik')}
         </motion.p>
         <h1 className={`relative mt-5 ${DISPLAY} leading-[1] text-[clamp(2.6rem,12cqw,6.2rem)] text-[#FFF6EC] max-w-full break-words [text-shadow:0_0_30px_rgba(255,170,90,0.45),0_3px_16px_rgba(20,10,40,0.7)]`}>
           {(d.hasNames ? d.people : [NO_NAMES]).map((p, i) =>
@@ -137,7 +138,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Törene kalan"
+        eyebrow={t('design.mezuniyet-kep.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#FFD58C]',

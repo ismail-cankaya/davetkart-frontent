@@ -4,8 +4,9 @@ import { cn } from '../../../../utils/cn';
 import { ease } from '../../../../utils/motion';
 import { SectionTheme } from '../../shared/palette';
 import { useCountdown } from '../../shared/useCountdown';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
-const UNITS = ['Gün', 'Saat', 'Dakika', 'Saniye'] as const;
+const UNITS = ['countdown.days', 'countdown.hours', 'countdown.minutes', 'countdown.seconds'] as const;
 
 interface KandilCountdownProps {
   date: string;
@@ -24,6 +25,7 @@ interface KandilCountdownProps {
  */
 export function KandilCountdown({ date, timeZone, theme, delay = 0, className }: KandilCountdownProps) {
   const { valid, days, hours, minutes, seconds } = useCountdown(date, timeZone);
+  const t = useInvText();
   if (!valid) return null;
 
   return (
@@ -59,7 +61,7 @@ export function KandilCountdown({ date, timeZone, theme, delay = 0, className }:
               theme.body
             )}
           >
-            {UNITS[i]}
+            {t(UNITS[i])}
           </span>
         </div>
       ))}

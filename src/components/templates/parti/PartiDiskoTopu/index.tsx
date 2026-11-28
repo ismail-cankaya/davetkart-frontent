@@ -139,7 +139,7 @@ function Ball({ stage, animated }: { stage: DiscoStage; animated: boolean }) {
     if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
       e.preventDefault();
       stage.vel += e.key === 'ArrowRight' ? 1.5 : -1.5;
-    } else if (e.key === 'Enter' || e.key === ' ') {
+    } else if (e.key === 'Enter' || e.key === ' ') { // text-slots: kod — tuş adı
       e.preventDefault();
       locateBall();
       dropBeat(stage, true);

@@ -22,8 +22,9 @@ const FLAVOR: TemplateFlavor = {
 };
 
 /** Çocuk partisinin sözlüğü: karşılama kadeh değil balondur; mum pastadır. */
+// text-slots: kod — program başlığında aranan sözcükler (simge seçimi), ekranda görünmez
 const SOZLUK: SimgeSozlugu = [
-  ['balon', ['karşılama', 'balon', 'hoş geldin']],
+  ['balon', ['karşılama', 'balon', 'hoş geldin']], // text-slots: kod
   ['pasta', ['pasta', 'mum ']]
 ];
 

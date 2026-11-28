@@ -23,7 +23,7 @@ import {
   yaziBelirir
 } from '../../../konsept/sergi';
 import { NISAN_SERGI_METINLERI, ONIZLEME } from '../ortak';
-import { staticFixedText } from '../../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanSergiBirOmur — "Bir Ömür": duvar yazısı (SERGI-KONSEPTI §4.3).
@@ -56,6 +56,7 @@ function adBoyu(adlar: string[]): string {
  * kesiminden yukarı kayarak yapışır; kap yığın bağlamı kurmaz (spot).
  */
 function Vinil({ hazir }: { hazir: boolean }) {
+  const t = useInvText();
   return (
     <div className="relative col-start-2 row-start-1 row-span-2 justify-self-end self-start @3xl:row-span-3">
       <Spot className="top-[24%] w-[320%] aspect-square -translate-y-1/2" />
@@ -70,8 +71,8 @@ function Vinil({ hazir }: { hazir: boolean }) {
             lang="tr"
             className="[writing-mode:vertical-rl] [text-orientation:sideways] rotate-180 whitespace-nowrap leading-none text-[var(--sg-vurgu)]"
           >
-            <span className="text-[11px] font-semibold uppercase tracking-[0.22em]">{ONIZLEME.durum}</span>{' '}
-            <span className="font-serif italic ps-[0.12em]">{ONIZLEME.sergi}</span>
+            <span className="text-[11px] font-semibold uppercase tracking-[0.22em]">{t(ONIZLEME.durum)}</span>{' '}
+            <span className="font-serif italic ps-[0.12em]">{t(ONIZLEME.sergi)}</span>
           </p>
         </motion.div>
       </div>
@@ -80,6 +81,7 @@ function Vinil({ hazir }: { hazir: boolean }) {
 }
 
 function BirOmurHero({ invitation }: HeroRenderProps) {
+  const t = useInvText();
   const fontHazir = useDuvarYazisiHazir();
   const baslik = displayText(invitation.title);
   const altBaslik = displayText(invitation.subtitle);
@@ -116,7 +118,7 @@ function BirOmurHero({ invitation }: HeroRenderProps) {
           <div className="flex flex-col gap-9 @5xl:flex-row @5xl:items-end @5xl:gap-16">
             <Etiket
               className="max-w-[18rem] @5xl:shrink-0"
-              bilgiBasligi={ONIZLEME.baslik}
+              bilgiBasligi={t(ONIZLEME.baslik)}
               bilgi={[tarihSatiri(tarih), mekan]}
               gecikme={0.5}
             />
@@ -128,7 +130,7 @@ function BirOmurHero({ invitation }: HeroRenderProps) {
                   </motion.p>
                 )}
                 {invitation.showTimer && (
-                  <SergiSayac date={invitation.date} timeZone={invitation.timezone} baslik={ONIZLEME.sayac} gecikme={0.5} />
+                  <SergiSayac date={invitation.date} timeZone={invitation.timezone} baslik={t(ONIZLEME.sayac)} gecikme={0.5} />
                 )}
               </div>
             )}
@@ -147,7 +149,7 @@ const VINIL_SILUETI = (
     style={{ fontSize: VINIL_BOYU }}
   >
     <p className="[writing-mode:vertical-rl] [text-orientation:sideways] rotate-180 whitespace-nowrap leading-none font-serif italic text-white/[0.06]">
-      {ONIZLEME.sergi}
+      <InvText k={ONIZLEME.sergi} />
     </p>
   </div>
 );

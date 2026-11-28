@@ -3,7 +3,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { KitapAdlar, kisiler, romen, type EtiketBicimi } from '../../konsept/kitap';
 import { cn } from '../../../../utils/cn';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Doğum gününün kitap preset'lerinin ortak tabanı. Doğum günü hikâyenin
@@ -19,15 +19,15 @@ export const DOGUM_GUNU_KITAP_FLAVOR: TemplateFlavor = {
 };
 
 /** Yetişkin, anı defteri: "Yeni Bölüm · II", "Yeni Bölüm · III"… */
-export const YENI_BOLUM_ETIKETI: EtiketBicimi = (sira) => `Yeni Bölüm · ${romen(sira)}`;
+export const YENI_BOLUM_ETIKETI: EtiketBicimi = (sira) => staticFixedText('design.dogum-gunu-kitap.yeniBolum').replace('{n}', romen(sira));
 
-const SIRA_SOZCUKLERI = ['Birinci', 'İkinci', 'Üçüncü', 'Dördüncü', 'Beşinci', 'Altıncı'] as const;
 
 /**
  * Çocuk, masal kitabı: sayfalar sözcükle — "İkinci Sayfa", "Üçüncü Sayfa".
  * Hero birinci sayfadır; bölüm en çok altıdır (hero + beş bölüm).
  */
-export const MASAL_SAYFA_ETIKETI: EtiketBicimi = (sira) => `${SIRA_SOZCUKLERI[Math.min(sira, 6) - 1] ?? SIRA_SOZCUKLERI[5]} Sayfa`;
+export const MASAL_SAYFA_ETIKETI: EtiketBicimi = (sira) =>
+  staticFixedText(`design.dogum-gunu-kitap.sayfa${Math.min(Math.max(sira, 1), 6)}`);
 
 interface SahipAdiProps {
   /** `invitation.names` — doğum gününde *Sahibi & Ev sahibi* (KONSEPT-ORTAK §4). */

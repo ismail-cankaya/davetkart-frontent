@@ -7,7 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../share
 import { TemplateProps } from '../../types';
 import { SUNNET_FLAVOR } from '../flavors';
 import type { Invitation } from '../../../../types';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /* ——— Lunapark paleti ——— */
 const NAVY = '#0A1230';
@@ -92,15 +92,15 @@ interface BilgiKarti {
 }
 
 /** Atların sırtındaki kartlar; boş alanların kartı hiç çıkmaz. */
-function kartlariKur(d: HeroData, invitation: Invitation): BilgiKarti[] {
+function kartlariKur(d: HeroData, invitation: Invitation, t: (key: string) => string): BilgiKarti[] {
   const kartlar: BilgiKarti[] = [];
-  if (d.date.day) kartlar.push({ key: 'tarih', label: 'Tarih', value: d.date.dayMonth || d.date.day, sub: d.date.weekday || d.date.year });
-  if (d.date.time) kartlar.push({ key: 'saat', label: 'Saat', value: d.date.time });
-  if (d.venue) kartlar.push({ key: 'mekan', label: 'Mekân', value: d.venue });
+  if (d.date.day) kartlar.push({ key: 'tarih', label: t('label.date'), value: d.date.dayMonth || d.date.day, sub: d.date.weekday || d.date.year });
+  if (d.date.time) kartlar.push({ key: 'saat', label: t('label.time'), value: d.date.time });
+  if (d.venue) kartlar.push({ key: 'mekan', label: t('label.venue'), value: d.venue });
   if (invitation.showTimeline) {
     const program = invitation.timelineEvents.filter((e) => e.title.trim() !== '');
     for (const e of program.slice(0, AT_SAYISI - kartlar.length)) {
-      kartlar.push({ key: `p-${e.localKey}`, label: e.time.trim() || 'Program', value: e.title.trim() });
+      kartlar.push({ key: `p-${e.localKey}`, label: e.time.trim() || t('label.program'), value: e.title.trim() });
     }
   }
   return kartlar.slice(0, AT_SAYISI);
@@ -267,8 +267,9 @@ function KarincaBackdrop({ hareketli }: BackdropState & { hareketli: boolean }) 
 }
 
 function KarincaHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boolean }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
-  const kartlar = useMemo(() => kartlariKur(d, invitation), [d, invitation]);
+  const kartlar = useMemo(() => kartlariKur(d, invitation, t), [d, invitation, t]);
   const rise = (delay: number) =>
     hareketli
       ? {

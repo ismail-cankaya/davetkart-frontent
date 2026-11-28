@@ -5,6 +5,7 @@ import { HeroStage, Halo } from '../../shared/effects';
 import { KinetikHero } from '../../shared/heroes';
 import { PARTI_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * PartiKinetik — "Kinetik Tipografi" parti yorumu: mürekkep siyahı zemin, turuncu sinyal.
@@ -34,13 +35,14 @@ const PARTI_KINETIK_THEME: SectionTheme = {
 };
 
 export function PartiKinetik({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={PARTI_FLAVOR}
       mode={mode}
       themeOverride={PARTI_KINETIK_THEME}
-      renderHero={(props) => <KinetikHero {...props} topWord="PARTİ" />}
+      renderHero={(props) => <KinetikHero {...props} topWord={t('design.parti-kinetik.ustKelime')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(170deg, #17150f 0%, #0d0c0b 55%, #060606 100%)"

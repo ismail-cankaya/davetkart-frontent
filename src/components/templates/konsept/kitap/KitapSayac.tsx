@@ -2,7 +2,7 @@ import React from 'react';
 import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
 import { useCountdown } from '../../shared/useCountdown';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const iki = (n: number) => String(n).padStart(2, '0');
 
@@ -24,12 +24,13 @@ interface KitapSayacProps {
 
 export function KitapSayac({ invitation, sayiClassName, birimClassName, className }: KitapSayacProps) {
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
+  const t = useInvText();
   if (!invitation.showTimer || !valid) return null;
 
   const birimler = [
-    { deger: String(days), ad: 'gün' },
-    { deger: iki(hours), ad: 'saat' },
-    { deger: iki(minutes), ad: 'dakika' }
+    { deger: String(days), ad: t('countdown.daysLower') },
+    { deger: iki(hours), ad: t('countdown.hoursLower') },
+    { deger: iki(minutes), ad: t('countdown.minutesLower') }
   ];
 
   return (

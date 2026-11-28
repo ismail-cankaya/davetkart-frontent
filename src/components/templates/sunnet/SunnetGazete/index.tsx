@@ -5,16 +5,18 @@ import { GazeteHero } from '../../shared/heroes';
 import { SUNNET_GAZETE } from '../themes';
 import { SUNNET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /** SunnetGazete — "Gazete Manşeti": şenliği kırmızı manşetle duyuran dizgi. */
 export function SunnetGazete({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={SUNNET_FLAVOR}
       mode={mode}
       themeOverride={SUNNET_GAZETE}
-      renderHero={(props) => <GazeteHero {...props} masthead="ŞENLİK GAZETESİ" />}
+      renderHero={(props) => <GazeteHero {...props} masthead={t('design.sunnet-gazete.masthead')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #fbfbfd 0%, #eceef5 100%)"

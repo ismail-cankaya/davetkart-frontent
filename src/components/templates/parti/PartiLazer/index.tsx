@@ -9,7 +9,7 @@ import { CinemaBackdrop, DateCountdown, LiveShader, ScrollCue, useTemplateFont, 
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
 import { LAZER_FRAG, aimAt } from './lazerShader';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const VIDEO = videoSet('parti-lazer');
 const FONT = 'Big+Shoulders+Display:wght@500;800;900';
@@ -78,6 +78,7 @@ function LaserLine({ text, delay, still, className }: { text: string; delay: num
 }
 
 function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live' }) {
+  const t = useInvText();
   useTemplateFont(FONT);
   const d = useHeroData(invitation);
   const reduced = useReducedMotion() ?? false;
@@ -91,7 +92,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
     <div className="relative grow flex flex-col">
       <div className="relative min-h-[100svh] flex flex-col items-center justify-center px-5 pt-14 pb-24 text-center" dir="auto">
         <motion.p {...fade(0.3)} className={`${DISPLAY} font-medium text-sm tracking-[0.5em] uppercase text-[#4DFF9A] [text-shadow:0_0_14px_rgba(77,255,154,0.7)]`}>
-          {d.title || 'Lazer Gecesi'}
+          {d.title || t('design.parti-lazer.baslik')}
         </motion.p>
         <h1 className={`${DISPLAY} mt-4 font-black uppercase leading-[0.86] tracking-[-0.01em] text-[clamp(3.4rem,17cqw,9.5rem)] max-w-full break-words`}>
           {names.map((p, i) => (
@@ -126,7 +127,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
       </div>
       <DateCountdown
         invitation={invitation}
-        eyebrow="Işıklar yanıyor"
+        eyebrow={t('design.parti-lazer.geriSayimBasligi')}
         classes={{
           root: 'min-h-[80svh]',
           eyebrow: 'text-[#4DFF9A]',

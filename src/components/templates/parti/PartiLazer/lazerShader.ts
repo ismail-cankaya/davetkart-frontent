@@ -17,6 +17,7 @@ export function aimAt(t: number, aspect: number): [number, number] {
   return [spanX * Math.sin(w), 0.16 + 0.08 * Math.sin(w * 2 + 0.6)];
 }
 
+// text-slots: kod — GLSL gölgelendirici; Türkçe yorumlar
 export const LAZER_FRAG = /* glsl */ `
 #define TAU 6.28318530718
 uniform float uTime;

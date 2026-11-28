@@ -123,20 +123,20 @@ export function EserYeniYas({ className }: EserProps) {
 
 export interface SoyutEserTanimi {
   Bilesen: React.ComponentType<EserProps>;
-  /** Etiketteki eser adı. */
+  /** Etiketteki eser adının anahtarı (`useInvText`). */
   ad: string;
-  /** Etiketteki teknik satırı. */
+  /** Etiketteki teknik satırının anahtarı. */
   teknik: string;
 }
 
 export const SOYUT_ESERLER = {
-  esik: { Bilesen: EserEsik, ad: 'Eşik', teknik: 'Tuval üzerine akrilik' },
-  ikiYarim: { Bilesen: EserIkiYarim, ad: 'İki Yarım', teknik: 'Diptik, tuval üzerine akrilik' },
-  ilkIsler: { Bilesen: EserIlkIsler, ad: 'İlk işler', teknik: 'Kâğıt üzerine guaj' },
-  oyunDonemi: { Bilesen: EserOyunDonemi, ad: 'Oyun dönemi', teknik: 'Ahşap üzerine boya' },
-  kesifDonemi: { Bilesen: EserKesifDonemi, ad: 'Keşif dönemi', teknik: 'Tuval üzerine akrilik' },
-  bugun: { Bilesen: EserBugun, ad: 'Bugün', teknik: 'Tuval üzerine akrilik' },
-  yeniYas: { Bilesen: EserYeniYas, ad: 'Yeni Yaş', teknik: 'Tuval üzerine akrilik ve kurşun kalem' }
+  esik: { Bilesen: EserEsik, ad: 'design.sergi-eser.esikAd', teknik: 'design.sergi-eser.esikTeknik' },
+  ikiYarim: { Bilesen: EserIkiYarim, ad: 'design.sergi-eser.ikiYarimAd', teknik: 'design.sergi-eser.ikiYarimTeknik' },
+  ilkIsler: { Bilesen: EserIlkIsler, ad: 'design.sergi-eser.ilkIslerAd', teknik: 'design.sergi-eser.ilkIslerTeknik' },
+  oyunDonemi: { Bilesen: EserOyunDonemi, ad: 'design.sergi-eser.oyunDonemiAd', teknik: 'design.sergi-eser.oyunDonemiTeknik' },
+  kesifDonemi: { Bilesen: EserKesifDonemi, ad: 'design.sergi-eser.kesifDonemiAd', teknik: 'design.sergi-eser.kesifDonemiTeknik' },
+  bugun: { Bilesen: EserBugun, ad: 'design.sergi-eser.bugunAd', teknik: 'design.sergi-eser.bugunTeknik' },
+  yeniYas: { Bilesen: EserYeniYas, ad: 'design.sergi-eser.yeniYasAd', teknik: 'design.sergi-eser.yeniYasTeknik' }
 } as const satisfies Record<string, SoyutEserTanimi>;
 
 export type SoyutEserAdi = keyof typeof SOYUT_ESERLER;

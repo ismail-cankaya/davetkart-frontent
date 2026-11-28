@@ -5,6 +5,7 @@ import { KinetikHero } from '../../shared/heroes';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
 import { TemplateProps } from '../../types';
+import { useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * DugunKinetik — "Kinetik Tipografi" düğün yorumu: tül kağıt, mürekkep
@@ -13,13 +14,14 @@ import { TemplateProps } from '../../types';
  * Zemin bilinçle sessiz: hareketi taşıyan tek şey tipografi.
  */
 export function DugunKinetik({ invitation, mode = 'preview' }: TemplateProps) {
+  const t = useInvText();
   return (
     <InvitationComposition
       invitation={invitation}
       flavor={DUGUN_FLAVOR}
       mode={mode}
       themeOverride={DUGUN_THEMES.DugunKinetik}
-      renderHero={(props) => <KinetikHero {...props} topWord="EVLENİYORUZ" />}
+      renderHero={(props) => <KinetikHero {...props} topWord={t('design.dugun-kinetik.ustKelime')} />}
       renderHeroBackground={() => (
         <HeroStage
           base="linear-gradient(180deg, #fbfafc 0%, #efecf2 100%)"

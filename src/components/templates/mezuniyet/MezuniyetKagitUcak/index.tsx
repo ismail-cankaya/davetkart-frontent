@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const INK = '#1E3A5F';
 
@@ -50,11 +50,11 @@ interface Durak {
   v: string;
 }
 
-function duraklar(d: HeroData): Durak[] {
+function duraklar(d: HeroData, t: (key: string) => string): Durak[] {
   const s: Durak[] = [];
-  if (d.date.day) s.push({ k: 'tarih', l: 'Tarih', v: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
-  if (d.date.time) s.push({ k: 'saat', l: 'Saat', v: d.date.time });
-  if (d.venue) s.push({ k: 'mekan', l: 'Mekân', v: d.venue });
+  if (d.date.day) s.push({ k: 'tarih', l: t('label.date'), v: [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(' · ') });
+  if (d.date.time) s.push({ k: 'saat', l: t('label.time'), v: d.date.time });
+  if (d.venue) s.push({ k: 'mekan', l: t('label.venue'), v: d.venue });
   return s;
 }
 
@@ -150,8 +150,9 @@ function Rota({ liste, hareketli }: { liste: Durak[]; hareketli: boolean }) {
 }
 
 function UcakHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boolean }) {
+  const t = useInvText();
   const d = useHeroData(invitation);
-  const liste = useMemo(() => duraklar(d), [d]);
+  const liste = useMemo(() => duraklar(d, t), [d, t]);
   return (
     <div dir="auto" className="grow flex flex-col items-center justify-center px-5 pt-14 pb-16 text-center">
       <p className="text-[10px] sm:text-[11px] tracking-[0.42em] uppercase text-[#D9534F]">{d.title || <InvText k="hero.tagline" />}</p>
