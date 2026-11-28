@@ -59,6 +59,13 @@ export function findPick(target: Element | null, index: ReadonlyMap<string, Text
     if (text.length <= 400) {
       const pick = index.get(normalizePickText(text));
       if (pick) return { element, pick };
+      // Metin bir ayraçla yan yana çizildiyse ("Başlık <span>/</span> Kategori"): yalnızca öğenin kendi metni.
+      const own = Array.from(element.childNodes)
+        .filter((node) => node.nodeType === 3)
+        .map((node) => node.textContent ?? '')
+        .join(' ');
+      const ownPick = own.trim() ? index.get(normalizePickText(own)) : undefined;
+      if (ownPick) return { element, pick: ownPick };
     }
     element = element.parentElement;
   }

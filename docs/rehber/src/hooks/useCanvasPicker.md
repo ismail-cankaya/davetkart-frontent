@@ -30,6 +30,17 @@ görüntü değişmez, yeni şablon kendiliğinden kapsanır.
 4. Form alanları ve `data-text-slot` işaretleri atlanır (işaret kendi tıklamasını yönetir).
 5. Kullanıcı alanı → `FieldEditorCard` (paket yok); şablon metni → `InlineTextEditor` (Elit notu).
 
+## Ölçüm (Faz 27.2–28.0)
+
+Her üç şablondan biri (307'den 103 tasarım), telefon tuvali, isimler "Ayşe Yılmaz & Ali Demir", başlık ve mekân dolu:
+çizilen her isim/başlık/mekân öğesine tıklandı ve doğru düzenleyicinin açıldığı kontrol edildi.
+
+| Alan | Sonuç |
+|---|---|
+| İsimler | 103/103 |
+| Mekân | 103/103 |
+| Başlık | 91/91 (12 tasarım başlığı çizmiyor); ilk ölçümde `BrutalHero` ailesinde 3 kaçak vardı: başlık aynı öğede bir ayraçla yan yana. Eşleme artık öğenin kendi metin düğümlerine de bakıyor |
+
 ## Sınırlar
 
 - Aynı metin iki yerde geçerse ilk karşılık kazanır (kullanıcı alanı önce). Örn. başlık "Saat" yazılırsa saat etiketine
