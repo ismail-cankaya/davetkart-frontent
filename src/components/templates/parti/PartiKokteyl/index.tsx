@@ -205,12 +205,12 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           </motion.p>
           {live && (
             <motion.p {...fade(3.3)} className={`${MANROPE} mt-2 text-[9px] tracking-[0.3em] uppercase text-[#9C7E8C]`}>
-              Eğ · çalkala · dokun, buzlar tokuşsun
+              <InvText k="design.parti-kokteyl.egCalkalaDokunBuzlarTokussun" />
             </motion.p>
           )}
           {live && (
             <div className="pointer-events-auto">
-              <GyroButton className="mt-2 bg-[#1A0B1E]/70 text-[#FF9A6E] border border-[#FF9A7A]/25" label="Eğerek çalkala" />
+              <GyroButton className="mt-2 bg-[#1A0B1E]/70 text-[#FF9A6E] border border-[#FF9A7A]/25" label={'Eğerek çalkala'} />
             </div>
           )}
         </div>

@@ -55,7 +55,8 @@
       "gallery": "Gallery",
       "gift": "Gifts and IBAN",
       "rsvp": "RSVP",
-      "label": "Labels"
+      "label": "Labels",
+      "design": "This design"
     }
   },
   "modules": {

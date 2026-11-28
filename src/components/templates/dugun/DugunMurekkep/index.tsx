@@ -8,6 +8,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { MurekkepCanvas } from './MurekkepCanvas';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const MUREKKEP_TEMASI: SectionTheme = {
   id: 'stone',
@@ -123,7 +124,7 @@ function InkHero({ invitation }: HeroRenderProps) {
         </motion.p>
       )}
       <motion.p {...fade(3.4)} className="mt-8 text-[10px] tracking-[0.35em] uppercase text-[#F4F2ED]/80">
-        Dokunun, bir damla daha düşsün
+        <InvText k="design.dugun-murekkep.dokununBirDamlaDahaDussun" />
       </motion.p>
     </div>
   );

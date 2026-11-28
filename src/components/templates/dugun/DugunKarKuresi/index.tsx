@@ -291,7 +291,7 @@ function KarHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boole
           {d.hasNames ? d.people.join(' & ') : NO_NAMES}
         </motion.h1>
       </motion.div>
-      {hareketli && <p className="mt-3 text-[10px] tracking-[0.3em] uppercase text-[#8494AE]">Küreyi salla ya da dokun</p>}
+      {hareketli && <p className="mt-3 text-[10px] tracking-[0.3em] uppercase text-[#8494AE]"><InvText k="design.dugun-kar-kuresi.kureyiSallaYaDaDokun" /></p>}
 
       {bilgi.length > 0 && (
         <dl className="mt-7 w-full max-w-[320px] space-y-2.5">

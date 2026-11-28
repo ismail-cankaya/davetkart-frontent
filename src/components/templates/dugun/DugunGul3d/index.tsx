@@ -8,6 +8,7 @@ import { GyroButton, ThreeStage } from '../../shared/three';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** three.js ve sahne ayrı chunk: kart HTML'i sahne inmeden çizilir. */
 const GulSahnesi = lazy(() => import('./GulSahnesi'));
@@ -175,7 +176,7 @@ function GulHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode
         onClick={() => scrollContainer?.current?.scrollBy({ top: scrollContainer.current.clientHeight * 0.85, behavior: 'smooth' })}
         className="mt-8 flex flex-col items-center gap-1 text-[11px] tracking-[0.3em] uppercase text-[#F2C7C2] hover:text-white transition-colors"
       >
-        Kaydırın
+        <InvText k="label.scroll" />
         <ChevronDown size={18} className="motion-safe:animate-bounce" />
       </motion.button>
     </div>

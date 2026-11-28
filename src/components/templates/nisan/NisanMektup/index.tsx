@@ -62,7 +62,7 @@ function Mektup({ hareketli, adlar }: { hareketli: boolean; adlar: string }) {
         >
           {adlar}
         </motion.p>
-        <p className="mt-3 text-[10px] tracking-[0.35em] uppercase text-[#8C1C2C]/70">söz verdik</p>
+        <p className="mt-3 text-[10px] tracking-[0.35em] uppercase text-[#8C1C2C]/70"><InvText k="design.nisan-mektup.sozVerdik" /></p>
       </motion.div>
       {/* Mum mühür: iki yarım, açılışta ayrılıp düşer. */}
       {[-1, 1].map((yon) => (

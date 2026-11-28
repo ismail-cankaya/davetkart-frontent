@@ -6,6 +6,7 @@ import { KURUMSAL_FLAVOR } from '../flavors';
 import { KurumsalFrame } from '../parts/KurumsalFrame';
 import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * KurumsalPlak — "Vinil Plak" kurumsal yorumu: lansman gecesinin müzik
@@ -40,7 +41,7 @@ export function KurumsalPlak({ invitation, mode = 'preview' }: TemplateProps) {
       flavor={KURUMSAL_FLAVOR}
       mode={mode}
       themeOverride={KURUMSAL_PLAK_THEME}
-      renderHero={(props) => <PlakHero {...props} label="#2B3FE0" labelInk="#F3F4F1" spinDuration={42} />}
+      renderHero={(props) => <PlakHero {...props} label={'#2B3FE0'} labelInk="#F3F4F1" spinDuration={42} />}
       renderHeroBackground={({ revealed }) => (
         <HeroStage
           base="radial-gradient(ellipse 95% 85% at 50% 35%, #151A2A 0%, #0E1118 55%, #07080B 100%)"

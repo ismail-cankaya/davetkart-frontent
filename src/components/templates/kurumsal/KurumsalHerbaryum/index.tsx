@@ -5,6 +5,7 @@ import { HerbaryumHero } from '../../shared/heroes';
 import { KURUMSAL_FLAVOR } from '../flavors';
 import { kurumsalTheme } from '../parts/theme';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * KurumsalHerbaryum — "Herbaryum" yorumu: etkinliği kurum arşivinin bir
@@ -43,7 +44,7 @@ export function KurumsalHerbaryum({ invitation, mode = 'preview' }: TemplateProp
           sheet="#F7F7F4"
           tape="rgba(197,203,211,0.6)"
           specimen="#2B3FE0"
-          label="#FFFFFF"
+          label={'#FFFFFF'}
           accession="No. 090"
         />
       )}

@@ -6,7 +6,7 @@ import type { EnvelopeRenderProps } from '../../shared/InvitationComposition';
 import { Igne } from './Igne';
 import { PusulaGulu } from './simgeler';
 import { kisiler } from './veri';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Zarf kapısı: katlanmış harita. Kapak kartuşun küçüğüdür; dokununca kapak
@@ -121,7 +121,7 @@ export function HaritaZarf({
                   </span>
                 ))
               ) : (
-                'Davetlisiniz'
+                staticFixedText('names.placeholder')
               )}
             </p>
           </div>
@@ -134,7 +134,7 @@ export function HaritaZarf({
           </div>
           <div className="flex items-end justify-between gap-3">
             <p className="[font-family:var(--hr-etiket)] text-[12px] @2xl:text-[14px] font-semibold uppercase tracking-[0.18em] text-[#4E5B63]">
-              Günün haritası
+              <InvText k="design.harita-zarf.gununHaritasi" />
             </p>
             <PusulaGulu boyut={40} className="text-[#23303A] @2xl:size-14" />
           </div>
@@ -151,7 +151,7 @@ export function HaritaZarf({
         transition={{ duration: 0.2 }}
         className="min-h-[44px] rounded-[3px] border-[1.5px] border-[#23303A] bg-white px-5 [font-family:var(--hr-etiket)] text-[15px] font-semibold uppercase tracking-[0.16em] text-[#23303A] transition-colors hover:bg-[#23303A] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#A8321F]"
       >
-        Haritayı açın
+        <InvText k="design.harita-zarf.haritayiAcin" />
       </motion.button>
     </motion.div>
   );

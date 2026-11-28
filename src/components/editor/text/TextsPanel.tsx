@@ -17,6 +17,7 @@ const GROUPS: ReadonlyArray<{ id: string; flag?: keyof Invitation }> = [
   { id: 'envelope', flag: 'showEnvelope' },
   { id: 'hero' },
   { id: 'label' },
+  { id: 'design' },
   { id: 'countdown', flag: 'showTimer' },
   { id: 'timeline', flag: 'showTimeline' },
   { id: 'details' },

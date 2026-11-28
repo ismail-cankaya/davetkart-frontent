@@ -6,7 +6,7 @@ import { getSectionTheme } from './palette';
 import { TemplateFlavor } from './flavor';
 import { Envelope } from './Envelope';
 import { Summary, SummaryDensity } from './Summary';
-import { InvitationTextScope } from '../../../invitationText/InvitationTextContext';
+import { InvText, InvitationTextScope } from '../../../invitationText/InvitationTextContext';
 import { EditableSection } from '../../editor/sections/EditableSection';
 import { ReportInvitationLink } from '../../report/ReportInvitation';
 
@@ -320,7 +320,7 @@ export function InvitationComposition({
             {/* FE 10.20 (K102): Elit'te "Logosuz özel yayın". Karar sunucudan gelir
                 (misafir sayfası ve FE 10.21'den beri editör); alan yoksa imza çizilir. */}
             {invitation.showBranding !== false && (
-              <p className={cn('text-[9px] mt-1.5', theme.footer?.branding ?? ['opacity-40', theme.body])}>DavetKart ile hazırlandı</p>
+              <p className={cn('text-[9px] mt-1.5', theme.footer?.branding ?? ['opacity-40', theme.body])}><InvText k="design.invitation-composition.davetkartIleHazirlandi" /></p>
             )}
             {/* Faz 25 (K313): yalnızca misafir sayfasında (GuestPageProvider); önizlemede hiçbir şey çizmez. */}
             <ReportInvitationLink className={cn('text-[9px] mt-2 underline underline-offset-2 cursor-pointer', theme.footer?.branding ?? ['opacity-40', theme.body])} />

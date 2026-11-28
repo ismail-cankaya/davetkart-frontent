@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { HerbaryumHero } from '../../shared/heroes';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** DogumGunuHerbaryum — "Herbaryum" yorumu: yeni yaşı arşive giren bir örnek gibi etiketleyen föy. */
 const DOGUM_GUNU_HERBARYUM_THEME: SectionTheme = {
@@ -38,7 +39,7 @@ export function DogumGunuHerbaryum({ invitation, mode = 'preview' }: TemplatePro
           sheet="#fdf6ea"
           tape="rgba(230,205,160,0.5)"
           specimen="#7f8b4f"
-          label="#fffdf6"
+          label={'#fffdf6'}
           accession="No. 046"
         />
       )}

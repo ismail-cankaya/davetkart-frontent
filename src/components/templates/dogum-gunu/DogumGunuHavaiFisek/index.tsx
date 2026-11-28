@@ -157,7 +157,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         )}
         {live && (
           <motion.p {...fade(2.2)} className="mt-5 text-[10px] tracking-[0.3em] uppercase text-[#8E86B8]">
-            Gökyüzüne dokunun
+            <InvText k="design.dogum-gunu-havai-fisek.gokyuzuneDokunun" />
           </motion.p>
         )}
         <ScrollCue delay={t0 + 2.4} className="text-[#FFC86B]" />

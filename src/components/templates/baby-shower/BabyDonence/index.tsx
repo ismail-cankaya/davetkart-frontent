@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 type FigureKind = 'moon' | 'star' | 'cloud';
@@ -240,7 +240,7 @@ function Mobile({ rotTarget, animated }: { rotTarget: MotionValue<number>; anima
   };
 
   return (
-    <div className="relative mx-auto h-[250px] w-[300px] sm:h-[280px] sm:w-[340px]" aria-label="Dönence">
+    <div className="relative mx-auto h-[250px] w-[300px] sm:h-[280px] sm:w-[340px]" aria-label={staticFixedText('design.baby-donence.donence')}>
       {/* Tavan ipi + kanca */}
       <div className="absolute left-1/2 -top-6 h-[36px] w-px -translate-x-1/2 bg-[#9DB2CF]" />
       <div className="absolute left-1/2 top-[9px] h-3 w-3 -translate-x-1/2 rounded-full border-2 border-[#C9A25A] bg-[#FFF3D6]" />
@@ -276,7 +276,7 @@ function Mobile({ rotTarget, animated }: { rotTarget: MotionValue<number>; anima
             <motion.button
               type="button"
               onClick={(e) => fling(i, e)}
-              aria-label="Figürü salla"
+              aria-label={staticFixedText('design.baby-donence.figuruSalla')}
               initial={animated ? { opacity: 0, y: -24, scale: 0.6 } : false}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ delay: 0.95 + i * 0.12, type: 'spring', stiffness: 220, damping: 14 }}
@@ -378,7 +378,7 @@ function DonenceHero({ invitation, scrollContainer, mode }: HeroRenderProps & { 
       </motion.div>
       {animated && (
         <motion.p {...rise(2.4)} className="relative z-20 -mt-2 text-[10px] tracking-[0.3em] uppercase text-[#8E9AB4]">
-          Figürlere dokunun
+          <InvText k="design.baby-donence.figurlereDokunun" />
         </motion.p>
       )}
 

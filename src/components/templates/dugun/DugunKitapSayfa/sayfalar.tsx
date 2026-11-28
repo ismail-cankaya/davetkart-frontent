@@ -2,6 +2,7 @@ import React, { useContext, type ReactNode } from 'react';
 import { MirrorContext } from './Kitap';
 import { cn } from '../../../../utils/cn';
 import { BEZ_DOKUSU } from '../../konsept/kitap/doku';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** Kâğıt lifi: tek seferlik SVG gürültüsü, data-URI görsel (kare başına filtre yok). */
 const LIF =
@@ -135,7 +136,7 @@ export function ChapterHead({ numeral, title }: { numeral: string; title: string
   return (
     <div className="text-center mb-4">
       <p className="text-[10px] tracking-[0.4em] uppercase" style={{ color: GUL }}>
-        Bölüm {numeral}
+        <InvText k="design.sayfalar.bolum" />{' '}{numeral}
       </p>
       <h2 className="mt-2 text-[1.65rem] leading-tight [font-family:var(--kt-baslik-font)]">{title}</h2>
       <svg viewBox="0 0 120 12" className="mx-auto mt-2 w-28 h-3" aria-hidden="true">

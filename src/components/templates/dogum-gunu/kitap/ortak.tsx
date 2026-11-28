@@ -3,6 +3,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { KitapAdlar, kisiler, romen, type EtiketBicimi } from '../../konsept/kitap';
 import { cn } from '../../../../utils/cn';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Doğum gününün kitap preset'lerinin ortak tabanı. Doğum günü hikâyenin
@@ -57,7 +58,7 @@ export function SahipAdi({ names, as = 'h1', enCok, akis, className, kunyeClassN
       <KitapAdlar adlar={sahibi ? [sahibi] : []} as={as} enCok={enCok} akis={akis} className={className} />
       {evSahibi && (
         <p className={cn('mt-5 flex flex-col items-center gap-1', kunyeClassName)}>
-          <span className="text-[10px] uppercase tracking-[0.3em]">Ev sahibi</span>
+          <span className="text-[10px] uppercase tracking-[0.3em]"><InvText k="design.ortak.evSahibi" /></span>
           <span className="text-[15px] italic leading-snug [text-wrap:balance]">{evSahibi}</span>
         </p>
       )}

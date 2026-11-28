@@ -9,7 +9,7 @@ import { HeroCountdown, NO_NAMES, useHeroData, type HeroData } from '../../share
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { TEBESIRLER, fitCanvas, tebesirCiz, useTebesirTozu, type TebesirId } from './tebesirMotoru';
-import { useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -469,7 +469,7 @@ function TahtaHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
           {...enter(0.45, { opacity: 0, y: -8 })}
           className="relative -mx-[6px] sm:-mx-[10px] mt-[8px] h-12 rounded-b-[10px] rounded-t-[3px] bg-[linear-gradient(180deg,#B07B48,#7A4C2A)] shadow-[inset_0_2px_0_rgba(255,255,255,0.15),0_6px_12px_rgba(0,0,0,0.4)] flex items-center justify-between px-3"
         >
-          <div className="flex items-end gap-2" role="group" aria-label="Tebeşirler">
+          <div className="flex items-end gap-2" role="group" aria-label={staticFixedText('design.mezuniyet-kara-tahta.tebesirler')}>
             {TEBESIRLER.map((c, i) => (
               <motion.button
                 key={c.id}
@@ -488,7 +488,7 @@ function TahtaHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
             {...enter(0.95, { opacity: 0, y: -10 })}
             whileTap={{ scale: 0.92 }}
             onClick={wipeNext}
-            aria-label="Silgi: tahtayı sil, sonraki yazıya geç"
+            aria-label={staticFixedText('design.mezuniyet-kara-tahta.silgiTahtayiSilSonrakiYaziya')}
             className="relative h-9 w-[74px] rounded-md overflow-hidden shadow-[0_3px_6px_rgba(0,0,0,0.4)] bg-[linear-gradient(180deg,#C89A62_0%,#A9783F_55%,#5B5F66_55%,#45484E_100%)] flex items-center justify-center text-[#2A1A0C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             <Eraser className="w-4 h-4 -mt-3" strokeWidth={2.2} />

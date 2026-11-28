@@ -1,6 +1,7 @@
 import React, { useId } from 'react';
 import { HARITA_RENK as R } from '../palet';
 import { lekeYolu } from './cizim';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * Şehir planı ekseni: kurgusal bir kıyı kenti. Tonlar: arazi (zemin ve
@@ -117,7 +118,7 @@ export function SehirPlani({ className }: { className?: string }) {
         fillOpacity="0.5"
         style={{ fontFamily: 'var(--hr-italik)', fontStyle: 'italic', fontSize: 30, letterSpacing: '0.32em' }}
       >
-        Sakin Sular
+        <InvText k="design.sehir-plani.sakinSular" />
       </text>
     </svg>
   );

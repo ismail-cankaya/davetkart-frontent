@@ -16,7 +16,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { INTRO_MERGE, orbitFrame } from './yorunge';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 const YorungeSahnesi = lazy(() => import('./YorungeSahnesi'));
 
@@ -332,7 +332,7 @@ function YorungeHero({ invitation, mode, spin }: HeroRenderProps & { mode: Mode;
       <div
         {...drag}
         role="slider"
-        aria-label="Yörüngeyi çevir"
+        aria-label={staticFixedText('design.dugun-yorunge.yorungeyiCevir')}
         aria-valuenow={0}
         tabIndex={0}
         className="relative w-full max-w-md grow min-h-[34svh] my-2 cursor-grab active:cursor-grabbing touch-pan-y select-none focus:outline-none focus-visible:ring-1 focus-visible:ring-[#F3D9A4]/40 rounded-full"
@@ -342,7 +342,7 @@ function YorungeHero({ invitation, mode, spin }: HeroRenderProps & { mode: Mode;
             {...rise(3.4)}
             className={`absolute bottom-1 left-1/2 -translate-x-1/2 text-[10px] tracking-[0.3em] uppercase text-[#9EA3CC] transition-opacity duration-700 ${touched ? 'opacity-0' : ''}`}
           >
-            ← sürükle · çevir →
+            <InvText k="design.dugun-yorunge.surukleCevir" />
           </motion.span>
         )}
       </div>

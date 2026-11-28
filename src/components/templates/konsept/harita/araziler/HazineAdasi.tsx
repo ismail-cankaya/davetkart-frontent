@@ -1,6 +1,7 @@
 import React from 'react';
 import { HARITA_RENK as R } from '../palet';
 import { lekeIciNoktalar, lekeYolu, tohumlu, type Leke } from './cizim';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * Hazine haritası ekseni: kurgusal bir ada. Tonlar: sıcak arazi (kum), su,
@@ -119,7 +120,7 @@ export function HazineAdasi({ className }: { className?: string }) {
         fillOpacity="0.5"
         style={{ fontFamily: 'var(--hr-italik)', fontStyle: 'italic', fontSize: 30, letterSpacing: '0.32em' }}
       >
-        Mavi Koy
+        <InvText k="design.hazine-adasi.maviKoy" />
       </text>
     </svg>
   );

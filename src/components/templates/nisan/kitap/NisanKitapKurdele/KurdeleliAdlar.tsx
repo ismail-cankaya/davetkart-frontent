@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { cn } from '../../../../../utils/cn';
 import { ease } from '../../../../../utils/motion';
 import { adlarBoyu } from '../../../konsept/kitap';
+import { staticFixedText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * Kurdeleli adlar: iki ad, aralarında sayfayı enine geçen ayraç kurdelesi.
@@ -40,7 +41,7 @@ const ACILMA = '0.45em';
 /** Satırı kabın iki kenarına (ve 0.5 em ötesine) yayar. */
 const ENINE = 'relative ml-[calc(50%-50cqi-0.5em)] w-[calc(100cqi+1em)]';
 
-export function KurdeleliAdlar({ adlar, hazir, bos = 'Davetlisiniz', className }: KurdeleliAdlarProps) {
+export function KurdeleliAdlar({ adlar, hazir, bos = staticFixedText('names.placeholder'), className }: KurdeleliAdlarProps) {
   const parcalar = adlar.length ? adlar : [bos];
   const [ilk, ...kalan] = parcalar;
   const ikinci = kalan.join(' & ');

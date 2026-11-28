@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { HerbaryumHero } from '../../shared/heroes';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** MezuniyetHerbaryum — "Herbaryum" yorumu: mezuniyeti koleksiyonun en kıymetli kaydı yapan föy. */
 const MEZUNIYET_HERBARYUM_THEME: SectionTheme = {
@@ -38,7 +39,7 @@ export function MezuniyetHerbaryum({ invitation, mode = 'preview' }: TemplatePro
           sheet="#f5f1e6"
           tape="rgba(210,196,160,0.5)"
           specimen="#5f6b4a"
-          label="#fffdf5"
+          label={'#fffdf5'}
           accession="No. 052"
         />
       )}

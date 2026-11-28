@@ -17,7 +17,7 @@ import { displayText } from '../../utils';
 import { TemplateProps } from '../../types';
 import { NISAN_KAGIT_FLAVOR, kagitTarih, kisiler } from '../parts/kagitOrtak';
 import { KagitSayac } from '../parts/KagitSayac';
-import { useInvText } from '../../../../invitationText/InvitationTextContext';
+import { staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanSozSenedi — "Söz Senedi": nişan bir sözdür; davetiye iki imzalı bir
@@ -100,7 +100,7 @@ function SozSenediHero({ invitation, flavor }: HeroRenderProps) {
   const { gun, haftaGunu, saat } = kagitTarih(invitation.date);
   const tarih = [haftaGunu ? `${haftaGunu}, ${gun}` : gun, saat].filter(Boolean).join(' · ');
   const adlar = kisiler(invitation.names);
-  const imzalar = adlar.length ? adlar.slice(0, 2) : ['Davetlisiniz'];
+  const imzalar = adlar.length ? adlar.slice(0, 2) : [staticFixedText('names.placeholder')];
 
   return (
     <section className="flex-1 flex flex-col items-center justify-center gap-12 px-5 py-14">

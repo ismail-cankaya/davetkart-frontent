@@ -108,7 +108,7 @@ section('Kod ↔ varsayılan metinler');
 {
   const before = failures;
   const used = new Set<string>();
-  const KEY = /^[a-z]+\.[A-Za-z.]+$/;
+  const KEY = /^[a-z]+\.[A-Za-z0-9.-]+$/;
   for (const { text } of sources) {
     for (const m of text.matchAll(/\bk="([^"]+)"/g)) used.add(m[1]);
     for (const m of text.matchAll(/\bk=\{([^}]*)\}/g)) for (const s of m[1].matchAll(/'([^']+)'/g)) used.add(s[1]);

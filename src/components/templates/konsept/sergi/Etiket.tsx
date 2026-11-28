@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { etiketBelirir } from './hareket';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 export interface EtiketProps {
   /** Sanatçı satırı (adlar). */
@@ -68,7 +69,7 @@ export function Etiket({ sanatci, eser, yil, teknik, nokta, kurator, bilgiBaslig
       )}
       {kurator && (
         <p className={cn('text-[var(--sg-etiket)]', (sanatci || eser || yil || teknik || nokta) && 'mt-1.5')}>
-          Küratör: <span className="text-[var(--sg-murekkep)]">{kurator}</span>
+          <InvText k="design.etiket.kurator" />{' '}<span className="text-[var(--sg-murekkep)]">{kurator}</span>
         </p>
       )}
       {satirlar.length > 0 && (

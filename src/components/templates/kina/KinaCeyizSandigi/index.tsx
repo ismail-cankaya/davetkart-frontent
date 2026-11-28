@@ -441,7 +441,7 @@ function SandikHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
         transition={{ duration: 0.5 }}
         className="mt-3 h-4 text-[11px] tracking-[0.25em] uppercase text-[#6B4A33]"
       >
-        Sandığı açmak için dokunun
+        <InvText k="design.kina-ceyiz-sandigi.sandigiAcmakIcinDokunun" />
       </motion.p>
 
       <motion.div

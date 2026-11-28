@@ -221,7 +221,7 @@ function KirazHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mo
             transition={{ duration: 6, delay: 4.4, times: [0, 0.15, 0.8, 1] }}
             className="mt-6 text-[10px] tracking-[0.3em] uppercase text-[#B5848F]"
           >
-            Dokun · rüzgâr essin
+            <InvText k="design.nisan-kiraz-agaci.dokunRuzgarEssin" />
           </motion.p>
         )}
       </div>

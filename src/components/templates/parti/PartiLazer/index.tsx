@@ -119,7 +119,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         </motion.p>
         {mode === 'live' && !reduced && (
           <motion.p {...fade(3 + lines.length)} className={`${DISPLAY} mt-5 text-xs tracking-[0.4em] uppercase text-[#8C82B8]`}>
-            Parmağınla lazerleri yönlendir
+            <InvText k="design.parti-lazer.parmaginlaLazerleriYonlendir" />
           </motion.p>
         )}
         <ScrollCue delay={still ? 0 : 3.4 + lines.length} className="text-[#7CFFB2]" />

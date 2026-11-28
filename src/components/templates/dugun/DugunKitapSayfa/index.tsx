@@ -14,7 +14,7 @@ import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { Kitap, type Leaf } from './Kitap';
 import { Buket, ChapterHead, Cloth, Endpaper, Face, Fener, GUL, Kuslar, SOLUK, Vignette, YALDIZ, Yuzukler } from './sayfalar';
-import { InvitationTextScope } from '../../../../invitationText/InvitationTextContext';
+import { InvText, InvitationTextScope } from '../../../../invitationText/InvitationTextContext';
 
 /** Bölümler sayfaya sığsın: ortak bölümlerin dolgusu sayfa ölçüsüne iner. */
 const SAYFA_ICI = '[&_section]:px-0 [&_section]:py-3';
@@ -32,7 +32,7 @@ function Cover({ d }: { d: HeroData }) {
   return (
     <Cloth side="front">
       <div className="absolute inset-0 flex flex-col items-center justify-center px-9 text-center text-[#E9CF95] [text-shadow:0_-1px_0_rgba(0,0,0,0.35)]">
-        <p className="text-[10px] tracking-[0.42em] uppercase opacity-90">Bir Aşk Hikâyesi</p>
+        <p className="text-[10px] tracking-[0.42em] uppercase opacity-90"><InvText k="design.dugun-kitap-sayfa.birAskHikayesi" /></p>
         <svg viewBox="0 0 80 40" className="w-16 h-8 mt-5" aria-hidden="true">
           <path d="M40 34 C 20 22, 14 8, 26 6 C 33 5, 38 10, 40 14 C 42 10, 47 5, 54 6 C 66 8, 60 22, 40 34 Z" fill="none" stroke={YALDIZ} strokeWidth="1.6" />
           <path d="M6 20 H 18 M62 20 H 74" stroke={YALDIZ} strokeWidth="1" />
@@ -60,7 +60,7 @@ function Story({ d }: { d: HeroData }) {
       <div className="h-full flex flex-col justify-center">
         <ChapterHead numeral="I" title={d.title || 'Hikâyemiz'} />
         <p className="text-center italic text-[15px]" style={{ color: SOLUK }}>
-          Bir varmış, bir yokmuş…
+          <InvText k="design.dugun-kitap-sayfa.birVarmisBirYokmus" />
         </p>
         <p className="mt-4 text-center [font-family:var(--kt-baslik-font)] text-[1.9rem] leading-tight break-words">
           {d.hasNames ? d.people.join(' & ') : NO_NAMES}
@@ -84,9 +84,9 @@ function Colophon({ invitation, number }: { invitation: Invitation; number: numb
     <Face side="front" number={number}>
       <div className="h-full flex flex-col items-center justify-center text-center">
         <Buket className="w-28 h-auto" />
-        <p className="mt-6 italic text-[17px] leading-relaxed max-w-[15rem]">Hikâyemizin devamını birlikte yazmak dileğiyle.</p>
+        <p className="mt-6 italic text-[17px] leading-relaxed max-w-[15rem]"><InvText k="design.dugun-kitap-sayfa.hikayemizinDevaminiBirlikteY" /></p>
         <p className="mt-3 text-[11px] tracking-[0.3em] uppercase" style={{ color: GUL }}>
-          Son
+          <InvText k="design.dugun-kitap-sayfa.son" />
         </p>
         <footer className="mt-10">
           <p className="text-[11px] font-medium tracking-[0.2em]" style={{ color: SOLUK }}>
@@ -94,7 +94,7 @@ function Colophon({ invitation, number }: { invitation: Invitation; number: numb
           </p>
           {invitation.showBranding !== false && (
             <p className="text-[9px] mt-1.5" style={{ color: SOLUK }}>
-              DavetKart ile hazırlandı
+              <InvText k="design.dugun-kitap-sayfa.davetkartIleHazirlandi" />
             </p>
           )}
         </footer>
@@ -235,7 +235,7 @@ export function DugunKitapSayfa({ invitation, mode = 'preview' }: TemplateProps)
           transition={{ duration: 0.8, delay: reduced ? 0 : 2.4 }}
           className="absolute top-3 inset-x-0 text-center text-[10px] tracking-[0.3em] uppercase text-[#E9D9C4] pointer-events-none"
         >
-          Köşeden tutup çevirin
+          <InvText k="design.dugun-kitap-sayfa.kosedenTutupCevirin" />
         </motion.p>
         <motion.div
           className="absolute inset-0"

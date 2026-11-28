@@ -237,7 +237,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           {d.title || 'Baby Shower'}
         </motion.p>
         <motion.h1 {...fade(0.25)} className={`${ROUND} mt-3 text-center font-bold leading-[1.05] text-[clamp(2rem,9cqw,3.4rem)] text-[#4A3A55]`}>
-          Bir sürprizimiz var!
+          <InvText k="design.baby-kazi-kazan.birSurprizimizVar" />
         </motion.h1>
         <motion.p {...fade(0.4)} className={`${NUNITO} mt-2 text-center text-[15px] text-[#8C7A96]`}>
           {live ? 'Parmağınızla kartları kazıyın' : 'Kartları kazıyarak keşfedin'}
@@ -270,7 +270,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
               onClick={() => setOpen(Object.fromEntries(panels.map((p) => [p.key, true])))}
               className={`${ROUND} rounded-full border border-[#E9DDF5] bg-white/70 px-5 py-2.5 min-h-11 text-sm font-medium text-[#7C6C86] hover:bg-white transition-colors`}
             >
-              Hepsini birden aç
+              <InvText k="design.baby-kazi-kazan.hepsiniBirdenAc" />
             </button>
           ) : (
             d.venue && (

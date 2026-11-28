@@ -5,6 +5,7 @@ import { ease } from '../../../../utils/motion';
 import { BezKapak } from './BezKapak';
 import { KITAP_SURE } from './hareket';
 import { YAN_KAGIDI, type BezAdi } from './palet';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Kapak kapısı (`renderEnvelope`): zarf modülü açıkken giriş kapısı kitabın
@@ -82,7 +83,7 @@ export function KapakKapisi({ invitation, onRevealStart, onOpened, bez = 'sise',
       }}
       className="min-h-11 px-5 text-[12px] uppercase tracking-[0.26em] text-[#C9A35C] underline decoration-[#C9A35C]/60 underline-offset-[6px] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C9A35C]"
     >
-      Kapağı açın
+      <InvText k="design.kapak-kapisi.kapagiAcin" />
     </button>
   );
 

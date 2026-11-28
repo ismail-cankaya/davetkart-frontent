@@ -8,6 +8,7 @@ import { Igne } from './Igne';
 import { Simge } from './simgeler';
 import type { GirisProps } from './hareket';
 import type { Durak, LejantVerisi } from './veri';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Lejant: haritanın "ne zaman, nerede, hangi sırayla" kutusu. Satırlar
@@ -41,7 +42,7 @@ export function Varisa({ invitation }: { invitation: Invitation }) {
   ];
   return (
     <p className="mt-3 flex flex-wrap items-baseline gap-x-2.5 gap-y-1 border-t border-dashed border-[#23303A]/40 pt-2.5 text-[#23303A]">
-      <span className={cn(ETIKET, 'text-[12px] text-[#A8321F] mr-0.5')}>Varışa</span>
+      <span className={cn(ETIKET, 'text-[12px] text-[#A8321F] mr-0.5')}><InvText k="design.lejant.varisa" /></span>
       {birimler.map((b) => (
         <span key={b.ad} className="inline-flex items-baseline gap-1">
           <span className="[font-family:var(--hr-etiket)] text-[22px] @3xl:text-[26px] font-semibold leading-none [font-variant-numeric:lining-nums_tabular-nums]">
@@ -68,8 +69,8 @@ export function YolTarifi({ mapUrl, className }: { mapUrl: string; className?: s
       )}
     >
       <Simge ad="ok" boyut={18} />
-      Yol tarifi
-      <span className="sr-only"> (yeni sekmede açılır)</span>
+      <InvText k="design.lejant.yolTarifi" />
+      <span className="sr-only"> <InvText k="design.lejant.yeniSekmedeAcilir" /></span>
     </a>
   );
 }
@@ -94,9 +95,9 @@ export function Lejant({ veri, invitation, giris, className }: LejantProps) {
   return (
     <motion.div {...giris} className={cn('bg-white border-[1.5px] border-[#23303A] px-4 pt-3 pb-4 @3xl:px-5 @3xl:pt-4 @3xl:pb-5', className)}>
       <div className="flex items-center justify-between gap-3 border-b border-[#23303A] pb-2">
-        <h2 className={cn(ETIKET, 'text-[12px] @3xl:text-[13px] text-[#23303A]')}>Lejant</h2>
+        <h2 className={cn(ETIKET, 'text-[12px] @3xl:text-[13px] text-[#23303A]')}><InvText k="design.lejant.lejant" /></h2>
         {veri.kalan > 0 ? (
-          <span className="text-[13px] text-[#4E5B63]">+{veri.kalan} durak programda</span>
+          <span className="text-[13px] text-[#4E5B63]">+{veri.kalan} <InvText k="design.lejant.durakProgramda" /></span>
         ) : (
           <svg aria-hidden="true" viewBox="0 0 46 6" width="46" height="6">
             {Array.from({ length: 5 }, (_, i) => (
@@ -154,11 +155,11 @@ export function Dipnot({ olcek, giris, className }: { olcek: boolean; giris: Gir
             <rect x="0.5" y="0.5" width="12" height="5" fill="#23303A" />
             <rect x="24.5" y="0.5" width="12" height="5" fill="#23303A" />
           </svg>
-          <span>1 cm = bir ömür</span>
+          <span><InvText k="design.lejant.1CmBirOmur" /></span>
           <span aria-hidden="true">·</span>
         </>
       )}
-      <span className={cn(ETIKET, 'text-[11px] tracking-[0.16em]')}>Temsilî harita</span>
+      <span className={cn(ETIKET, 'text-[11px] tracking-[0.16em]')}><InvText k="design.lejant.temsiliHarita" /></span>
     </motion.p>
   );
 }

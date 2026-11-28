@@ -7,7 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { buildTrain, gearPath, weddingMinutes, type Gear } from './mekanizma';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -418,7 +418,7 @@ function KuleHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mod
         type="button"
         onClick={windUp}
         disabled={!animated}
-        aria-label="Saati bir saat ileri kur"
+        aria-label={staticFixedText('design.dugun-kule-saati.saatiBirSaatIleriKur')}
         initial={animated ? { opacity: 0, y: 30, scale: 0.94 } : false}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         whileTap={animated ? { scale: 0.98 } : undefined}
@@ -445,7 +445,7 @@ function KuleHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mod
           transition={{ delay: 2, duration: 0.8 }}
           className="mt-2 text-[10px] tracking-[0.3em] uppercase text-[#9C917B]"
         >
-          Saati kurmak için dokunun
+          <InvText k="design.dugun-kule-saati.saatiKurmakIcinDokunun" />
         </motion.p>
       )}
 

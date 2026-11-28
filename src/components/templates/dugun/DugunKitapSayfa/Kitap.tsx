@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { bandTransform, curl, type Vec } from './curl';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 export interface Leaf {
   key: string;
@@ -316,7 +317,7 @@ export function Kitap({ leaves, autoOpen, reduced, rtl = false, onPageChange }: 
       ref={stageRef}
       tabIndex={0}
       role="group"
-      aria-roledescription="kitap"
+      aria-roledescription={staticFixedText('design.kitap.kitap')}
       aria-label={`${leaves[Math.min(turned, N - 1)]?.label ?? ''} — sayfa ${Math.min(turned + 1, N)} / ${N}`}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
@@ -434,7 +435,7 @@ export function Kitap({ leaves, autoOpen, reduced, rtl = false, onPageChange }: 
             prev();
           }}
           disabled={turned === 0}
-          aria-label="Önceki sayfa"
+          aria-label={staticFixedText('design.kitap.oncekiSayfa')}
           className="w-11 h-11 rounded-full grid place-items-center bg-black/25 hover:bg-black/40 disabled:opacity-30 transition-colors"
         >
           {rtl ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
@@ -449,7 +450,7 @@ export function Kitap({ leaves, autoOpen, reduced, rtl = false, onPageChange }: 
             next();
           }}
           disabled={turned >= N}
-          aria-label="Sonraki sayfa"
+          aria-label={staticFixedText('design.kitap.sonrakiSayfa')}
           className="w-11 h-11 rounded-full grid place-items-center bg-black/25 hover:bg-black/40 disabled:opacity-30 transition-colors"
         >
           {rtl ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}

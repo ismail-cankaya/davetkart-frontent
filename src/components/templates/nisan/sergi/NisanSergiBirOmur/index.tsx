@@ -23,6 +23,7 @@ import {
   yaziBelirir
 } from '../../../konsept/sergi';
 import { NISAN_SERGI_METINLERI, ONIZLEME } from '../ortak';
+import { staticFixedText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanSergiBirOmur — "Bir Ömür": duvar yazısı (SERGI-KONSEPTI §4.3).
@@ -85,7 +86,7 @@ function BirOmurHero({ invitation }: HeroRenderProps) {
   const mekan = displayText(invitation.venue);
   const tarih = etiketTarihi(invitation.date);
   const adlar = kisiler(invitation.names);
-  const duvarYazisi = adlar.length ? adlar : ['Davetlisiniz'];
+  const duvarYazisi = adlar.length ? adlar : [staticFixedText('names.placeholder')];
 
   return (
     <section className="relative flex-1 flex flex-col px-6 pt-12 pb-12 @md:px-10 @3xl:px-14 @3xl:pt-16 @3xl:pb-14 @5xl:px-20 @5xl:pt-14">

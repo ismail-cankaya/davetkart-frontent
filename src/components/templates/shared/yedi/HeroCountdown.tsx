@@ -2,6 +2,7 @@ import React from 'react';
 import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
 import { useCountdown } from '../useCountdown';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 interface HeroCountdownProps {
   invitation: Invitation;
@@ -27,7 +28,7 @@ export function HeroCountdown({ invitation, cellClassName, numberClassName, labe
   const countdown = useCountdown(invitation.date, invitation.timezone);
   if (!invitation.showTimer || !countdown.valid) return null;
   return (
-    <div className={cn('flex items-start justify-center gap-3 sm:gap-5', className)} role="timer" aria-label="Etkinliğe kalan süre">
+    <div className={cn('flex items-start justify-center gap-3 sm:gap-5', className)} role="timer" aria-label={staticFixedText('design.hero-countdown.etkinligeKalanSure')}>
       {UNITS.map(([key, label]) => (
         <div key={key} className={cn('flex flex-col items-center min-w-[3.25rem]', cellClassName)}>
           <span className={cn('tabular-nums text-2xl sm:text-3xl leading-none', numberClassName)}>

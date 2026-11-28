@@ -457,7 +457,7 @@ function ShadowScreen({ animated, name }: { animated: boolean; name: string }) {
             <span key={i} className={`h-1.5 rounded-full transition-all duration-500 ${i === scene ? 'w-5 bg-[#F0AE5C]' : 'w-1.5 bg-[#F0AE5C]/30'}`} />
           ))}
         </span>
-        <span>Dokun: sahne · Sürükle: ışık</span>
+        <span><InvText k="design.sunnet-golge-oyunu.dokunSahneSurukleIsik" /></span>
       </div>
     </div>
   );

@@ -375,7 +375,7 @@ function OperaHero({ invitation, mode, gate, onAim }: HeroRenderProps & { mode: 
             <p className={`mt-5 font-cormorant text-2xl text-[#FBE9C2] ${GLOW}`}>
               {d.date.weekday && <span className="block text-[11px] tracking-[0.35em] uppercase text-[#D9C3A4] mb-1">{d.date.weekday}</span>}
               {d.date.day}
-              {d.date.time && <span className="text-[#E8BC62]"> · Perde {d.date.time}</span>}
+              {d.date.time && <span className="text-[#E8BC62]"> <InvText k="design.dugun-opera.perde" />{' '}{d.date.time}</span>}
             </p>
           )}
           {d.venue && <p className="mt-2 text-sm text-[#D9C3A4]">{d.venue}</p>}

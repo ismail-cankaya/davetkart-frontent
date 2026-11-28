@@ -244,8 +244,8 @@ function BulmacaHero({ invitation, hareketli }: HeroRenderProps & { hareketli: b
           {ipuclari.map((x) => (
             <li key={x} className="break-words">{x}</li>
           ))}
-          {d.date.time && <li>Saat: {d.date.time}</li>}
-          {d.venue && <li className="break-words">Yer: {d.venue}</li>}
+          {d.date.time && <li><InvText k="design.nisan-bulmaca.saat" />{' '}{d.date.time}</li>}
+          {d.venue && <li className="break-words"><InvText k="design.nisan-bulmaca.yer" />{' '}{d.venue}</li>}
         </motion.ul>
       )}
       <motion.div {...rise(hareketli ? 1.2 + bulmaca.hucreler.length * 0.07 : 0)} className="mt-6">

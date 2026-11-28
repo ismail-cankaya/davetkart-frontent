@@ -201,7 +201,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         )}
         {mode === 'live' && !reduced && (
           <motion.p {...fade(5.2)} className={`${GROTESK} mt-6 text-[10px] tracking-[0.32em] uppercase text-[#7E92C4]`}>
-            Spotu yönlendirmek için dokunun
+            <InvText k="design.kurumsal-lansman.spotuYonlendirmekIcinDokunun" />
           </motion.p>
         )}
         <ScrollCue delay={still ? 0 : 5} className="text-[#9FB8F0]" />

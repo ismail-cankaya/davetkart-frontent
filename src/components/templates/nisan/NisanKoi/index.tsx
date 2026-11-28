@@ -144,7 +144,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           <h1 className={`${ITALIANA} mt-4 text-[#F7FCFA] leading-[1] text-[clamp(2.6rem,12cqw,5.6rem)] break-words max-w-full ${shadow}`}>
             {names.map((p, i) => (
               <motion.span key={p + i} {...fade(0.7 + i * 0.5)} className="block">
-                {i > 0 && <span className={`${SERIF} block italic text-[0.34em] text-[#F2A07B] my-1`}>ile</span>}
+                {i > 0 && <span className={`${SERIF} block italic text-[0.34em] text-[#F2A07B] my-1`}><InvText k="design.nisan-koi.ile" /></span>}
                 {p}
               </motion.span>
             ))}
@@ -161,7 +161,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
           )}
           {mode === 'live' && !reduced && (
             <motion.p {...fade(2.6)} className={`${SERIF} mt-4 text-[10px] tracking-[0.35em] uppercase text-[#9FC9BE] ${shadow}`}>
-              Suya dokunun, koilere yem atın
+              <InvText k="design.nisan-koi.suyaDokununKoilereYemAtin" />
             </motion.p>
           )}
         </div>

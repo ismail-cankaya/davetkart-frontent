@@ -8,6 +8,7 @@ import { displayText } from '../../utils';
 import type { Invitation } from '../../../../types';
 import { TemplateProps } from '../../types';
 import { KURUMSAL_FLAVOR } from '../flavors';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /*
  * Palet — "Mürekkep & Kehribar": yeşil-siyah hacker klişesi değil; derin
@@ -199,7 +200,7 @@ function TerminalHero({ invitation, mode, revealed }: HeroRenderProps & { mode: 
           <span className="w-3 h-3 rounded-full bg-[#D9705F]/85" />
           <span className="w-3 h-3 rounded-full bg-[#E3B26B]/85" />
           <span className="w-3 h-3 rounded-full bg-[#8FA9C7]/85" />
-          <span className="flex-1 text-center -ml-12 font-mono text-[11px] tracking-wide text-[#8A95A8] truncate">davetkart@event: ~</span>
+          <span className="flex-1 text-center -ml-12 font-mono text-[11px] tracking-wide text-[#8A95A8] truncate"><InvText k="design.kurumsal-terminal.davetkartEvent" /></span>
         </div>
         <div className="font-mono text-[13px] sm:text-sm leading-relaxed px-4 sm:px-5 py-5 min-h-[300px] text-left">
           {blocks.map((b, i) => {

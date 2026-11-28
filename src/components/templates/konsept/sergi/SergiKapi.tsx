@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ease } from '../../../../utils/motion';
 import type { EnvelopeRenderProps } from '../../shared/InvitationComposition';
-import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Zarf kapısı: salonun ışığı kapalı. Dokunuşla ışık yanar, karanlık çekilir
@@ -41,7 +41,7 @@ export function SergiKapi({ invitation, flavor, onRevealStart, onOpened, siluet 
   const t = useInvText(flavor);
   const [aciliyor, setAciliyor] = useState(false);
   const reduced = useReducedMotion();
-  const adlar = invitation.names || 'Davetlisiniz';
+  const adlar = invitation.names || staticFixedText('names.placeholder');
 
   const onRevealStartRef = useRef(onRevealStart);
   const onOpenedRef = useRef(onOpened);
@@ -100,7 +100,7 @@ export function SergiKapi({ invitation, flavor, onRevealStart, onOpened, siluet 
         <p className="font-serif italic text-[36px] leading-[1.04] [text-wrap:balance] [overflow-wrap:break-word]">{adlar}</p>
         <button
           type="button"
-          aria-label="Işığı yakın, davetiyeyi açın"
+          aria-label={staticFixedText('design.sergi-kapi.isigiYakinDavetiyeyiAcin')}
           onClick={(event) => {
             event.stopPropagation();
             ac();
@@ -112,7 +112,7 @@ export function SergiKapi({ invitation, flavor, onRevealStart, onOpened, siluet 
           className="mt-1 inline-flex min-h-12 items-center gap-3 border border-white/40 px-5 text-[13px] font-semibold tracking-[0.08em] text-[var(--sg-duvar)] transition-colors duration-200 hover:bg-white/[0.06] cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--sg-duvar)]"
         >
           <Anahtar />
-          Işığı yakın
+          <InvText k="design.sergi-kapi.isigiYakin" />
         </button>
       </motion.div>
     </motion.div>

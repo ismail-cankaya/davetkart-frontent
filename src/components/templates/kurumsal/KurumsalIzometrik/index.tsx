@@ -9,7 +9,7 @@ import { hasTimelineEventContent } from '../../../../utils/timelineEvents';
 import type { Invitation } from '../../../../types';
 import { TemplateProps } from '../../types';
 import { KURUMSAL_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -224,7 +224,7 @@ function Model({ floors, explode, animated, active, onHover, onPick }: ModelProp
       viewBox={`0 ${-top} 400 ${top + bottom}`}
       className="w-full max-w-[460px] h-auto overflow-visible"
       role="img"
-      aria-label="Etkinliğin izometrik maketi; her kat bir bölümü gösterir"
+      aria-label={staticFixedText('design.kurumsal-izometrik.etkinliginIzometrikMaketiHer')}
     >
       {/* zemin plakası: önce çerçeve çizilir, ardından ızgara belirir */}
       <motion.polygon
@@ -348,7 +348,7 @@ function IzometrikHero({ invitation, scrollContainer, mode }: HeroRenderProps & 
       </div>
 
       {floors.length > 0 && (
-        <motion.nav {...fade(textDelay)} aria-label="Bölümler" className="mt-1 flex flex-wrap justify-center gap-1.5">
+        <motion.nav {...fade(textDelay)} aria-label={staticFixedText('design.kurumsal-izometrik.bolumler')} className="mt-1 flex flex-wrap justify-center gap-1.5">
           {floors.map((f, i) => (
             <button
               key={f.key}
@@ -373,7 +373,7 @@ function IzometrikHero({ invitation, scrollContainer, mode }: HeroRenderProps & 
           <dl className="grid grid-cols-[auto_1fr] border border-[#334155] text-left text-sm bg-white/70">
             {d.date.day && (
               <>
-                <dt className="px-3 py-2 border-r border-b border-[#334155] font-mono text-[10px] tracking-[0.2em] uppercase text-[#64748B]">Tarih</dt>
+                <dt className="px-3 py-2 border-r border-b border-[#334155] font-mono text-[10px] tracking-[0.2em] uppercase text-[#64748B]"><InvText k="label.date" /></dt>
                 <dd className={`px-3 py-2 text-[#0F172A] ${d.venue ? 'border-b border-[#334155]' : ''}`}>
                   {[d.date.weekday, d.date.day].filter(Boolean).join(', ')}
                   {d.date.time && <span className="text-[#2563EB]"> · {d.date.time}</span>}
@@ -382,7 +382,7 @@ function IzometrikHero({ invitation, scrollContainer, mode }: HeroRenderProps & 
             )}
             {d.venue && (
               <>
-                <dt className={`px-3 py-2 border-r border-[#334155] font-mono text-[10px] tracking-[0.2em] uppercase text-[#64748B]`}>Mekân</dt>
+                <dt className={`px-3 py-2 border-r border-[#334155] font-mono text-[10px] tracking-[0.2em] uppercase text-[#64748B]`}><InvText k="label.venue" /></dt>
                 <dd className="px-3 py-2 text-[#0F172A] break-words">{d.venue}</dd>
               </>
             )}

@@ -22,6 +22,7 @@ import {
   yaziBelirir
 } from '../../../konsept/sergi';
 import { DUGUN_SERGI_METINLERI } from '../ortak';
+import { InvText, staticFixedText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DugunSergiDuvarYazisi — "Duvar Yazısı": çerçevesiz (SERGI-KONSEPTI §4.3).
@@ -54,7 +55,7 @@ function DuvarYazisiHero({ invitation }: HeroRenderProps) {
   const mekan = displayText(invitation.venue);
   const tarih = etiketTarihi(invitation.date);
   const adlar = kisiler(invitation.names);
-  const duvarYazisi = adlar.length ? adlar : ['Davetlisiniz'];
+  const duvarYazisi = adlar.length ? adlar : [staticFixedText('names.placeholder')];
   const etiketSatiri = [tarihSatiri(tarih), mekan].filter(Boolean).join(' · ');
 
   return (
@@ -84,7 +85,7 @@ function DuvarYazisiHero({ invitation }: HeroRenderProps) {
           <motion.div {...etiketBelirir(0.5)} className="text-[13px] leading-[1.5] tabular-nums">
             <div aria-hidden="true" className="mb-3 h-px w-12 bg-[var(--sg-murekkep)]" />
             {etiketSatiri && <p className="max-w-[44ch] text-[var(--sg-murekkep)]">{etiketSatiri}</p>}
-            <p className="text-[var(--sg-etiket)]">Kalıcı koleksiyon</p>
+            <p className="text-[var(--sg-etiket)]"><InvText k="design.dugun-sergi-duvar-yazisi.kaliciKoleksiyon" /></p>
           </motion.div>
 
           {(altBaslik || invitation.showTimer) && (

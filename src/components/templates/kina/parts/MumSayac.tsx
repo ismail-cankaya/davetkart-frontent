@@ -6,6 +6,7 @@ import { SectionTheme } from '../../shared/palette';
 import { useCountdown } from '../../shared/useCountdown';
 import { KinaMotionStyles } from './motion';
 import { KINA } from './palette';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** Mum alevi: dış alev + açık çekirdek; titreme iç <g>'de, tabandan. */
 export function Alev({ color = KINA.mum, delay = 0, className }: { color?: string; delay?: number; className?: string }) {
@@ -27,10 +28,10 @@ export function Alev({ color = KINA.mum, delay = 0, className }: { color?: strin
 }
 
 const UNITS = [
-  { key: 'days', label: 'Gün' },
-  { key: 'hours', label: 'Saat' },
-  { key: 'minutes', label: 'Dakika' },
-  { key: 'seconds', label: 'Saniye' }
+  { key: 'days', label: <InvText k="countdown.days" /> },
+  { key: 'hours', label: <InvText k="label.time" /> },
+  { key: 'minutes', label: <InvText k="countdown.minutes" /> },
+  { key: 'seconds', label: <InvText k="countdown.seconds" /> }
 ] as const;
 
 /**

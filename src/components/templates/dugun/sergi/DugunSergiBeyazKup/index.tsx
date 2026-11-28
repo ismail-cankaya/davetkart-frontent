@@ -25,6 +25,7 @@ import {
   yaziBelirir
 } from '../../../konsept/sergi';
 import { DUGUN_SERGI_METINLERI } from '../ortak';
+import { staticFixedText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DugunSergiBeyazKup — "Beyaz Küp": müzede düğün, tek eser (SERGI-KONSEPTI
@@ -55,7 +56,7 @@ function BeyazKupHero({ invitation }: HeroRenderProps) {
   const mekan = displayText(invitation.venue);
   const tarih = etiketTarihi(invitation.date);
   const adlar = kisiler(invitation.names);
-  const duvarYazisi = adlar.length ? adlar : ['Davetlisiniz'];
+  const duvarYazisi = adlar.length ? adlar : [staticFixedText('names.placeholder')];
 
   return (
     <section className="relative flex-1 flex flex-col justify-center px-6 pt-14 pb-14 @md:px-10 @3xl:px-16 @3xl:py-20 @5xl:px-20 @5xl:py-16">

@@ -227,7 +227,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         )}
         {live && (
           <motion.p {...fade(2.6)} className={`${SERIF} mt-5 text-[10px] tracking-[0.35em] uppercase text-[#9A8B9C]`}>
-            Parmağınızı gezdirin · dokunun, havalansınlar
+            <InvText k="design.dugun-kelebek.parmaginiziGezdirinDokununHa" />
           </motion.p>
         )}
         <ScrollCue delay={live ? 3 : 0} className="text-[#B5677A]" />

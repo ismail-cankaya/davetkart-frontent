@@ -10,7 +10,7 @@ import { displayText } from '../../utils';
 import { TemplateProps } from '../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import { CAPSULE_COLORS, createMachine, type Machine } from './makineMotoru';
-import { useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700';
 const BALOO = "[font-family:'Baloo_2',ui-rounded,var(--font-sans),sans-serif]";
@@ -83,7 +83,7 @@ function DroppedCapsule({ color, onOpen }: { color: number; onOpen: () => void }
   return (
     <motion.button
       type="button"
-      aria-label="Kapsülü aç"
+      aria-label={staticFixedText('design.dogum-gunu-surpriz-makinesi.kapsuluAc')}
       onClick={() => {
         if (opening) return;
         setOpening(true);
@@ -170,7 +170,7 @@ function Machine({ prizes, live, still, onPrize }: { prizes: Prize[]; live: bool
             type="button"
             onClick={crank}
             disabled={!live || done || pending !== null}
-            aria-label="Kolu çevir, kapsül çıkar"
+            aria-label={staticFixedText('design.dogum-gunu-surpriz-makinesi.koluCevirKapsulCikar')}
             className="relative w-16 h-16 rounded-full bg-[radial-gradient(circle_at_35%_35%,#FFFFFF,#D7DDE5_55%,#8E99A6)] shadow-[0_4px_0_#6D7783,0_10px_18px_-6px_rgba(0,0,0,0.5)] disabled:cursor-not-allowed enabled:cursor-pointer focus-visible:outline focus-visible:outline-4 focus-visible:outline-[#FFC83D]"
             animate={{ rotate: turns * 360 }}
             transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}
@@ -248,7 +248,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         <motion.div initial={still ? false : { opacity: 0, scale: 0.85, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.9, ease: [0.34, 1.56, 0.64, 1] }}>
           <Machine prizes={prizes} live={live && !reduced} still={still} onPrize={(color) => setOpened((o) => (o.length < prizes.length ? [...o, { prize: prizes[o.length], color }] : o))} />
         </motion.div>
-        {live && !reduced && <GyroButton className="mt-4 bg-white/80 text-[#6E5A70] border border-[#F3D9C4]" label="Telefonu eğerek kapsülleri yuvarla" />}
+        {live && !reduced && <GyroButton className="mt-4 bg-white/80 text-[#6E5A70] border border-[#F3D9C4]" label={'Telefonu eğerek kapsülleri yuvarla'} />}
 
         <div className="mt-6 w-full max-w-[360px] space-y-2.5" aria-live="polite">
           <AnimatePresence>
@@ -264,7 +264,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
               onClick={() => setOpened(prizes.map((p, i) => opened[i] ?? { prize: p, color: i }))}
               className={`${NUNITO} mx-auto block rounded-full px-4 py-2 min-h-11 text-sm font-semibold text-[#6E5A70] underline decoration-dotted underline-offset-4 hover:text-[#E8344E]`}
             >
-              Hepsini birden göster
+              <InvText k="design.dogum-gunu-surpriz-makinesi.hepsiniBirdenGoster" />
             </button>
           )}
         </div>

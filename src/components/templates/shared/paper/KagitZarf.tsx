@@ -10,7 +10,7 @@ import { basHarfler, type BasHarfKurali } from './basHarfler';
 import { Kabartma } from './Baski';
 import { Adlar } from './Adlar';
 import { kaymaGirisi } from './hareket';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Kâğıt zarf kapısı: mühür kırılır, kapak açılır, kart yükselir, zarf çekilir.
@@ -52,7 +52,7 @@ export function KagitZarf({ invitation, theme, flavor, onRevealStart, onOpened, 
   const [aciliyor, setAciliyor] = useState(false);
   const reduced = useReducedMotion();
   const muhurHarfi = harfler ?? basHarfler(invitation.names, kural);
-  const adlar = invitation.names || 'Davetlisiniz';
+  const adlar = invitation.names || staticFixedText('names.placeholder');
 
   const onRevealStartRef = useRef(onRevealStart);
   const onOpenedRef = useRef(onOpened);
@@ -154,7 +154,7 @@ export function KagitZarf({ invitation, theme, flavor, onRevealStart, onOpened, 
         {/* Mühür kapağın ucunda; dokunma hedefi 72 px. */}
         <button
           type="button"
-          aria-label="Davetiyeyi aç"
+          aria-label={staticFixedText('design.kagit-zarf.davetiyeyiAc')}
           onClick={(event) => {
             event.stopPropagation();
             ac();
@@ -173,7 +173,7 @@ export function KagitZarf({ invitation, theme, flavor, onRevealStart, onOpened, 
         animate={{ opacity: aciliyor ? 0 : 1 }}
         transition={{ duration: 0.2 }}
       >
-        Mühre dokunarak açın
+        <InvText k="design.kagit-zarf.muhreDokunarakAcin" />
       </motion.p>
     </motion.div>
   );

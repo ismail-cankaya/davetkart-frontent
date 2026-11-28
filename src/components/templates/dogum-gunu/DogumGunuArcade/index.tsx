@@ -8,7 +8,7 @@ import { TemplateProps } from '../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
 import type { Invitation } from '../../../../types';
 import { buildWorld, createGame, drawScene, sizeCanvas, STEP, type GameState, type TokenKind, type World } from './motor';
-import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /* ------------------------------------------------------------------ */
 /* Tema                                                                */
@@ -269,7 +269,7 @@ function ArcadeGate({ tokens, title, onDone }: { tokens: InfoToken[]; title: str
       tabIndex={-1}
       role="dialog"
       aria-modal="true"
-      aria-label="Arcade davetiye oyunu"
+      aria-label={staticFixedText('design.dogum-gunu-arcade.arcadeDavetiyeOyunu')}
       className="absolute inset-0 z-50 flex flex-col items-center overflow-y-auto px-4 pt-14 pb-6 text-center font-mono text-[#E9E4FF] bg-[radial-gradient(ellipse_at_50%_0%,#2A0F5C_0%,#0B0620_60%)] focus:outline-none"
       exit={{ opacity: 0, scale: 1.04, transition: { duration: 0.5 } }}
     >
@@ -281,12 +281,12 @@ function ArcadeGate({ tokens, title, onDone }: { tokens: InfoToken[]; title: str
         onClick={onDone}
         className="absolute top-3 right-3 z-10 rounded-sm px-3.5 py-2 text-[11px] tracking-[0.18em] uppercase text-[#0B0620] bg-[#2DE2E6] hover:bg-[#F9F871] shadow-[0_0_18px_rgba(45,226,230,0.6)] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#F9F871] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B0620]"
       >
-        Oyunu atla ▸
+        <InvText k="design.dogum-gunu-arcade.oyunuAtla" />
       </button>
 
       <p className="relative text-[10px] tracking-[0.35em] uppercase text-[#2DE2E6]">{title}</p>
       <p className="relative mt-1 text-[10px] tracking-[0.2em] uppercase text-[#B9B2E0]">
-        1UP · {String(taken.length * 1000).padStart(5, '0')} · {taken.length}/{tokens.length}
+        <InvText k="design.dogum-gunu-arcade.1up" />{' '}{String(taken.length * 1000).padStart(5, '0')} · {taken.length}/{tokens.length}
       </p>
 
       {/* Ekran */}
@@ -314,7 +314,7 @@ function ArcadeGate({ tokens, title, onDone }: { tokens: InfoToken[]; title: str
                   animate={{ scale: 1, opacity: [0, 1, 0.2, 1, 0.2, 1] }}
                   transition={{ duration: 1.4, ease: 'easeOut' }}
                 >
-                  INSERT COIN
+                  <InvText k="design.dogum-gunu-arcade.insertCoin" />
                 </motion.p>
                 <motion.span
                   className="mt-4 block w-5 h-5 rounded-full border-2 border-[#F9F871] bg-[#F9F871]/30"
@@ -338,7 +338,7 @@ function ArcadeGate({ tokens, title, onDone }: { tokens: InfoToken[]; title: str
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  READY!
+                  <InvText k="design.dogum-gunu-arcade.ready" />
                 </motion.p>
               </motion.div>
             )}
@@ -354,13 +354,13 @@ function ArcadeGate({ tokens, title, onDone }: { tokens: InfoToken[]; title: str
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                 >
-                  STAGE CLEAR!
+                  <InvText k="design.dogum-gunu-arcade.stageClear" />
                 </motion.p>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
-        <p className="mt-2 text-[10px] tracking-[0.15em] uppercase text-[#7D74AA]">Dokun / Boşluk / ↑ zıpla · ← → hız</p>
+        <p className="mt-2 text-[10px] tracking-[0.15em] uppercase text-[#7D74AA]"><InvText k="design.dogum-gunu-arcade.dokunBoslukZiplaHiz" /></p>
       </div>
 
       {/* HUD kartları */}
@@ -384,7 +384,7 @@ function ArcadeGate({ tokens, title, onDone }: { tokens: InfoToken[]; title: str
           ))}
         </AnimatePresence>
         {collected.length === 0 && tokens.length > 0 && (
-          <p className="text-center text-xs text-[#B9B2E0]">Jetonları topla: tarih, mekân ve program açılsın.</p>
+          <p className="text-center text-xs text-[#B9B2E0]"><InvText k="design.dogum-gunu-arcade.jetonlariToplaTarihMekanVePr" /></p>
         )}
       </div>
 
@@ -426,7 +426,7 @@ function ArcadeHero({ invitation, play, mode, onReplay }: HeroRenderProps & { pl
         {d.hasNames ? (
           d.people.map((p, i) => (
             <React.Fragment key={p + i}>
-              {i > 0 && <span className="block my-1 text-[0.4em] text-[#FF3EA5]">+ PLAYER 2 +</span>}
+              {i > 0 && <span className="block my-1 text-[0.4em] text-[#FF3EA5]"><InvText k="design.dogum-gunu-arcade.player2" /></span>}
               <span className="block">{p}</span>
             </React.Fragment>
           ))
@@ -455,7 +455,7 @@ function ArcadeHero({ invitation, play, mode, onReplay }: HeroRenderProps & { pl
           onClick={onReplay}
           className="mt-6 rounded-sm px-4 py-2 text-[11px] tracking-[0.2em] uppercase border border-[#FF3EA5]/60 text-[#FF3EA5] hover:bg-[#FF3EA5]/10 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#FF3EA5]"
         >
-          ↻ Tekrar oyna
+          <InvText k="design.dogum-gunu-arcade.tekrarOyna" />
         </motion.button>
       )}
     </div>

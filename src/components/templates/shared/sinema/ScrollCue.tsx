@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** Kapak ekranının altında nefes alan ince çizgi: "aşağıda devamı var". */
 export function ScrollCue({ delay = 3.2, className, lineClassName }: { delay?: number; className?: string; lineClassName?: string }) {
@@ -13,7 +14,7 @@ export function ScrollCue({ delay = 3.2, className, lineClassName }: { delay?: n
       animate={{ opacity: 1 }}
       transition={{ delay, duration: 1.2 }}
     >
-      <span className="text-[9px] tracking-[0.4em] uppercase opacity-70">Kaydırın</span>
+      <span className="text-[9px] tracking-[0.4em] uppercase opacity-70"><InvText k="label.scroll" /></span>
       <span className="relative block w-px h-10 overflow-hidden bg-current/20">
         {!reduced && (
           <motion.span

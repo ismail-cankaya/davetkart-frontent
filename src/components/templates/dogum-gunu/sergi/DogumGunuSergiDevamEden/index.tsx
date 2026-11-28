@@ -23,6 +23,7 @@ import {
   yaziBelirir
 } from '../../../konsept/sergi';
 import { DOGUM_GUNU_SERGI_METINLERI, RETROSPEKTIF, sergiKisileri } from '../ortak';
+import { InvText, staticFixedText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DogumGunuSergiDevamEden — "Devam Eden": tek eser (SERGI-KONSEPTI §4.3).
@@ -51,7 +52,7 @@ function DevamEdenHero({ invitation }: HeroRenderProps) {
   const mekan = displayText(invitation.venue);
   const tarih = etiketTarihi(invitation.date);
   const { sahibi, kurator } = sergiKisileri(invitation.names);
-  const ad = sahibi || 'Davetlisiniz';
+  const ad = sahibi || staticFixedText('names.placeholder');
 
   return (
     <section className="relative flex-1 flex flex-col justify-center px-6 pt-14 pb-14 @md:px-10 @3xl:px-16 @3xl:py-20 @5xl:px-20 @5xl:py-16">
@@ -70,7 +71,7 @@ function DevamEdenHero({ invitation }: HeroRenderProps) {
             {ad}
           </h1>
           <p lang="tr" className="mt-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--sg-etiket)]">
-            {RETROSPEKTIF.sergi} · Son oda
+            {RETROSPEKTIF.sergi} <InvText k="design.dogum-gunu-sergi-devam-eden.sonOda" />
           </p>
         </motion.div>
 

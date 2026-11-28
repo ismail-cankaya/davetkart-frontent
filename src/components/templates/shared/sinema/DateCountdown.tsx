@@ -4,6 +4,7 @@ import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
 import { useCountdown } from '../useCountdown';
 import { eventDateParts } from '../eventDate';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 export interface DateCountdownClasses {
   /** Bölüm kabı (yükseklik, boşluk). */
@@ -71,7 +72,7 @@ export function DateCountdown({
         </motion.p>
       )}
       {showTimer && (
-        <motion.div {...inView(0.34)} className="mt-10 flex items-start justify-center gap-2.5 sm:gap-5" role="timer" aria-label="Etkinliğe kalan süre">
+        <motion.div {...inView(0.34)} className="mt-10 flex items-start justify-center gap-2.5 sm:gap-5" role="timer" aria-label={staticFixedText('design.date-countdown.etkinligeKalanSure')}>
           {UNITS.map(([key, label], i) => (
             <React.Fragment key={key}>
               {i > 0 && <span aria-hidden="true" className={cn('mt-3 w-px h-8', classes.divider)} />}

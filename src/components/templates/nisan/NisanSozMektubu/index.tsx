@@ -18,6 +18,7 @@ import { displayText } from '../../utils';
 import { TemplateProps } from '../../types';
 import { NISAN_KAGIT_FLAVOR, kagitTarih } from '../parts/kagitOrtak';
 import { KagitSayac } from '../parts/KagitSayac';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanSozMektubu — "Söz Mektubu": söz kesilen akşam için elle yazılmış,
@@ -68,7 +69,7 @@ function SozMektubuHero({ invitation }: HeroRenderProps) {
             transition={{ duration: 0.45, delay: adHazir ? 0.15 : 0 }}
             className="mt-5 w-full"
           >
-            <Adlar adlar={invitation.names || 'Davetlisiniz'} boy={46} className="text-[var(--kg-baslik)]" />
+            <Adlar adlar={invitation.names || staticFixedText('names.placeholder')} boy={46} className="text-[var(--kg-baslik)]" />
           </motion.div>
         </div>
 
@@ -81,7 +82,7 @@ function SozMektubuHero({ invitation }: HeroRenderProps) {
                 {gun}
               </p>
             )}
-            {saat && <p className="mt-1 text-[13px] uppercase tracking-[0.24em] text-[var(--kg-govde)]">Saat {saat}</p>}
+            {saat && <p className="mt-1 text-[13px] uppercase tracking-[0.24em] text-[var(--kg-govde)]"><InvText k="label.time" />{' '}{saat}</p>}
             {mekan && (
               <p className="mt-4 text-[12px] uppercase tracking-[0.2em] leading-relaxed text-[var(--kg-govde)] [overflow-wrap:anywhere] max-w-[17rem]">
                 {mekan}

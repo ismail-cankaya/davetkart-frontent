@@ -4,11 +4,12 @@ import { cn } from '../../../../utils/cn';
 import { ease } from '../../../../utils/motion';
 import { SectionTheme } from '../../shared/palette';
 import { useCountdown } from '../../shared/useCountdown';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const UNITS = [
-  { key: 'days', label: 'Gün' },
-  { key: 'hours', label: 'Saat' },
-  { key: 'minutes', label: 'Dakika' }
+  { key: 'days', label: <InvText k="countdown.days" /> },
+  { key: 'hours', label: <InvText k="label.time" /> },
+  { key: 'minutes', label: <InvText k="countdown.minutes" /> }
 ] as const;
 
 /**

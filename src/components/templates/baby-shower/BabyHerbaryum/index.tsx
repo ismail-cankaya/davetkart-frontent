@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { HerbaryumHero } from '../../shared/heroes';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** BabyHerbaryum — "Herbaryum" yorumu: bekleyişi en yumuşak tonlarla arşivleyen botanik föy. */
 const BABY_HERBARYUM_THEME: SectionTheme = {
@@ -38,7 +39,7 @@ export function BabyHerbaryum({ invitation, mode = 'preview' }: TemplateProps) {
           sheet="#fbf8f1"
           tape="rgba(220,212,196,0.5)"
           specimen="#93a98a"
-          label="#fffefa"
+          label={'#fffefa'}
           accession="No. 068"
         />
       )}

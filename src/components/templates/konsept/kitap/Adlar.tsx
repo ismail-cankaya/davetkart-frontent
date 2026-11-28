@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '../../../../utils/cn';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Kapak ve iç kapak başlığı: adlar Caslon Display ile alt alta, `&` kendi
@@ -38,7 +39,7 @@ function olcek(adlar: readonly string[]): number {
  * süs (ör. adların arasındaki kurdele) `em` birimini buna bağlar.
  */
 export function adlarBoyu(adlar: readonly string[], enCok = 64, akis = 12.5): string {
-  const o = olcek(adlar.length ? adlar : ['Davetlisiniz']);
+  const o = olcek(adlar.length ? adlar : [staticFixedText('names.placeholder')]);
   return `max(32px, min(${(akis * o).toFixed(2)}cqi, ${Math.round(enCok * o)}px))`;
 }
 
@@ -46,7 +47,7 @@ export function KitapAdlar({
   adlar,
   enCok = 64,
   akis = 12.5,
-  bos = 'Davetlisiniz',
+  bos = staticFixedText('names.placeholder'),
   as: Etiket = 'h1',
   className,
   baglacClassName

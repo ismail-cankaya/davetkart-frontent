@@ -5,6 +5,7 @@ import { HerbaryumHero } from '../../shared/heroes';
 import { KINA_HERBARYUM } from '../themes';
 import { KINA_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * KinaHerbaryum — "Lawsonia": kına bitkisinin (Lawsonia inermis) kurutulmuş
@@ -23,7 +24,7 @@ export function KinaHerbaryum({ invitation, mode = 'preview' }: TemplateProps) {
           sheet="#fbf2e6"
           tape="rgba(216,162,74,0.45)"
           specimen="#666a2c"
-          label="#fffaf3"
+          label={'#fffaf3'}
           accession="Lawsonia · No. 014"
         />
       )}

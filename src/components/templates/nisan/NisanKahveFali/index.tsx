@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { NISAN_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 /** cup: fincan dik · flip: ters çevriliyor · read: telve akıyor · done: son kare (statik). */
@@ -366,7 +366,7 @@ function KahveHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
                 type="button"
                 onClick={flip}
                 disabled={phase !== 'cup'}
-                aria-label="Fincanı tabağa kapat ve falı aç"
+                aria-label={staticFixedText('design.nisan-kahve-fali.fincaniTabagaKapatVeFaliAc')}
                 className="absolute left-[12%] right-[12%] bottom-[19%] h-[68%] cursor-pointer disabled:cursor-default rounded-3xl focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A8622C] focus-visible:ring-offset-4 focus-visible:ring-offset-[#F4EADB]"
               >
                 <motion.div
@@ -421,13 +421,13 @@ function KahveHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
 
       {phase === 'cup' && (
         <div className="mt-5 flex flex-col items-center gap-3">
-          <p className="nkf-pulse font-cormorant italic text-lg text-[#6B4C3A]">Fincanı kapatmak için dokun</p>
+          <p className="nkf-pulse font-cormorant italic text-lg text-[#6B4C3A]"><InvText k="design.nisan-kahve-fali.fincaniKapatmakIcinDokun" /></p>
           <button
             type="button"
             onClick={skip}
             className="text-[11px] tracking-[0.2em] uppercase text-[#A8622C] underline underline-offset-4 decoration-[#A8622C]/40 hover:decoration-[#A8622C] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#A8622C] rounded"
           >
-            Falı hemen göster
+            <InvText k="design.nisan-kahve-fali.faliHemenGoster" />
           </button>
         </div>
       )}
@@ -435,7 +435,7 @@ function KahveHero({ invitation, mode }: HeroRenderProps & { mode: Mode }) {
       {revealed && (
         <div className="flex flex-col items-center">
           <motion.figure {...appear(2.7)} className="relative mt-7 max-w-sm rounded-2xl border border-[#B8733A]/25 bg-[#FFF9F0]/80 px-5 py-4 shadow-[0_14px_30px_-22px_rgba(92,52,28,0.6)]">
-            <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#F4EADB] px-3 text-[10px] tracking-[0.35em] uppercase text-[#A8622C]">Falın</span>
+            <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#F4EADB] px-3 text-[10px] tracking-[0.35em] uppercase text-[#A8622C]"><InvText k="design.nisan-kahve-fali.falin" /></span>
             <blockquote className="font-cormorant italic text-[1.05rem] leading-snug text-[#4A2A1A]">{FORTUNE}</blockquote>
           </motion.figure>
           <motion.div {...appear(3.2)} className="flex flex-col items-center">

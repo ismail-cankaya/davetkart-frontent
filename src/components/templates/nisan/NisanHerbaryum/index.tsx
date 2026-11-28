@@ -5,6 +5,7 @@ import { HeroStage } from '../../shared/effects';
 import { HerbaryumHero } from '../../shared/heroes';
 import { NISAN_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** NisanHerbaryum — "Herbaryum" yorumu: nişanı koleksiyona giren ilk örnek olarak kaydeden föy. */
 const NISAN_HERBARYUM_THEME: SectionTheme = {
@@ -38,7 +39,7 @@ export function NisanHerbaryum({ invitation, mode = 'preview' }: TemplateProps) 
           sheet="#f6f4ee"
           tape="rgba(200,205,190,0.5)"
           specimen="#7d8c74"
-          label="#fffefa"
+          label={'#fffefa'}
           accession="No. 027"
         />
       )}

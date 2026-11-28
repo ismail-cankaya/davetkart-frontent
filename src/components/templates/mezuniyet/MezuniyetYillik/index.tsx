@@ -9,7 +9,7 @@ import { DateCountdown, ScrollCue, useTemplateFont } from '../../shared/sinema';
 import { TemplateProps } from '../../types';
 import { MEZUNIYET_FLAVOR } from '../flavors';
 import { KivrilanSayfa } from './KivrilanSayfa';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 const FONTS = 'Playfair+Display:ital,wght@0,500;0,700;0,800;1,500&family=Caveat:wght@500;700&family=Libre+Baskerville:ital@0;1';
 const PLAYFAIR = "[font-family:'Playfair_Display',var(--font-cormorant),serif]";
@@ -107,9 +107,9 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
   const stamp = (
     <div className="absolute right-[8%] bottom-[9%] w-[34%] aspect-square rounded-full border-[3px] border-[#8E2B2B]/70 grid place-items-center rotate-[-14deg] text-[#8E2B2B]/80">
       <div className="text-center">
-        <p className={`${BASK} text-[9px] tracking-[0.25em]`}>SINIF</p>
+        <p className={`${BASK} text-[9px] tracking-[0.25em]`}><InvText k="design.mezuniyet-yillik.sinif" /></p>
         <p className={`${PLAYFAIR} text-[18px] font-extrabold leading-none`}>{year}</p>
-        <p className={`${BASK} text-[9px] tracking-[0.25em]`}>MEZUN</p>
+        <p className={`${BASK} text-[9px] tracking-[0.25em]`}><InvText k="design.mezuniyet-yillik.mezun" /></p>
       </div>
     </div>
   );
@@ -123,18 +123,18 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
       <p className={`${BASK} mt-3 text-[10px] tracking-[0.4em] uppercase text-[#E0B45C]/85`}>{d.title || 'Mezuniyet Yıllığı'}</p>
       <p className={`${PLAYFAIR} ${GOLD} mt-2 font-extrabold text-[clamp(2.2rem,12cqw,3.4rem)] leading-none`}>{year}</p>
       <p className={`${PLAYFAIR} mt-4 italic text-[#F6F0E1] text-[clamp(1.1rem,5.4cqw,1.6rem)] leading-tight break-words`}>{name}</p>
-      <p className={`${BASK} absolute bottom-[9%] text-[9px] tracking-[0.3em] uppercase text-[#E0B45C]/60`}>Sayfayı çevirin →</p>
+      <p className={`${BASK} absolute bottom-[9%] text-[9px] tracking-[0.3em] uppercase text-[#E0B45C]/60`}><InvText k="design.mezuniyet-yillik.sayfayiCevirin" /></p>
     </div>,
     // 1 · Portre
     <div key="portre" className={`absolute inset-0 ${PAPER} px-[9%] pt-[9%] pb-[8%] flex flex-col`}>
-      <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}>Sınıfın yıldızı</p>
+      <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}><InvText k="design.mezuniyet-yillik.sinifinYildizi" /></p>
       <Photo src={photos[0]} fallback={FALLBACKS[0]} className="mt-3 w-full aspect-[4/3.4] shadow-[0_6px_14px_-6px_rgba(0,0,0,0.5)]" />
       <p className={`${PLAYFAIR} mt-4 font-bold text-[#1C2340] text-[clamp(1.3rem,6.4cqw,1.9rem)] leading-tight break-words`}>{name}</p>
       <p className={`${HAND} mt-1 text-[#4A3F2E] text-[clamp(1.05rem,5cqw,1.4rem)] leading-snug`}>“{d.subtitle || <InvText k="hero.tagline" />}”</p>
     </div>,
     // 2 · Tören
     <div key="toren" className={`absolute inset-0 ${PAPER} px-[10%] pt-[11%] pb-[8%]`}>
-      <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}>Mezuniyet töreni</p>
+      <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}><InvText k="design.mezuniyet-yillik.mezuniyetToreni" /></p>
       <div className="mt-5 space-y-4 text-[#1C2340]">
         {[
           ['Tarih', [d.date.dayMonth || d.date.day, d.date.weekday].filter(Boolean).join(', ')],
@@ -153,7 +153,7 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
     </div>,
     // 3 · Kolaj
     <div key="kolaj" className={`absolute inset-0 ${PAPER} p-[8%]`}>
-      <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}>Unutulmayanlar</p>
+      <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}><InvText k="design.mezuniyet-yillik.unutulmayanlar" /></p>
       <div className="relative mt-3 h-[86%]">
         {[0, 1, 2, 3].map((i) => (
           <div
@@ -169,7 +169,7 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
     </div>,
     // 4 · İmzalar
     <div key="imza" className={`absolute inset-0 ${PAPER} p-[8%]`}>
-      <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}>İmzalar</p>
+      <p className={`${BASK} text-[9px] tracking-[0.35em] uppercase text-[#7A6A50]`}><InvText k="design.mezuniyet-yillik.imzalar" /></p>
       <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-[8%] w-[84%] h-[84%] overflow-visible" aria-hidden="true">
         {SIGNATURES.map((s, i) => (
           <motion.text
@@ -192,14 +192,14 @@ function pages(d: HeroData, photos: string[], name: string, drawSigs: boolean): 
           </motion.text>
         ))}
       </svg>
-      <p className="sr-only">Arkadaşlarının notları: {SIGNATURES.map((s) => s.text).join(', ')}</p>
+      <p className="sr-only"><InvText k="design.mezuniyet-yillik.arkadaslarininNotlari" />{' '}{SIGNATURES.map((s) => s.text).join(', ')}</p>
     </div>,
     // 5 · Son sayfa (çevrilmez)
     <div key="son" className={`absolute inset-0 ${PAPER} px-[10%] flex flex-col items-center justify-center text-center`}>
       <Laurel className="w-[34%] text-[#B98A3A]" />
-      <p className={`${PLAYFAIR} mt-4 font-bold text-[#1C2340] text-[clamp(1.4rem,7cqw,2rem)] leading-tight`}>Bu sayfaya senin imzan eksik</p>
-      <p className={`${BASK} mt-3 text-[13px] italic text-[#5A4E3A]`}>Törende bizimle ol, yıllığı birlikte kapatalım.</p>
-      <p className={`${BASK} mt-6 text-[9px] tracking-[0.3em] uppercase text-[#8A7A60]`}>Aşağı kaydırın ↓</p>
+      <p className={`${PLAYFAIR} mt-4 font-bold text-[#1C2340] text-[clamp(1.4rem,7cqw,2rem)] leading-tight`}><InvText k="design.mezuniyet-yillik.buSayfayaSeninImzanEksik" /></p>
+      <p className={`${BASK} mt-3 text-[13px] italic text-[#5A4E3A]`}><InvText k="design.mezuniyet-yillik.torendeBizimleOlYilligiBirli" /></p>
+      <p className={`${BASK} mt-6 text-[9px] tracking-[0.3em] uppercase text-[#8A7A60]`}><InvText k="design.mezuniyet-yillik.asagiKaydirin" /></p>
     </div>
   ];
 }
@@ -275,7 +275,7 @@ function Book({ d, photos, name, live }: { d: HeroData; photos: string[]; name: 
         }}
         tabIndex={live ? 0 : -1}
         role="group"
-        aria-roledescription="yıllık"
+        aria-roledescription={staticFixedText('design.mezuniyet-yillik.yillik')}
         aria-label={`Yıllık, sayfa ${current + 1} / ${content.length}. Sağ ve sol ok tuşlarıyla çevirin.`}
       >
         {/* Sayfa kalınlığı ve gölge */}
@@ -295,13 +295,13 @@ function Book({ d, photos, name, live }: { d: HeroData; photos: string[]; name: 
       </div>
       {live && (
         <div className="mt-5 flex items-center gap-4">
-          <button type="button" onClick={() => go(current - 1)} disabled={current === 0} aria-label="Önceki sayfa" className="grid place-items-center w-11 h-11 rounded-full border border-[#E0B45C]/35 text-[#E0B45C] disabled:opacity-30 hover:bg-[#E0B45C]/10 transition-colors">
+          <button type="button" onClick={() => go(current - 1)} disabled={current === 0} aria-label={staticFixedText('design.mezuniyet-yillik.oncekiSayfa')} className="grid place-items-center w-11 h-11 rounded-full border border-[#E0B45C]/35 text-[#E0B45C] disabled:opacity-30 hover:bg-[#E0B45C]/10 transition-colors">
             <ChevronLeft size={18} />
           </button>
           <span className={`${BASK} text-[11px] tracking-[0.25em] text-[#B6B2A6] tabular-nums`}>
             {current + 1} / {content.length}
           </span>
-          <button type="button" onClick={() => go(current + 1)} disabled={current === flippable} aria-label="Sonraki sayfa" className="grid place-items-center w-11 h-11 rounded-full border border-[#E0B45C]/35 text-[#E0B45C] disabled:opacity-30 hover:bg-[#E0B45C]/10 transition-colors">
+          <button type="button" onClick={() => go(current + 1)} disabled={current === flippable} aria-label={staticFixedText('design.mezuniyet-yillik.sonrakiSayfa')} className="grid place-items-center w-11 h-11 rounded-full border border-[#E0B45C]/35 text-[#E0B45C] disabled:opacity-30 hover:bg-[#E0B45C]/10 transition-colors">
             <ChevronRight size={18} />
           </button>
         </div>
@@ -334,7 +334,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         </motion.div>
         <h1 className="sr-only">{name}</h1>
         {live && (
-          <p className={`${BASK} mt-3 text-[10px] italic tracking-[0.12em] text-[#7E8296]`}>Sayfayı parmağınızla sola çekin</p>
+          <p className={`${BASK} mt-3 text-[10px] italic tracking-[0.12em] text-[#7E8296]`}><InvText k="design.mezuniyet-yillik.sayfayiParmaginizlaSolaCekin" /></p>
         )}
         <ScrollCue delay={still ? 0 : 2.4} className="text-[#E0B45C]" />
       </div>

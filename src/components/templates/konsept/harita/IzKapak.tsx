@@ -16,7 +16,7 @@ import { HARITA_SURE, useHaritaHareketi, type GirisProps } from './hareket';
 import { useGirisPenceresi, useKapakAltiBildirimi, useKatmanFontu, useOlcumEtkisi } from './kapakOrtak';
 import { HARITA_RENK } from './palet';
 import type { KoseSusu } from './HaritaKapak';
-import { useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * İz kapağı: lejantı olmayan harita kapağı. Program adımları haritanın
@@ -288,7 +288,7 @@ export function IzKapak({
       {...h.belir(0.5)}
       className={cn('relative z-10 mt-3 bg-white px-2 py-1 text-[13px] text-[#4E5B63]', hazine ? 'self-center' : 'self-start')}
     >
-      +{veri.kalan} durak programda
+      +{veri.kalan} <InvText k="design.iz-kapak.durakProgramda" />
     </motion.p>
   );
   const bosluk = <div aria-hidden="true" className={cn('flex-1', durakVar ? 'min-h-6' : hazine ? 'min-h-[150px]' : 'min-h-[120px]')} />;

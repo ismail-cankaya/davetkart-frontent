@@ -149,7 +149,7 @@ function FoggedGlass({ active, children }: { active: boolean; children: React.Re
           }}
           className={`${SERIF} absolute -bottom-12 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[#D9A86C]/35 bg-[#1A0C09]/60 backdrop-blur px-4 py-2 min-h-11 text-[11px] italic tracking-[0.12em] text-[#E8CDAE] hover:bg-[#2A140F]/70 transition-colors`}
         >
-          Buğuyu tamamen sil
+          <InvText k="design.kina-bugulu-ayna.buguyuTamamenSil" />
         </button>
       )}
     </div>
@@ -189,7 +189,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
                   <h1 className={`${SCRIPT} relative text-[#F6DDBF] leading-[1.02] text-[clamp(2.6rem,12.5cqw,4.4rem)] break-words max-w-full [text-shadow:0_0_24px_rgba(227,178,118,0.35)]`}>
                     {names.map((p, i) => (
                       <span key={p + i} className="block">
-                        {i > 0 && <span className={`${SERIF} block text-[0.36em] italic text-[#E3B276] my-1`}>ve</span>}
+                        {i > 0 && <span className={`${SERIF} block text-[0.36em] italic text-[#E3B276] my-1`}><InvText k="design.kina-bugulu-ayna.ve" /></span>}
                         {p}
                       </span>
                     ))}

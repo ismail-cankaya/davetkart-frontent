@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DOGUM_GUNU_FLAVOR } from '../flavors';
-import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 const CANDLE_COUNT = 5;
 const CANDLE_COLORS = ['#C2416B', '#E8B04A', '#F2A7BC', '#E8B04A', '#C2416B'];
@@ -129,7 +129,7 @@ function Cake({ lit, onBlow, size = 'lg', still = false }: CakeProps) {
             <button
               key={i}
               type="button"
-              aria-label="Mumu söndür"
+              aria-label={staticFixedText('design.dogum-gunu-mumlar.mumuSondur')}
               aria-pressed={!on}
               disabled={!on}
               onClick={() => onBlow(i)}
@@ -293,15 +293,15 @@ function CandleGate({ title, onDone }: { title: string; onDone: () => void }) {
     <motion.div
       role="dialog"
       aria-modal="true"
-      aria-label="Mumları üfle"
+      aria-label={staticFixedText('design.dogum-gunu-mumlar.mumlariUfle')}
       className="absolute inset-0 z-50 flex flex-col items-center justify-center px-6 text-center bg-[radial-gradient(ellipse_at_50%_38%,#FFFDF8_0%,#FFF1E2_45%,#F7D9E1_100%)] text-[#4A2233]"
       initial={reduced ? false : { opacity: 1 }}
       exit={reduced ? { opacity: 0, transition: { duration: 0.2 } } : { opacity: 0, scale: 1.04, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }}
     >
       <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#E8B04A_1px,transparent_1.5px)] bg-[size:28px_28px] pointer-events-none" aria-hidden="true" />
       <p className="relative text-[10px] tracking-[0.42em] uppercase text-[#B8862B]">{title}</p>
-      <h2 className="relative mt-3 font-cormorant italic font-semibold text-[2.4rem] leading-tight text-[#8E1F45]">Bir dilek tut</h2>
-      <p className="relative mt-2 text-sm text-[#6E4A57] max-w-[18rem]">Davetiyeni açmak için mumlara dokunarak hepsini söndür.</p>
+      <h2 className="relative mt-3 font-cormorant italic font-semibold text-[2.4rem] leading-tight text-[#8E1F45]"><InvText k="design.dogum-gunu-mumlar.birDilekTut" /></h2>
+      <p className="relative mt-2 text-sm text-[#6E4A57] max-w-[18rem]"><InvText k="design.dogum-gunu-mumlar.davetiyeniAcmakIcinMumlaraDo" /></p>
 
       <div ref={firstButton} className="relative mt-12">
         <Cake lit={lit} onBlow={celebrating ? undefined : blow} />
@@ -316,7 +316,7 @@ function CandleGate({ title, onDone }: { title: string; onDone: () => void }) {
         onClick={onDone}
         className="absolute top-4 right-4 rounded-full px-4 py-2 text-xs font-medium tracking-wider text-[#8E1F45] bg-white/70 border border-[#C2416B]/25 hover:bg-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C2416B]"
       >
-        Atla
+        <InvText k="design.dogum-gunu-mumlar.atla" />
       </button>
 
       {celebrating && <ConfettiBurst onDone={onDone} />}

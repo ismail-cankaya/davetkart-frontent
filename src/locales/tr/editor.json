@@ -55,7 +55,8 @@
       "gallery": "Galeri",
       "gift": "Hediye ve IBAN",
       "rsvp": "Katılım (LCV)",
-      "label": "Etiketler"
+      "label": "Etiketler",
+      "design": "Tasarıma özel"
     }
   },
   "modules": {

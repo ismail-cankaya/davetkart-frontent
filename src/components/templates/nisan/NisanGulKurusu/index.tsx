@@ -18,6 +18,7 @@ import { TemplateProps } from '../../types';
 import { NISAN_KAGIT_FLAVOR, kagitTarih } from '../parts/kagitOrtak';
 import { KagitSayac } from '../parts/KagitSayac';
 import { GulDali } from './GulDali';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * NisanGulKurusu — "Gül Kurusu": gül kurusu kâğıda taşmış suluboya lekeleri
@@ -68,7 +69,7 @@ function GulKurusuHero({ invitation }: HeroRenderProps) {
             transition={{ duration: 0.45, delay: adHazir ? 0.25 : 0 }}
             className="mt-4"
           >
-            <Adlar adlar={invitation.names || 'Davetlisiniz'} boy={46} className="text-[var(--kg-baslik)]" />
+            <Adlar adlar={invitation.names || staticFixedText('names.placeholder')} boy={46} className="text-[var(--kg-baslik)]" />
           </motion.div>
           <motion.div {...belirmeGirisi(0.35)}>
             {altBaslik && <p className="mt-5 text-[16px] leading-relaxed text-[var(--kg-govde)]">{altBaslik}</p>}

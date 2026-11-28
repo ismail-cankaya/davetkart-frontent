@@ -5,6 +5,7 @@ import { HerbaryumHero } from '../../shared/heroes';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DUGUN_THEMES } from '../themes';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** DugunHerbaryum — "Herbaryum" yorumu: günü preslenmiş bir mersin dalı gibi inci föye kaydeden arşiv. */
 export function DugunHerbaryum({ invitation, mode = 'preview' }: TemplateProps) {
@@ -20,7 +21,7 @@ export function DugunHerbaryum({ invitation, mode = 'preview' }: TemplateProps) 
           sheet="#f5f4f6"
           tape="rgba(203,194,211,0.55)"
           specimen="#3f6b55"
-          label="#fdfcfd"
+          label={'#fdfcfd'}
           accession="No. 001"
         />
       )}

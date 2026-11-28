@@ -221,7 +221,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         )}
         {mode === 'live' && !reduced && (
           <motion.p {...fade(3.6)} className={`${CINZEL} mt-6 text-[9px] tracking-[0.38em] uppercase text-[#A99FD6]`}>
-            Kaydırın, şehrin üstünden uçalım
+            <InvText k="design.sunnet-ucan-hali.kaydirinSehrinUstundenUcalim" />
           </motion.p>
         )}
         <ScrollCue delay={still ? 0 : 3.8} className="text-[#F3C65F]" />

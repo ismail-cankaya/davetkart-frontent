@@ -7,7 +7,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { PARTI_FLAVOR } from '../flavors';
 import { createStage, createWall, drawBall, dropBeat, spin, stepStage, useCanvasLoop, type DiscoStage } from './diskoMotoru';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -149,7 +149,7 @@ function Ball({ stage, animated }: { stage: DiscoStage; animated: boolean }) {
   return (
     <button
       type="button"
-      aria-label="Disko topu: kaydırarak çevir, dokunarak ritmi düşür"
+      aria-label={staticFixedText('design.parti-disko-topu.diskoTopuKaydirarakCevirDoku')}
       disabled={!animated}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
@@ -232,7 +232,7 @@ function DiskoHero({ invitation, mode, stage }: HeroRenderProps & { mode: Mode; 
         />
         {d.subtitle && <p className="mt-6 max-w-md font-serif italic text-lg text-[#E6D9F7]">{d.subtitle}</p>}
         {animated && (
-          <p className="mt-8 text-[10px] tracking-[0.24em] uppercase text-[#A994C8]/80">Kaydır: çevir · Dokun: ritmi düşür</p>
+          <p className="mt-8 text-[10px] tracking-[0.24em] uppercase text-[#A994C8]/80"><InvText k="design.parti-disko-topu.kaydirCevirDokunRitmiDusur" /></p>
         )}
       </motion.div>
     </div>

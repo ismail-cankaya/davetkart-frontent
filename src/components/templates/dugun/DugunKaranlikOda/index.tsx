@@ -241,10 +241,10 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         </motion.p>
         {live && (
           <motion.p {...fade(3.2)} className={`${TYPE} mt-4 text-[10px] tracking-[0.25em] uppercase text-[#A07A72]`}>
-            Kareleri sürükleyin · telefonu sallayın, fotoğraflar hızlansın
+            <InvText k="design.dugun-karanlik-oda.kareleriSurukleyinTelefonuSa" />
           </motion.p>
         )}
-        {live && <GyroButton className="mt-3 bg-[#1C0B0C]/70 text-[#FF8A7C] border border-[#FF5A4E]/25" label="Sallama için izin ver" />}
+        {live && <GyroButton className="mt-3 bg-[#1C0B0C]/70 text-[#FF8A7C] border border-[#FF5A4E]/25" label={'Sallama için izin ver'} />}
         <ScrollCue delay={live ? 3.6 : 0} className="text-[#FF8A7C]" />
       </div>
       <DateCountdown

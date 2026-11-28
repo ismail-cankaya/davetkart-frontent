@@ -7,7 +7,7 @@ import { SectionTheme } from '../../shared/palette';
 import { useCountdown } from '../../shared/useCountdown';
 import { KURUMSAL_EASE } from './theme';
 import { splitHostAndEvent } from './eventName';
-import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 export interface KurumsalHeroProps extends HeroRenderProps {
   /** start: sola yaslı editoryal künye; center: sahnenin ekseninde. */
@@ -64,10 +64,10 @@ function Countdown({
   if (!valid) return null;
 
   const units = [
-    { value: days, label: 'Gün' },
-    { value: hours, label: 'Saat' },
-    { value: minutes, label: 'Dakika' },
-    { value: seconds, label: 'Saniye' }
+    { value: days, label: <InvText k="countdown.days" /> },
+    { value: hours, label: <InvText k="label.time" /> },
+    { value: minutes, label: <InvText k="countdown.minutes" /> },
+    { value: seconds, label: <InvText k="countdown.seconds" /> }
   ];
 
   return (
@@ -77,11 +77,11 @@ function Countdown({
       transition={{ duration: 0.7, ease: KURUMSAL_EASE, delay }}
       className={cn('mt-9 @sm:mt-11 w-full', center ? 'max-w-md mx-auto' : 'max-w-lg')}
     >
-      <p className={cn('text-[9px] font-semibold uppercase tracking-[0.26em]', theme.body)}>Kalan Süre</p>
+      <p className={cn('text-[9px] font-semibold uppercase tracking-[0.26em]', theme.body)}><InvText k="label.timeLeft" /></p>
       {/* Dört sabit sütun: değer büyüse de satır kırılmaz; ayraçlar kart değil kıl çizgi. */}
       <div className="mt-3 grid grid-cols-4">
         {units.map((unit, i) => (
-          <div key={unit.label} className={cn('relative flex flex-col min-w-0', i > 0 && 'pl-3 @sm:pl-5', center && 'items-center')}>
+          <div key={i} className={cn('relative flex flex-col min-w-0', i > 0 && 'pl-3 @sm:pl-5', center && 'items-center')}>
             {i > 0 && <span aria-hidden="true" className={cn('absolute left-0 top-0.5 bottom-0.5 w-px', theme.divider)} />}
             <span
               className={cn(
@@ -118,7 +118,7 @@ export function KurumsalHero({ invitation, theme, flavor, align = 'start' }: Kur
 
   // Tek ad girildiyse o etkinliğin adıdır; kurum rayı kategori etiketine düşer.
   const { host, event: eventName } = splitHostAndEvent(invitation.names);
-  const event = eventName || 'Davetlisiniz';
+  const event = eventName || staticFixedText('names.placeholder');
   const t = useInvText();
   const eyebrow = displayText(invitation.title) || t('hero.tagline');
   const subtitle = displayText(invitation.subtitle);
@@ -128,7 +128,7 @@ export function KurumsalHero({ invitation, theme, flavor, align = 'start' }: Kur
   const year = /\b(\d{4})\b/.exec(dateLabel)?.[1] ?? '';
 
   const specs = [
-    day && { key: 'day', label: 'Tarih', value: day },
+    day && { key: 'day', label: <InvText k="label.date" />, value: day },
     time && { key: 'time', label: 'Saat', value: time },
     venue && { key: 'venue', label: 'Mekân', value: venue }
   ].filter((spec): spec is { key: string; label: string; value: string } => Boolean(spec));

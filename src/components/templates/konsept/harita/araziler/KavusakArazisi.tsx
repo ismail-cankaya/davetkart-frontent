@@ -1,6 +1,7 @@
 import React, { useId } from 'react';
 import { HARITA_RENK as R } from '../palet';
 import { lekeIciNoktalar, lekeYolu, type Leke } from './cizim';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * Arazi ekseninin nişan yorumu: iki derenin birleştiği yer — kavuşak. İki vadi
@@ -114,7 +115,7 @@ export function KavusakArazisi({ className }: { className?: string }) {
         fillOpacity="0.5"
         style={{ fontFamily: 'var(--hr-italik)', fontStyle: 'italic', fontSize: 26, letterSpacing: '0.3em' }}
       >
-        Kavuşak
+        <InvText k="design.kavusak-arazisi.kavusak" />
       </text>
     </svg>
   );

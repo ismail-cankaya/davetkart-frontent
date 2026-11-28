@@ -5,6 +5,7 @@ import { HerbaryumHero } from '../../shared/heroes';
 import { SEHZADE, SUNNET_HERBARYUM } from '../themes';
 import { SUNNET_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /** SunnetHerbaryum — "Herbaryum": töreni nazar turkuazı mürekkeple kayda geçiren föy. */
 export function SunnetHerbaryum({ invitation, mode = 'preview' }: TemplateProps) {
@@ -20,7 +21,7 @@ export function SunnetHerbaryum({ invitation, mode = 'preview' }: TemplateProps)
           sheet="#f2f7f8"
           tape="rgba(42,167,184,0.28)"
           specimen={SEHZADE.turkuazMetin}
-          label="#ffffff"
+          label={'#ffffff'}
           accession="No. 001"
         />
       )}

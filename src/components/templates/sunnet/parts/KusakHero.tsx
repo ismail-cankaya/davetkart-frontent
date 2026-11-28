@@ -8,6 +8,7 @@ import { ChevronDownIcon, MapPinIcon } from '../../shared/icons';
 import { KandilCountdown } from './KandilCountdown';
 import { eventDateParts, splitSehzadeNames } from './heroText';
 import { SunnetMotionStyles } from './motion';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 export interface KusakHeroProps extends HeroRenderProps {
   /** Kuşağın saten degradesi (CSS background). */
@@ -105,7 +106,7 @@ export function KusakHero({ invitation, theme, flavor, band, thread }: KusakHero
             transition={{ duration: 0.8, ease: ease.out, delay: 1.5 }}
           >
             <Yildiz color={thread} />
-            Maşallah
+            <InvText k="design.kusak-hero.masallah" />
             <Yildiz color={thread} />
           </motion.span>
           <span

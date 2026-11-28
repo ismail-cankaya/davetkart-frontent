@@ -161,7 +161,7 @@ function Hero({ invitation, mode }: HeroRenderProps & { mode: 'preview' | 'live'
         )}
         {live && (
           <motion.p {...fade(3.4)} className="mt-6 text-[10px] tracking-[0.3em] uppercase text-[#7FC6D2]">
-            Suya dokunun
+            <InvText k="design.parti-havuz.suyaDokunun" />
           </motion.p>
         )}
         <ScrollCue delay={3.6} className="text-[#9DF3FF]" />

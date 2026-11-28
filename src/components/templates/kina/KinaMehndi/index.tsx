@@ -6,7 +6,7 @@ import type { TemplateFlavor } from '../../shared/flavor';
 import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { KINA_FLAVOR } from '../flavors';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 type Mode = 'preview' | 'live';
 
@@ -235,7 +235,7 @@ function MehndiHand({ still }: { still: boolean }) {
       : { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { duration: 0.6, delay } };
 
   return (
-    <svg viewBox="0 0 200 300" className="w-[min(62vw,250px)] h-auto drop-shadow-[0_0_30px_rgba(217,174,95,0.18)]" role="img" aria-label="Kına deseniyle süslenmiş el">
+    <svg viewBox="0 0 200 300" className="w-[min(62vw,250px)] h-auto drop-shadow-[0_0_30px_rgba(217,174,95,0.18)]" role="img" aria-label={staticFixedText('design.kina-mehndi.kinaDeseniyleSuslenmisEl')}>
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#F4DDB8" />

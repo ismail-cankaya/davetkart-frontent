@@ -5,6 +5,7 @@ import { HeroStage, Halo } from '../../shared/effects';
 import { PlakHero } from '../../shared/heroes';
 import { BABY_SHOWER_FLAVOR } from '../flavors';
 import { TemplateProps } from '../../types';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * BabyPlak — "Vinil Plak" baby shower yorumu: ninni plağı. AÇIK zemin, hardal etiket.
@@ -42,7 +43,7 @@ export function BabyPlak({ invitation, mode = 'preview' }: TemplateProps) {
       mode={mode}
       themeOverride={BABY_PLAK_THEME}
       renderHero={(props) => (
-        <PlakHero {...props} label="#dcb43c" labelInk="#2a2214" disc="#2b2822" spinDuration={58} />
+        <PlakHero {...props} label={'#dcb43c'} labelInk="#2a2214" disc="#2b2822" spinDuration={58} />
       )}
       renderHeroBackground={() => (
         <HeroStage

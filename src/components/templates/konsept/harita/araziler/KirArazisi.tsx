@@ -1,6 +1,7 @@
 import React, { useId } from 'react';
 import { HARITA_RENK as R } from '../palet';
 import { lekeIciNoktalar, lekeYolu, type Leke } from './cizim';
+import { InvText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * Arazi ekseni: kurgusal bir kır. Tonlar: arazi, park (koru), su (dere ve
@@ -113,7 +114,7 @@ export function KirArazisi({ className }: { className?: string }) {
         fillOpacity="0.5"
         style={{ fontFamily: 'var(--hr-italik)', fontStyle: 'italic', fontSize: 26, letterSpacing: '0.3em' }}
       >
-        Serin Dere
+        <InvText k="design.kir-arazisi.serinDere" />
       </text>
     </svg>
   );

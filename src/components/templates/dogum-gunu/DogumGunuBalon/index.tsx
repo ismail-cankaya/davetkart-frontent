@@ -135,7 +135,7 @@ function BalonHero({ invitation, hareketli }: HeroRenderProps & { hareketli: boo
           onClick={() => setAcik(new Set(liste.map((b) => b.k)))}
           className="mt-4 rounded-full border border-[#E0507A]/40 px-4 py-1.5 text-xs text-[#E0507A] hover:bg-[#E0507A]/10 transition-colors"
         >
-          Hepsini göster
+          <InvText k="design.dogum-gunu-balon.hepsiniGoster" />
         </button>
       )}
 

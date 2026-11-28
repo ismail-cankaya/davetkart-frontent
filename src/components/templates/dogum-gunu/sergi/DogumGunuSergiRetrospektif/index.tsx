@@ -24,6 +24,7 @@ import {
   type SoyutEserTanimi
 } from '../../../konsept/sergi';
 import { DOGUM_GUNU_SERGI_METINLERI, RETROSPEKTIF, sergiKisileri } from '../ortak';
+import { staticFixedText } from '../../../../../invitationText/InvitationTextContext';
 
 /**
  * DogumGunuSergiRetrospektif — "Retrospektif": salon asması (SERGI-KONSEPTI
@@ -71,7 +72,7 @@ function Salon() {
     <div className="relative">
       <Spot className="top-[20%] w-[130%] aspect-[1.6]" />
       <div aria-hidden="true" className="h-[2px] bg-[var(--sg-kenar-guclu)]" />
-      <ol className="flex items-start justify-between gap-[3%] px-[2%]" aria-label="Dönemler">
+      <ol className="flex items-start justify-between gap-[3%] px-[2%]" aria-label={staticFixedText('design.dogum-gunu-sergi-retrospektif.donemler')}>
         {DONEMLER.map((d, i) => (
           <li key={d.no} className={cn('flex flex-col items-center', d.genislik)}>
             <span aria-hidden="true" className={cn('block w-px bg-[var(--sg-kenar-guclu)]', d.tel)} />

@@ -9,6 +9,7 @@ import { HeroCountdown, NO_NAMES, useHeroData } from '../../shared/yedi';
 import { TemplateProps } from '../../types';
 import { DUGUN_FLAVOR } from '../flavors';
 import { DustField, fitText, sampleText, type TextLayout } from './tozMotoru';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const FAMILY = '"Cormorant Garamond", Georgia, serif';
 const GOLD_TEXT = 'text-transparent bg-clip-text bg-[linear-gradient(180deg,#FFF1C9_0%,#F2C566_45%,#B9822A_100%)]';
@@ -242,7 +243,7 @@ function ToZHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode
         key: 'mekan',
         lines: [d.venue],
         eyebrow: 'Mekân',
-        caption: <p className="text-[11px] tracking-[0.3em] uppercase text-[#9C8F72]">Ayrıntılar aşağıda</p>
+        caption: <p className="text-[11px] tracking-[0.3em] uppercase text-[#9C8F72]"><InvText k="design.dugun-altin-toz.ayrintilarAsagida" /></p>
       });
     return list;
   }, [d, invitation]);
@@ -271,7 +272,7 @@ function ToZHero({ invitation, scrollContainer, mode }: HeroRenderProps & { mode
               <span key={s.key} className={`h-1 rounded-full transition-all duration-500 ${i === index && !scattered ? 'w-6 bg-[#E2B85C]' : 'w-1.5 bg-[#E2B85C]/35'}`} />
             ))}
           </div>
-          <span className="text-[10px] tracking-[0.35em] uppercase">Kaydırın</span>
+          <span className="text-[10px] tracking-[0.35em] uppercase"><InvText k="label.scroll" /></span>
           <ChevronDown size={16} className="motion-safe:animate-bounce" />
         </div>
       </div>

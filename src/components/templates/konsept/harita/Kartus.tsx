@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { cn } from '../../../../utils/cn';
 import { HARITA_RENK } from './palet';
 import type { GirisProps } from './hareket';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Kartuş: haritanın başlık bloğu. Beyaz dikdörtgen, ince mürekkep kontur,
@@ -47,7 +48,7 @@ function RotaSusu({ orta }: { orta: boolean }) {
 }
 
 export function Kartus({ baslik, adlar, altBaslik, tarih, giris, hizala = 'sol', vurgu = 'esit', className, ref }: KartusProps) {
-  const gosterilen = adlar.length ? adlar : ['Davetlisiniz'];
+  const gosterilen = adlar.length ? adlar : [staticFixedText('names.placeholder')];
   const orta = hizala === 'orta';
   // `ilk` vurguda boy yalnızca ilk addan hesaplanır: ikinci ad zaten küçük.
   const boy = adBoyu(vurgu === 'ilk' ? gosterilen.slice(0, 1) : gosterilen);

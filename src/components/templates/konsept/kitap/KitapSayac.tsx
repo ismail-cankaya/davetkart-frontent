@@ -2,6 +2,7 @@ import React from 'react';
 import type { Invitation } from '../../../../types';
 import { cn } from '../../../../utils/cn';
 import { useCountdown } from '../../shared/useCountdown';
+import { InvText } from '../../../../invitationText/InvitationTextContext';
 
 const iki = (n: number) => String(n).padStart(2, '0');
 
@@ -33,7 +34,7 @@ export function KitapSayac({ invitation, sayiClassName, birimClassName, classNam
 
   return (
     <div className={cn('flex flex-col items-center gap-1.5', className)}>
-      <p className={cn('text-[11px] uppercase tracking-[0.24em]', birimClassName)}>Kalan süre</p>
+      <p className={cn('text-[11px] uppercase tracking-[0.24em]', birimClassName)}><InvText k="design.kitap-sayac.kalanSure" /></p>
       <p className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1">
         {birimler.map((b, i) => (
           <React.Fragment key={b.ad}>
