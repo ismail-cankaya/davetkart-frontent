@@ -15,6 +15,8 @@ import { toDisplayError } from '../../../utils/toDisplayError';
 import { useFocusTrap } from '../../../hooks/useFocusTrap';
 import { duration, ease } from '../../../utils/motion';
 import { cn } from '../../../utils/cn';
+import { popoverPosition } from './popoverPosition';
+import { FieldEditorCard } from './FieldEditorCard';
 import '../../../i18nEditor';
 
 const POPOVER_WIDTH = 340;
@@ -26,9 +28,14 @@ const POPOVER_WIDTH = 340;
  */
 export function InlineTextEditor() {
   const active = useEditorStore((s) => s.active);
+  const activeField = useEditorStore((s) => s.activeField);
   const isMobile = useUIStore((s) => s.isMobile);
   return createPortal(
-    <AnimatePresence>{active && <EditorCard key={active.key} active={active} isMobile={isMobile} />}</AnimatePresence>,
+    <AnimatePresence>
+      {active && <EditorCard key={active.key} active={active} isMobile={isMobile} />}
+      {/* Faz 27.2 (K321): kullanıcının kendi alanı (isimler, başlık, mekân, tarih); paket istemez. */}
+      {activeField && <FieldEditorCard key={`field-${activeField.field}`} active={activeField} isMobile={isMobile} />}
+    </AnimatePresence>,
     document.body
   );
 }
@@ -104,17 +111,7 @@ function EditorCard({ active, isMobile }: { active: ActiveText; isMobile: boolea
     }
   };
 
-  const position = useMemo(() => {
-    if (isMobile) return undefined;
-    const gap = 10;
-    const width = Math.min(POPOVER_WIDTH, window.innerWidth - 24);
-    const left = Math.max(12, Math.min(active.anchor.left, window.innerWidth - width - 12));
-    const below = active.anchor.bottom + gap;
-    const fitsBelow = below + 320 < window.innerHeight;
-    return fitsBelow
-      ? { left, top: below, width }
-      : { left, top: Math.max(12, active.anchor.top - gap - 320), width };
-  }, [active.anchor, isMobile]);
+  const position = useMemo(() => popoverPosition(active.anchor, isMobile, POPOVER_WIDTH), [active.anchor, isMobile]);
 
   const fieldClass =
     'w-full rounded-xl border border-ink/15 bg-white px-3.5 py-2.5 text-sm text-ink placeholder:text-muted/60 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20';

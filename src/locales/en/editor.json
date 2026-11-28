@@ -101,6 +101,29 @@
   },
   "publish": {
     "done": "Your invitation is published! Follow the RSVPs from your dashboard. 🎉",
-    "already": "This invitation is already published."
+    "already": "This invitation is already published.",
+    "changesDone": "Changes published; your guests see the new version.",
+    "changes": "Publish changes",
+    "discard": "Discard",
+    "discardTitle": "Discard unpublished changes?",
+    "discardBody": "The invitation goes back to the version your guests see. This cannot be undone.",
+    "discardConfirm": "Discard changes",
+    "discarded": "Changes discarded.",
+    "pendingBadge": "Unpublished changes",
+    "liveNote": "Live: your guests won't see changes until you choose “Publish changes”."
+  },
+  "field": {
+    "dialog": "Edit detail",
+    "label": {
+      "names": "Names",
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "venue": "Venue",
+      "date": "Date and time"
+    },
+    "namesHint": "Put & between two people: Ayşe & Ali",
+    "limit": "Up to {{max}} characters.",
+    "freeNote": "Your own details are free on every plan.",
+    "empty": "If you leave it empty, the design's fallback text shows."
   }
 }

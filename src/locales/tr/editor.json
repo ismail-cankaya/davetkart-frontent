@@ -101,6 +101,29 @@
   },
   "publish": {
     "done": "Davetiyeniz yayınlandı! Katılım yanıtlarını panelinizden takip edebilirsiniz. 🎉",
-    "already": "Bu davetiye zaten yayında."
+    "already": "Bu davetiye zaten yayında.",
+    "changesDone": "Değişiklikler yayınlandı; misafirleriniz yeni hâlini görüyor.",
+    "changes": "Değişiklikleri yayınla",
+    "discard": "Vazgeç",
+    "discardTitle": "Yayınlanmamış değişiklikler silinsin mi?",
+    "discardBody": "Davetiye misafirlerin gördüğü son hâline döner. Bu işlem geri alınamaz.",
+    "discardConfirm": "Değişiklikleri sil",
+    "discarded": "Değişiklikler silindi.",
+    "pendingBadge": "Yayınlanmamış değişiklik var",
+    "liveNote": "Yayında: değişiklikleriniz siz “Değişiklikleri yayınla” diyene kadar misafirlere görünmez."
+  },
+  "field": {
+    "dialog": "Bilgiyi düzenle",
+    "label": {
+      "names": "İsimler",
+      "title": "Başlık",
+      "subtitle": "Alt başlık",
+      "venue": "Mekân",
+      "date": "Tarih ve saat"
+    },
+    "namesHint": "İki kişi için araya & koyun: Ayşe & Ali",
+    "limit": "En çok {{max}} karakter.",
+    "freeNote": "Kendi bilgileriniz her pakette serbest.",
+    "empty": "Boş bırakırsanız tasarımın yedek metni görünür."
   }
 }

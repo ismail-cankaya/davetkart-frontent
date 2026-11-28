@@ -13,6 +13,7 @@ import {
   type History
 } from '../invitationText/overrides';
 import { DEFAULT_INVITATION_LOCALE, isInvitationLocale, type InvitationLocale, type TextOverrides } from '../invitationText/types';
+import { USER_FIELDS, userFieldValues, type UserField } from '../invitationText/userFields';
 
 /**
  * Davetiye editörü (Faz 25, K300, K306–K311): tıkla-düzenle, bölüm ayarları, ➕ özellik ekle, geri al/yinele.
@@ -54,14 +55,22 @@ export interface ActiveText {
   defaultText: string | undefined;
 }
 
-/** Geri alınabilen her şey: metinler ve bölüm bayrakları. */
+/** Önizlemede tıklanan kullanıcı alanı (K321): isimler, başlık, mekân, tarih. */
+export interface ActiveField {
+  field: UserField;
+  anchor: { top: number; left: number; bottom: number; right: number };
+}
+
+/** Geri alınabilen her şey: metinler, bölüm bayrakları ve kullanıcının kendi alanları (Faz 27.2). */
 interface Snapshot {
   textOverrides: TextOverrides;
   flags: Record<ModuleId, boolean>;
+  fields: Record<UserField, string>;
 }
 
 interface EditorState {
   active: ActiveText | null;
+  activeField: ActiveField | null;
   section: SectionId | null;
   scope: ReportedScope | null;
   /** Bu tasarımda çizilen anahtarlar (panel "bu tasarımda görünmüyor" der). */
@@ -70,6 +79,10 @@ interface EditorState {
 
   selectText: (active: ActiveText) => void;
   closeText: () => void;
+  selectField: (active: ActiveField) => void;
+  closeField: () => void;
+  /** Kullanıcı alanını yazar (paket istemez); geri alınabilir. */
+  saveField: (field: UserField, value: string) => void;
   saveText: (key: string, text: string, defaultValue: string | undefined) => void;
   resetText: (key: string) => void;
   resetTexts: (keys?: readonly string[]) => void;
@@ -92,7 +105,7 @@ function snapshot(invitation: Invitation): Snapshot {
   for (const [id, flag] of Object.entries(MODULE_FLAGS) as [ModuleId, keyof Invitation][]) {
     flags[id] = Boolean(invitation[flag]);
   }
-  return { textOverrides: invitation.textOverrides ?? {}, flags };
+  return { textOverrides: invitation.textOverrides ?? {}, flags, fields: userFieldValues(invitation) };
 }
 
 function apply(value: Snapshot): void {
@@ -100,6 +113,9 @@ function apply(value: Snapshot): void {
   updateField('textOverrides', value.textOverrides);
   for (const [id, flag] of Object.entries(MODULE_FLAGS) as [ModuleId, keyof Invitation][]) {
     if (Boolean(useInvitationStore.getState().invitation[flag]) !== value.flags[id]) updateField(flag, value.flags[id]);
+  }
+  for (const field of USER_FIELDS) {
+    if ((useInvitationStore.getState().invitation[field] ?? '') !== value.fields[field]) updateField(field, value.fields[field]);
   }
 }
 
@@ -130,13 +146,21 @@ export const useEditorStore = create<EditorState>()((set, get) => {
 
   return {
     active: null,
+    activeField: null,
     section: null,
     scope: null,
     seenKeys: [],
     history: { past: [], future: [] },
 
-    selectText: (active) => set({ active, section: null }),
+    selectText: (active) => set({ active, activeField: null, section: null }),
     closeText: () => set({ active: null }),
+    selectField: (activeField) => set({ activeField, active: null, section: null }),
+    closeField: () => set({ activeField: null }),
+
+    saveField: (field, value) =>
+      commit(() => {
+        useInvitationStore.getState().updateField(field, value);
+      }),
 
     saveText: (key, text, defaultValue) =>
       commit((invitation) => {
@@ -161,20 +185,20 @@ export const useEditorStore = create<EditorState>()((set, get) => {
         useInvitationStore.getState().updateField(MODULE_FLAGS[id], on);
       }),
 
-    openSection: (id) => set({ section: id, active: null }),
+    openSection: (id) => set({ section: id, active: null, activeField: null }),
 
     undo: () => {
       const result = undoHistory(get().history, snapshot(useInvitationStore.getState().invitation));
       if (!result) return;
       apply(result.value);
-      set({ history: result.history, active: null });
+      set({ history: result.history, active: null, activeField: null });
     },
 
     redo: () => {
       const result = redoHistory(get().history, snapshot(useInvitationStore.getState().invitation));
       if (!result) return;
       apply(result.value);
-      set({ history: result.history, active: null });
+      set({ history: result.history, active: null, activeField: null });
     },
 
     reportScope: (scope) => {
@@ -207,7 +231,7 @@ export const useEditorStore = create<EditorState>()((set, get) => {
 
     resetSession: () => {
       pendingSeen = new Set();
-      set({ active: null, section: null, scope: null, seenKeys: [], history: { past: [], future: [] } });
+      set({ active: null, activeField: null, section: null, scope: null, seenKeys: [], history: { past: [], future: [] } });
     }
   };
 });

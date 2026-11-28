@@ -7,6 +7,18 @@ import { cn } from '../../../utils/cn';
 import { duration, ease } from '../../../utils/motion';
 import { DEVICE_VIEWPORTS, canvasScale, type CanvasZoom } from './deviceViewports';
 import { useFrameDocument } from './useFrameDocument';
+import { findPick, type TextPick } from './textPicking';
+
+type Rect = { top: number; left: number; bottom: number; right: number };
+
+/** Editörde metne tıklayarak düzenleme (K321): eşleme dizini ve seçim. */
+export interface CanvasPicker {
+  index: ReadonlyMap<string, TextPick>;
+  onPick: (pick: TextPick, anchor: Rect) => void;
+}
+
+const HOVER_ATTR = 'data-studio-pick';
+const HOVER_CSS = `[${HOVER_ATTR}]{outline:1px dashed currentColor;outline-offset:3px;border-radius:3px;cursor:text}`;
 
 const FRAME_DOC = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body></body></html>';
 
@@ -15,6 +27,8 @@ interface DeviceCanvasProps {
   zoom: CanvasZoom;
   /** Editör köprüsü; tuval, tıklanan metnin konumunu iframe'den ana pencereye çevirir. */
   textEditor?: TextEditorBridge | null;
+  /** Kullanıcı içeriği ve dize olarak çizilen şablon metinleri için tıklayarak seçme. */
+  picker?: CanvasPicker | null;
   /** Hesaplanan ölçek (araç çubuğundaki yüzde için). */
   onScaleChange?: (scale: number) => void;
   /** Ekran okuyucu için iframe başlığı. */
@@ -29,7 +43,7 @@ interface DeviceCanvasProps {
  * kullanılabilir alana sığacak şekilde ölçeklenir. Şablonların `md:`/`lg:` sınıfları böylece cihaza göre çalışır.
  * Ayrıntı: docs/rehber/src/components/studio/canvas/DeviceCanvas.md
  */
-export function DeviceCanvas({ device, zoom, textEditor = null, onScaleChange, title, className, children }: DeviceCanvasProps) {
+export function DeviceCanvas({ device, zoom, textEditor = null, picker = null, onScaleChange, title, className, children }: DeviceCanvasProps) {
   const areaRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<HTMLIFrameElement>(null);
   const body = useFrameDocument(frameRef);
@@ -52,28 +66,60 @@ export function DeviceCanvas({ device, zoom, textEditor = null, onScaleChange, t
   }, [scale, onScaleChange]);
 
   // Tıklanan metnin kutusu iframe'in görüntü alanına göredir; ana pencereye çevrilir (popover konumu).
-  const framedEditor = useMemo<TextEditorBridge | null>(() => {
-    if (!textEditor) return null;
-    return {
-      ...textEditor,
-      select: (request) => {
+  const toParent = useMemo(
+    () =>
+      (anchor: Rect): Rect => {
         const frame = frameRef.current;
-        if (!frame) return textEditor.select(request);
+        if (!frame) return anchor;
         const rect = frame.getBoundingClientRect();
         const k = rect.width / viewport.width || 1;
-        const { anchor } = request;
-        textEditor.select({
-          ...request,
-          anchor: {
-            top: rect.top + anchor.top * k,
-            bottom: rect.top + anchor.bottom * k,
-            left: rect.left + anchor.left * k,
-            right: rect.left + anchor.right * k
-          }
-        });
-      }
+        return {
+          top: rect.top + anchor.top * k,
+          bottom: rect.top + anchor.bottom * k,
+          left: rect.left + anchor.left * k,
+          right: rect.left + anchor.right * k
+        };
+      },
+    [viewport.width]
+  );
+
+  const framedEditor = useMemo<TextEditorBridge | null>(() => {
+    if (!textEditor) return null;
+    return { ...textEditor, select: (request) => textEditor.select({ ...request, anchor: toParent(request.anchor) }) };
+  }, [textEditor, toParent]);
+
+  // Metne tıklayarak seçme: yakalama evresinde (şablonun kendi tıklamasından önce), yalnızca eşleşen metinde.
+  useEffect(() => {
+    const doc = body?.ownerDocument;
+    if (!doc || !picker) return;
+    const style = doc.createElement('style');
+    style.textContent = HOVER_CSS;
+    doc.head.appendChild(style);
+    let hovered: Element | null = null;
+    const setHover = (element: Element | null) => {
+      if (hovered === element) return;
+      hovered?.removeAttribute(HOVER_ATTR);
+      hovered = element;
+      hovered?.setAttribute(HOVER_ATTR, '');
     };
-  }, [textEditor, viewport.width]);
+    const onMove = (event: Event) => setHover(findPick(event.target as Element, picker.index)?.element ?? null);
+    const onClick = (event: MouseEvent) => {
+      const found = findPick(event.target as Element, picker.index);
+      if (!found) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const r = found.element.getBoundingClientRect();
+      picker.onPick(found.pick, toParent({ top: r.top, bottom: r.bottom, left: r.left, right: r.right }));
+    };
+    doc.addEventListener('pointerover', onMove);
+    doc.addEventListener('click', onClick, true);
+    return () => {
+      setHover(null);
+      style.remove();
+      doc.removeEventListener('pointerover', onMove);
+      doc.removeEventListener('click', onClick, true);
+    };
+  }, [body, picker, toParent]);
 
   const outerW = viewport.width + viewport.bezel * 2;
   const outerH = viewport.height + viewport.bezel * 2;
