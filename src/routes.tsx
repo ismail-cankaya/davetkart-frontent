@@ -22,6 +22,7 @@ const EmailVerificationPage = React.lazy(() => import('./pages/EmailVerification
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
 const StudioPage = React.lazy(() => import('./pages/StudioPage'));
+const PreviewPage = React.lazy(() => import('./pages/PreviewPage'));
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
 const PaymentReturnPage = React.lazy(() => import('./pages/PaymentReturnPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
@@ -38,8 +39,12 @@ const PrivacyPage = React.lazy(() => import('./pages/legal/PrivacyPage'));
 const CookiesPage = React.lazy(() => import('./pages/legal/CookiesPage'));
 
 // Pages rendered inside the shared chrome (header, footer, assistant).
-/** Çerçevesiz sayfaların (misafir, stüdyo) yükleme yer tutucusu: tek öğe, iki rota. */
+/** Çerçevesiz sayfaların (misafir, stüdyo, önizleme) yükleme yer tutucusu. */
 const FULL_SCREEN_FALLBACK = <div className="h-dvh w-full bg-emerald-950" />;
+/** Tekrarlanan sarmalayıcılar tek yerde (ilk yükleme paketi küçük kalsın, K237). */
+const protect = (page: React.ReactElement) => <ProtectedRoute>{page}</ProtectedRoute>;
+const fullScreen = (page: React.ReactElement) => <React.Suspense fallback={FULL_SCREEN_FALLBACK}>{page}</React.Suspense>;
+const EDITOR_ERROR = <RouteError scope="editor" />;
 
 const appPages: RouteObject[] = [
   { path: '/', element: <HomePage /> },
@@ -47,7 +52,7 @@ const appPages: RouteObject[] = [
     // Editör kendi sınırını taşır: kaydetme durumunu söyler (D3). `/create/:id` eski bağlantılar: stüdyoya gider (Faz 28).
     path: '/create/:id?',
     element: <CreatePage />,
-    errorElement: <RouteError scope="editor" />
+    errorElement: EDITOR_ERROR
   },
   { path: '/login', element: <LoginPage /> },
   { path: '/register', element: <RegisterPage /> },
@@ -66,11 +71,7 @@ const appPages: RouteObject[] = [
   {
     // `/dashboard/preview/:id`: hızlı düzenleme katmanı panelin içinde açılır (Faz 29.1).
     path: '/dashboard/*',
-    element: (
-      <ProtectedRoute>
-        <DashboardPage />
-      </ProtectedRoute>
-    )
+    element: protect(<DashboardPage />)
   },
   // Faz 14: e-posta değişikliği onayı. Oturum İSTEMEZ (bağlantı başka
   // cihazda açılabilir). Yol backend config/davetkart.php →
@@ -80,11 +81,7 @@ const appPages: RouteObject[] = [
   {
     // Hesap ayarları (Faz 10'da tek sayfa, Faz 14'te bölümlü).
     path: '/hesap',
-    element: (
-      <ProtectedRoute>
-        <AccountPage />
-      </ProtectedRoute>
-    ),
+    element: protect(<AccountPage />),
     children: [
       { index: true, element: <AccountOverviewSection /> },
       { path: 'planlarim', element: <AccountPlansSection /> },
@@ -98,29 +95,17 @@ const appPages: RouteObject[] = [
     // Plan duvarının "Ödemeye Geç"i buraya gelir (utils/checkoutRoute.ts).
     // Sipariş uçları oturum ister; girişten sonra aynı adrese dönülür.
     path: '/odeme',
-    element: (
-      <ProtectedRoute>
-        <CheckoutPage />
-      </ProtectedRoute>
-    )
+    element: protect(<CheckoutPage />)
   },
   {
     // Sağlayıcının dönüş adresleri (backend config/payment.php → return_urls).
     // Faz 10 (10.27) öncesinde yoktu: `*` kullanıcıyı ana sayfaya atıyordu.
     path: '/odeme/basarili',
-    element: (
-      <ProtectedRoute>
-        <PaymentReturnPage kind="success" />
-      </ProtectedRoute>
-    )
+    element: protect(<PaymentReturnPage kind="success" />)
   },
   {
     path: '/odeme/hata',
-    element: (
-      <ProtectedRoute>
-        <PaymentReturnPage kind="failure" />
-      </ProtectedRoute>
-    )
+    element: protect(<PaymentReturnPage kind="failure" />)
   },
   // Bilinmeyen adres: açıklamasız ana sayfaya atılmaz (Faz 20, FE-06); başlık ve alt bilgi kalır.
   { path: '*', element: <NotFoundPage /> }
@@ -139,21 +124,15 @@ export const routes: RouteObject[] = [
     // Faz 28 (K318, K322): Tasarım Stüdyosu — site çerçevesi yok. `/studio` oturumsuz yerel taslak; `/studio/:id`
     // oturum ister (kontrol sayfanın tembel parçasında: ilk yükleme küçük kalsın, K237).
     path: '/studio/:id?',
-    errorElement: <RouteError scope="editor" />,
-    element: (
-      <React.Suspense fallback={FULL_SCREEN_FALLBACK}>
-        <StudioPage />
-      </React.Suspense>
-    )
+    errorElement: EDITOR_ERROR,
+    element: fullScreen(<StudioPage />)
   },
+  // Faz 29.4 (K328): "telefonda aç" imzalı önizleme (çerçevesiz).
+  { path: '/preview/:id', element: fullScreen(<PreviewPage />) },
   {
     // Guest-facing invitation: rendered chrome-free outside the AppLayout.
     path: '/invite/:id',
     errorElement: <RouteError scope="guest" />,
-    element: (
-      <React.Suspense fallback={FULL_SCREEN_FALLBACK}>
-        <InvitePage />
-      </React.Suspense>
-    )
+    element: fullScreen(<InvitePage />)
   },
 ];

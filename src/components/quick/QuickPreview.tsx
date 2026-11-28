@@ -15,6 +15,7 @@ import { useMinWidth } from '../../hooks/useMinWidth';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { duration, ease } from '../../utils/motion';
 import type { InvitationRecord } from '../../types';
+import { PhoneLinkButton } from '../share/PhoneLinkButton';
 import '../../i18nEditor';
 
 const FIELDS = ['names', 'title', 'subtitle', 'date', 'venue'] as const;
@@ -206,9 +207,15 @@ export default function QuickPreview({ id, onClose, onSaved }: { id: string; onC
           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand">{t('textEditor.quick.title')}</p>
           <p className="truncate text-[12px] text-muted">{t('textEditor.quick.subtitle')}</p>
         </div>
+        <div className="flex items-center gap-1">
+        <PhoneLinkButton
+          invitationId={id}
+          className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-ink/10 px-3.5 py-2 text-xs font-semibold text-ink/75 hover:border-brand/40 hover:text-brand cursor-pointer disabled:opacity-60"
+        />
         <button type="button" onClick={() => void close()} aria-label={t('textEditor.quick.close')} className="rounded-full p-2 text-ink/60 hover:bg-ink/5 hover:text-ink cursor-pointer">
           <X size={18} />
         </button>
+        </div>
       </header>
 
       {!record || !preview ? (

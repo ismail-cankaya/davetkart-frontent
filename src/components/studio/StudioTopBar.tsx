@@ -10,6 +10,7 @@ import { useStudioStore } from '../../stores/useStudioStore';
 import { usePublishFlow } from '../../hooks/usePublishFlow';
 import { useDiscardChanges } from '../../hooks/useDiscardChanges';
 import { useReadiness } from './StudioChecklist';
+import { PhoneLinkButton } from '../share/PhoneLinkButton';
 import { displayNames } from '../../utils/names';
 import type { AuthRedirectState } from '../../types';
 import { cn } from '../../utils/cn';
@@ -49,6 +50,7 @@ export function StudioTopBar() {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const names = useInvitationStore((s) => displayNames(s.invitation.names));
   const isLive = useInvitationStore((s) => s.recordStatus === 'published');
+  const recordId = useInvitationStore((s) => s.recordId);
   const hasPending = useInvitationStore((s) => s.hasPendingChanges);
   const canUndo = useEditorStore((s) => s.history.past.length > 0);
   const canRedo = useEditorStore((s) => s.history.future.length > 0);
@@ -118,6 +120,13 @@ export function StudioTopBar() {
           <ScanEye size={15} />
           {t('textEditor.studio.guest.open')}
         </button>
+        {/* Faz 29.4 (K328): kayıtlı davetiyede, taslak dahil gerçek görünüm kullanıcının telefonunda. */}
+        {isAuthenticated && recordId && (
+          <PhoneLinkButton
+            invitationId={recordId}
+            className="hidden lg:inline-flex h-9 items-center gap-1.5 rounded-full border border-white/15 px-3.5 text-xs font-semibold text-white/85 hover:bg-white/10 cursor-pointer disabled:opacity-60"
+          />
+        )}
         {isLive && hasPending && (
           <button type="button" onClick={() => void discard()} className="hidden sm:inline-flex h-9 items-center rounded-full px-3 text-xs font-semibold text-white/60 hover:text-rose-200 cursor-pointer">
             {t('textEditor.publish.discard')}

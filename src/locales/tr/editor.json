@@ -264,5 +264,16 @@
     "discardConfirm": "Kaydetmeden çık",
     "loading": "Davetiye yükleniyor…",
     "tooLong": "Çok uzun (en çok {{max}} karakter)."
+  },
+  "phone": {
+    "button": "Telefonda aç",
+    "title": "Telefonunuzda açın",
+    "hint": "Telefonunuzun kamerasıyla okutun; yayınlanmamış değişiklikler de görünür.",
+    "expires": "Bağlantı {{time}} tarihine kadar geçerli. Bağlantıyı bilen herkes bu önizlemeyi açabilir.",
+    "copy": "Bağlantıyı kopyala",
+    "failed": "Önizleme bağlantısı oluşturulamadı.",
+    "banner": "Önizleme · misafirler bu hâli henüz görmüyor",
+    "missing": "Önizleme bağlantısının süresi dolmuş ya da bağlantı hatalı.",
+    "loading": "Önizleme yükleniyor…"
   }
 }

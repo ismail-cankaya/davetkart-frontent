@@ -264,5 +264,16 @@
     "discardConfirm": "Leave without saving",
     "loading": "Loading the invitation…",
     "tooLong": "Too long (up to {{max}} characters)."
+  },
+  "phone": {
+    "button": "Open on phone",
+    "title": "Open it on your phone",
+    "hint": "Scan with your phone camera; unpublished changes show too.",
+    "expires": "The link works until {{time}}. Anyone with the link can open this preview.",
+    "copy": "Copy link",
+    "failed": "Couldn't create the preview link.",
+    "banner": "Preview · guests don't see this version yet",
+    "missing": "The preview link has expired or is wrong.",
+    "loading": "Loading the preview…"
   }
 }
