@@ -6,7 +6,7 @@ import { PaperGrain } from '../effects';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Herbaryum hero — daveti bir DUYURU değil, bir KAYIT olarak kuran dil.
@@ -144,7 +144,7 @@ export function HerbaryumHero({
 
   // Girilmemiş bilgi için satır açılmaz; "Tarih: —" satırı, alanın
   // doldurulmuş ama boş bırakılmış gibi okunmasına yol açardı.
-  const fields: Array<[string, string]> = [['Tür', invitation.names || 'Davetlisiniz']];
+  const fields: Array<[string, string]> = [['Tür', invitation.names || staticFixedText('names.placeholder')]];
 
   if (dateText) {
     fields.push(['Tarih', timeText ? `${dateText} · ${timeText}` : dateText]);
@@ -188,7 +188,7 @@ export function HerbaryumHero({
 
         <header className="relative text-center">
           <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.3em]', theme.body)}>
-            Herbaryum · <InvText k="envelope.label" />
+            <InvText k="hero.herbaryum.herbaryum" />{' '}<InvText k="envelope.label" />
           </span>
         </header>
 
@@ -263,7 +263,7 @@ export function HerbaryumHero({
             className="relative block mt-2 pt-2 text-[6.5px] font-semibold uppercase tracking-[0.24em] text-center opacity-60"
             style={{ borderTop: `1px solid ${specimen}33`, color: specimen }}
           >
-            Koleksiyon · DavetKart Arşivi
+            <InvText k="hero.herbaryum.koleksiyonDavetkartArsivi" />
           </span>
         </motion.div>
       </motion.article>

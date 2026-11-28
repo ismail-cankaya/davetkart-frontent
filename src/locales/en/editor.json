@@ -54,7 +54,8 @@
       "details": "Date and venue",
       "gallery": "Gallery",
       "gift": "Gifts and IBAN",
-      "rsvp": "RSVP"
+      "rsvp": "RSVP",
+      "label": "Labels"
     }
   },
   "modules": {

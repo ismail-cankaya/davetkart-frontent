@@ -5,7 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Terrazzo hero — dokusunu bir görselden değil, DAĞILIMDAN alan dil.
@@ -174,7 +174,7 @@ export function TerrazzoHero({
           className={cn('font-serif font-normal leading-[1.08] mt-3 break-words', theme.heading)}
           style={{ fontSize: 'clamp(1.9rem, 10cqw, 3rem)' }}
         >
-          {invitation.names || 'Davetlisiniz'}
+          {invitation.names || staticFixedText('names.placeholder')}
         </h1>
 
         {/* Ayraç: çizgi yerine üç çakıl. Dilin kendi grameriyle konuşan bir
@@ -215,12 +215,12 @@ export function TerrazzoHero({
         {invitation.showTimer && valid && (
           <div className="mt-6 grid grid-cols-3 gap-2.5">
             {[
-              { v: days, l: 'Gün' },
-              { v: hours, l: 'Saat' },
-              { v: minutes, l: 'Dakika' }
+              { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+              { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+              { v: minutes, id: 'countdown.minutes', l: <InvText k="countdown.minutes" /> }
             ].map((unit, i) => (
               <motion.div
-                key={unit.l}
+                key={unit.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: ease.out, delay: 0.6 + i * 0.08 }}

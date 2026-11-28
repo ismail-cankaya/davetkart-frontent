@@ -8,6 +8,7 @@ import { TemplateFlavor } from '../flavor';
 import { useCountdown } from '../useCountdown';
 import { PaperGrain } from '../effects';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Varak Monogram hero — ince kırtasiyenin en eski imzası: arma.
@@ -253,7 +254,7 @@ export function MonogramHero({
   const letters = monogramLetters(names, flavor.categoryId);
   // Halkada iki isim; kurum + etkinlik adı gibi çok uzun bir çift halkaya
   // sığmazsa yalnızca ilk kısım yazılır.
-  const fullRing = (names || 'Davetlisiniz').replace(/\s*&\s*/g, ' · ');
+  const fullRing = (names || staticFixedText('names.placeholder')).replace(/\s*&\s*/g, ' · ');
   const ringText = (fullRing.length > 32 ? splitNames(names)[0] : fullRing).toLocaleUpperCase('tr-TR');
   const venue = displayText(invitation.venue);
 
@@ -368,7 +369,7 @@ export function MonogramHero({
             className={cn('mt-3 leading-[1.15] text-[1.75rem] @sm:text-[2.1rem] break-words', theme.heading)}
             style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 500 }}
           >
-            {invitation.names || 'Davetlisiniz'}
+            {invitation.names || staticFixedText('names.placeholder')}
           </motion.h1>
 
           {invitation.subtitle && (
@@ -399,7 +400,7 @@ export function MonogramHero({
                     {numericDate}
                   </span>
                   {time && (
-                    <span className={cn('mt-1 text-[10px] font-medium uppercase tracking-[0.3em]', theme.body)}>Saat {time}</span>
+                    <span className={cn('mt-1 text-[10px] font-medium uppercase tracking-[0.3em]', theme.body)}><InvText k="label.time" />{' '}{time}</span>
                   )}
                 </>
               )}
@@ -417,11 +418,11 @@ export function MonogramHero({
               className="mt-7 flex items-baseline gap-5"
             >
               {[
-                { v: days, l: 'gün' },
+                { v: days, id: 'countdown.daysLower', l: <InvText k="countdown.daysLower" /> },
                 { v: hours, l: 'saat' },
                 { v: minutes, l: 'dakika' }
               ].map((unit) => (
-                <span key={unit.l} className="flex flex-col items-center">
+                <span key={unit.id} className="flex flex-col items-center">
                   <span
                     className={cn('tabular-nums text-xl leading-none', theme.heading)}
                     style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 600 }}

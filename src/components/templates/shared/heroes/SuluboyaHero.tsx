@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Suluboya hero — kenarı DÜZGÜN OLMAYAN tek dil.
@@ -152,7 +153,7 @@ export function SuluboyaHero({
             theme.heading
           )}
         >
-          {invitation.names || 'Davetlisiniz'}
+          {invitation.names || staticFixedText('names.placeholder')}
         </motion.h1>
 
         {/* Fırça darbesi ayırıcı: düz çizgi yerine uçları incelen bir iz. */}
@@ -196,11 +197,11 @@ export function SuluboyaHero({
             className="mt-6 flex items-baseline gap-4"
           >
             {[
-              { v: days, l: 'gün' },
+              { v: days, id: 'countdown.daysLower', l: <InvText k="countdown.daysLower" /> },
               { v: hours, l: 'saat' },
               { v: minutes, l: 'dk' }
             ].map((unit) => (
-              <span key={unit.l} className="flex items-baseline gap-1">
+              <span key={unit.id} className="flex items-baseline gap-1">
                 <span className={cn('font-serif tabular-nums text-xl @sm:text-2xl', theme.heading)}>
                   {String(unit.v).padStart(2, '0')}
                 </span>

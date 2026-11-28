@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /** Künye şeridinin sütun sayısı, dolu hücre sayısına göre (Tailwind statik sınıf ister). */
 const INFO_GRID_COLUMNS = ['', 'grid-cols-1', 'grid-cols-2', 'grid-cols-3'] as const;
@@ -55,9 +56,9 @@ export function PlakHero({
   // Künye hücreleri yalnızca girilmiş bilgilerden kurulur. "Kalan" tarihe
   // bağlıdır: tarih yoksa hesaplanacak bir süre de yoktur.
   const infoCells = [
-    ...(timeText ? [{ l: 'Saat', v: timeText }] : []),
-    ...(venue ? [{ l: 'Mekân', v: venue }] : []),
-    ...(dayText ? [{ l: 'Kalan', v: invitation.showTimer && valid ? `${days}g ${String(hours).padStart(2, '0')}s` : '—' }] : [])
+    ...(timeText ? [{ id: 'countdown.hours', l: <InvText k="countdown.hours" />, v: timeText }] : []),
+    ...(venue ? [{ id: 'label.venue', l: <InvText k="label.venue" />, v: venue }] : []),
+    ...(dayText ? [{ id: 'label.remaining', l: <InvText k="label.remaining" />, v: invitation.showTimer && valid ? `${days}g ${String(hours).padStart(2, '0')}s` : '—' }] : [])
   ];
 
   // Kavisli başlık için benzersiz path kimliği: aynı sayfada iki plak
@@ -133,7 +134,7 @@ export function PlakHero({
           </span>
 
           <h1 className="font-serif font-bold leading-[1.05] mt-1.5 text-[0.95rem] @sm:text-lg break-words line-clamp-2">
-            {invitation.names || 'Davetlisiniz'}
+            {invitation.names || staticFixedText('names.placeholder')}
           </h1>
 
           {dayText && (
@@ -178,7 +179,7 @@ export function PlakHero({
         {infoCells.length > 0 && (
           <div className={cn('mt-5 grid border-t border-b divide-x', INFO_GRID_COLUMNS[infoCells.length], theme.border)}>
             {infoCells.map((cell) => (
-              <div key={cell.l} className={cn('px-3 py-3 text-center min-w-0', theme.border)}>
+              <div key={cell.id} className={cn('px-3 py-3 text-center min-w-0', theme.border)}>
                 <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.2em]', theme.accent)}>
                   {cell.l}
                 </span>

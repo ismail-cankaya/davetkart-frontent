@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Posta Damgası hero — davetin YOL ALMIŞ olduğu düzen.
@@ -85,7 +86,7 @@ export function PostaHero({
               className="text-[7.5px] font-bold uppercase tracking-[0.2em] px-2 py-1 rounded-[2px]"
               style={{ background: stripe[1], color: '#f4f7fb' }}
             >
-              Uçak Postası
+              <InvText k="hero.posta.ucakPostasi" />
             </span>
 
             {/* Pul: tırtıllı kenar radial-gradient ile kesilir. */}
@@ -109,14 +110,14 @@ export function PostaHero({
               <span className="text-[#2b2318]/80">
                 <Ornament size={22} />
               </span>
-              <span className="text-[7px] font-bold uppercase tracking-[0.12em] text-[#2b2318]/75">Davet</span>
+              <span className="text-[7px] font-bold uppercase tracking-[0.12em] text-[#2b2318]/75"><InvText k="label.invite" /></span>
             </motion.div>
           </div>
 
           {/* Adres bloğu: kompozisyonun merkezi. Yazı çizgilerin ÜSTÜNE
               oturur, elle doldurulmuş gibi. */}
           <div className="mt-6 @sm:mt-7">
-            <span className={cn('text-[8px] font-semibold uppercase tracking-[0.24em]', theme.body)}>Alıcı</span>
+            <span className={cn('text-[8px] font-semibold uppercase tracking-[0.24em]', theme.body)}><InvText k="hero.posta.alici" /></span>
 
             <motion.h1
               initial={{ opacity: 0, y: 8 }}
@@ -124,7 +125,7 @@ export function PostaHero({
               transition={{ duration: 0.9, ease: ease.out, delay: 0.25 }}
               className={cn('font-serif font-normal leading-[1.15] mt-1.5 text-[1.7rem] @sm:text-[2.1rem] break-words', theme.heading)}
             >
-              {invitation.names || 'Davetlisiniz'}
+              {invitation.names || staticFixedText('names.placeholder')}
             </motion.h1>
 
             {addressLines.length > 0 && (
@@ -161,7 +162,7 @@ export function PostaHero({
               <circle cx="50" cy="50" r="31" fill="none" stroke={postmark} strokeWidth={1} strokeOpacity={0.6} />
               <text fill={postmark} fillOpacity={0.9} style={{ fontSize: '7.5px', letterSpacing: '1px', fontWeight: 700 }}>
                 <textPath href={`#${arcId}`} startOffset="50%" textAnchor="middle">
-                  DAVETKART
+                  <InvText k="hero.posta.davetkart" />
                 </textPath>
               </text>
               <text fill={postmark} fillOpacity={0.85} style={{ fontSize: '6.5px', letterSpacing: '0.6px' }}>
@@ -180,7 +181,7 @@ export function PostaHero({
             <div className={cn('mt-6 pt-4 border-t flex items-baseline gap-2', theme.border)}>
               <span className={cn('font-serif font-bold tabular-nums text-xl', theme.accent)}>{days}</span>
               <span className={cn('text-[10px] font-semibold uppercase tracking-[0.16em]', theme.body)}>
-                gün {String(hours).padStart(2, '0')} saat kaldı
+                <InvText k="countdown.daysLower" />{' '}{String(hours).padStart(2, '0')} <InvText k="hero.posta.saatKaldi" />
               </span>
             </div>
           )}

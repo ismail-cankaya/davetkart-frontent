@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Mekanik Pano hero — bilginin YERİNE OTURDUĞU düzen.
@@ -187,7 +188,7 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
           </span>
         </div>
 
-        <FlapRow text={invitation.names || 'Davetlisiniz'} size="lg" flap={flap} ink={ink} max={nameMax} />
+        <FlapRow text={invitation.names || staticFixedText('names.placeholder')} size="lg" flap={flap} ink={ink} max={nameMax} />
 
         {/* Girilmemiş bilgi için pano satırı açılmaz: boş kanat dizisi ya da
             tek başına bir "·", bilgi bekleniyormuş gibi okunur. */}
@@ -199,7 +200,7 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
               {dateText && (
                 <div>
                   <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em] mb-1.5 text-center', theme.body)}>
-                    Tarih
+                    <InvText k="label.date" />
                   </span>
                   <FlapRow text={`${dateText} · ${timeText}`} size="sm" flap={flap} ink={ink} delay={700} max={24} />
                 </div>
@@ -208,7 +209,7 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
               {venue && (
                 <div>
                   <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em] mb-1.5 text-center', theme.body)}>
-                    Mekân
+                    <InvText k="label.venue" />
                   </span>
                   <FlapRow text={venue} size="sm" flap={flap} ink={ink} delay={1100} max={26} />
                 </div>
@@ -224,11 +225,11 @@ export function PanoHero({ invitation, theme, flavor, flap = '#15171c', ink = '#
         {invitation.showTimer && valid && (
           <div className={cn('mt-5 pt-4 border-t flex items-center justify-center gap-5', theme.border)}>
             {[
-              { v: days, l: 'Gün' },
-              { v: hours, l: 'Saat' },
-              { v: minutes, l: 'Dakika' }
+              { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+              { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+              { v: minutes, id: 'countdown.minutes', l: <InvText k="countdown.minutes" /> }
             ].map((unit) => (
-              <span key={unit.l} className="flex items-baseline gap-1.5">
+              <span key={unit.id} className="flex items-baseline gap-1.5">
                 <span className={cn('font-mono font-bold tabular-nums text-lg', theme.heading)}>
                   {String(unit.v).padStart(2, '0')}
                 </span>

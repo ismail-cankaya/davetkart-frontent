@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { PaperGrain, DeckleEdge, WaxSeal } from '../effects';
 import { ease } from '../../../../utils/motion';
+import { staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Kağıt & Mühür hero — ekranda duran bir NESNE.
@@ -31,7 +32,7 @@ interface PaperHeroProps extends HeroRenderProps {
 
 export function PaperHero({ invitation, theme, flavor, sealColor, paper }: PaperHeroProps) {
   const { Ornament } = flavor;
-  const names = invitation.names || 'Davetlisiniz';
+  const names = invitation.names || staticFixedText('names.placeholder');
   const dateLabel = formatDateStr(invitation.date);
   const venue = displayText(invitation.venue);
 

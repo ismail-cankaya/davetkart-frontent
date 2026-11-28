@@ -4,7 +4,7 @@ import { cn } from '../../../../utils/cn';
 import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
-import { InvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Brutal hero — kütüphanenin tek ANTİ-DEKORATİF dili.
@@ -81,7 +81,7 @@ export function BrutalHero({
 
   // İsim kelimelere bölünüp alt alta yığılır: brutalizmde satır sonu bir
   // tipografi kararıdır, metnin kabına sığmasının yan etkisi değil.
-  const words = (invitation.names || 'Davetlisiniz').split(' ').filter(Boolean);
+  const words = (invitation.names || staticFixedText('names.placeholder')).split(' ').filter(Boolean);
   // En uzun kelime kutuya tek satırda sığsın diye punto ona göre tavanlanır;
   // 0.66em, büyük harfli siyah grotesk için güvenli harf genişliğidir.
   const longest = Math.max(...words.map((word) => word.length));
@@ -149,7 +149,7 @@ export function BrutalHero({
               style={{ borderColor: ink, background: accent2, color: onAccent2 }}
             >
               <Ornament size={20} />
-              <span className="text-[7.5px] font-black uppercase tracking-[0.12em]">Davet</span>
+              <span className="text-[7.5px] font-black uppercase tracking-[0.12em]"><InvText k="label.invite" /></span>
             </motion.div>
 
             {/* İsim bloğu: ölçek hiyerarşinin tamamını taşır. */}
@@ -218,12 +218,12 @@ export function BrutalHero({
             {invitation.showTimer && valid && (
               <div className="mt-4 grid grid-cols-3 gap-2">
                 {[
-                  { v: days, l: 'Gün' },
-                  { v: hours, l: 'Saat' },
-                  { v: minutes, l: 'Dk' }
+                  { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+                  { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+                  { v: minutes, id: 'countdown.minutesShort', l: <InvText k="countdown.minutesShort" /> }
                 ].map((unit) => (
                   <div
-                    key={unit.l}
+                    key={unit.id}
                     className="border-[3px] px-2 py-2 text-center"
                     style={{ borderColor: ink, background: accent, color: onAccent }}
                   >

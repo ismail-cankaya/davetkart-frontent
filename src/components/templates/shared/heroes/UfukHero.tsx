@@ -7,7 +7,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { TrackingReveal } from '../TrackingReveal';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
-import { useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Ufuk hero — bir filmin açılış jeneriği.
@@ -86,7 +86,7 @@ export function UfukHero({
 
   const t = useInvText();
   const title = hasText(invitation.title) ? invitation.title : t('hero.tagline');
-  const names = invitation.names || 'Davetlisiniz';
+  const names = invitation.names || staticFixedText('names.placeholder');
   const parts = names.split(/\s+&\s+/);
   const lines = parts.length > 1 ? [parts[0], '&', parts.slice(1).join(' & ')] : [names];
 
@@ -244,7 +244,7 @@ export function UfukHero({
 
             {venue && (
               <div className="flex flex-col items-center max-w-[17rem]">
-                <dt className={cn('text-[9px] font-semibold uppercase tracking-[0.32em]', theme.accent)}>Mekân</dt>
+                <dt className={cn('text-[9px] font-semibold uppercase tracking-[0.32em]', theme.accent)}><InvText k="label.venue" /></dt>
                 <dd className={cn('font-serif text-lg @sm:text-xl mt-1.5 leading-snug', theme.heading)}>{venue}</dd>
               </div>
             )}
@@ -285,7 +285,7 @@ export function UfukHero({
           className={cn('flex flex-col items-center gap-2', theme.page)}
         >
           <span className="text-[9px] font-medium uppercase tracking-[0.36em] opacity-80" style={glowText}>
-            Kaydırın
+            <InvText k="label.scroll" />
           </span>
           <span className="relative block w-px h-9 overflow-hidden bg-current/20">
             <span

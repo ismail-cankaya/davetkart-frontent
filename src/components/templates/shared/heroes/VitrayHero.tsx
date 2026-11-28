@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Vitray hero — ışığın ARKADAN geldiği kurşun camlı kemer.
@@ -293,7 +294,7 @@ export function VitrayHero({
               theme.heading
             )}
           >
-            {invitation.names || 'Davetlisiniz'}
+            {invitation.names || staticFixedText('names.placeholder')}
           </motion.h1>
 
           <motion.div
@@ -341,11 +342,11 @@ export function VitrayHero({
               )}
             >
               {[
-                { v: days, l: 'Gün' },
-                { v: hours, l: 'Saat' },
-                { v: minutes, l: 'Dakika' }
+                { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+                { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+                { v: minutes, id: 'countdown.minutes', l: <InvText k="countdown.minutes" /> }
               ].map((unit) => (
-                <span key={unit.l} className="flex flex-col items-center leading-none">
+                <span key={unit.id} className="flex flex-col items-center leading-none">
                   <span className={cn('font-serif text-base @sm:text-lg tabular-nums', theme.heading)}>
                     {String(unit.v).padStart(2, '0')}
                   </span>

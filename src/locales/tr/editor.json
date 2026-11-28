@@ -54,7 +54,8 @@
       "details": "Tarih ve mekân",
       "gallery": "Galeri",
       "gift": "Hediye ve IBAN",
-      "rsvp": "Katılım (LCV)"
+      "rsvp": "Katılım (LCV)",
+      "label": "Etiketler"
     }
   },
   "modules": {

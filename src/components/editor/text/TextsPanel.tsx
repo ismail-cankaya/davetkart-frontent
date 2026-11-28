@@ -16,6 +16,7 @@ import '../../../i18nEditor';
 const GROUPS: ReadonlyArray<{ id: string; flag?: keyof Invitation }> = [
   { id: 'envelope', flag: 'showEnvelope' },
   { id: 'hero' },
+  { id: 'label' },
   { id: 'countdown', flag: 'showTimer' },
   { id: 'timeline', flag: 'showTimeline' },
   { id: 'details' },
@@ -57,10 +58,12 @@ export function TextsPanel() {
       id: group.id,
       rows: Object.entries(TEXT_SLOTS.slots)
         .filter(([, slot]) => slot.group === group.id)
+        // Bu tasarımın çizdiği metinler (Faz 26: hero etiketleri tasarıma özel); tasarım henüz bildirmediyse hepsi.
+        .filter(([key]) => seenKeys.length === 0 || seenKeys.includes(key) || own[key] !== undefined)
         .map(([key]) => ({ key, defaultValue: defaultText(key, lookup) }))
         .filter((row): row is { key: string; defaultValue: string } => row.defaultValue !== undefined)
     })).filter((group) => group.rows.length > 0);
-  }, [invitation, locale, scope]);
+  }, [invitation, locale, scope, seenKeys, own]);
 
   // Görünmeyen = kullanıcı değiştirmiş ama bu tasarım çizmiyor (K309). Tasarım henüz bir şey çizmediyse sayılmaz.
   const hidden = seenKeys.length === 0 ? [] : Object.keys(own).filter((key) => !seenKeys.includes(key));

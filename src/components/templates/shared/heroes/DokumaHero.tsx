@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Dokuma hero — davetiyenin kağıt değil KUMAŞ olduğu düzen.
@@ -181,7 +182,7 @@ export function DokumaHero({
               theme.heading
             )}
           >
-            {invitation.names || 'Davetlisiniz'}
+            {invitation.names || staticFixedText('names.placeholder')}
           </motion.h1>
 
           {/* Ayırıcı: çizgi değil, üç kanaviçe. Dokumada süsleme dikişten
@@ -230,11 +231,11 @@ export function DokumaHero({
               className="mt-6 flex items-baseline gap-4"
             >
               {[
-                { v: days, l: 'gün' },
+                { v: days, id: 'countdown.daysLower', l: <InvText k="countdown.daysLower" /> },
                 { v: hours, l: 'saat' },
                 { v: minutes, l: 'dk' }
               ].map((unit) => (
-                <span key={unit.l} className="flex items-baseline gap-1">
+                <span key={unit.id} className="flex items-baseline gap-1">
                   <span className={cn('font-serif tabular-nums text-lg', theme.heading)}>
                     {String(unit.v).padStart(2, '0')}
                   </span>

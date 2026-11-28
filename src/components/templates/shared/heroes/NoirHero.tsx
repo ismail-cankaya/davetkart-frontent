@@ -6,6 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
 import { TrackingReveal } from '../TrackingReveal';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Noir Minimal hero — sessiz lüks: tek bir dev serif başlık, ince kurallar
@@ -21,7 +22,7 @@ import { TrackingReveal } from '../TrackingReveal';
  */
 export function NoirHero({ invitation, theme }: HeroRenderProps) {
   const { valid, days } = useCountdown(invitation.date, invitation.timezone);
-  const words = (invitation.names || 'Davetlisiniz').split(' ');
+  const words = (invitation.names || staticFixedText('names.placeholder')).split(' ');
   const dateLabel = formatDateStr(invitation.date);
   const venue = displayText(invitation.venue);
 
@@ -47,7 +48,7 @@ export function NoirHero({ invitation, theme }: HeroRenderProps) {
       key: 'countdown',
       node: (
         <span className={theme.accent}>
-          <span className="tabular-nums">{days}</span> gün kaldı
+          <span className="tabular-nums">{days}</span> <InvText k="hero.noir.gunKaldi" />
         </span>
       )
     });

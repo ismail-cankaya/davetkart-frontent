@@ -6,6 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { Perforation, Barcode } from '../effects';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Etkinlik Bileti hero — yerleşim süs değil, İŞLEV taşır.
@@ -25,7 +26,7 @@ function Field({
   theme,
   className
 }: {
-  label: string;
+  label: React.ReactNode;
   value: React.ReactNode;
   theme: HeroRenderProps['theme'];
   className?: string;
@@ -81,7 +82,7 @@ export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
                   theme.heading
                 )}
               >
-                {invitation.names || 'Davetlisiniz'}
+                {invitation.names || staticFixedText('names.placeholder')}
               </h1>
             </div>
             <span className={cn('shrink-0 mt-0.5', theme.accent)}>
@@ -97,10 +98,10 @@ export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
               girilmemişse tarih, saat ve kalan süre alanları basılmaz. */}
           {dayText && (
             <div className="grid grid-cols-3 gap-3 mt-5">
-              <Field label="Tarih" value={dayText} theme={theme} />
-              <Field label="Saat" value={timeText} theme={theme} />
+              <Field label={<InvText k="label.date" />} value={dayText} theme={theme} />
+              <Field label={<InvText k="label.time" />} value={timeText} theme={theme} />
               <Field
-                label="Kalan"
+                label={<InvText k="label.remaining" />}
                 value={invitation.showTimer && valid ? `${days} gün` : '—'}
                 theme={theme}
               />
@@ -109,7 +110,7 @@ export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
 
           {venue && (
             <div className={dayText ? 'mt-3' : 'mt-5'}>
-              <Field label="Mekân" value={venue} theme={theme} />
+              <Field label={<InvText k="label.venue" />} value={venue} theme={theme} />
             </div>
           )}
         </div>
@@ -132,7 +133,7 @@ export function TicketHero({ invitation, theme, flavor }: HeroRenderProps) {
         <div className="px-5 @sm:px-7 pt-5 pb-6 flex items-end justify-between gap-4">
           <div className="min-w-0">
             <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.2em] opacity-70', theme.body)}>
-              Davet No
+              <InvText k="hero.ticket.davetNo" />
             </span>
             <span className={cn('block font-mono text-base @sm:text-lg tracking-widest mt-1', theme.heading)}>
               {serial}

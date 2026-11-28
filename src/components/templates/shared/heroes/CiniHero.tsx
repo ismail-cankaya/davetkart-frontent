@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Çini hero — davetiye bir sayfa değil, duvara döşenmiş bir PANO.
@@ -355,7 +356,7 @@ export function CiniHero({
   const venue = displayText(invitation.venue);
   const colors = { glaze, cobalt, turquoise, coral, leaf };
 
-  const names = invitation.names || 'Davetlisiniz';
+  const names = invitation.names || staticFixedText('names.placeholder');
   const nameParts = names.split(/\s*&\s*/);
   // Koyu sırda beyaz parlama sis gibi okunur; ışık orada çok daha sönük.
   const dark = theme.id === 'midnight';
@@ -496,12 +497,12 @@ export function CiniHero({
             {invitation.showTimer && valid && (
               <div className="mt-7 flex items-center gap-2.5">
                 {[
-                  { v: days, l: 'Gün' },
-                  { v: hours, l: 'Saat' },
-                  { v: minutes, l: 'Dakika' }
+                  { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+                  { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+                  { v: minutes, id: 'countdown.minutes', l: <InvText k="countdown.minutes" /> }
                 ].map((unit, i) => (
                   <motion.div
-                    key={unit.l}
+                    key={unit.id}
                     initial={{ opacity: 0, scale: 0.85 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6, ease: ease.out, delay: 1.65 + i * 0.1 }}

@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Mermer & Rölyef hero — yazının yüzeyin ÜSTÜNDE değil İÇİNDE olduğu düzen.
@@ -150,7 +151,7 @@ export function MermerHero({
             )}
             style={carved}
           >
-            {invitation.names || 'Davetlisiniz'}
+            {invitation.names || staticFixedText('names.placeholder')}
           </motion.h1>
 
           <motion.div
@@ -204,11 +205,11 @@ export function MermerHero({
               className="mt-6 flex items-baseline gap-4"
             >
               {[
-                { v: days, l: 'gün' },
+                { v: days, id: 'countdown.daysLower', l: <InvText k="countdown.daysLower" /> },
                 { v: hours, l: 'saat' },
                 { v: minutes, l: 'dk' }
               ].map((unit) => (
-                <span key={unit.l} className="flex items-baseline gap-1">
+                <span key={unit.id} className="flex items-baseline gap-1">
                   <span className={cn('font-serif tabular-nums text-lg', theme.heading)} style={carved}>
                     {String(unit.v).padStart(2, '0')}
                   </span>

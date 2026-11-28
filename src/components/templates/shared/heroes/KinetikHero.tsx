@@ -5,7 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
-import { useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Kinetik Tipografi hero — hareketin SÜS değil, kompozisyonun kendisi olduğu düzen.
@@ -97,11 +97,11 @@ export interface KinetikHeroProps extends HeroRenderProps {
 export function KinetikHero({ invitation, theme, flavor, topWord }: KinetikHeroProps) {
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
-  const names = invitation.names || 'Davetlisiniz';
+  const names = invitation.names || staticFixedText('names.placeholder');
   const dateLabel = formatDateStr(invitation.date);
   const venue = displayText(invitation.venue);
 
-  const top = (topWord || invitation.title || 'Davetlisiniz').toLocaleUpperCase('tr-TR');
+  const top = (topWord || invitation.title || staticFixedText('names.placeholder')).toLocaleUpperCase('tr-TR');
   // Alt şerit mekânı ya da tarihi akıtır; ikisi de girilmemişse boş şerit
   // yerine kategorinin adına düşer (uydurma bir mekân/tarih basılmaz).
   const t = useInvText();
@@ -180,11 +180,11 @@ export function KinetikHero({ invitation, theme, flavor, topWord }: KinetikHeroP
             className="mt-6 flex items-baseline gap-4 @sm:gap-6"
           >
             {[
-              { v: days, l: 'Gün' },
-              { v: hours, l: 'Saat' },
-              { v: minutes, l: 'Dk' }
+              { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+              { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+              { v: minutes, id: 'countdown.minutesShort', l: <InvText k="countdown.minutesShort" /> }
             ].map((unit) => (
-              <span key={unit.l} className="flex items-baseline gap-1.5">
+              <span key={unit.id} className="flex items-baseline gap-1.5">
                 <span className={cn('font-serif font-black tabular-nums text-2xl @sm:text-3xl', theme.heading)}>
                   {String(unit.v).padStart(2, '0')}
                 </span>

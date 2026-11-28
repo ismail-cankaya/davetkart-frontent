@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Bento Editorial hero — bilgiyi tek bir merkezî bloka yığmak yerine
@@ -100,7 +101,7 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
             )}
           >
             <div>
-              <Label className={theme.body}>Davetliler</Label>
+              <Label className={theme.body}><InvText k="label.guests" /></Label>
               <h1
                 className={cn(
                   'font-serif font-bold leading-[1.05] mt-2 break-words',
@@ -108,7 +109,7 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
                   theme.heading
                 )}
               >
-                {invitation.names || 'Davetlisiniz'}
+                {invitation.names || staticFixedText('names.placeholder')}
               </h1>
               <p className={cn('text-xs @sm:text-sm font-light mt-3 leading-relaxed', theme.body)}>
                 {invitation.subtitle}
@@ -124,7 +125,7 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
               delay={0.2}
               className={cn('min-h-[64px] @sm:min-h-[78px]', infoCellSpan)}
             >
-              <Label className={theme.body}>Tarih</Label>
+              <Label className={theme.body}><InvText k="label.date" /></Label>
               <span className={cn('font-serif italic text-base @sm:text-lg leading-tight mt-1.5', theme.heading)}>
                 {dateLabel}
               </span>
@@ -139,7 +140,7 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
               delay={0.28}
               className={cn('min-h-[64px] @sm:min-h-[78px]', infoCellSpan)}
             >
-              <Label className={theme.body}>Mekân</Label>
+              <Label className={theme.body}><InvText k="label.venue" /></Label>
               <span className={cn('text-[11px] @sm:text-xs font-medium leading-snug mt-1.5', theme.heading)}>
                 {venue}
               </span>
@@ -155,14 +156,14 @@ export function BentoHero({ invitation, theme, flavor }: HeroRenderProps) {
               delay={0.36}
               className="col-span-2 @lg:col-span-3 flex-row items-center justify-between gap-3"
             >
-              <Label className={theme.body}>Kalan Süre</Label>
+              <Label className={theme.body}><InvText k="label.timeLeft" /></Label>
               <div className="flex items-baseline gap-3 @sm:gap-5">
                 {[
-                  { v: days, l: 'Gün' },
-                  { v: hours, l: 'Saat' },
-                  { v: minutes, l: 'Dakika' }
+                  { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+                  { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+                  { v: minutes, id: 'countdown.minutes', l: <InvText k="countdown.minutes" /> }
                 ].map((unit) => (
-                  <span key={unit.l} className="flex items-baseline gap-1">
+                  <span key={unit.id} className="flex items-baseline gap-1">
                     <span className={cn('font-serif font-bold tabular-nums text-lg @sm:text-2xl', theme.heading)}>
                       {String(unit.v).padStart(2, '0')}
                     </span>

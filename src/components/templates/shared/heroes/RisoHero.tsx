@@ -6,6 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { Halftone } from '../effects';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Risograph Poster hero — düz renk, tram dokusu, kayık baskı.
@@ -22,7 +23,7 @@ import { ease } from '../../../../utils/motion';
 export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
   const { valid, days, hours } = useCountdown(invitation.date, invitation.timezone);
   const { Ornament } = flavor;
-  const names = invitation.names || 'Davetlisiniz';
+  const names = invitation.names || staticFixedText('names.placeholder');
   const dateLabel = formatDateStr(invitation.date);
   const venue = displayText(invitation.venue);
 
@@ -131,7 +132,7 @@ export function RisoHero({ invitation, theme, flavor }: HeroRenderProps) {
               {days}
             </span>
             <span className={cn('text-[11px] font-bold uppercase tracking-[0.18em]', theme.heading)}>
-              gün {String(hours).padStart(2, '0')} saat kaldı
+              <InvText k="countdown.daysLower" />{' '}{String(hours).padStart(2, '0')} <InvText k="hero.riso.saatKaldi" />
             </span>
           </motion.div>
         )}

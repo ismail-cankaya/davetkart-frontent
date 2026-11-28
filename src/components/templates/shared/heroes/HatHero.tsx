@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Tek Çizgi hero — davetiyenin gözünüzün önünde ÇİZİLDİĞİ düzen.
@@ -122,7 +123,7 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
               theme.heading
             )}
           >
-            {invitation.names || 'Davetlisiniz'}
+            {invitation.names || staticFixedText('names.placeholder')}
           </motion.h1>
 
           {/* Ayırıcı da çizilir: kompozisyondaki her çizgi aynı kurala uyar. */}
@@ -162,11 +163,11 @@ export function HatHero({ invitation, theme, flavor, drawDuration = 2.6 }: HatHe
               className="mt-7 flex items-center gap-3"
             >
               {[
-                { v: days, l: 'gün' },
+                { v: days, id: 'countdown.daysLower', l: <InvText k="countdown.daysLower" /> },
                 { v: hours, l: 'saat' },
                 { v: minutes, l: 'dk' }
               ].map((unit, i) => (
-                <React.Fragment key={unit.l}>
+                <React.Fragment key={unit.id}>
                   {i > 0 && <span className={cn('w-px h-3', theme.divider)} aria-hidden="true" />}
                   <span className="flex items-baseline gap-1">
                     <span className={cn('font-serif tabular-nums text-base', theme.heading)}>

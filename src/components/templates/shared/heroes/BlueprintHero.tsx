@@ -5,7 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
-import { InvText, useInvText } from '../../../../invitationText/InvitationTextContext';
+import { InvText, staticFixedText, useInvText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Blueprint hero — daveti bir DUYURU değil, bir PROJE olarak sunan dil.
@@ -67,7 +67,7 @@ function BlockCell({
   strong,
   className
 }: {
-  label: string;
+  label: React.ReactNode;
   value: string;
   color: string;
   strong?: string;
@@ -111,8 +111,8 @@ export function BlueprintHero({
   // Referans notları yalnızca girilmiş bilgilerden kurulur ve numaraları
   // kalan notlara göre verilir — "01" olmadan "02" başlayan bir pafta olmaz.
   const notes = [
-    ...(dateText ? [{ label: 'Tarih', value: timeText ? `${dateText} / ${timeText}` : dateText }] : []),
-    ...(venue ? [{ label: 'Konum', value: venue }] : [])
+    ...(dateText ? [{ label: <InvText k="label.date" />, value: timeText ? `${dateText} / ${timeText}` : dateText }] : []),
+    ...(venue ? [{ label: <InvText k="hero.blueprint.konum" />, value: venue }] : [])
   ];
 
   return (
@@ -181,13 +181,13 @@ export function BlueprintHero({
           {/* Üst şerit: ölçek ve pafta — mühendislik sayfasının künyesi. */}
           <div className="flex items-center justify-between gap-3">
             <span className="text-[7.5px] font-semibold uppercase tracking-[0.24em] opacity-70" style={{ color: line }}>
-              Ölçek 1:1
+              <InvText k="hero.blueprint.olcek11" />
             </span>
             <span style={{ color: line }} className="opacity-80">
               <Ornament size={18} />
             </span>
             <span className="text-[7.5px] font-semibold uppercase tracking-[0.24em] opacity-70" style={{ color: line }}>
-              Pafta {sheetCode}
+              <InvText k="hero.blueprint.pafta" />{' '}{sheetCode}
             </span>
           </div>
 
@@ -204,7 +204,7 @@ export function BlueprintHero({
             className="font-sans font-light uppercase leading-[1.02] tracking-[0.02em] mt-4 text-center break-words"
             style={{ color: line, fontSize: 'clamp(1.6rem, 9.5cqw, 2.6rem)' }}
           >
-            {invitation.names || 'Davetlisiniz'}
+            {invitation.names || staticFixedText('names.placeholder')}
           </motion.h1>
 
           <div className="mt-4">
@@ -226,7 +226,7 @@ export function BlueprintHero({
             <div className="mt-7 space-y-3">
               {notes.map((note, i) => (
                 <motion.div
-                  key={note.label}
+                  key={i}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.7, ease: ease.out, delay: 0.9 + i * 0.12 }}
@@ -264,8 +264,8 @@ export function BlueprintHero({
             className={cn('mt-7 grid border', dateText ? 'grid-cols-3' : 'grid-cols-2')}
             style={{ borderColor: `${line}55` }}
           >
-            <BlockCell label="Proje" value={t('envelope.label')} color={line} className="border-r" />
-            {dateText && <BlockCell label="Tarih" value={dateText} color={line} className="border-r" />}
+            <BlockCell label={<InvText k="hero.blueprint.proje" />} value={t('envelope.label')} color={line} className="border-r" />
+            {dateText && <BlockCell label={<InvText k="label.date" />} value={dateText} color={line} className="border-r" />}
             <BlockCell
               label={invitation.showTimer && valid ? 'Kalan' : 'Durum'}
               value={invitation.showTimer && valid ? `${days} G ${String(hours).padStart(2, '0')} S` : 'Onaylandı'}

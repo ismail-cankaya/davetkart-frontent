@@ -7,6 +7,7 @@ import { useCountdown } from '../useCountdown';
 import { DecoFrame, Sunburst } from '../effects';
 import { ease } from '../../../../utils/motion';
 import { TrackingReveal } from '../TrackingReveal';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Art Deco Gala hero — mutlak simetri.
@@ -77,7 +78,7 @@ export function DecoHero({ invitation, theme, flavor, metal = '212,175,95' }: De
             theme.heading
           )}
         >
-          <TrackingReveal text={invitation.names || 'Davetlisiniz'} spread={0.2} duration={1.3} delay={0.6} />
+          <TrackingReveal text={invitation.names || staticFixedText('names.placeholder')} spread={0.2} duration={1.3} delay={0.6} />
         </motion.h1>
 
         <motion.p
@@ -118,11 +119,11 @@ export function DecoHero({ invitation, theme, flavor, metal = '212,175,95' }: De
             className={cn('mt-8 flex items-stretch divide-x', theme.divider.replace('bg-', 'divide-'))}
           >
             {[
-              { v: days, l: 'Gün' },
-              { v: hours, l: 'Saat' },
-              { v: minutes, l: 'Dakika' }
+              { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+              { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+              { v: minutes, id: 'countdown.minutes', l: <InvText k="countdown.minutes" /> }
             ].map((u) => (
-              <span key={u.l} className="px-4 @sm:px-6 flex flex-col items-center">
+              <span key={u.id} className="px-4 @sm:px-6 flex flex-col items-center">
                 <span className={cn('font-serif font-bold tabular-nums text-xl @sm:text-2xl leading-none', theme.heading)}>
                   {String(u.v).padStart(2, '0')}
                 </span>

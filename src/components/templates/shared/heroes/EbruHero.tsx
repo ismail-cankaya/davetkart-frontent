@@ -6,6 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { PaperGrain } from '../effects';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Ebru hero — bir hat levhasının KOLTUĞU.
@@ -96,7 +97,7 @@ export function EbruHero({
   const { valid, days, hours, minutes } = useCountdown(invitation.date, invitation.timezone);
   const dateLabel = formatDateStr(invitation.date);
   const venue = displayText(invitation.venue);
-  const nameParts = (invitation.names || 'Davetlisiniz').split(/\s*&\s*/);
+  const nameParts = (invitation.names || staticFixedText('names.placeholder')).split(/\s*&\s*/);
   const sides = ['top', 'right', 'bottom', 'left'] as const;
 
   return (
@@ -211,12 +212,12 @@ export function EbruHero({
               className="mt-7 flex items-stretch"
             >
               {[
-                { v: days, l: 'Gün' },
-                { v: hours, l: 'Saat' },
-                { v: minutes, l: 'Dakika' }
+                { v: days, id: 'countdown.days', l: <InvText k="countdown.days" /> },
+                { v: hours, id: 'countdown.hours', l: <InvText k="countdown.hours" /> },
+                { v: minutes, id: 'countdown.minutes', l: <InvText k="countdown.minutes" /> }
               ].map((unit, i) => (
                 <div
-                  key={unit.l}
+                  key={unit.id}
                   className="flex flex-col items-center px-4"
                   style={i > 0 ? { borderLeft: `1px solid ${gold}66` } : undefined}
                 >

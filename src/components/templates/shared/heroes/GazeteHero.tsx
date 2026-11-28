@@ -7,6 +7,7 @@ import { useCountdown } from '../useCountdown';
 import { Halftone } from '../effects';
 import { ease } from '../../../../utils/motion';
 import { TrackingReveal } from '../TrackingReveal';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Gazete Manşeti hero — davetin HABER olarak sunulduğu düzen.
@@ -64,9 +65,9 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
           {/* Künye satırı: iki kalın kural arasına sıkışmış ince bilgi. */}
           <div className={cn('mt-3 border-t-2 border-b', theme.border)}>
             <div className={cn('flex items-center justify-between gap-2 py-1.5 text-[7.5px] @sm:text-[8.5px] font-semibold uppercase tracking-[0.16em]', theme.body)}>
-              <span>Yıl 1 · Sayı 1</span>
+              <span><InvText k="hero.gazete.yil1Sayi1" /></span>
               {dateText && <span className={theme.accent}>{dateText}</span>}
-              <span>Fiyatsız</span>
+              <span><InvText k="hero.gazete.fiyatsiz" /></span>
             </div>
           </div>
 
@@ -80,7 +81,7 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
               theme.heading
             )}
           >
-            {invitation.names || 'Davetlisiniz'}
+            {invitation.names || staticFixedText('names.placeholder')}
           </motion.h1>
 
           {/* Spot: manşetin altındaki italik özet. */}
@@ -115,7 +116,7 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
               {dateText && (
                 <div className={cn('border p-2.5', theme.border)}>
                   <span className={cn('block text-[7.5px] font-bold uppercase tracking-[0.18em]', theme.accent)}>
-                    Program
+                    <InvText k="label.program" />
                   </span>
                   <span className={cn('block text-[11px] font-semibold mt-1', theme.heading)}>{timeText}</span>
                   <span className={cn('block text-[10px] mt-0.5 leading-snug', theme.body)}>{dateText}</span>
@@ -125,13 +126,13 @@ export function GazeteHero({ invitation, theme, flavor, masthead }: GazeteHeroPr
               {invitation.showTimer && valid && (
                 <div className={cn('border p-2.5', theme.border)}>
                   <span className={cn('block text-[7.5px] font-bold uppercase tracking-[0.18em]', theme.accent)}>
-                    Geri Sayım
+                    <InvText k="hero.gazete.geriSayim" />
                   </span>
                   <span className={cn('block font-serif font-black tabular-nums text-lg leading-none mt-1', theme.heading)}>
                     {days}
                   </span>
                   <span className={cn('block text-[9px] uppercase tracking-[0.14em] mt-0.5', theme.body)}>
-                    gün {String(hours).padStart(2, '0')}s {String(minutes).padStart(2, '0')}dk
+                    <InvText k="countdown.daysLower" />{' '}{String(hours).padStart(2, '0')}s {String(minutes).padStart(2, '0')}<InvText k="hero.gazete.dk" />
                   </span>
                 </div>
               )}

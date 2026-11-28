@@ -138,6 +138,14 @@ export function useFixedText(): (key: string) => string {
   return useCallback((key: string) => fixedText(key, locale), [locale]);
 }
 
+/**
+ * Hook kullanılamayan yerler için düzenlenemez metin (isim yer tutucusu, kelimeye bölünen dizgiler).
+ * v2.0 tek dil (`tr`); v2.1'de dile göre `useFixedText`'e geçer (K317). Paket `TextBundleGate` ile yüklüdür.
+ */
+export function staticFixedText(key: string): string {
+  return fixedText(key, DEFAULT_INVITATION_LOCALE);
+}
+
 /** Davetiyenin dili (tarih biçimi için). */
 export function useInvitationLocale(): InvitationLocale {
   return useContext(DocumentTextContext).locale;

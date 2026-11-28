@@ -5,6 +5,7 @@ import { displayText, formatDateStr } from '../../utils';
 import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Film Şeridi hero — bilgiyi KARE KARE veren düzen.
@@ -98,7 +99,7 @@ export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame =
                   theme.heading
                 )}
               >
-                {invitation.names || 'Davetlisiniz'}
+                {invitation.names || staticFixedText('names.placeholder')}
               </h1>
             </Frame>
 
@@ -107,7 +108,7 @@ export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame =
             {dateLabel && (
               <Frame delay={0.45} border={theme.border}>
                 <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em]', theme.body)}>
-                  Tarih
+                  <InvText k="label.date" />
                 </span>
                 <span className={cn('block font-serif italic text-base @sm:text-lg mt-1.5', theme.heading)}>
                   {dateLabel}
@@ -118,7 +119,7 @@ export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame =
             {venue && (
               <Frame delay={0.62} border={theme.border}>
                 <span className={cn('block text-[8px] font-semibold uppercase tracking-[0.24em]', theme.body)}>
-                  Mekân
+                  <InvText k="label.venue" />
                 </span>
                 <span className={cn('block text-[11.5px] font-medium mt-1.5 leading-snug', theme.heading)}>
                   {venue}
@@ -138,11 +139,11 @@ export function FilmHero({ invitation, theme, flavor, strip = '#17161a', frame =
             {invitation.showTimer && valid && (
               <Frame delay={0.92} border={theme.border} className="flex items-center justify-center gap-4">
                 {[
-                  { v: days, l: 'gün' },
+                  { v: days, id: 'countdown.daysLower', l: <InvText k="countdown.daysLower" /> },
                   { v: hours, l: 'saat' },
                   { v: minutes, l: 'dk' }
                 ].map((unit) => (
-                  <span key={unit.l} className="flex items-baseline gap-1">
+                  <span key={unit.id} className="flex items-baseline gap-1">
                     <span className={cn('font-serif tabular-nums text-lg', theme.heading)}>
                       {String(unit.v).padStart(2, '0')}
                     </span>

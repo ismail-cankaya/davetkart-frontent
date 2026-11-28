@@ -6,6 +6,7 @@ import { HeroRenderProps } from '../InvitationComposition';
 import { useCountdown } from '../useCountdown';
 import { PaperGrain } from '../effects';
 import { ease } from '../../../../utils/motion';
+import { InvText, staticFixedText } from '../../../../invitationText/InvitationTextContext';
 
 /**
  * Takvim hero — "tarihi kaydet" kartının en bilinen hâli: duvar takvimi.
@@ -290,7 +291,7 @@ export function TakvimHero({
                 className={cn('italic leading-[1.1] text-[2rem] @sm:text-[2.4rem] break-words', theme.heading)}
                 style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 500 }}
               >
-                {invitation.names || 'Davetlisiniz'}
+                {invitation.names || staticFixedText('names.placeholder')}
               </h1>
 
               {invitation.subtitle && (
@@ -301,7 +302,7 @@ export function TakvimHero({
                 <div className="mt-5 flex flex-col items-center gap-1">
                   {grid?.time && (
                     <span className="text-[10px] font-semibold uppercase tracking-[0.3em]" style={{ color: ink }}>
-                      Saat {grid.time}
+                      <InvText k="label.time" />{' '}{grid.time}
                     </span>
                   )}
                   {venue && <span className={cn('text-[10px] tracking-[0.24em] max-w-[16rem]', theme.body)}>{venue}</span>}
@@ -331,10 +332,10 @@ export function TakvimHero({
                   style={{ fontFamily: 'var(--font-cormorant)', fontWeight: 600, color: noteInk }}
                 >
                   <span className="text-[2.1rem] tabular-nums">{days}</span>
-                  <span className="text-lg">gün kaldı</span>
+                  <span className="text-lg"><InvText k="hero.takvim.gunKaldi" /></span>
                 </span>
                 <span className="block mt-1.5 text-[9px] uppercase tracking-[0.2em]" style={{ color: noteInk, opacity: 0.7 }}>
-                  {String(hours).padStart(2, '0')} saat · {String(minutes).padStart(2, '0')} dakika
+                  {String(hours).padStart(2, '0')} <InvText k="hero.takvim.saat" />{' '}{String(minutes).padStart(2, '0')} <InvText k="hero.takvim.dakika" />
                 </span>
               </motion.div>
             )}
