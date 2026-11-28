@@ -7,6 +7,8 @@ import { TemplateFlavor } from './flavor';
 import { Envelope } from './Envelope';
 import { Summary, SummaryDensity } from './Summary';
 import { InvitationTextScope } from '../../../invitationText/InvitationTextContext';
+import { EditableSection } from '../../editor/sections/EditableSection';
+import { ReportInvitationLink } from '../../report/ReportInvitation';
 
 // Below-the-fold sections stay lazy — the hero paints without them.
 const Timeline = React.lazy(() => import('./Timeline').then((m) => ({ default: m.Timeline })));
@@ -276,17 +278,34 @@ export function InvitationComposition({
 
         <div className="relative z-10">
           <Suspense fallback={sectionFallback}>
+            {/* Faz 25: editörde bölümler tıklanabilir (EditableSection); misafirde sarmalayıcı yok. */}
             {invitation.showTimeline && (
-              <Timeline invitation={invitation} theme={theme} flavor={flavor} scrollContainer={scrollRef} />
+              <EditableSection id="timeline">
+                <Timeline invitation={invitation} theme={theme} flavor={flavor} scrollContainer={scrollRef} />
+              </EditableSection>
             )}
 
-            <Details invitation={invitation} theme={theme} flavor={flavor} />
+            <EditableSection id="details">
+              <Details invitation={invitation} theme={theme} flavor={flavor} />
+            </EditableSection>
 
-            {invitation.showGallery && <Gallery invitation={invitation} theme={theme} flavor={flavor} />}
+            {invitation.showGallery && (
+              <EditableSection id="gallery">
+                <Gallery invitation={invitation} theme={theme} flavor={flavor} />
+              </EditableSection>
+            )}
 
-            {invitation.showGift && <GiftRegistry invitation={invitation} theme={theme} flavor={flavor} />}
+            {invitation.showGift && (
+              <EditableSection id="gift">
+                <GiftRegistry invitation={invitation} theme={theme} flavor={flavor} />
+              </EditableSection>
+            )}
 
-            {invitation.showRSVP && <RSVPForm invitation={invitation} theme={theme} flavor={flavor} />}
+            {invitation.showRSVP && (
+              <EditableSection id="rsvp">
+                <RSVPForm invitation={invitation} theme={theme} flavor={flavor} />
+              </EditableSection>
+            )}
           </Suspense>
 
           {/* Footer signature */}
@@ -303,6 +322,8 @@ export function InvitationComposition({
             {invitation.showBranding !== false && (
               <p className={cn('text-[9px] mt-1.5', theme.footer?.branding ?? ['opacity-40', theme.body])}>DavetKart ile hazırlandı</p>
             )}
+            {/* Faz 25 (K313): yalnızca misafir sayfasında (GuestPageProvider); önizlemede hiçbir şey çizmez. */}
+            <ReportInvitationLink className={cn('text-[9px] mt-2 underline underline-offset-2 cursor-pointer', theme.footer?.branding ?? ['opacity-40', theme.body])} />
           </footer>
         </div>
       </div>

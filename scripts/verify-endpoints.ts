@@ -19,6 +19,7 @@ import { invitationService } from '../src/services/invitations';
 import { paymentService } from '../src/services/payments';
 import { pricingService } from '../src/services/pricing';
 import { assistantService } from '../src/services/assistant';
+import { reportService } from '../src/services/reports';
 import { authService } from '../src/services/auth';
 import { accountService } from '../src/services/account';
 import { INITIAL_INVITATION } from '../src/data';
@@ -508,6 +509,29 @@ async function main(): Promise<void> {
   if (reply !== 'Merhaba!') {
     fail(`asistan yanıtı zarftan çıkarılamadı: ${JSON.stringify(reply)}`);
   }
+
+  // Faz 25 (K310): metin önerisi — davetiyeye bağlı, gövdede yalnızca anahtar ve şimdiki metin.
+  const suggestBody = await check(
+    'metin önerisi',
+    { method: 'POST', url: '/invitations/INV-1/text-suggestions' },
+    { data: { suggestions: ['Geliyorum!'] } },
+    () => assistantService.suggestTexts('INV-1', 'rsvp.submit', 'Katılımımı Bildir'),
+  );
+  expectField('metin önerisi', suggestBody, 'key', 'rsvp.submit');
+  expectField('metin önerisi', suggestBody, 'current', 'Katılımımı Bildir');
+  if ('invitationId' in suggestBody) fail('metin önerisi: davetiye kimliği gövdede değil yolda gider');
+
+  console.log('\nBildirim ucu');
+
+  // Faz 25 (K313): misafir bildirimi — auth'suz, /public altında.
+  const reportBody = await check(
+    'davetiye bildirimi',
+    { method: 'POST', url: '/public/invitations/INV-1/report' },
+    '',
+    () => reportService.reportInvitation('INV-1', 'phishing', '  IBAN istiyor  ', ''),
+  );
+  expectField('davetiye bildirimi', reportBody, 'reason', 'phishing');
+  expectField('davetiye bildirimi', reportBody, 'details', 'IBAN istiyor');
 
   console.log('\nİletişim ucu');
 

@@ -1,4 +1,4 @@
-import React, { useId, useMemo, useState } from 'react';
+import React, { Suspense, useId, useMemo, useState } from 'react';
 import { motion } from 'motion/react';
 import { Check, LayoutGrid, Palette, RotateCcw, Sparkles, Type } from 'lucide-react';
 import { getCategoryLabel } from '../../data';
@@ -8,7 +8,11 @@ import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { CoupleNameFields } from '../create/CoupleNameFields';
 import { DateTimeInput } from '../ui/DateTimeInput';
 import { ThemePickerModal } from './ThemePickerModal';
+import { ModuleList } from './sections/ModuleControls';
+import { TextsPanel } from './text/TextsPanel';
+import { useTranslation } from 'react-i18next';
 import { duration, ease } from '../../utils/motion';
+import '../../i18nEditor';
 
 /** Bu panelin gecikmeli yazdığı alanlar — isimler kendi bileşeninde yazılır. */
 type PanelField = 'title' | 'date' | 'venue' | 'subtitle';
@@ -32,6 +36,7 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
   const resetInvitation = useInvitationStore(s => s.resetInvitation);
   const fieldId = useId();
   const [pickerOpen, setPickerOpen] = useState(false);
+  const { t } = useTranslation();
 
   // Only offer themes belonging to the invitation's event category.
   const categoryTemplates = getTemplatesForCategory(invitation.categoryId || null);
@@ -220,6 +225,20 @@ export const DesignerPanel = React.memo(function DesignerPanel() {
             />
           </div>
         </div>
+
+        {/* Faz 25 (K307): bölümleri aç/kapa ve ayarları. */}
+        <div className="space-y-3">
+          <h3 className="text-xs font-bold tracking-wider uppercase text-champagne flex items-center gap-2">
+            <LayoutGrid size={13} className="text-gold" />
+            {t('textEditor.modules.title')}
+          </h3>
+          <ModuleList />
+        </div>
+
+        {/* Faz 25 (K306): şablonun bütün metinleri; önizlemede tıklamanın panel yolu. */}
+        <Suspense fallback={null}>
+          <TextsPanel />
+        </Suspense>
 
         <div className="flex justify-end pt-1 border-t border-white/10">
           <button

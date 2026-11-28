@@ -7,6 +7,7 @@ import { apiErrorCode } from '../services/api';
 import { toDisplayError } from '../utils/toDisplayError';
 import { DEFAULT_PRESET_ID, PRESET_PRIMARY_COLORS } from '../templatePresetColors';
 import { Invitation } from '../types';
+import { GuestPageProvider } from '../components/report/ReportInvitation';
 
 /**
  * Misafirin paylaşılan `/invite/:id` linkinden açtığı public davetiye sayfası.
@@ -110,11 +111,13 @@ export default function InvitePage() {
 
   return (
     <main className="h-dvh w-full relative overflow-hidden bg-emerald-950">
-      <TemplateRenderer
-        templateId={resolvePresetId(state.invitation.imageTheme)}
-        invitation={state.invitation}
-        mode="live"
-      />
+      <GuestPageProvider invitationId={id ?? ''}>
+        <TemplateRenderer
+          templateId={resolvePresetId(state.invitation.imageTheme)}
+          invitation={state.invitation}
+          mode="live"
+        />
+      </GuestPageProvider>
     </main>
   );
 }

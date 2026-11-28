@@ -9,6 +9,12 @@ import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
 import { useInvitationStore } from '../../stores/useInvitationStore';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { duration, ease, gesture } from '../../utils/motion';
+import { useTranslation } from 'react-i18next';
+import { confirmAction } from '../ui/ConfirmDialog';
+import { useEditorStore } from '../../stores/useEditorStore';
+import { categoryScopedKeys } from '../../invitationText/overrides';
+import { DEFAULT_INVITATION_LOCALE } from '../../invitationText/types';
+import '../../i18nEditor';
 
 /** Decorative silhouette per category — a UI concern, kept out of the data layer. */
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -33,9 +39,23 @@ export function CategoryStep() {
   const updateField = useInvitationStore(s => s.updateField);
   const activePresetId = useInvitationStore(s => s.activePresetId);
   const selectTemplate = useInvitationStore(s => s.selectTemplate);
+  const { t } = useTranslation();
 
-  const handleSelect = (id: string) => {
+  const handleSelect = async (id: string) => {
     const category = EVENT_CATEGORIES.find(c => c.id === id);
+    // Faz 25 (K309): kategoriye özel metinler (giriş sözü, başlıklar) değiştirildiyse yeni kategoride
+    // anlamsız kalabilir; kullanıcıya sorulur. Ortak metinler (LCV düğmesi vb.) sorulmadan taşınır.
+    const { invitation } = useInvitationStore.getState();
+    const scoped = invitation.categoryId && invitation.categoryId !== id ? categoryScopedKeys(invitation.textOverrides, invitation.locale ?? DEFAULT_INVITATION_LOCALE) : [];
+    if (scoped.length > 0) {
+      const reset = await confirmAction({
+        title: t('textEditor.categoryChange.title'),
+        description: t('textEditor.categoryChange.body', { count: scoped.length }),
+        confirmLabel: t('textEditor.categoryChange.reset'),
+        cancelLabel: t('textEditor.categoryChange.keep')
+      });
+      if (reset) useEditorStore.getState().resetTexts(scoped);
+    }
     selectCategory(id);
     // Seed the badge text so the preview speaks the event's language right away,
     // and record the category on the invitation so the modular templates can
@@ -86,7 +106,7 @@ export function CategoryStep() {
               <motion.button
                 key={category.id}
                 type="button"
-                onClick={() => handleSelect(category.id)}
+                onClick={() => void handleSelect(category.id)}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: duration.panel, ease: ease.out, delay: 0.05 + idx * 0.04 }}

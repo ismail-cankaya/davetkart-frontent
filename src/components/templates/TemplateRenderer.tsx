@@ -4,7 +4,9 @@ import { displayNames } from '../../utils/names';
 import { TemplateProps } from './types';
 import { LAZY_PRESETS } from './lazyPresets';
 import { PRESET_PRIMARY_COLORS } from '../../templatePresetColors';
-import { InvitationTextProvider, type TextEditorBridge } from '../../invitationText/InvitationTextContext';
+import { InvitationTextProvider, TextBundleGate, type TextEditorBridge } from '../../invitationText/InvitationTextContext';
+import { loadTextBundle } from '../../invitationText/resolve';
+import { isInvitationLocale, DEFAULT_INVITATION_LOCALE } from '../../invitationText/types';
 
 interface TemplateRendererProps {
   templateId: string;
@@ -377,6 +379,9 @@ export function TemplateRenderer({ templateId, invitation: stored, mode = 'previ
     [stored, names]
   );
 
+  // Faz 25: metin paketi şablon parçasıyla paralel insin (TextBundleGate bekler; burada yalnızca başlatılır).
+  void loadTextBundle(isInvitationLocale(invitation.locale) ? invitation.locale : DEFAULT_INVITATION_LOCALE);
+
   // Combine category and style, fallback to 'dugun' if category lacks templates
   const category = ['dugun', 'kina', 'nisan'].includes(invitation.categoryId) ? invitation.categoryId : 'dugun';
   
@@ -390,7 +395,9 @@ export function TemplateRenderer({ templateId, invitation: stored, mode = 'previ
     return (
       <InvitationTextProvider locale={invitation.locale} overrides={invitation.textOverrides} editor={textEditor}>
         <Suspense fallback={<TemplateFallback color={PRESET_PRIMARY_COLORS[presetKey]} />}>
-          <ThemePreset invitation={invitation} mode={mode} />
+          <TextBundleGate>
+            <ThemePreset invitation={invitation} mode={mode} />
+          </TextBundleGate>
         </Suspense>
       </InvitationTextProvider>
     );
@@ -401,7 +408,9 @@ export function TemplateRenderer({ templateId, invitation: stored, mode = 'previ
   return (
     <InvitationTextProvider locale={invitation.locale} overrides={invitation.textOverrides} editor={textEditor}>
       <Suspense fallback={<TemplateFallback />}>
-        <Fallback invitation={invitation} mode={mode} />
+        <TextBundleGate>
+          <Fallback invitation={invitation} mode={mode} />
+        </TextBundleGate>
       </Suspense>
     </InvitationTextProvider>
   );

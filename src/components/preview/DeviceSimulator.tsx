@@ -8,6 +8,7 @@ import { useRsvpStore } from '../../stores/useRsvpStore';
 import { PreviewDevice } from '../../types';
 import { withShowcaseContent } from '../../utils/showcase';
 import { duration, ease, spring } from '../../utils/motion';
+import type { TextEditorBridge } from '../../invitationText/InvitationTextContext';
 
 interface DeviceSpec {
   label: string;
@@ -77,13 +78,15 @@ interface DeviceSimulatorProps {
    * Tasarım stüdyosu bunu geçmez: orada yalnızca kullanıcının girdiği görünür.
    */
   showcase?: boolean;
+  /** Faz 25 (K306): tasarım stüdyosu verir; metinler ve bölümler önizlemede tıklanabilir olur. */
+  textEditor?: TextEditorBridge | null;
 }
 
 /**
  * Multi-device preview simulator — renders the live invitation inside a
  * phone, tablet or laptop mockup and animates the frame between them.
  */
-export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimulatorProps) {
+export function DeviceSimulator({ simulatorRef, showcase = false, textEditor = null }: DeviceSimulatorProps) {
   const storedInvitation = useInvitationStore(s => s.invitation);
   const invitation = useMemo(
     () => (showcase ? withShowcaseContent(storedInvitation) : storedInvitation),
@@ -232,6 +235,7 @@ export function DeviceSimulator({ simulatorRef, showcase = false }: DeviceSimula
                 templateId={activePresetId}
                 invitation={invitation}
                 mode="preview"
+                textEditor={textEditor}
               />
             </div>
           </motion.div>

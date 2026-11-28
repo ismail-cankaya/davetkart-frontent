@@ -2,10 +2,17 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowRight, BadgeCheck, Check, Lock, Minus, ShieldCheck, X } from 'lucide-react';
+import { ArrowRight, BadgeCheck, Check, Lock, Minus, RotateCcw, ShieldCheck, X } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { SUBSCRIPTION_PLANS } from '../../data';
-import { TIER_RANK, useSubscriptionStore } from '../../stores/useSubscriptionStore';
+import { TIER_RANK, getRequiredTier, useSubscriptionStore } from '../../stores/useSubscriptionStore';
+import { useInvitationStore } from '../../stores/useInvitationStore';
+import { useEditorStore } from '../../stores/useEditorStore';
+import { usePublishFlow } from '../../hooks/usePublishFlow';
+import { hasCustomTexts } from '../../invitationText/hasCustomTexts';
+import { overrideCount } from '../../invitationText/overrides';
+import { DEFAULT_INVITATION_LOCALE } from '../../invitationText/types';
+import { confirmAction } from '../ui/ConfirmDialog';
 import { SubscriptionTier } from '../../types';
 import { PLAN_ICONS, PLAN_ICON_TONES } from './planVisuals';
 import { PlanPriceTag } from './PlanPriceTag';
@@ -15,6 +22,7 @@ import { planPriceOf } from '../../stores/usePricingStore';
 import { paymentMethodsMode } from '../../utils/paymentMethods';
 import { checkoutHref } from '../../utils/checkoutRoute';
 import { backdropVariants, duration, ease, gesture, modalVariants } from '../../utils/motion';
+import '../../i18nEditor';
 
 /**
  * Sunucu 402 ile bir plan istediğinde açılan plan duvarı: yayınlama reddi ya
@@ -52,6 +60,26 @@ export function PaywallModal() {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { catalog, status, reload } = usePricing();
+  const invitation = useInvitationStore((s) => s.invitation);
+  const { isPublishing, attemptPublish } = usePublishFlow();
+  const customCount = overrideCount(invitation.textOverrides, invitation.locale ?? DEFAULT_INVITATION_LOCALE);
+  // Elit'i yalnızca özel metinler istiyorsa (metinsiz hâl Elit'ten düşük) "sıfırla ve yayınla" sunulur.
+  const customTextsCause =
+    requiredTier === 'elit' && hasCustomTexts(invitation) && getRequiredTier({ ...invitation, textOverrides: {} }) !== 'elit';
+
+  const resetAndPublish = async () => {
+    const confirmed = await confirmAction({
+      title: t('textEditor.paywall.resetTitle'),
+      description: t('textEditor.paywall.resetBody', { count: customCount }),
+      confirmLabel: t('textEditor.paywall.resetConfirm'),
+      cancelLabel: t('textEditor.inline.cancel')
+    });
+    if (!confirmed) return;
+    useEditorStore.getState().resetTexts();
+    closePaywall();
+    await useInvitationStore.getState().saveInvitation();
+    await attemptPublish();
+  };
 
   const dialogRef = useRef<HTMLDivElement>(null);
   // Ekran okuyucu ve klavye için gerçek bir modal: odak içeride kalır, kapanınca geri döner (B-H3).
@@ -277,6 +305,22 @@ export function PaywallModal() {
                   );
                 })}
               </div>
+
+              {/* Faz 25 (K312): Elit'i yalnızca değiştirilmiş şablon metinleri istiyorsa ikinci yol. */}
+              {customTextsCause && (
+                <div className="mt-6 text-center">
+                  <p className="text-muted text-[12px]">{t('textEditor.paywall.resetHint')}</p>
+                  <button
+                    type="button"
+                    onClick={() => void resetAndPublish()}
+                    disabled={isPublishing}
+                    className="mt-2 inline-flex items-center gap-2 rounded-full border border-brand/25 px-5 py-2.5 text-xs font-semibold text-brand hover:bg-brand/5 cursor-pointer disabled:opacity-60"
+                  >
+                    <RotateCcw size={13} />
+                    {t('textEditor.paywall.resetOption')}
+                  </button>
+                </div>
+              )}
 
               <p className="text-muted text-[11px] flex items-center justify-center gap-1.5 mt-7">
                 <ShieldCheck size={13} className="text-brand" />

@@ -1,17 +1,30 @@
-import React, { createContext, useCallback, useContext, useMemo } from 'react';
+import React, { Suspense, createContext, lazy, use, useCallback, useContext, useEffect, useMemo } from 'react';
 import type { TemplateFlavor } from '../components/templates/shared/flavor';
-import { defaultText, fixedText, resolveText, splitPlaceholder, type TextLookup } from './resolve';
+import { defaultText, fixedText, loadTextBundle, resolveText, splitPlaceholder, type TextLookup } from './resolve';
 import { DEFAULT_INVITATION_LOCALE, isInvitationLocale, type InvitationLocale, type TextOverrides } from './types';
 
 /**
- * Editör köprüsü (Faz 25). Yalnızca editör önizlemesinde verilir; misafir sayfasında yoktur,
+ * Editör köprüsü (Faz 25, K306). Yalnızca editör önizlemesinde verilir; misafir sayfasında yoktur,
  * o yüzden `InvText` orada düz metin çizer ve DOM değişmez.
  */
 export interface TextEditorBridge {
   /** Seçili anahtar: önizlemede vurgulanır. */
   activeKey: string | null;
   /** Kullanıcı bir metne tıkladı: editör yerinde düzenlemeyi açar. */
-  select: (key: string, anchor: HTMLElement) => void;
+  select: (request: TextSelection) => void;
+  /** Şablon kategorisini ve kapsamlarını bildirir: panel varsayılanları buradan çözer. */
+  reportScope: (scope: { categoryId: string; scopes: readonly string[]; runtimeDefaults?: Readonly<Record<string, string>> }) => void;
+  /** Bu anahtar bu tasarımda çizildi. */
+  markSeen: (key: string) => void;
+  /** Bir bölümün ayarlarını açar (bölümün metin dışı yerine tıklandı). */
+  openSection: (id: string) => void;
+}
+
+export interface TextSelection {
+  key: string;
+  anchor: { top: number; left: number; bottom: number; right: number };
+  text: string;
+  defaultText: string | undefined;
 }
 
 interface DocumentTextValue {
@@ -31,6 +44,8 @@ const DocumentTextContext = createContext<DocumentTextValue>({
   overrides: null,
   editor: null
 });
+
+const EditableTextMark = lazy(() => import('./EditableTextMark'));
 
 const ScopeTextContext = createContext<ScopeTextValue>({ categoryId: 'dugun', scopes: [] });
 
@@ -57,12 +72,27 @@ export function InvitationTextProvider({
   return <DocumentTextContext.Provider value={value}>{children}</DocumentTextContext.Provider>;
 }
 
+/**
+ * Metin paketi yüklenene kadar çizimi bekletir (Faz 25). `TemplateRenderer` şablonla aynı `Suspense` içine koyar:
+ * iki tembel parça paralel iner, misafir aynı yükleme ekranını görür.
+ */
+export function TextBundleGate({ children }: { children: React.ReactNode }) {
+  const { locale } = useContext(DocumentTextContext);
+  // Koşulsuz: önbellekteki aynı söz; React çözüldükten sonra beklemeden döner (hook sırası sabit).
+  use(loadTextBundle(locale));
+  return <>{children}</>;
+}
+
 /** Şablon düzeyi: kategori ve şablona özel kapsamlar. `InvitationComposition` flavor'dan verir. */
 export function InvitationTextScope({ flavor, children }: { flavor: TemplateFlavor; children: React.ReactNode }) {
   const value = useMemo<ScopeTextValue>(
     () => ({ categoryId: flavor.categoryId, scopes: flavor.textScopes ?? [], runtimeDefaults: flavor.textDefaults }),
     [flavor.categoryId, flavor.textScopes, flavor.textDefaults]
   );
+  const editor = useContext(DocumentTextContext).editor;
+  useEffect(() => {
+    editor?.reportScope(value);
+  }, [editor, value]);
   return <ScopeTextContext.Provider value={value}>{children}</ScopeTextContext.Provider>;
 }
 
@@ -85,7 +115,15 @@ function useLookup(flavor?: TemplateFlavor): TextLookup {
 /** Öznitelik gibi düğüm alamayan yerler için: `const t = useInvText(); aria-label={t('timeline.heading')}`. */
 export function useInvText(flavor?: TemplateFlavor): (key: string) => string {
   const lookup = useLookup(flavor);
-  return useCallback((key: string) => resolveText(key, lookup), [lookup]);
+  const editor = useContext(DocumentTextContext).editor;
+  return useCallback(
+    (key: string) => {
+      // Editörde: öznitelikteki metin de "bu tasarımda çiziliyor" sayılır (panel, K309). Yazım bir kare sonra.
+      editor?.markSeen(key);
+      return resolveText(key, lookup);
+    },
+    [lookup, editor]
+  );
 }
 
 /** Varsayılan metin (kullanıcının değişikliği yok sayılır): editörün "varsayılana dön" önizlemesi. */
@@ -126,7 +164,14 @@ export function InvText({ k, slots }: InvTextProps) {
   const editor = useTextEditor();
   const content = renderSlots(text, slots);
   if (!editor) return <>{content}</>;
-  return <EditableTextMark k={k} editor={editor}>{content}</EditableTextMark>;
+  // Editör çerçevesi yalnızca editörde iner (misafir paketine girmez); inene kadar düz metin.
+  return (
+    <Suspense fallback={content}>
+      <EditableTextMark k={k} text={text} editor={editor}>
+        {content}
+      </EditableTextMark>
+    </Suspense>
+  );
 }
 
 function renderSlots(text: string, slots: InvTextProps['slots']): React.ReactNode {
@@ -141,35 +186,4 @@ function renderSlots(text: string, slots: InvTextProps['slots']): React.ReactNod
     });
   }
   return nodes;
-}
-
-function EditableTextMark({ k, editor, children }: { k: string; editor: TextEditorBridge; children: React.ReactNode }) {
-  const active = editor.activeKey === k;
-  return (
-    <span
-      data-text-slot={k}
-      role="button"
-      tabIndex={0}
-      aria-pressed={active}
-      onClick={(event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        editor.select(k, event.currentTarget);
-      }}
-      onKeyDown={(event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        event.stopPropagation();
-        editor.select(k, event.currentTarget);
-      }}
-      className={
-        'cursor-text rounded-[3px] outline-offset-2 transition-[outline-color] duration-150 ' +
-        (active
-          ? 'outline outline-2 outline-[#d946ef]'
-          : 'outline outline-1 outline-dashed outline-transparent hover:outline-current/60 focus-visible:outline-current')
-      }
-    >
-      {children}
-    </span>
-  );
 }

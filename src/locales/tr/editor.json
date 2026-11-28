@@ -1,0 +1,104 @@
+{
+  "markLabel": "Metni düzenle: {{text}}",
+  "sectionSettings": "{{label}} ayarlarını aç",
+  "sections": {
+    "envelope": "Zarf açılışı",
+    "timer": "Geri sayım",
+    "timeline": "Program",
+    "details": "Tarih ve mekân",
+    "gallery": "Galeri",
+    "gift": "Hediye ve IBAN",
+    "rsvp": "Katılım (LCV)"
+  },
+  "inline": {
+    "dialog": "Metni düzenle",
+    "title": "Metni düzenle",
+    "templateText": "Şablonun metni: {{text}}",
+    "close": "Kapat",
+    "problem": {
+      "empty": "Metin boş olamaz. Bu yazıyı kaldırmak için bölümü gizleyin.",
+      "tooLong": "Metin bu alan için çok uzun; tasarım bozulmasın diye sınır var.",
+      "placeholder": "Tarihin yerini gösteren {date} ifadesi metinde bir kez geçmeli.",
+      "unknown": "Bu metin düzenlenemiyor."
+    },
+    "hintMultiline": "Yeni satır için Enter; kaydetmek için Ctrl+Enter.",
+    "hintSingle": "Kaydetmek için Enter.",
+    "suggestions": "Öneriler",
+    "save": "Kaydet",
+    "cancel": "Vazgeç",
+    "suggest": "Öner",
+    "reset": "Varsayılan",
+    "resetTitle": "Varsayılan metne dönülsün mü?",
+    "resetBody": "Şablonun metni geri gelecek: “{{text}}”",
+    "resetConfirm": "Varsayılana dön",
+    "elitNote": "Şablon metinlerini değiştirmek Elit pakette yayınlanır; isimler, tarih ve mekân her pakette serbest."
+  },
+  "panel": {
+    "title": "Metinler",
+    "hint": "Davetiyedeki bir metne tıklayın ya da buradan seçin.",
+    "undo": "Geri al",
+    "redo": "Yinele",
+    "changed": "değişti",
+    "hidden": "bu tasarımda görünmüyor",
+    "hiddenCount": "{{count}} özel metin bu tasarımda görünmüyor; başka bir tasarıma geçerseniz geri gelir.",
+    "resetAll": "Tüm metinleri sıfırla ({{count}})",
+    "resetAllTitle": "Bütün metinler varsayılana dönsün mü?",
+    "resetAllBody": "{{count}} metin şablonun metnine dönecek. Geri almak için Ctrl+Z.",
+    "resetAllConfirm": "Hepsini sıfırla",
+    "elit": "Elit",
+    "groups": {
+      "hero": "Giriş",
+      "envelope": "Zarf",
+      "countdown": "Geri sayım",
+      "timeline": "Program",
+      "details": "Tarih ve mekân",
+      "gallery": "Galeri",
+      "gift": "Hediye ve IBAN",
+      "rsvp": "Katılım (LCV)"
+    }
+  },
+  "modules": {
+    "title": "Bölümler",
+    "add": "Bölüm ekle",
+    "addHint": "Davetiyede olmayan bir bölümü ekleyin; şablondaki yerinde açılır.",
+    "none": "Bütün bölümler davetiyede.",
+    "hide": "Gizle",
+    "hidden": "{{label}} gizlendi. Bilgileri silinmedi; Ctrl+Z ya da “Bölüm ekle” ile geri gelir.",
+    "added": "{{label}} eklendi.",
+    "tier": "{{tier}} paket",
+    "settings": "Ayarlar",
+    "close": "Kapat",
+    "on": "Açık",
+    "off": "Kapalı"
+  },
+  "categoryChange": {
+    "title": "Kategoriye özel metinler ne olsun?",
+    "body": "Bu kategoriye özel {{count}} metni değiştirmiştiniz (ör. giriş sözü). Yeni kategoride anlamsız kalabilirler.",
+    "keep": "Metinlerimi koru",
+    "reset": "Varsayılana dön"
+  },
+  "paywall": {
+    "resetOption": "Özel metinleri sıfırla ve mevcut paketle yayınla",
+    "resetTitle": "Özel metinler sıfırlansın mı?",
+    "resetBody": "{{count}} metin şablonun metnine dönecek, ardından davetiye mevcut paketinizle yayınlanmayı deneyecek.",
+    "resetConfirm": "Sıfırla ve yayınla",
+    "resetHint": "Ya da değiştirdiğiniz şablon metinlerini sıfırlayın:"
+  },
+  "fields": {
+    "bankName": "Banka Adı",
+    "bankPlaceholder": "Örn. Ziraat Bankası",
+    "holder": "Hesap Sahibi",
+    "holderPlaceholder": "Ad Soyad",
+    "iban": "IBAN",
+    "ibanInvalid": "IBAN geçerli görünmüyor. Lütfen kontrol edin; düzeltilene kadar değişiklikleriniz kaydedilmez.",
+    "deadline": "Son Katılım Bildirme Tarihi (LCV)",
+    "menu": "Menü Tercihi Sorulsun",
+    "menuHint": "Misafirler et / tavuk / vejetaryen seçimi yapabilsin.",
+    "menuLabel": "Menü tercihi sorulsun",
+    "venue": "Mekân"
+  },
+  "publish": {
+    "done": "Davetiyeniz yayınlandı! Katılım yanıtlarını panelinizden takip edebilirsiniz. 🎉",
+    "already": "Bu davetiye zaten yayında."
+  }
+}

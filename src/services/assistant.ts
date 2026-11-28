@@ -47,4 +47,20 @@ export const assistantService = {
 
     return reply;
   },
+
+  /**
+   * Faz 25 (K310): bir şablon metni için öneriler — `POST /invitations/:id/text-suggestions`.
+   *
+   * İstemi sunucu kurar (serbest istem yok); kullanıcı yalnızca anahtarı ve şimdiki metni gönderir.
+   * Aynı günlük kotadan düşer, hataları `chat` ile aynıdır. Öneri hiçbir zaman kendiliğinden uygulanmaz.
+   */
+  async suggestTexts(invitationId: string, key: string, current: string): Promise<string[]> {
+    const { data } = await api.post<{ data?: { suggestions?: unknown } }>(`/invitations/${invitationId}/text-suggestions`, {
+      key,
+      current
+    });
+    const suggestions = data?.data?.suggestions;
+    if (!Array.isArray(suggestions)) throw new Error('Unexpected /text-suggestions response shape');
+    return suggestions.filter((item): item is string => typeof item === 'string');
+  }
 };

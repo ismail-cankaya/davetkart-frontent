@@ -1,14 +1,40 @@
-import trBundle from './locales/tr.json';
 import type { InvitationLocale, InvitationTextBundle, TextOverrides } from './types';
 import { DEFAULT_INVITATION_LOCALE } from './types';
 
-/** Dil → varsayılan metinler. v2.0'da tek dil statik; diğerleri v2.1'de tembel yüklenir. */
-const BUNDLES: Record<InvitationLocale, InvitationTextBundle> = {
-  tr: trBundle as InvitationTextBundle
+/**
+ * Dil → varsayılan metinler. Paket tembel yüklenir (Faz 25): misafir sayfası onu şablon parçasıyla PARALEL indirir,
+ * ana pakete ve misafir iskeletine girmez (K237 bütçesi); yeni dil eklendiğinde yalnızca o dilin dosyası iner (v2.1).
+ */
+const LOADERS: Record<InvitationLocale, () => Promise<InvitationTextBundle>> = {
+  tr: () => import('./locales/tr.json').then((module) => module.default as InvitationTextBundle)
 };
 
+const loaded = new Map<InvitationLocale, InvitationTextBundle>();
+const pending = new Map<InvitationLocale, Promise<InvitationTextBundle>>();
+
+const EMPTY: InvitationTextBundle = { shared: {}, categories: {}, scopes: {}, fixed: {} };
+
+/** Paketi indirir (aynı dil için tek istek); `use()` ile beklenebilir. */
+export function loadTextBundle(locale: InvitationLocale): Promise<InvitationTextBundle> {
+  const target = LOADERS[locale] ? locale : DEFAULT_INVITATION_LOCALE;
+  let promise = pending.get(target);
+  if (!promise) {
+    promise = LOADERS[target]().then((bundle) => {
+      loaded.set(target, bundle);
+      return bundle;
+    });
+    pending.set(target, promise);
+  }
+  return promise;
+}
+
+/** Yüklendiyse paket, değilse boş paket (çizim `TextBundleGate` ile yüklenmeyi bekler). */
 export function textBundle(locale: InvitationLocale): InvitationTextBundle {
-  return BUNDLES[locale] ?? BUNDLES[DEFAULT_INVITATION_LOCALE];
+  return loaded.get(locale) ?? loaded.get(DEFAULT_INVITATION_LOCALE) ?? EMPTY;
+}
+
+export function isTextBundleLoaded(locale: InvitationLocale): boolean {
+  return loaded.has(locale);
 }
 
 /** Bir metni çözmek için gereken bağlam: şablonun kimliği (kategori + kapsamlar) ve kullanıcının metinleri. */

@@ -1,5 +1,5 @@
 {
-  "total": 780,
+  "total": 771,
   "files": {
     "src/components/account/AccountNav.tsx": 5,
     "src/components/account/DeleteAccountCard.tsx": 12,
@@ -15,8 +15,8 @@
     "src/components/assistant/AssistantWidget.tsx": 4,
     "src/components/create/CategoryStep.tsx": 4,
     "src/components/create/CoupleNameFields.tsx": 1,
-    "src/components/create/DetailsFormStep.tsx": 34,
-    "src/components/create/EditorWorkspace.tsx": 16,
+    "src/components/create/DetailsFormStep.tsx": 27,
+    "src/components/create/EditorWorkspace.tsx": 14,
     "src/components/create/GalleryUploader.tsx": 6,
     "src/components/create/GenerationLoader.tsx": 5,
     "src/components/create/ThemeStep.tsx": 7,

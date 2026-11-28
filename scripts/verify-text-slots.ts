@@ -8,6 +8,7 @@
  *  4. Güvenlik: şablonlarda `dangerouslySetInnerHTML` yok; flavor'a metin alanı geri dönmedi.
  *  5. Tavan: koda gömülü kalan metin sayısı dosya başına `scripts/text-slots/baseline.json`'u aşmaz.
  *  6. Backend kopyası (kardeş depo varsa): `contracts/text-slots.json` birebir aynı.
+ *  7. Editör mantığı (Faz 25): yazma/silme, doğrulama, kategori anahtarları, geri al sınırı, Elit sorusu.
  *
  * Ayrıntı: docs/rehber/scripts/verify-text-slots.md
  */
@@ -18,6 +19,19 @@ import { TEXT_SLOTS } from '../src/contracts/textSlots';
 import type { InvitationTextBundle } from '../src/invitationText/types';
 import { countByFile, scanHardcodedTexts } from './text-slots/scan';
 import baseline from './text-slots/baseline.json';
+import {
+  HISTORY_LIMIT,
+  categoryScopedKeys,
+  pushHistory,
+  redoHistory,
+  textProblem,
+  undoHistory,
+  withText,
+  withoutText,
+  type History
+} from '../src/invitationText/overrides';
+import { hasCustomTexts } from '../src/invitationText/hasCustomTexts';
+import type { TextOverrides } from '../src/invitationText/types';
 
 const bundle = tr as InvitationTextBundle;
 const ROOT = process.cwd();
@@ -147,6 +161,37 @@ section('Gömülü metin tavanı');
   if (failures === before) {
     ok(`gömülü metin ${total} ≤ tavan ${cap}` + (total < cap ? ' (tavan indirilebilir: npm run text-slots:baseline)' : ''));
   }
+}
+
+// ——— 7 ——— (Faz 25)
+section('Editör mantığı');
+{
+  const before = failures;
+  const base: TextOverrides = { tr: { 'gift.note': 'Not' } };
+  const set = withText(base, 'tr', 'rsvp.submit', '  Geliyorum  ', 'Katılımımı Bildir');
+  if (set.tr?.['rsvp.submit'] !== 'Geliyorum') fail('withText kırpmıyor ya da yazmıyor');
+  if (set.tr?.['gift.note'] !== 'Not') fail('withText başka metni siliyor');
+  if (withText(set, 'tr', 'rsvp.submit', 'Katılımımı Bildir', 'Katılımımı Bildir').tr?.['rsvp.submit'] !== undefined) {
+    fail('varsayılana eşit metin saklanıyor (K303: saklanmamalı)');
+  }
+  if (withText(base, 'tr', 'rsvp.submit', 'a\nb', undefined).tr?.['rsvp.submit'] !== 'a b') fail('tek satırlıkta satır sonu kalıyor');
+  if (withoutText(set, 'tr', 'rsvp.submit').tr?.['rsvp.submit'] !== undefined) fail('withoutText silmiyor');
+  if (textProblem('rsvp.submit', 'x'.repeat(500)) !== 'tooLong') fail('sınır aşımı yakalanmıyor');
+  if (textProblem('rsvp.submit', '   ') !== 'empty') fail('boş metin yakalanmıyor');
+  if (textProblem('rsvp.deadline', 'tarih yok') !== 'placeholder') fail('eksik {date} yakalanmıyor');
+  if (textProblem('rsvp.deadline', '{date} kadar') !== null) fail('geçerli {date} reddediliyor');
+  const scoped = categoryScopedKeys({ tr: { 'hero.tagline': 'x', 'rsvp.submit': 'y' } }, 'tr');
+  if (scoped.join() !== 'hero.tagline') fail(`kategori anahtarları yanlış: ${scoped.join()}`);
+  let history: History<number> = { past: [], future: [] };
+  for (let i = 0; i < HISTORY_LIMIT + 10; i++) history = pushHistory(history, i);
+  if (history.past.length !== HISTORY_LIMIT) fail(`geri al geçmişi ${HISTORY_LIMIT}'i aşıyor`);
+  const undone = undoHistory(history, 999);
+  const redone = undone && redoHistory(undone.history, undone.value);
+  if (!undone || !redone || redone.value !== 999) fail('geri al / yinele dönmüyor');
+  if (!hasCustomTexts({ textOverrides: { tr: { 'x.y': 'z' } } }) || hasCustomTexts({ textOverrides: { tr: {} } })) {
+    fail('hasCustomTexts boş grubu sayıyor ya da doluyu saymıyor');
+  }
+  if (failures === before) ok('metin yazma/silme, doğrulama, kategori anahtarları, geçmiş sınırı ve Elit sorusu doğru');
 }
 
 // ——— 6 ———

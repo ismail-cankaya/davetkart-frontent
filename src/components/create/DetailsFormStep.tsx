@@ -9,13 +9,12 @@ import { CoupleNameFields } from './CoupleNameFields';
 import { ToggleRow } from './ToggleRow';
 import { TimelineEditor } from './TimelineEditor';
 import { GalleryUploader } from './GalleryUploader';
+import { GiftFields, RsvpFields } from './ModuleFields';
 import { LocationSearchField } from './location/LocationSearchField';
-import { Switch } from '../ui/Switch';
 import { DateTimeInput } from '../ui/DateTimeInput';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { useInvitationDraft } from '../../hooks/useInvitationDraft';
 import { cn } from '../../utils/cn';
-import { isValidIban } from '../../utils/iban';
 import { formatTimeZoneLabel, timeZoneOptions } from '../../utils/timeZones';
 import { duration, ease } from '../../utils/motion';
 
@@ -89,9 +88,6 @@ export function DetailsFormStep() {
   // Local mirror keeps typing instant; the store is updated behind a debounce.
   const { draft: local, setField, commit, flush } = useInvitationDraft(FORM_FIELDS);
 
-  // FE 10.19 (K105): boş IBAN serbest; doluysa backend'le aynı kural.
-  const ibanInvalid = local.iban.trim() !== '' && !isValidIban(local.iban);
-  const ibanHintId = `${fieldId}-iban-hint`;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setField(e.target.name as TextField, e.target.value);
@@ -309,50 +305,12 @@ export function DetailsFormStep() {
                 checked={local.showGift}
                 onChange={(value) => setFlag('showGift', value)}
               >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <label className={labelClass}>Banka Adı</label>
-                    <input
-                      type="text"
-                      name="bankName"
-                      value={local.bankName}
-                      onChange={handleChange}
-                      placeholder="Örn. Ziraat Bankası"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <label className={labelClass}>Hesap Sahibi</label>
-                    <input
-                      type="text"
-                      name="accountHolder"
-                      value={local.accountHolder}
-                      onChange={handleChange}
-                      placeholder="Ad Soyad"
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className={labelClass}>IBAN</label>
-                  <input
-                    type="text"
-                    name="iban"
-                    value={local.iban}
-                    onChange={handleChange}
-                    placeholder="TR__ ____ ____ ____ ____ ____ __"
-                    aria-invalid={ibanInvalid}
-                    aria-describedby={ibanInvalid ? ibanHintId : undefined}
-                    className={cn(inputClass, 'font-mono tracking-wide')}
-                  />
-                  {/* FE 10.19 (K105): backend her kayıtta IBAN'ı denetliyor;
-                      geçersizken davetiye kaydedilmez. Nedenini burada söylüyoruz. */}
-                  {ibanInvalid && (
-                    <p id={ibanHintId} role="alert" className="text-[11px] text-rose-300 leading-relaxed">
-                      IBAN geçerli görünmüyor. Lütfen kontrol edin; düzeltilene kadar değişiklikleriniz kaydedilmez.
-                    </p>
-                  )}
-                </div>
+                <GiftFields
+                  values={local}
+                  onChange={(name, value) => setField(name, value)}
+                  labelClass={labelClass}
+                  inputClass={inputClass}
+                />
               </ToggleRow>
 
               <ToggleRow
@@ -361,27 +319,13 @@ export function DetailsFormStep() {
                 checked={local.showRSVP}
                 onChange={(value) => setFlag('showRSVP', value)}
               >
-                <div className="space-y-2">
-                  <label className={labelClass}>Son Katılım Bildirme Tarihi (LCV)</label>
-                  <input
-                    type="date"
-                    name="rsvpDeadline"
-                    value={local.rsvpDeadline}
-                    onChange={handleChange}
-                    className={cn(inputClass, '[color-scheme:dark]')}
-                  />
-                </div>
-                <div className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3">
-                  <div>
-                    <p className="text-sm font-semibold text-white">Menü Tercihi Sorulsun</p>
-                    <p className="text-xs text-white/45 mt-0.5">Misafirler et / tavuk / vejetaryen seçimi yapabilsin.</p>
-                  </div>
-                  <Switch
-                    checked={local.askMenuPreference}
-                    onChange={(value) => setFlag('askMenuPreference', value)}
-                    label="Menü tercihi sorulsun"
-                  />
-                </div>
+                <RsvpFields
+                  values={local}
+                  onDeadline={(value) => setField('rsvpDeadline', value)}
+                  onMenu={(value) => setFlag('askMenuPreference', value)}
+                  labelClass={labelClass}
+                  inputClass={inputClass}
+                />
               </ToggleRow>
             </div>
           </div>

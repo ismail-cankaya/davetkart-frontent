@@ -30,6 +30,8 @@ export default defineConfig({
     { name: 'publish', testMatch: /publish-with-gift-code\.spec\.ts/ },
     // Faz 23: ana sayfa vitrin sahnesi; backend'e ve yayına bağlı değil.
     { name: 'home', testMatch: /home-showcase\.spec\.ts/ },
+    // Faz 25: tasarım stüdyosunda metin ve bölüm düzenleme; oturumsuz tasarımcı, backend'e bağlı değil.
+    { name: 'editor', testMatch: /text-editor\.spec\.ts/ },
     // All need the invitation (and owner session) the first journey published; a11y = FE-54 axe scan.
     { name: 'after-publish', testMatch: /(guest-rsvp|paywall-after-publish|a11y|editor-flush)\.spec\.ts/, dependencies: ['publish'] }
   ],

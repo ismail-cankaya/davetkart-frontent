@@ -1,0 +1,104 @@
+{
+  "markLabel": "Edit text: {{text}}",
+  "sectionSettings": "Open {{label}} settings",
+  "sections": {
+    "envelope": "Envelope opening",
+    "timer": "Countdown",
+    "timeline": "Schedule",
+    "details": "Date and venue",
+    "gallery": "Gallery",
+    "gift": "Gifts and IBAN",
+    "rsvp": "RSVP"
+  },
+  "inline": {
+    "dialog": "Edit text",
+    "title": "Edit text",
+    "templateText": "Template text: {{text}}",
+    "close": "Close",
+    "problem": {
+      "empty": "The text cannot be empty. To remove it, hide the section.",
+      "tooLong": "The text is too long for this place; the limit keeps the design intact.",
+      "placeholder": "The {date} marker that shows the date must appear exactly once.",
+      "unknown": "This text cannot be edited."
+    },
+    "hintMultiline": "Enter for a new line; Ctrl+Enter to save.",
+    "hintSingle": "Press Enter to save.",
+    "suggestions": "Suggestions",
+    "save": "Save",
+    "cancel": "Cancel",
+    "suggest": "Suggest",
+    "reset": "Default",
+    "resetTitle": "Go back to the default text?",
+    "resetBody": "The template text comes back: “{{text}}”",
+    "resetConfirm": "Use default",
+    "elitNote": "Changing template texts is published with the Elit plan; names, date and venue are free on every plan."
+  },
+  "panel": {
+    "title": "Texts",
+    "hint": "Click a text on the invitation or pick it here.",
+    "undo": "Undo",
+    "redo": "Redo",
+    "changed": "changed",
+    "hidden": "not shown in this design",
+    "hiddenCount": "{{count}} custom texts are not shown in this design; they come back if you switch to another design.",
+    "resetAll": "Reset all texts ({{count}})",
+    "resetAllTitle": "Reset every text to the default?",
+    "resetAllBody": "{{count}} texts go back to the template text. Ctrl+Z undoes it.",
+    "resetAllConfirm": "Reset all",
+    "elit": "Elit",
+    "groups": {
+      "hero": "Opening",
+      "envelope": "Envelope",
+      "countdown": "Countdown",
+      "timeline": "Schedule",
+      "details": "Date and venue",
+      "gallery": "Gallery",
+      "gift": "Gifts and IBAN",
+      "rsvp": "RSVP"
+    }
+  },
+  "modules": {
+    "title": "Sections",
+    "add": "Add section",
+    "addHint": "Add a section the invitation does not have yet; it opens in its place in the template.",
+    "none": "Every section is on the invitation.",
+    "hide": "Hide",
+    "hidden": "{{label}} hidden. Its details are kept; Ctrl+Z or “Add section” brings it back.",
+    "added": "{{label}} added.",
+    "tier": "{{tier}} plan",
+    "settings": "Settings",
+    "close": "Close",
+    "on": "On",
+    "off": "Off"
+  },
+  "categoryChange": {
+    "title": "What should happen to the category texts?",
+    "body": "You changed {{count}} texts that belong to this category (e.g. the opening line). They may not fit the new category.",
+    "keep": "Keep my texts",
+    "reset": "Use defaults"
+  },
+  "paywall": {
+    "resetOption": "Reset custom texts and publish with my current plan",
+    "resetTitle": "Reset the custom texts?",
+    "resetBody": "{{count}} texts go back to the template text, then the invitation is published with your current plan.",
+    "resetConfirm": "Reset and publish",
+    "resetHint": "Or reset the template texts you changed:"
+  },
+  "fields": {
+    "bankName": "Bank name",
+    "bankPlaceholder": "e.g. Ziraat Bankası",
+    "holder": "Account holder",
+    "holderPlaceholder": "Full name",
+    "iban": "IBAN",
+    "ibanInvalid": "The IBAN does not look valid. Please check it; changes are not saved until it is fixed.",
+    "deadline": "RSVP deadline",
+    "menu": "Ask for a menu choice",
+    "menuHint": "Guests can choose meat / chicken / vegetarian.",
+    "menuLabel": "Ask for a menu choice",
+    "venue": "Venue"
+  },
+  "publish": {
+    "done": "Your invitation is published! Follow the RSVPs from your dashboard. 🎉",
+    "already": "This invitation is already published."
+  }
+}

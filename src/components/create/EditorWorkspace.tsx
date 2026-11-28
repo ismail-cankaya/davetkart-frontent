@@ -4,17 +4,21 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'motion/react';
 import { CloudOff, CloudUpload, CheckCircle2, Loader2, PenLine, Rocket, ShieldCheck } from 'lucide-react';
 import { DesignerPanel } from '../editor/DesignerPanel';
+import { InlineTextEditor } from '../editor/text/InlineTextEditor';
+import { SectionSettingsDrawer } from '../editor/sections/SectionSettingsDrawer';
+import { AddModuleButton } from '../editor/sections/ModuleControls';
+import { useEditorShortcuts, useTextEditorBridge } from '../../hooks/useTextEditorBridge';
+import { usePublishFlow } from '../../hooks/usePublishFlow';
 import { DeviceSimulator } from '../preview/DeviceSimulator';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
 import { useInvitationStore } from '../../stores/useInvitationStore';
-import { paywallFromError, useSubscriptionStore } from '../../stores/useSubscriptionStore';
 import { toast } from '../ui/Toast';
 import { AuthRedirectState } from '../../types';
-import { apiErrorCode } from '../../services/api';
 import { toDisplayError } from '../../utils/toDisplayError';
 import { scrollToTarget } from '../../hooks/useLenis';
 import { duration, ease } from '../../utils/motion';
+import '../../i18nEditor';
 
 /**
  * Wizard step 4 — the final workspace: detailed designer panel on the left,
@@ -30,8 +34,7 @@ export function EditorWorkspace() {
   const isAuthenticated = useAuthStore(s => s.isAuthenticated);
   const saveState = useInvitationStore(s => s.saveState);
   const saveError = useInvitationStore(s => s.saveError);
-  const publishInvitation = useInvitationStore(s => s.publishInvitation);
-  const [isPublishing, setIsPublishing] = React.useState(false);
+  const { isPublishing, attemptPublish } = usePublishFlow();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,53 +46,13 @@ export function EditorWorkspace() {
     scrollToTarget(0, { immediate: true });
   }, []);
 
+  const textEditor = useTextEditorBridge();
+  useEditorShortcuts();
+
   // A-H2: içerik reddi (taslak tavanı) sayfanın altındaki notta kaybolmasın.
   useEffect(() => {
     if (saveState === 'rejected') toast(toDisplayError(saveError), 'error');
   }, [saveState, saveError]);
-
-  /**
-   * Yayınlamayı dener ve sunucunun kararına göre ilerler.
-   *
-   * 🔴 Ön kontrol YOK. Eskiden frontend, oturum içinde tutulan bir
-   * `activeTier` mock'una bakıp paywall'ı atlıyordu; yani yetki kararını
-   * kendisi veriyordu. Tek doğruluk kaynağı sunucudur (`orders` tablosu) —
-   * deneriz, 402 gelirse paywall'ı sunucunun bildirdiği planla açarız.
-   */
-  const attemptPublish = async () => {
-    if (isPublishing) return;
-    setIsPublishing(true);
-
-    try {
-      await publishInvitation();
-      toast('Davetiyeniz yayınlandı! Katılım yanıtlarını panelinizden takip edebilirsiniz. 🎉');
-      navigate('/dashboard');
-      return;
-    } catch (error) {
-      // 🔴 İki 402, iki ayrı ekran. "Önce bir plan al" ile "planını yükselt"
-      // aynı şey değildir; ayrım `code`'dadır, durum kodunda değil. Eşleme
-      // TEK yerde (`paywallFromError`): otomatik kaydetmenin 402'si de aynı
-      // ekranı açar (Faz 10). Duvarın kendisi CreatePage'de.
-      const { invitation, recordId } = useInvitationStore.getState();
-      const paywall = paywallFromError(error, invitation, recordId);
-      if (paywall) {
-        useSubscriptionStore.getState().openPaywall(paywall);
-        return;
-      }
-
-      // Zaten yayındaysa kullanıcı hedefine ulaşmış demektir; hata gibi
-      // göstermek onu bir kez daha denemeye iterdi.
-      if (apiErrorCode(error) === 'INVITATION_ALREADY_PUBLISHED') {
-        toast('Bu davetiye zaten yayında.', 'info');
-        navigate('/dashboard');
-        return;
-      }
-
-      toast(toDisplayError(error), 'error');
-    } finally {
-      setIsPublishing(false);
-    }
-  };
 
   const handlePublish = () => {
     if (!isAuthenticated) {
@@ -143,10 +106,17 @@ export function EditorWorkspace() {
               Desktop: panel left, simulator right. */}
           <div className="flex flex-col-reverse lg:flex-row gap-8 lg:gap-14 items-center lg:items-start justify-center">
             <DesignerPanel />
-            <DeviceSimulator simulatorRef={phoneRef} />
+            <div className="flex flex-col items-center gap-4">
+              {/* Faz 25 (K307): ➕ bölüm ekle; önizlemedeki metin ve bölümler tıklanabilir. */}
+              <AddModuleButton />
+              <DeviceSimulator simulatorRef={phoneRef} textEditor={textEditor} />
+            </div>
           </div>
         </div>
       </section>
+
+      <InlineTextEditor />
+      <SectionSettingsDrawer />
 
       {/* Action bar */}
       <section className="pb-16 md:pb-24 pt-4">
