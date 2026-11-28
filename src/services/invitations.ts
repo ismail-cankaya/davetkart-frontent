@@ -86,7 +86,7 @@ function toRecordList(payload: unknown): InvitationRecord[] {
  * her alan bir sözdür: sözleşmede yeri olmayanı göndermek, yarın birinin ona
  * bağlanmasına davetiye çıkarır.
  */
-function toPayload(invitation: Invitation): { invitation: WireInvitationPayload } {
+export function toPayload(invitation: Invitation): { invitation: WireInvitationPayload } {
   // Galeri ve imza kararı gövdeye girmez (bkz. WireInvitationPayload).
   const { timelineEvents, galleryImages: _serverOwnedGallery, showBranding: _serverOwnedBranding, ...design } = invitation;
 
@@ -148,12 +148,6 @@ export const invitationService = {
    * | Zaten yayında | **409** `INVITATION_ALREADY_PUBLISHED` |
    * | Başkasının davetiyesi | **404** (403 değil — H7) |
    */
-  /** Faz 27.3 (K323): yayındaki davetiyede kaydet → taslak; yayında değilse sunucu doğrudan yazar. */
-  async savePending(id: string, invitation: Invitation): Promise<InvitationRecord> {
-    const { data } = await api.put<unknown>(`/invitations/${id}/pending`, toPayload(invitation));
-    return toRecord(data);
-  },
-
   async publish(id: string): Promise<InvitationRecord> {
     const { data } = await api.post<unknown>(`/invitations/${id}/publish`);
     return toRecord(data);

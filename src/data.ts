@@ -1,4 +1,5 @@
 import { EventCategory, FeaturedTemplate, Invitation, RsvpDraft, SubscriptionPlan, TemplatePreset, TimelineEvent } from './types';
+import { DEFAULT_INVITATION_LOCALE } from './invitationText/types';
 export const EVENT_CATEGORIES: EventCategory[] = [
   {
     id: 'dugun',
@@ -222,7 +223,7 @@ export const INITIAL_INVITATION: Invitation = {
   askMenuPreference: true,
 
   // Faz 24 (K302, K303): davetiyenin dili ve değiştirilen sabit metinler (başta hiçbiri).
-  locale: 'tr',
+  locale: DEFAULT_INVITATION_LOCALE,
   textOverrides: {},
 
   timelineEvents: DEFAULT_TIMELINE_EVENTS,

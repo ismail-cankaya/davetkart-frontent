@@ -446,9 +446,13 @@ async function routeErrors(): Promise<void> {
   check(page.includes('Bir şeyler ters gitti') && page.includes('href="/"'), 'Türkçe metin ve ana sayfa bağlantısı', 'metin/bağlantı yok');
   check(!page.includes('fe02-boom'), 'hata ayrıntısı kullanıcıya gösterilmiyor', 'ayrıntı sızdı');
 
-  const editor = await failingRoute('/create', '/create', boom);
+  const editor = await failingRoute('/create/:id?', '/create', boom);
   check(editor.includes('data-route-error="editor"'), 'editör kendi sınırında', editor.match(/data-route-error="\w+"/)?.[0] ?? 'sınır yok');
   check(editor.includes('data-save-note="local"'), 'oturumsuz taslak için "yenilerseniz kaybolur" notu', 'not yok');
+
+  // Faz 28 (K322): Tasarım Stüdyosu da editör sınırında.
+  const studio = await failingRoute('/studio/:id?', '/studio', boom);
+  check(studio.includes('data-route-error="editor"'), 'stüdyo editör sınırında', studio.match(/data-route-error="\w+"/)?.[0] ?? 'sınır yok');
 
   const guest = await failingRoute('/invite/:id', '/invite/abc', boom);
   check(guest.includes('data-route-error="guest"'), 'misafir sayfası kendi sınırında', guest.match(/data-route-error="\w+"/)?.[0] ?? 'sınır yok');

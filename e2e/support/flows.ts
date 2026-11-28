@@ -88,14 +88,16 @@ export async function createInvitation(page: Page, names: { first: string; secon
   await page.getByLabel('Davet Konumu').fill('Çırağan Sarayı, Beşiktaş / İstanbul');
   await main.getByRole('button', { name: 'Davetiyeni Oluştur' }).click();
   expect((await created).status(), 'POST /api/invitations').toBe(201);
-  await expect(page.getByRole('button', { name: 'Tasarımını Yayınla' })).toBeVisible({ timeout: 30_000 });
+  // Faz 28 (K322): sihirbazın sonu Tasarım Stüdyosu.
+  await expect(page).toHaveURL(/\/studio/, { timeout: 30_000 });
+  await expect(page.getByRole('button', { name: 'Yayınla', exact: true })).toBeVisible({ timeout: 30_000 });
 }
 
 /** Publish → plan wall → checkout → gift code → free activation → published. Returns the invitation id. */
 export async function publishWithGiftCode(page: Page, code: string): Promise<string> {
   const [attempt] = await Promise.all([
     page.waitForResponse(r => r.request().method() === 'POST' && r.url().endsWith('/publish')),
-    page.getByRole('button', { name: 'Tasarımını Yayınla' }).click()
+    page.getByRole('button', { name: 'Yayınla', exact: true }).click()
   ]);
   // No plan yet: the server answers 402 and the plan wall opens.
   expect(attempt.status(), `POST publish → ${await attempt.text()}`).toBe(402);

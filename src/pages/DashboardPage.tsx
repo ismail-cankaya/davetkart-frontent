@@ -233,11 +233,11 @@ export default function DashboardPage() {
   const totalCount = cardsByTab.published.length + cardsByTab.saved.length;
   const activeCards = cardsByTab[activeTab];
 
-  /** Load the record into the editor stores and drop into /create's workspace. */
+  /** Load the record into the editor stores and open it in the Design Studio (Faz 28, K322). */
   const handleResume = (card: DashboardCard) => {
     loadRecord(card.record);
     resumeEditor(card.invitation.categoryId || 'dugun');
-    navigate(`/create/${card.remoteId}`);
+    navigate(`/studio/${card.remoteId}`);
   };
 
   /**

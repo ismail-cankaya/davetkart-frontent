@@ -10,14 +10,15 @@ test.use({ storageState: OWNER_STORAGE });
 test('editörden hemen çıkınca son düzenleme kaydedilir', async ({ page }) => {
   await page.goto('/dashboard');
   await page.getByRole('button', { name: /Düzenle/ }).first().click();
-  await expect(page).toHaveURL(/\/create/);
-  await page.getByRole('button', { name: 'Tasarımını Düzenle' }).click();
+  // Faz 28 (K322): kayıtlı davetiye Tasarım Stüdyosu'nda açılır; Bilgiler sekmesi varsayılan.
+  await expect(page).toHaveURL(/\/studio\//);
 
   // ASCII on purpose: the request body is matched as text.
   const venue = `Flush Bahce ${Date.now() % 100000}`;
-  const field = page.getByLabel('Davet Konumu');
+  const field = page.getByRole('tabpanel').getByLabel('Mekân');
   await expect(field).toBeVisible();
 
+  // Yayındaki davetiyede kayıt taslağa gider (`/pending`, K323); taslakta doğrudan. İkisi de PUT.
   const saved = page.waitForRequest(
     (r) => r.method() === 'PUT' && r.url().includes('/api/invitations/') && (r.postData() ?? '').includes(venue),
     { timeout: 15_000 }

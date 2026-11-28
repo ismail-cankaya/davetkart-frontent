@@ -119,3 +119,8 @@ npm run build
   Yüklenirken spinner. Hata (başkasının kimliği 404, H7; yok; oturum yok) → mesaj (`toDisplayError`) + `/dashboard`.
 - Panelden "Düzenlemeye Devam Et" doğrudan `/create/<id>`'ye gider; kayıt zaten yüklü olduğu için ikinci istek atılmaz.
 - `/create` (kimliksiz) yeni sihirbazdır. Store'da açık bir kayıt varsa adres ona döner (sihirbaz durumu giriş/çıkış turunda korunuyordu, K37).
+
+
+## Faz 28 (K322)
+
+Sihirbazın 4. aşaması (`EditorWorkspace`) kalktı: "Davetiyeni Oluştur" → üretim ekranı → `/studio`. `/create/:id` → `/studio/:id`. Kayıt yükleme stüdyoda (`StudioPage`).

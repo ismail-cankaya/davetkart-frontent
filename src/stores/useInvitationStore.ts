@@ -227,7 +227,7 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       const record = !recordId
         ? await persistenceService.createInvitation(invitation)
         : get().recordStatus === 'published'
-          ? await persistenceService.savePendingChanges(recordId, invitation)
+          ? await (await import('../services/pendingChanges')).pendingChangesService.save(recordId, invitation)
           : await persistenceService.updateInvitation(recordId, invitation);
 
       if (generation !== documentGeneration) return SUPERSEDED;

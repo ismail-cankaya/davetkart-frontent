@@ -21,6 +21,7 @@ const EmailChangeConfirmPage = React.lazy(() => import('./pages/EmailChangeConfi
 const EmailVerificationPage = React.lazy(() => import('./pages/EmailVerificationPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const InvitePage = React.lazy(() => import('./pages/InvitePage'));
+const StudioPage = React.lazy(() => import('./pages/StudioPage'));
 const CheckoutPage = React.lazy(() => import('./pages/CheckoutPage'));
 const PaymentReturnPage = React.lazy(() => import('./pages/PaymentReturnPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
@@ -37,17 +38,14 @@ const PrivacyPage = React.lazy(() => import('./pages/legal/PrivacyPage'));
 const CookiesPage = React.lazy(() => import('./pages/legal/CookiesPage'));
 
 // Pages rendered inside the shared chrome (header, footer, assistant).
+/** Çerçevesiz sayfaların (misafir, stüdyo) yükleme yer tutucusu: tek öğe, iki rota. */
+const FULL_SCREEN_FALLBACK = <div className="h-dvh w-full bg-emerald-950" />;
+
 const appPages: RouteObject[] = [
   { path: '/', element: <HomePage /> },
   {
-    // Editör kendi sınırını taşır: kaydetme durumunu söyler (D3).
-    path: '/create',
-    element: <CreatePage />,
-    errorElement: <RouteError scope="editor" />
-  },
-  {
-    // K192 (FE-50): kayıt açılınca adres kimliği taşır; yenileme aynı taslağa döner.
-    path: '/create/:id',
+    // Editör kendi sınırını taşır: kaydetme durumunu söyler (D3). `/create/:id` eski bağlantılar: stüdyoya gider (Faz 28).
+    path: '/create/:id?',
     element: <CreatePage />,
     errorElement: <RouteError scope="editor" />
   },
@@ -137,11 +135,22 @@ export const routes: RouteObject[] = [
     children: [{ errorElement: <RouteError />, children: appPages }]
   },
   {
+    // Faz 28 (K318, K322): Tasarım Stüdyosu — site çerçevesi yok. `/studio` oturumsuz yerel taslak; `/studio/:id`
+    // oturum ister (kontrol sayfanın tembel parçasında: ilk yükleme küçük kalsın, K237).
+    path: '/studio/:id?',
+    errorElement: <RouteError scope="editor" />,
+    element: (
+      <React.Suspense fallback={FULL_SCREEN_FALLBACK}>
+        <StudioPage />
+      </React.Suspense>
+    )
+  },
+  {
     // Guest-facing invitation: rendered chrome-free outside the AppLayout.
     path: '/invite/:id',
     errorElement: <RouteError scope="guest" />,
     element: (
-      <React.Suspense fallback={<div className="h-dvh w-full bg-emerald-950" />}>
+      <React.Suspense fallback={FULL_SCREEN_FALLBACK}>
         <InvitePage />
       </React.Suspense>
     )

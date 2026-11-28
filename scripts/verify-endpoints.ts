@@ -283,7 +283,7 @@ async function main(): Promise<void> {
     'taslak kaydı',
     { method: 'PUT', url: `/invitations/${INVITATION_ID}/pending` },
     publishedRecord,
-    () => invitationService.savePending(INVITATION_ID, { ...INITIAL_INVITATION, galleryImages: [{ id: MEDIA.data.id, url: MEDIA.data.url }] }),
+    () => pendingChangesService.save(INVITATION_ID, { ...INITIAL_INVITATION, galleryImages: [{ id: MEDIA.data.id, url: MEDIA.data.url }] }),
   );
   if ('galleryImages' in ((pendingBody.invitation ?? {}) as Record<string, unknown>)) {
     fail('taslak kaydı → gövdede galleryImages var; galeri sunucunundur');

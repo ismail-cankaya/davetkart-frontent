@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import type { Invitation } from '../types';
 import { useInvitationStore } from './useInvitationStore';
-import { defaultText } from '../invitationText/resolve';
 import {
   HISTORY_LIMIT,
   pushHistory,
@@ -133,17 +132,6 @@ export const useEditorStore = create<EditorState>()((set, get) => {
     set({ history: pushHistory(get().history, before) });
   };
 
-  const defaultFor = (key: string): string | undefined => {
-    const { invitation } = useInvitationStore.getState();
-    const scope = get().scope;
-    return defaultText(key, {
-      locale: locale(invitation),
-      categoryId: scope?.categoryId ?? invitation.categoryId,
-      scopes: scope?.scopes,
-      runtimeDefaults: scope?.runtimeDefaults
-    });
-  };
-
   return {
     active: null,
     activeField: null,
@@ -164,7 +152,9 @@ export const useEditorStore = create<EditorState>()((set, get) => {
 
     saveText: (key, text, defaultValue) =>
       commit((invitation) => {
-        const next = withText(invitation.textOverrides, locale(invitation), key, text, defaultValue ?? defaultFor(key));
+        // Varsayılanı çağıran verir (seçimde çözüldü): store metin çözücüsünü statik çekmez, sihirbaz parçası
+        // `resolve`'u ayırıp her şablonun ön yükleme listesini büyütmesin (K237 bütçesi, Faz 28).
+        const next = withText(invitation.textOverrides, locale(invitation), key, text, defaultValue);
         useInvitationStore.getState().updateField('textOverrides', next);
       }),
 
