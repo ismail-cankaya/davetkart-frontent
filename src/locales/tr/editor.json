@@ -219,5 +219,50 @@
     "mobile": {
       "close": "Kapat"
     }
+  },
+  "share": {
+    "button": "Paylaş",
+    "title": "Davetiyeyi paylaş",
+    "copy": "Bağlantıyı kopyala",
+    "copied": "Kopyalandı",
+    "copyFailed": "Bağlantı kopyalanamadı; tarayıcı iznini kontrol edin.",
+    "whatsapp": "WhatsApp",
+    "more": "Diğer uygulamalar",
+    "qr": "Telefonla okutun",
+    "qrLabel": "Davetiye bağlantısının QR kodu",
+    "close": "Kapat",
+    "message": "Davetiyemiz: {{url}}"
+  },
+  "card": {
+    "view": "Görüntüle",
+    "preview": "Önizleme",
+    "edit": "Düzenle",
+    "continue": "Düzenlemeye devam et",
+    "pending": "Yayınlanmamış değişiklik"
+  },
+  "quick": {
+    "title": "Hızlı düzenleme",
+    "subtitle": "Temel bilgiler, telefonda önizleme",
+    "names": "İsimler",
+    "namesHint": "İki kişi için araya & koyun: Ayşe & Ali",
+    "title_field": "Üst başlık",
+    "subtitle_field": "Davet mesajı",
+    "date": "Tarih ve saat",
+    "venue": "Mekân",
+    "save": "Kaydet",
+    "saveLive": "Kaydet ve yayınla",
+    "saving": "Kaydediliyor…",
+    "saved": "Kaydedildi.",
+    "savedLive": "Kaydedildi; misafirleriniz yeni hâlini görüyor.",
+    "liveNote": "Bu davetiye yayında: kaydettiğiniz bilgiler misafirlere hemen yansır.",
+    "pendingNote": "Stüdyoda yayınlanmamış değişiklikler var; burada kaydettiğiniz alanlar onların yerine geçer.",
+    "studio": "Stüdyoda aç",
+    "close": "Kapat",
+    "edit": "Bilgileri düzenle",
+    "discardTitle": "Kaydedilmemiş değişiklikler silinsin mi?",
+    "discardBody": "Bu pencerede yaptığınız değişiklikler kaydedilmedi.",
+    "discardConfirm": "Kaydetmeden çık",
+    "loading": "Davetiye yükleniyor…",
+    "tooLong": "Çok uzun (en çok {{max}} karakter)."
   }
 }

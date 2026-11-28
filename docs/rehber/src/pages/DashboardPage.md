@@ -215,3 +215,15 @@ Mekanizma: `data.md` §10.
 ## 🆕 Faz 19 (19.26 · K192, FE-50)
 
 `handleResume` artık `/create/<remoteId>`'ye gider (önce `/create`). Adres kaydı taşıdığı için editörde yenileme taslağı kaybettirmez.
+
+## Faz 29: kabuk, kart düğmeleri, önizleme ve paylaşım
+
+Faz 29: ince kabuk; asıl panel `src/components/dashboard/Dashboard.tsx` (tembel). Neden: panel editörle parça
+paylaşıyor (çeviriler, paylaşım, hızlı düzenleme) ve sayfanın ön yükleme listesi ilk yükleme paketinde duruyordu;
+misafir sayfası bütçesi (K237, 800 kB) aşılıyordu. Aynı desen `StudioPage` ve `CreatePage`'te.
+
+Kart düğmeleri (K326): yayında `Görüntüle` (yeşil, misafir sayfası) · `Paylaş` / `Önizleme` · `Düzenle`; taslakta
+`Önizleme` · `Düzenlemeye devam et`; yayınlanmamış stüdyo değişikliği varsa rozet. `Düzenle` → `/studio/:id`,
+`Önizleme` → `/dashboard/preview/:id`.
+
+Bu dosyanın yukarıdaki bölümleri artık `src/components/dashboard/Dashboard.tsx` için geçerli (dosya Faz 29'da taşındı).

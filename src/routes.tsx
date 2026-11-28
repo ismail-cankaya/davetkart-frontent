@@ -64,7 +64,8 @@ const appPages: RouteObject[] = [
   { path: '/privacy', element: <PrivacyPage /> },
   { path: '/cookies', element: <CookiesPage /> },
   {
-    path: '/dashboard',
+    // `/dashboard/preview/:id`: hızlı düzenleme katmanı panelin içinde açılır (Faz 29.1).
+    path: '/dashboard/*',
     element: (
       <ProtectedRoute>
         <DashboardPage />

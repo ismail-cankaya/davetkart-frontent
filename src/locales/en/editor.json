@@ -219,5 +219,50 @@
     "mobile": {
       "close": "Close"
     }
+  },
+  "share": {
+    "button": "Share",
+    "title": "Share the invitation",
+    "copy": "Copy link",
+    "copied": "Copied",
+    "copyFailed": "Couldn't copy the link; check the browser permission.",
+    "whatsapp": "WhatsApp",
+    "more": "Other apps",
+    "qr": "Scan with a phone",
+    "qrLabel": "QR code of the invitation link",
+    "close": "Close",
+    "message": "Our invitation: {{url}}"
+  },
+  "card": {
+    "view": "View",
+    "preview": "Preview",
+    "edit": "Edit",
+    "continue": "Continue editing",
+    "pending": "Unpublished changes"
+  },
+  "quick": {
+    "title": "Quick edit",
+    "subtitle": "Key details, phone preview",
+    "names": "Names",
+    "namesHint": "Put & between two people: Ayşe & Ali",
+    "title_field": "Top line",
+    "subtitle_field": "Invitation message",
+    "date": "Date and time",
+    "venue": "Venue",
+    "save": "Save",
+    "saveLive": "Save and publish",
+    "saving": "Saving…",
+    "saved": "Saved.",
+    "savedLive": "Saved; your guests see the new version.",
+    "liveNote": "This invitation is live: what you save shows to guests right away.",
+    "pendingNote": "There are unpublished studio changes; the fields you save here replace them.",
+    "studio": "Open in studio",
+    "close": "Close",
+    "edit": "Edit details",
+    "discardTitle": "Discard unsaved changes?",
+    "discardBody": "The changes in this window were not saved.",
+    "discardConfirm": "Leave without saving",
+    "loading": "Loading the invitation…",
+    "tooLong": "Too long (up to {{max}} characters)."
   }
 }
