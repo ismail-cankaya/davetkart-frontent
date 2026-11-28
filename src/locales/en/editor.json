@@ -125,5 +125,99 @@
     "limit": "Up to {{max}} characters.",
     "freeNote": "Your own details are free on every plan.",
     "empty": "If you leave it empty, the design's fallback text shows."
+  },
+  "studio": {
+    "title": "Design Studio",
+    "untitled": "Untitled invitation",
+    "back": "Back to dashboard",
+    "backHome": "Home",
+    "tabs": {
+      "info": "Details",
+      "sections": "Sections",
+      "texts": "Texts",
+      "theme": "Theme",
+      "checklist": "Checklist"
+    },
+    "tabHints": {
+      "info": "Names, date and venue",
+      "sections": "Add, hide and set up sections",
+      "texts": "Every text in the design",
+      "theme": "Design and colour",
+      "checklist": "Ready to publish?"
+    },
+    "info": {
+      "names": "Names",
+      "title": "Top line",
+      "titlePlaceholder": "e.g. The happiest day of our lives",
+      "date": "Date and time",
+      "datePlaceholder": "Pick a date",
+      "venue": "Venue",
+      "venuePlaceholder": "e.g. Çırağan Palace, Istanbul",
+      "subtitle": "Invitation message",
+      "subtitlePlaceholder": "e.g. We would love to have you with us…",
+      "hint": "You can also click the texts in the preview to edit them."
+    },
+    "theme": {
+      "current": "Selected",
+      "more": "All designs",
+      "count": "{{count}} designs",
+      "reset": "Reset all fields"
+    },
+    "device": {
+      "phone": "Phone",
+      "tablet": "Tablet",
+      "laptop": "Laptop",
+      "label": "Preview device"
+    },
+    "zoom": {
+      "fit": "Fit",
+      "in": "Zoom in",
+      "out": "Zoom out",
+      "label": "Zoom"
+    },
+    "focus": {
+      "enter": "Edit full screen",
+      "exit": "Exit full screen",
+      "hint": "Press Esc to exit"
+    },
+    "undo": "Undo",
+    "redo": "Redo",
+    "guest": {
+      "open": "Guest view",
+      "title": "Guest view preview",
+      "close": "Back to studio",
+      "replay": "Replay"
+    },
+    "save": {
+      "saving": "Saving…",
+      "saved": "Saved",
+      "error": "Not saved",
+      "local": "Draft on this device",
+      "pending": "Unpublished changes"
+    },
+    "publish": {
+      "first": "Publish",
+      "publishing": "Publishing…"
+    },
+    "ready": {
+      "chip": "Ready {{done}}/{{total}}",
+      "title": "Ready to publish?",
+      "allDone": "Everything looks ready.",
+      "names": "Names entered",
+      "date": "Date chosen",
+      "future": "Date is upcoming",
+      "venue": "Venue entered",
+      "rsvp": "RSVP deadline chosen",
+      "fix": "Fix"
+    },
+    "overflow": {
+      "chip_one": "{{count}} text overflows",
+      "chip_other": "{{count}} texts overflow",
+      "hint": "Texts with a red outline don't fit their box; shorten them."
+    },
+    "canvas": "Invitation preview",
+    "mobile": {
+      "close": "Close"
+    }
   }
 }

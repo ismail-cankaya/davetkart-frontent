@@ -3,18 +3,21 @@ import { useEditorStore } from '../stores/useEditorStore';
 import { useInvitationStore } from '../stores/useInvitationStore';
 import { defaultText, fixedText, resolveText } from '../invitationText/resolve';
 import { DEFAULT_INVITATION_LOCALE, isInvitationLocale } from '../invitationText/types';
-import { formatCalendarDay, formatDateStr } from '../components/templates/utils';
 import { buildPickIndex, nameVariants, type TextPick } from '../components/studio/canvas/textPicking';
 import type { CanvasPicker } from '../components/studio/canvas/DeviceCanvas';
 
-/** Tarihin çizilebilecek hâlleri: tam, saatsiz, yalnızca saat, takvim günü. */
+/**
+ * Tarihin çizilebilecek hâlleri: tam, saatsiz, yalnızca saat (şablonların `formatDateStr` biçimiyle aynı seçenekler).
+ * 🔴 `templates/utils` içe aktarılmaz: stüdyo onu çekerse şablonlardan ayrı parçaya düşer ve her şablonun ön yükleme
+ * listesi büyür (misafir paketi bütçesi K237, Faz 28 ölçümü).
+ */
 function dateVariants(date: string): string[] {
-  const full = formatDateStr(date);
-  if (!full) return [];
-  const parts = full.split(' ');
-  const time = /^\d{1,2}:\d{2}$/.test(parts[parts.length - 1] ?? '') ? parts[parts.length - 1] : '';
-  const day = time ? parts.slice(0, -1).join(' ') : full;
-  return [full, day, formatCalendarDay(date) ?? '', time].filter(Boolean);
+  const parsed = new Date(date);
+  if (!date.trim() || Number.isNaN(parsed.getTime())) return [];
+  const full = parsed.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const day = parsed.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const time = parsed.toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' });
+  return [full, day, time];
 }
 
 /**

@@ -22,17 +22,19 @@ const inputClass =
  * Bölüm ayarları çekmecesi (Faz 25, K307): önizlemede bir bölüme ya da ➕ ile eklenen bölüme tıklanınca açılır.
  * Sihirbazın form parçalarını yeniden kullanır; "Gizle" bölümü kapatır ama verisini silmez (geri alınabilir).
  */
-export function SectionSettingsDrawer() {
+export function SectionSettingsDrawer({ docked = false }: { docked?: boolean }) {
   const section = useEditorStore((s) => s.section);
+  // Faz 28 (K319): stüdyoda geniş ekranda tuvalin sağında sütun; dar ekranda katman.
+  if (docked) return <AnimatePresence>{section && <Drawer key={section} section={section} docked />}</AnimatePresence>;
   return createPortal(<AnimatePresence>{section && <Drawer key={section} section={section} />}</AnimatePresence>, document.body);
 }
 
-function Drawer({ section }: { section: SectionId }) {
+function Drawer({ section, docked = false }: { section: SectionId; docked?: boolean }) {
   const { t } = useTranslation();
   const close = () => useEditorStore.getState().openSection(null);
   const setModule = useEditorStore((s) => s.setModule);
   const ref = useRef<HTMLDivElement>(null);
-  useFocusTrap(ref, true);
+  useFocusTrap(ref, !docked);
   useEffect(() => {
     ref.current?.focus();
   }, []);
@@ -46,26 +48,32 @@ function Drawer({ section }: { section: SectionId }) {
 
   return (
     <>
-      <motion.div
-        className="fixed inset-0 z-[70] bg-ink/30"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        onClick={close}
-        aria-hidden="true"
-      />
+      {!docked && (
+        <motion.div
+          className="fixed inset-0 z-[70] bg-ink/30"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={close}
+          aria-hidden="true"
+        />
+      )}
       <motion.aside
         ref={ref}
         tabIndex={-1}
-        role="dialog"
-        aria-modal="true"
+        role={docked ? 'complementary' : 'dialog'}
+        aria-modal={docked ? undefined : true}
         aria-label={t(`textEditor.sections.${section}`)}
         onKeyDown={(e) => e.key === 'Escape' && close()}
-        initial={{ x: '100%' }}
-        animate={{ x: 0 }}
-        exit={{ x: '100%' }}
+        initial={docked ? { width: 0, opacity: 0 } : { x: '100%' }}
+        animate={docked ? { width: 380, opacity: 1 } : { x: 0 }}
+        exit={docked ? { width: 0, opacity: 0 } : { x: '100%' }}
         transition={{ duration: duration.panel, ease: ease.out }}
-        className="fixed inset-y-0 right-0 z-[71] flex w-full max-w-md flex-col bg-gradient-to-b from-brand-deep via-emerald-950 to-brand-deep text-white shadow-2xl outline-none"
+        className={
+          docked
+            ? 'relative flex h-full shrink-0 flex-col overflow-hidden border-l border-white/10 bg-gradient-to-b from-brand-deep via-emerald-950 to-brand-deep text-white outline-none'
+            : 'fixed inset-y-0 right-0 z-[71] flex w-full max-w-md flex-col bg-gradient-to-b from-brand-deep via-emerald-950 to-brand-deep text-white shadow-2xl outline-none'
+        }
       >
         <header className="flex items-center justify-between gap-3 border-b border-white/10 px-6 py-4">
           <div>

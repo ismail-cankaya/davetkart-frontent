@@ -125,5 +125,99 @@
     "limit": "En çok {{max}} karakter.",
     "freeNote": "Kendi bilgileriniz her pakette serbest.",
     "empty": "Boş bırakırsanız tasarımın yedek metni görünür."
+  },
+  "studio": {
+    "title": "Tasarım Stüdyosu",
+    "untitled": "Adsız davetiye",
+    "back": "Panele dön",
+    "backHome": "Ana sayfa",
+    "tabs": {
+      "info": "Bilgiler",
+      "sections": "Bölümler",
+      "texts": "Metinler",
+      "theme": "Tema",
+      "checklist": "Kontrol"
+    },
+    "tabHints": {
+      "info": "İsimler, tarih ve mekân",
+      "sections": "Bölüm ekle, gizle, ayarla",
+      "texts": "Tasarımdaki bütün metinler",
+      "theme": "Tasarım ve renk",
+      "checklist": "Yayına hazır mı?"
+    },
+    "info": {
+      "names": "İsimler",
+      "title": "Üst başlık",
+      "titlePlaceholder": "Örn. Hayatımızın en özel günü",
+      "date": "Tarih ve saat",
+      "datePlaceholder": "Tarih seçin",
+      "venue": "Mekân",
+      "venuePlaceholder": "Örn. Çırağan Sarayı, İstanbul",
+      "subtitle": "Davet mesajı",
+      "subtitlePlaceholder": "Örn. Sizleri de aramızda görmekten mutluluk duyarız…",
+      "hint": "Önizlemedeki metinlere tıklayarak da düzenleyebilirsiniz."
+    },
+    "theme": {
+      "current": "Seçili",
+      "more": "Bütün tasarımlar",
+      "count": "{{count}} tasarım",
+      "reset": "Bütün alanları sıfırla"
+    },
+    "device": {
+      "phone": "Telefon",
+      "tablet": "Tablet",
+      "laptop": "Bilgisayar",
+      "label": "Önizleme cihazı"
+    },
+    "zoom": {
+      "fit": "Sığdır",
+      "in": "Yakınlaştır",
+      "out": "Uzaklaştır",
+      "label": "Yakınlaştırma"
+    },
+    "focus": {
+      "enter": "Tam ekranda düzenle",
+      "exit": "Tam ekrandan çık",
+      "hint": "Çıkmak için Esc"
+    },
+    "undo": "Geri al",
+    "redo": "Yinele",
+    "guest": {
+      "open": "Misafir gözüyle",
+      "title": "Misafir gözüyle önizleme",
+      "close": "Stüdyoya dön",
+      "replay": "Baştan oynat"
+    },
+    "save": {
+      "saving": "Kaydediliyor…",
+      "saved": "Kaydedildi",
+      "error": "Kaydedilemedi",
+      "local": "Taslak bu cihazda",
+      "pending": "Yayınlanmamış değişiklik"
+    },
+    "publish": {
+      "first": "Yayınla",
+      "publishing": "Yayınlanıyor…"
+    },
+    "ready": {
+      "chip": "Hazır {{done}}/{{total}}",
+      "title": "Yayına hazır mı?",
+      "allDone": "Her şey hazır görünüyor.",
+      "names": "İsimler yazıldı",
+      "date": "Tarih seçildi",
+      "future": "Tarih ileride",
+      "venue": "Mekân yazıldı",
+      "rsvp": "LCV için son gün seçildi",
+      "fix": "Düzelt"
+    },
+    "overflow": {
+      "chip_one": "{{count}} metin taşıyor",
+      "chip_other": "{{count}} metin taşıyor",
+      "hint": "Kırmızı çerçeveli metinler kutusuna sığmıyor; kısaltın."
+    },
+    "canvas": "Davetiye önizlemesi",
+    "mobile": {
+      "close": "Kapat"
+    }
   }
 }
