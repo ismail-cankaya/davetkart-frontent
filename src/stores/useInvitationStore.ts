@@ -4,6 +4,7 @@ import {
   Invitation,
   InvitationRecord,
   InvitationSaveState,
+  InvitationStatus,
   PaletteId,
   TimelineEvent
 } from '../types';
@@ -42,6 +43,10 @@ interface InvitationState {
   activePresetId: string;
   /** Sunucudaki kaydın kimliği; `null` = bu tasarım henüz kaydedilmedi (K37). */
   recordId: string | null;
+  /** Kaydın sunucudaki durumu; yayındaysa kaydetme taslağa gider (Faz 27.3, K323). */
+  recordStatus: InvitationStatus | null;
+  /** Yayınlanmamış değişiklik var mı (rozet ve "Değişiklikleri yayınla"). */
+  hasPendingChanges: boolean;
   /** Outcome of the most recent backend save (drives the editor's status hint). */
   saveState: InvitationSaveState;
   /** `rejected` durumunun sunucu hatası (gösterim: `toDisplayError`); diğer durumlarda `null`. */
@@ -98,6 +103,8 @@ interface InvitationState {
    * Kaydedilmemiş bir tasarım önce kaydedilir: yayınlama ucu kimlik ister.
    */
   publishInvitation: () => Promise<InvitationRecord>;
+  /** Sunucunun yeni kaydını editöre yazar (taslak yayını, Faz 27.3): durum, taslak bayrağı, imza kararı. */
+  adoptServerRecord: (record: InvitationRecord) => void;
 }
 
 /**
@@ -194,6 +201,13 @@ const SUPERSEDED: SaveOutcome = {
   error: new Error('Düzenlenen davetiye değişti; kaydetme uygulanmadı.')
 };
 
+/** Sunucu kaydının editörde tutulan üstverisi (Faz 27.3, K323). */
+const recordMeta = (record: InvitationRecord) => ({
+  recordId: record.id,
+  recordStatus: record.status,
+  hasPendingChanges: Boolean(record.hasPendingChanges)
+});
+
 export const useInvitationStore = create<InvitationState>()((set, get) => {
   const runSave = async (generation: number): Promise<SaveOutcome> => {
     // Sırada beklerken belge değiştiyse bu kaydetme artık başka bir belgeye ait.
@@ -209,16 +223,19 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
     set({ saveState: 'saving' });
 
     try {
-      const record = recordId
-        ? await persistenceService.updateInvitation(recordId, invitation)
-        : await persistenceService.createInvitation(invitation);
+      // K323: yayındaki davetiyede değişiklik misafire gitmez, taslağa yazılır.
+      const record = !recordId
+        ? await persistenceService.createInvitation(invitation)
+        : get().recordStatus === 'published'
+          ? await persistenceService.savePendingChanges(recordId, invitation)
+          : await persistenceService.updateInvitation(recordId, invitation);
 
       if (generation !== documentGeneration) return SUPERSEDED;
 
       documentOwnerId = ownerId;
       confirmedModules = pickModules(record.invitation);
       set((state) => ({
-        recordId: record.id,
+        ...recordMeta(record),
         saveState: 'saved',
         saveError: null,
         invitation: {
@@ -298,6 +315,8 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
     invitation: INITIAL_INVITATION,
     activePresetId: INITIAL_INVITATION.imageTheme,
     recordId: null,
+    recordStatus: null,
+    hasPendingChanges: false,
     saveState: 'idle',
     saveError: null,
     editRevision: 0,
@@ -334,9 +353,14 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       documentGeneration += 1;
       documentOwnerId = currentUserId();
       confirmedModules = pickModules({ ...INITIAL_INVITATION, ...record.invitation });
+      // K323: editör canlının üstüne yayınlanmamış değişiklikleri koyar.
+      const pending = record.pendingChanges;
+      const invitation: Invitation = pending
+        ? { ...INITIAL_INVITATION, ...record.invitation, ...pending.invitation, ...(pending.timelineEvents ? { timelineEvents: pending.timelineEvents } : {}) }
+        : { ...INITIAL_INVITATION, ...record.invitation };
       set({
-        recordId: record.id,
-        invitation: { ...INITIAL_INVITATION, ...record.invitation },
+        ...recordMeta(record),
+        invitation,
         activePresetId: record.invitation.imageTheme || INITIAL_INVITATION.imageTheme,
         saveState: 'idle',
         saveError: null,
@@ -352,6 +376,8 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
       confirmedModules = null;
       set({
         recordId: null,
+        recordStatus: null,
+        hasPendingChanges: false,
         invitation: INITIAL_INVITATION,
         activePresetId: INITIAL_INVITATION.imageTheme,
         saveState: 'idle',
@@ -386,13 +412,14 @@ export const useInvitationStore = create<InvitationState>()((set, get) => {
 
       // Sunucunun döndürdüğü durum ('published') editöre yazılır ki aynı
       // oturumda ikinci kez yayınlamaya çalışılmasın.
-      confirmedModules = pickModules(record.invitation);
       // FE 10.21: yayın bağsız bir Elit paketini bağlayabilir (K99); imza o an kalkar.
-      set((state) => ({
-        recordId: record.id,
-        invitation: { ...state.invitation, showBranding: record.invitation.showBranding }
-      }));
+      get().adoptServerRecord(record);
       return record;
+    },
+
+    adoptServerRecord: (record) => {
+      confirmedModules = pickModules(record.invitation);
+      set((state) => ({ ...recordMeta(record), invitation: { ...state.invitation, showBranding: record.invitation.showBranding } }));
     }
   };
 });

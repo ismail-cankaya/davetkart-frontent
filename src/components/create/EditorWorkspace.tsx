@@ -9,6 +9,7 @@ import { SectionSettingsDrawer } from '../editor/sections/SectionSettingsDrawer'
 import { AddModuleButton } from '../editor/sections/ModuleControls';
 import { useEditorShortcuts, useTextEditorBridge } from '../../hooks/useTextEditorBridge';
 import { usePublishFlow } from '../../hooks/usePublishFlow';
+import { useDiscardChanges } from '../../hooks/useDiscardChanges';
 import { DeviceSimulator } from '../preview/DeviceSimulator';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useCreateWizardStore } from '../../stores/useCreateWizardStore';
@@ -35,6 +36,10 @@ export function EditorWorkspace() {
   const saveState = useInvitationStore(s => s.saveState);
   const saveError = useInvitationStore(s => s.saveError);
   const { isPublishing, attemptPublish } = usePublishFlow();
+  // Faz 27.3 (K323): yayındaki davetiyede değişiklikler taslakta bekler.
+  const isLive = useInvitationStore(s => s.recordStatus === 'published');
+  const hasPendingChanges = useInvitationStore(s => s.hasPendingChanges);
+  const discardChanges = useDiscardChanges();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -145,10 +150,21 @@ export function EditorWorkspace() {
               ) : (
                 <>
                   <Rocket size={16} className="group-hover:-translate-y-0.5 transition-transform duration-300" />
-                  Tasarımını Yayınla
+                  {isLive ? t('textEditor.publish.changes') : 'Tasarımını Yayınla'}
                 </>
               )}
             </motion.button>
+
+            {isLive && hasPendingChanges && (
+              <motion.button
+                onClick={() => void discardChanges()}
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center justify-center gap-2 px-6 py-4.5 rounded-full font-semibold text-sm text-muted hover:text-rose-600 transition-colors duration-200 cursor-pointer"
+              >
+                {t('textEditor.publish.discard')}
+              </motion.button>
+            )}
 
             <motion.button
               onClick={handleBackToEdit}
@@ -164,7 +180,13 @@ export function EditorWorkspace() {
           {/* Cloud auto-save status for members; anonymous designers get the
               reassurance line (their draft persists after signing in). */}
           <p className="text-muted text-[11px] flex items-center justify-center gap-1.5">
-            {!isAuthenticated ? (
+            {isLive ? (
+              <span data-save-state={hasPendingChanges ? 'pending' : 'live'} className="inline-flex items-center gap-1.5">
+                <ShieldCheck size={13} className="text-brand" />
+                {hasPendingChanges ? `${t('textEditor.publish.pendingBadge')} · ` : ''}
+                {t('textEditor.publish.liveNote')}
+              </span>
+            ) : !isAuthenticated ? (
               <>
                 <ShieldCheck size={13} className="text-brand" />
                 Giriş yapmadan tasarlayabilirsiniz — yayınlamak için giriş yaptığınızda tasarımınız hesabınıza kaydedilir.

@@ -1,5 +1,5 @@
 import { api, unwrapEnvelope } from './api';
-import { Invitation, InvitationRecord, TimelineEvent } from '../types';
+import { Invitation, InvitationRecord, PendingChanges, TimelineEvent } from '../types';
 
 /**
  * Sunucunun konuştuğu biçim: `localKey` yoktur, çünkü o yalnızca tarayıcının
@@ -12,7 +12,8 @@ type WireInvitation = Omit<Invitation, 'timelineEvents' | 'galleryImages'> & {
   timelineEvents: WireTimelineEvent[];
   galleryImages: WireGalleryImage[];
 };
-type WireRecord = Omit<InvitationRecord, 'invitation'> & { invitation: WireInvitation };
+type WirePending = { invitation: PendingChanges['invitation']; timelineEvents: WireTimelineEvent[] | null };
+type WireRecord = Omit<InvitationRecord, 'invitation' | 'pendingChanges'> & { invitation: WireInvitation; pendingChanges?: WirePending | null };
 
 /**
  * Kayıt gövdesi — galeri ve imza kararı YOK.
@@ -35,22 +36,25 @@ function isWireRecord(body: unknown): body is WireRecord {
 }
 
 /** Sunucudan gelen adımlara yerel React anahtarı takar. */
+const withLocalKeys = (events: WireTimelineEvent[]): TimelineEvent[] =>
+  events.map((event, index) => ({ ...event, localKey: `srv-${event.id ?? `p${index}`}` }));
+
 function hydrate(record: WireRecord): InvitationRecord {
+  const pending = record.pendingChanges;
   return {
     ...record,
+    // Faz 27.3 (K323): taslağın programı da yerel anahtar alır (yeni adımın kimliği yok).
+    pendingChanges: pending && { invitation: pending.invitation, timelineEvents: pending.timelineEvents && withLocalKeys(pending.timelineEvents) },
     invitation: {
       ...record.invitation,
-      timelineEvents: (record.invitation.timelineEvents ?? []).map((event) => ({
-        ...event,
-        localKey: `srv-${event.id}`
-      })),
+      timelineEvents: withLocalKeys(record.invitation.timelineEvents ?? []),
       // Alanlar açıkça seçilir: sunucu ileride öğeye alan eklerse store'a sızmasın.
       galleryImages: (record.invitation.galleryImages ?? []).map((image) => ({ id: image.id, url: image.url }))
     }
   };
 }
 
-function toRecord(payload: unknown): InvitationRecord {
+export function toRecord(payload: unknown): InvitationRecord {
   const body = unwrapEnvelope(payload);
 
   if (!isWireRecord(body)) {
@@ -144,6 +148,12 @@ export const invitationService = {
    * | Zaten yayında | **409** `INVITATION_ALREADY_PUBLISHED` |
    * | Başkasının davetiyesi | **404** (403 değil — H7) |
    */
+  /** Faz 27.3 (K323): yayındaki davetiyede kaydet → taslak; yayında değilse sunucu doğrudan yazar. */
+  async savePending(id: string, invitation: Invitation): Promise<InvitationRecord> {
+    const { data } = await api.put<unknown>(`/invitations/${id}/pending`, toPayload(invitation));
+    return toRecord(data);
+  },
+
   async publish(id: string): Promise<InvitationRecord> {
     const { data } = await api.post<unknown>(`/invitations/${id}/publish`);
     return toRecord(data);

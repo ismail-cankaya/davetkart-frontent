@@ -463,6 +463,16 @@ export interface InvitationRecord {
   releasableUntil: string | null;
   /** Full design payload; reloaded into the editor to continue editing. */
   invitation: Invitation;
+  /** Faz 27.3 (K323): yayındaki davetiyenin yayınlanmamış değişiklikleri var mı. */
+  hasPendingChanges?: boolean;
+  /** Yayınlanmamış değişiklikler (yalnızca canlıdan farklı alanlar); editör canlının üstüne koyar. */
+  pendingChanges?: PendingChanges | null;
+}
+
+/** Taslak katmanı (K323): istek alanlarıyla kısmi davetiye ve (değiştiyse) program. */
+export interface PendingChanges {
+  invitation: Partial<Omit<Invitation, 'timelineEvents' | 'galleryImages' | 'showBranding'>>;
+  timelineEvents: TimelineEvent[] | null;
 }
 
 export interface RSVPResponse {

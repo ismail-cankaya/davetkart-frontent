@@ -18,6 +18,8 @@ export interface PersistenceService {
   updateInvitation(id: string, invitation: Invitation): Promise<InvitationRecord>;
   /** Yayına alır; yetki kararı sunucuda (402/409 fırlatabilir). */
   publishInvitation(id: string): Promise<InvitationRecord>;
+  /** Faz 27.3 (K323): taslak katmanı. */
+  savePendingChanges(id: string, invitation: Invitation): Promise<InvitationRecord>;
   deleteInvitation(id: string): Promise<void>;
   /**
    * Faz 5 (N1): LCV metotları davetiye kimliği taşır. Hesap başına tek
@@ -36,6 +38,7 @@ const httpAdapter: PersistenceService = {
   createInvitation: (invitation) => invitationService.create(invitation),
   updateInvitation: (id, invitation) => invitationService.update(id, invitation),
   publishInvitation: (id) => invitationService.publish(id),
+  savePendingChanges: (id, invitation) => invitationService.savePending(id, invitation),
   deleteInvitation: (id) => invitationService.remove(id),
 
   listRsvps: (invitationId) => rsvpService.list(invitationId),

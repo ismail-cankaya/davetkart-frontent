@@ -90,6 +90,12 @@ function check(condition: boolean, message: string, detail: string): void {
 let serverIdSeq = 0;
 
 /** Sunucu gibi kaydı geri yansıtır; kimliksiz program adımlarına kimlik verir. */
+/** Taslak kaydının yanıtı: kayıt yayında, yayınlanmamış değişiklik var. */
+function withPending(reply: Reply): Reply {
+  const body = (reply.data as { data: Record<string, unknown> }).data;
+  return { ...reply, data: { data: { ...body, hasPendingChanges: true, pendingChanges: { invitation: {}, timelineEvents: null } } } };
+}
+
 function echo(id: string, invitation: Invitation, status: 'saved' | 'published' = 'saved'): Reply {
   return {
     status: 200,
@@ -117,6 +123,10 @@ const defaultServer: Server = (req) => {
 
   const own = req.url.match(/^\/invitations\/([^/]+)$/);
   if (req.method === 'PUT' && own) return echo(own[1], req.body!.invitation!);
+
+  // Faz 27.3 (K323): yayındaki davetiyenin kaydı taslağa gider; sunucu yayında kalır, taslak bayrağı yanar.
+  const pending = req.url.match(/^\/invitations\/([^/]+)\/pending$/);
+  if (req.method === 'PUT' && pending) return withPending(echo(pending[1], req.body!.invitation!, 'published'));
 
   if (req.url === '/auth/login') {
     const user = USERS[req.body!.email!];
@@ -154,7 +164,7 @@ function deferred(): { promise: Promise<void>; resolve: () => void } {
 const tick = () => new Promise((r) => setTimeout(r, 5));
 
 const invitationWrites = () =>
-  requests.filter((r) => (r.method === 'POST' || r.method === 'PUT') && /^\/invitations(\/[^/]+)?$/.test(r.url));
+  requests.filter((r) => (r.method === 'POST' || r.method === 'PUT') && /^\/invitations(\/[^/]+(\/pending)?)?$/.test(r.url));
 
 function signInAs(email: string): void {
   const user = USERS[email];
@@ -454,6 +464,11 @@ async function publishedModuleRejection(): Promise<void> {
     `${resent?.method} showGallery=${resent?.body?.invitation?.showGallery} venue="${resent?.body?.invitation?.venue}"`,
   );
   check(useInvitationStore.getState().saveState === 'saved', 'yeniden kaydetme başarılı', `saveState=${useInvitationStore.getState().saveState}`);
+  check(
+    resent?.url === '/invitations/REC-P/pending' && useInvitationStore.getState().hasPendingChanges,
+    'yayındaki davetiyenin kaydı taslağa gidiyor ve taslak bayrağı yanıyor (K323)',
+    `${resent?.url} hasPendingChanges=${useInvitationStore.getState().hasPendingChanges}`,
+  );
 
   useInvitationStore.getState().updateField('title', 'Nikâhımıza Davetlisiniz');
   await useInvitationStore.getState().saveInvitation();

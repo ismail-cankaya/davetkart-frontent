@@ -16,6 +16,7 @@ import { mediaService } from '../src/services/media';
 import { rsvpService } from '../src/services/rsvps';
 import { sendContactMessage } from '../src/services/contact';
 import { invitationService } from '../src/services/invitations';
+import { pendingChangesService } from '../src/services/pendingChanges';
 import { paymentService } from '../src/services/payments';
 import { pricingService } from '../src/services/pricing';
 import { assistantService } from '../src/services/assistant';
@@ -276,6 +277,23 @@ async function main(): Promise<void> {
   if (!updateCall?.contentType.includes('application/json')) {
     fail(`davetiye kaydı → Content-Type JSON değil: ${updateCall?.contentType}`);
   }
+
+  // Faz 27.3 (K323): taslak katmanı — kaydet (aynı gövde), yayınla ve vazgeç (gövdesiz).
+  const pendingBody = await check(
+    'taslak kaydı',
+    { method: 'PUT', url: `/invitations/${INVITATION_ID}/pending` },
+    publishedRecord,
+    () => invitationService.savePending(INVITATION_ID, { ...INITIAL_INVITATION, galleryImages: [{ id: MEDIA.data.id, url: MEDIA.data.url }] }),
+  );
+  if ('galleryImages' in ((pendingBody.invitation ?? {}) as Record<string, unknown>)) {
+    fail('taslak kaydı → gövdede galleryImages var; galeri sunucunundur');
+  }
+  await check('taslağı yayınla', { method: 'POST', url: `/invitations/${INVITATION_ID}/pending/publish` }, publishedRecord, () =>
+    pendingChangesService.publish(INVITATION_ID),
+  );
+  await check('taslaktan vazgeç', { method: 'DELETE', url: `/invitations/${INVITATION_ID}/pending` }, publishedRecord, () =>
+    pendingChangesService.discard(INVITATION_ID),
+  );
 
   const invoiceBody = await check(
     'checkout (davetiye)',

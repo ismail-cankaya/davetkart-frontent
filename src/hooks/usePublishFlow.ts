@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useInvitationStore } from '../stores/useInvitationStore';
+import { publishPendingChanges } from '../stores/pendingChangesActions';
 import { paywallFromError, useSubscriptionStore } from '../stores/useSubscriptionStore';
 import { apiErrorCode } from '../services/api';
 import { toast } from '../components/ui/Toast';
@@ -28,6 +29,12 @@ export function usePublishFlow(): { isPublishing: boolean; attemptPublish: () =>
     setIsPublishing(true);
 
     try {
+      // Faz 27.3 (K323): yayındaki davetiyede "yayınla" taslağı canlıya uygular; sayfa değişmez.
+      if (useInvitationStore.getState().recordStatus === 'published') {
+        await publishPendingChanges();
+        toast(t('textEditor.publish.changesDone'));
+        return;
+      }
       await publishInvitation();
       toast(t('textEditor.publish.done'));
       navigate('/dashboard');
